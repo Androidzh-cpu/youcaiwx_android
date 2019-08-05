@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/dp_5"
+    android:paddingTop="@dimen/dp_5"
+    tools:ignore="RtlCompat">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_teacher"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:src="@mipmap/icon_headdefault"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="1dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_teachername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_13"
+            tools:text="杨烨老师" />
+
+        <TextView
+            android:id="@+id/tv_teacherdetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_weight="1"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_13"
+            tools:text="优财CMA签约金牌讲师、IMA全球理事优财CMA签约金牌讲师、IMA全球理事优财CMA签约金牌讲师、IMA全球理事优财CMA签约金牌讲师、IMA全球理事优财CMA签约金牌讲师、IMA全球理事" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_right_in" />
+</LinearLayout>

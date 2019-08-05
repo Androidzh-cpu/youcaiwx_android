@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context=".view.course.player.VideoPlayPageActivity"
+    tools:ignore="RtlCompat">
+    <!--播放器界面-->
+    <RelativeLayout
+        android:id="@+id/player_relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_203"
+        android:background="#000000">
+        <!--surface-->
+        <SurfaceView
+            android:id="@+id/surfaceview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true" />
+        <!--封面-->
+        <ImageView
+            android:id="@+id/course_coverimage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY"
+            android:src="@color/colorPrimary" />
+        <!--讲义-->
+        <com.github.barteksc.pdfviewer.PDFView
+            android:id="@+id/pdfView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+        <!--loading小菊花-->
+        <com.ucfo.youcai.widget.customview.LoadingView
+            android:id="@+id/player_loadingview"
+            android:layout_width="@dimen/dp_45"
+            android:layout_height="@dimen/dp_45"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+        <!--提示信息-->
+        <TextView
+            android:id="@+id/player_tipstextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/player_loadingview"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp_15"
+            android:visibility="gone"
+            tools:text="视频加载中" />
+
+        <!--pdf的加载页数-->
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/player_pdfpage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="@dimen/dp_50"
+            android:paddingEnd="@dimen/dp_10"
+            android:paddingStart="@dimen/dp_10"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp_15"
+            android:visibility="gone"
+            app:rv_backgroundColor="@color/color_E6E6E6"
+            app:rv_isRadiusHalfHeight="true"
+            tools:text="12/20" />
+        <!--pdf的加载页数-->
+        <ImageView
+            android:id="@+id/player_exitPdf"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="@dimen/dp_50"
+            android:layout_marginStart="@dimen/dp_10"
+            android:src="@drawable/icon_pdf_full"
+            android:visibility="gone" />
+
+        <!--播放器顶部菜单栏-->
+        <LinearLayout
+            android:id="@+id/player_topliner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:animateLayoutChanges="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/dp_2"
+            android:paddingEnd="@dimen/dp_15"
+            android:paddingStart="@dimen/dp_18"
+            android:paddingTop="@dimen/dp_25"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/player_back"
+                android:layout_width="@dimen/dp_32"
+                android:layout_height="@dimen/dp_32"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingEnd="@dimen/dp_8"
+                android:saveEnabled="true"
+                android:scaleType="center"
+                android:src="@mipmap/icon_back_white" />
+
+            <TextView
+                android:id="@+id/player_videotitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_15"
+                android:textStyle="bold"
+                tools:ignore="InefficientWeight" />
+
+            <ImageButton
+                android:id="@+id/player_share"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:layout_marginStart="@dimen/dp_15"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/icon_share"
+                tools:ignore="ContentDescription" />
+
+            <!--横屏时 设置讲义按钮-->
+            <LinearLayout
+                android:id="@+id/player_toprightlinear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+                <!--收藏按钮-->
+                <ImageView
+                    android:id="@+id/player_collect"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:clickable="true"
+                    android:src="@mipmap/icon_playunstar" />
+                <!--倍速播放俺妞妞-->
+                <TextView
+                    android:id="@+id/player_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/dp_15"
+                    android:layout_marginStart="@dimen/dp_15"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:paddingEnd="@dimen/dp_5"
+                    android:paddingStart="@dimen/dp_5"
+                    android:scaleType="centerCrop"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_13"
+                    tools:text="1.0X" />
+                <!--讲义按钮-->
+                <TextView
+                    android:id="@+id/player_handouts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/dp_15"
+                    android:gravity="center"
+                    android:text="讲义"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_15" />
+                <!--设置按钮-->
+                <ImageView
+                    android:id="@+id/player_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:src="@mipmap/icon_playsetting" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--播放器底部菜单栏-->
+        <LinearLayout
+            android:id="@+id/player_bottomliner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#99000000"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/dp_15"
+            android:paddingStart="@dimen/dp_15"
+            android:visibility="gone">
+            <!--播放器播放按钮-->
+            <ImageView
+                android:id="@+id/player_btn"
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_18"
+                android:clickable="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_pause"
+                tools:ignore="ContentDescription" />
+
+            <!--视频播放时间-->
+            <TextView
+                android:id="@+id/player_currentduration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                android:gravity="center"
+                android:text="00:00"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+            <!--进度条-->
+            <SeekBar
+                android:id="@+id/player_seekprogress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:maxHeight="@dimen/dp_3"
+                android:minHeight="@dimen/dp_3"
+                android:progressDrawable="@drawable/seekbar_style"
+                android:thumb="@drawable/shape_video_thumb" />
+            <!--视频播放总时长-->
+            <TextView
+                android:id="@+id/player_totalduration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                android:text="00:00"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <!--画质切换按钮-->
+            <TextView
+                android:id="@+id/player_quality"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:clickable="true"
+                android:gravity="center"
+                android:paddingEnd="@dimen/dp_10"
+                android:paddingStart="@dimen/dp_10"
+                android:scaleType="centerCrop"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_13"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="原画" />
+            <!--提问按钮-->
+            <TextView
+                android:id="@+id/player_askquestion"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:clickable="true"
+                android:gravity="center"
+                android:paddingEnd="@dimen/dp_10"
+                android:paddingStart="@dimen/dp_10"
+                android:scaleType="centerCrop"
+                android:text="@string/askQuestions"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_13"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <!--播放器播放按钮-->
+            <ImageView
+                android:id="@+id/player_fullscreen"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_fullscreen" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+    <!--选项卡-->
+    <com.androidkun.xtablayout.XTabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_35"
+        android:overScrollMode="never"
+        app:xTabDisplayNum="3"
+        app:xTabDividerWidthWidthText="true"
+        app:xTabIndicatorColor="@color/color_0267FF"
+        app:xTabIndicatorHeight="@dimen/dp_2"
+        app:xTabIndicatorWidth="@dimen/dp_24"
+        app:xTabMode="fixed"
+        app:xTabSelectedTextColor="@color/color_0267FF"
+        app:xTabSelectedTextSize="@dimen/sp_13"
+        app:xTabTextColor="@color/color_333333"
+        app:xTabTextSize="@dimen/sp_13" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:layout_marginTop="@dimen/dp_3"
+        android:background="@color/color_E6E6E6" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linear_pay_course"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_47"
+        android:background="@color/color_F5F5F5"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/corse_placeholder"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_pay"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.4">
+
+            <Button
+                android:id="@+id/btn_call"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparency"
+                android:drawableStart="@mipmap/icon_connect_tel"
+                android:gravity="center"
+                android:text="@string/course_call"
+                android:textAllCaps="false"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/sp_14" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_pay"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/back_videopay"
+            android:gravity="center"
+            android:stateListAnimator="@drawable/shape_selector_elevation"
+            android:text="@string/course_pay"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/corse_placeholder"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.6" />
+
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_69"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/dp_12"
+    android:paddingStart="@dimen/dp_12"
+    tools:ignore="RtlCompat">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/download_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_5"
+            android:clickable="false"
+            android:focusable="false"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_course_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_14"
+                tools:text="CMA中文Part-1高清网课" />
+
+            <TextView
+                android:id="@+id/item_course_teacher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_999999"
+                android:textSize="@dimen/sp_13"
+                tools:text="讲师：王谦" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="@dimen/dp_16"
+            android:layout_height="@dimen/dp_16"
+            android:layout_marginStart="@dimen/dp_5"
+            android:src="@mipmap/icon_right_in" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/color_E6E6E6" />
+
+</LinearLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ucfo.youcai.view.learncenter.AddLearningPlanCompleteActivity">
+
+    <include layout="@layout/titlebar_toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="-3dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY"
+            android:src="@mipmap/icon_gotolearnback" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/btn_tolearn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dp_58"
+            android:clickable="true"
+            android:gravity="center"
+            android:minHeight="@dimen/dp_34"
+            android:minWidth="@dimen/dp_293"
+            android:padding="@dimen/dp_9"
+            android:text="@string/learncenter_gotostudy"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:rv_backgroundColor="#99FFFFFF"
+            app:rv_isRadiusHalfHeight="true" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

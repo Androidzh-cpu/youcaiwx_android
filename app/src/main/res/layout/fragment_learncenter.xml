@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:ignore="RtlCompat">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <!--背景图-->
+                <ImageView
+                    android:id="@+id/image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/icon_learnback" />
+                <!--还是个背景图-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_28"
+                    android:layout_below="@id/image_view"
+                    android:background="@color/color_F5F5F5" />
+                <!--个人信息-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_35"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="@dimen/dp_14"
+                    android:paddingStart="@dimen/dp_14">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/user_icon"
+                        android:layout_width="@dimen/dp_58"
+                        android:layout_height="@dimen/dp_58"
+                        android:src="@mipmap/icon_headdefault" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_9"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/user_nickname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/learncenter_login"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/sp_20" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="bottom"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/learncenter_clockinTips"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/sp_12" />
+
+                            <TextView
+                                android:id="@+id/user_clockinDay"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/dp_3"
+                                android:layout_marginStart="@dimen/dp_3"
+                                android:text="0"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/sp_17" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/day"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/sp_12" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <!--打卡签到-->
+                    <com.flyco.roundview.RoundTextView
+                        android:id="@+id/btn_clockin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/dp_4"
+                        android:paddingEnd="@dimen/dp_9"
+                        android:paddingStart="@dimen/dp_9"
+                        android:paddingTop="@dimen/dp_4"
+                        android:text="@string/learncenter_clockin"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/sp_12"
+                        app:rv_isRadiusHalfHeight="true"
+                        app:rv_strokeColor="@android:color/white"
+                        app:rv_strokeWidth="@dimen/dp_1" />
+
+                </LinearLayout>
+                <!--功能区-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <com.flyco.roundview.RoundLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dp_14"
+                        android:layout_marginStart="@dimen/dp_14"
+                        android:elevation="1dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:translationZ="1dp"
+                        app:rv_backgroundColor="@android:color/white"
+                        app:rv_cornerRadius="@dimen/dp_5">
+
+                        <TextView
+                            android:id="@+id/user_course"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:drawableTop="@mipmap/icon_mine_course"
+                            android:gravity="center"
+                            android:paddingBottom="@dimen/dp_14"
+                            android:paddingTop="@dimen/dp_10"
+                            android:text="@string/mine_Course"
+                            android:textColor="@color/color_666666"
+                            android:textSize="@dimen/sp_12" />
+
+                        <TextView
+                            android:id="@+id/user_errorcenter"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:drawableTop="@mipmap/icon_errorcenter"
+                            android:gravity="center"
+                            android:paddingBottom="@dimen/dp_14"
+                            android:paddingTop="@dimen/dp_10"
+                            android:text="@string/question_title_errorscenter"
+                            android:textColor="@color/color_666666"
+                            android:textSize="@dimen/sp_12" />
+
+                        <TextView
+                            android:id="@+id/user_offline"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:drawableTop="@mipmap/icon_mine_offline"
+                            android:gravity="center"
+                            android:paddingBottom="@dimen/dp_14"
+                            android:paddingTop="@dimen/dp_10"
+                            android:text="@string/mine_offline"
+                            android:textColor="@color/color_666666"
+                            android:textSize="@dimen/sp_12" />
+                    </com.flyco.roundview.RoundLinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_14" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <com.ucfo.youcai.widget.customview.LoadingLayout
+                android:id="@+id/loadinglayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="@dimen/dp_360">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <!--TODO 继续学习按钮-->
+                    <LinearLayout
+                        android:id="@+id/linear_continueStudy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="@dimen/dp_12"
+                        android:paddingStart="@dimen/dp_12"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/dp_19"
+                            android:layout_marginTop="@dimen/dp_19"
+                            android:layout_weight="1"
+                            android:text="@string/learncenter_unfinishedTips2"
+                            android:textColor="@color/color_666666"
+                            android:textSize="@dimen/sp_13" />
+
+                        <com.flyco.roundview.RoundTextView
+                            android:id="@+id/btn_continueStudy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/dp_4"
+                            android:paddingEnd="@dimen/dp_21"
+                            android:paddingStart="@dimen/dp_21"
+                            android:paddingTop="@dimen/dp_4"
+                            android:text="@string/look"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/sp_12"
+                            app:rv_backgroundColor="@color/colorPrimary"
+                            app:rv_isRadiusHalfHeight="true" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_plan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_10"
+                            android:background="@color/color_F5F5F5" />
+                        <!--TODO 登录后需要添加的学习计划列表-->
+                        <com.ucfo.youcai.widget.shimmer.ShimmerRecyclerView
+                            android:id="@+id/listview_plan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/white"
+                            android:nestedScrollingEnabled="false"
+                            app:shimmer_demo_child_count="2"
+                            app:shimmer_demo_layout_manager_type="linear_vertical" />
+                    </LinearLayout>
+                    <!--TODO 已登录,并已添加学习计划-->
+                    <LinearLayout
+                        android:id="@+id/linear_plandetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_10"
+                            android:background="@color/color_F5F5F5" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingBottom="@dimen/dp_9"
+                            android:paddingEnd="@dimen/dp_12"
+                            android:paddingStart="@dimen/dp_12"
+                            android:paddingTop="@dimen/dp_9">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/learncenter_learningPlan"
+                                android:textColor="@color/color_333333"
+                                android:textSize="@dimen/sp_15"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/btn_addlearnplan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:text="@string/learncenter_addLearningPlan"
+                                android:textColor="@color/color_0267FF"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_0_5"
+                            android:layout_marginEnd="@dimen/dp_12"
+                            android:layout_marginStart="@dimen/dp_12"
+                            android:background="@color/color_E6E6E6" />
+
+                        <com.ucfo.youcai.widget.shimmer.ShimmerRecyclerView
+                            android:id="@+id/listview_plandetail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/white"
+                            android:nestedScrollingEnabled="false"
+                            app:shimmer_demo_child_count="3"
+                            app:shimmer_demo_layout_manager_type="linear_vertical" />
+                    </LinearLayout>
+                    <!--TODO 学习公告-->
+                    <LinearLayout
+                        android:id="@+id/linear_notice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_10"
+                            android:background="@color/color_F5F5F5" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/dp_9"
+                            android:paddingStart="@dimen/dp_12"
+                            android:paddingTop="@dimen/dp_9"
+                            android:text="@string/learncenter_learningNotice"
+                            android:textColor="@color/color_333333"
+                            android:textSize="@dimen/sp_15"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_0_5"
+                            android:layout_marginEnd="@dimen/dp_12"
+                            android:layout_marginStart="@dimen/dp_12"
+                            android:background="@color/color_E6E6E6" />
+
+                        <com.ucfo.youcai.widget.shimmer.ShimmerRecyclerView
+                            android:id="@+id/listview_notice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/white"
+                            android:nestedScrollingEnabled="false"
+                            app:shimmer_demo_child_count="1"
+                            app:shimmer_demo_layout_manager_type="linear_vertical" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.ucfo.youcai.widget.customview.LoadingLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/color_F5F5F5" />
+</LinearLayout>

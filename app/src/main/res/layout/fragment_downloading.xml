@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <com.ucfo.youcai.widget.customview.LoadingLayout
+        android:id="@+id/loadinglayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:overScrollMode="never"
+            android:scrollbarSize="@dimen/dp_1"
+            android:scrollbarStyle="outsideInset"
+            android:scrollbars="vertical" />
+    </com.ucfo.youcai.widget.customview.LoadingLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_sdcardSpace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_5"
+        android:paddingTop="@dimen/dp_5">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/download_holderTips1"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_12" />
+
+        <TextView
+            android:id="@+id/sdcard_totalSpace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_12"
+            tools:text="112.2G" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_12" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/download_holderTips2"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_12" />
+
+        <TextView
+            android:id="@+id/sdcard_residueSpace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_12"
+            tools:text="60.5G" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_edittor"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_43"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btn_checkAll"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/color_E3EEFF"
+            android:gravity="center"
+            android:stateListAnimator="@drawable/shape_selector_elevation"
+            android:text="@string/checkAll"
+            android:textColor="@color/color_0267FF"
+            android:textSize="@dimen/sp_14" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/color_DCDCDC"
+            android:gravity="center"
+            android:stateListAnimator="@drawable/shape_selector_elevation"
+            android:text="@string/delete"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp_14" />
+    </LinearLayout>
+
+</LinearLayout>

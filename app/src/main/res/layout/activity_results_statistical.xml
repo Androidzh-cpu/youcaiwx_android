@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context="com.ucfo.youcai.view.questionbank.activity.ResultsStatisticalActivity"
+    tools:ignore="RtlCompat">
+    <!--标题栏-->
+    <include layout="@layout/titlebar_toolbar" />
+
+    <com.ucfo.youcai.widget.customview.LoadingLayout
+        android:id="@+id/loadinglayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:overScrollMode="never">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/dp_13"
+                        android:paddingEnd="@dimen/dp_12"
+                        android:paddingStart="@dimen/dp_12"
+                        android:paddingTop="@dimen/dp_16">
+
+                        <TextView
+                            android:id="@+id/resultreport_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/color_151515"
+                            android:textSize="@dimen/sp_16"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="this is a title" />
+
+                        <TextView
+                            android:id="@+id/resultreport_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/color_333333"
+                            android:textSize="@dimen/sp_12"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="00:00:38" />
+
+                        <com.ucfo.youcai.widget.customview.CricleFrameLayout
+                            android:id="@+id/cricle_framelayout"
+                            android:layout_width="@dimen/dp_90"
+                            android:layout_height="@dimen/dp_90"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/dp_35"
+                            android:background="@drawable/back_multiwave"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:radius="@dimen/dp_45">
+
+                            <TextView
+                                android:id="@+id/resultreport_accuracy_percent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:textColor="@color/color_333333"
+                                android:textSize="@dimen/sp_30" />
+
+                            <!-- <com.ucfo.youcai.widget.multiwave.MultiWaveHeader
+                                 android:id="@+id/waveHeader"
+                                 android:layout_width="match_parent"
+                                 android:layout_height="match_parent"
+                                 android:scaleY="-1"
+                                 app:mwhCloseColor="@color/colorPrimary"
+                                 app:mwhColorAlpha="0.5"
+                                 app:mwhGradientAngle="45"
+                                 app:mwhIsRunning="true"
+                                 app:mwhStartColor="#0AAB55"
+                                 app:mwhVelocity="0.3"
+                                 app:mwhWaveHeight="@dimen/dp_5"
+                                 app:mwhWaves="0,0,1,1,25
+                                  70,5,1,1.2,25" />-->
+                            <com.ucfo.youcai.widget.multiwave.MultiWaveHeader
+                                android:id="@+id/waveHeader"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleY="-1"
+                                app:mwhCloseColor="@color/colorPrimary"
+                                app:mwhColorAlpha="0.5"
+                                app:mwhGradientAngle="0"
+                                app:mwhIsRunning="true"
+                                app:mwhStartColor="#0EF2A0"
+                                app:mwhVelocity="0.4"
+                                app:mwhWaveHeight="@dimen/dp_5"
+                                app:mwhWaves="0,0,1,1,25
+                                 70,5,1,1.2,25" />
+                        </com.ucfo.youcai.widget.customview.CricleFrameLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_7"
+                            android:text="@string/question_tips_accuracy_percent"
+                            android:textColor="@color/colorBlack"
+                            android:textSize="@dimen/sp_14"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/cricle_framelayout" />
+
+                        <LinearLayout
+                            android:id="@+id/linear_holder1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_27"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toStartOf="@id/cricle_framelayout"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/resultreport_title">
+
+                            <TextView
+                                android:id="@+id/resultreport_rightnum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/color_0AAB55"
+                                android:textSize="@dimen/sp_17"
+                                android:textStyle="bold"
+                                tools:text="3" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/question_tips_resultreport_rightnum"
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linear_holder2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_27"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/cricle_framelayout"
+                            app:layout_constraintTop_toBottomOf="@id/resultreport_title">
+
+                            <TextView
+                                android:id="@+id/resultreport_notmakenum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/color_333333"
+                                android:textSize="@dimen/sp_17"
+                                android:textStyle="bold"
+                                tools:text="3" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/question_tips_resultreport_notmakenum"
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_27"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toStartOf="@id/cricle_framelayout"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/linear_holder1">
+
+                            <TextView
+                                android:id="@+id/resultreport_wrongnum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/color_E84342"
+                                android:textSize="@dimen/sp_17"
+                                android:textStyle="bold"
+                                tools:text="3" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/question_tips_resultreport_wrongnum"
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_27"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/cricle_framelayout"
+                            app:layout_constraintTop_toBottomOf="@id/linear_holder2">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center_horizontal|bottom"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/resultreport_havemakednum"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/color_333333"
+                                    android:textSize="@dimen/sp_17"
+                                    android:textStyle="bold"
+                                    tools:text="15" />
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="/"
+                                    android:textColor="@color/color_333333"
+                                    android:textSize="@dimen/sp_17"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/resultreport_entirenum"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/color_333333"
+                                    android:textSize="@dimen/sp_12"
+                                    android:textStyle="bold"
+                                    tools:text="17" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/question_tips_havedAnentire"
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+                    </android.support.constraint.ConstraintLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_10"
+                        android:background="@color/color_F5F5F5" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/dp_48"
+                        android:layout_marginStart="@dimen/dp_48"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:paddingTop="@dimen/dp_10">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_9"
+                                android:layout_height="@dimen/dp_9"
+                                android:layout_marginEnd="@dimen/dp_4"
+                                android:src="@drawable/shape_cricle_solid_green" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/question_tips_holder1"
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_9"
+                                android:layout_height="@dimen/dp_9"
+                                android:layout_marginEnd="@dimen/dp_4"
+                                android:src="@drawable/shape_cricle_solid_red" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/question_tips_holder2"
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/dp_9"
+                                android:layout_height="@dimen/dp_9"
+                                android:layout_marginEnd="@dimen/dp_4"
+                                android:src="@drawable/shape_cricle_hollow_gray" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/question_tips_holder3"
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_12" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_2"
+                        android:layout_marginEnd="@dimen/dp_12"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:background="@color/color_F5F5F5" />
+
+                    <com.ucfo.youcai.widget.customview.NestedGridView
+                        android:id="@+id/listView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/dp_29"
+                        android:layout_marginTop="@dimen/dp_19"
+                        android:cacheColorHint="#00000000"
+                        android:gravity="center"
+                        android:horizontalSpacing="@dimen/dp_10"
+                        android:listSelector="#00000000"
+                        android:numColumns="5"
+                        android:scrollbars="none"
+                        android:stretchMode="columnWidth"
+                        android:transcriptMode="alwaysScroll"
+                        android:verticalSpacing="@dimen/dp_20"
+                        tools:listitem="@layout/item_questionbank_options" />
+
+
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/color_F5F5F5" />
+
+            <!--底部解析按钮-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_43"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/question_errorAnalysis"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/white"
+                    android:text="@string/question_title_errorAnalysis"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_14" />
+
+                <View
+                    android:layout_width="@dimen/dp_1"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_F5F5F5" />
+
+
+                <Button
+                    android:id="@+id/question_allAnalysis"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/white"
+                    android:text="@string/question_title_allAnalysis"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_14" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.ucfo.youcai.widget.customview.LoadingLayout>
+</LinearLayout>

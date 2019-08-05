@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context="com.ucfo.youcai.view.user.activity.PersonnelSettingActivity"
+    tools:ignore="RtlCompat">
+
+    <include layout="@layout/titlebar_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_12">
+
+        <LinearLayout
+            android:id="@+id/btn_userIcon"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_58"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/mine_userIcon"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_14" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_icon"
+                android:layout_width="@dimen/dp_43"
+                android:layout_height="@dimen/dp_43"
+                android:src="@mipmap/app_icon" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:layout_marginStart="@dimen/dp_8"
+                android:src="@mipmap/icon_right_in" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0_5"
+            android:background="@color/color_E6E6E6" />
+
+        <LinearLayout
+            android:id="@+id/btn_userNickname"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_58"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/mine_Nickname"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/user_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_14"
+                tools:text="优财学院45" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:layout_marginStart="@dimen/dp_8"
+                android:src="@mipmap/icon_right_in" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0_5"
+            android:background="@color/color_E6E6E6" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_58"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/mine_userSex"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_14" />
+
+            <RadioGroup
+                android:id="@+id/radiogroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radiobtn_man"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/dp_30"
+                    android:background="@drawable/shape_man_selector"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/mine_Man"
+                    android:textColor="@drawable/shape_sex_textcolor"
+                    android:textSize="@dimen/sp_14" />
+
+                <RadioButton
+                    android:id="@+id/radiobtn_woman"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="@dimen/dp_30"
+                    android:background="@drawable/shape_woman_selector"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/mine_woman"
+                    android:textColor="@drawable/shape_sex_textcolor"
+                    android:textSize="@dimen/sp_14" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0_5"
+            android:background="@color/color_E6E6E6" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_58"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/mine_userPhone"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
+                android:id="@+id/user_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/color_999999"
+                android:textSize="@dimen/sp_14"
+                tools:text="15212345678" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0_5"
+            android:background="@color/color_E6E6E6" />
+
+        <LinearLayout
+            android:id="@+id/btn_userAddress"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_58"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/mine_userAddress"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_14" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:layout_marginStart="@dimen/dp_8"
+                android:src="@mipmap/icon_right_in" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0_5"
+            android:background="@color/color_E6E6E6" />
+
+    </LinearLayout>
+</LinearLayout>

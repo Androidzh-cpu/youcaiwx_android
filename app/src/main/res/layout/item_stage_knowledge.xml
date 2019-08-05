@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/dp_68">
+
+    <TextView
+        android:id="@+id/item_stage_knowledge_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_3"
+        android:layout_marginTop="@dimen/dp_14"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/item_stage_knowledge_Subtitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="第一章 对外财务报告决策" />
+
+    <TextView
+        android:id="@+id/item_stage_knowledge_Subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/transparent"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_stage_knowledge_Title"
+        tools:text="难度：困难" />
+
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/item_stage_knowledge_makeProblem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_2"
+        android:paddingEnd="@dimen/dp_6"
+        android:paddingStart="@dimen/dp_6"
+        android:paddingTop="@dimen/dp_2"
+        android:text="去做题"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rv_isRadiusHalfHeight="true"
+        app:rv_strokeColor="@color/colorPrimary"
+        app:rv_strokeWidth="@dimen/dp_1" />
+
+
+</android.support.constraint.ConstraintLayout>

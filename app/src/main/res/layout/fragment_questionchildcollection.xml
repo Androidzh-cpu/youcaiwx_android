@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ucfo.youcai.widget.customview.LoadingLayout
+        android:id="@+id/loadinglayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ExpandableListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_weight="1"
+            android:divider="@color/color_E6E6E6"
+            android:dividerHeight="0dp"
+            android:gravity="center"
+            android:groupIndicator="@null"
+            android:listSelector="@android:color/transparent"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+
+    </com.ucfo.youcai.widget.customview.LoadingLayout>
+
+
+</android.support.constraint.ConstraintLayout>

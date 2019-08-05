@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context="com.ucfo.youcai.view.course.CourseAnswerDetailActivity"
+    tools:ignore="RtlCompat">
+
+    <include layout="@layout/titlebar_toolbar" />
+
+    <com.ucfo.youcai.widget.customview.LoadingLayout
+        android:id="@+id/loadinglayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlEnableLoadMore="false"
+            app:srlEnableRefresh="false">
+
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/top_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/answer_videoname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="@dimen/dp_12"
+                            android:drawableStart="@mipmap/icon_course_tv"
+                            android:paddingBottom="@dimen/dp_11"
+                            android:paddingStart="@dimen/dp_12"
+                            android:paddingTop="@dimen/dp_12"
+                            android:textColor="@color/color_666666"
+                            android:textSize="@dimen/sp_15"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="来自：课程-1-2运营能力分析资本结构分析经营风险财务风险。" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_10"
+                            android:background="@color/color_F5F5F5" />
+                    </LinearLayout>
+
+                    <!--学员信息-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="@dimen/dp_12"
+                        android:paddingStart="@dimen/dp_12"
+                        android:paddingTop="@dimen/dp_11">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/answer_usericon"
+                            android:layout_width="@dimen/dp_38"
+                            android:layout_height="@dimen/dp_38"
+                            android:layout_marginEnd="@dimen/dp_6"
+                            android:src="@mipmap/icon_headdefault" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/answer_usernickname"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/color_333333"
+                                android:textSize="@dimen/sp_13"
+                                android:textStyle="bold"
+                                tools:text="木糖醇" />
+
+                            <TextView
+                                android:id="@+id/answer_question_createtime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="start"
+                                android:textColor="@color/color_999999"
+                                android:textSize="@dimen/sp_12"
+                                tools:text="14分钟前" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/answer_teacherreplystatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:textColor="@color/color_F99111"
+                            android:textSize="@dimen/sp_13"
+                            tools:text="老师已回复" />
+
+
+                    </LinearLayout>
+                    <!--学员问题-->
+                    <TextView
+                        android:id="@+id/answer_userquestion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dp_12"
+                        tools:text="We're beautiful
+Wherever it's going I'm gonna chase it
+What's left of this moment
+I'm not gonna waste it
+Stranded together our worlds have collided
+This won't be forever so
+Why try to fight it
+We're beautiful now" />
+                    <!--学员问题图片-->
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/answer_userimagelist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dp_48"
+                        android:minHeight="@dimen/dp_48"
+                        android:paddingEnd="@dimen/dp_12"
+                        android:paddingStart="@dimen/dp_12" />
+                    <!--问题所属章节-->
+                    <com.flyco.roundview.RoundTextView
+                        android:id="@+id/answer_question_sectionname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_15"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:layout_marginTop="@dimen/dp_12"
+                        android:paddingBottom="@dimen/dp_5"
+                        android:paddingEnd="@dimen/dp_30"
+                        android:paddingStart="@dimen/dp_30"
+                        android:paddingTop="@dimen/dp_5"
+                        android:textColor="@color/color_0267FF"
+                        android:textSize="@dimen/sp_12"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/item_answer_imagelist"
+                        app:rv_backgroundColor="@color/color_D8E8FF"
+                        app:rv_cornerRadius="@dimen/dp_5"
+                        tools:text="总论" />
+                    <!--老师回复区域-->
+                    <LinearLayout
+                        android:id="@+id/answer_teacher_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingEnd="@dimen/dp_12"
+                        android:paddingStart="@dimen/dp_12">
+                        <!--分割线-->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_1"
+                            android:background="@color/color_F5F5F5" />
+
+                        <android.support.constraint.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dp_10">
+
+                            <!--老师信息-->
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/answer_teachericon"
+                                android:layout_width="@dimen/dp_38"
+                                android:layout_height="@dimen/dp_38"
+                                android:src="@mipmap/icon_headdefault"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/answer_teachernickname"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_6"
+                                android:textColor="@color/color_333333"
+                                android:textSize="@dimen/sp_13"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toTopOf="@id/answer_question_replytime"
+                                app:layout_constraintStart_toEndOf="@id/answer_teachericon"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:text="木糖醇" />
+
+                            <com.flyco.roundview.RoundTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_6"
+                                android:layout_marginTop="@dimen/dp_1"
+                                android:paddingBottom="@dimen/dp_2"
+                                android:paddingEnd="@dimen/dp_6"
+                                android:paddingStart="@dimen/dp_6"
+                                android:paddingTop="@dimen/dp_2"
+                                android:text="老师"
+                                android:textColor="@color/color_F99111"
+                                android:textSize="@dimen/sp_11"
+                                app:layout_constraintStart_toEndOf="@id/answer_teachernickname"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:rv_backgroundColor="#FEEFDC"
+                                app:rv_isRadiusHalfHeight="true" />
+                            <!--答复时间-->
+                            <TextView
+                                android:id="@+id/answer_question_replytime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_6"
+                                android:layout_weight="1"
+                                android:gravity="end"
+                                android:textColor="@color/color_999999"
+                                android:textSize="@dimen/sp_12"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/answer_teachericon"
+                                app:layout_constraintTop_toBottomOf="@id/answer_teachernickname"
+                                tools:text="14分钟前" />
+                        </android.support.constraint.ConstraintLayout>
+
+
+                        <!--老师回复内容-->
+                        <TextView
+                            android:id="@+id/answer_teacherreply"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/dp_11"
+                            android:paddingTop="@dimen/dp_11"
+                            tools:text="We're beautiful
+Wherever it's going I'm gonna chase it
+What's left of this moment
+I'm not gonna waste it
+Stranded together our worlds have collided
+This won't be forever so" />
+                        <!--老师回复问题图片列表-->
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/answer_teacherimagelist"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dp_48"
+                            android:minHeight="@dimen/dp_48" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </com.ucfo.youcai.widget.customview.LoadingLayout>
+
+</LinearLayout>

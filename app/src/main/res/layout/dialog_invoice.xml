@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flyco.roundview.RoundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/dp_12"
+    android:paddingStart="@dimen/dp_12"
+    app:rv_backgroundColor="@color/colorBackgroundDark"
+    app:rv_cornerRadius_TL="@dimen/dp_10"
+    app:rv_cornerRadius_TR="@dimen/dp_10"
+    tools:ignore="RtlCompat">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_10">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/invoice"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_14"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btn_invoiceinfomation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:clickable="true"
+            android:text="@string/invoice_Infomation"
+            android:textColor="@color/color_0267FF"
+            android:textSize="@dimen/sp_12" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/btn_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:padding="@dimen/dp_5"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/icon_closebtn2" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/color_E6E6E6" />
+
+    <!--<android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never">-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_3"
+            android:layout_marginTop="@dimen/dp_14"
+            android:text="@string/invoice_type"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/invoice_des"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_12" />
+
+        <RadioGroup
+            android:id="@+id/radiogroup_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radiobtn_common"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_invoice"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:paddingBottom="@dimen/dp_4"
+                android:paddingEnd="@dimen/dp_14"
+                android:paddingStart="@dimen/dp_14"
+                android:paddingTop="@dimen/dp_4"
+                android:text="@string/invoice_common"
+                android:textColor="@drawable/selector_invoice_textcolor"
+                android:textSize="@dimen/sp_12" />
+
+            <RadioButton
+                android:id="@+id/radiobtn_special"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:background="@drawable/selector_invoice"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingBottom="@dimen/dp_4"
+                android:paddingEnd="@dimen/dp_14"
+                android:paddingStart="@dimen/dp_14"
+                android:paddingTop="@dimen/dp_4"
+                android:text="@string/invoice_special"
+                android:textColor="@drawable/selector_invoice_textcolor"
+                android:textSize="@dimen/sp_12" />
+        </RadioGroup>
+
+        <!--TODO 普通发票-->
+        <include layout="@layout/dialog_invoice_common" />
+
+        <!--TODO 增值税专用发票-->
+        <include
+            layout="@layout/dialog_invoice_special"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!--</android.support.v4.widget.NestedScrollView>-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_24"
+        android:text="@string/invoice_content"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/sp_14" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_3"
+        android:text="@string/invoice_detail"
+        android:textColor="@color/color_999999"
+        android:textSize="@dimen/sp_12" />
+
+    <com.flyco.roundview.RoundTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_3"
+        android:paddingEnd="@dimen/dp_13"
+        android:paddingStart="@dimen/dp_13"
+        android:paddingTop="@dimen/dp_3"
+        android:text="@string/invoice_Trainingfees"
+        android:textColor="@color/color_0267FF"
+        android:textSize="@dimen/sp_12"
+        app:rv_backgroundColor="@color/colorWhite"
+        app:rv_isRadiusHalfHeight="true"
+        app:rv_strokeColor="@color/color_0267FF"
+        app:rv_strokeWidth="@dimen/dp_1" />
+
+    <Button
+        android:id="@+id/btn_next"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="@dimen/dp_293"
+        android:layout_height="@dimen/dp_34"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/dp_34"
+        android:layout_marginTop="@dimen/dp_48"
+        android:background="@mipmap/icon_btnroundback"
+        android:gravity="center"
+        android:stateListAnimator="@drawable/shape_selector_elevation"
+        android:text="@string/confirm"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_14" />
+</com.flyco.roundview.RoundLinearLayout>

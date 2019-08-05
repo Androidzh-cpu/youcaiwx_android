@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_69"
+    android:minHeight="@dimen/dp_69"
+    android:paddingEnd="@dimen/dp_12"
+    android:paddingStart="@dimen/dp_12">
+
+    <TextView
+        android:id="@+id/item_questionrecord_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toTopOf="@id/item_questionrecord_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="中文part1第四章 成本管理4.1 成本度量" />
+
+    <TextView
+        android:id="@+id/item_questionrecord_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_999999"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_questionrecord_title"
+        tools:text="5分钟前" />
+
+    <Button
+        android:id="@+id/item_questionrecord_state"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="@dimen/dp_59"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_questionrecord_blue"
+        android:clickable="true"
+        android:gravity="center"
+        android:minHeight="@dimen/dp_18"
+        android:paddingBottom="@dimen/dp_2"
+        android:paddingEnd="@dimen/dp_3"
+        android:paddingStart="@dimen/dp_3"
+        android:paddingTop="@dimen/dp_2"
+        android:stateListAnimator="@drawable/shape_selector_elevation"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="继续做题" />
+
+</android.support.constraint.ConstraintLayout>

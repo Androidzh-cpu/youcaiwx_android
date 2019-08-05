@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F5F5F5"
+    android:orientation="vertical"
+    tools:ignore="RtlCompat">
+
+    <include layout="@layout/titlebar_toolbar" />
+
+    <com.ucfo.youcai.widget.customview.LoadingLayout
+        android:id="@+id/loadinglayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--顶部标题和计时器-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_43"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_12">
+
+                <TextView
+                    android:id="@+id/tv_headerTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_14"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_Time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:textColor="@color/color_666666"
+                    android:textSize="@dimen/sp_14" />
+            </LinearLayout>
+            <!--创建多个做题页-->
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/colorWhite" />
+
+            <!--底部操作区分割线-->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0_5"
+                android:background="@color/color_E6E6E6" />
+            <!--底部操作区-->
+            <LinearLayout
+                android:id="@+id/linear_bottom_function"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_47"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_3">
+
+                <TextView
+                    android:id="@+id/btn_collection"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/dp_3"
+                    android:drawableTop="@mipmap/icon_qb_uncollection"
+                    android:gravity="center"
+                    android:text="@string/question_tab_collection"
+                    android:textColor="@color/color_666666"
+                    android:textSize="@dimen/sp_12" />
+
+                <TextView
+                    android:id="@+id/btn_answersheet"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/dp_3"
+                    android:drawableTop="@mipmap/icon_qb_answersheet"
+                    android:gravity="center"
+                    android:text="@string/question_tab_answersheet"
+                    android:textColor="@color/color_666666"
+                    android:textSize="@dimen/sp_12" />
+
+                <TextView
+                    android:id="@+id/btn_pause"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/dp_3"
+                    android:drawableTop="@mipmap/icon_qb_pause"
+                    android:gravity="center"
+                    android:text="@string/question_tab_pause"
+                    android:textColor="@color/color_666666"
+                    android:textSize="@dimen/sp_12" />
+
+                <TextView
+                    android:id="@+id/btn_query"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawablePadding="@dimen/dp_3"
+                    android:drawableTop="@mipmap/icon_qb_query"
+                    android:gravity="center"
+                    android:text="@string/question_tab_query"
+                    android:textColor="@color/color_666666"
+                    android:textSize="@dimen/sp_12" />
+
+                <LinearLayout
+                    android:id="@+id/linear_submit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <com.flyco.roundview.RoundTextView
+                        android:id="@+id/btn_submit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="@dimen/dp_28"
+                        android:gravity="center"
+                        android:minHeight="@dimen/dp_25"
+                        android:paddingBottom="@dimen/dp_3"
+                        android:paddingEnd="@dimen/dp_20"
+                        android:paddingStart="@dimen/dp_20"
+                        android:paddingTop="@dimen/dp_3"
+                        android:text="@string/question_tab_commit"
+                        android:textColor="@android:color/white"
+                        app:rv_backgroundColor="@color/colorPrimary"
+                        app:rv_isRadiusHalfHeight="true" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.ucfo.youcai.widget.customview.LoadingLayout>
+</LinearLayout>

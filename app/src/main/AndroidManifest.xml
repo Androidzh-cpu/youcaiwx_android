@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.ucfo.youcai"
+    android:installLocation="auto">
+
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" /> <!-- 杀死后台进程 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 读取设备文件 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" /> <!-- 打电话 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 相机 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 网络状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 读取手机信息 -->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- 震动提示 -->
+    <!-- X5webview所需权限 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- WiFi监听 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_SETTINGS" /> <!-- 读取舍至信息 -->
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+    <!-- 硬件加速对X5视频播放非常重要，建议开启 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <!-- 添加如下权限，以便使用更多的第三方SDK和更精准的统计数据 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 阿里云视频权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 自动更新URI跳转安装时需要 -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+
+    <application
+        android:name=".UcfoApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/app_icon"
+        android:label="@string/app_nameWX"
+        android:roundIcon="@mipmap/app_icon"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:supportsRtl,allowBackup,label">
+
+        <!-- 相机适配 -->
+        <!-- android:authorities="${applicationId}.provider" -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="PhotoProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths_public" />
+        </provider>
+
+        <!-- TODO 欢迎页 -->
+        <activity
+            android:name=".view.main.activity.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/WelcomAppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- TODO APP引导页 -->
+        <activity
+            android:name=".view.main.activity.GuideActivity"
+            android:theme="@style/WelcomAppTheme" />
+        <!-- TODO APP主页面 -->
+        <activity
+            android:name=".view.main.activity.MainActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <!-- TODO 二维码 -->
+        <activity
+            android:name=".view.home.ScanActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 登录页 -->
+        <activity
+            android:name=".view.login.LoginActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 注册 -->
+        <activity
+            android:name=".view.login.RegisterActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 短信登录 -->
+        <activity
+            android:name=".view.login.SMSLoginActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 注册成功 -->
+        <activity
+            android:name=".view.login.RegisterSuccessActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <activity android:name=".view.login.CompleteAndForgetActivity" />
+        <!-- TODO X5内核webview -->
+        <activity
+            android:name=".view.main.activity.WebActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO Tbs视频播放器 -->
+        <activity
+            android:name="com.tencent.smtt.sdk.VideoActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="com.tencent.smtt.tbs.video.PLAY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <!-- TODO 微信回调 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:taskAffinity="net.sourceforge.simcpux"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- TODO 视频筛选列表 -->
+        <activity
+            android:name=".view.course.CourseListActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 视频播放界面 -->
+        <activity
+            android:name=".view.course.player.VideoPlayPageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".TetsActivity" />
+        <!-- TODO 课程答疑详情页面 -->
+        <activity
+            android:name=".view.course.CourseAnswerDetailActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 提问问题页面 -->
+        <activity
+            android:name=".view.course.CourseAskQuestionActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 题库答题记录 -->
+        <activity
+            android:name=".view.questionbank.activity.QuestionsOnRecordActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 知识点练习 二级列表 -->
+        <activity
+            android:name=".view.questionbank.activity.KnowledgePracticeActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 知识点练习三级列表 -->
+        <activity
+            android:name=".view.questionbank.activity.KnowledgeChildListActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 阶段测试 -->
+        <activity
+            android:name=".view.questionbank.activity.StageOfTestingActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 工程模式(做题)页 -->
+        <activity
+            android:name=".view.questionbank.activity.TESTMODEActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 系统高频错题 -->
+        <activity
+            android:name=".view.questionbank.activity.HighFrequencyWrongTopicActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 自主练习选择题目数量 -->
+        <activity
+            android:name=".view.questionbank.activity.SelfServiceActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 自主练习二级列表 -->
+        <activity
+            android:name=".view.questionbank.activity.SelfServiceListActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 自主练习三级列表 -->
+        <activity
+            android:name=".view.questionbank.activity.SelfServiceChildListActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 错题中心 -->
+        <activity
+            android:name=".view.questionbank.activity.ErrorCenterActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 成绩统计 -->
+        <activity
+            android:name=".view.questionbank.activity.ResultsStatisticalActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 题库答疑 -->
+        <activity
+            android:name=".view.questionbank.activity.QuestionAnswerActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 题库答疑详情 -->
+        <activity
+            android:name=".view.questionbank.activity.QuestionAnswerDetailActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 题库答疑我押提问 -->
+        <activity
+            android:name=".view.questionbank.activity.QuestionAskQuestionActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 个人中心设置 -->
+        <activity
+            android:name=".view.user.activity.PersonnelSettingActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 修改昵称 -->
+        <activity
+            android:name=".view.user.activity.ModifyNameActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 我的地址 -->
+        <activity
+            android:name=".view.user.activity.UserAddressActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 地址编辑 -->
+        <activity
+            android:name=".view.user.activity.EditAddressActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 我的课程 -->
+        <activity
+            android:name=".view.user.activity.MineCourseActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 我的收藏 -->
+        <activity
+            android:name=".view.user.activity.MineCollectionActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 我的答疑 -->
+        <activity
+            android:name=".view.user.activity.MineAnswerQuestionActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 我的收藏课程 -->
+        <activity
+            android:name=".view.user.activity.CourseCollectionChildActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 我的收藏课程列表 -->
+        <activity
+            android:name=".view.user.activity.CourseCollectionDirActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 设置页 -->
+        <activity
+            android:name=".view.user.activity.SettingActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 修改密码 -->
+        <activity
+            android:name=".view.user.activity.ModifyPasswordActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 我的订单 -->
+        <activity
+            android:name=".view.user.activity.MineOrderFormActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 我的订单详情 -->
+        <activity
+            android:name=".view.user.activity.MineOrderFormDetailActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 意见反馈 -->
+        <activity
+            android:name=".view.user.activity.FeedBackActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 观看记录 -->
+        <activity
+            android:name=".view.user.activity.WatchTheRecordActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 课程下载目录 -->
+        <activity
+            android:name=".view.course.player.DownloadDirectoryActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 离线视频 -->
+        <activity
+            android:name=".view.user.activity.OfflineCourseActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 已下载视频章节目录 -->
+        <activity
+            android:name=".view.course.player.DownloadComletedDirActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 添加学习计划完成 -->
+        <activity
+            android:name=".view.learncenter.AddLearningPlanCompleteActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 讲义加载页 -->
+        <activity
+            android:name=".view.learncenter.LoadPdfActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 添加学习计划   选择课程 -->
+        <activity
+            android:name=".view.learncenter.AddLearningPlanActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 添加学习计划   选择考试时间 -->
+        <activity
+            android:name=".view.learncenter.AddLearningTimeActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 未完成学习计划 -->
+        <activity
+            android:name=".view.learncenter.UnFinishedPlanActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 学习计划详情 -->
+        <activity
+            android:name=".view.learncenter.LearningPlanDetailActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 我的优惠券 -->
+        <activity
+            android:name=".view.user.activity.MineCouponsActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!--TODO 我的失效优惠券-->
+        <activity
+            android:name=".view.user.activity.MineDisabledCouponsActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!--TODO 添加订单-->
+        <activity
+            android:name=".view.pay.CommitOrderActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!--TODO 支付-->
+        <activity
+            android:name=".view.pay.PayActivity"
+            android:theme="@style/BaseThemeForActivity" />
+    </application>
+
+</manifest>

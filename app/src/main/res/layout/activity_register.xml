@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context="com.ucfo.youcai.view.login.LoginActivity"
+    tools:ignore="RtlCompat">
+    <!--引入标题栏-->
+    <include layout="@layout/titlebar_toolbar" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_50"
+        android:src="@mipmap/icon_login_logo" />
+
+    <EditText
+        android:id="@+id/et_register_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_36"
+        android:layout_marginStart="@dimen/dp_36"
+        android:layout_marginTop="@dimen/dp_27"
+        android:background="@color/transparency"
+        android:drawablePadding="@dimen/dp_12"
+        android:drawableStart="@mipmap/icon_phone"
+        android:gravity="center_vertical"
+        android:hint="@string/register_tipphone"
+        android:imeOptions="actionNext"
+        android:inputType="number|phone"
+        android:maxLength="11"
+        android:maxLines="1"
+        android:paddingBottom="@dimen/dp_6"
+        android:paddingTop="@dimen/dp_6"
+        android:textColor="@color/color_333333"
+        android:textColorHint="@color/color_C2C2C2"
+        android:textSize="@dimen/sp_13" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginEnd="@dimen/dp_36"
+        android:layout_marginStart="@dimen/dp_36"
+        android:background="@drawable/shape_login_grayline" />
+
+    <EditText
+        android:id="@+id/et_register_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_36"
+        android:layout_marginStart="@dimen/dp_36"
+        android:layout_marginTop="@dimen/dp_35"
+        android:background="@color/transparency"
+        android:drawableEnd="@mipmap/icon_watch_closed"
+        android:drawablePadding="@dimen/dp_12"
+        android:drawableStart="@mipmap/icon_pass"
+        android:gravity="center_vertical"
+        android:hint="@string/register_tippass"
+        android:inputType="textPassword"
+        android:paddingBottom="@dimen/dp_6"
+        android:paddingTop="@dimen/dp_6"
+        android:textColor="@color/color_333333"
+        android:textColorHint="@color/color_C2C2C2"
+        android:textSize="@dimen/sp_13" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginEnd="@dimen/dp_36"
+        android:layout_marginStart="@dimen/dp_36"
+        android:background="@drawable/shape_login_grayline" />
+
+    <EditText
+        android:id="@+id/et_register_confirmpass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_36"
+        android:layout_marginStart="@dimen/dp_36"
+        android:layout_marginTop="@dimen/dp_35"
+        android:background="@color/transparency"
+        android:drawableEnd="@mipmap/icon_watch_closed"
+        android:drawablePadding="@dimen/dp_12"
+        android:drawableStart="@mipmap/icon_pass"
+        android:gravity="center_vertical"
+        android:hint="@string/register_tipconfirmpass"
+        android:inputType="textPassword"
+        android:paddingBottom="@dimen/dp_6"
+        android:paddingTop="@dimen/dp_6"
+        android:textColor="@color/color_333333"
+        android:textColorHint="@color/color_C2C2C2"
+        android:textSize="@dimen/sp_13" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginEnd="@dimen/dp_36"
+        android:layout_marginStart="@dimen/dp_36"
+        android:background="@drawable/shape_login_grayline" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/dp_36"
+        android:layout_marginStart="@dimen/dp_36"
+        android:layout_marginTop="@dimen/dp_35"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_register_getcode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/transparency"
+            android:drawablePadding="@dimen/dp_12"
+            android:drawableStart="@mipmap/icon_validatecode"
+            android:gravity="center_vertical"
+            android:hint="@string/register_tipcode"
+            android:inputType="numberPassword|textPassword"
+            android:paddingBottom="@dimen/dp_6"
+            android:paddingTop="@dimen/dp_6"
+            android:textColor="@color/color_333333"
+            android:textColorHint="@color/color_C2C2C2"
+            android:textSize="@dimen/sp_13" />
+
+        <Button
+            android:id="@+id/verification_btn"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_25"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_login_btn"
+            android:gravity="center"
+            android:padding="@dimen/dp_2"
+            android:stateListAnimator="@drawable/shape_selector_elevation"
+            android:text="获取验证码"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp_12" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginEnd="@dimen/dp_36"
+        android:layout_marginStart="@dimen/dp_36"
+        android:background="@drawable/shape_login_grayline" />
+
+    <LinearLayout
+        android:id="@+id/voice_linear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_36"
+        android:layout_marginTop="@dimen/dp_2"
+        android:background="@mipmap/back_sound"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dp_4"
+            android:paddingStart="@dimen/dp_9"
+            android:paddingTop="@dimen/dp_9"
+            android:text="@string/tipsound1"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_12" />
+
+        <TextView
+            android:id="@+id/tv_soundcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:paddingBottom="@dimen/dp_4"
+            android:paddingEnd="@dimen/dp_9"
+            android:paddingTop="@dimen/dp_9"
+            android:text="@string/tipsound2"
+            android:textColor="@color/color_FF6A6A"
+            android:textSize="@dimen/sp_12" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/register_btn"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginEnd="@dimen/dp_36"
+        android:layout_marginStart="@dimen/dp_36"
+        android:layout_marginTop="@dimen/dp_38"
+        android:background="@drawable/bg_login_btn"
+        android:stateListAnimator="@drawable/shape_selector_elevation"
+        android:text="@string/login_register"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/sp_16" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:paddingEnd="@dimen/dp_36"
+        android:paddingStart="@dimen/dp_36">
+
+        <CheckBox
+            android:id="@+id/check_argument"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register_tiptext1"
+            android:textColor="@color/color_919191"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_argument"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_5"
+            android:clickable="true"
+            android:text="@string/register_tiptext2"
+            android:textColor="@color/color_58C7FF"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/check_argument"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_forgetpass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_forgetpass"
+            android:textColor="@color/color_58C7FF"
+            android:textSize="@dimen/sp_12"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</LinearLayout>

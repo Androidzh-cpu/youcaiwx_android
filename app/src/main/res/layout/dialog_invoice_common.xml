@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linear_invoicecommon"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="RtlCompat">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/invoice_title"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/sp_14" />
+
+    <RadioGroup
+        android:id="@+id/radiogroup_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_10"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radiobtn_person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_invoice"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dp_4"
+            android:paddingEnd="@dimen/dp_14"
+            android:paddingStart="@dimen/dp_14"
+            android:paddingTop="@dimen/dp_4"
+            android:text="@string/invoice_person"
+            android:textColor="@drawable/selector_invoice_textcolor"
+            android:textSize="@dimen/sp_12" />
+
+        <RadioButton
+            android:id="@+id/radiobtn_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_20"
+            android:background="@drawable/selector_invoice"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dp_4"
+            android:paddingEnd="@dimen/dp_14"
+            android:paddingStart="@dimen/dp_14"
+            android:paddingTop="@dimen/dp_4"
+            android:text="@string/invoice_company"
+            android:textColor="@drawable/selector_invoice_textcolor"
+            android:textSize="@dimen/sp_12" />
+    </RadioGroup>
+
+    <!--TODO 个人发票信息-->
+    <LinearLayout
+        android:id="@+id/linear_person"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/invoice_receiveinfo"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_14" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="* "
+                android:textColor="@color/color_E84342"
+                android:textSize="@dimen/sp_12" />
+
+            <TextView
+                android:layout_width="@dimen/dp_95"
+                android:layout_height="wrap_content"
+                android:text="@string/invoice_title"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_12" />
+
+            <EditText
+                android:id="@+id/edit_personName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/invoice_editTips1"
+                android:textColor="@color/color_333333"
+                android:textColorHint="@color/color_C7C7C7"
+                android:textSize="@dimen/sp_12" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/color_E6E6E6" />
+    </LinearLayout>
+    <!--TODO 企业发票信息-->
+    <LinearLayout
+        android:id="@+id/linear_company"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="* "
+                android:textColor="@color/color_E84342"
+                android:textSize="@dimen/sp_12" />
+
+            <TextView
+                android:layout_width="@dimen/dp_95"
+                android:layout_height="wrap_content"
+                android:text="@string/invoice_companyName"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_12" />
+
+            <EditText
+                android:id="@+id/edit_companyName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/invoice_editTips2"
+                android:textColor="@color/color_333333"
+                android:textColorHint="@color/color_C7C7C7"
+                android:textSize="@dimen/sp_12" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@color/color_E6E6E6" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="* "
+                android:textColor="@color/color_E84342"
+                android:textSize="@dimen/sp_12" />
+
+            <TextView
+                android:layout_width="@dimen/dp_95"
+                android:layout_height="wrap_content"
+                android:text="@string/invoice_IdentificationNumber"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_12" />
+
+            <EditText
+                android:id="@+id/edit_companyIdentificationnumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/invoice_editTips3"
+                android:textColor="@color/color_333333"
+                android:textColorHint="@color/color_C7C7C7"
+                android:textSize="@dimen/sp_12" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@color/color_E6E6E6" />
+    </LinearLayout>
+
+
+</LinearLayout>

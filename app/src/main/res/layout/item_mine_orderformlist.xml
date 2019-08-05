@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@android:color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:ignore="RtlCompat">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_11"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_11">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/orderForm_number"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/order_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_14"
+            tools:text="2019050599974997" />
+
+        <TextView
+            android:id="@+id/order_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_14"
+            tools:text="代付款" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/color_E6E6E6" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_14"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_14">
+
+        <com.ucfo.youcai.widget.customview.NiceImageView
+            android:id="@+id/order_image"
+            android:layout_width="@dimen/dp_96"
+            android:layout_height="@dimen/dp_58"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/banner_default"
+            app:corner_radius="@dimen/dp_4" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_11"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/order_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:paddingBottom="@dimen/dp_4"
+                android:singleLine="true"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_14"
+                tools:text="CMA中文高清网课全科（新纲）" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/dp_4">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:text="@string/orderForm_Price"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_13" />
+
+                <TextView
+                    android:id="@+id/order_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_17"
+                    tools:text="¥18800" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:layout_marginStart="@dimen/dp_12"
+        android:background="@color/color_E6E6E6" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|end"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_14"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_14">
+
+        <TextView
+            android:id="@+id/order_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ContactService"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_13" />
+
+        <TextView
+            android:id="@+id/order_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_14"
+            android:layout_marginStart="@dimen/dp_14"
+            android:text="@string/CancelTheOrder"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_13" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/order_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dp_5"
+            android:paddingEnd="@dimen/dp_21"
+            android:paddingStart="@dimen/dp_21"
+            android:paddingTop="@dimen/dp_5"
+            android:text="@string/ToPayFor"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_14"
+            app:rv_backgroundColor="@color/color_F99111"
+            app:rv_isRadiusHalfHeight="true" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/color_F5F5F5" />
+
+</LinearLayout>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F5F5F5"
+    tools:ignore="RtlCompat">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <!--标题栏-->
+            <include layout="@layout/titlebar_toolbar" />
+            <!--文字输入区域-->
+            <EditText
+                android:id="@+id/ask_edittext_content"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_100"
+                android:background="@color/colorWhite"
+                android:gravity="top"
+                android:hint="@string/answer_editHinttext"
+                android:inputType="textMultiLine"
+                android:maxLength="500"
+                android:overScrollMode="ifContentScrolls"
+                android:paddingEnd="@dimen/dp_14"
+                android:paddingStart="@dimen/dp_14"
+                android:paddingTop="@dimen/dp_14"
+                android:scrollbars="vertical"
+                android:textColor="@color/color_666666"
+                android:textColorHint="@color/color_C7C7C7"
+                android:textSize="@dimen/sp_14" />
+            <!--图片选择区域-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/dp_12">
+
+                <Button
+                    android:id="@+id/ask_checkphoto"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="@dimen/dp_67"
+                    android:layout_height="@dimen/dp_67"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:background="@mipmap/icon_addimage"
+                    android:gravity="center" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ask_imagelist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_75"
+                    android:overScrollMode="never" />
+
+            </LinearLayout>
+
+            <!--视频节点提示区域-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/dp_14"
+                android:paddingEnd="@dimen/dp_12"
+                android:paddingStart="@dimen/dp_12"
+                android:paddingTop="@dimen/dp_14">
+
+                <TextView
+                    android:id="@+id/ask_videotime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/color_999999"
+                    android:textSize="@dimen/sp_12" />
+
+                <TextView
+                    android:id="@+id/ask_content_number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|end"
+                    android:text="0/200"
+                    android:textColor="@color/color_999999"
+                    android:textSize="@dimen/sp_12" />
+
+            </LinearLayout>
+            <!--问题所属章节-->
+            <com.ucfo.youcai.widget.flowlayout.TagFlowLayout
+                android:id="@+id/flowlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_12"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                app:max_select="1" />
+
+            <Button
+                android:id="@+id/ask_submit"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="@dimen/dp_293"
+                android:layout_height="@dimen/dp_34"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp_58"
+                android:background="@mipmap/icon_btnroundback"
+                android:gravity="center"
+                android:stateListAnimator="@drawable/shape_selector_elevation"
+                android:text="@string/submit"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_14" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.constraint.ConstraintLayout>

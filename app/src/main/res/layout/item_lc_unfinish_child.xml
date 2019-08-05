@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_F7F9FB"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/dp_12"
+    android:paddingStart="@dimen/dp_12">
+
+    <com.ucfo.youcai.widget.customview.NestedListView
+        android:id="@+id/nestedlistview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:divider="@color/color_E6E6E6"
+        android:dividerHeight="@dimen/dp_1"
+        android:listSelector="@android:color/transparent"
+        android:overScrollMode="never" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_1"
+        android:background="@color/color_E6E6E6"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/btnSpread"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_33"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:gravity="center"
+        android:visibility="gone"
+        tools:text="@string/closed" />
+
+</LinearLayout>

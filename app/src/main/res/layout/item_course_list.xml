@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/dp_5"
+    android:paddingEnd="@dimen/dp_15"
+    android:paddingStart="@dimen/dp_15"
+    android:paddingTop="@dimen/dp_5"
+    tools:ignore="RtlCompat">
+
+    <ImageView
+        android:id="@+id/item_course_image"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_60"
+        android:src="@mipmap/banner_default" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/dp_14"
+        android:layout_weight="1"
+        android:gravity="center_vertical|start"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_course_title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_13"
+            tools:text="测试标题" />
+
+        <TextView
+            android:id="@+id/item_course_author"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/sp_11"
+            tools:text="测试标题" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/item_course_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_home_purpleback"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:minWidth="@dimen/dp_54"
+                android:paddingBottom="@dimen/dp_2"
+                android:paddingEnd="@dimen/dp_7"
+                android:paddingStart="@dimen/dp_7"
+                android:paddingTop="@dimen/dp_2"
+                android:textSize="@dimen/sp_10"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/item_course_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_11"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/color_999999"
+                android:textSize="@dimen/sp_10" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

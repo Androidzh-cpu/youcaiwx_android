@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.flyco.roundview.RoundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lLayout_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    app:rv_backgroundColor="@android:color/white"
+    app:rv_cornerRadius="@dimen/dp_8">
+
+    <ImageView
+        android:id="@+id/image_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_17"
+        android:gravity="center"
+        android:minHeight="@dimen/dp_45"
+        android:minWidth="@dimen/dp_45"
+        android:src="@mipmap/app_icon" />
+
+    <TextView
+        android:id="@+id/txt_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_15"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_10"
+        android:gravity="center"
+        android:textColor="@color/color_666666"
+        android:textSize="@dimen/sp_12"
+        tools:text="提示信息" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_E6E6E6" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_36"
+        android:orientation="horizontal">
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/btn_neg"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:stateListAnimator="@drawable/shape_selector_elevation"
+            android:text="取消"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/sp_12"
+            app:rv_backgroundColor="@android:color/white"
+            app:rv_backgroundPressColor="@color/color_F5F5F5"
+            app:rv_cornerRadius_BL="@dimen/dp_8"
+            app:rv_textPressColor="@android:color/white" />
+
+        <View
+            android:id="@+id/img_line"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/color_E6E6E6" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/btn_pos"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:gravity="center"
+            android:stateListAnimator="@drawable/shape_selector_elevation"
+            android:text="确认"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/sp_12"
+            app:rv_backgroundColor="@android:color/white"
+            app:rv_backgroundPressColor="@color/color_F5F5F5"
+            app:rv_cornerRadius_BR="@dimen/dp_8"
+            app:rv_textPressColor="@android:color/white" />
+    </LinearLayout>
+
+</com.flyco.roundview.RoundLinearLayout>

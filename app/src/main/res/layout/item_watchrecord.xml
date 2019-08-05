@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/dp_14"
+    android:paddingEnd="@dimen/dp_12"
+    android:paddingStart="@dimen/dp_12"
+    android:paddingTop="@dimen/dp_14"
+    tools:ignore="RtlCompat">
+
+    <ImageView
+        android:id="@+id/item_course_image"
+        android:layout_width="@dimen/dp_96"
+        android:layout_height="@dimen/dp_58"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/banner_default" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_course_title"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_14"
+            android:textStyle="bold"
+            tools:text="简答题分析" />
+
+        <TextView
+            android:id="@+id/item_course_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_12"
+            tools:text="P1-简答题分析（1）" />
+
+        <TextView
+            android:id="@+id/item_course_time"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_11"
+            tools:text="课程时长：00:32:24" />
+    </LinearLayout>
+
+</LinearLayout>

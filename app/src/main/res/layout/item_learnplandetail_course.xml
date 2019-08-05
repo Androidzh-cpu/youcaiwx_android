@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:ignore="RtlCompat">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_12">
+
+        <ImageView
+            android:id="@+id/item_course_image"
+            android:layout_width="@dimen/dp_96"
+            android:layout_height="@dimen/dp_58"
+            android:layout_marginBottom="@dimen/dp_9"
+            android:layout_marginTop="@dimen/dp_9"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dp_27"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_course_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_14"
+                tools:text="1-1成本度量和计量基本概念" />
+
+            <TextView
+                android:id="@+id/item_course_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_14"
+                tools:text="30:25" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/item_course_status"
+            android:layout_width="@dimen/dp_17"
+            android:layout_height="@dimen/dp_23"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/icon_lc_lock"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/item_course_status2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:src="@mipmap/icon_lc_complete"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/color_E6E6E6"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_12" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/item_course_notes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center"
+            android:padding="@dimen/dp_12"
+            android:text="@string/notes" />
+
+        <View
+            android:layout_width="@dimen/dp_0_5"
+            android:layout_height="match_parent"
+            android:background="@color/color_E6E6E6" />
+
+        <TextView
+            android:id="@+id/item_course_exercise"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:gravity="center"
+            android:padding="@dimen/dp_12"
+            android:text="@string/exercises" />
+    </LinearLayout>
+
+</LinearLayout>

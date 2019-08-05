@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--定义seekbar滑动条的底色-->
+    <item android:id="@android:id/background">
+        <shape>
+            <gradient
+                android:angle="270.0"
+                android:centerColor="@android:color/darker_gray"
+                android:centerY="0.45"
+                android:endColor="@android:color/darker_gray"
+                android:startColor="@android:color/darker_gray" />
+        </shape>
+    </item>
+    <!-- 这是缓存进度图-->
+    <item android:id="@android:id/secondaryProgress">
+        <clip>
+            <shape>
+                <gradient
+                    android:angle="270.0"
+                    android:centerColor="@android:color/white"
+                    android:centerY="0.45"
+                    android:endColor="@android:color/white"
+                    android:startColor="@android:color/white" />
+            </shape>
+        </clip>
+    </item>
+    <!--定义seekbar滑动条进度颜色-->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <gradient
+                    android:angle="270.0"
+                    android:centerColor="@color/color_0267FF"
+                    android:centerY="0.45"
+                    android:endColor="@color/color_0267FF"
+                    android:startColor="@color/color_0267FF" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>

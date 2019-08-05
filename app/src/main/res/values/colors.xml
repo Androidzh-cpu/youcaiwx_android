@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1874FD</color>
+    <color name="colorPrimaryDark">#1874FD</color>
+    <color name="colorAccent">#1874FD</color>
+
+    <color name="colorBackgroundDark">#f2f2f2</color>
+
+    <color name="transparency">#00000000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="color_019BEB">#019BEB</color>
+    <color name="home_background">#F0F2F5</color>
+    <color name="color_5E5E5E">#5E5E5E</color>
+    <color name="color_7A7979">#7A7979</color>
+    <color name="color_999999">#999999</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_333333">#333333</color>
+    <color name="color_151515">#151515</color>
+    <color name="color_5B78F6">#5B78F6</color>
+    <color name="color_F88C00">#F88C00</color>
+    <color name="color_E66D01">#E66D01</color>
+    <color name="color_FDF0E1">#FDF0E1</color>
+    <color name="color_FFF8F2">#FFF8F2</color>
+    <color name="color_C2C2C2">#C2C2C2</color>
+    <color name="color_58C7FF">#58C7FF</color>
+    <color name="color_EEFFFD">#EEFFFD</color>
+    <color name="color_DBDBDB">#DBDBDB</color>
+    <color name="color_919191">#919191</color>
+    <color name="color_FF6A6A">#FF6A6A</color>
+    <color name="color_FD7D74">#FD7D74</color>
+    <color name="color_D1F0FF">#D1F0FF</color>
+    <color name="color_F5F5F5">#F5F5F5</color>
+    <color name="color_FAA827">#FAA827</color>
+    <color name="color_ECEEF0">#ECEEF0</color>
+    <color name="color_6F6E6E">#6F6E6E</color>
+    <color name="color_C7C7C7">#C7C7C7</color>
+    <color name="color_DCDCDC">#DCDCDC</color>
+    <color name="color_0267FF">#0267FF</color>
+    <color name="color_D8E8FF">#D8E8FF</color>
+    <color name="color_F9F6FF">#F9F6FF</color>
+    <color name="color_F2F7FF">#F2F7FF</color>
+    <color name="color_F7F9FB">#F7F9FB</color>
+    <color name="color_E3EEFF">#E3EEFF</color>
+    <color name="color_CDE1FF">#CDE1FF</color>
+    <color name="color_F99111">#F99111</color>
+    <color name="color_FEEEDB">#FEEEDB</color>
+    <color name="color_4A4A4A">#4A4A4A</color>
+    <color name="color_E6E6E6">#E6E6E6</color>
+    <color name="color_50FF00">#50FF00</color>
+    <color name="color_0AAB55">#0AAB55</color>
+    <color name="color_FCFF00">#FCFF00</color>
+    <color name="color_00CBFF">#00CBFF</color>
+    <color name="color_E84342">#E84342</color>
+    <color name="color_FCE2E2">#FCE2E2</color>
+
+    <!--shimmerrecyclerview的默认item颜色-->
+    <color name="demo_light_transparent">#16000000</color>
+    <color name="default_shimmer_color">#e3e1e3</color>
+    <!--阴影边框布局-->
+    <color name="default_shadow_color">#88757575</color>
+    <color name="default_fill_color">#ffffff</color>
+    <color name="transActivity">#90000000</color>
+    <color name="text_OE3">#DFE0E3</color>
+    <!--视频播放器-->
+    <color name="alivc_blue">#379DF2</color>
+    <color name="alivc_color_rate_item">#4c000000</color>
+    <!--百分比圆环的属性颜色-->
+    <color name="colorCirclebg">#100000ff</color>
+    <color name="colorCircleStart">#1212F6</color>
+    <color name="colorCircleEnd">#F212C6</color>
+
+
+</resources>

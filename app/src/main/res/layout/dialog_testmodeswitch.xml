@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lLayout_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_7"
+        app:rv_backgroundColor="@android:color/white"
+        app:rv_cornerRadius="@dimen/dp_5">
+
+        <TextView
+            android:id="@+id/testmode_exam"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:drawablePadding="@dimen/dp_11"
+            android:drawableTop="@mipmap/icon_testmode_exam"
+            android:gravity="center"
+            android:text="考试模式"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_13" />
+
+        <View
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_38"
+            android:background="@color/color_E6E6E6" />
+
+
+        <TextView
+            android:id="@+id/testmode_exercise"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:drawablePadding="@dimen/dp_11"
+            android:drawableTop="@mipmap/icon_testmode_exercise"
+            android:gravity="center"
+            android:text="练习模式"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_13" />
+
+    </com.flyco.roundview.RoundLinearLayout>
+
+    <View
+        android:layout_width="@dimen/dp_1"
+        android:layout_height="@dimen/dp_30"
+        android:background="@android:color/white" />
+
+    <ImageView
+        android:id="@+id/btn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_testmode_close" />
+
+</LinearLayout>

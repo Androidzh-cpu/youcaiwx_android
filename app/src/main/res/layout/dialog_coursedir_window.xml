@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="RtlCompat">
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_20"
+        android:orientation="vertical"
+        app:rv_backgroundColor="@android:color/white"
+        app:rv_cornerRadius="@dimen/dp_5">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/dp_69"
+            android:paddingEnd="@dimen/dp_12"
+            android:paddingStart="@dimen/dp_12">
+
+            <TextView
+                android:id="@+id/course_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:drawablePadding="@dimen/dp_10"
+                android:gravity="center"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintBottom_toTopOf="@id/course_teacher_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="CMA中文Part-1高清网课" />
+
+            <TextView
+                android:id="@+id/course_teacher_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_999999"
+                android:textSize="@dimen/sp_13"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/course_name"
+                tools:text="讲师：王谦" />
+
+            <ImageView
+                android:id="@+id/course_down_btn"
+                android:layout_width="@dimen/dp_22"
+                android:layout_height="@dimen/dp_22"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@mipmap/icon_play_downblack"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/color_E6E6E6" />
+
+        <ExpandableListView
+            android:id="@+id/course_dirlist"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:divider="@null"
+            android:dividerHeight="@dimen/dp_1"
+            android:gravity="center"
+            android:overScrollMode="never"
+            android:scrollbarSize="1dp"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/color_F5F5F5" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/course_closebtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingEnd="@dimen/dp_10"
+            android:paddingStart="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_10"
+            android:text="收起"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/sp_13"
+            app:rv_backgroundColor="@android:color/white"
+            app:rv_cornerRadius_BL="@dimen/dp_5"
+            app:rv_cornerRadius_BR="@dimen/dp_5" />
+
+    </com.flyco.roundview.RoundLinearLayout>
+</LinearLayout>

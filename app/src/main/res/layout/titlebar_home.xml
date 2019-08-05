@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_42"
+    android:background="@color/colorWhite"
+    android:orientation="horizontal"
+    tools:ignore="RtlCompat">
+
+    <TextView
+        android:id="@+id/titlebar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/dp_21"
+        android:text="@string/home_title"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <ImageView
+        android:id="@+id/titlebar_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@color/colorWhite"
+        android:clickable="true"
+        android:src="@mipmap/icon_scan" />
+
+    <ImageView
+        android:id="@+id/titlebar_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginStart="@dimen/dp_10"
+        android:background="@color/colorWhite"
+        android:clickable="true"
+        android:src="@mipmap/icon_message" />
+
+</LinearLayout>

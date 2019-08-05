@@ -1,0 +1,181 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+        <!--导航栏底色-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!--状态栏底色-->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!--按钮选中或者点击获得焦点后的颜色-->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--导航栏上的标题颜色,这里的颜色还可以自己定义喜欢的类型-->
+        <item name="android:textColorPrimary">@color/color_333333</item>
+        <!--EditText 输入框中字体的颜色，colorPrimary如果设置深色，一般字体设置为白色-->
+        <item name="editTextColor">@android:color/black</item>
+
+        <!--按钮水波纹动画状态-->
+        <!--<item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="colorButtonNormal">@color/material_blue_grey_800</item>-->
+
+        <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
+        <item name="styleLoadingLayout">@style/LoadingLayoutStyle</item>
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <!--页面空数据处理以及错误页处理-->
+    <style name="LoadingLayoutStyle" parent="LoadingLayout.Style">
+        <item name="llEmptyImage">@mipmap/icon_empty</item>
+        <item name="llErrorImage">@mipmap/icon_neterror</item>
+    </style>
+
+    <!--TODO 基础activity设置-->
+    <style name="BaseThemeForActivity" parent="AppTheme">
+        <item name="android:windowIsTranslucent">false</item>
+        <!--TODO 方向垂直,不随手记方向改变而改变布局-->
+        <item name="android:screenOrientation">nosensor</item>
+        <!--TODO 取消actionbar-->
+        <item name="windowActionBar">false</item>
+        <!--TODO 无标题-->
+        <item name="windowNoTitle">true</item>
+        <!--TODO 保留状态不变-->
+        <item name="android:alwaysRetainTaskState">true</item>
+        <!--TODO 重新启动这个任务的时候，是否关闭已打开的activity-->
+        <item name="android:finishOnTaskLaunch">false</item>
+        <!--TODO  启动模式-->
+        <item name="android:launchMode">standard</item>
+        <!--TODO 不允许多进程-->
+        <item name="android:multiprocess">false</item>
+        <!--TODO 当用户从Activity上离开并且它在屏幕上不再可见时，Activity是否从Activity stack中清除并结束-->
+        <item name="android:noHistory">false</item>
+        <!--TODO activity主窗口与软键盘的交互模式，可以用来避免输入法面板遮挡问题，Android1.5后的一个新特性。-->
+        <item name="android:windowSoftInputMode">adjustPan</item>
+    </style>
+
+    <!--TODO 欢迎页样式-->
+    <style name="WelcomAppTheme" parent="android:style/Theme.Black.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@color/colorWhite</item>
+        <item name="android:screenOrientation">portrait</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <!--TODO activity过渡动画-->
+    <style name="AnimationActivity" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_start_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_start_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_finish_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_finish_exit</item>
+    </style>
+    <!-- TODO 网络加载框dialog的样式 -->
+    <style name="NetLoadingDialog" parent="@style/Theme.AppCompat.Dialog">
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">true</item><!--半透明-->
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item><!--模糊-->
+        <item name="android:backgroundDimAmount">0.5</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <!--TODO 底部导航栏-->
+    <style name="bottom_radiobutton">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!--TODO 首页顶部功能区 -->
+    <style name="home_function">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/color_333333</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:drawablePadding">@dimen/dp_8</item>
+    </style>
+    <!--TODO 教师弹框属性设置-->
+    <style name="TeacherDialog" parent="@style/Theme.AppCompat.Dialog">
+        <!--无标题-->
+        <item name="android:windowNoTitle">true</item>
+        <!--键盘状态-->
+        <item name="android:windowSoftInputMode">stateUnspecified</item>
+        <!--dialog弹出时activity的背景-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 浮于Activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!--是否需要dialog遮罩-->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--全屏-->
+        <item name="android:windowFullscreen">true</item>
+    </style>
+    <!--TODO 阿里播放器更多弹框样式调整-->
+    <style name="addDownloadDialog" parent="android:Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <!-- 为了避免在有 NavigationBar 的手机上 Dialog 从 NavigationBar 底部上来。去掉 Dialog 的动画，使用 View 的动画。-->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:padding">0dp</item>
+    </style>
+    <!--TODO  全局通用App弹框属性设置-->
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+    </style>
+    <!--TODO 白色背景的系统alertdialog-->
+    <style name="WhiteDialogStyle" parent="@android:style/Theme.DeviceDefault.Light.Dialog.NoActionBar.MinWidth">
+        <!--该行代码就是设置AlertDialog的背景-->
+        <item name="android:background">@android:color/white</item>
+    </style>
+    <!--TODO 视频播放器顶部菜单右侧进出动画-->
+    <style name="PopupWindowRightFade">
+        <item name="android:windowEnterAnimation">@anim/right_in</item>
+        <item name="android:windowExitAnimation">@anim/right_out</item>
+    </style>
+    <!--TODO 全局分享dialog-->
+    <style name="MaterialDialogSheet" parent="@android:style/Theme.Dialog">
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowAnimationStyle">@style/MaterialDialogSheetAnimation</item>
+    </style>
+    <!--TODO 系统分享动画-->
+    <style name="MaterialDialogSheetAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/popup_show</item>
+        <item name="android:windowExitAnimation">@anim/popup_hide</item>
+    </style>
+
+    <style name="MaterialDialogTopToBottomAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+
+</resources>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_57"
+    android:layout_gravity="center"
+    android:background="@android:color/white"
+    android:paddingEnd="@dimen/dp_12"
+    android:paddingStart="@dimen/dp_12"
+    tools:ignore="RtlCompat">
+
+    <TextView
+        android:id="@+id/item_course_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/sp_13"
+        app:layout_constraintBottom_toTopOf="@id/item_course_author"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="CMA中文高清网课-Part-1" />
+
+    <TextView
+        android:id="@+id/item_course_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_6F6E6E"
+        android:textSize="@dimen/sp_11"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/item_course_count"
+        app:layout_constraintTop_toBottomOf="@id/item_course_title"
+        tools:text="讲师：杨晔" />
+
+    <TextView
+        android:id="@+id/item_course_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_38"
+        android:textColor="@color/color_6F6E6E"
+        android:textSize="@dimen/sp_11"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/item_course_author"
+        app:layout_constraintTop_toBottomOf="@id/item_course_title"
+        tools:text="课时：365小时" />
+
+    <ImageView
+        android:layout_width="@dimen/dp_8"
+        android:layout_height="@dimen/dp_14"
+        android:src="@mipmap/icon_right_in"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>

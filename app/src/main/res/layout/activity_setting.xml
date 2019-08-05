@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context="com.ucfo.youcai.view.user.activity.SettingActivity"
+    tools:ignore="RtlCompat">
+
+    <include layout="@layout/titlebar_toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/btn_updatePassword"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_58"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/dp_12"
+                android:paddingStart="@dimen/dp_12">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/mine_updatePWD"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_14" />
+
+                <ImageView
+                    android:layout_width="@dimen/dp_16"
+                    android:layout_height="@dimen/dp_16"
+                    android:src="@mipmap/icon_right_in" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0_5"
+                android:layout_marginEnd="@dimen/dp_12"
+                android:layout_marginStart="@dimen/dp_12"
+                android:background="@color/color_E6E6E6" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_58"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/dp_12"
+                android:paddingStart="@dimen/dp_12">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/mine_downloadwithwifi"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_14" />
+
+                <com.ucfo.youcai.widget.customview.SwitchView
+                    android:id="@+id/btn_wifiDownload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0_5"
+                android:layout_marginEnd="@dimen/dp_12"
+                android:layout_marginStart="@dimen/dp_12"
+                android:background="@color/color_E6E6E6" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_58"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/dp_12"
+                android:paddingStart="@dimen/dp_12">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/mine_lookwithwifi"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_14" />
+
+                <com.ucfo.youcai.widget.customview.SwitchView
+                    android:id="@+id/btn_wifiLook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0_5"
+                android:layout_marginEnd="@dimen/dp_12"
+                android:layout_marginStart="@dimen/dp_12"
+                android:background="@color/color_E6E6E6" />
+
+            <LinearLayout
+                android:id="@+id/btn_currentVersion"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_58"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/dp_12"
+                android:paddingStart="@dimen/dp_12">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/mine_currentVersion"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_14" />
+
+                <TextView
+                    android:id="@+id/text_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_999999"
+                    android:textSize="@dimen/sp_14" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0_5"
+                android:layout_marginEnd="@dimen/dp_12"
+                android:layout_marginStart="@dimen/dp_12"
+                android:background="@color/color_E6E6E6" />
+
+            <LinearLayout
+                android:id="@+id/btn_clearCache"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_58"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/dp_12"
+                android:paddingStart="@dimen/dp_12">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/mine_cleanCache"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_14" />
+
+                <TextView
+                    android:id="@+id/text_cache"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0M"
+                    android:textColor="@color/color_999999"
+                    android:textSize="@dimen/sp_14" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0_5"
+                android:layout_marginEnd="@dimen/dp_12"
+                android:layout_marginStart="@dimen/dp_12"
+                android:background="@color/color_E6E6E6" />
+
+            <LinearLayout
+                android:id="@+id/btn_userArgeement"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_58"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/dp_12"
+                android:paddingStart="@dimen/dp_12">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/mine_userAgreement"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_14" />
+
+                <ImageView
+                    android:layout_width="@dimen/dp_16"
+                    android:layout_height="@dimen/dp_16"
+                    android:src="@mipmap/icon_right_in" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0_5"
+                android:layout_marginEnd="@dimen/dp_12"
+                android:layout_marginStart="@dimen/dp_12"
+                android:background="@color/color_E6E6E6" />
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/btn_exit"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_43"
+        android:background="@mipmap/icon_btnbackprimary"
+        android:gravity="center"
+        android:stateListAnimator="@drawable/shape_selector_elevation"
+        android:text="@string/ming_ExitLogin"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_14" />
+</LinearLayout>

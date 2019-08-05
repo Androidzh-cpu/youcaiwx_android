@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/color_F5F5F5"
+    tools:ignore="RtlCompat">
+
+    <com.ucfo.youcai.widget.customview.LoadingLayout
+        android:id="@+id/loadinglayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlEnableLoadMore="false"
+            app:srlEnableNestedScrolling="true"
+            app:srlEnableOverScrollBounce="true"
+            app:srlEnableOverScrollDrag="true"
+            app:srlEnableRefresh="false">
+
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_5"
+                        android:background="@android:color/white"
+                        android:orientation="vertical"
+                        android:paddingEnd="@dimen/dp_12"
+                        android:paddingStart="@dimen/dp_12"
+                        android:paddingTop="@dimen/dp_8">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/course_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/color_333333"
+                                android:textSize="@dimen/sp_16"
+                                android:textStyle="bold"
+                                tools:text="CMA中文高清网课-全科" />
+
+                            <com.flyco.roundview.RoundTextView
+                                android:id="@+id/course_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_10"
+                                android:paddingEnd="@dimen/dp_5"
+                                android:paddingStart="@dimen/dp_5"
+                                android:textColor="@color/color_E66D01"
+                                android:textSize="@dimen/sp_12"
+                                app:rv_backgroundColor="@color/color_FDF0E1"
+                                app:rv_isRadiusHalfHeight="true"
+                                tools:text="18000" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/white"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingTop="@dimen/dp_11">
+
+                            <TextView
+                                android:id="@+id/course_teacher"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:drawablePadding="@dimen/dp_5"
+                                android:drawableStart="@mipmap/icon_citeacher"
+                                android:gravity="center_vertical"
+                                android:textColor="@color/color_7A7979"
+                                android:textSize="@dimen/sp_11"
+                                tools:text="讲师：杨晔" />
+
+                            <TextView
+                                android:id="@+id/course_time"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:drawablePadding="@dimen/dp_5"
+                                android:drawableStart="@mipmap/icon_citime"
+                                android:textColor="@color/color_999999"
+                                android:textSize="@dimen/sp_11"
+                                tools:text="课时：365小时" />
+
+                            <TextView
+                                android:id="@+id/course_count"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:drawablePadding="@dimen/dp_5"
+                                android:drawableStart="@mipmap/icon_cicount"
+                                android:textColor="@color/color_7A7979"
+                                android:textSize="@dimen/sp_11"
+                                tools:text="7896人" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/course_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/white"
+                            android:lineSpacingExtra="@dimen/dp_5"
+                            android:paddingBottom="@dimen/dp_11"
+                            android:paddingTop="@dimen/dp_11"
+                            android:textColor="@color/color_666666"
+                            android:textSize="@dimen/sp_12"
+                            tools:text="优质的体验平台、完备的课程体系、领先的案例式教学模式（线上与线下结合）、性化的服务团队，确保快速通过与实务提升。" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_1"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:background="@color/colorWhite"
+                        android:paddingBottom="@dimen/dp_9"
+                        android:paddingStart="@dimen/dp_12"
+                        android:paddingTop="@dimen/dp_9"
+                        android:text="讲师介绍"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_15"
+                        android:textStyle="bold" />
+
+
+                    <com.ucfo.youcai.widget.shimmer.ShimmerRecyclerView
+                        android:id="@+id/recyclerview_teacher"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:focusable="false"
+                        android:minHeight="@dimen/dp_51"
+                        android:overScrollMode="never"
+                        app:shimmer_demo_child_count="1" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_1"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:background="@color/colorWhite"
+                        android:paddingBottom="@dimen/dp_9"
+                        android:paddingStart="@dimen/dp_12"
+                        android:paddingTop="@dimen/dp_9"
+                        android:text="课程介绍"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_15"
+                        android:textStyle="bold" />
+
+                    <com.ucfo.youcai.widget.customview.NoScrollWebView
+                        android:id="@+id/webview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fadingEdge="none"
+                        android:overScrollMode="never" />
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </com.ucfo.youcai.widget.customview.LoadingLayout>
+</android.support.constraint.ConstraintLayout>

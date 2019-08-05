@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/dp_49"
+    android:orientation="horizontal"
+    android:paddingEnd="@dimen/dp_12"
+    android:paddingStart="@dimen/dp_12">
+
+    <TextView
+        android:id="@+id/item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/sp_15"
+        tools:text="中文Part1" />
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/btnToStudy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="@dimen/dp_23"
+        android:minWidth="@dimen/dp_67"
+        android:textColor="@android:color/white"
+        app:rv_backgroundColor="@color/colorPrimary"
+        app:rv_isRadiusHalfHeight="true"
+        android:text="@string/learncenter_gotostudy3" />
+
+
+</LinearLayout>

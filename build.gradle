@@ -1,0 +1,86 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/releases" }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.1'
+
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        //butterknife插件
+        classpath 'com.jakewharton:butterknife-gradle-plugin:9.0.0'
+        //kotlin插件
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.51"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral() //sonatype的maven库
+        maven { url "https://jitpack.io" }
+        maven { url 'https://dl.bintray.com/umsdk/release' }
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/releases" }
+        flatDir {
+            dirs 'libs' //本地aar文件
+        }
+    }
+    tasks.withType(Javadoc) {
+        options {
+            encoding "UTF-8"
+            charSet 'UTF-8'
+            author true
+            version true
+            links "http://docs.oracle.com/javase/7/docs/api"
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.incremental = true
+}
+
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+//root申明全局变量
+ext {
+    compileSdkVersion = 27       //使用 Android 8.0版本的API 代号:Oreo(奥利奥)
+    buildToolsVersion = "27.1.1"//构建工具版本使用 Android 8.0版本 代号:Oreo(奥利奥) 建议使用新版本
+
+    minSdkVersion = 16           //最小支持 Android 4.1 代号:JELLY_BEAN_MR2(软心豆粒糖
+    targetSdkVersion = 27        //目标软件开发版本 Android 8.0版本 代号:Oreo(奥利奥)
+    versionCode = 1             //版本号
+    versionName = "1.0.0"       //发布版本名称
+
+    libMinSdkVersion_okgo = 14
+    versionName_okgo = '3.0.4'
+    versionCode_okgo = 29
+    targetSdkVersion_okgo = 25
+
+    abortOnLintError = false
+    checkLintRelease = false
+    useJack = false
+    abortOnLintError = false
+    javaVersion = JavaVersion.VERSION_1_8//Java JDK版本为1.8
+}
+ext {
+    var = [
+            supportLibraryVersion: "27.1.1"
+    ]
+}

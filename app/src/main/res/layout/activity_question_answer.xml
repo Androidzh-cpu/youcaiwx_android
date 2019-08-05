@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context="com.ucfo.youcai.view.questionbank.activity.QuestionAnswerActivity">
+
+    <include layout="@layout/titlebar_toolbar" />
+
+    <!--选项卡-->
+    <com.androidkun.xtablayout.XTabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_39"
+        android:overScrollMode="never"
+        app:xTabDisplayNum="3"
+        app:xTabDividerWidthWidthText="true"
+        app:xTabIndicatorColor="@color/color_0267FF"
+        app:xTabIndicatorHeight="@dimen/dp_2"
+        app:xTabMode="scrollable"
+        app:xTabSelectedTextColor="@color/color_0267FF"
+        app:xTabSelectedTextSize="@dimen/sp_13"
+        app:xTabTextColor="@color/color_333333"
+        app:xTabTextSize="@dimen/sp_13" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1_5"
+        android:layout_marginTop="@dimen/dp_3"
+        android:background="@color/color_F5F5F5"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_12" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_12" />
+
+    <LinearLayout
+        android:id="@+id/btn_ask"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_43"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1_5"
+            android:background="@color/color_F5F5F5" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:drawablePadding="@dimen/dp_7"
+            android:drawableStart="@mipmap/icon_qb_edit"
+            android:gravity="center"
+            android:text="@string/answer_title_askQuestions"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/sp_13"
+            android:textStyle="bold"
+            tools:ignore="RtlCompat" />
+
+    </LinearLayout>
+
+</LinearLayout>

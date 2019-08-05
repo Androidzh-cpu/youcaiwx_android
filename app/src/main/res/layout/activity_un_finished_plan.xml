@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ucfo.youcai.view.learncenter.UnFinishedPlanActivity">
+
+    <include layout="@layout/titlebar_toolbar" />
+
+    <com.ucfo.youcai.widget.customview.LoadingLayout
+        android:id="@+id/loadinglayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FEF4F4"
+                android:gravity="center"
+                android:paddingBottom="@dimen/dp_12"
+                android:paddingTop="@dimen/dp_12"
+                android:text="@string/learncenter_unfinishedTips"
+                android:textColor="@color/color_E84342"
+                android:textSize="@dimen/sp_13" />
+
+
+            <!--<ExpandableListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@android:color/transparent"
+                android:groupIndicator="@null" />-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </com.ucfo.youcai.widget.customview.LoadingLayout>
+</LinearLayout>

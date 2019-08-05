@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparency"
+    tools:context="com.ucfo.youcai.view.home.ScanActivity">
+
+    <cn.bingoogolapple.qrcode.zxing.ZXingView
+        android:id="@+id/zxingview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:qrcv_animTime="1000"
+        app:qrcv_borderColor="@android:color/white"
+        app:qrcv_borderSize="@dimen/dp_1"
+        app:qrcv_cornerColor="@color/color_019BEB"
+        app:qrcv_cornerDisplayType="inside"
+        app:qrcv_cornerLength="@dimen/dp_20"
+        app:qrcv_cornerSize="@dimen/dp_4"
+        app:qrcv_isAutoZoom="true"
+        app:qrcv_isShowLocationPoint="true"
+        app:qrcv_isShowTipTextAsSingleLine="false"
+        app:qrcv_isTipTextBelowRect="true"
+        app:qrcv_maskColor="@android:color/transparent"
+        app:qrcv_qrCodeTipText="@string/scan_tiptext"
+        app:qrcv_rectWidth="@dimen/dp_200"
+        app:qrcv_scanLineColor="@color/colorAccent"
+        app:qrcv_scanLineSize="@dimen/dp_1"
+        app:qrcv_tipTextColor="@android:color/white"
+        app:qrcv_tipTextMargin="@dimen/dp_40"
+        app:qrcv_tipTextSize="@dimen/sp_15"
+        app:qrcv_verticalBias="0.5" />
+
+    <ImageView
+        android:id="@+id/light_btn"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dp_50"
+        android:clickable="true"
+        android:src="@drawable/ic_icon_scan_close" />
+
+</RelativeLayout>

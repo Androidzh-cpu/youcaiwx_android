@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="RtlCompat">
+
+    <View
+        android:id="@+id/statusbar_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_20"
+        android:background="@android:color/white" />
+
+    <include layout="@layout/titlebar_home" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/home_background">
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/dp_10">
+                <!--顶部广告-->
+                <com.youth.banner.Banner
+                    android:id="@+id/banner_index"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_125"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/colorWhite"
+                    android:clipChildren="false"
+                    app:banner_default_image="@mipmap/banner_default"
+                    app:banner_layout="@layout/banner_index"
+                    app:indicator_height="@dimen/dp_7"
+                    app:indicator_margin="@dimen/dp_3"
+                    app:indicator_width="@dimen/dp_7"
+                    app:is_auto_play="true" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/colorWhite"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/dp_8"
+                    android:paddingEnd="@dimen/dp_21"
+                    android:paddingStart="@dimen/dp_21"
+                    android:paddingTop="@dimen/dp_8">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/dp_8"
+                        android:scaleType="center"
+                        android:src="@mipmap/icon_hotpoint"
+                        tools:ignore="RtlCompat" />
+                    <!--热点轮播-->
+                    <ViewFlipper
+                        android:id="@+id/hot_filpper"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:autoStart="false"
+                        android:flipInterval="3000"
+                        android:inAnimation="@anim/anim_hotpoint_in"
+                        android:outAnimation="@anim/anim_hotpoint_out" />
+                </LinearLayout>
+                <!--功能区-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/colorWhite"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/dp_12"
+                    android:paddingEnd="@dimen/dp_8"
+                    android:paddingStart="@dimen/dp_8"
+                    android:paddingTop="@dimen/dp_15">
+
+                    <TextView
+                        android:id="@+id/icon_live"
+                        style="@style/home_function"
+                        android:drawableTop="@mipmap/icon_live"
+                        android:text="@string/home_live" />
+
+                    <TextView
+                        android:id="@+id/icon_course"
+                        style="@style/home_function"
+                        android:drawableTop="@mipmap/icon_course"
+                        android:text="@string/home_course" />
+
+                    <TextView
+                        android:id="@+id/icon_face"
+                        style="@style/home_function"
+                        android:drawableTop="@mipmap/icon_face"
+                        android:text="@string/home_face" />
+
+                    <TextView
+                        android:id="@+id/icon_active"
+                        style="@style/home_function"
+                        android:drawableTop="@mipmap/icon_active"
+                        android:text="@string/home_active" />
+
+                    <TextView
+                        android:id="@+id/icon_news"
+                        style="@style/home_function"
+                        android:drawableTop="@mipmap/icon_news"
+                        android:text="@string/home_news" />
+                </LinearLayout>
+
+                <!--直播推荐-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:paddingStart="@dimen/dp_13"
+                        android:paddingTop="@dimen/dp_12"
+                        android:tag="sticky"
+                        android:text="@string/home_live_recommend"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_15"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_1"
+                        android:layout_marginEnd="@dimen/dp_12"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:background="@drawable/home_grayline" />
+
+                    <com.ucfo.youcai.widget.shimmer.ShimmerRecyclerView
+                        android:id="@+id/recyclerview_live"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_12"
+                        android:layout_marginTop="@dimen/dp_15"
+                        android:overScrollMode="never" />
+
+                </LinearLayout>
+                <!--课程推荐-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:paddingStart="@dimen/dp_13"
+                        android:paddingTop="@dimen/dp_12"
+                        android:tag="sticky"
+                        android:text="@string/home_course_recommend"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_15"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_1"
+                        android:layout_marginEnd="@dimen/dp_12"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:background="@drawable/home_grayline" />
+
+                    <com.ucfo.youcai.widget.shimmer.ShimmerRecyclerView
+                        android:id="@+id/recyclerview_course"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_14"
+                        android:overScrollMode="never" />
+
+                    <TextView
+                        android:id="@+id/check_more_course"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:padding="@dimen/dp_10"
+                        android:text="@string/home_more"
+                        android:textColor="@color/color_5B78F6"
+                        android:textSize="@dimen/sp_11"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+                <!--最新资讯-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/dp_10"
+                        android:paddingStart="@dimen/dp_13"
+                        android:paddingTop="@dimen/dp_12"
+                        android:tag="sticky"
+                        android:text="@string/home_news_zixun"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_15"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_1"
+                        android:layout_marginEnd="@dimen/dp_12"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:background="@drawable/home_grayline" />
+
+                    <com.ucfo.youcai.widget.shimmer.ShimmerRecyclerView
+                        android:id="@+id/recyclerview_news"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_14"
+                        android:overScrollMode="never" />
+
+                    <TextView
+                        android:id="@+id/check_more_news"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:padding="@dimen/dp_10"
+                        android:text="@string/home_more"
+                        android:textColor="@color/color_5B78F6"
+                        android:textSize="@dimen/sp_11"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</LinearLayout>
