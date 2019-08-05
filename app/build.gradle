@@ -91,16 +91,26 @@ android {
     //TODO 签名配置文件所在位置
     signingConfigs {
         relese {
-            storeFile file('D:/YouCaiFile/优财智业项目/app签名/appkey')
-            storePassword "CMAyoucai2020"
-            keyAlias "youcaikey"
-            keyPassword "CMAyoucai2020"
+            try {
+                storeFile file('D:/YouCaiFile/优财智业项目/app签名/appkey')
+                storePassword "CMAyoucai2020"
+                keyAlias "youcaikey"
+                keyPassword "CMAyoucai2020"
+            } catch (ex) {
+                ex.printStackTrace()
+                throw new InvalidUserDataException("秘钥用户名或密码错误${ex.getMessage()}")
+            }
         }
         debug {
-            storeFile file('D:/YouCaiFile/优财智业项目/app签名/appkey')
-            storePassword "CMAyoucai2020"
-            keyAlias "youcaikey"
-            keyPassword "CMAyoucai2020"
+            try {
+                storeFile file('D:/YouCaiFile/优财智业项目/app签名/appkey')
+                storePassword "CMAyoucai2020"
+                keyAlias "youcaikey"
+                keyPassword "CMAyoucai2020"
+            } catch (ex) {
+                ex.printStackTrace()
+                throw new InvalidUserDataException("秘钥用户名或密码错误${ex.getMessage()}")
+            }
         }
     }
     //TODO 不同的构建类型
