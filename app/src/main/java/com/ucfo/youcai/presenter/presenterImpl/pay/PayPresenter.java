@@ -64,15 +64,15 @@ public class PayPresenter implements IPayPresenter {
                                 if (code == 200) {
                                     Gson gson = new Gson();
                                     OrderFormDetailBean bean = gson.fromJson(body, OrderFormDetailBean.class);
-
+                                    view.getOrderFormDetail(bean);
                                 } else {
-
+                                    view.getOrderFormDetail(null);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         } else {
-
+                            view.getOrderFormDetail(null);
                         }
                     }
                 });

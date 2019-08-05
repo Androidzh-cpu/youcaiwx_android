@@ -11,9 +11,6 @@ public interface IPayPresenter {
 
     /**
      * 订单详情
-     *
-     * @param userId
-     * @param packageId
      */
     void getOrderFormDetail(int userId, int packageId);
 

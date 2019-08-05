@@ -1,6 +1,7 @@
 package com.ucfo.youcai.presenter.view;
 
 import com.ucfo.youcai.base.BaseView;
+import com.ucfo.youcai.entity.pay.OrderFormDetailBean;
 
 /**
  * Author: AND
@@ -9,5 +10,8 @@ import com.ucfo.youcai.base.BaseView;
  * FileName: IPayView
  * Description:TODO 支付
  */
-public interface IPayView extends BaseView{
+public interface IPayView extends BaseView {
+
+    void getOrderFormDetail(OrderFormDetailBean data);
+
 }
