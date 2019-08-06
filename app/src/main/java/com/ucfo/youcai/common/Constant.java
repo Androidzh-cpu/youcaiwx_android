@@ -75,7 +75,6 @@ public class Constant {
     public static final String TYPE_COURSE_ASK = "type_courseask";//课程提问
     public static final String TYPE_QUESTION_ASK = "type_questionask";//题库提问
     public static final String TYPE_FEEDBACK = "type_feedback";//意见反馈
-    public static final String COURSE_PDFDOWNPATH = "/ycpdf/pdf";//课程PDF存放位置
     public static final String PACKAGE_ID = "package_id";//课程包ID
     public static final String SECTION_ID = "section_id";//章ID
     public static final String SECTION_NAME = "section_name";//章名称
@@ -121,7 +120,7 @@ public class Constant {
     public static final String BroadcastReceiver_TONEXT = "com.leyikao.jumptonext";//广播跳转下一页
     public static final String BroadcastReceiver_TOPAGE = "com.leyikao.jumptopage";//广播跳转指定页面
 
-    //<!-- int related to questionbank -->
+    //---------------------------------------------TODO int related to questionbank----------------------------------------//
     public static final String PAPER_TYPE = "paper_type";//TODO 题库类型,1单选2论述题
     public static final String EXERCISE_TYPE = "exercise_type";//TODO 做题模式
     public static final String EXERCISE_E = "exam";//TODO E:正常考试模式
@@ -130,7 +129,7 @@ public class Constant {
     public static final String EXERCISE_D = "discuss";//TODO D:论述题模式 (论述题模式的话就是diss_analysis)
     public static final String CONTINUE_PLATE = "continue_plate";//TODO 继续做题(创造101)
     public static final String PLATE_ID = "plate_id";//6大板块id  TODO 1知识点练习,2阶段测试,3论述题自测,4错题智能练习,5自主练习,6组卷模考
-    //这些板块 1-6是后台规定
+    //板块1-6为后台规定
     public static final int PLATE_1 = 1;//TODO 1: 知识点练习
     public static final int PLATE_2 = 2;//TODO 2: 阶段测试
     public static final int PLATE_3 = 3;//TODO 3: 论述题自测
@@ -165,5 +164,8 @@ public class Constant {
     public static final String DOWNLOADINFO_LIST = "downloadinfoList";//下载的列表
     public static final String LOCAL_STAIRLIST = "local_list";//本地视频一级存储列表
 
+    //---------------------------------------------TODO 支付-----------------------------------------------//
+    public static final String PAY_EDIT = "pay_edit";
+    public static final String PAY_COUPONPRICE = "pay_couponPrice";
 
 }

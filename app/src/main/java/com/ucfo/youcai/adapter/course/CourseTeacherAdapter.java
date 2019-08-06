@@ -36,15 +36,16 @@ public class CourseTeacherAdapter extends BaseAdapter<CourseIntroductionBean.Dat
         this.context = context;
     }
 
+    @Override
     public int getItemCount() {
-        return list == null ? 0 : list.size();
+        return list.size();
     }
 
     @Override
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         CourseIntroductionBean.DataBean.TeacehrListBean bean = list.get(position);
-        String longevity = bean.getLongevity();
-        String teacher_name = bean.getTeacher_name();//教室名称
+        String longevity = bean.getIntroduce();
+        String teacher_name = bean.getTeacher_name();
         String pictrue = bean.getPictrue();//头像
         if (!TextUtils.isEmpty(longevity)) {
             holder.mTeacherdetailTv.setText(longevity);

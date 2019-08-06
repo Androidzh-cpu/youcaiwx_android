@@ -42,7 +42,6 @@ public class PayPresenter implements IPayPresenter {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
                         super.onStart(request);
-                        view.showLoading();
                     }
 
                     @Override

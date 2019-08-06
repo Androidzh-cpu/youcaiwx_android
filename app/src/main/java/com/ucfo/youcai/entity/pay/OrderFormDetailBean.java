@@ -8,10 +8,12 @@ package com.ucfo.youcai.entity.pay;
  * Description:TODO 订单详情
  */
 public class OrderFormDetailBean {
+
+
     /**
      * code : 200
      * msg : 操作成功
-     * data : {"coupon_num":1,"packages":{"package_id":1,"app_img":"http://youcai2020.oss-cn-beijing.aliyuncs.com/style/images/20190613/f2b3378f17e99a3ee4e7a1334c1a5aa1.jpeg","name":"中文p1高清网课","view_class":1,"study_date":"2019-08-01 16:00:00","study_days":180,"teacher_id":"4,5","price":"23800.00","teacher_name":"吴宁,姚立","validity":-3}}
+     * data : {"address":{"address_id":52,"consignee":"林耀东","telephone":"17610116887","address":"广东省东山市塔寨村"},"coupon_num":1,"packages":{"package_id":3,"app_img":"http://youcai2020.oss-cn-beijing.aliyuncs.com/style/images/20190614/f18f1144499a05782700b96a4da90180.jpeg","name":"中文高清网课套餐包","view_class":1,"study_date":null,"study_days":730,"teacher_id":"5,6","price":"28000.00","teacher_name":"姚立,王谦","validity":-18114}}
      */
 
     private int code;
@@ -43,13 +45,18 @@ public class OrderFormDetailBean {
     }
 
     public static class DataBean {
-        /**
-         * coupon_num : 1
-         * packages : {"package_id":1,"app_img":"http://youcai2020.oss-cn-beijing.aliyuncs.com/style/images/20190613/f2b3378f17e99a3ee4e7a1334c1a5aa1.jpeg","name":"中文p1高清网课","view_class":1,"study_date":"2019-08-01 16:00:00","study_days":180,"teacher_id":"4,5","price":"23800.00","teacher_name":"吴宁,姚立","validity":-3}
-         */
 
+        private AddressBean address;
         private int coupon_num;
         private PackagesBean packages;
+
+        public AddressBean getAddress() {
+            return address;
+        }
+
+        public void setAddress(AddressBean address) {
+            this.address = address;
+        }
 
         public int getCoupon_num() {
             return coupon_num;
@@ -67,25 +74,71 @@ public class OrderFormDetailBean {
             this.packages = packages;
         }
 
+        public static class AddressBean {
+            /**
+             * address_id : 52
+             * consignee : 林耀东
+             * telephone : 17610116887
+             * address : 广东省东山市塔寨村
+             */
+
+            private int address_id;
+            private String consignee;
+            private String telephone;
+            private String address;
+
+            public int getAddress_id() {
+                return address_id;
+            }
+
+            public void setAddress_id(int address_id) {
+                this.address_id = address_id;
+            }
+
+            public String getConsignee() {
+                return consignee == null ? "" : consignee;
+            }
+
+            public void setConsignee(String consignee) {
+                this.consignee = consignee;
+            }
+
+            public String getTelephone() {
+                return telephone == null ? "" : telephone;
+            }
+
+            public void setTelephone(String telephone) {
+                this.telephone = telephone;
+            }
+
+            public String getAddress() {
+                return address == null ? "" : address;
+            }
+
+            public void setAddress(String address) {
+                this.address = address;
+            }
+        }
+
         public static class PackagesBean {
             /**
-             * package_id : 1
-             * app_img : http://youcai2020.oss-cn-beijing.aliyuncs.com/style/images/20190613/f2b3378f17e99a3ee4e7a1334c1a5aa1.jpeg
-             * name : 中文p1高清网课
+             * package_id : 3
+             * app_img : http://youcai2020.oss-cn-beijing.aliyuncs.com/style/images/20190614/f18f1144499a05782700b96a4da90180.jpeg
+             * name : 中文高清网课套餐包
              * view_class : 1
-             * study_date : 2019-08-01 16:00:00
-             * study_days : 180
-             * teacher_id : 4,5
-             * price : 23800.00
-             * teacher_name : 吴宁,姚立
-             * validity : -3
+             * study_date : null
+             * study_days : 730
+             * teacher_id : 5,6
+             * price : 28000.00
+             * teacher_name : 姚立,王谦
+             * validity : -18114
              */
 
             private int package_id;
             private String app_img;
             private String name;
             private int view_class;
-            private String study_date;
+            private Object study_date;
             private int study_days;
             private String teacher_id;
             private String price;
@@ -124,11 +177,11 @@ public class OrderFormDetailBean {
                 this.view_class = view_class;
             }
 
-            public String getStudy_date() {
-                return study_date == null ? "" : study_date;
+            public Object getStudy_date() {
+                return study_date;
             }
 
-            public void setStudy_date(String study_date) {
+            public void setStudy_date(Object study_date) {
                 this.study_date = study_date;
             }
 
@@ -174,3 +227,5 @@ public class OrderFormDetailBean {
         }
     }
 }
+
+

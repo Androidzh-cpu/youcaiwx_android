@@ -1,5 +1,6 @@
 package com.ucfo.youcai.view.user.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -17,6 +18,7 @@ import com.ucfo.youcai.common.Constant;
 import com.ucfo.youcai.entity.user.MineCouponsBean;
 import com.ucfo.youcai.presenter.presenterImpl.user.MineCouponsPresenter;
 import com.ucfo.youcai.presenter.view.user.IMineCourponsView;
+import com.ucfo.youcai.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcai.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcai.utils.systemutils.DensityUtil;
@@ -60,6 +62,9 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
     private int user_id;
     private ArrayList<MineCouponsBean.DataBean> list;
     private MineCouponsAdapter mineCouponsAdapter;
+    private boolean payEdit;
+    private int coursePackageId;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,11 +120,22 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
         user_id = SharedPreferencesUtils.getInstance(context).getInt(Constant.USER_ID, 0);
         list = new ArrayList<>();
 
-        mineCouponsPresenter.getMineCouponsData(user_id, 1);
+        bundle = getIntent().getExtras();
+        if (bundle != null) {
+            payEdit = bundle.getBoolean(Constant.PAY_EDIT, false);
+            coursePackageId = bundle.getInt(Constant.COURSE_PACKAGE_ID, 0);
+            mineCouponsPresenter.getAivilableCoupon(user_id, coursePackageId);
+        } else {
+            mineCouponsPresenter.getMineCouponsData(user_id, 1);
+        }
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mineCouponsPresenter.getMineCouponsData(user_id, 1);
+                if (bundle != null) {
+                    mineCouponsPresenter.getAivilableCoupon(user_id, coursePackageId);
+                } else {
+                    mineCouponsPresenter.getMineCouponsData(user_id, 1);
+                }
             }
         });
     }
@@ -148,6 +164,19 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
             mineCouponsAdapter.notifyDataSetChanged();
         }
         recyclerview.setAdapter(mineCouponsAdapter);
+        mineCouponsAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if (payEdit) {
+                    MineCouponsBean.DataBean bean = list.get(position);
+                    Intent intent = new Intent();
+                    intent.putExtra(Constant.TYPE, bean.getIs_type());
+                    intent.putExtra(Constant.PAY_COUPONPRICE, bean.getCoupon_price());
+                    setResult(10001, intent);
+                    finish();
+                }
+            }
+        });
 
         couponCount.setText(String.valueOf(list.size()));
     }

@@ -405,6 +405,7 @@
     <string name="pay_originalCost">原价</string>
     <string name="pay_CouponAvailable">可用优惠券</string>
     <string name="pay_agreement">支付协议</string>
+    <string name="pay_NoCouponsAvailable">暂无可用优惠券</string>
 
     <!-- Strings related to 发票 -->
     <string name="invoice">发票</string>

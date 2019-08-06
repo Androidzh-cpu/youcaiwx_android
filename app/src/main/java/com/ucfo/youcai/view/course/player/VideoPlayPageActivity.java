@@ -100,6 +100,7 @@ import com.ucfo.youcai.view.course.player.widget.QualityItem;
 import com.ucfo.youcai.view.course.player.widget.QualityListviewWindow;
 import com.ucfo.youcai.view.course.player.widget.SpeedListviewWindow;
 import com.ucfo.youcai.view.login.LoginActivity;
+import com.ucfo.youcai.view.pay.CommitOrderActivity;
 import com.ucfo.youcai.view.questionbank.activity.QuestionAskQuestionActivity;
 import com.ucfo.youcai.widget.customview.LoadingView;
 import com.ucfo.youcai.widget.customview.SwitchView;
@@ -2061,9 +2062,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 watch_time = time * 1000;
                 currentVideoCollectState = data.getData().getCollect();//当前播放视频收藏状态
                 if (currentVideoCollectState == 2) {//2 没有收藏
-                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this,R.mipmap.icon_playunstar));
+                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playunstar));
                 } else {
-                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this,R.mipmap.icon_playstar));
+                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playstar));
                 }
                 if (!TextUtils.isEmpty(data.getData().getHandouts())) {
                     switchPDF(data.getData().getHandouts(), currentVid);
@@ -2092,7 +2093,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         switch (data) {
             case 1://收藏接口
                 if (result == 1) {//TODO success
-                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this,R.mipmap.icon_playstar));
+                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playstar));
                     //设置文字前景色
                     SpannableString spannableString = new SpannableString(getResources().getString(R.string.course_collectionSuccess));
                     ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#0EC500"));
@@ -2103,19 +2104,19 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     currentVideoCollectState = 1;//已收藏
                     notifyVibrator();
                 } else if (result == 2) {//TODO failed
-                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this,R.mipmap.icon_playunstar));
+                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playunstar));
                     ToastUtil.showBottomLongText(VideoPlayPageActivity.this, getResources().getString(R.string.operation_Error));
                 }
                 break;
             case 2://取消收藏接口
                 if (result == 1) {
-                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this,R.mipmap.icon_playunstar));
+                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playunstar));
 
                     ToastUtil.showBottomLongText(VideoPlayPageActivity.this, getResources().getString(R.string.question_tips_collection0));
                     currentVideoCollectState = 2;//已取消收藏  question_tips_collection0
                     notifyVibrator();
                 } else if (result == 2) {
-                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this,R.mipmap.icon_playunstar));
+                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playunstar));
                     ToastUtil.showBottomLongText(VideoPlayPageActivity.this, getResources().getString(R.string.operation_Error));
                 }
                 break;
@@ -2318,6 +2319,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 makeCall();
                 break;
             case R.id.btn_pay://TODO 直接购买课程
+                Intent intent = new Intent(this, CommitOrderActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt(Constant.COURSE_PACKAGE_ID, getCourse_packageId());
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
+            default:
                 break;
         }
     }

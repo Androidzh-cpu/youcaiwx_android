@@ -127,7 +127,7 @@ public class ApiStores {
 
     public static final String PAY_AGREEMENT = "http://www.youcaiwx.com/html/app/buy.html";//支付协议
     //------------------------------------------TODO 支付---------------------------------------------------------------------------------//
-    public static final String PAY_GET_ORDERFORMDETAIL = BASE_URL + "Orders/learnClock";//订单详情
+    public static final String PAY_GET_ORDERFORMDETAIL = BASE_URL + "Orders/showOrder";//订单详情
     public static final String PAY_GET_AVAILABLECOUPON = BASE_URL + "Orders/availableCoupon";//可用优惠券
 
 }

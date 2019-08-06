@@ -50,7 +50,7 @@
                             android:layout_height="wrap_content"
                             android:src="@mipmap/icon_address" />
 
-                        <LinearLayout
+                        <android.support.constraint.ConstraintLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/dp_12"
@@ -66,30 +66,35 @@
                                 android:text="添加收货地址"
                                 android:textColor="@color/color_333333"
                                 android:textSize="@dimen/sp_13"
-                                android:visibility="gone" />
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center_vertical"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                app:layout_constraintBottom_toTopOf="@id/address_content"
+                                app:layout_constraintTop_toTopOf="parent">
 
                                 <TextView
                                     android:id="@+id/address_name"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="菜菜"
                                     android:textColor="@color/color_333333"
-                                    android:textSize="@dimen/sp_13" />
+                                    android:textSize="@dimen/sp_13"
+                                    tools:text="菜菜" />
 
                                 <TextView
                                     android:id="@+id/address_phone"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/dp_5"
-                                    android:text="13112345688"
                                     android:textColor="@color/color_999999"
-                                    android:textSize="@dimen/sp_12" />
+                                    android:textSize="@dimen/sp_12"
+                                    tools:text="13112345688" />
                             </LinearLayout>
 
                             <TextView
@@ -99,10 +104,11 @@
                                 android:layout_marginTop="@dimen/dp_4"
                                 android:ellipsize="end"
                                 android:maxLines="2"
-                                android:text="北京市昌平区富家路太平家园26号楼3单元101"
                                 android:textColor="@color/color_666666"
-                                android:textSize="@dimen/sp_12" />
-                        </LinearLayout>
+                                android:textSize="@dimen/sp_12"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                tools:text="北京市昌平区富家路太平家园26号楼3单元101" />
+                        </android.support.constraint.ConstraintLayout>
 
                         <ImageView
                             android:layout_width="@dimen/dp_16"
@@ -129,8 +135,7 @@
                             android:id="@+id/course_image"
                             android:layout_width="@dimen/dp_96"
                             android:layout_height="@dimen/dp_58"
-                            android:scaleType="fitCenter"
-                            android:src="@mipmap/icon_login_logo" />
+                            android:scaleType="centerCrop" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -143,10 +148,10 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
-                                android:text="CMA中文高清网课全科（新纲）"
                                 android:textColor="@color/color_333333"
                                 android:textSize="@dimen/sp_14"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                tools:text="CMA中文高清网课全科（新纲）" />
 
                             <TextView
                                 android:id="@+id/course_teacher"
@@ -156,18 +161,18 @@
                                 android:layout_weight="1"
                                 android:drawablePadding="@dimen/dp_5"
                                 android:drawableStart="@mipmap/icon_citeacher"
-                                android:text="杨晔、王谦"
                                 android:textColor="@color/color_999999"
-                                android:textSize="@dimen/sp_12" />
+                                android:textSize="@dimen/sp_12"
+                                tools:text="杨晔、王谦" />
 
                             <TextView
                                 android:id="@+id/course_endtime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
-                                android:text="购买后730天有效"
                                 android:textColor="@color/color_999999"
-                                android:textSize="@dimen/sp_11" />
+                                android:textSize="@dimen/sp_11"
+                                tools:text="购买后730天有效" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -199,9 +204,9 @@
                             android:id="@+id/coupon_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="3张"
                             android:textColor="@color/color_F99111"
-                            android:textSize="@dimen/sp_14" />
+                            android:textSize="@dimen/sp_14"
+                            tools:text="3张" />
 
                         <TextView
                             android:id="@+id/coupon_des"
@@ -283,9 +288,9 @@
                             android:id="@+id/text_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="¥18800"
                             android:textColor="@color/color_999999"
-                            android:textSize="@dimen/sp_14" />
+                            android:textSize="@dimen/sp_14"
+                            tools:text="¥18800" />
 
                     </LinearLayout>
                     <!--优惠-->
@@ -310,9 +315,9 @@
                             android:id="@+id/text_discountsprice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="-¥200"
                             android:textColor="@color/color_999999"
-                            android:textSize="@dimen/sp_14" />
+                            android:textSize="@dimen/sp_14"
+                            tools:text="-¥200" />
 
                     </LinearLayout>
                     <!--最终支付金额-->
@@ -338,9 +343,9 @@
                             android:id="@+id/text_finalprice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="¥18800"
                             android:textColor="@color/color_F99111"
-                            android:textSize="@dimen/sp_14" />
+                            android:textSize="@dimen/sp_14"
+                            tools:text="¥18800" />
 
                     </LinearLayout>
 

@@ -51,7 +51,7 @@ public class LoginPresenter implements ILoginPresenter {
                 .tag(this)
                 .params(Constant.MOBILE, iphone)//手机号
                 .params(Constant.PASSWORD, password)//密码
-                .params(Constant.DEVICES, andoridid)//shebei ID
+                .params(Constant.DEVICES, andoridid)
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {

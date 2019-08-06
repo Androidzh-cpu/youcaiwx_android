@@ -1,5 +1,6 @@
 package com.ucfo.youcai.view.user.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,6 +23,7 @@ import com.ucfo.youcai.entity.address.AddressListBean;
 import com.ucfo.youcai.entity.address.StateStatusBean;
 import com.ucfo.youcai.presenter.presenterImpl.user.UserAddressPresenter;
 import com.ucfo.youcai.presenter.view.user.IUserAddressView;
+import com.ucfo.youcai.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcai.utils.baseadapter.OnItemClickListener;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcai.utils.systemutils.StatusbarUI;
@@ -64,6 +66,7 @@ public class UserAddressActivity extends BaseActivity implements IUserAddressVie
     private ArrayList<AddressListBean.DataBean> list;
     private UserAddressPresenter userAddressPresenter;
     private UserAddressListAdapter listAdapter;
+    private boolean payCheckAddress;
 
 
     @Override
@@ -124,10 +127,14 @@ public class UserAddressActivity extends BaseActivity implements IUserAddressVie
     @Override
     protected void initData() {
         super.initData();
-
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         loginstatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            //支付页选取地址
+            payCheckAddress = bundle.getBoolean(Constant.PAY_EDIT, false);
+        }
 
         list = new ArrayList<>();
         userAddressPresenter = new UserAddressPresenter(this);
@@ -135,7 +142,7 @@ public class UserAddressActivity extends BaseActivity implements IUserAddressVie
         if (!loginstatus) {
             loadinglayout.showEmpty();
         }
-        //失败重试按钮
+
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,7 +192,6 @@ public class UserAddressActivity extends BaseActivity implements IUserAddressVie
         refreshlayout.finishLoadMore();
     }
 
-    //地址适配器
     private void initAdapter() {
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
@@ -193,6 +199,7 @@ public class UserAddressActivity extends BaseActivity implements IUserAddressVie
             listAdapter = new UserAddressListAdapter(list, context);
         }
         recyclerview.setAdapter(listAdapter);
+        //跳转编辑页
         listAdapter.setItemClick(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -200,6 +207,22 @@ public class UserAddressActivity extends BaseActivity implements IUserAddressVie
                 bundle.putInt(Constant.TYPE, 0);
                 bundle.putInt(Constant.ADDRESS_ID, list.get(position).getAddress_id());
                 startActivity(EditAddressActivity.class, bundle);
+            }
+        });
+
+        listAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                AddressListBean.DataBean bean = list.get(position);
+                if (payCheckAddress) {
+                    Intent intent = new Intent();
+                    intent.putExtra(Constant.ADDRESS_NAME, bean.getConsignee());
+                    intent.putExtra(Constant.ADDRESS_ID, bean.getAddress_id());
+                    intent.putExtra(Constant.ADDRESS, bean.getAddress());
+                    intent.putExtra(Constant.TELEPHONE, bean.getTelephone());
+                    setResult(10000, intent);
+                    finish();
+                }
             }
         });
     }

@@ -389,7 +389,7 @@ public class CourseIntroductionFragment extends BaseFragment {
 
         String teacher_title = teacehrListBean.getTeacher_title();
         String pictrue = teacehrListBean.getPictrue();
-        String longevity = teacehrListBean.getIntroduce();
+        String longevity = teacehrListBean.getLongevity();
         String teacher_name = teacehrListBean.getTeacher_name();
 
         Glide.with(videoPlayPageActivity).load(pictrue).error(R.mipmap.icon_headdefault).into(mIconTeacher);
