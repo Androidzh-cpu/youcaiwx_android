@@ -37,14 +37,14 @@
                 android:textSize="@dimen/sp_16"
                 app:layout_srlBackgroundColor="#555"
                 app:layout_srlSpinnerStyle="FixedBehind" />
-<!--
+            <!--
 
-            <android.support.v4.widget.ContentLoadingProgressBar
-                android:id="@+id/pb_progress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_3" />
--->
+                        <android.support.v4.widget.ContentLoadingProgressBar
+                            android:id="@+id/pb_progress"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_3" />
+            -->
 
             <com.ucfo.youcai.widget.customview.TencentWebview
                 android:id="@+id/webview"
@@ -52,8 +52,6 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/white"
                 android:clipToPadding="false" />
-
-
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     </com.ucfo.youcai.widget.customview.LoadingLayout>

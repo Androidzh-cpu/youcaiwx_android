@@ -152,10 +152,6 @@
         <activity
             android:name=".view.course.CourseAnswerDetailActivity"
             android:theme="@style/BaseThemeForActivity" />
-        <!-- TODO 提问问题页面 -->
-        <activity
-            android:name=".view.course.CourseAskQuestionActivity"
-            android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 题库答题记录 -->
         <activity
             android:name=".view.questionbank.activity.QuestionsOnRecordActivity"

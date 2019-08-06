@@ -9,8 +9,7 @@ import android.view.View;
  * Email:2911743255@qq.com
  * ClassName: AsteriskPasswordTransformationMethod
  * Package: com.ucfo.youcai.utils
- * Description:TODO  输入密码变为***
- * Detail:
+ * Description:输入密码变为***
  */
 public class AsteriskPasswordTransformationMethod extends PasswordTransformationMethod {
     @Override

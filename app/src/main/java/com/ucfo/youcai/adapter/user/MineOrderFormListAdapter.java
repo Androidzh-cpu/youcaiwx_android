@@ -31,13 +31,13 @@ import java.util.ArrayList;
 public class MineOrderFormListAdapter extends BaseAdapter<MineOrderListBean.DataBean, MineOrderFormListAdapter.ViewHolder> {
     private MineOrderFormActivity context;
     private ArrayList<MineOrderListBean.DataBean> list;
-    private final String string;
+    private final String RMB;
     private IOrderCallback callback;
 
     public MineOrderFormListAdapter(MineOrderFormActivity context, ArrayList<MineOrderListBean.DataBean> list) {
         this.context = context;
         this.list = list;
-        string = context.getResources().getString(R.string.RMB);
+        RMB = context.getResources().getString(R.string.RMB);
     }
 
     public void setOthersClick(IOrderCallback iOrderCallback) {
@@ -57,14 +57,14 @@ public class MineOrderFormListAdapter extends BaseAdapter<MineOrderListBean.Data
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         MineOrderListBean.DataBean bean = list.get(position);
 
-        String app_img = bean.getApp_img();//封面
-        String order_num = bean.getOrder_num();//订单号
-        int pay_status = bean.getPay_status();//支付状态1表示已经付款2未付款3订单取消
-        String pay_price = bean.getPay_price();//实付价格
-        String package_name = bean.getPackage_name();//课程名
+        String appImg = bean.getApp_img();//封面
+        String orderNum = bean.getOrder_num();//订单号
+        int payStatus = bean.getPay_status();//支付状态1表示已经付款2未付款3订单取消
+        String payPrice = bean.getPrice();//实付价格
+        String packageName = bean.getPackage_name();//课程名
         //TODO 封面图
         Glide.with(context)
-                .load(app_img)
+                .load(appImg)
                 .asBitmap()
                 .placeholder(R.mipmap.banner_default)
                 .error(R.mipmap.banner_default)
@@ -75,35 +75,35 @@ public class MineOrderFormListAdapter extends BaseAdapter<MineOrderListBean.Data
                 .into(holder.mImageOrder);
 
 
-        if (!TextUtils.isEmpty(order_num)) {//TODO 订单编号
-            holder.mNumberOrder.setText(order_num);
+        if (!TextUtils.isEmpty(orderNum)) {//TODO 订单编号
+            holder.mNumberOrder.setText(orderNum);
         } else {
             holder.mNumberOrder.setText("");
         }
-        if (!TextUtils.isEmpty(package_name)) {//TODO 课程名
-            holder.mTitleOrder.setText(package_name);
+        if (!TextUtils.isEmpty(packageName)) {//TODO 课程名
+            holder.mTitleOrder.setText(packageName);
         } else {
             holder.mTitleOrder.setText("");
         }
         //TODO 课程价格
-        holder.mPriceOrder.setText(String.valueOf(string + pay_price));
+        holder.mPriceOrder.setText(String.valueOf(RMB + payPrice));
         //TODO 订单状态
-        switch (pay_status) {
+        switch (payStatus) {
             case 1://已付款
                 holder.mStatusOrder.setText(context.getString(R.string.successfulDeal));
-                holder.mStatusOrder.setTextColor(ContextCompat.getColor(context,R.color.color_333333));
+                holder.mStatusOrder.setTextColor(ContextCompat.getColor(context, R.color.color_333333));
                 break;
             case 2://未付款
                 holder.mStatusOrder.setText(context.getString(R.string.ForthePayment));
-                holder.mStatusOrder.setTextColor(ContextCompat.getColor(context,R.color.color_F99111));
+                holder.mStatusOrder.setTextColor(ContextCompat.getColor(context, R.color.color_F99111));
                 break;
             case 3://订单已取消
             default:
                 holder.mStatusOrder.setText(context.getString(R.string.HasBeenCancelled));
-                holder.mStatusOrder.setTextColor(ContextCompat.getColor(context,R.color.color_333333));
+                holder.mStatusOrder.setTextColor(ContextCompat.getColor(context, R.color.color_333333));
                 break;
         }
-        if (pay_status == 2) {
+        if (payStatus == 2) {
             holder.mPayOrder.setVisibility(holder.mPayOrder.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
             holder.mCancelOrder.setVisibility(holder.mCancelOrder.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
         } else {
@@ -136,8 +136,7 @@ public class MineOrderFormListAdapter extends BaseAdapter<MineOrderListBean.Data
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View inflate = layoutInflater.inflate(R.layout.item_mine_orderformlist, viewGroup, false);
-        ViewHolder viewHolder = new ViewHolder(inflate);
-        return viewHolder;
+        return new ViewHolder(inflate);
     }
 
     @Override

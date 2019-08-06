@@ -19,7 +19,6 @@ import java.util.Date;
  * ClassName: LogUtils
  * Package: com.ucfo.youcai.utils
  * Description:TODO log工具
- * Detail:
  */
 public class LogUtils {
     private static boolean sIsDebug = Constant.ISTEST_ENVIRONMENT ? true : false;

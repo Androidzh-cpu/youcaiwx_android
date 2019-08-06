@@ -151,6 +151,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         } else {
             webView.loadUrl(weburl);
         }
+        LogUtils.e("weburl---" + weburl);
 
         //TODO 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
         webView.setWebViewClient(new MyWebviewClient());

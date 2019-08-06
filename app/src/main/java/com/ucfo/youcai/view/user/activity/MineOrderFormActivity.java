@@ -99,7 +99,6 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
             supportActionBar.setDisplayHomeAsUpEnabled(true);
             supportActionBar.setDisplayShowTitleEnabled(false);
         }
-        titlebarRighttitle.setVisibility(View.GONE);
         titlebarMidtitle.setText(getResources().getString(R.string.mine_order));
         titlebarToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +117,6 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        layoutManager.setReverseLayout(false);
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setNestedScrollingEnabled(false);
 

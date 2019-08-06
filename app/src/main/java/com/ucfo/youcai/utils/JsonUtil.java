@@ -6,8 +6,7 @@ package com.ucfo.youcai.utils;
  * Email:2911743255@qq.com
  * ClassName: JsonUtil
  * Package: com.ucfo.youcai.utils
- * Description:TODO 主要用于okhttp答疑日志使用
- * Detail:TODO
+ * Description:主要用于okhttp答疑日志使用
  */
 public class JsonUtil {
 

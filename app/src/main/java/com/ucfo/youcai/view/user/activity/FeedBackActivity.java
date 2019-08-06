@@ -257,7 +257,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
     private void checkPhoto() {
         if (imageList.size() < 3) {
             Matisse.from(this)
-                    .choose(MimeType.ofImage(), false)
+                    .choose(MimeType.of(MimeType.JPEG, MimeType.PNG), false)
                     .countable(true)
                     .maxSelectable(MAX_IMAGECOUNT)
                     .capture(true) //这两行要连用 是否在选择图片中展示照相 和适配安卓7.0 FileProvide
@@ -269,7 +269,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
                     .imageEngine(new GlideEngine())
                     .autoHideToolbarOnSingleTap(true)
                     .maxOriginalSize(10)
-                    .addFilter(new MiniSizeFilter(320, 320, (int) (3 * Filter.K * Filter.K))) // 控制宽高为320*320 以上，大小为 3M 以下
+                    .addFilter(new MiniSizeFilter(320, 320, (int) (3 * Filter.K * Filter.K)))
                     .forResult(REQUEST_CODE_CHOOSE);//请求码
         } else {
             ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_title_maxChoice3));

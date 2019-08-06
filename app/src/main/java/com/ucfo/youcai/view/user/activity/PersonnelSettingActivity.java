@@ -240,7 +240,7 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
                     @Override
                     public void onClick(View v) {
                         Matisse.from(context)
-                                .choose(MimeType.ofImage())
+                                .choose(MimeType.of(MimeType.JPEG, MimeType.PNG), false)
                                 .countable(true)
                                 .maxSelectable(1)
                                 .gridExpectedSize(DensityUtil.dip2px(context, 120))

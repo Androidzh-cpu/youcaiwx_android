@@ -9,7 +9,7 @@ import android.graphics.Bitmap;
  * ClassName: FastBlurUtil
  * Package: com.ucfo.youcai.utils
  * Description:毛玻璃特效
- * Detail:TODO 采用的是StackBlur模糊算法，这种算法应用非常广泛，能得到非常良好的毛玻璃效果
+ * Detail:采用的是StackBlur模糊算法，这种算法应用非常广泛，能得到非常良好的毛玻璃效果
  */
 public class FastBlurUtil {
     /**

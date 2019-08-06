@@ -41,7 +41,8 @@ public class MiniSizeFilter extends Filter {
     protected Set<MimeType> constraintTypes() {
         return EnumSet.of(MimeType.JPEG, MimeType.PNG);
         /*return new HashSet<MimeType>() {{
-            add(MimeType.GIF);
+            add(MimeType.JPEG);
+            add(MimeType.PNG);
         }};*/
     }
 

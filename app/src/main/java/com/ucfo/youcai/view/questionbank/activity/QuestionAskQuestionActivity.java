@@ -314,7 +314,7 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
     private void checkPhoto() {
         if (imageList.size() < 3) {
             Matisse.from(this)
-                    .choose(MimeType.ofImage(), false)
+                    .choose(MimeType.of(MimeType.JPEG, MimeType.PNG), false)
                     .countable(true)
                     .maxSelectable(MAX_IMAGECOUNT)
                     .capture(true) //这两行要连用 是否在选择图片中展示照相 和适配安卓7.0 FileProvide

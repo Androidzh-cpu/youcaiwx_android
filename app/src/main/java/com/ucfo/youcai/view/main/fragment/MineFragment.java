@@ -23,12 +23,10 @@ import com.ucfo.youcai.entity.address.StateStatusBean;
 import com.ucfo.youcai.entity.user.UserInfoBean;
 import com.ucfo.youcai.presenter.presenterImpl.user.UserInfoPresenter;
 import com.ucfo.youcai.presenter.view.user.IUserInfoView;
-import com.ucfo.youcai.utils.LogUtils;
 import com.ucfo.youcai.utils.ShareUtils;
 import com.ucfo.youcai.utils.glideutils.GlideRoundTransform;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcai.utils.systemutils.StatusBarUtil;
-import com.ucfo.youcai.view.course.player.download.SHA1Utils;
 import com.ucfo.youcai.view.login.LoginActivity;
 import com.ucfo.youcai.view.main.activity.MainActivity;
 import com.ucfo.youcai.view.main.activity.WebActivity;
@@ -212,8 +210,8 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                     startActivity(WatchTheRecordActivity.class, null);
                     break;
                 case R.id.btn_wxRemind://TODO 学习提醒
-                    String certificateSHA1Fingerprint = SHA1Utils.getCertificateSHA1Fingerprint(getActivity());
-                    LogUtils.e("设备唯一标识----------------:" + certificateSHA1Fingerprint);
+                    /*String certificateSHA1Fingerprint = SHA1Utils.getCertificateSHA1Fingerprint(getActivity());
+                    LogUtils.e("设备唯一标识----------------:" + certificateSHA1Fingerprint);*/
                     break;
                 case R.id.btn_recommendfriend://TODO 推荐给好友
                     new ShareDialog(getActivity())
