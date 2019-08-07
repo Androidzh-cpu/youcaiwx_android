@@ -1,5 +1,7 @@
 package com.ucfo.youcai.presenter.presenterImpl.pay;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
@@ -9,6 +11,7 @@ import com.lzy.okgo.request.base.Request;
 import com.ucfo.youcai.common.ApiStores;
 import com.ucfo.youcai.common.Constant;
 import com.ucfo.youcai.entity.pay.CommitOrderFormBean;
+import com.ucfo.youcai.entity.pay.InvoiceInfoBean;
 import com.ucfo.youcai.entity.pay.OrderFormDetailBean;
 import com.ucfo.youcai.presenter.view.IPayView;
 
@@ -85,13 +88,51 @@ public class PayPresenter implements IPayPresenter {
      * 添加订单
      */
     @Override
-    public void commitOrderForm(int userId, int packageId, int isLive, int addressId, int user_coupon_id) {
+    public void commitOrderForm(int userId, int packageId, int isLive, int addressId, int user_coupon_id, InvoiceInfoBean invoiceInfoBean) {
+        int haveCoupon, invoiceType = 0, userOrcompany = 0;
+        String companyName = "", taxpayerNumber = "", companAddress = "", companTel = "", companOpenBank = "", companBankNum = "";
+        if (invoiceInfoBean == null) {
+            //不添加发票
+            haveCoupon = 2;
+        } else {
+            //添加发票
+            haveCoupon = 1;
+            //普通发票和增值税发票
+            invoiceType = invoiceInfoBean.getInvoiceType();
+            userOrcompany = invoiceInfoBean.getInvoiceForm();
+            if (!TextUtils.isEmpty(invoiceInfoBean.getPersonName())) {
+                companyName = invoiceInfoBean.getPersonName();
+            } else if (!TextUtils.isEmpty(invoiceInfoBean.getCompanyName())) {
+                companyName = invoiceInfoBean.getCompanyName();
+            } else if (!TextUtils.isEmpty(invoiceInfoBean.getSpecialName())) {
+                companyName = invoiceInfoBean.getSpecialName();
+            }
+            if (!TextUtils.isEmpty(invoiceInfoBean.getCompanyNnumber())) {
+                taxpayerNumber = invoiceInfoBean.getCompanyNnumber();
+            } else if (!TextUtils.isEmpty(invoiceInfoBean.getSpecialBankNum())) {
+                taxpayerNumber = invoiceInfoBean.getSpecialBankNum();
+            }
+            companAddress = invoiceInfoBean.getSpecialAddress();
+            companTel = invoiceInfoBean.getSpecialPhone();
+            companOpenBank = invoiceInfoBean.getSpecialBank();
+            companBankNum = invoiceInfoBean.getSpecialBankNum();
+        }
+
         OkGo.<String>post(ApiStores.PAY_ADDORDERFORM)
                 .params(Constant.USER_ID, userId)
                 .params(Constant.PACKAGE_ID, packageId)
                 .params(Constant.IS_LIVE, isLive)
                 .params(Constant.ADDRESS_ID, addressId)
                 .params("user_coupon_id", user_coupon_id)
+                .params("haveCoupon", haveCoupon)
+                .params("couponType", invoiceType)
+                .params("userOrcompany", userOrcompany)
+                .params("companyName", companyName)
+                .params("taxpayerNumber", taxpayerNumber)
+                .params("companAddress", companAddress)
+                .params("companTel", companTel)
+                .params("companOpenBank", companOpenBank)
+                .params("companBankNum", companBankNum)
                 .cacheMode(CacheMode.NO_CACHE)
                 .execute(new StringCallback() {
                     @Override

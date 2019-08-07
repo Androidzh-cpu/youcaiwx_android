@@ -1,5 +1,6 @@
 package com.ucfo.youcai.view.pay;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -24,6 +25,7 @@ import com.ucfo.youcai.base.BaseActivity;
 import com.ucfo.youcai.common.ApiStores;
 import com.ucfo.youcai.common.Constant;
 import com.ucfo.youcai.entity.pay.CommitOrderFormBean;
+import com.ucfo.youcai.entity.pay.InvoiceInfoBean;
 import com.ucfo.youcai.entity.pay.OrderFormDetailBean;
 import com.ucfo.youcai.presenter.presenterImpl.pay.PayPresenter;
 import com.ucfo.youcai.presenter.view.IPayView;
@@ -107,6 +109,7 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
     private Bundle bundle;
     private PayPresenter payPresenter;
     private float discountsprice = 0, finalPayPrice = 0, originalPayPace = 0;
+    private InvoiceInfoBean invoiceInfoBean;
 
 
     @Override
@@ -201,6 +204,28 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 InvoiceActiveDialog invoiceActiveDialog = new InvoiceActiveDialog();
                 invoiceActiveDialog.show(fragmentTransaction, "invoice");
+                invoiceActiveDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        invoiceInfoBean = invoiceActiveDialog.getInvoiceInfoBean();
+                        if (invoiceInfoBean != null) {
+                            String companyName = invoiceInfoBean.getCompanyName();
+                            String personName = invoiceInfoBean.getPersonName();
+                            String specialName = invoiceInfoBean.getSpecialName();
+                            if (!TextUtils.isEmpty(personName)) {
+                                invoiceContent.setText(personName);
+                            }
+                            if (!TextUtils.isEmpty(companyName)) {
+                                invoiceContent.setText(companyName);
+                            }
+                            if (!TextUtils.isEmpty(specialName)) {
+                                invoiceContent.setText(specialName);
+                            }
+                        } else {
+                            invoiceContent.setText(getResources().getString(R.string.noInvoice));
+                        }
+                    }
+                });
                 break;
             case R.id.btn_paynotice:
                 //TODO 支付须知
@@ -214,7 +239,7 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
                     if (finalAddressId == 0) {
                         ToastUtil.showBottomShortText(this, "请添加地址");
                     } else {
-                        payPresenter.commitOrderForm(userId, courserPackageId, orderNumType, finalAddressId, finalCouponId);
+                        payPresenter.commitOrderForm(userId, courserPackageId, orderNumType, finalAddressId, finalCouponId,invoiceInfoBean);
                     }
                 } else {
                     ToastUtil.showBottomShortText(this, "请同意支付协议");

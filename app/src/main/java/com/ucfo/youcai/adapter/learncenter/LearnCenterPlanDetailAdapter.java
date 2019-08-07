@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -133,6 +134,12 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
                 .override(DensityUtil.dp2px(22), DensityUtil.dp2px(22))
                 .transform(new GlideCircleTransform(context, 2, ContextCompat.getColor(context, R.color.color_FAA827)))
                 .diskCacheStrategy(DiskCacheStrategy.ALL).into(simpleTarget);
+        holder.mSeekbar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
         holder.mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

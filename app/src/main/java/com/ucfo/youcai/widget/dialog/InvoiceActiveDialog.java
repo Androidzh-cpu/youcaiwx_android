@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.ucfo.youcai.R;
+import com.ucfo.youcai.entity.pay.InvoiceInfoBean;
+import com.ucfo.youcai.utils.RegexUtil;
+import com.ucfo.youcai.utils.toastutils.ToastUtil;
 
 import java.util.Objects;
 
@@ -32,7 +36,7 @@ import java.util.Objects;
  * Time: 2019-8-2.  下午 2:32
  * Package: com.ucfo.youcai.widget.dialog
  * FileName: InvoiceActiveDialog
- * Description:TODO
+ * Description:TODO 添加发票
  */
 public class InvoiceActiveDialog extends DialogFragment implements View.OnClickListener {
 
@@ -88,7 +92,6 @@ public class InvoiceActiveDialog extends DialogFragment implements View.OnClickL
         params.gravity = Gravity.CENTER | Gravity.BOTTOM;
         window.setAttributes(params);
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        window.setWindowAnimations(R.style.MaterialDialogTopToBottomAnimation);
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         /*if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -169,13 +172,33 @@ public class InvoiceActiveDialog extends DialogFragment implements View.OnClickL
         mNextBtn.setOnClickListener(this);
     }
 
+    private DialogInterface.OnDismissListener mOnClickListener;
+
+    public void setOnDismissListener(DialogInterface.OnDismissListener listener) {
+        this.mOnClickListener = listener;
+    }
+
+    private InvoiceInfoBean invoiceInfoBean;
+
+    public InvoiceInfoBean getInvoiceInfoBean() {
+        return invoiceInfoBean;
+    }
+
+    public void setInvoiceInfoBean(InvoiceInfoBean bean) {
+        this.invoiceInfoBean = bean;
+    }
+
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
+        if (mOnClickListener != null) {
+            mOnClickListener.onDismiss(dialog);
+        }
         final Activity activity = getActivity();
         if (activity instanceof DialogInterface.OnDismissListener) {
             ((DialogInterface.OnDismissListener) activity).onDismiss(dialog);
         }
+
     }
 
     @Override
@@ -196,10 +219,112 @@ public class InvoiceActiveDialog extends DialogFragment implements View.OnClickL
                 break;
             case R.id.btn_next:
                 // TODO 19/08/02  确定
-                dismiss();
+                String personName = mPersonNameEdit.getText().toString().trim();
+                String companyName = mCompanyNameEdit.getText().toString().trim();
+                String companyNumber = mCompanyIdentificationnumberEdit.getText().toString().trim();
+                String specialName = mSpecialNameEdit.getText().toString().trim();
+                String specialNumber = mSpecialNumberEdit.getText().toString().trim();
+                String specialAddress = mSpecialAddressEdit.getText().toString().trim();
+                String specialPhone = mSpecialPhoneEdit.getText().toString().trim();
+                String sepcialBank = mSpecialBankEdit.getText().toString().trim();
+                String specialBankAccount = mSpecialBankAccountEdit.getText().toString().trim();
+
+                InvoiceInfoBean invoiceInfoBean = new InvoiceInfoBean();
+                if (mCommonRadiobtn.isChecked()) {
+                    //TODO 普通发票
+                    if (mPersonRadiobtn.isChecked()) {
+                        //TODO 个人发票
+                        if (TextUtils.isEmpty(personName)) {
+                            toastInfo(getResources().getString(R.string.invoice_editTips1));
+                            return;
+                        }
+                        invoiceInfoBean.setPersonName(personName);
+                        invoiceInfoBean.setInvoiceType(1);
+                        invoiceInfoBean.setInvoiceForm(1);
+                        setInvoiceInfoBean(invoiceInfoBean);
+                        dismiss();
+                    } else {
+                        //TODO 企业发票
+                        if (TextUtils.isEmpty(companyName)) {
+                            toastInfo(getResources().getString(R.string.invoice_editTips2));
+                            return;
+                        }
+                        if (TextUtils.isEmpty(companyNumber)) {
+                            toastInfo(getResources().getString(R.string.invoice_editTips3));
+                            return;
+                        }
+                        boolean numFlag = RegexUtil.checkDigit(companyNumber) && companyNumber.length() == 18;
+                        boolean engelishNum = RegexUtil.isContainAll(companyNumber) && companyNumber.length() == 18;
+                        if (!(numFlag || engelishNum)) {
+                            toastInfo(getResources().getString(R.string.invoice_editTips8));
+                            return;
+                        }
+                        invoiceInfoBean.setCompanyName(companyName);
+                        invoiceInfoBean.setCompanyNnumber(companyNumber);
+                        invoiceInfoBean.setInvoiceType(1);
+                        invoiceInfoBean.setInvoiceForm(2);
+                        setInvoiceInfoBean(invoiceInfoBean);
+                        dismiss();
+                    }
+                } else {
+                    //TODO 增值税发票
+                    if (TextUtils.isEmpty(specialName)) {
+                        toastInfo(getResources().getString(R.string.invoice_editTips2));
+                        return;
+                    }
+                    if (TextUtils.isEmpty(specialNumber)) {
+                        toastInfo(getResources().getString(R.string.invoice_editTips3));
+                        return;
+                    }
+                    boolean numFlag = RegexUtil.checkDigit(specialNumber) && specialNumber.length() == 18;
+                    boolean engelishNum = RegexUtil.isContainAll(specialNumber) && specialNumber.length() == 18;
+                    if (!(numFlag || engelishNum)) {
+                        toastInfo(getResources().getString(R.string.invoice_editTips8));
+                        return;
+                    }
+                    if (TextUtils.isEmpty(specialAddress)) {
+                        toastInfo(getResources().getString(R.string.invoice_editTips4));
+                        return;
+                    }
+                    if (TextUtils.isEmpty(specialPhone)) {
+                        toastInfo(getResources().getString(R.string.invoice_editTips5));
+                        return;
+                    }
+                    if (!RegexUtil.checkMobile(specialPhone)) {
+                        toastInfo(getResources().getString(R.string.invoice_editTips9));
+                        return;
+                    }
+                    if (TextUtils.isEmpty(sepcialBank)) {
+                        toastInfo(getResources().getString(R.string.invoice_editTips6));
+                        return;
+                    }
+                    if (TextUtils.isEmpty(specialBankAccount)) {
+                        toastInfo(getResources().getString(R.string.invoice_editTips7));
+                        return;
+                    }
+                    if (!RegexUtil.checkBankCard(specialBankAccount)) {
+                        toastInfo(getResources().getString(R.string.invoice_editTips10));
+                        return;
+                    }
+
+                    invoiceInfoBean.setSpecialName(specialName);
+                    invoiceInfoBean.setSpecialNumber(specialNumber);
+                    invoiceInfoBean.setSpecialAddress(specialAddress);
+                    invoiceInfoBean.setSpecialPhone(specialPhone);
+                    invoiceInfoBean.setSpecialBank(sepcialBank);
+                    invoiceInfoBean.setSpecialBankNum(specialBankAccount);
+                    invoiceInfoBean.setInvoiceType(2);
+
+                    setInvoiceInfoBean(invoiceInfoBean);
+                    dismiss();
+                }
                 break;
             default:
                 break;
         }
+    }
+
+    public void toastInfo(String info) {
+        ToastUtil.showBottomShortText(getActivity(), info);
     }
 }

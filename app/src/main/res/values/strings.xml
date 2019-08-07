@@ -439,10 +439,13 @@
     <string name="invoice_editTips1">请输入个人姓名</string>
     <string name="invoice_editTips2">请输入单位名称</string>
     <string name="invoice_editTips3">请输入纳税人识别号</string>
+    <string name="invoice_editTips8">请输入合法纳税人识别号</string>
     <string name="invoice_editTips4">请输入注册地址</string>
     <string name="invoice_editTips5">请输入注册电话</string>
+    <string name="invoice_editTips9">请输入电话格式不正确</string>
     <string name="invoice_editTips6">请输入注册银行</string>
     <string name="invoice_editTips7">请输入银行账户</string>
+    <string name="invoice_editTips10">请输入正确的银行账户</string>
 
     <!--string related to common-->
     <string name="WeChatfriend">微信好友</string>

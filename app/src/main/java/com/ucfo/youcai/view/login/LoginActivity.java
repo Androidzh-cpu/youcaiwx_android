@@ -214,6 +214,8 @@ public class LoginActivity extends BaseActivity implements ILoginView {
             case R.id.sms_login://TODO 短信登录
                 startActivity(new Intent(context, SMSLoginActivity.class));
                 break;
+            default:
+                break;
         }
     }
 

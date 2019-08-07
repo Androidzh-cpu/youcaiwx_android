@@ -144,6 +144,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
     </style>
     <!--TODO 白色背景的系统alertdialog-->
     <style name="WhiteDialogStyle" parent="@android:style/Theme.DeviceDefault.Light.Dialog.NoActionBar.MinWidth">

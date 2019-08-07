@@ -1,5 +1,7 @@
 package com.ucfo.youcai.presenter.presenterImpl.pay;
 
+import com.ucfo.youcai.entity.pay.InvoiceInfoBean;
+
 /**
  * Author: AND
  * Time: 2019-8-5.  下午 3:26
@@ -17,6 +19,6 @@ public interface IPayPresenter {
     /**
      * 提交订单
      */
-    void commitOrderForm(int userId, int packageId, int isLive, int addressId, int user_coupon_id);
+    void commitOrderForm(int userId, int packageId, int isLive, int addressId, int user_coupon_id, InvoiceInfoBean invoiceInfoBean);
 
 }
