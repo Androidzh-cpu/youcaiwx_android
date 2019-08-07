@@ -8,7 +8,7 @@ import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.ucfo.youcai.common.ApiStores;
 import com.ucfo.youcai.common.Constant;
-import com.ucfo.youcai.entity.pay.AivilableCouponBean;
+import com.ucfo.youcai.entity.pay.CommitOrderFormBean;
 import com.ucfo.youcai.entity.pay.OrderFormDetailBean;
 import com.ucfo.youcai.presenter.view.IPayView;
 
@@ -82,13 +82,16 @@ public class PayPresenter implements IPayPresenter {
     }
 
     /**
-     * 可用优惠券
+     * 添加订单
      */
     @Override
-    public void getAivilableCoupon(int userId, int packageId) {
-        OkGo.<String>post(ApiStores.PAY_GET_AVAILABLECOUPON)
+    public void commitOrderForm(int userId, int packageId, int isLive, int addressId, int user_coupon_id) {
+        OkGo.<String>post(ApiStores.PAY_ADDORDERFORM)
                 .params(Constant.USER_ID, userId)
                 .params(Constant.PACKAGE_ID, packageId)
+                .params(Constant.IS_LIVE, isLive)
+                .params(Constant.ADDRESS_ID, addressId)
+                .params("user_coupon_id", user_coupon_id)
                 .cacheMode(CacheMode.NO_CACHE)
                 .execute(new StringCallback() {
                     @Override
@@ -100,7 +103,7 @@ public class PayPresenter implements IPayPresenter {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        view.showError();
+                        view.commitOrderForm(null);
                     }
 
                     @Override
@@ -119,20 +122,19 @@ public class PayPresenter implements IPayPresenter {
                                 int code = jsonObject.optInt(Constant.CODE);
                                 if (code == 200) {
                                     Gson gson = new Gson();
-                                    AivilableCouponBean bean = gson.fromJson(body, AivilableCouponBean.class);
-                                    view.getAivilableCoupon(bean);
+                                    CommitOrderFormBean formBean = gson.fromJson(body, CommitOrderFormBean.class);
+                                    view.commitOrderForm(formBean);
                                 } else {
-                                    view.getAivilableCoupon(null);
+                                    view.commitOrderForm(null);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            view.getAivilableCoupon(null);
+                            view.commitOrderForm(null);
                         }
                     }
                 });
-
     }
 
 }

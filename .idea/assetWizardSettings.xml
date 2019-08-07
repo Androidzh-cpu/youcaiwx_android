@@ -19,8 +19,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_toweixin2" />
-                            <entry key="sourceFile" value="D:\DownLoads\朋友圈.svg" />
+                            <entry key="outputName" value="ic_icon_wechatpay" />
+                            <entry key="sourceFile" value="D:\DownLoads\微信.svg" />
                           </map>
                         </option>
                       </PersistentState>

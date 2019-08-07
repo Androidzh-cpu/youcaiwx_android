@@ -76,6 +76,7 @@ public class Constant {
     public static final String TYPE_QUESTION_ASK = "type_questionask";//题库提问
     public static final String TYPE_FEEDBACK = "type_feedback";//意见反馈
     public static final String PACKAGE_ID = "package_id";//课程包ID
+    public static final String IS_LIVE = "is_live";//直播
     public static final String SECTION_ID = "section_id";//章ID
     public static final String SECTION_NAME = "section_name";//章名称
     public static final String COURSE_ID = "course_id";//课程ID
@@ -167,5 +168,6 @@ public class Constant {
     //---------------------------------------------TODO 支付-----------------------------------------------//
     public static final String PAY_EDIT = "pay_edit";
     public static final String PAY_COUPONPRICE = "pay_couponPrice";
+    public static final String PAY_COUPONID = "pay_couponId";
 
 }

@@ -15,8 +15,8 @@ public interface IPayPresenter {
     void getOrderFormDetail(int userId, int packageId);
 
     /**
-     * 可用优惠券
+     * 提交订单
      */
-    void getAivilableCoupon(int userId, int packageId);
+    void commitOrderForm(int userId, int packageId, int isLive, int addressId, int user_coupon_id);
 
 }

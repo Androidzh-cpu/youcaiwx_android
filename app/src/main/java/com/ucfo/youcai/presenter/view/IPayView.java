@@ -1,7 +1,7 @@
 package com.ucfo.youcai.presenter.view;
 
 import com.ucfo.youcai.base.BaseView;
-import com.ucfo.youcai.entity.pay.AivilableCouponBean;
+import com.ucfo.youcai.entity.pay.CommitOrderFormBean;
 import com.ucfo.youcai.entity.pay.OrderFormDetailBean;
 
 /**
@@ -15,6 +15,6 @@ public interface IPayView extends BaseView {
 
     void getOrderFormDetail(OrderFormDetailBean data);
 
-    void getAivilableCoupon(AivilableCouponBean data);
+    void commitOrderForm(CommitOrderFormBean bean);
 
 }

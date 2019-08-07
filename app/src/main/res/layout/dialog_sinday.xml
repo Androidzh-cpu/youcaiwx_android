@@ -165,7 +165,7 @@
                 android:layout_width="@dimen/dp_40"
                 android:layout_height="@dimen/dp_40"
                 android:layout_gravity="start"
-                android:src="@drawable/ic_toweixin" />
+                android:src="@drawable/ic_icon_wecheat" />
 
             <View
                 android:layout_width="@dimen/dp_70"
@@ -176,7 +176,7 @@
                 android:layout_width="@dimen/dp_40"
                 android:layout_height="@dimen/dp_40"
                 android:layout_gravity="end"
-                android:src="@drawable/ic_toweixin2" />
+                android:src="@drawable/ic_icon_wechatfriend" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -394,7 +394,7 @@
                 android:background="@mipmap/icon_btnbackprimary"
                 android:gravity="center"
                 android:stateListAnimator="@drawable/shape_selector_elevation"
-                android:text="@string/the_next"
+                android:text="@string/pay_commitOrder"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/sp_14" />
         </LinearLayout>

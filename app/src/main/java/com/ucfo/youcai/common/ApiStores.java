@@ -129,5 +129,6 @@ public class ApiStores {
     //------------------------------------------TODO 支付---------------------------------------------------------------------------------//
     public static final String PAY_GET_ORDERFORMDETAIL = BASE_URL + "Orders/showOrder";//订单详情
     public static final String PAY_GET_AVAILABLECOUPON = BASE_URL + "Orders/availableCoupon";//可用优惠券
+    public static final String PAY_ADDORDERFORM = BASE_URL + "Orders/addOrder";//添加订单
 
 }

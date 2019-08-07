@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,11 +23,10 @@ import com.ucfo.youcai.R;
 import com.ucfo.youcai.base.BaseActivity;
 import com.ucfo.youcai.common.ApiStores;
 import com.ucfo.youcai.common.Constant;
-import com.ucfo.youcai.entity.pay.AivilableCouponBean;
+import com.ucfo.youcai.entity.pay.CommitOrderFormBean;
 import com.ucfo.youcai.entity.pay.OrderFormDetailBean;
 import com.ucfo.youcai.presenter.presenterImpl.pay.PayPresenter;
 import com.ucfo.youcai.presenter.view.IPayView;
-import com.ucfo.youcai.utils.LogUtils;
 import com.ucfo.youcai.utils.glideutils.GlideRoundTransform;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcai.utils.toastutils.ToastUtil;
@@ -102,10 +102,11 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
     LoadingLayout loadinglayout;
     private CommitOrderActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
-    private int userId, courserPackageId;
+    //TODO orderNumType: 订单类型1直播订单、2课程订单
+    private int userId, courserPackageId, finalCouponId = 0, finalAddressId = 0, orderNumType = 2;
     private Bundle bundle;
     private PayPresenter payPresenter;
-    private int discountsprice = 0, finalPayPrice = 0, originalPayPace = 0, finalAddressId = 0;
+    private float discountsprice = 0, finalPayPrice = 0, originalPayPace = 0;
 
 
     @Override
@@ -162,6 +163,17 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
         payPresenter = new PayPresenter(this);
 
         payPresenter.getOrderFormDetail(userId, courserPackageId);
+        //支付协议
+        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    btnNext.setBackground(ContextCompat.getDrawable(context, R.mipmap.icon_btnbackprimary));
+                } else {
+                    btnNext.setBackground(ContextCompat.getDrawable(context, R.mipmap.icon_btnbackgray));
+                }
+            }
+        });
     }
 
     @OnClick({R.id.btn_address, R.id.btn_coupons, R.id.btn_invoice, R.id.btn_paynotice, R.id.btn_next})
@@ -199,9 +211,13 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
             case R.id.btn_next:
                 //TODO 提交订单
                 if (checkbox.isChecked()) {
-                    startActivity(PayActivity.class, null);
+                    if (finalAddressId == 0) {
+                        ToastUtil.showBottomShortText(this, "请添加地址");
+                    } else {
+                        payPresenter.commitOrderForm(userId, courserPackageId, orderNumType, finalAddressId, finalCouponId);
+                    }
                 } else {
-                    ToastUtil.showBottomShortText(this,"请同意支付协议");
+                    ToastUtil.showBottomShortText(this, "请同意支付协议");
                 }
                 break;
             default:
@@ -212,7 +228,6 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        LogUtils.e("结果码:" + resultCode + "---------请求码:" + requestCode + "----extras:");
         switch (requestCode) {
             case 10000:
                 //TODO 选取地址
@@ -251,6 +266,7 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
     private void initCoupon(Bundle bundle) {
         int type = bundle.getInt(Constant.TYPE);
         String couponPrice = bundle.getString(Constant.PAY_COUPONPRICE);
+        finalCouponId = bundle.getInt(Constant.PAY_COUPONID);
         if (type == 1) {
             //满减优惠券
             float floatCouponPrice = Float.parseFloat(couponPrice);
@@ -269,9 +285,9 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
             finalPayPrice = Math.round(originalPayPace * floatCouponPrice);
             discountsprice = originalPayPace - finalPayPrice;
 
-            couponCount.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + discountsprice));
+            couponCount.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + Math.round(discountsprice)));
             couponDes.setVisibility(View.GONE);
-            textDiscountsprice.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + discountsprice));
+            textDiscountsprice.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + Math.round(discountsprice)));
             textFinalprice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(Math.round(finalPayPrice))));
         }
     }
@@ -293,6 +309,30 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
             }
         } else {
             loadinglayout.showEmpty();
+        }
+    }
+
+    /**
+     * 提交订单
+     */
+    @Override
+    public void commitOrderForm(CommitOrderFormBean bean) {
+        if (bean != null) {
+            if (bean.getData() != null) {
+                CommitOrderFormBean.DataBean dataBean = bean.getData();
+                String orderNum = dataBean.getOrder_num();
+                float payPrice = dataBean.getPay_price();
+
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.ORDER_NUM, orderNum);
+                bundle.putFloat(Constant.COURSE_PRICE, payPrice);
+                startActivity(PayActivity.class, bundle);
+                finish();
+            } else {
+                ToastUtil.showBottomLongText(context, getResources().getString(R.string.operation_Error));
+            }
+        } else {
+            ToastUtil.showBottomLongText(context, getResources().getString(R.string.operation_Error));
         }
     }
 
@@ -339,17 +379,9 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
         String price = beanPackages.getPrice();
         //封面
         String appImg = beanPackages.getApp_img();
-        Glide.with(context)
-                .load(appImg)
-                .asBitmap()
-                .placeholder(R.mipmap.banner_default)
-                .transform(new CenterCrop(context), new GlideRoundTransform(context, 4))
-                .error(R.mipmap.image_loaderror)
-                .dontAnimate()
-                .skipMemoryCache(false)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH)
-                .into(courseImage);
+        Glide.with(context).load(appImg).asBitmap().placeholder(R.mipmap.banner_default)
+                .transform(new CenterCrop(context), new GlideRoundTransform(context, 4)).error(R.mipmap.image_loaderror).dontAnimate().skipMemoryCache(false)
+                .diskCacheStrategy(DiskCacheStrategy.ALL).priority(Priority.HIGH).into(courseImage);
         //课程名
         if (!TextUtils.isEmpty(name)) {
             courseTitle.setText(name);
@@ -362,19 +394,14 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
         courseEndtime.setText(getResources().getString(R.string.orderForm_endtime, String.valueOf(studyDays)));
         //原价
         float floatPrice = Float.parseFloat(price);
-        originalPayPace = Math.round(floatPrice);
-        finalPayPrice = Math.round(floatPrice);
+        originalPayPace = floatPrice;
+        finalPayPrice = floatPrice;
         textPrice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(Math.round(originalPayPace))));
         //最终支付价格
-        textFinalprice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(finalPayPrice)));
+        textFinalprice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(Math.round(floatPrice))));
         //优惠价格
         discountsprice = 0;
-        textDiscountsprice.setText(String.valueOf(discountsprice));
-    }
-
-    @Override
-    public void getAivilableCoupon(AivilableCouponBean data) {
-
+        textDiscountsprice.setText(String.valueOf(Math.round(discountsprice)));
     }
 
     @Override
