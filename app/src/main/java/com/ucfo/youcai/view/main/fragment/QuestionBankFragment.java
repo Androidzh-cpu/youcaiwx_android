@@ -329,6 +329,8 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                     case R.id.titlebar_midimage://TODO 选择专业题库
                         subjectWindow();
                         break;
+                    default:
+                        break;
                 }
             } else {//未登录,去登录页
                 startActivity(new Intent(context, LoginActivity.class));

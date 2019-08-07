@@ -17,4 +17,6 @@ public interface ILearnPlanDetailView extends BaseView {
 
     void getPlanDetailVideoList(LearnPlanDetailVideoBean result);
 
+    void exitPlanResult(int code);
+
 }

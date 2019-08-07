@@ -124,6 +124,7 @@ public class ApiStores {
     public static final String LEARNCENTER_LEARNPLANSUBMIT = BASE_URL + "Plan/getPaper";//学习计划习题交卷
     public static final String LEARNCENTER_LEARNPLANANALYSIS = BASE_URL + "Plan/questionParsing";//学习计划试题解析
     public static final String LEARNCENTER_CLOCKIN = BASE_URL + "Plan/learnClock";//学习打卡
+    public static final String LEARNCENTER_EXITPLAN = BASE_URL + "Plan/outPlan";//退出学习计划
 
     public static final String PAY_AGREEMENT = "http://www.youcaiwx.com/html/app/buy.html";//支付协议
     //------------------------------------------TODO 支付---------------------------------------------------------------------------------//

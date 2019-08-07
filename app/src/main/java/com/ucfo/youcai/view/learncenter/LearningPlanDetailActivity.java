@@ -30,6 +30,7 @@ import com.ucfo.youcai.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcai.utils.systemutils.DensityUtil;
 import com.ucfo.youcai.utils.systemutils.StatusbarUI;
+import com.ucfo.youcai.utils.toastutils.ToastUtil;
 import com.ucfo.youcai.view.course.player.VideoPlayPageActivity;
 import com.ucfo.youcai.view.questionbank.activity.TESTMODEActivity;
 import com.ucfo.youcai.widget.customview.LoadingLayout;
@@ -105,8 +106,8 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
             @Override
             public void onClick(View v) {
                 new ExitPlanDialog(LearningPlanDetailActivity.this).builder()
-                        .setAssistantMsg("退出计划后，学习记录将无法找回")
-                        .setMsg("退出学习计划")
+                        .setAssistantMsg(getResources().getString(R.string.learncenter_exitMessage))
+                        .setMsg(getResources().getString(R.string.learncenter_exitTitle))
                         .setCancelable(false)
                         .setCanceledOnTouchOutside(false)
                         .setNegativeButton(getResources().getString(R.string.thinkAgain), new View.OnClickListener() {
@@ -118,7 +119,8 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                         .setPositiveButton(getResources().getString(R.string.exit), new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                                setProcessLoading(null, true);
+                                planDetailPresenter.exitStudyPlan(user_id, plan_id, type);
                             }
                         }).show();
             }
@@ -189,6 +191,15 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
     }
 
     @Override
+    public void exitPlanResult(int code) {
+        if (code == 1) {
+            finish();
+        } else {
+            ToastUtil.showBottomShortText(this,getResources().getString(R.string.operation_Error));
+        }
+    }
+
+    @Override
     public void getPlanDetailList(LearnPlanDetailBean result) {
         if (result != null) {
             if (result.getData() != null) {
@@ -236,7 +247,6 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                 englishMonth.setText(bean.getYmonth());
                 textMonth.setText(String.valueOf(bean.getMonth()));
 
-
                 int size = list.size();
                 for (int i = 0; i < size; i++) {
                     if (i == position) {
@@ -247,8 +257,14 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                 }
                 dateAdapter.notifyDataSetChanged();
                 currentDay = bean.getDays();
-                //TODO 获取计划详情
-                planDetailPresenter.getLearnPlanDetailVideoList(user_id, course_id, plan_id, type, bean.getSameday(), currentDay);
+
+                //是否是休息日
+                if (bean.getIs_rest() == 1) {
+                    //TODO 获取计划详情
+                    planDetailPresenter.getLearnPlanDetailVideoList(user_id, course_id, plan_id, type, bean.getSameday(), currentDay);
+                } else {
+                    loadinglayout.showEmpty();
+                }
             }
         });
         int size = list.size();
@@ -264,8 +280,14 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                 textMonth.setText(String.valueOf(bean.getMonth()));
 
                 currentDay = list.get(i).getDays();
-                //TODO 获取计划详情
-                planDetailPresenter.getLearnPlanDetailVideoList(user_id, course_id, plan_id, type, list.get(i).getSameday(), currentDay);
+
+                //是否是休息日
+                if (bean.getIs_rest() == 1) {
+                    //TODO 获取计划详情
+                    planDetailPresenter.getLearnPlanDetailVideoList(user_id, course_id, plan_id, type, bean.getSameday(), currentDay);
+                } else {
+                    loadinglayout.showEmpty();
+                }
                 break;
             }
         }
@@ -363,6 +385,7 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
 
     @Override
     public void showLoadingFinish() {
+        dismissPorcess();
     }
 
     @Override

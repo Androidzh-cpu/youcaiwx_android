@@ -136,6 +136,55 @@ public class LearnPlanDetailPresenter {
                         }
                     }
                 });
+    }
+
+    /**
+     * 退出学习计划
+     */
+    public void exitStudyPlan(int user_id, int plan_id, int types) {
+        OkGo.<String>post(ApiStores.LEARNCENTER_EXITPLAN)
+                .params(Constant.USER_ID, user_id)
+                .params("plan_id", plan_id)
+                .params("types", types)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        view.exitPlanResult(2);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        view.showLoadingFinish();
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String body = response.body();
+                        if (!body.equals("")) {
+                            JSONObject jsonObject = null;
+                            try {
+                                jsonObject = new JSONObject(body);
+                                int code = jsonObject.optInt(Constant.CODE);
+                                if (code == 200) {
+                                    view.exitPlanResult(1);
+                                } else {
+                                    view.exitPlanResult(2);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            view.exitPlanResult(2);
+                        }
+                    }
+                });
 
     }
 

@@ -121,6 +121,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     private String userBeanHead;
     private QuestionBankHomePresenter questionBankHomePresenter;
     private int currentSubject_id;
+    private List<QuestionMyProjectBean.DataBean> projectList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -227,10 +228,14 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                     startActivity(MineCourseActivity.class, null);
                     break;
                 case R.id.user_errorcenter://错题中心
-                    int currentSubject_id = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constant.COURSE_ID, currentSubject_id);
-                    startActivity(ErrorCenterActivity.class, bundle);
+                    if (projectList != null && projectList.size() > 0) {
+                        int currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt(Constant.COURSE_ID, currentSubjectId);
+                        startActivity(ErrorCenterActivity.class, bundle);
+                    } else {
+                        ToastUtil.showBottomShortText(getActivity(), getResources().getString(R.string.course_bugBank));
+                    }
                     break;
                 case R.id.user_offline://离线课程
                     startActivity(OfflineCourseActivity.class, null);
@@ -240,6 +245,8 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                     break;
                 case R.id.btn_addlearnplan://添加学习计划
                     startActivity(AddLearningPlanActivity.class, null);
+                    break;
+                default:
                     break;
             }
         } else {
@@ -453,21 +460,21 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     public void getMyProejctList(QuestionMyProjectBean result) {
         if (result != null) {
             if (result.getData() != null && result.getData().size() > 0) {//TODO 购买的有题库
-                List<QuestionMyProjectBean.DataBean> dataBeanList = result.getData();
-                if (dataBeanList != null && dataBeanList.size() > 0) {//TODO  已购买过的科目
+                projectList = result.getData();
+                if (projectList != null && projectList.size() > 0) {//TODO  已购买过的科目
                     currentSubject_id = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
-                    if (dataBeanList.size() == 1) {//TODO  只有一个题库
-                        currentSubject_id = dataBeanList.get(0).getId();//默认选中第一个
+                    if (projectList.size() == 1) {//TODO  只有一个题库
+                        currentSubject_id = projectList.get(0).getId();//默认选中第一个
                         sharedPreferencesUtils.putInt(Constant.SUBJECT_ID, currentSubject_id);//存放当前的科目ID
                     } else {//TODO  多个题库
                         if (currentSubject_id != 0) {//TODO 本地已存储上次的科目
-                            for (int i = 0; i < dataBeanList.size(); i++) {
-                                if (currentSubject_id == dataBeanList.get(i).getId()) {
+                            for (int i = 0; i < projectList.size(); i++) {
+                                if (currentSubject_id == projectList.get(i).getId()) {
                                     break;
                                 }
                             }
                         } else {//TODO 未存储上次的科目
-                            currentSubject_id = dataBeanList.get(0).getId();//默认选中第一个
+                            currentSubject_id = projectList.get(0).getId();//默认选中第一个
                             sharedPreferencesUtils.putInt(Constant.SUBJECT_ID, currentSubject_id);//存放当前的科目ID
                         }
                     }

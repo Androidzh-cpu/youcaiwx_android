@@ -237,12 +237,12 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
                 //TODO 提交订单
                 if (checkbox.isChecked()) {
                     if (finalAddressId == 0) {
-                        ToastUtil.showBottomShortText(this, "请添加地址");
+                        ToastUtil.showBottomShortText(this, getResources().getString(R.string.pay_addAddress));
                     } else {
-                        payPresenter.commitOrderForm(userId, courserPackageId, orderNumType, finalAddressId, finalCouponId,invoiceInfoBean);
+                        payPresenter.commitOrderForm(userId, courserPackageId, orderNumType, finalAddressId, finalCouponId, invoiceInfoBean);
                     }
                 } else {
-                    ToastUtil.showBottomShortText(this, "请同意支付协议");
+                    ToastUtil.showBottomShortText(this, getResources().getString(R.string.pay_readPayNotice));
                 }
                 break;
             default:
@@ -268,6 +268,8 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
                         addressPhone.setText(telephone);
                         addressName.setText(consignee);
                         finalAddressId = addressId;
+
+                        textAddAddress.setVisibility(View.GONE);
                     }
                 }
                 break;
