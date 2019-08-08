@@ -48,6 +48,7 @@ import com.ucfo.youcai.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcai.utils.toastutils.ToastUtil;
 import com.ucfo.youcai.view.course.CourseListActivity;
 import com.ucfo.youcai.view.course.player.VideoPlayPageActivity;
+import com.ucfo.youcai.view.home.MessageCenterActivity;
 import com.ucfo.youcai.view.home.ScanActivity;
 import com.ucfo.youcai.view.learncenter.AddLearningPlanActivity;
 import com.ucfo.youcai.view.learncenter.LoadPdfActivity;
@@ -279,6 +280,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                     startActivity(new Intent(context, ScanActivity.class));
                     break;
                 case R.id.titlebar_message://TODO 消息
+                    startActivity(new Intent(context, MessageCenterActivity.class));
                     break;
                 case R.id.icon_live://TODO 直播
                     break;
@@ -302,6 +304,8 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                     startActivity(new Intent(getActivity(), CourseListActivity.class));
                     break;
                 case R.id.check_more_news://TODO 查看更多资讯
+                    break;
+                default:
                     break;
             }
         }

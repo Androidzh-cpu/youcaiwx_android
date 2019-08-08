@@ -308,17 +308,29 @@
         <activity
             android:name=".view.user.activity.MineCouponsActivity"
             android:theme="@style/BaseThemeForActivity" />
-        <!--TODO 我的失效优惠券-->
+        <!-- TODO 我的失效优惠券 -->
         <activity
             android:name=".view.user.activity.MineDisabledCouponsActivity"
             android:theme="@style/BaseThemeForActivity" />
-        <!--TODO 添加订单-->
+        <!-- TODO 添加订单 -->
         <activity
             android:name=".view.pay.CommitOrderActivity"
             android:theme="@style/BaseThemeForActivity" />
-        <!--TODO 支付-->
+        <!-- TODO 支付页 -->
         <activity
             android:name=".view.pay.PayActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 消息中心 -->
+        <activity
+            android:name=".view.home.MessageCenterActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 网校公告 -->
+        <activity
+            android:name=".view.home.AnnouncementCenterActivity"
+            android:theme="@style/BaseThemeForActivity" />
+        <!--TODO 系统通知-->
+        <activity
+            android:name=".view.home.NotificationCenterActivity"
             android:theme="@style/BaseThemeForActivity" />
     </application>
 

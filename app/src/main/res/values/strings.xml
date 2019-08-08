@@ -451,6 +451,11 @@
     <string name="invoice_editTips7">请输入银行账户</string>
     <string name="invoice_editTips10">请输入正确的银行账户</string>
 
+    <!--string related to 消息中心-->
+    <string name="message_center">消息中心</string>
+    <string name="message_notice">网校公告</string>
+    <string name="message_notification">系统通知</string>
+
     <!--string related to common-->
     <string name="WeChatfriend">微信好友</string>
     <string name="CircleOfFriends">朋友圈</string>
