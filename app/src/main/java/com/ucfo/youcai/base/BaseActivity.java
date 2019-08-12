@@ -21,6 +21,7 @@ import com.ucfo.youcai.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcai.utils.systemutils.StatusbarUI;
 import com.ucfo.youcai.utils.toastutils.ToastUtil;
 import com.ucfo.youcai.widget.customview.NetLoadingProgress;
+import com.umeng.message.PushAgent;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -52,6 +53,9 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
             StatusBarUtil.immersive(this);
 
             ActivityUtil.getInstance().addActivity(this);
+
+            //统计应用启动数据在所有的Activity 的onCreate 方法或在应用的BaseActivity的onCreate方法中添加
+            PushAgent.getInstance(this).onAppStart();
 
             initView(savedInstanceState);
 

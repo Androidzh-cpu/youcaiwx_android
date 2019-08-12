@@ -9,7 +9,7 @@ android {
         exclude 'META-INF/rxjava.properties'
     }*/
     defaultConfig {
-        applicationId "com.ucfo.youcai"//配置包名，没配置的话，默认使用 AndroidManifest.xml 文件中指定的包名。
+        applicationId "com.ucfo.youcaiwx"//配置包名，没配置的话，默认使用 AndroidManifest.xml 文件中指定的包名。
 
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -138,7 +138,7 @@ android {
             //移除无用的resources文件,假如发生resources$弄他foundexception:resources ID #0X4错误可关闭此功能
             shrinkResources true
             //应用程序标识后缀
-            applicationIdSuffix ".beta"//因为7.0文件共享的原因,导致配置单额fileprovide与应用程序后缀无法同步
+            //applicationIdSuffix ".beta"//因为7.0文件共享的原因,导致配置单额fileprovide与应用程序后缀无法同步
             // 为版本名添加后缀
             versionNameSuffix ".beta"
             //不开启ZipAlign优化
@@ -146,7 +146,7 @@ android {
             //是否支持调试
             debuggable true
             //是否支持JNI调试
-            jniDebuggable false
+            jniDebuggable true
             //是否进行混淆
             minifyEnabled true
 
@@ -186,14 +186,16 @@ android {
 }
 
 dependencies {
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'//约束布局远程库
-    implementation fileTree(include: ['*.jar'], dir: 'libs')//引入libs 文件下所有的jar文件
-
+    //约束布局远程库
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    //引入libs 文件下所有的jar文件
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'com.android.support:multidex:1.0.2'//分包处理
+    //分包处理
+    implementation 'com.android.support:multidex:1.0.2'
     //noinspection GradleCompatible从maven获取的库文件
     implementation "com.android.support:appcompat-v7:$var.supportLibraryVersion"
     implementation "com.android.support:support-v4:$var.supportLibraryVersion"
@@ -207,46 +209,52 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
     annotationProcessor 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     implementation 'com.orhanobut:logger:2.2.0'
-    implementation 'com.google.code.gson:gson:2.8.5'//gson转换
+    implementation 'com.google.code.gson:gson:2.8.5'
     //App下拉刷新  1.0.5 为 1.0.4 与 1.1.0 的过度版，其中API改动过大
     //1.0.5 （重大bug发现，无法兼容 Android P，不推荐使用）
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.3'
     implementation 'com.github.xuexiangjys:XUpdate:1.0.6'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     //日志拦截器 //添加HttpLoggingInterceptor进行调试
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     implementation 'com.qianwen:okhttp-utils:3.8.0'
-    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'//动态权限申请
+    //动态权限申请
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     implementation 'com.qw:soulpermission:1.1.8'
     implementation 'com.youth.banner:banner:1.4.10'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.12.0'//okhttp以及socket
+    //okhttp以及socket
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation 'com.squareup.okhttp3:mockwebserver:3.12.0'
     implementation 'com.google.zxing:core:3.3.3'
     implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.3.6'
-    implementation 'io.supercharge:shimmerlayout:2.1.0'//recyclerview的默认加载布局
-    implementation 'com.facebook.shimmer:shimmer:0.1.0'//Facebook的闪光效果开开源框架
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'//微信Android接入指南
-    implementation 'com.umeng.umsdk:common:2.0.2'//组件化基础库集成文档
-    implementation 'com.umeng.umsdk:utdid:1.1.5.3'
-    implementation 'com.umeng.umsdk:analytics:8.0.2'
-    implementation project(':okgo')
-    implementation project(':Transferee')
-    implementation project(':FlycoRoundView_Lib')
-    implementation files('libs/tbs_sdk_thirdapp_v4.3.0.1020_43633_sharewithdownload_withoutGame_obfs_20190111_105200.jar')
-    //Tencent X5webviewn内核
-    implementation files('libs/umeng-share-core-6.9.4.jar')
-    implementation files('libs/umeng-shareboard-widget-6.9.4.jar')
-    implementation files('libs/umeng-sharetool-6.9.4.jar')
-    implementation files('libs/umeng-share-wechat-simplify-6.9.4.jar')
-    implementation(name: 'AlivcPlayer-3.4.9', ext: 'aar')
-    implementation(name: 'AlivcReporter-1.2', ext: 'aar')
-    implementation(name: 'AliyunVodPlayer-3.4.9', ext: 'aar')
+    //recyclerview的默认加载布局
+    implementation 'io.supercharge:shimmerlayout:2.1.0'
+    //Facebook的闪光效果开开源框架
+    implementation 'com.facebook.shimmer:shimmer:0.1.0'
     implementation 'com.github.barteksc:android-pdf-viewer:3.1.0-beta.1'
     implementation 'com.aliyun.dpa:oss-android-sdk:+'
     implementation 'com.zhihu.android:matisse:0.5.2-beta4'
     implementation 'top.zibin:Luban:1.1.8'
     implementation 'org.litepal.android:java:3.0.0'
     implementation 'com.lzy.widget:imagepicker:0.6.1'
+    //微信Android接入指南
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    /*implementation 'com.umeng.umsdk:common:2.0.2'//组件化基础库集成文档
+        implementation 'com.umeng.umsdk:utdid:1.1.5.3'
+        implementation 'com.umeng.umsdk:analytics:8.0.2'
+        implementation 'com.umeng.umsdk:push:6.0.1'*/
+    implementation project(':okgo')
+    implementation project(':Transferee')
+    implementation project(':FlycoRoundView_Lib')
+    implementation project(':push')
+    implementation files('libs/tbs_sdk_thirdapp_v4.3.0.1020_43633_sharewithdownload_withoutGame_obfs_20190111_105200.jar')
+    implementation(name: 'AlivcPlayer-3.4.9', ext: 'aar')
+    implementation(name: 'AlivcReporter-1.2', ext: 'aar')
+    implementation(name: 'AliyunVodPlayer-3.4.9', ext: 'aar')
+    implementation files('libs/umeng-share-core-6.9.4.jar')
+    implementation files('libs/umeng-share-wechat-simplify-6.9.4.jar')
+    implementation files('libs/umeng-shareboard-widget-6.9.4.jar')
+    implementation files('libs/umeng-sharetool-6.9.4.jar')
 }

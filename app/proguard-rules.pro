@@ -3,37 +3,27 @@
 # 基本混淆指令
 #
 ####################################################################################################
-
 # 代码混淆压缩比，在 0~7 之间
 -optimizationpasses 5
-
 # 混合时不使用大小写混合，混合后的类名为小写
 -dontusemixedcaseclassnames
-
 # 指定不忽略非公共库的类和类成员
 -dontskipnonpubliclibraryclasses
 -dontskipnonpubliclibraryclassmembers
-
 # 这句话能够使我们的项目混淆后产生映射文件
 # 包含有类名->混淆后类名的映射关系
 -verbose
-
 # 不做预校验，preverify是proguard的四个步骤之一，Android不需要preverify，去掉这一步能够加快混淆速度
 -dontpreverify
-
 # 保留Annotation不混淆
 -keepattributes *Annotation*,InnerClasses
-
 # 避免混淆泛型
 -keepattributes Signature
-
 # 抛出异常时保留代码行号
 -keepattributes SourceFile,LineNumberTable
-
 # 指定混淆是采用的算法，后面的参数是一个过滤器
 # 这个过滤器是 Google 推荐的算法，一般不做修改
 -optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
-
 # 输出所有找不到引用和一些其它错误的警告，但是继续执行处理过程。不处理警告有些危险，所以在清楚配置的具体作用的时候再使用
 -ignorewarnings
 ####################################################################################################
@@ -111,17 +101,13 @@
 -keep public class * extends android.preference.Preference
 -keep public class * extends android.view.View
 -keep public class com.android.vending.licensing.ILicensingService
-
 # Fragment
 -keep public class * extends android.support.v4.app.Fragment
 -keep public class * extends android.app.Fragment
-
 # 保留support下的所有类及其内部类
 -keep class android.support.** { *; }
 -keep interface android.support.** { *; }
 -dontwarn android.support.**
-
-
 # 保留 R 下面的资源
 -keep class **.R$* {*;}
 -keepclassmembers class **.R$* {
@@ -629,21 +615,35 @@
 
 -keep class com.scwang.refreshlayout.activity.practice.BannerPracticeActivity$Movie {*;}
 #----------------------------------------------TODO  SmartRefreshLayout end------------------------------------------------#
+
 #----------------------------------------------TODO  友盟 start------------------------------------------------#
--dontshrink
--dontwarn com.google.android.maps.**
+-dontwarn com.umeng.**
+-dontwarn com.taobao.**
+-dontwarn anet.channel.**
+-dontwarn anetwork.channel.**
+-dontwarn org.android.**
+-dontwarn org.apache.thrift.**
+-dontwarn com.xiaomi.**
+-dontwarn com.huawei.**
+-dontwarn com.meizu.**
+
+-keepattributes *Annotation*
+
+-keep class com.taobao.** {*;}
+-keep class org.android.** {*;}
+-keep class anet.channel.** {*;}
 -keep class com.umeng.** {*;}
--dontwarn com.facebook.**
--keep public class javax.**
--keepclassmembers class * {
-   public <init> (org.json.JSONObject);
-}
--keepclassmembers enum * {
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
-}
--keep public class com.ucfo.youcai.R$*{
-    public static final int *;
+-keep class com.xiaomi.** {*;}
+-keep class com.huawei.** {*;}
+-keep class com.meizu.** {*;}
+-keep class org.apache.thrift.** {*;}
+
+-keep class com.alibaba.sdk.android.**{*;}
+-keep class com.ut.**{*;}
+-keep class com.ta.**{*;}
+
+-keep public class **.R$*{
+   public static final int *;
 }
 #----------------------------------------------TODO  友盟 end------------------------------------------------#
 #----------------------------------------------TODO 微信------------------------------------------------#

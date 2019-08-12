@@ -38,6 +38,7 @@ import com.ucfo.youcai.view.main.fragment.LearnCenterFragment;
 import com.ucfo.youcai.view.main.fragment.MineFragment;
 import com.ucfo.youcai.view.main.fragment.QuestionBankFragment;
 import com.ucfo.youcai.widget.dialog.AlertDialog;
+import com.umeng.message.PushAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityUtil.getInstance().addActivity(this);
 
         initView();
+
         checkPermission();
     }
 
@@ -162,6 +164,9 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.commit();
             }
         });
+
+        //统计应用启动数据在所有的Activity 的onCreate 方法或在应用的BaseActivity的onCreate方法中添加
+        PushAgent.getInstance(this).onAppStart();
     }
 
     @SuppressLint("CheckResult")

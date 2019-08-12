@@ -109,7 +109,7 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
         layoutManager.setReverseLayout(false);
         int topBottom = DensityUtil.dip2px(context, 1);
         int leftRight = DensityUtil.dip2px(context, 12);
-        recyclerview.addItemDecoration(new SpacesItemDecoration(leftRight, topBottom, ContextCompat.getColor(context,R.color.color_E6E6E6)));
+        recyclerview.addItemDecoration(new SpacesItemDecoration(leftRight, topBottom, ContextCompat.getColor(context, R.color.color_E6E6E6)));
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setNestedScrollingEnabled(false);
     }

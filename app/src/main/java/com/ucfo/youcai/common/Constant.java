@@ -12,17 +12,19 @@ package com.ucfo.youcai.common;
 public class Constant {
     //---------------------------------------------TODO 日志开关-----------------------------------------------//
     public static final boolean ISTEST_ENVIRONMENT = true;//是否显示打印日志
-
     //---------------------------------------------TODO 基础变量-----------------------------------------------//
     public static final String VERSION_CODE = "VersionCode";//版本名
     public static final String APP_KEY = "AppKey";//Appkey
-    public static final String WEIXIN_KEY = "wx48f8af6eabfbe542";//TODO 微信的APPID
-    public static final String WEIXIN_SECRET = "8ecab40c2ee5d5b53098a5d4435fd7a0";//TODO 微信的secret
+    public static final String WEIXIN_KEY = "wx48f8af6eabfbe542";//TODO 微信APPID
+    public static final String WEIXIN_SECRET = "8ecab40c2ee5d5b53098a5d4435fd7a0";//TODO 微信secret
     public static final String WEIXIN_PARAMS1 = "snsapi_userinfo";//TODO 微信登录参数
     public static final String WEIXIN_PARAMS2 = "wechat_youcailogin";//TODO 微信登录参数
     public static final String AES_KEY = "1234567812345678";//AES加密key
     public static final String AES_IV = "1234567812345678";//AES加密向量
     public static final String ALIYUN_DECRYPT = "CMAyoucai2020999999";//TODO 阿里云视频安全下载所需安全文件的离线解密私钥
+    public static final String UMENG_APPKEY = "5d4bd9a73fc195e592000697";//友盟平台唯一标识
+    public static final String UMENG_MESSAGE_SCRECT = "0515242be68bcd54ac8e988c8ae98ac9";//友盟平台客户端推送密钥
+
 
     public static final String SERVICE_NUM = "01053682942";//客服电话
     public static final String UTF_8 = "UTF-8";

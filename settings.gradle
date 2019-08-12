@@ -1,1 +1,1 @@
-include ':app', ':okgo', ':FlycoRoundView_Lib',':dialogtest',':Transferee'
+include ':app', ':okgo', ':FlycoRoundView_Lib',':dialogtest',':Transferee',':push'

@@ -19,6 +19,8 @@ public class ApiStores {
     //-----------------------------------------TODO 首页--------------------------------------------------------------//
     public static final String HOME_API = BASE_URL + "First/newInformation";//首页
     public static final String DOUBAN_API = "https://api.douban.com/v2/movie/top250";//豆瓣TOP250好评
+    public static final String MESSAGE_CENTER_HOME = BASE_URL + "Message/indexMessage";//消息首页
+    public static final String MESSAGE_CENTER_NOTICE = BASE_URL + "Message/systeMessage";//网校公告列表
 
     //-----------------------------------------TODO 登录注册业务------------------------------------------------------------------------------//
     public static final String LOGIN_ACCOUMENT = BASE_URL + "Login/accountLogin";//账号登录

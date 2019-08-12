@@ -10,18 +10,35 @@
 
     <include layout="@layout/titlebar_toolbar" />
 
-    <com.ucfo.youcai.widget.customview.LoadingLayout
-        android:id="@+id/loadinglayout"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshlayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:srlEnableLoadMore="true"
+        app:srlEnableRefresh="true"
+        app:srlPrimaryColor="@color/color_F5F5F5">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
+        <com.ucfo.youcai.widget.customview.LoadingLayout
+            android:id="@+id/loadinglayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            app:reverseLayout="false" />
+            android:layout_height="match_parent">
 
-    </com.ucfo.youcai.widget.customview.LoadingLayout>
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:overScrollMode="never">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </android.support.v4.widget.NestedScrollView>
+
+        </com.ucfo.youcai.widget.customview.LoadingLayout>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 
 </LinearLayout>

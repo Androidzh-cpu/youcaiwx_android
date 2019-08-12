@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
+import android.util.Log;
 
 import com.aliyun.vodplayer.downloader.AliyunDownloadConfig;
 import com.aliyun.vodplayer.downloader.AliyunDownloadManager;
@@ -38,6 +39,8 @@ import com.ucfo.youcai.utils.LogUtils;
 import com.ucfo.youcai.utils.netutils.OKHttpUpdateHttpService;
 import com.ucfo.youcai.view.course.player.download.Common;
 import com.umeng.commonsdk.UMConfigure;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
 import com.xuexiang.xupdate.XUpdate;
 import com.xuexiang.xupdate.entity.UpdateError;
 import com.xuexiang.xupdate.listener.OnUpdateFailureListener;
@@ -112,13 +115,13 @@ public class UcfoApplication extends Application {
         if (instance == null) {
             instance = this;
         }
-
-        initOk();
-        regToWx();
-        initLogger();
+        initOk();//ok
+        regToWx();//微信
+        initLogger();//日志库
         initUpdate();//版本更新初始化
         initWebview();//X5webview内核初始化
         intiDownloadConfig();//初始化下载设置
+        initUmeng();
     }
 
     private void initLogger() {
@@ -127,7 +130,6 @@ public class UcfoApplication extends Application {
             .methodCount(3)// 决定打印多少行（每一行代表一个方法）默认：2
             .logLevel(BuildConfig.LOG_DEBUG ? LogLevel.FULL : LogLevel.NONE)//根据是否是debug模式显示日志
             .methodOffset(2);*/
-
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(false)      //是否显示线程信息 默认显示
                 .methodCount(2)             //展示方法的行数 默认是2
@@ -167,20 +169,22 @@ public class UcfoApplication extends Application {
     }
 
     private void initUmeng() {
-        /**
-         * 设置组件化的Log开关
-         * 参数: boolean 默认为false，如需查看LOG设置为true
-         */
-        UMConfigure.setLogEnabled(false);
-        /**
-         * 初始化common库
-         * 参数1:上下文，不能为空
-         * 参数2:友盟 app key
-         * 参数3:友盟 channel
-         * 参数4:设备类型，UMConfigure.DEVICE_TYPE_PHONE为手机、UMConfigure.DEVICE_TYPE_BOX为盒子，默认为手机
-         * 参数5:Push推送业务的secret
-         */
-        UMConfigure.init(this, "5a1d723c8f4a9d643c000289", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "6e5dbcedce3116dbda6b27181279f976");
+        UMConfigure.setLogEnabled(true);
+        UMConfigure.init(this, "5d4fc6b8570df3df9d0009f6", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "060afefe4b5323d57c8d0b0faa132ee6");
+        PushAgent mPushAgent = PushAgent.getInstance(this);
+        mPushAgent.register(new IUmengRegisterCallback() {
+            @Override
+            public void onSuccess(String deviceToken) {
+                //注册成功会返回deviceToken deviceToken是推送消息的唯一标志
+                Log.e("Application", "推送服务注册成功: " + deviceToken);
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+                Log.e("Application", "推送服务注册失败: " + "s:" + s + "  s1:" + s1);
+            }
+        });
+        mPushAgent.setPushIntentServiceClass(MyPushIntentService.class);
     }
 
     /**
@@ -211,7 +215,7 @@ public class UcfoApplication extends Application {
             }
         };
         //x5内核初始化接口
-        QbSdk.initX5Environment(getApplicationContext(), cb);
+        QbSdk.initX5Environment(this, cb);
     }
 
     private void initOk() {

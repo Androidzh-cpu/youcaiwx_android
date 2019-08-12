@@ -41,7 +41,6 @@ import org.json.JSONObject;
  * ClassName: WXEntryActivity
  * Package: com.ucfo.youcai.wxapi
  * Description:微信回调
- * Detail:
  */
 public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHandler {
     //TODO  微信操作状态码
