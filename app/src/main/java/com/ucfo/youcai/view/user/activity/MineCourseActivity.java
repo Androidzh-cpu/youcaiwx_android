@@ -44,9 +44,7 @@ import butterknife.OnClick;
  * ORG: www.youcaiwx.com
  * Description:TODO 我的课程
  */
-
 public class MineCourseActivity extends BaseActivity implements IMineCourseView {
-
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -161,7 +159,7 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
                 refreshlayout.setVisibility(refreshlayout.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
             }
         } else {
-            linearHolder.setVisibility(linearHolder.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+            linearHolder.setVisibility(linearHolder.getVisibility() == View.GONE ? View.INVISIBLE : View.INVISIBLE);
             refreshlayout.setVisibility(refreshlayout.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
         }
         refreshlayout.finishRefresh();
@@ -208,7 +206,7 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
 
     @Override
     public void showError() {
-        linearHolder.setVisibility(linearHolder.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+        linearHolder.setVisibility(linearHolder.getVisibility() == View.GONE ? View.INVISIBLE : View.INVISIBLE);
         refreshlayout.setVisibility(refreshlayout.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
     }
 }

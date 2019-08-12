@@ -222,6 +222,8 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
                     bundle.putString(Constant.ORDER_NUM, bean.getOrder_num());
                     bundle.putInt(Constant.STATUS, 1);
                     startActivity(MineOrderFormDetailActivity.class, bundle);
+                } else if (type == 1) {
+
                 }
             }
         });

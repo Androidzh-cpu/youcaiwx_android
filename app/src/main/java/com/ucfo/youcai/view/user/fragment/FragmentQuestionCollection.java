@@ -125,6 +125,11 @@ public class FragmentQuestionCollection extends BaseFragment implements IMineCol
         CommonTabAdapter commonTabAdapter = new CommonTabAdapter(childFragmentManager, fragmentArrayList, titlesList);
         viewpager.setAdapter(commonTabAdapter);//viewpager设置适配器
         xTablayout.setupWithViewPager(viewpager);
+        if (data.size() == 1) {
+            xTablayout.setTabMode(XTabLayout.MODE_FIXED);
+        }else {
+            xTablayout.setTabMode(XTabLayout.MODE_SCROLLABLE);
+        }
     }
 
     @Override

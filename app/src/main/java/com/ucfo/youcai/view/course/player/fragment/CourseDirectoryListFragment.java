@@ -60,13 +60,12 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
     @BindView(R.id.refreshlayout)
     SmartRefreshLayout refreshlayout;
     Unbinder unbinder;
     @BindView(R.id.layout_main)
     ConstraintLayout layoutMain;
+    LoadingLayout loadinglayout;
 
     private VideoPlayPageActivity videoPlayPageActivity;
     private Context context;
@@ -129,6 +128,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     @Override
     protected void initView(View view) {
         context = getActivity();
+        loadinglayout = view.findViewById(R.id.loadinglayout);
 
         user_id = SharedPreferencesUtils.getInstance(getActivity()).getInt(Constant.USER_ID, 0);
         login_status = SharedPreferencesUtils.getInstance(getActivity()).getBoolean(Constant.LOGIN_STATUS, false);
@@ -334,7 +334,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                         startActivity(DownloadDirectoryActivity.class, bundle);
                         videoPlayPageActivity.pause();
                     } else {
-                        ToastUtil.showBottomShortText(videoPlayPageActivity,getResources().getString(R.string.course_bugCourse));
+                        ToastUtil.showBottomShortText(videoPlayPageActivity, getResources().getString(R.string.course_bugCourse));
                     }
                 }
             }
