@@ -14,14 +14,17 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.ucfo.youcai.R;
+import com.ucfo.youcai.adapter.home.MessageNotificationAdapter;
 import com.ucfo.youcai.base.BaseActivity;
 import com.ucfo.youcai.common.Constant;
 import com.ucfo.youcai.entity.home.MessageCenterHomeBean;
 import com.ucfo.youcai.entity.home.MessageCenterNoticeBean;
 import com.ucfo.youcai.presenter.presenterImpl.home.MessageCenterPresenter;
 import com.ucfo.youcai.presenter.view.home.IMessageCenterView;
+import com.ucfo.youcai.utils.baseadapter.OnItemClickListener;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcai.utils.toastutils.ToastUtil;
+import com.ucfo.youcai.view.main.activity.WebActivity;
 import com.ucfo.youcai.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -61,6 +64,7 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
     private SharedPreferencesUtils sharedPreferencesUtils;
     private int userId;
     private MessageCenterPresenter messageCenterPresenter;
+    private MessageNotificationAdapter messageNotificationAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +109,7 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         linearLayoutManager.setReverseLayout(false);
         recyclerview.setLayoutManager(linearLayoutManager);
+        recyclerview.setNestedScrollingEnabled(false);
 
         messageCenterPresenter = new MessageCenterPresenter(this);
         messageCenterPresenter.getNoticeList(userId, pageIndex, 2);
@@ -164,13 +169,13 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
             } else {//TODO 加载的数据为0的情况
                 if (pageIndex == 1) {//初次加载或刷新
                     if (list != null && list.size() > 0) {
-                        //messageNoticeAdapter.notifyDataSetChanged();
+                        messageNotificationAdapter.notifyDataSetChanged();
                     } else {
                         loadinglayout.showEmpty();
                     }
                 } else {//架子啊更多
                     if (list != null && list.size() > 0) {
-                        //messageNoticeAdapter.notifyDataSetChanged();
+                        messageNotificationAdapter.notifyDataSetChanged();
                         ToastUtil.showBottomShortText(context, getResources().getString(R.string.holder_noMoreData));
                     } else {
                         loadinglayout.showEmpty();
@@ -187,7 +192,25 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
     }
 
     private void initAdapter() {
-
+        if (messageNotificationAdapter == null) {
+            messageNotificationAdapter = new MessageNotificationAdapter(list, context);
+        } else {
+            messageNotificationAdapter.notifyDataSetChanged();
+        }
+        recyclerview.setAdapter(messageNotificationAdapter);
+        messageNotificationAdapter.setItemClick(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                int type = list.get(position).getType();
+                MessageCenterNoticeBean.DataBean bean = list.get(position);
+                if (type == 4 || type == 5) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constant.WEB_TITLE, bean.getTitle());
+                    bundle.putString(Constant.WEB_URL, bean.getHref());
+                    startActivity(WebActivity.class, bundle);
+                }
+            }
+        });
     }
 
     @Override

@@ -221,6 +221,7 @@
     <!-- Strings related to 我的订单 -->
     <string name="orderForm_info">订单信息</string>
     <string name="orderForm_number">订单编号: </string>
+    <string name="orderForm_money">订单金额: </string>
     <string name="orderForm_time">下单时间: </string>
     <string name="orderForm_Price">应付总额: </string>
     <string name="ForthePayment">待付款</string>
@@ -230,6 +231,7 @@
     <string name="ToPayFor">去支付</string>
     <string name="ToApplyForTheInvoice">申请发票</string>
     <string name="orderForm_CoursePrice">课程价格</string>
+    <string name="orderForm_CourseName">课程名称:</string>
     <string name="orderForm_DiscountAmount">优惠金额</string>
     <string name="orderForm_RealPayment">实付款</string>
     <string name="orderForm_endtime">购买后%s天有效</string>
@@ -456,6 +458,10 @@
     <string name="message_notice">网校公告</string>
     <string name="message_notification">系统通知</string>
     <string name="message_check">进入查看</string>
+    <string name="message_checkCourse">进入课程</string>
+    <string name="message_form">来自: </string>
+    <string name="message_answerHolder">有人回复了您的问题</string>
+    <string name="message_courseHolder">上课提醒通知</string>
 
     <!--string related to common-->
     <string name="WeChatfriend">微信好友</string>

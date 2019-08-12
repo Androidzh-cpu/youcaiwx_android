@@ -117,6 +117,7 @@ public class AnnouncementCenterActivity extends BaseActivity implements IMessage
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         linearLayoutManager.setReverseLayout(false);
         recyclerview.setLayoutManager(linearLayoutManager);
+        recyclerview.setNestedScrollingEnabled(false);
 
         messageCenterPresenter = new MessageCenterPresenter(this);
         messageCenterPresenter.getNoticeList(userId, pageIndex, 1);
