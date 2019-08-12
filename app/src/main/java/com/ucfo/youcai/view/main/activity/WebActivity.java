@@ -98,6 +98,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         mRighttitleTitlebar.setOnClickListener(this);
         mToolbarTitlebar = (Toolbar) findViewById(R.id.titlebar_toolbar);
         webView = (TencentWebview) findViewById(R.id.webview);
+        findViewById(R.id.showline).setVisibility(View.GONE);
         mLoadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
         mLoadinglayout.showContent();
     }
@@ -151,8 +152,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         } else {
             webView.loadUrl(weburl);
         }
-        LogUtils.e("weburl---" + weburl);
-
         //TODO 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
         webView.setWebViewClient(new MyWebviewClient());
         webView.setDownloadListener(new DownloadListener() {
