@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:srlEnableLoadMore="true"
-        app:srlEnableRefresh="true">
+        app:srlEnableRefresh="true"
+        app:srlPrimaryColor="@color/color_F5F5F5">
 
         <com.ucfo.youcai.widget.customview.LoadingLayout
             android:id="@+id/loadinglayout"

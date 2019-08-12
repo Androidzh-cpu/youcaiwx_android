@@ -140,6 +140,8 @@ public class MineOrderFormPresenter implements IMineOrderFormPresenter {
             case 2://未付款
                 url = ApiStores.MINE_ORDERFORM_NOTPAYDETAIL;
                 break;
+            default:
+                break;
         }
         OkGo.<String>post(url)
                 .params(Constant.USER_ID, user_id)

@@ -25,6 +25,7 @@ import com.ucfo.youcai.utils.baseadapter.OnItemClickListener;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcai.utils.toastutils.ToastUtil;
 import com.ucfo.youcai.view.main.activity.WebActivity;
+import com.ucfo.youcai.view.user.activity.MineOrderFormDetailActivity;
 import com.ucfo.youcai.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
         recyclerview.setNestedScrollingEnabled(false);
 
         messageCenterPresenter = new MessageCenterPresenter(this);
-        messageCenterPresenter.getNoticeList(userId, pageIndex, 2);
+        //messageCenterPresenter.getNoticeList(userId, pageIndex, 2);
 
         refreshlayout.setDisableContentWhenRefresh(true);
         refreshlayout.setDisableContentWhenLoading(true);
@@ -139,6 +140,12 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
                 messageCenterPresenter.getNoticeList(userId, pageIndex, 2);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        messageCenterPresenter.getNoticeList(userId, pageIndex, 2);
     }
 
     @Override
@@ -188,7 +195,6 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
 
         refreshlayout.finishRefresh();
         refreshlayout.finishLoadMore();
-
     }
 
     private void initAdapter() {
@@ -202,12 +208,20 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
             @Override
             public void onItemClick(View view, int position) {
                 int type = list.get(position).getType();
+
+                messageCenterPresenter.havedReadMessage(userId, type, list.get(position).getMessage_id());
+
                 MessageCenterNoticeBean.DataBean bean = list.get(position);
                 if (type == 4 || type == 5) {
                     Bundle bundle = new Bundle();
                     bundle.putString(Constant.WEB_TITLE, bean.getTitle());
                     bundle.putString(Constant.WEB_URL, bean.getHref());
                     startActivity(WebActivity.class, bundle);
+                } else if (type == 3) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constant.ORDER_NUM, bean.getOrder_num());
+                    bundle.putInt(Constant.STATUS, 1);
+                    startActivity(MineOrderFormDetailActivity.class, bundle);
                 }
             }
         });

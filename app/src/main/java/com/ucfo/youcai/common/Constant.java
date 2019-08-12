@@ -172,4 +172,7 @@ public class Constant {
     public static final String PAY_COUPONPRICE = "pay_couponPrice";
     public static final String PAY_COUPONID = "pay_couponId";
 
+    public static final String MESSAGE_ID = "message_id";
+
+
 }

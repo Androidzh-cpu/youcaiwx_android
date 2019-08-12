@@ -13,4 +13,6 @@ public interface IMessageCenterPresenter {
 
     void getNoticeList(int userId, int page, int types);
 
+    void havedReadMessage(int userId, int type, int message_id);
+
 }

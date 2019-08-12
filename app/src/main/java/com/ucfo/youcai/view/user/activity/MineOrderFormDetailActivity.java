@@ -31,6 +31,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * Author: AND
+ * Time: 2019-8-12 下午 3:35
+ * Package: com.ucfo.youcai.view.user.activity
+ * FileName: MineOrderFormDetailActivity
+ * ORG: www.youcaiwx.com
+ * Description:TODO 订单详情
+ */
+
 public class MineOrderFormDetailActivity extends BaseActivity implements IMineOrderFromView {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
@@ -174,6 +183,8 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
                 bundle.putInt(Constant.TYPE, 0);
                 bundle.putInt(Constant.ADDRESS_ID, address_id);//TODO 地址的ID
                 startActivity(EditAddressActivity.class, bundle);
+                break;
+            default:
                 break;
         }
     }

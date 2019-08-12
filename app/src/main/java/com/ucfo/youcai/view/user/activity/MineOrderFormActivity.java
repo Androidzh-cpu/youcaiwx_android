@@ -189,11 +189,11 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
         mineOrderFormListAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                int pay_status = list.get(position).getPay_status();
-                if (pay_status != 3) {
+                int payStatus = list.get(position).getPay_status();
+                if (payStatus != 3) {
                     Bundle bundle = new Bundle();
                     bundle.putString(Constant.ORDER_NUM, list.get(position).getOrder_num());
-                    bundle.putInt(Constant.STATUS, pay_status);
+                    bundle.putInt(Constant.STATUS, payStatus);
                     startActivity(MineOrderFormDetailActivity.class, bundle);
                 }
             }

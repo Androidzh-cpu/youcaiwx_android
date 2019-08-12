@@ -1,5 +1,6 @@
 package com.ucfo.youcai.adapter.home;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +13,14 @@ import android.widget.TextView;
 import com.flyco.roundview.RoundTextView;
 import com.ucfo.youcai.R;
 import com.ucfo.youcai.entity.home.MessageCenterNoticeBean;
+import com.ucfo.youcai.utils.LogUtils;
 import com.ucfo.youcai.utils.baseadapter.OnItemClickListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Author: AND
@@ -98,6 +104,20 @@ public class MessageNotificationAdapter extends RecyclerView.Adapter {
         this.onItemClickListener = onItemClickListener;
     }
 
+    public String formatDate(String serverTime) {
+        String format = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.CHINESE);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+        Date date = null;
+        try {
+            date = sdf.parse(serverTime);
+        } catch (Exception e) {
+            LogUtils.e(e.toString());
+        }
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("MM-dd HH:mm");
+        return formatter.format(date);
+    }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         MessageCenterNoticeBean.DataBean bean = list.get(position);
@@ -118,7 +138,8 @@ public class MessageNotificationAdapter extends RecyclerView.Adapter {
             String from = bean.getFrom();
             if (!TextUtils.isEmpty(createTime)) {
                 ((AnswerViewHolder) holder).mCreatetimeItem.setText(createTime);
-                ((AnswerViewHolder) holder).mTimeItem.setText(createTime);
+                String formatDate = formatDate(createTime);
+                ((AnswerViewHolder) holder).mTimeItem.setText(formatDate);
             }
             if (!TextUtils.isEmpty(from)) {
                 ((AnswerViewHolder) holder).mFromItem.setText(from);
@@ -136,7 +157,8 @@ public class MessageNotificationAdapter extends RecyclerView.Adapter {
             String packageName = bean.getPackage_name();
             if (!TextUtils.isEmpty(createTime)) {
                 ((OrderFormViewHolder) holder).mCreatetimeItem.setText(createTime);
-                ((OrderFormViewHolder) holder).mTimeItem.setText(createTime);
+                String formatDate = formatDate(createTime);
+                ((OrderFormViewHolder) holder).mTimeItem.setText(formatDate);
             }
             if (!TextUtils.isEmpty(content)) {
                 ((OrderFormViewHolder) holder).mTitleItem.setText(content);
@@ -160,7 +182,9 @@ public class MessageNotificationAdapter extends RecyclerView.Adapter {
             String content = bean.getContent();
             if (!TextUtils.isEmpty(createTime)) {
                 ((WebViewHolder) holder).mCreatetimeItem.setText(createTime);
-                ((WebViewHolder) holder).mTimeItem.setText(createTime);
+                String formatDate = formatDate(createTime);
+                ((WebViewHolder) holder).mTimeItem.setText(formatDate);
+
             }
             if (!TextUtils.isEmpty(title)) {
                 ((WebViewHolder) holder).mTitleItem.setText(title);

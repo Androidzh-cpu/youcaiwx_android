@@ -74,6 +74,7 @@ public class AnnouncementCenterActivity extends BaseActivity implements IMessage
     @Override
     protected void onResume() {
         super.onResume();
+        messageCenterPresenter.getNoticeList(userId, pageIndex, 1);
     }
 
     @Override
@@ -120,7 +121,7 @@ public class AnnouncementCenterActivity extends BaseActivity implements IMessage
         recyclerview.setNestedScrollingEnabled(false);
 
         messageCenterPresenter = new MessageCenterPresenter(this);
-        messageCenterPresenter.getNoticeList(userId, pageIndex, 1);
+        //messageCenterPresenter.getNoticeList(userId, pageIndex, 1);
 
         refreshlayout.setDisableContentWhenRefresh(true);
         refreshlayout.setDisableContentWhenLoading(true);
@@ -205,6 +206,7 @@ public class AnnouncementCenterActivity extends BaseActivity implements IMessage
         messageNoticeAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                messageCenterPresenter.havedReadMessage(userId, 4, list.get(position).getMessage_id());
                 Bundle bundle = new Bundle();
                 bundle.putString(Constant.WEB_TITLE, list.get(position).getTitle());
                 bundle.putString(Constant.WEB_URL, "https://www.iconfont.cn/");

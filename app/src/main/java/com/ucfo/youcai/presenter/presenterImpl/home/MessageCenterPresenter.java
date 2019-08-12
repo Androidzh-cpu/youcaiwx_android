@@ -130,4 +130,19 @@ public class MessageCenterPresenter implements IMessageCenterPresenter {
                 });
 
     }
+
+    @Override
+    public void havedReadMessage(int userId, int type, int message_id) {
+        OkGo.<String>post(ApiStores.MESSAGE_CENTER_HAVEDREAD)
+                .params(Constant.USER_ID, userId)
+                .params(Constant.TYPE, type)
+                .params(Constant.MESSAGE_ID, message_id)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+
+                    }
+                });
+
+    }
 }
