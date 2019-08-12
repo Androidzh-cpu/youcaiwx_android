@@ -140,6 +140,12 @@ public class AnnouncementCenterActivity extends BaseActivity implements IMessage
                 messageCenterPresenter.getNoticeList(userId, pageIndex, 1);
             }
         });
+        loadinglayout.setRetryListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                messageCenterPresenter.getNoticeList(userId, pageIndex, 1);
+            }
+        });
     }
 
     @Override

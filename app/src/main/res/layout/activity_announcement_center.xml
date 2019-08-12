@@ -39,6 +39,4 @@
         </com.ucfo.youcai.widget.customview.LoadingLayout>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-
 </LinearLayout>
