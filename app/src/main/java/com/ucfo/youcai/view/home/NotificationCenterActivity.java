@@ -24,7 +24,9 @@ import com.ucfo.youcai.presenter.view.home.IMessageCenterView;
 import com.ucfo.youcai.utils.baseadapter.OnItemClickListener;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcai.utils.toastutils.ToastUtil;
+import com.ucfo.youcai.view.course.CourseAnswerDetailActivity;
 import com.ucfo.youcai.view.main.activity.WebActivity;
+import com.ucfo.youcai.view.questionbank.activity.QuestionAnswerDetailActivity;
 import com.ucfo.youcai.view.user.activity.MineOrderFormDetailActivity;
 import com.ucfo.youcai.widget.customview.LoadingLayout;
 
@@ -213,17 +215,30 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
 
                 MessageCenterNoticeBean.DataBean bean = list.get(position);
                 if (type == 4 || type == 5) {
+                    //TODO H5消息
                     Bundle bundle = new Bundle();
                     bundle.putString(Constant.WEB_TITLE, bean.getTitle());
                     bundle.putString(Constant.WEB_URL, bean.getHref());
                     startActivity(WebActivity.class, bundle);
                 } else if (type == 3) {
+                    //TODO 订单支付
                     Bundle bundle = new Bundle();
                     bundle.putString(Constant.ORDER_NUM, bean.getOrder_num());
                     bundle.putInt(Constant.STATUS, 1);
                     startActivity(MineOrderFormDetailActivity.class, bundle);
                 } else if (type == 1) {
-
+                    //TODO 课程答疑
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constant.TYPE, Constant.MINE_ANSWER);
+                    bundle.putInt(Constant.ANSWER_ID, bean.getContent_id());
+                    bundle.putInt(Constant.QUESTION_STATUS, 1);
+                    startActivity(CourseAnswerDetailActivity.class, bundle);
+                } else if (type == 2) {
+                    //TODO 题库答疑
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Constant.ID, list.get(position).getContent_id());
+                    bundle.putInt(Constant.STATUS, 1);
+                    startActivity(QuestionAnswerDetailActivity.class, bundle);
                 }
             }
         });

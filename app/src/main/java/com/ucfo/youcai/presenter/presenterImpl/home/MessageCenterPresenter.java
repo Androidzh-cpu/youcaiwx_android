@@ -143,6 +143,5 @@ public class MessageCenterPresenter implements IMessageCenterPresenter {
 
                     }
                 });
-
     }
 }

@@ -53,7 +53,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Detail: TODO 答疑详情
  */
 public class CourseAnswerDetailActivity extends BaseActivity implements ICourseAnswerListView {
-
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -147,7 +146,7 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
 
         bundle = getIntent().getExtras();
         if (bundle != null) {
-            type = bundle.getString(Constant.TYPE,"");
+            type = bundle.getString(Constant.TYPE, "");
             answer_id = bundle.getInt(Constant.ANSWER_ID, 0);//获取传递的问答ID
             answer_replystatus = bundle.getInt(Constant.QUESTION_STATUS, 0);//获取传递的问答状态
 
@@ -159,6 +158,7 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
                     answerTeacherreplystatus.setText(getResources().getString(R.string.answer_teacher_reply));
                     break;
                 case 2://2未回复
+                default:
                     break;
             }
             if (type.equals(Constant.MINE_ANSWER)) {
@@ -208,22 +208,20 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
      */
     @Override
     public void getAnswerDetailData(AnswerDetailBean dataBean) {
-        if (dataBean.getData() != null) {
+        if (dataBean != null) {
             AnswerDetailBean.DataBeanX data = dataBean.getData();
-
             AnswerDetailBean.DataBeanX.DataBean userData = data.getData();
             //TODO 学员问题逻辑处理
             if (userData != null) {
-                String creates_time = userData.getCreates_time();//问题提问时间
+                String createsTime = userData.getCreates_time();//问题提问时间
                 String quiz = userData.getQuiz();//学员问题
-                String section_name = userData.getSection_name();//问题所属章节
+                String sectionName = userData.getSection_name();//问题所属章节
                 String username = userData.getUsername();//学员昵称
-                String video_time = userData.getVideo_time();
+                String videoTime = userData.getVideo_time();
                 String formatMs = "";
-                if (!TextUtils.isEmpty(video_time)) {
-                    formatMs = TimeFormater.formatMs(Integer.parseInt(video_time));
+                if (!TextUtils.isEmpty(videoTime)) {
+                    formatMs = TimeFormater.formatMs(Integer.parseInt(videoTime));
                 }
-
                 if (TextUtils.isEmpty(userData.getHead())) {
                     Glide.with(context).load(userData.getHead()).error(R.mipmap.icon_headdefault).into(answerUsericon);
                 } else {
@@ -244,25 +242,25 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
                 }
 
                 //TODO 设置顶部章节名称
-                String topVdeioTitle = section_name + "    " + formatMs;
+                String topVdeioTitle = sectionName + "    " + formatMs;
                 SpannableString spannableString = new SpannableString(topVdeioTitle);
                 ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#999999"));
                 AbsoluteSizeSpan ab = new AbsoluteSizeSpan(13, true);
-                spannableString.setSpan(ab, topVdeioTitle.length() - video_time.length() - 1, topVdeioTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                spannableString.setSpan(colorSpan, topVdeioTitle.length() - video_time.length() - 1, topVdeioTitle.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                spannableString.setSpan(ab, topVdeioTitle.length() - videoTime.length() - 1, topVdeioTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(colorSpan, topVdeioTitle.length() - videoTime.length() - 1, topVdeioTitle.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                 answerVideoname.setText(spannableString);
 
                 if (!TextUtils.isEmpty(username)) {
                     answerUsernickname.setText(username);
                 }
-                if (!TextUtils.isEmpty(section_name)) {
-                    answerQuestionSectionname.setText(section_name);
+                if (!TextUtils.isEmpty(sectionName)) {
+                    answerQuestionSectionname.setText(sectionName);
                 }
                 if (!TextUtils.isEmpty(quiz)) {
                     answerUserquestion.setText(quiz);
                 }
-                if (!TextUtils.isEmpty(creates_time)) {
-                    answerQuestionCreatetime.setText(creates_time);
+                if (!TextUtils.isEmpty(createsTime)) {
+                    answerQuestionCreatetime.setText(createsTime);
                 }
                 if (userData.getQuiz_image() != null && userData.getQuiz_image().size() > 0) {//学员图片处理
                     answerUserimagelist.setVisibility(View.VISIBLE);
@@ -372,6 +370,4 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
     public void getAnswerListData(AnswerListDataBean dataBean) {
         //TODO nothing
     }
-
-
 }

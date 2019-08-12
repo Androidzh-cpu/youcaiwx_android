@@ -11,6 +11,9 @@ import com.ucfo.youcai.entity.answer.AnswerDetailBean;
 import com.ucfo.youcai.entity.answer.AnswerListDataBean;
 import com.ucfo.youcai.presenter.view.answer.ICourseAnswerListView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Author:29117
  * Time: 2019-4-16.  下午 3:59
@@ -79,7 +82,6 @@ public class CourseCourseAnswerListPresenter implements ICourseAnswerListPresent
     @Override
     public void getAnswerDetail(int answer_id) {
         OkGo.<String>post(ApiStores.ANSWER_GETANSWERDETAIL)
-                .tag(this)
                 .params(Constant.ANSWER_ID, answer_id)
                 .execute(new StringCallback() {
                     @Override
@@ -103,13 +105,25 @@ public class CourseCourseAnswerListPresenter implements ICourseAnswerListPresent
                     @Override
                     public void onSuccess(Response<String> response) {
                         String body = response.body();
-                        if (body != null && !body.equals("")) {
-                            if (response.code() == 200) {
-                                Gson gson = new Gson();
-                                AnswerDetailBean answerListDataBean = gson.fromJson(body, AnswerDetailBean.class);
-                                view.getAnswerDetailData(answerListDataBean);
-                            } else {
-                                view.getAnswerDetailData(null);
+                        if (body != null) {
+                            JSONObject jsonObject = null;
+                            try {
+                                jsonObject = new JSONObject(body);
+                                int code = jsonObject.optInt(Constant.CODE);
+                                if (code == 200) {
+                                    JSONObject optJSONObject = jsonObject.optJSONObject("data");
+                                    if (optJSONObject.has("data")) {
+                                        Gson gson = new Gson();
+                                        AnswerDetailBean answerListDataBean = gson.fromJson(body, AnswerDetailBean.class);
+                                        view.getAnswerDetailData(answerListDataBean);
+                                    } else {
+                                        view.getAnswerDetailData(null);
+                                    }
+                                } else {
+                                    view.getAnswerDetailData(null);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
                         } else {
                             view.getAnswerDetailData(null);

@@ -1,6 +1,5 @@
 package com.ucfo.youcai.view.user.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,7 +11,6 @@ import android.view.View;
 import com.androidkun.xtablayout.XTabLayout;
 import com.ucfo.youcai.R;
 import com.ucfo.youcai.base.BaseActivity;
-import com.ucfo.youcai.utils.systemutils.StatusbarUI;
 import com.ucfo.youcai.view.course.player.adapter.CommonTabAdapter;
 import com.ucfo.youcai.view.user.fragment.FragmentMineAnswer;
 
@@ -48,8 +46,6 @@ public class MineAnswerQuestionActivity extends BaseActivity {
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        //状态栏白色,字体黑色
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

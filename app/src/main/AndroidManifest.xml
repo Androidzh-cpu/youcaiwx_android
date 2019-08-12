@@ -57,7 +57,6 @@
         tools:replace="android:supportsRtl,allowBackup,label">
 
         <service android:name=".MyPushIntentService" />
-
         <!-- 相机适配 -->
         <!-- android:authorities="${applicationId}.provider" -->
         <provider

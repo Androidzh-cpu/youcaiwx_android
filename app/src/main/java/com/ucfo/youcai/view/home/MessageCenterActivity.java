@@ -134,8 +134,6 @@ public class MessageCenterActivity extends BaseActivity implements IMessageCente
                     int status = announ.getStatus();
                     if (!TextUtils.isEmpty(title)) {
                         textNoticeContent.setText(title);
-                    } else {
-                        textNoticeContent.setText(getResources().getString(R.string.holder_nodata));
                     }
 
                     if (status == 1) {
@@ -151,8 +149,6 @@ public class MessageCenterActivity extends BaseActivity implements IMessageCente
 
                     if (!TextUtils.isEmpty(title)) {
                         textNotificationContent.setText(title);
-                    } else {
-                        textNotificationContent.setText(getResources().getString(R.string.holder_nodata));
                     }
                     if (status == 1) {
                         notification.setVisibility(View.VISIBLE);
@@ -160,13 +156,7 @@ public class MessageCenterActivity extends BaseActivity implements IMessageCente
                         notification.setVisibility(View.GONE);
                     }
                 }
-            } else {
-                textNoticeContent.setText(getResources().getString(R.string.holder_nodata));
-                textNotificationContent.setText(getResources().getString(R.string.holder_nodata));
             }
-        } else {
-            textNoticeContent.setText(getResources().getString(R.string.holder_nodata));
-            textNotificationContent.setText(getResources().getString(R.string.holder_nodata));
         }
     }
 

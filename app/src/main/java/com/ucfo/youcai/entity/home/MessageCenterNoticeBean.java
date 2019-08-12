@@ -60,6 +60,7 @@ public class MessageCenterNoticeBean {
          */
 
         private int message_id;
+        private int content_id;
         private String title;
         private String content;
         private String create_time;
@@ -166,6 +167,14 @@ public class MessageCenterNoticeBean {
 
         public void setStatus(int status) {
             this.status = status;
+        }
+
+        public int getContent_id() {
+            return content_id;
+        }
+
+        public void setContent_id(int content_id) {
+            this.content_id = content_id;
         }
     }
 }
