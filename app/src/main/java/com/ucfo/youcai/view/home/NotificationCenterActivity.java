@@ -59,7 +59,6 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
     private List<MessageCenterNoticeBean.DataBean> list;
     private NotificationCenterActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
-    private SharedPreferencesUtils sharedPreferencesUtils1;
     private int userId;
     private MessageCenterPresenter messageCenterPresenter;
 
@@ -98,7 +97,7 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
         super.initData();
         list = new ArrayList<>();
         context = this;
-        sharedPreferencesUtils1 = SharedPreferencesUtils.getInstance(context);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         messageCenterPresenter = new MessageCenterPresenter(this);
 
@@ -108,7 +107,7 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
         recyclerview.setLayoutManager(linearLayoutManager);
 
         messageCenterPresenter = new MessageCenterPresenter(this);
-        messageCenterPresenter.getNoticeList(userId, pageIndex, 1);
+        messageCenterPresenter.getNoticeList(userId, pageIndex, 2);
 
         refreshlayout.setDisableContentWhenRefresh(true);
         refreshlayout.setDisableContentWhenLoading(true);
@@ -119,20 +118,20 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 pageIndex = 1;
-                messageCenterPresenter.getNoticeList(userId, pageIndex, 1);
+                messageCenterPresenter.getNoticeList(userId, pageIndex, 2);
             }
         });
         refreshlayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 pageIndex += 1;
-                messageCenterPresenter.getNoticeList(userId, pageIndex, 1);
+                messageCenterPresenter.getNoticeList(userId, pageIndex, 2);
             }
         });
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                messageCenterPresenter.getNoticeList(userId, pageIndex, 1);
+                messageCenterPresenter.getNoticeList(userId, pageIndex, 2);
             }
         });
     }
