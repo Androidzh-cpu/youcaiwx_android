@@ -9,11 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.flyco.roundview.RoundTextView;
-import com.ucfo.youcai.R;
-import com.ucfo.youcai.entity.address.AddressListBean;
+import com.flyco.roundview.RoundTextView;import com.ucfo.youcai.entity.address.AddressListBean;
 import com.ucfo.youcai.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcai.utils.baseadapter.OnItemClickListener;
+import com.ucfo.youcai.R;
 
 import java.util.List;
 
