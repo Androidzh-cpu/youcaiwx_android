@@ -31,7 +31,6 @@ import com.ucfo.youcai.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcai.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcai.utils.systemutils.DensityUtil;
-import com.ucfo.youcai.utils.systemutils.StatusbarUI;
 import com.ucfo.youcai.widget.customview.LoadingLayout;
 import com.ucfo.youcai.widget.flowlayout.FlowLayout;
 import com.ucfo.youcai.widget.flowlayout.TagAdapter;
@@ -114,8 +113,6 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        //状态栏白色,字体黑色
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
