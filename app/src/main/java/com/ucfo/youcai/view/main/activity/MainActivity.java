@@ -91,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         ActivityUtil.getInstance().addActivity(this);
 
+        PushAgent.getInstance(this).onAppStart();
+
         initView();
 
         checkPermission();
@@ -164,9 +166,6 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.commit();
             }
         });
-
-        //统计应用启动数据在所有的Activity 的onCreate 方法或在应用的BaseActivity的onCreate方法中添加
-        PushAgent.getInstance(this).onAppStart();
     }
 
     @SuppressLint("CheckResult")

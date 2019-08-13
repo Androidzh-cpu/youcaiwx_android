@@ -241,10 +241,10 @@ dependencies {
     implementation 'com.lzy.widget:imagepicker:0.6.1'
     //微信Android接入指南
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-    /*implementation 'com.umeng.umsdk:common:2.0.2'//组件化基础库集成文档
-        implementation 'com.umeng.umsdk:utdid:1.1.5.3'
-        implementation 'com.umeng.umsdk:analytics:8.0.2'
-        implementation 'com.umeng.umsdk:push:6.0.1'*/
+    /*implementation 'com.umeng.umsdk:common:1.5.4'//组件化基础库集成文档
+    implementation 'com.umeng.umsdk:utdid:1.1.5.3'
+    implementation 'com.umeng.umsdk:analytics:8.0.2'
+    implementation 'com.umeng.umsdk:push:6.0.1'*/
     implementation project(':okgo')
     implementation project(':Transferee')
     implementation project(':FlycoRoundView_Lib')

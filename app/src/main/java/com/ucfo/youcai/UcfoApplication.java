@@ -6,7 +6,6 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
 
 import com.aliyun.vodplayer.downloader.AliyunDownloadConfig;
 import com.aliyun.vodplayer.downloader.AliyunDownloadManager;
@@ -71,7 +70,6 @@ public class UcfoApplication extends Application {
     public static IWXAPI api;
     public static AliyunDownloadManager downloadManager;
 
-    //static 代码段可以防止内存泄露
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);//启用矢量图兼容
         //设置全局默认配置（优先级最低，会被其他设置覆盖）
@@ -170,21 +168,21 @@ public class UcfoApplication extends Application {
 
     private void initUmeng() {
         UMConfigure.setLogEnabled(true);
-        UMConfigure.init(this, "5d4fc6b8570df3df9d0009f6", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "060afefe4b5323d57c8d0b0faa132ee6");
-        PushAgent mPushAgent = PushAgent.getInstance(this);
-        mPushAgent.register(new IUmengRegisterCallback() {
+        UMConfigure.init(this, "5d521d4e3fc195b523000353", "umeng_test", UMConfigure.DEVICE_TYPE_PHONE, "d9a3baa0dff24082751e60940cdb94f3");
+        //获取推送代理，这个代理可以帮我们去执行诸如点击事件，样式不同的通知栏等操作
+        PushAgent pushAgent = PushAgent.getInstance(this);
+        pushAgent.register(new IUmengRegisterCallback() {
             @Override
-            public void onSuccess(String deviceToken) {
-                //注册成功会返回deviceToken deviceToken是推送消息的唯一标志
-                Log.e("Application", "推送服务注册成功: " + deviceToken);
+            public void onSuccess(String s) {
+                LogUtils.e("==UMConfigure==       deviceToken: " + s);
             }
 
             @Override
             public void onFailure(String s, String s1) {
-                Log.e("Application", "推送服务注册失败: " + "s:" + s + "  s1:" + s1);
+                LogUtils.e("==UMConfigure==       onFailure:" + s + "   s1:" + s1);
             }
         });
-        mPushAgent.setPushIntentServiceClass(MyPushIntentService.class);
+        pushAgent.setPushIntentServiceClass(MyPushIntentService.class);
     }
 
     /**
