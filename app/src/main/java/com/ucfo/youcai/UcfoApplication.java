@@ -2,6 +2,7 @@ package com.ucfo.youcai;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
@@ -37,9 +38,13 @@ import com.ucfo.youcai.utils.JsonUtil;
 import com.ucfo.youcai.utils.LogUtils;
 import com.ucfo.youcai.utils.netutils.OKHttpUpdateHttpService;
 import com.ucfo.youcai.view.course.player.download.Common;
+import com.ucfo.youcai.view.main.activity.WebActivity;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.MsgConstant;
 import com.umeng.message.PushAgent;
+import com.umeng.message.UmengNotificationClickHandler;
+import com.umeng.message.entity.UMessage;
 import com.xuexiang.xupdate.XUpdate;
 import com.xuexiang.xupdate.entity.UpdateError;
 import com.xuexiang.xupdate.listener.OnUpdateFailureListener;
@@ -48,6 +53,7 @@ import com.xuexiang.xupdate.utils.UpdateUtils;
 import org.litepal.LitePal;
 
 import java.io.File;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -174,15 +180,49 @@ public class UcfoApplication extends Application {
         mPushAgent.register(new IUmengRegisterCallback() {
             @Override
             public void onSuccess(String s) {
-                LogUtils.e("设备token值:" + s);
+                LogUtils.e("Umeng-----------------deviceToken:" + s);
             }
 
             @Override
             public void onFailure(String s, String s1) {
-                LogUtils.e("设备token值获取失败--- s: " + s + "        s1:" + s1);
+                LogUtils.e("Umeng-----------------onFailure:s: " + s + "        s1:" + s1);
             }
         });
-        //mPushAgent.setPushIntentServiceClass(MyPushIntentService.class);
+        mPushAgent.setDisplayNotificationNumber(9);
+        mPushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SERVER);
+        mPushAgent.setNotificationPlayLights(MsgConstant.NOTIFICATION_PLAY_SERVER);
+        mPushAgent.setNotificationPlayVibrate(MsgConstant.NOTIFICATION_PLAY_SERVER);
+        mPushAgent.setNoDisturbMode(0, 0, 0, 0);
+        mPushAgent.setNotificaitonOnForeground(true);
+        UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler() {
+            @Override
+            public void launchApp(Context context, UMessage uMessage) {
+                super.launchApp(context, uMessage);
+                LogUtils.e("Umeng:--------------dealWithCustomAction:" + uMessage.toString());
+                Map<String, String> extra = uMessage.extra;
+                if (extra != null) {
+                    Intent intent = new Intent();
+                    String messageType = extra.get("jumptype");
+                    if (messageType.equals("newsMessage")) {
+                        intent.setClass(context, WebActivity.class);
+                        String webUrl = extra.get("webUrl");
+                        String title = extra.get("title");
+                        intent.putExtra(Constant.WEB_URL, webUrl);
+                        intent.putExtra(Constant.WEB_TITLE, title);
+                    }
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+
+            }
+
+            @Override
+            public void dealWithCustomAction(Context context, UMessage uMessage) {
+                super.dealWithCustomAction(context, uMessage);
+            }
+        };
+
+        mPushAgent.setNotificationClickHandler(notificationClickHandler);
     }
 
     /**
