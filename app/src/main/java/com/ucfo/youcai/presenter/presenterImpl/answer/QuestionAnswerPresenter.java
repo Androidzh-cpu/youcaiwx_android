@@ -83,7 +83,6 @@ public class QuestionAnswerPresenter implements IQuestionAnswerPresenter {
     @Override
     public void getQuestionAnswerDetail(int user_id, int answer_id) {
         OkGo.<String>post(ApiStores.ANSWERQUESTION_ANSWER_DETAIL)
-                .tag(this)
                 .params(Constant.USER_ID, user_id)
                 .params(Constant.ANSWER_ID, answer_id)
                 .execute(new StringCallback() {
@@ -108,14 +107,19 @@ public class QuestionAnswerPresenter implements IQuestionAnswerPresenter {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String body = response.body();
-                        if (!body.equals("")) {
+                        if (body != null) {
                             JSONObject jsonObject = null;
                             try {
                                 jsonObject = new JSONObject(body);
                                 int code = jsonObject.optInt(Constant.CODE);
                                 if (code == 200) {
-                                    QuestionAnswerDetailBean bean = new Gson().fromJson(body, QuestionAnswerDetailBean.class);
-                                    view.getQuestionAnswerDetail(bean);
+                                    JSONObject optJSONObject = jsonObject.optJSONObject("data");
+                                    if (optJSONObject.has("data")) {
+                                        QuestionAnswerDetailBean bean = new Gson().fromJson(body, QuestionAnswerDetailBean.class);
+                                        view.getQuestionAnswerDetail(bean);
+                                    } else {
+                                        view.getQuestionAnswerDetail(null);
+                                    }
                                 } else {
                                     view.getQuestionAnswerDetail(null);
                                 }
