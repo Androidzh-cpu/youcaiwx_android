@@ -40,6 +40,7 @@ import com.ucfo.youcai.utils.LogUtils;
 import com.ucfo.youcai.utils.netutils.OKHttpUpdateHttpService;
 import com.ucfo.youcai.view.course.player.download.Common;
 import com.ucfo.youcai.view.main.activity.WebActivity;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.MsgConstant;
@@ -66,13 +67,11 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * Email:2911743255@qq.com
  * ClassName: UcfoApplication
  * Package: com.ucfo.youcai.common
- * Description:
  * Detail:程序清单
  */
 
 public class UcfoApplication extends Application {
-    public static Context context;
-    private static UcfoApplication instance;
+    private static UcfoApplication application;
     // IWXAPI 是第三方app和微信通信的openApi接口
     public static IWXAPI api;
     public static AliyunDownloadManager downloadManager;
@@ -82,7 +81,7 @@ public class UcfoApplication extends Application {
         //设置全局默认配置（优先级最低，会被其他设置覆盖）
         SmartRefreshLayout.setDefaultRefreshInitializer(new DefaultRefreshInitializer() {
             @Override
-            public void initialize(@NonNull Context context, @NonNull RefreshLayout layout) {
+            public void initialize(@NonNull Context mContext, @NonNull RefreshLayout layout) {
                 layout.setDisableContentWhenRefresh(true);//是否在刷新的时候禁止列表的操作
                 layout.setDisableContentWhenLoading(true);//是否在加载的时候禁止列表的操作
                 layout.setEnableAutoLoadMore(false);//是否启用列表惯性滑动到底部时自动加载更多
@@ -94,31 +93,30 @@ public class UcfoApplication extends Application {
         });
         //设置全局的Header构建器 TODO 1.0.5和1.0.4不一样
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
+            @NonNull
             @Override
-            public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-                return new ClassicsHeader(context).setDrawableSize(20).setFinishDuration(1000);
+            public RefreshHeader createRefreshHeader(@NonNull Context mContext, @NonNull RefreshLayout layout) {
+                return new ClassicsHeader(mContext).setDrawableSize(20).setFinishDuration(1000);
             }
         });
         SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
+            @NonNull
             @Override
-            public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
-                return new ClassicsFooter(context).setDrawableSize(20).setFinishDuration(1000);
+            public RefreshFooter createRefreshFooter(@NonNull Context mContext, @NonNull RefreshLayout layout) {
+                return new ClassicsFooter(mContext).setDrawableSize(20).setFinishDuration(1000);
             }
         });
     }
 
-    private Common commenUtils;
-
     public static Context getInstance() {
-        return instance;
+        return application;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        context = getApplicationContext();
-        if (instance == null) {
-            instance = this;
+        if (application == null) {
+            application = this;
         }
         intiDownloadConfig();
         initOk();
@@ -146,7 +144,7 @@ public class UcfoApplication extends Application {
 
     private void intiDownloadConfig() {
         LitePal.initialize(this);
-        commenUtils = Common.getInstance(getApplicationContext()).copyAssetsToSD("encrypt", "aliyun");
+        Common commenUtils = Common.getInstance(this).copyAssetsToSD("encrypt", "aliyun");
         commenUtils.setFileOperateCallback(new Common.FileOperateCallback() {
             @Override
             public void onSuccess() {
@@ -173,6 +171,7 @@ public class UcfoApplication extends Application {
 
     private void initUmeng() {
         UMConfigure.setLogEnabled(true);
+        UMConfigure.setEncryptEnabled(true);
         //UMConfigure.init(this, "5d521d4e3fc195b523000353", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "d9a3baa0dff24082751e60940cdb94f3");
         UMConfigure.init(this, Constant.UMENG_APPKEY, Constant.UMENG_CHANNEL, UMConfigure.DEVICE_TYPE_PHONE, Constant.UMENG_MESSAGE_SCRECT);
         PushAgent mPushAgent = PushAgent.getInstance(this);
@@ -196,8 +195,8 @@ public class UcfoApplication extends Application {
         mPushAgent.setNotificaitonOnForeground(true);
         UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler() {
             @Override
-            public void launchApp(Context context, UMessage uMessage) {
-                super.launchApp(context, uMessage);
+            public void launchApp(Context mContext, UMessage uMessage) {
+                super.launchApp(mContext, uMessage);
                 LogUtils.e("Umeng:--------------launchApp:" + uMessage.extra.toString());
                 Map<String, String> extra = uMessage.extra;
                 if (extra != null) {
@@ -206,7 +205,7 @@ public class UcfoApplication extends Application {
                     if (!TextUtils.isEmpty(messageType)) {
                         if (messageType.equals(Constant.UMENG_MESSAGE_INFORMATION)) {
                             //TODO 资讯消息
-                            intent.setClass(context, WebActivity.class);
+                            intent.setClass(mContext, WebActivity.class);
                             String webUrl = extra.get("webUrl");
                             String title = extra.get(Constant.TITLE);
                             intent.putExtra(Constant.WEB_URL, webUrl);
@@ -215,7 +214,7 @@ public class UcfoApplication extends Application {
                             //TODO 直播消息
                         } else if (messageType.equals(Constant.UMENG_MESSAGE_NOTICE)) {
                             //TODO 消息公告
-                            intent.setClass(context, WebActivity.class);
+                            intent.setClass(mContext, WebActivity.class);
                             String webUrl = extra.get("webUrl");
                             String title = extra.get(Constant.TITLE);
                             intent.putExtra(Constant.WEB_URL, webUrl);
@@ -234,6 +233,7 @@ public class UcfoApplication extends Application {
             }
         };
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
     }
 
     /**
@@ -291,19 +291,15 @@ public class UcfoApplication extends Application {
             }
         });
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);//设置日志级别
-
         if (BuildConfig.DEBUG) {//TODO 正式版不打印日志
             builder.addInterceptor(loggingInterceptor);//添加日志拦截器
         }
-
         //超时时间设置，默认60秒
         builder.readTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);      //全局的读取超时时间
         builder.writeTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);     //全局的写入超时时间
         builder.connectTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);   //全局的连接超时时间
-
         HttpHeaders headers = new HttpHeaders();//TODO 设置请求头  header不支持中文，不允许有特殊字符
         HttpParams params = new HttpParams();//TODO 设置请求参数 param支持中文,直接传,不要自己编码
-
         OkGo.getInstance().init(this)                           //必须调用初始化
                 .setOkHttpClient(builder.build())               //建议设置OkHttpClient，不设置会使用默认的
                 .setCacheMode(CacheMode.NO_CACHE)               //全局统一缓存模式，默认不使用缓存，可以不传

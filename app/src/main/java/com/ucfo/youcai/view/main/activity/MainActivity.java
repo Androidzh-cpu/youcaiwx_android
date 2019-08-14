@@ -38,6 +38,7 @@ import com.ucfo.youcai.view.main.fragment.LearnCenterFragment;
 import com.ucfo.youcai.view.main.fragment.MineFragment;
 import com.ucfo.youcai.view.main.fragment.QuestionBankFragment;
 import com.ucfo.youcai.widget.dialog.AlertDialog;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 
 import java.util.ArrayList;
@@ -96,6 +97,19 @@ public class MainActivity extends AppCompatActivity {
         initView();
 
         checkPermission();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     private void initView() {

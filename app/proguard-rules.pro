@@ -626,9 +626,7 @@
 -dontwarn com.xiaomi.**
 -dontwarn com.huawei.**
 -dontwarn com.meizu.**
-
 -keepattributes *Annotation*
-
 -keep class com.taobao.** {*;}
 -keep class org.android.** {*;}
 -keep class anet.channel.** {*;}
@@ -642,8 +640,15 @@
 -keep class com.ut.**{*;}
 -keep class com.ta.**{*;}
 
--keep public class **.R$*{
+#-keep public class **.R$*{
+#   public static final int *;
+#}
+#统计服务
+-keep public class com.ucfo.youcai.**.R$*{
    public static final int *;
+}
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
 }
 #----------------------------------------------TODO  友盟 end------------------------------------------------#
 #----------------------------------------------TODO 微信------------------------------------------------#
