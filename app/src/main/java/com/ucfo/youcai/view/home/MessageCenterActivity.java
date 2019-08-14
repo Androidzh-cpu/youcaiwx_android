@@ -135,7 +135,6 @@ public class MessageCenterActivity extends BaseActivity implements IMessageCente
                     if (!TextUtils.isEmpty(title)) {
                         textNoticeContent.setText(title);
                     }
-
                     if (status == 1) {
                         notice.setVisibility(View.VISIBLE);
                     } else {

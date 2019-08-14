@@ -22,8 +22,17 @@ public class Constant {
     public static final String AES_KEY = "1234567812345678";//AES加密key
     public static final String AES_IV = "1234567812345678";//AES加密向量
     public static final String ALIYUN_DECRYPT = "CMAyoucai2020999999";//TODO 阿里云视频安全下载所需安全文件的离线解密私钥
-    public static final String UMENG_APPKEY = "5d4bd9a73fc195e592000697";//友盟平台唯一标识
-    public static final String UMENG_MESSAGE_SCRECT = "0515242be68bcd54ac8e988c8ae98ac9";//友盟平台客户端推送密钥
+    public static final String UMENG_APPKEY = "5d521d4e3fc195b523000353";//友盟平台唯一标识
+    public static final String UMENG_MESSAGE_SCRECT = "d9a3baa0dff24082751e60940cdb94f3";//友盟平台客户端推送密钥
+    public static final String UMENG_CHANNEL = "umeng";//友盟平台客户端渠道
+    public static final String UMENG_PACKAGE_NAME = "com.ucfo.youcai";//友盟平台自定义packagename
+    public static final String UMENG_MESSAGE_TYPE = "jumptype";//通知栏消息跳转类型
+    public static final String UMENG_MESSAGE_INFORMATION = "newsMessage";//通知栏消息: 资讯消息
+    public static final String UMENG_MESSAGE_LIVE = "liveMessage";//通知栏消息: 直播消息
+    public static final String UMENG_MESSAGE_NOTICE = "systemMessage";//通知栏消息: 消息公告
+    public static final String UMENG_MESSAGE_ORDERFORM = "orderMessage";//通知栏消息: 订单消息
+    public static final String UMENG_MESSAGE_COURSEANSWER = "courseMessage";//通知栏消息: 课程答疑
+    public static final String UMENG_MESSAGE_QUESTIONANSWER = "queMessage";//通知栏消息: 题库答疑
 
 
     public static final String SERVICE_NUM = "01053682942";//客服电话

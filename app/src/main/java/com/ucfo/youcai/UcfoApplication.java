@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
+import android.text.TextUtils;
 
 import com.aliyun.vodplayer.downloader.AliyunDownloadConfig;
 import com.aliyun.vodplayer.downloader.AliyunDownloadManager;
@@ -119,12 +120,12 @@ public class UcfoApplication extends Application {
         if (instance == null) {
             instance = this;
         }
-        initOk();//ok
-        regToWx();//微信
-        initLogger();//日志库
-        initUpdate();//版本更新初始化
-        initWebview();//X5webview内核初始化
-        intiDownloadConfig();//初始化下载设置
+        intiDownloadConfig();
+        initOk();
+        regToWx();
+        initLogger();
+        initUpdate();
+        initWebview();
         initUmeng();
     }
 
@@ -157,9 +158,7 @@ public class UcfoApplication extends Application {
                     file.mkdir();
                 }
                 downloadConfig.setDownloadDir(file.getAbsolutePath());
-                //设置同时下载个数
                 downloadConfig.setMaxNums(2);
-                //获取AliyunDownloadManager对象
                 downloadManager = AliyunDownloadManager.getInstance(getApplicationContext());
                 downloadManager.setDownloadConfig(downloadConfig);
             }
@@ -174,9 +173,10 @@ public class UcfoApplication extends Application {
 
     private void initUmeng() {
         UMConfigure.setLogEnabled(true);
-        UMConfigure.init(this, "5d521d4e3fc195b523000353", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "d9a3baa0dff24082751e60940cdb94f3");
+        //UMConfigure.init(this, "5d521d4e3fc195b523000353", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "d9a3baa0dff24082751e60940cdb94f3");
+        UMConfigure.init(this, Constant.UMENG_APPKEY, Constant.UMENG_CHANNEL, UMConfigure.DEVICE_TYPE_PHONE, Constant.UMENG_MESSAGE_SCRECT);
         PushAgent mPushAgent = PushAgent.getInstance(this);
-        mPushAgent.setResourcePackageName("com.ucfo.youcai");
+        mPushAgent.setResourcePackageName(Constant.UMENG_PACKAGE_NAME);
         mPushAgent.register(new IUmengRegisterCallback() {
             @Override
             public void onSuccess(String s) {
@@ -198,30 +198,41 @@ public class UcfoApplication extends Application {
             @Override
             public void launchApp(Context context, UMessage uMessage) {
                 super.launchApp(context, uMessage);
-                LogUtils.e("Umeng:--------------dealWithCustomAction:" + uMessage.toString());
+                LogUtils.e("Umeng:--------------launchApp:" + uMessage.extra.toString());
                 Map<String, String> extra = uMessage.extra;
                 if (extra != null) {
                     Intent intent = new Intent();
-                    String messageType = extra.get("jumptype");
-                    if (messageType.equals("newsMessage")) {
-                        intent.setClass(context, WebActivity.class);
-                        String webUrl = extra.get("webUrl");
-                        String title = extra.get("title");
-                        intent.putExtra(Constant.WEB_URL, webUrl);
-                        intent.putExtra(Constant.WEB_TITLE, title);
+                    String messageType = extra.get(Constant.UMENG_MESSAGE_TYPE);
+                    if (!TextUtils.isEmpty(messageType)) {
+                        if (messageType.equals(Constant.UMENG_MESSAGE_INFORMATION)) {
+                            //TODO 资讯消息
+                            intent.setClass(context, WebActivity.class);
+                            String webUrl = extra.get("webUrl");
+                            String title = extra.get(Constant.TITLE);
+                            intent.putExtra(Constant.WEB_URL, webUrl);
+                            intent.putExtra(Constant.WEB_TITLE, title);
+                        } else if (messageType.equals(Constant.UMENG_MESSAGE_LIVE)) {
+                            //TODO 直播消息
+                        } else if (messageType.equals(Constant.UMENG_MESSAGE_NOTICE)) {
+                            //TODO 消息公告
+                            intent.setClass(context, WebActivity.class);
+                            String webUrl = extra.get("webUrl");
+                            String title = extra.get(Constant.TITLE);
+                            intent.putExtra(Constant.WEB_URL, webUrl);
+                            intent.putExtra(Constant.WEB_TITLE, title);
+                        } else if (messageType.equals(Constant.UMENG_MESSAGE_ORDERFORM)) {
+                            //TODO 订单消息
+                        } else if (messageType.equals(Constant.UMENG_MESSAGE_COURSEANSWER)) {
+                            //TODO 课程答疑
+                        } else if (messageType.equals(Constant.UMENG_MESSAGE_QUESTIONANSWER)) {
+                            //TODO 题库答疑
+                        }
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                     }
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
                 }
-
-            }
-
-            @Override
-            public void dealWithCustomAction(Context context, UMessage uMessage) {
-                super.dealWithCustomAction(context, uMessage);
             }
         };
-
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
     }
 
