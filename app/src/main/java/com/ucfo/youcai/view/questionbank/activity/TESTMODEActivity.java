@@ -291,7 +291,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_question_my_errors));
                 break;
             case Constant.PLATE_8://TODO 错题中心  重新做题
-                questionBankExercisePresenter.getErrorCenterReform(course_id, user_id, section_id, know_id);
+                questionBankExercisePresenter.getErrorCenterReform(course_id, user_id, section_id,String.valueOf(knob_id), know_id);
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_question_my_errors));
                 break;
             case Constant.PLATE_9://TODO 6大板块错题解析(错题解析和全部解析)
@@ -401,6 +401,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 timerSeconds = startTime;
                 timer.postDelayed(runnable, CountDownInterval);
                 break;
+            default:
+                break;
         }
     }
 
@@ -412,6 +414,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 break;
             case 1://正计时
                 timer.removeCallbacks(runnable);
+                break;
+            default:
                 break;
         }
     }
@@ -466,8 +470,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
 
         //TODO step2:遍历做的题目集合，是否存在未做的题目，是 ：跳出循环
         for (int i = 0; i < optionsAnswerList.size(); i++) {
-            String user_answer = optionsAnswerList.get(i).getUser_answer();
-            if (TextUtils.isEmpty(user_answer)) {//有一道题答案为空,就标记为未完成状态
+            String userAnswer = optionsAnswerList.get(i).getUser_answer();
+            if (TextUtils.isEmpty(userAnswer)) {//有一道题答案为空,就标记为未完成状态
                 complete = false;//显示为未作答状态
                 break;
             }
@@ -808,6 +812,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 bundle.putString(Constant.KNOW_ID, know_id);
                 startActivity(ResultsStatisticalActivity.class, bundle);
                 finish();
+                break;
+            default:
                 break;
         }
     }

@@ -363,7 +363,6 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             popupWindow.showAtLocation(viewLine, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 0);
             //popupWindow.showAsDropDown(viewLine, 0, 0);
 
-
             ListView recyclerView = mContentView.findViewById(R.id.subject_recyclerview);
             if (subjectAdapter == null) {
                 subjectAdapter = new SubjectAdapter(getActivity(), projectList);
@@ -382,6 +381,8 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                     if (popupWindow != null) {
                         popupWindow.dismiss();
                     }
+
+                    toastInfo("projectList.get(position).getId(): " + projectList.get(position).getId());
                 }
             });
             if (popupWindow != null) {

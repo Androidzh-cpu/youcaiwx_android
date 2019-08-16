@@ -1,6 +1,5 @@
 package com.ucfo.youcai.view.questionbank.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +18,6 @@ import com.ucfo.youcai.entity.questionbank.QuestionKnowledgeListBean;
 import com.ucfo.youcai.presenter.presenterImpl.questionbank.QuestionBankKnowledgePresenter;
 import com.ucfo.youcai.presenter.view.questionbank.IQuestionBankKonwledgeView;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcai.utils.systemutils.StatusbarUI;
 import com.ucfo.youcai.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -36,7 +34,6 @@ import butterknife.ButterKnife;
  * ORG: www.youcaiwx.com
  * Description:TODO 错题中心二级目录
  */
-
 public class ErrorCenterActivity extends BaseActivity implements IQuestionBankKonwledgeView {
 
     @BindView(R.id.titlebar_midtitle)
@@ -74,8 +71,6 @@ public class ErrorCenterActivity extends BaseActivity implements IQuestionBankKo
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        //状态栏白色,字体黑色
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

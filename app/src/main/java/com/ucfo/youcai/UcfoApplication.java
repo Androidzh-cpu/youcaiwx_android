@@ -171,7 +171,6 @@ public class UcfoApplication extends Application {
 
     private void initUmeng() {
         UMConfigure.setLogEnabled(true);
-        UMConfigure.setEncryptEnabled(true);
         //UMConfigure.init(this, "5d521d4e3fc195b523000353", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "d9a3baa0dff24082751e60940cdb94f3");
         UMConfigure.init(this, Constant.UMENG_APPKEY, Constant.UMENG_CHANNEL, UMConfigure.DEVICE_TYPE_PHONE, Constant.UMENG_MESSAGE_SCRECT);
         PushAgent mPushAgent = PushAgent.getInstance(this);

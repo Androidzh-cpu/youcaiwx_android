@@ -31,7 +31,6 @@ import butterknife.OnClick;
  * Description:TODO 消息中心
  */
 public class MessageCenterActivity extends BaseActivity implements IMessageCenterView {
-
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)

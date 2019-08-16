@@ -35,6 +35,8 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="@dimen/dp_14"
                     android:drawableStart="@mipmap/icon_qb_edit2"
+                    android:ellipsize="end"
+                    android:maxLines="2"
                     android:paddingBottom="@dimen/dp_11"
                     android:paddingStart="@dimen/dp_12"
                     android:paddingTop="@dimen/dp_12"

@@ -519,13 +519,14 @@ public class QuestionBankExercisePresenter implements IQuestionBankExercisePrese
      * Detail:TODO 错题中心 重新做题
      */
     @Override
-    public void getErrorCenterReform(int course_id, int user_id, int section_id, String know_id) {
+    public void getErrorCenterReform(int course_id, int user_id, int section_id, String knob_id, String know_id) {
         OkGo.<String>post(ApiStores.QUESTION_ERRORCENTER_REFORM)
                 .tag(this)
                 .params(Constant.USER_ID, user_id)
                 .params(Constant.COURSE_ID, course_id)
                 .params(Constant.SECTION_ID, section_id)
                 .params(Constant.KNOW_ID, know_id)
+                .params(Constant.KNOB_ID, knob_id)
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {

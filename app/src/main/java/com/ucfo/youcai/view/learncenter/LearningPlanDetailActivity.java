@@ -195,7 +195,7 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
         if (code == 1) {
             finish();
         } else {
-            ToastUtil.showBottomShortText(this,getResources().getString(R.string.operation_Error));
+            ToastUtil.showBottomShortText(this, getResources().getString(R.string.operation_Error));
         }
     }
 

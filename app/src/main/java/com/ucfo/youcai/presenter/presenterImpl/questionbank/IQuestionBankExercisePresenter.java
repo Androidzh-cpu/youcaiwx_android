@@ -34,7 +34,7 @@ public interface IQuestionBankExercisePresenter {
     void getErrorCenterCheckAnalysis(int course_id, int user_id, int section_id, String know_id);
 
     //TODO 错题中心 重新做题
-    void getErrorCenterReform(int course_id, int user_id, int section_id, String know_id);
+    void getErrorCenterReform(int course_id, int user_id, int section_id,String knob_id, String know_id);
 
     //TODO 获取错题解析
     void getErrorAnalysis(int paper_id, int user_id, int type);

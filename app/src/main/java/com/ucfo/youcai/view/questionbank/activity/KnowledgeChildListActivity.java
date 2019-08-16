@@ -243,8 +243,8 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
                     case Constant.PLATE_7://TODO 错题中心  不代表解析和做题
                         btnExercise.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
                         btnExercise.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
-                        btnLookAnalysis.setTextColor(ContextCompat.getColor(context,R.color.colorPrimary));
-                        btnLookAnalysis.setBackgroundColor(ContextCompat.getColor(context,R.color.color_E3EEFF));
+                        btnLookAnalysis.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                        btnLookAnalysis.setBackgroundColor(ContextCompat.getColor(context, R.color.color_E3EEFF));
                         break;
                     case Constant.PLATE_13://TODO 题库收藏,查看我的收藏试题
                         bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_A);
@@ -293,14 +293,17 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
                     startActivity(TESTMODEActivity.class, bundle);
                 }
                 break;
-            case R.id.btn_exercise://重新做题
+            case R.id.btn_exercise://去做题
                 if (selectedPosition >= 0) {
                     String id = list.get(selectedPosition).getId();
                     bundle.putString(Constant.KNOW_ID, id);
+                    bundle.putInt(Constant.KNOB_ID, knob_id);
                     bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_E);
                     bundle.putInt(Constant.PLATE_ID, Constant.PLATE_8);
                     startActivity(TESTMODEActivity.class, bundle);
                 }
+                break;
+            default:
                 break;
         }
     }

@@ -256,6 +256,8 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
                         bundle.putInt(Constant.COURSE_ID, bean.getCourse_id());//专业
                         startActivity(TESTMODEActivity.class, bundle);
                         break;
+                    default:
+                        break;
                 }
             }
         });

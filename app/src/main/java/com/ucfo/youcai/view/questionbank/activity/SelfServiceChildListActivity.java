@@ -100,7 +100,7 @@ public class SelfServiceChildListActivity extends BaseActivity implements IQuest
             knob_id = bundle.getInt(Constant.KNOB_ID, 0);
             plate_id = bundle.getInt(Constant.PLATE_ID, 0);
 
-            questionBankKnowledgePresenter.getKnowledgeChildList(section_id, knob_id,course_id);
+            questionBankKnowledgePresenter.getKnowledgeChildList(course_id, section_id,knob_id);
         } else {
             loadinglayout.showEmpty();
         }

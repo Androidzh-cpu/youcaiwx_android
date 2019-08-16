@@ -45,6 +45,8 @@
                             android:layout_height="wrap_content"
                             android:drawablePadding="@dimen/dp_12"
                             android:drawableStart="@mipmap/icon_course_tv"
+                            android:ellipsize="end"
+                            android:maxLines="2"
                             android:paddingBottom="@dimen/dp_11"
                             android:paddingStart="@dimen/dp_12"
                             android:paddingTop="@dimen/dp_12"

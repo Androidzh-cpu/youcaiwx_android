@@ -135,7 +135,7 @@ import static com.ucfo.youcai.view.course.player.courseinterface.ViewAction.Hide
  * Package: com.ucfo.youcai.view.course.player
  * Description:TODO 课程播放页
  * Detail:TODO  course_un_con:1正课2非正课
- * TODO    course_buy_state:1购买2未购买
+ * TODO course_buy_state:1购买2未购买
  */
 public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceHolder.Callback, ICoursePlayerView {
 
