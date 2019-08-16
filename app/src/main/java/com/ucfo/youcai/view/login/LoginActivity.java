@@ -33,6 +33,7 @@ import com.ucfo.youcai.utils.systemutils.AppUtils;
 import com.ucfo.youcai.utils.systemutils.StatusbarUI;
 import com.ucfo.youcai.utils.toastutils.ToastUtil;
 import com.ucfo.youcai.view.main.activity.MainActivity;
+import com.umeng.message.PushAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -200,9 +201,9 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                     toastInfo(getResources().getString(R.string.register_password_error));
                     return;
                 }
-
+                String registrationId = PushAgent.getInstance(this).getRegistrationId();
                 //请求网络,准备登录
-                loginPresenter.commonLogin(mobile, password, androidid);
+                loginPresenter.commonLogin(mobile, password, androidid, registrationId);
 
                 break;
             case R.id.tv_forgetpass://TODO 忘记密码

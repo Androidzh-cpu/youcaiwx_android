@@ -1,7 +1,6 @@
 package com.ucfo.youcai.view.questionbank.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -27,7 +26,6 @@ import com.ucfo.youcai.utils.baseadapter.OnItemClickListener;
 import com.ucfo.youcai.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcai.utils.systemutils.DensityUtil;
-import com.ucfo.youcai.utils.systemutils.StatusbarUI;
 import com.ucfo.youcai.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -145,8 +143,6 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        //状态栏白色,字体黑色
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
@@ -220,6 +216,8 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
                         bundle.putInt(Constant.PLATE_ID, Constant.PLATE_6);
                         bundle.putInt(Constant.MOCK_ID, list.get(position).getMock_id());
                         startToActivity(bundle, TESTMODEActivity.class);
+                        break;
+                    default:
                         break;
                 }
             }

@@ -78,7 +78,6 @@ public class SettingActivity extends BaseActivity {
     private SettingActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private String totalCacheSize;
-    private String androidid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,20 +211,20 @@ public class SettingActivity extends BaseActivity {
                 startActivity(WebActivity.class, bundle);
                 break;
             case R.id.btn_exit://TODO 退出登录
-                //exitLogin();//弃用
-                exitLoginSuccess();
+                exitLogin();//弃用
+                //exitLoginSuccess();
+                break;
+            default:
                 break;
         }
     }
 
     //TODO 退出登录
     private void exitLogin() {
-        androidid = AppUtils.getAppIMEI(this);
-        int user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        int userid = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         OkGo.<String>post(ApiStores.LOGIN_EXITLOGIN)
                 .tag(this)
-                .params(Constant.USER_ID, user_id)
-                .params(Constant.DEVICES, androidid)
+                .params(Constant.USER_ID, userid)
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {

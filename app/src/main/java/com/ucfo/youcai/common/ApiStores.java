@@ -25,7 +25,7 @@ public class ApiStores {
 
     //-----------------------------------------TODO 登录注册业务------------------------------------------------------------------------------//
     public static final String LOGIN_ACCOUMENT = BASE_URL + "Login/accountLogin";//账号登录
-    public static final String LOGIN_EXITLOGIN = BASE_URL + "Login/outdev";//账号退出登录
+    public static final String LOGIN_EXITLOGIN = BASE_URL + "Login/outlogin";//账号退出登录
     public static final String LOGIN_SMSLOGIN = BASE_URL + "Login/quickLogin";//短信登录
     public static final String LOGIN_WECHEATLOGIN = BASE_URL + "Login/wxlogin";//微信登录
     public static final String LOGIN_WECHEATLOGIN_COMPLETED = BASE_URL + "Login/wxCominformation";//微信登录完善信息

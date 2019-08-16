@@ -29,6 +29,7 @@ import com.ucfo.youcai.view.login.CompleteAndForgetActivity;
 import com.ucfo.youcai.view.login.LoginActivity;
 import com.ucfo.youcai.view.login.SMSLoginActivity;
 import com.ucfo.youcai.view.main.activity.MainActivity;
+import com.umeng.message.PushAgent;
 import com.umeng.socialize.weixin.view.WXCallbackActivity;
 
 import org.json.JSONException;
@@ -187,10 +188,12 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
      * 请求后台开始登录
      */
     private void wxLogin(String unionid, String openId) {
+        String registrationId = PushAgent.getInstance(this).getRegistrationId();
         String appID = AppUtils.getAppIMEI(this);
         OkGo.<String>post(ApiStores.LOGIN_WECHEATLOGIN)
                 .params(Constant.UNIONID, unionid)
                 .params(Constant.DEVICES, appID)
+                .params(Constant.DEVICES_TOKEN, registrationId)
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Response<String> response) {

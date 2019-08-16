@@ -3,6 +3,7 @@ package com.ucfo.youcai;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
@@ -40,6 +41,7 @@ import com.ucfo.youcai.utils.LogUtils;
 import com.ucfo.youcai.utils.netutils.OKHttpUpdateHttpService;
 import com.ucfo.youcai.view.course.player.download.Common;
 import com.ucfo.youcai.view.main.activity.WebActivity;
+import com.ucfo.youcai.view.user.activity.MineOrderFormDetailActivity;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
@@ -121,10 +123,10 @@ public class UcfoApplication extends Application {
         intiDownloadConfig();
         initOk();
         regToWx();
-        initLogger();
-        initUpdate();
         initWebview();
         initUmeng();
+        initUpdate();
+        initLogger();
     }
 
     private void initLogger() {
@@ -171,7 +173,6 @@ public class UcfoApplication extends Application {
 
     private void initUmeng() {
         UMConfigure.setLogEnabled(true);
-        //UMConfigure.init(this, "5d521d4e3fc195b523000353", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "d9a3baa0dff24082751e60940cdb94f3");
         UMConfigure.init(this, Constant.UMENG_APPKEY, Constant.UMENG_CHANNEL, UMConfigure.DEVICE_TYPE_PHONE, Constant.UMENG_MESSAGE_SCRECT);
         PushAgent mPushAgent = PushAgent.getInstance(this);
         //Android Studio开发工具是基于gradle的配置方式，资源文件的包和应用程序的包是可以分开的，为了正确的找到资源包名，
@@ -202,12 +203,13 @@ public class UcfoApplication extends Application {
                 Map<String, String> extra = uMessage.extra;
                 if (extra != null) {
                     Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
                     String messageType = extra.get(Constant.UMENG_MESSAGE_TYPE);
                     if (!TextUtils.isEmpty(messageType)) {
                         if (messageType.equals(Constant.UMENG_MESSAGE_INFORMATION)) {
                             //TODO 资讯消息
                             intent.setClass(mContext, WebActivity.class);
-                            String webUrl = extra.get("webUrl");
+                            String webUrl = extra.get("value");
                             String title = extra.get(Constant.TITLE);
                             intent.putExtra(Constant.WEB_URL, webUrl);
                             intent.putExtra(Constant.WEB_TITLE, title);
@@ -216,18 +218,23 @@ public class UcfoApplication extends Application {
                         } else if (messageType.equals(Constant.UMENG_MESSAGE_NOTICE)) {
                             //TODO 消息公告
                             intent.setClass(mContext, WebActivity.class);
-                            String webUrl = extra.get("webUrl");
+                            String webUrl = extra.get("value");
                             String title = extra.get(Constant.TITLE);
-                            intent.putExtra(Constant.WEB_URL, webUrl);
-                            intent.putExtra(Constant.WEB_TITLE, title);
+                            bundle.putString(Constant.WEB_URL, webUrl);
+                            bundle.putString(Constant.WEB_TITLE, title);
                         } else if (messageType.equals(Constant.UMENG_MESSAGE_ORDERFORM)) {
                             //TODO 订单消息
+                            intent.setClass(mContext, MineOrderFormDetailActivity.class);
+                            String id = extra.get("value");
+                            bundle.putString(Constant.ORDER_NUM, id);
+                            bundle.putInt(Constant.STATUS, 1);
                         } else if (messageType.equals(Constant.UMENG_MESSAGE_COURSEANSWER)) {
                             //TODO 课程答疑
                         } else if (messageType.equals(Constant.UMENG_MESSAGE_QUESTIONANSWER)) {
                             //TODO 题库答疑
                         }
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtras(bundle);
                         startActivity(intent);
                     }
                 }

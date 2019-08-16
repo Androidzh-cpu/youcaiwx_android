@@ -68,6 +68,7 @@ public class Constant {
     public static final String MOBILE = "mobile";//手机号
     public static final String PASSWORD = "password";//密码
     public static final String DEVICES = "devices";//设备ID
+    public static final String DEVICES_TOKEN = "user_devices";//友盟设备ID
     public static final String UNIONID = "unionId";//微信唯一ID
     public static final String OPENID = "openid";//openid
     public static final String PASSWORD_CONFIRM = "pass";//确认密码

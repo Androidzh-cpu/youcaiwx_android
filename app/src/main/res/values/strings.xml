@@ -287,10 +287,12 @@
 
     <!-- Strings related to 成绩统计-->
     <string name="holder_nodata">暂无数据</string>
+    <string name="holder_nomessage">暂无消息</string>
     <string name="holder_notmake">未作答</string>
     <string name="holder_noMoreData">没有更多数据了!</string>
     <string name="holder_usedtime">用时:  </string>
     <string name="holder_analysis">解析:  </string>
+    <string name="holder_difficulty">难度:  </string>
     <string name="question_tips_resultreport_rightnum">做对试题</string>
     <string name="question_tips_resultreport_notmakenum">未做试题</string>
     <string name="question_tips_resultreport_wrongnum">做错试题</string>
@@ -464,6 +466,9 @@
     <string name="message_courseHolder">上课提醒通知</string>
 
     <!--string related to common-->
+    <string name="difficulty">困难</string>
+    <string name="medium">中等</string>
+    <string name="easy">简单</string>
     <string name="WeChatfriend">微信好友</string>
     <string name="CircleOfFriends">朋友圈</string>
     <string name="expand">展开</string>

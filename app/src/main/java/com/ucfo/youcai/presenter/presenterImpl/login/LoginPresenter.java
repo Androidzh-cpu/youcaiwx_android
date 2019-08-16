@@ -36,7 +36,7 @@ public class LoginPresenter implements ILoginPresenter {
 
     //TODO 账号密码登录
     @Override
-    public void commonLogin(String phone, String password, String andoridid) {
+    public void commonLogin(String phone, String password, String andoridid,String deviceToken) {
         AESUtils aesEncrypt = new AESUtils();
         String encrypt = aesEncrypt.encrypt(phone, Constant.AES_KEY, Constant.AES_IV);
         String iphone = "";
@@ -52,6 +52,7 @@ public class LoginPresenter implements ILoginPresenter {
                 .params(Constant.MOBILE, iphone)//手机号
                 .params(Constant.PASSWORD, password)//密码
                 .params(Constant.DEVICES, andoridid)
+                .params(Constant.DEVICES_TOKEN, deviceToken)
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
@@ -90,7 +91,7 @@ public class LoginPresenter implements ILoginPresenter {
 
     //短信登录
     @Override
-    public void smsLogin(String phone, String verificationCode, String andoridid) {
+    public void smsLogin(String phone, String verificationCode, String andoridid, String deviceToken) {
         AESUtils aesEncrypt = new AESUtils();
         String encrypt = aesEncrypt.encrypt(phone, Constant.AES_KEY, Constant.AES_IV);
         String iphone = "";
@@ -105,7 +106,8 @@ public class LoginPresenter implements ILoginPresenter {
                 .tag(this)
                 .params(Constant.MOBILE, iphone)//手机号
                 .params(Constant.SMS_CODE, verificationCode)//验证码
-                .params(Constant.DEVICES, andoridid)//shebei ID
+                .params(Constant.DEVICES, andoridid)
+                .params(Constant.DEVICES_TOKEN, deviceToken)
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {

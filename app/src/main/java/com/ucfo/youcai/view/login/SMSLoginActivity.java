@@ -29,6 +29,7 @@ import com.ucfo.youcai.utils.systemutils.StatusbarUI;
 import com.ucfo.youcai.utils.time.SMSCountDownTimer;
 import com.ucfo.youcai.utils.toastutils.ToastUtil;
 import com.ucfo.youcai.view.main.activity.MainActivity;
+import com.umeng.message.PushAgent;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -178,8 +179,9 @@ public class SMSLoginActivity extends BaseActivity implements ILoginView {
                     toastInfo(getResources().getString(R.string.register_smscode_error));
                     return;
                 }
+                String registrationId = PushAgent.getInstance(this).getRegistrationId();
                 //验证通过,开始短信登录
-                loginPresenter.smsLogin(mobile, mobileCode, androidid);
+                loginPresenter.smsLogin(mobile, mobileCode, androidid,registrationId);
 
                 break;
             case R.id.tv_forgetpass://TODO 忘记密码
@@ -191,6 +193,8 @@ public class SMSLoginActivity extends BaseActivity implements ILoginView {
                 break;
             case R.id.account_login://TODO 账号登录
                 finish();
+                break;
+            default:
                 break;
         }
     }

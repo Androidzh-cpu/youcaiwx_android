@@ -133,6 +133,8 @@ public class MessageCenterActivity extends BaseActivity implements IMessageCente
                     int status = announ.getStatus();
                     if (!TextUtils.isEmpty(title)) {
                         textNoticeContent.setText(title);
+                    } else {
+                        textNoticeContent.setText(getResources().getString(R.string.holder_nomessage));
                     }
                     if (status == 1) {
                         notice.setVisibility(View.VISIBLE);
@@ -147,6 +149,8 @@ public class MessageCenterActivity extends BaseActivity implements IMessageCente
 
                     if (!TextUtils.isEmpty(title)) {
                         textNotificationContent.setText(title);
+                    }else {
+                        textNotificationContent.setText(getResources().getString(R.string.holder_nomessage));
                     }
                     if (status == 1) {
                         notification.setVisibility(View.VISIBLE);

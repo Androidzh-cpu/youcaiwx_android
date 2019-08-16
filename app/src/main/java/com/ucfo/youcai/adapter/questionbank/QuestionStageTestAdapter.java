@@ -71,19 +71,19 @@ public class QuestionStageTestAdapter extends BaseAdapter<QuestionStageOfTestBea
 
         if (!TextUtils.isEmpty(difficulty)) {//TODO 难易度A级,B级,C级
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("难度: ");
-            if (difficulty.equals("A")) {
-                stringBuilder.append("困难");
+            stringBuilder.append(context.getResources().getString(R.string.holder_difficulty));
+            if (difficulty.equals("C")) {
+                stringBuilder.append(context.getResources().getString(R.string.difficulty));
                 holder.mStageKnowledgeSubtitleItem.setText(stringBuilder.toString());
-                holder.mStageKnowledgeSubtitleItem.setTextColor(ContextCompat.getColor(context,R.color.color_E84342));
+                holder.mStageKnowledgeSubtitleItem.setTextColor(ContextCompat.getColor(context, R.color.color_E84342));
             } else if (difficulty.equals("B")) {
-                stringBuilder.append("中等");
+                stringBuilder.append(context.getResources().getString(R.string.medium));
                 holder.mStageKnowledgeSubtitleItem.setText(stringBuilder.toString());
-                holder.mStageKnowledgeSubtitleItem.setTextColor(ContextCompat.getColor(context,R.color.color_F99111));
-            } else if (difficulty.equals("C")) {
-                stringBuilder.append("简单");
+                holder.mStageKnowledgeSubtitleItem.setTextColor(ContextCompat.getColor(context, R.color.color_F99111));
+            } else if (difficulty.equals("A")) {
+                stringBuilder.append(context.getResources().getString(R.string.easy));
                 holder.mStageKnowledgeSubtitleItem.setText(stringBuilder.toString());
-                holder.mStageKnowledgeSubtitleItem.setTextColor(ContextCompat.getColor(context,R.color.color_0AAB55));
+                holder.mStageKnowledgeSubtitleItem.setTextColor(ContextCompat.getColor(context, R.color.color_0AAB55));
             }
         } else {
             holder.mStageKnowledgeSubtitleItem.setText(R.string.default_title);
@@ -101,8 +101,7 @@ public class QuestionStageTestAdapter extends BaseAdapter<QuestionStageOfTestBea
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
         View inflate = LayoutInflater.from(context).inflate(R.layout.item_stage_knowledge, viewGroup, false);
-        QuestionStageTestAdapter.ViewHolder viewHolder = new QuestionStageTestAdapter.ViewHolder(inflate);
-        return viewHolder;
+        return new QuestionStageTestAdapter.ViewHolder(inflate);
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
