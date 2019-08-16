@@ -242,12 +242,12 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
                 }
 
                 //TODO 设置顶部章节名称
-                String topVdeioTitle = sectionName + "    " + formatMs;
+                String topVdeioTitle = sectionName + "  " + formatMs;
                 SpannableString spannableString = new SpannableString(topVdeioTitle);
                 ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#999999"));
                 AbsoluteSizeSpan ab = new AbsoluteSizeSpan(13, true);
-                spannableString.setSpan(ab, topVdeioTitle.length() - videoTime.length() - 1, topVdeioTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                spannableString.setSpan(colorSpan, topVdeioTitle.length() - videoTime.length() - 1, topVdeioTitle.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                spannableString.setSpan(ab, topVdeioTitle.length() - formatMs.length(), topVdeioTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(colorSpan, topVdeioTitle.length() - formatMs.length(), topVdeioTitle.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                 answerVideoname.setText(spannableString);
 
                 if (!TextUtils.isEmpty(username)) {

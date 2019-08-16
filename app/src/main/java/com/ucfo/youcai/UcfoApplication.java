@@ -209,7 +209,7 @@ public class UcfoApplication extends Application {
                         if (messageType.equals(Constant.UMENG_MESSAGE_INFORMATION)) {
                             //TODO 资讯消息
                             intent.setClass(mContext, WebActivity.class);
-                            String webUrl = extra.get("value");
+                            String webUrl = extra.get(Constant.VALUE);
                             String title = extra.get(Constant.TITLE);
                             intent.putExtra(Constant.WEB_URL, webUrl);
                             intent.putExtra(Constant.WEB_TITLE, title);
@@ -218,14 +218,14 @@ public class UcfoApplication extends Application {
                         } else if (messageType.equals(Constant.UMENG_MESSAGE_NOTICE)) {
                             //TODO 消息公告
                             intent.setClass(mContext, WebActivity.class);
-                            String webUrl = extra.get("value");
+                            String webUrl = extra.get(Constant.VALUE);
                             String title = extra.get(Constant.TITLE);
                             bundle.putString(Constant.WEB_URL, webUrl);
                             bundle.putString(Constant.WEB_TITLE, title);
                         } else if (messageType.equals(Constant.UMENG_MESSAGE_ORDERFORM)) {
                             //TODO 订单消息
                             intent.setClass(mContext, MineOrderFormDetailActivity.class);
-                            String id = extra.get("value");
+                            String id = extra.get(Constant.VALUE);
                             bundle.putString(Constant.ORDER_NUM, id);
                             bundle.putInt(Constant.STATUS, 1);
                         } else if (messageType.equals(Constant.UMENG_MESSAGE_COURSEANSWER)) {

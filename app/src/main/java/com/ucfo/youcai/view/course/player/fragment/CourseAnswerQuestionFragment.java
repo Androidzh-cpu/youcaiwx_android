@@ -24,7 +24,6 @@ import com.ucfo.youcai.entity.answer.AnswerDetailBean;
 import com.ucfo.youcai.entity.answer.AnswerListDataBean;
 import com.ucfo.youcai.presenter.presenterImpl.answer.CourseCourseAnswerListPresenter;
 import com.ucfo.youcai.presenter.view.answer.ICourseAnswerListView;
-import com.ucfo.youcai.utils.LogUtils;
 import com.ucfo.youcai.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcai.utils.systemutils.DensityUtil;
@@ -115,7 +114,6 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     protected void initData() {
         answerList = new ArrayList<>();
         courseAnswerListPresenter = new CourseCourseAnswerListPresenter(this);
-        LogUtils.e("getAnswerListData------courseAnswerListPresenter = new CourseCourseAnswerListPresenter(this)");
         coursePackageId = videoPlayPageActivity.getCourse_packageId();//课程包ID
 
         refreshlayout.setDisableContentWhenRefresh(true);//是否在刷新的时候禁止列表的操作
@@ -132,6 +130,12 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
         refreshlayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                courseAnswerListPresenter.getAnswerListData(courseVideoid, courseSectionid, courseCourseid, coursePackageId);
+            }
+        });
+        loadinglayout.setRetryListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 courseAnswerListPresenter.getAnswerListData(courseVideoid, courseSectionid, courseCourseid, coursePackageId);
             }
         });
@@ -212,8 +216,8 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
                             bundle.putInt(Constant.QUESTION_STATUS, data.get(position).getReply_status());
                             startActivity(CourseAnswerDetailActivity.class, bundle);
                         }
-                    }else {
-                        ToastUtil.showBottomShortText(context,getResources().getString(R.string.course_bugCourse));
+                    } else {
+                        ToastUtil.showBottomShortText(context, getResources().getString(R.string.course_bugCourse));
                     }
                 } else {//TODO 未登录
                     Intent intent = new Intent(getActivity(), LoginActivity.class);

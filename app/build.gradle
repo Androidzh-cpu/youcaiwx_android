@@ -92,10 +92,10 @@ android {
     signingConfigs {
         relese {
             try {
-                storeFile file('D:/YouCaiFile/优财智业项目/app签名/appkey')
-                storePassword "CMAyoucai2020"
-                keyAlias "youcaikey"
-                keyPassword "CMAyoucai2020"
+                keyAlias 'youcaiRelase'
+                keyPassword 'CMAyoucai2020'
+                storeFile file('D:/YouCaiFile/优财智业项目/新版App签名/appkey.jks')
+                storePassword 'CMAyoucai2020'
             } catch (ex) {
                 ex.printStackTrace()
                 throw new InvalidUserDataException("秘钥用户名或密码错误${ex.getMessage()}")
@@ -103,10 +103,10 @@ android {
         }
         debug {
             try {
-                storeFile file('D:/YouCaiFile/优财智业项目/app签名/appkey')
-                storePassword "CMAyoucai2020"
-                keyAlias "youcaikey"
-                keyPassword "CMAyoucai2020"
+                keyAlias 'youcaiRelase'
+                keyPassword 'CMAyoucai2020'
+                storeFile file('D:/YouCaiFile/优财智业项目/新版App签名/appkey.jks')
+                storePassword 'CMAyoucai2020'
             } catch (ex) {
                 ex.printStackTrace()
                 throw new InvalidUserDataException("秘钥用户名或密码错误${ex.getMessage()}")
@@ -131,7 +131,6 @@ android {
             signingConfig signingConfigs.relese
             // 混淆文件的位置
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
         }
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
@@ -149,8 +148,7 @@ android {
             jniDebuggable true
             //是否进行混淆
             minifyEnabled true
-
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.relese
             //前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
