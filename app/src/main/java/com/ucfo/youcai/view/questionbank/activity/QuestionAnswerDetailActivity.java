@@ -165,12 +165,13 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
         if (bundle != null) {
             answer_id = bundle.getInt(Constant.ID, 0);//题目ID
             reply_status = bundle.getInt(Constant.STATUS, 0);//回复状态
-            type = bundle.getString(Constant.TYPE, Constant.MINE_ANSWER);
+            //type = bundle.getString(Constant.TYPE, Constant.MINE_ANSWER);
+            type = bundle.getString(Constant.TYPE, "");
 
             questionAnswerPresenter.getQuestionAnswerDetail(user_id, answer_id);
 
 
-            if (type.equals(Constant.MINE_ANSWER)) {
+            if (TextUtils.equals(type, Constant.MINE_ANSWER)) {
                 topLinear.setVisibility(View.GONE);
             }
         } else {

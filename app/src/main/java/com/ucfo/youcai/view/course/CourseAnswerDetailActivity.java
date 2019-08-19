@@ -39,7 +39,6 @@ import com.ucfo.youcai.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcai.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcai.utils.systemutils.DensityUtil;
-import com.ucfo.youcai.utils.systemutils.StatusbarUI;
 import com.ucfo.youcai.view.course.player.utils.TimeFormater;
 import com.ucfo.youcai.widget.customview.LoadingLayout;
 
@@ -146,7 +145,7 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
 
         bundle = getIntent().getExtras();
         if (bundle != null) {
-            type = bundle.getString(Constant.TYPE, "");
+            type = bundle.getString(Constant.TYPE, Constant.MINE_ANSWER);
             answer_id = bundle.getInt(Constant.ANSWER_ID, 0);//获取传递的问答ID
             answer_replystatus = bundle.getInt(Constant.STATUS, 0);//获取传递的问答状态
 
@@ -160,7 +159,7 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
                 default:
                     break;
             }
-            if (type.equals(Constant.MINE_ANSWER)) {
+            if (TextUtils.equals(type, Constant.MINE_ANSWER)) {
                 topLinear.setVisibility(View.GONE);
             }
         } else {
@@ -177,7 +176,6 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
