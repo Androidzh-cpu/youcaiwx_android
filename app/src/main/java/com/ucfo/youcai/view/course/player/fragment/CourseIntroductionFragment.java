@@ -61,7 +61,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Description:TODO 课程简介
  */
 public class CourseIntroductionFragment extends BaseFragment {
-
     @BindView(R.id.webview)
     NoScrollWebView webView;
     Unbinder unbinder;
@@ -197,7 +196,6 @@ public class CourseIntroductionFragment extends BaseFragment {
         OkGo.<String>post(ApiStores.COURSE_INTORDUCTION)
                 .params(Constant.ID, course_packageId)
                 .params(Constant.USER_ID, id)
-                .retryCount(1)
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Response<String> response) {
@@ -208,6 +206,7 @@ public class CourseIntroductionFragment extends BaseFragment {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
                         super.onStart(request);
+                        loadinglayout.showLoading();
                     }
 
                     @Override
@@ -231,8 +230,6 @@ public class CourseIntroductionFragment extends BaseFragment {
                         } else {
                             loadinglayout.showEmpty();
                         }
-
-
                     }
                 });
     }
@@ -264,25 +261,24 @@ public class CourseIntroductionFragment extends BaseFragment {
                 }
             });
 
-            String brief_img = data.getBrief_img();//课程简介图
+            String briefImg = data.getBrief_img();//课程简介图
             String name = data.getName();//课程名字
             String description = data.getDescription();//描述
             String price = data.getPrice();//价格
-            int join_num = data.getJoin_num();//参加人数
-            int study_days = data.getStudy_days();//课时
-            String teacher_name = data.getTeacher_name();//讲师名字
-            String is_purchase = data.getIs_purchase();
-            String app_img = data.getApp_img();
-
-            if (TextUtils.isEmpty(is_purchase)) {//TODO 课程购买状态
+            int joinNum = data.getJoin_num();//参加人数
+            int studyDays = data.getStudy_days();//课时
+            String teacherName = data.getTeacher_name();//讲师名字
+            String isPurchase = data.getIs_purchase();//课程是否购买
+            String appImg = data.getApp_img();
+            if (TextUtils.isEmpty(isPurchase)) {//TODO 课程购买状态
                 videoPlayPageActivity.setCourse_buy_state(2);
             } else {
-                videoPlayPageActivity.setCourse_buy_state(Integer.parseInt(is_purchase));
+                videoPlayPageActivity.setCourse_buy_state(Integer.parseInt(isPurchase));
             }
             videoPlayPageActivity.setCourse_PackagePrice(price);//TODO 课程购买价格
-            videoPlayPageActivity.setCourse_Cover(app_img);
+            videoPlayPageActivity.setCourse_Cover(appImg);
 
-            webView.loadUrl(brief_img);
+            webView.loadUrl(briefImg);
             if (!TextUtils.isEmpty(name)) {
                 courseName.setText(name);
             }
@@ -292,11 +288,11 @@ public class CourseIntroductionFragment extends BaseFragment {
             if (!TextUtils.isEmpty(price)) {
                 coursePrice.setText(String.valueOf(getResources().getString(R.string.RMB) + price));
             }
-            if (!TextUtils.isEmpty(teacher_name)) {
-                courseTeacher.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + teacher_name));
+            if (!TextUtils.isEmpty(teacherName)) {
+                courseTeacher.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + teacherName));
             }
-            courseCount.setText(String.valueOf(join_num + getResources().getString(R.string.people)));
-            courseTime.setText(String.valueOf(getResources().getString(R.string.holder_courseTime) + study_days + getResources().getString(R.string.mine_Course_holder2)));
+            courseCount.setText(String.valueOf(joinNum + getResources().getString(R.string.people)));
+            courseTime.setText(String.valueOf(getResources().getString(R.string.holder_courseTime) + studyDays + getResources().getString(R.string.mine_Course_holder2)));
             loadinglayout.showContent();
         } else {
             loadinglayout.showEmpty();

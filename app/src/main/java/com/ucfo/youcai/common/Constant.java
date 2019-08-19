@@ -45,15 +45,16 @@ public class Constant {
     public static final String VALUE = "value";
 
     /*******************************************************TODO 再丑也要注意的分割线*******************************************************/
-
-    public static final String LUBAN_PATH = "/youcai/image/";//压缩图片地址
-    public static final String CACHE_PATH = "/youcai/Download/";//离线缓存地址              TODO 地址别篡改,同意都在跟目录的youcai文件夹下处理本应用的数据
-    public static final String ENCRYPTED_PATH = "/aliyun/encryptedApp.dat";//加密文件存放地址
-    public static final String PDF_PATH = "/youcai/pdf/";//pdf文件存放地址
-
+    //压缩图片地址
+    public static final String LUBAN_PATH = "/youcai/image/";
+    //离线缓存地址        TODO 地址别篡改,统一都在跟目录的youcai文件夹下处理本应用的数据
+    public static final String CACHE_PATH = "/youcai/Download/";
+    //pdf文件存放地址
+    public static final String PDF_PATH = "/youcai/pdf/";
+    //加密文件存放地址
+    public static final String ENCRYPTED_PATH = "/aliyun/encryptedApp.dat";
     /*******************************************************TODO 再丑也要注意的分割线*******************************************************/
-
-    //---------------------------------------------TODO 登录注册业务-----------------------------------------------//
+    //---------------------------------------------登录-----------------------------------------------//
     public static final String FIRST_LOGIN = "first_login";//第一次登陆
     public static final String LOGIN_STATUS = "is_login";//用户是否登录
     public static final String STATE = "state";//首页底部导航栏标签
@@ -100,19 +101,19 @@ public class Constant {
     public static final String VIDEO_TITLE = "video_title";//视频标题
     public static final String PLAN_ID = "plan_id";//学习计划ID
     public static final String DAYS = "days";//学习计划天数
-
+    //免费试看时间
+    public static final int FREE_TIME = 3 * 60;
     //视频播放源
     public static final String LOCAL_CACHE = "localCache";//本地缓存
     public static final String LOCAL_PLAYURL = "localPlayUrl";//本地视频播放地址
     public static final String COLLECTION = "collection";//收藏
     public static final String WATCH_RECORD = "watch_record";//观看记录
     public static final String WATCH_LEARNPLAN = "watch_learnPlan";//学习计划
-
     //WIFI观看处理
     public static final String DOWNLOAD_WIFI = "download_wifi";//wifi下下载
     public static final String LOOK_WIFI = "download_look";//wifi下观看
 
-    //---------------------------------------------TODO 题库-----------------------------------------------//
+    //---------------------------------------------题库-----------------------------------------------//
     public static final String SUBJECT_ID = "subject_id";//选中题库的ID
     public static final String PAGE = "page";//分页加载
     public static final String LIMIT = "limit";//分页加载
@@ -162,7 +163,7 @@ public class Constant {
     public static final int PLATE_15 = 15;//TODO 15:学习计划解析
 
 
-    //---------------------------------------------TODO 个人中心-----------------------------------------------//
+    //---------------------------------------------个人中心-----------------------------------------------//
     public static final String NICKNAME = "nickname";
     public static final String IS_DEFAULT = "is_default";
     public static final String TELEPHONE = "telephone";
@@ -172,16 +173,14 @@ public class Constant {
     public static final String ORDER_NUM = "order_num";
     public static final String TEACHER_NAME = "teacher_name";
     public static final String MINE_ANSWER = "mine_answer";
-
     public static final String DOWNLOADVID_LIST = "downloadvidList";//下载的vid列表
     public static final String DOWNLOADINFO_LIST = "downloadinfoList";//下载的列表
     public static final String LOCAL_STAIRLIST = "local_list";//本地视频一级存储列表
-
-    //---------------------------------------------TODO 支付-----------------------------------------------//
+    //---------------------------------------------支付-----------------------------------------------//
     public static final String PAY_EDIT = "pay_edit";
     public static final String PAY_COUPONPRICE = "pay_couponPrice";
     public static final String PAY_COUPONID = "pay_couponId";
-
+    //---------------------------------------------消息中心-----------------------------------------------//
     public static final String MESSAGE_ID = "message_id";
 
 

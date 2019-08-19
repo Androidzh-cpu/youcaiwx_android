@@ -1,6 +1,7 @@
 package com.ucfo.youcai.view.course.player;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -67,7 +68,6 @@ import com.qw.soul.permission.bean.Permission;
 import com.qw.soul.permission.bean.Permissions;
 import com.qw.soul.permission.callbcak.CheckRequestPermissionListener;
 import com.qw.soul.permission.callbcak.CheckRequestPermissionsListener;
-import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.ucfo.youcai.R;
 import com.ucfo.youcai.common.ApiStores;
 import com.ucfo.youcai.common.Constant;
@@ -77,7 +77,6 @@ import com.ucfo.youcai.presenter.presenterImpl.course.CoursePlayPresenter;
 import com.ucfo.youcai.presenter.view.course.ICoursePlayerView;
 import com.ucfo.youcai.utils.CallUtils;
 import com.ucfo.youcai.utils.LogUtils;
-import com.ucfo.youcai.utils.ShareUtils;
 import com.ucfo.youcai.utils.glideutils.GlideUtils;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcai.utils.systemutils.DensityUtil;
@@ -104,7 +103,6 @@ import com.ucfo.youcai.view.pay.CommitOrderActivity;
 import com.ucfo.youcai.view.questionbank.activity.QuestionAskQuestionActivity;
 import com.ucfo.youcai.widget.customview.LoadingView;
 import com.ucfo.youcai.widget.customview.SwitchView;
-import com.ucfo.youcai.widget.dialog.ShareDialog;
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
@@ -260,17 +258,20 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private CourseDirectoryListFragment courseDirectoryListFragment;
     private CourseAnswerQuestionFragment courseAnswerQuestionFragment;
     private CoursePlayPresenter coursePlayPresenter;
-    private int watch_time = 0, freeTime = 3 * 60, learnPlanid = 0, learnDays = 0;
+    private int watch_time = 0, freeTime = Constant.FREE_TIME, learnPlanid = 0, learnDays = 0;
     private String playVideoName;//播放时的视频名称,从课程目录获取
     private WebSocket mWebSocket = null;
     private Timer mTimer;
+    private TimerTask timerTask;
     private boolean download_wifi, look_wifi;
     private AliyunPlayAuth currentaAliyunPlayAuth;
     private boolean pdfDownloadStatus = false, pdfExists = false;
 
+
     /**
      * 播放进度更新计时器
      */
+    @SuppressLint("HandlerLeak")
     private class ProgressUpdateTimer extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -282,6 +283,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     /**
      * 隐藏类
      */
+    @SuppressLint("HandlerLeak")
     private class HideHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -296,7 +298,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         setContentView(R.layout.activity_video_play_page);
         StatusBarUtil.immersive(this);
         ButterKnife.bind(this);
-
         SoulPermission.getInstance().checkAndRequestPermissions(Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 new CheckRequestPermissionsListener() {
                     @Override
@@ -318,23 +319,22 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                         builder.show();
                     }
                 });
-
-        initView();//TODO 初始化VIEW
-
-        initData();//TODO 初始化数据
-
-        initAliyunVideoPlayer();//TODO 阿里云播放器初始化
-
-        initNetWatchdog();//TODO 注册网络状态监听
-
+        //初始化VIEW
+        initView();
+        //初始化数据
+        initData();
+        //阿里云播放器初始化
+        initAliyunVideoPlayer();
+        //注册网络状态监听
+        initNetWatchdog();
+        //播放来源视频设置
+        initSourseType();
         if (login_status) {//登录后择机开启socket
-            if (course_Source.equals(Constant.LOCAL_CACHE)) {
-
-            } else {
+            boolean equals = TextUtils.equals(course_Source, Constant.LOCAL_CACHE);
+            if (!equals) {
                 initWsClient(ApiStores.SOCKET);
             }
         }
-        initSourseType();//播放来源视频设置
     }
 
     /**
@@ -376,7 +376,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     @Override
     protected void onDestroy() {
         stop();//停止播放
-
         if (aliyunVodPlayer != null) {
             aliyunVodPlayer.release();
         }
@@ -401,10 +400,15 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             mWebSocket.close(1001, "客户端主动关闭连接");
             mWebSocket.cancel();
             mWebSocket = null;
-            if (mTimer != null) {
-                mTimer.cancel();
-                mTimer = null;
-            }
+        }
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer.purge();
+            mTimer = null;
+        }
+        if (timerTask != null) {
+            timerTask.cancel();
+            timerTask = null;
         }
     }
 
@@ -413,15 +417,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (mTimer == null) {
             mTimer = new Timer();
         }
-        TimerTask timerTask = new TimerTask() {
+        timerTask = new TimerTask() {
             @Override
             public void run() {
                 if (mWebSocket == null) {
                     return;
                 }
                 sendSocketMessage();
-                //除了文本内容外，还可以将如图像，声音，视频等内容转为ByteString发送
-                //boolean send(ByteString bytes);
             }
         };
         mTimer.schedule(timerTask, 0, 1000 * 30);
@@ -434,9 +436,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 .writeTimeout(60, TimeUnit.SECONDS)//设置写的超时时间
                 .connectTimeout(60, TimeUnit.SECONDS)//设置连接超时时间
                 .build();
-        Request request = new Request.Builder()
-                .url(wsUrl)
-                .build();
+        Request request = new Request.Builder().url(wsUrl).build();
         //建立连接
         client.newWebSocket(request, new WebSocketListener() {
             @Override
@@ -883,17 +883,17 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         startProgressUpdateTimer();
     }
 
-    //TODO 试听时间
+    //试听限制
     private void freeWatch() {
-        if (getCourse_buy_state() == 1
-                || course_Source.equals(Constant.LOCAL_CACHE) || course_Source.equals(Constant.WATCH_LEARNPLAN)) {//todo 已购买
-
-        } else {//todo 未购买,试看指定时间
+        //已购买
+        if (getCourse_buy_state() == 1 || TextUtils.equals(course_Source, Constant.LOCAL_CACHE)
+                || TextUtils.equals(course_Source, Constant.WATCH_LEARNPLAN)) {
+        } else {
+            //未购买,试看指定时间
             int millis = Integer.parseInt(String.valueOf(aliyunVodPlayer.getCurrentPosition() / 1000));//总的剩余时间
             if (millis >= freeTime) {
                 stop();//停止播放
                 stopProgressUpdateTimer();//关闭计时器
-
                 playerTipsview.setVisibility(View.VISIBLE);
                 playerTipsview.setText(getResources().getString(R.string.course_freeWatchCompleted));
             }
@@ -981,7 +981,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     /**
      * 创建顶部菜单和底部菜单的隐藏与消失动画
      */
-    private TranslateAnimation getTranslateAnimation(float fromX, float toX, float fromY, float toY, boolean isFillAfter) {
+    private TranslateAnimation getTranslateAnimation(float fromX, float toX, float fromY,
+                                                     float toY, boolean isFillAfter) {
         TranslateAnimation animation = new TranslateAnimation(fromX, toX, fromY, toY);
         animation.setFillAfter(isFillAfter);
         animation.setDuration(200);
@@ -2155,13 +2156,14 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         holder.setFixedSize(width, height);
         aliyunVodPlayer.surfaceChanged();
-        //LogUtils.e(" surfaceChanged surfaceHolder = " + surfaceHolder + " ,  width = " + width + " , height = " + height);
+        LogUtils.e(" surfaceChanged surfaceHolder = " + surfaceHolder + " ,  width = " + width + " , height = " + height);
     }
 
     //TODO surfaceview销毁
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        //LogUtils.e(" surfaceDestroyed = surfaceHolder = " + surfaceHolder);
+        LogUtils.e(" surfaceDestroyed = surfaceHolder = " + surfaceHolder);
+
     }
 
     /**
@@ -2269,6 +2271,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 topBack();
                 break;
             case R.id.player_share://TODO 顶部分享按键
+/*
                 new ShareDialog(this)
                         .builder()
                         .setFriendButton(new View.OnClickListener() {
@@ -2289,6 +2292,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                             }
                         })
                         .show();
+*/
                 break;
             case R.id.player_collect://TODO 顶部收藏按键
                 switchCollectionStatus();
