@@ -9,11 +9,13 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.ucfo.youcai.common.Constant;
 import com.ucfo.youcai.utils.LogUtils;
-import com.ucfo.youcai.view.login.LoginActivity;
 import com.ucfo.youcai.view.main.activity.WebActivity;
 import com.umeng.message.UTrack;
 import com.umeng.message.UmengMessageService;
@@ -40,45 +42,31 @@ public class MyPushIntentService extends UmengMessageService {
         try {
             String message = intent.getStringExtra(AgooConstants.MESSAGE_BODY);
             UMessage msg = new UMessage(new JSONObject(message));
-            LogUtils.e("MyPushIntentService------ummessage:" + message);
+            LogUtils.e("Umeng:--------------onMessage:" + message);
 
             Map<String, String> extra = msg.extra;
-            LogUtils.e("MyPushIntentService------msg.extra:" + extra);
+            Gson gson = new Gson();
+            String jsonImgList = gson.toJson(extra);
+            LogUtils.e("Umeng:--------------onMessage:" + jsonImgList);
             Intent intentAct = new Intent();
+            Bundle bundle = new Bundle();
             if (extra != null) {
-                messageType = extra.get("jumptype");
-                if (messageType.equals("1000")) {
-                    //强制下线
-                    intentAct.setClass(context, LoginActivity.class);
-                } else if (messageType.equals("newsMessage")) {
-                    //资讯详情 传 id
-                    parameter = extra.get("webUrl");
-                    String title = extra.get("title");
-                    intentAct.putExtra(Constant.WEB_URL, parameter);
-                    intentAct.putExtra(Constant.WEB_TITLE, title);
-                    intentAct.setClass(context, WebActivity.class);
-                } else if (messageType.equals("arenaQueDetail")) {
-                    //题库答疑详情 传 id
-                    parameter = extra.get("id");
-                } else if (messageType.equals("courseQueDetail")) {
-                    //课程答疑详情 传 id
-                    parameter = extra.get("id");
-                } else if (messageType.equals("messageDetail")) {
-                    //系统消息列表页 id
+                messageType = extra.get(Constant.TYPE);
+                if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_INFORMATION)) {
+                    intent.setClass(context, WebActivity.class);
+                    String webUrl = extra.get(Constant.VALUE);
+                    String title = extra.get(Constant.TITLE);
+                    bundle.putString(Constant.WEB_URL, webUrl);
+                    bundle.putString(Constant.WEB_TITLE, title);
                 }
                 intentAct.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtras(bundle);
             }
             //展示通知
             showNotifications(context, msg, intentAct);
             // 对完全自定义消息的处理方式，点击或者忽略
-            boolean isClickOrDismissed = true;
-            if (isClickOrDismissed) {
-                //完全自定义消息的点击统计
-                UTrack.getInstance(getApplicationContext()).trackMsgClick(msg);
-            } else {
-                //完全自定义消息的忽略统计
-                UTrack.getInstance(getApplicationContext()).trackMsgDismissed(msg);
-            }
+            //完全自定义消息的点击统计
+            UTrack.getInstance(getApplicationContext()).trackMsgClick(msg);
 
         } catch (Exception e) {
             //UmLog.e(TAG, e.getMessage());

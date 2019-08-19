@@ -12,6 +12,7 @@ import android.text.TextUtils;
 
 import com.aliyun.vodplayer.downloader.AliyunDownloadConfig;
 import com.aliyun.vodplayer.downloader.AliyunDownloadManager;
+import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -39,8 +40,10 @@ import com.ucfo.youcai.common.Constant;
 import com.ucfo.youcai.utils.JsonUtil;
 import com.ucfo.youcai.utils.LogUtils;
 import com.ucfo.youcai.utils.netutils.OKHttpUpdateHttpService;
+import com.ucfo.youcai.view.course.CourseAnswerDetailActivity;
 import com.ucfo.youcai.view.course.player.download.Common;
 import com.ucfo.youcai.view.main.activity.WebActivity;
+import com.ucfo.youcai.view.questionbank.activity.QuestionAnswerDetailActivity;
 import com.ucfo.youcai.view.user.activity.MineOrderFormDetailActivity;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
@@ -199,20 +202,23 @@ public class UcfoApplication extends Application {
             @Override
             public void launchApp(Context mContext, UMessage uMessage) {
                 super.launchApp(mContext, uMessage);
-                LogUtils.e("Umeng:--------------launchApp:" + uMessage.extra.toString());
+                Map<String, String> extra1 = uMessage.extra;
+                Gson gson = new Gson();
+                String jsonImgList = gson.toJson(extra1);
+                LogUtils.e("Umeng:--------------launchApp:" + jsonImgList);
                 Map<String, String> extra = uMessage.extra;
                 if (extra != null) {
                     Intent intent = new Intent();
                     Bundle bundle = new Bundle();
-                    String messageType = extra.get(Constant.UMENG_MESSAGE_TYPE);
+                    String messageType = extra.get(Constant.TYPE);
                     if (!TextUtils.isEmpty(messageType)) {
                         if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_INFORMATION)) {
                             //TODO 资讯消息
                             intent.setClass(mContext, WebActivity.class);
                             String webUrl = extra.get(Constant.VALUE);
                             String title = extra.get(Constant.TITLE);
-                            intent.putExtra(Constant.WEB_URL, webUrl);
-                            intent.putExtra(Constant.WEB_TITLE, title);
+                            bundle.putString(Constant.WEB_URL, webUrl);
+                            bundle.putString(Constant.WEB_TITLE, title);
                         } else if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_LIVE)) {
                             //TODO 直播消息
                         } else if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_NOTICE)) {
@@ -230,8 +236,17 @@ public class UcfoApplication extends Application {
                             bundle.putInt(Constant.STATUS, 1);
                         } else if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_COURSEANSWER)) {
                             //TODO 课程答疑
+                            intent.setClass(mContext, CourseAnswerDetailActivity.class);
+                            String id = extra.get(Constant.VALUE);
+                            bundle.putString(Constant.TYPE, Constant.MINE_ANSWER);
+                            bundle.putInt(Constant.ANSWER_ID, Integer.parseInt(id));
+                            bundle.putInt(Constant.QUESTION_STATUS, 1);
                         } else if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_QUESTIONANSWER)) {
                             //TODO 题库答疑
+                            intent.setClass(mContext, QuestionAnswerDetailActivity.class);
+                            String id = extra.get(Constant.VALUE);
+                            bundle.putInt(Constant.ID, Integer.parseInt(id));
+                            bundle.putInt(Constant.STATUS, 1);
                         }
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtras(bundle);

@@ -157,7 +157,6 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
                 case 1://1回复
                     answerTeacherreplystatus.setText(getResources().getString(R.string.answer_teacher_reply));
                     break;
-                case 2://2未回复
                 default:
                     break;
             }
@@ -167,7 +166,6 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
         } else {
             loadinglayout.showEmpty();
         }
-
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -23,6 +23,9 @@ public interface IQuestionBankChapterPresenter {
     //TODO 获取错题中心章节列表
     void getErrorCenterSectionList(int course_id, int user_id);
 
+    //TODO 获取错题中心知识点列表
+    void getErrorCenterKnowList(int course_id, int user_id, int section_id, int konb_id);
+
     //TODO 题库收藏知识点列表
     void getQuestionCollectionList(int user_id, int course_id, int section_id, int knob_id);
 }

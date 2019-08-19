@@ -59,6 +59,7 @@ public class ApiStores {
     public static final String QUESTION_GETGROUPEXAMLIST = BASE_URL + "Question/volumeList";//组卷模考列表
     public static final String QUESTION_GETKnowledgePractice = BASE_URL + "Question/getSection";//知识点章节列表
     public static final String QUESTION_GETKnowledgeChildList = BASE_URL + "Question/getKnow";//知识点列表
+    public static final String QUESTION_GETERRORCENTERChildList = BASE_URL + "Question/errorqueKnow";//做题中心知识点列表
     public static final String QUESTION_GETHIGHTErrorsection = BASE_URL + "Question/getErrorsection";//系统高频错题列表
     public static final String QUESTION_HIGHTERRORKNOWLEDGE = BASE_URL + "Question/geterrorKnow";//系统高频错题知识点列表
     public static final String QUESTION_GETERRORCENTER = BASE_URL + "Question/wrongIndex";//错题中心

@@ -123,15 +123,13 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
             case Constant.PLATE_4://高频错题知识点
                 questionBankKnowledgePresenter.getHighFrequencyWrongChildList(course_id, section_id, knob_id);
                 break;
+            case Constant.PLATE_7://错题中心知识点
+                questionBankKnowledgePresenter.getErrorCenterKnowList(course_id,user_id,section_id,knob_id);
+                break;
             default://知识点联系
                 questionBankKnowledgePresenter.getKnowledgeChildList(course_id, section_id, knob_id);
                 break;
         }
-        /*if (plate_id == Constant.PLATE_13) {//收藏知识点
-            questionBankKnowledgePresenter.getQuestionCollectionList(user_id, course_id, section_id, knob_id);
-        } else {
-            questionBankKnowledgePresenter.getKnowledgeChildList(section_id, knob_id);
-        }*/
     }
 
     @Override

@@ -308,6 +308,60 @@ public class QuestionBankKnowledgePresenter implements IQuestionBankChapterPrese
     }
 
     /**
+     * 错题中心知识点列表
+     */
+    @Override
+    public void getErrorCenterKnowList(int course_id, int user_id, int section_id, int knob_id) {
+        OkGo.<String>post(ApiStores.QUESTION_GETERRORCENTERChildList)
+                .params(Constant.COURSE_ID, course_id)
+                .params(Constant.USER_ID, user_id)
+                .params(Constant.SECTION_ID, section_id)
+                .params(Constant.KNOB_ID, knob_id)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        view.showLoading();
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        view.showError();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        view.showLoadingFinish();
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String body = response.body();
+                        if (!body.equals("")) {
+                            JSONObject jsonObject = null;
+                            try {
+                                jsonObject = new JSONObject(body);
+                                int code = jsonObject.optInt(Constant.CODE);
+                                if (code == 200) {
+                                    QuestionKnowLedgeChildListBean questionKnowLedgeChildListBean = new Gson().fromJson(body, QuestionKnowLedgeChildListBean.class);
+                                    view.getKnowledgeChildList(questionKnowLedgeChildListBean);
+                                } else {
+                                    view.getKnowledgeChildList(null);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            view.getKnowledgeChildList(null);
+                        }
+                    }
+                });
+
+    }
+
+    /**
      * Description:IQuestionBankChapterPresenter
      * Time:2019-5-10 下午 5:39
      * Detail:TODO 题库收藏三级列表

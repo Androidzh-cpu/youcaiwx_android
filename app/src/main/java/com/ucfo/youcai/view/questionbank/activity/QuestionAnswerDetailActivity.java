@@ -89,6 +89,8 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
     LoadingLayout loadinglayout;
     @BindView(R.id.answer_user_linear)
     LinearLayout answerUserLinear;
+    @BindView(R.id.top_linear)
+    LinearLayout topLinear;
 
     private Bundle bundle;
     private int answer_id, reply_status, user_id;
@@ -96,6 +98,7 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
     private QuestionAnswerPresenter questionAnswerPresenter;
     private QuestionAnswerDetailActivity context;
     private Transferee transferee;
+    private String type;
 
 
     @Override
@@ -162,12 +165,17 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
         if (bundle != null) {
             answer_id = bundle.getInt(Constant.ID, 0);//题目ID
             reply_status = bundle.getInt(Constant.STATUS, 0);//回复状态
+            type = bundle.getString(Constant.TYPE, Constant.MINE_ANSWER);
+
             questionAnswerPresenter.getQuestionAnswerDetail(user_id, answer_id);
+
+
+            if (type.equals(Constant.MINE_ANSWER)) {
+                topLinear.setVisibility(View.GONE);
+            }
         } else {
             loadinglayout.showEmpty();
-            return;
         }
-
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,7 +219,6 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
                 case 1://1回复
                     answerTeacherreplystatus.setText(getResources().getString(R.string.answer_teacher_reply));
                     break;
-                case 2://2未回复
                 default:
                     break;
             }

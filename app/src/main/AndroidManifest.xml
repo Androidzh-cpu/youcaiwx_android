@@ -48,9 +48,9 @@
     <application
         android:name=".UcfoApplication"
         android:allowBackup="false"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/app_icon"
         android:label="@string/app_nameWX"
-        android:hardwareAccelerated="true"
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
