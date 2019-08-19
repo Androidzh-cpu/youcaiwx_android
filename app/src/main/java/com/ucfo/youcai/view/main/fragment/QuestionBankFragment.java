@@ -381,8 +381,6 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                     if (popupWindow != null) {
                         popupWindow.dismiss();
                     }
-
-                    toastInfo("projectList.get(position).getId(): " + projectList.get(position).getId());
                 }
             });
             if (popupWindow != null) {

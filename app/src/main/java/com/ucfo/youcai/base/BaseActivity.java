@@ -21,6 +21,7 @@ import com.ucfo.youcai.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcai.utils.systemutils.StatusbarUI;
 import com.ucfo.youcai.utils.toastutils.ToastUtil;
 import com.ucfo.youcai.widget.customview.NetLoadingProgress;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 
 import java.util.Timer;
@@ -87,10 +88,17 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
         Resources resources = this.getResources();
         Configuration configuration = resources.getConfiguration();
         configuration.fontScale = 1;
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

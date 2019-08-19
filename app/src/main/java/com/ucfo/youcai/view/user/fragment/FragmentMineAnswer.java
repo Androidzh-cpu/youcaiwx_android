@@ -191,7 +191,7 @@ public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView 
                     if (type == 1) {//课程
                         Bundle bundle = new Bundle();
                         bundle.putInt(Constant.ANSWER_ID, list.get(position).getId());
-                        bundle.putInt(Constant.QUESTION_STATUS, list.get(position).getReply_status());
+                        bundle.putInt(Constant.STATUS, list.get(position).getReply_status());
                         bundle.putString(Constant.TYPE, Constant.MINE_ANSWER);
                         startActivity(CourseAnswerDetailActivity.class, bundle);
                     } else {//题库

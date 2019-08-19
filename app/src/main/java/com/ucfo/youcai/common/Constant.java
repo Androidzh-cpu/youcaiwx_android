@@ -95,7 +95,6 @@ public class Constant {
     public static final String COURSE_ID = "course_id";//课程ID
     public static final String VIDEO_ID = "video_id";//小节视频ID
     public static final String ANSWER_ID = "answer_id";//问答列表ID
-    public static final String QUESTION_STATUS = "is_status";//问答回复状态
     public static final String VIDEO_TIME = "video_time";//视频提问时间
     public static final String VIDEO_NAME = "video_name";//视频标题
     public static final String VIDEO_TITLE = "video_title";//视频标题

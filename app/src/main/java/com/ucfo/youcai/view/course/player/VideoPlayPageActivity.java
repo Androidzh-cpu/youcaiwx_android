@@ -105,6 +105,7 @@ import com.ucfo.youcai.view.questionbank.activity.QuestionAskQuestionActivity;
 import com.ucfo.youcai.widget.customview.LoadingView;
 import com.ucfo.youcai.widget.customview.SwitchView;
 import com.ucfo.youcai.widget.dialog.ShareDialog;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -342,6 +343,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
+
         updatePlayerViewMode();
 
         if (mNetWatchdog != null) {
@@ -349,6 +352,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
         //onStop中记录下来的状态，在这里恢复使用
         resumePlayerState();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     /**

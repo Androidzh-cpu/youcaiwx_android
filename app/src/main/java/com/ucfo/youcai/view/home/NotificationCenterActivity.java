@@ -231,7 +231,7 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
                     Bundle bundle = new Bundle();
                     bundle.putString(Constant.TYPE, Constant.MINE_ANSWER);
                     bundle.putInt(Constant.ANSWER_ID, bean.getContent_id());
-                    bundle.putInt(Constant.QUESTION_STATUS, 1);
+                    bundle.putInt(Constant.STATUS, 1);
                     startActivity(CourseAnswerDetailActivity.class, bundle);
                 } else if (type == 2) {
                     //TODO 题库答疑

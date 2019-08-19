@@ -30,7 +30,6 @@ import com.ucfo.youcai.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcai.view.login.LoginActivity;
 import com.ucfo.youcai.view.main.activity.MainActivity;
 import com.ucfo.youcai.view.main.activity.WebActivity;
-import com.ucfo.youcai.view.pay.CommitOrderActivity;
 import com.ucfo.youcai.view.user.activity.FeedBackActivity;
 import com.ucfo.youcai.view.user.activity.MineAnswerQuestionActivity;
 import com.ucfo.youcai.view.user.activity.MineCollectionActivity;
@@ -186,7 +185,6 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                 case R.id.btn_user_integral://TODO 积分
                     break;
                 case R.id.btn_user_balance://TODO 余额
-                    startActivity(CommitOrderActivity.class, null);
                     break;
                 case R.id.btn_user_coupons://TODO 优惠券
                     startActivity(MineCouponsActivity.class, null);

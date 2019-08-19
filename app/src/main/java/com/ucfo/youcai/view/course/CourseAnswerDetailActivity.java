@@ -148,7 +148,7 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
         if (bundle != null) {
             type = bundle.getString(Constant.TYPE, "");
             answer_id = bundle.getInt(Constant.ANSWER_ID, 0);//获取传递的问答ID
-            answer_replystatus = bundle.getInt(Constant.QUESTION_STATUS, 0);//获取传递的问答状态
+            answer_replystatus = bundle.getInt(Constant.STATUS, 0);//获取传递的问答状态
 
             //根据传递的问答ID获取问答详情
             courseAnswerListPresenter.getAnswerDetail(answer_id);

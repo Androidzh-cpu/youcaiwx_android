@@ -213,7 +213,7 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
                         if (!fastClick(1000)) {
                             Bundle bundle = new Bundle();
                             bundle.putInt(Constant.ANSWER_ID, data.get(position).getId());
-                            bundle.putInt(Constant.QUESTION_STATUS, data.get(position).getReply_status());
+                            bundle.putInt(Constant.STATUS, data.get(position).getReply_status());
                             startActivity(CourseAnswerDetailActivity.class, bundle);
                         }
                     } else {

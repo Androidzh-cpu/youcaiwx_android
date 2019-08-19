@@ -240,7 +240,7 @@ public class UcfoApplication extends Application {
                             String id = extra.get(Constant.VALUE);
                             bundle.putString(Constant.TYPE, Constant.MINE_ANSWER);
                             bundle.putInt(Constant.ANSWER_ID, Integer.parseInt(id));
-                            bundle.putInt(Constant.QUESTION_STATUS, 1);
+                            bundle.putInt(Constant.STATUS, 1);
                         } else if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_QUESTIONANSWER)) {
                             //TODO 题库答疑
                             intent.setClass(mContext, QuestionAnswerDetailActivity.class);
@@ -257,6 +257,7 @@ public class UcfoApplication extends Application {
         };
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+        MobclickAgent.setCatchUncaughtExceptions(true);
     }
 
     /**
