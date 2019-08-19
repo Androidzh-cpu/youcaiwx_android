@@ -2120,6 +2120,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     ToastUtil.showBottomLongText(VideoPlayPageActivity.this, getResources().getString(R.string.operation_Error));
                 }
                 break;
+            default:
+                break;
         }
     }
 

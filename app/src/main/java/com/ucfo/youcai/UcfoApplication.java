@@ -206,31 +206,31 @@ public class UcfoApplication extends Application {
                     Bundle bundle = new Bundle();
                     String messageType = extra.get(Constant.UMENG_MESSAGE_TYPE);
                     if (!TextUtils.isEmpty(messageType)) {
-                        if (messageType.equals(Constant.UMENG_MESSAGE_INFORMATION)) {
+                        if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_INFORMATION)) {
                             //TODO 资讯消息
                             intent.setClass(mContext, WebActivity.class);
                             String webUrl = extra.get(Constant.VALUE);
                             String title = extra.get(Constant.TITLE);
                             intent.putExtra(Constant.WEB_URL, webUrl);
                             intent.putExtra(Constant.WEB_TITLE, title);
-                        } else if (messageType.equals(Constant.UMENG_MESSAGE_LIVE)) {
+                        } else if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_LIVE)) {
                             //TODO 直播消息
-                        } else if (messageType.equals(Constant.UMENG_MESSAGE_NOTICE)) {
+                        } else if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_NOTICE)) {
                             //TODO 消息公告
                             intent.setClass(mContext, WebActivity.class);
                             String webUrl = extra.get(Constant.VALUE);
                             String title = extra.get(Constant.TITLE);
                             bundle.putString(Constant.WEB_URL, webUrl);
                             bundle.putString(Constant.WEB_TITLE, title);
-                        } else if (messageType.equals(Constant.UMENG_MESSAGE_ORDERFORM)) {
+                        } else if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_ORDERFORM)) {
                             //TODO 订单消息
                             intent.setClass(mContext, MineOrderFormDetailActivity.class);
                             String id = extra.get(Constant.VALUE);
                             bundle.putString(Constant.ORDER_NUM, id);
                             bundle.putInt(Constant.STATUS, 1);
-                        } else if (messageType.equals(Constant.UMENG_MESSAGE_COURSEANSWER)) {
+                        } else if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_COURSEANSWER)) {
                             //TODO 课程答疑
-                        } else if (messageType.equals(Constant.UMENG_MESSAGE_QUESTIONANSWER)) {
+                        } else if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_QUESTIONANSWER)) {
                             //TODO 题库答疑
                         }
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
