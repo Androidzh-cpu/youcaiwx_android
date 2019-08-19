@@ -85,9 +85,9 @@ public class MineOrderFormDetailBean {
 
             private String order_num;
             private int pay_status;
-            private int price;
-            private int pay_price;
-            private int coupon_price;
+            private String price;
+            private String pay_price;
+            private String coupon_price;
             private String add_time;
             private int package_id;
             private int is_live;
@@ -112,27 +112,27 @@ public class MineOrderFormDetailBean {
                 this.pay_status = pay_status;
             }
 
-            public int getPrice() {
-                return price;
+            public String getPrice() {
+                return price == null ? "" : price;
             }
 
-            public void setPrice(int price) {
+            public void setPrice(String price) {
                 this.price = price;
             }
 
-            public int getPay_price() {
-                return pay_price;
+            public String getPay_price() {
+                return pay_price == null ? "" : pay_price;
             }
 
-            public void setPay_price(int pay_price) {
+            public void setPay_price(String pay_price) {
                 this.pay_price = pay_price;
             }
 
-            public int getCoupon_price() {
-                return coupon_price;
+            public String getCoupon_price() {
+                return coupon_price == null ? "" : coupon_price;
             }
 
-            public void setCoupon_price(int coupon_price) {
+            public void setCoupon_price(String coupon_price) {
                 this.coupon_price = coupon_price;
             }
 

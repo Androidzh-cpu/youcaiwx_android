@@ -1,6 +1,5 @@
 package com.ucfo.youcai.view.user.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
@@ -25,7 +24,6 @@ import com.ucfo.youcai.presenter.view.user.IMineOrderFromView;
 import com.ucfo.youcai.utils.CallUtils;
 import com.ucfo.youcai.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcai.utils.systemutils.StatusbarUI;
 import com.ucfo.youcai.utils.toastutils.ToastUtil;
 import com.ucfo.youcai.widget.customview.LoadingLayout;
 
@@ -43,9 +41,7 @@ import butterknife.ButterKnife;
  * ORG: www.youcaiwx.com
  * Description:TODO 我的订单
  */
-
 public class MineOrderFormActivity extends BaseActivity implements IMineOrderFromView {
-
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -92,7 +88,6 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
@@ -160,10 +155,10 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
     }
 
     private void initAdapter() {
-        if (mineOrderFormListAdapter != null) {
-            mineOrderFormListAdapter.notifyDataSetChanged();
-        } else {
+        if (mineOrderFormListAdapter == null) {
             mineOrderFormListAdapter = new MineOrderFormListAdapter(context, list);
+        } else {
+            mineOrderFormListAdapter.notifyDataSetChanged();
         }
         recyclerview.setAdapter(mineOrderFormListAdapter);
 

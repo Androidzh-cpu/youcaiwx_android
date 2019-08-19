@@ -1,6 +1,5 @@
 package com.ucfo.youcai.view.user.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -22,7 +21,6 @@ import com.ucfo.youcai.presenter.presenterImpl.user.MineOrderFormPresenter;
 import com.ucfo.youcai.presenter.view.user.IMineOrderFromView;
 import com.ucfo.youcai.utils.CallUtils;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcai.utils.systemutils.StatusbarUI;
 import com.ucfo.youcai.utils.toastutils.ToastUtil;
 import com.ucfo.youcai.widget.customview.LoadingLayout;
 import com.ucfo.youcai.widget.customview.NiceImageView;
@@ -39,7 +37,6 @@ import butterknife.OnClick;
  * ORG: www.youcaiwx.com
  * Description:TODO 订单详情
  */
-
 public class MineOrderFormDetailActivity extends BaseActivity implements IMineOrderFromView {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
@@ -125,7 +122,6 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
@@ -151,7 +147,6 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
             order_status = bundle.getInt(Constant.STATUS, 0);
         } else {
             loadinglayout.showEmpty();
-            return;
         }
         context = this;
         user_id = SharedPreferencesUtils.getInstance(context).getInt(Constant.USER_ID, 0);
@@ -181,7 +176,7 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
             case R.id.order_edit://编辑地址
                 Bundle bundle = new Bundle();
                 bundle.putInt(Constant.TYPE, 0);
-                bundle.putInt(Constant.ADDRESS_ID, address_id);//TODO 地址的ID
+                bundle.putInt(Constant.ADDRESS_ID, address_id);//TODO 地址ID
                 startActivity(EditAddressActivity.class, bundle);
                 break;
             default:
@@ -250,29 +245,30 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
             linearAddress.setVisibility(linearAddress.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
         }
 
-        String add_time = courseBean.getAdd_time();//下单时间
-        String app_img = courseBean.getApp_img();//图片
-        int coupon_price = courseBean.getCoupon_price();//优惠价格
-        int price = courseBean.getPrice();//价格
-        int pay_price = courseBean.getPay_price();//师傅价格
-        String order_num = courseBean.getOrder_num();//编号
-        String teacher_name = courseBean.getTeacher_name();//老师名字
-        String package_name = courseBean.getPackage_name();//报名
-        int study_days = courseBean.getStudy_days();//购买时效
-        if (!TextUtils.isEmpty(package_name)) {
-            itemCourseTitle.setText(package_name);
+        String addTime = courseBean.getAdd_time();//下单时间
+        String appImg = courseBean.getApp_img();//图片
+        String couponPrice = courseBean.getCoupon_price();//优惠价格
+        String price = courseBean.getPrice();//价格
+        String payPrice = courseBean.getPay_price();//师傅价格
+        String orderNum = courseBean.getOrder_num();//编号
+        String teacherName = courseBean.getTeacher_name();//老师名字
+        String packageName = courseBean.getPackage_name();//报名
+        int studyDays = courseBean.getStudy_days();//购买时效
+        int payStatus = courseBean.getPay_status();
+        if (!TextUtils.isEmpty(packageName)) {
+            itemCourseTitle.setText(packageName);
         }
-        if (!TextUtils.isEmpty(teacher_name)) {
-            itemCourseTeacher.setText(teacher_name);
+        if (!TextUtils.isEmpty(teacherName)) {
+            itemCourseTeacher.setText(teacherName);
         }
-        if (!TextUtils.isEmpty(order_num)) {
-            orderNumber.setText(String.valueOf(getResources().getString(R.string.orderForm_number) + "  " + order_num));
+        if (!TextUtils.isEmpty(orderNum)) {
+            orderNumber.setText(String.valueOf(getResources().getString(R.string.orderForm_number) + " " + orderNum));
         }
-        if (!TextUtils.isEmpty(add_time)) {
-            orderTime.setText(String.valueOf(getResources().getString(R.string.orderForm_time) + "  " + add_time));
+        if (!TextUtils.isEmpty(addTime)) {
+            orderTime.setText(String.valueOf(getResources().getString(R.string.orderForm_time) + " " + addTime));
         }
         Glide.with(this)
-                .load(app_img)
+                .load(appImg)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.mipmap.banner_default)
                 .error(R.mipmap.banner_default)
@@ -280,14 +276,14 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
                 .crossFade()
                 .into(itemCourseImage);
 
-        itemCourseEffective.setText(String.valueOf(getResources().getString(R.string.orderForm_endtime, String.valueOf(study_days))));
+        itemCourseEffective.setText(String.valueOf(getResources().getString(R.string.orderForm_endtime, String.valueOf(studyDays))));
         orderCoursePrice.setText(String.valueOf(getResources().getString(R.string.RMB) + price));
-        orderPreferentialPrice.setText(String.valueOf(getResources().getString(R.string.RMB) + coupon_price));
-        orderRealPrice.setText(String.valueOf(getResources().getString(R.string.RMB) + pay_price));
+        orderPreferentialPrice.setText(String.valueOf(getResources().getString(R.string.RMB) + couponPrice));
+        orderRealPrice.setText(String.valueOf(getResources().getString(R.string.RMB) + payPrice));
 
         /*----------------------------------------------------------------再丑也要看的分割线----------------------------------------------------------------*/
         //TODO 订单状态
-        switch (order_status) {
+        switch (payStatus) {
             case 1://已付款
                 orderInvoice.setVisibility(View.VISIBLE);
                 orderSuccess.setVisibility(View.VISIBLE);
