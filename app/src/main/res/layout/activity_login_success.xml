@@ -7,7 +7,7 @@
     android:background="@color/colorWhite"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context="com.ucfo.youcai.view.login.RegisterSuccessActivity">
+    tools:context="com.ucfo.youcaiwx.view.login.RegisterSuccessActivity">
 
     <ImageView
         android:id="@+id/img_logo"

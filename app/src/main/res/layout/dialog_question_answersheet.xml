@@ -52,7 +52,7 @@
                 android:layout_height="@dimen/dp_1"
                 android:background="@color/color_F5F5F5" />
 
-            <com.ucfo.youcai.widget.customview.NestedGridView
+            <com.ucfo.youcaiwx.widget.customview.NestedGridView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

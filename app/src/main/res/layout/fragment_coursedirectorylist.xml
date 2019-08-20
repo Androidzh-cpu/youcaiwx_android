@@ -14,7 +14,7 @@
         app:srlEnableLoadMore="false"
         app:srlPrimaryColor="@color/color_F5F5F5">
 
-        <com.ucfo.youcai.widget.customview.LoadingLayout
+        <com.ucfo.youcaiwx.widget.customview.LoadingLayout
             android:id="@+id/loadinglayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        </com.ucfo.youcai.widget.customview.LoadingLayout>
+        </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

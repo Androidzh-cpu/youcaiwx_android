@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcai.view.questionbank.activity.QuestionsOnRecordActivity">
+    tools:context="com.ucfo.youcaiwx.view.questionbank.activity.QuestionsOnRecordActivity">
     <!--标题-->
     <include layout="@layout/titlebar_toolbar" />
 
@@ -17,7 +17,7 @@
         app:srlEnableLoadMore="false"
         app:srlEnableRefresh="true">
 
-        <com.ucfo.youcai.widget.customview.LoadingLayout
+        <com.ucfo.youcaiwx.widget.customview.LoadingLayout
             android:id="@+id/loadinglayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -35,7 +35,7 @@
 
             </android.support.v4.widget.NestedScrollView>
 
-        </com.ucfo.youcai.widget.customview.LoadingLayout>
+        </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

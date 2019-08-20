@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcai.view.user.activity.OfflineCourseActivity">
+    tools:context="com.ucfo.youcaiwx.view.user.activity.OfflineCourseActivity">
 
     <include layout="@layout/titlebar_tablayout" />
 

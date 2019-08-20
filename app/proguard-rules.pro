@@ -224,7 +224,7 @@
 #TODO 修改后的gson混淆规则(Google官方给的示例代码一定要看好包名的区别)
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.**{*;}
--keep class com.ucfo.youcai.entity.**{ *; }
+-keep class com.ucfo.youcaiwx.entity.**{ *; }
 -keep interface com.google.gson.examples.models.** { *; }
 -keep class com.google.gson.examples.upgrade.internal.VersionInfo {*;}
 
@@ -317,7 +317,7 @@
 ####################################################################################################
 
 # JavaBean 实体类不能混淆，一般会将实体类统一放到一个包下，you.package.path 请改成你自己的项目路径
--keep public class com.ucfo.youcai.entity.** {
+-keep public class com.ucfo.youcaiwx.entity.** {
     public void set*(***);
     public *** get*();
     public *** is*();
@@ -644,7 +644,7 @@
 #   public static final int *;
 #}
 #统计服务
--keep public class com.ucfo.youcai.**.R$*{
+-keep public class com.ucfo.youcaiwx.**.R$*{
    public static final int *;
 }
 -keepclassmembers class * {

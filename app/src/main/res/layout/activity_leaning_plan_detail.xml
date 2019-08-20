@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_F5F5F5"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcai.view.learncenter.LearningPlanDetailActivity"
+    tools:context="com.ucfo.youcaiwx.view.learncenter.LearningPlanDetailActivity"
     tools:ignore="RtlCompat">
 
     <include layout="@layout/titlebar_toolbar" />
@@ -74,7 +74,7 @@
         android:nestedScrollingEnabled="false"
         android:overScrollMode="never" />
 
-    <com.ucfo.youcai.widget.customview.LoadingLayout
+    <com.ucfo.youcaiwx.widget.customview.LoadingLayout
         android:id="@+id/loadinglayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -112,5 +112,5 @@
                 android:overScrollMode="never" />
         </LinearLayout>
 
-    </com.ucfo.youcai.widget.customview.LoadingLayout>
+    </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
 </LinearLayout>

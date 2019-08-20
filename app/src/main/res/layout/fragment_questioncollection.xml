@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.ucfo.youcai.widget.customview.LoadingLayout
+    <com.ucfo.youcaiwx.widget.customview.LoadingLayout
         android:id="@+id/loadinglayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -36,5 +36,5 @@
 
         </LinearLayout>
 
-    </com.ucfo.youcai.widget.customview.LoadingLayout>
+    </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
 </LinearLayout>

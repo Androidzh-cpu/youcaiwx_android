@@ -38,7 +38,7 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <com.ucfo.youcai.widget.shimmer.ShimmerRecyclerView
+    <com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView
         android:id="@+id/movielist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

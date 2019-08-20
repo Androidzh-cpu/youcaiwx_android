@@ -93,7 +93,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
 
-                        <com.ucfo.youcai.widget.customview.CirclePercentBar
+                        <com.ucfo.youcaiwx.widget.customview.CirclePercentBar
                             android:id="@+id/question_accuracy_percent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
 
-                        <com.ucfo.youcai.widget.customview.CirclePercentBar
+                        <com.ucfo.youcaiwx.widget.customview.CirclePercentBar
                             android:id="@+id/question_average_percent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -176,7 +176,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1">
 
-                        <com.ucfo.youcai.widget.customview.CirclePercentBar
+                        <com.ucfo.youcaiwx.widget.customview.CirclePercentBar
                             android:id="@+id/question_ranking_percent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

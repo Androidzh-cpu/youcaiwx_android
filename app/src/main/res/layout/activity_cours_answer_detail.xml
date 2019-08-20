@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcai.view.course.CourseAnswerDetailActivity"
+    tools:context="com.ucfo.youcaiwx.view.course.CourseAnswerDetailActivity"
     tools:ignore="RtlCompat">
 
     <include layout="@layout/titlebar_toolbar" />
 
-    <com.ucfo.youcai.widget.customview.LoadingLayout
+    <com.ucfo.youcaiwx.widget.customview.LoadingLayout
         android:id="@+id/loadinglayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -259,6 +259,6 @@ This won't be forever so" />
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    </com.ucfo.youcai.widget.customview.LoadingLayout>
+    </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
 
 </LinearLayout>

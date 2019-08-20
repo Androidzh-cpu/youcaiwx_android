@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcai.view.questionbank.activity.ErrorCenterActivity">
+    tools:context="com.ucfo.youcaiwx.view.questionbank.activity.ErrorCenterActivity">
 
     <include layout="@layout/titlebar_toolbar" />
 
-    <com.ucfo.youcai.widget.customview.LoadingLayout
+    <com.ucfo.youcaiwx.widget.customview.LoadingLayout
         android:id="@+id/loadinglayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -30,6 +30,6 @@
             android:overScrollMode="never"
             android:scrollbars="none" />
 
-    </com.ucfo.youcai.widget.customview.LoadingLayout>
+    </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
 
 </LinearLayout>

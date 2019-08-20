@@ -37,7 +37,7 @@
             android:visibility="gone" />
 
         <!--loading小菊花-->
-        <com.ucfo.youcai.widget.customview.LoadingView
+        <com.ucfo.youcaiwx.widget.customview.LoadingView
             android:id="@+id/player_loadingview"
             android:layout_width="@dimen/dp_45"
             android:layout_height="@dimen/dp_45"

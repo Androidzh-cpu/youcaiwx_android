@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:overScrollMode="never"
     android:scrollbars="none"
-    tools:context="com.ucfo.youcai.view.questionbank.fragment.QuestionChoiceItemFragment"
+    tools:context="com.ucfo.youcaiwx.view.questionbank.fragment.QuestionChoiceItemFragment"
     tools:ignore="RtlCompat">
     <!--主布局-->
     <LinearLayout
@@ -147,7 +147,7 @@
                 android:visibility="gone"
                 tools:text="使用现金流量表来评价一个公司的持续偿债能力时，要重点考虑哪部分现金流：" />
             <!--题目选项列表-->
-            <com.ucfo.youcai.widget.customview.NestedListView
+            <com.ucfo.youcaiwx.widget.customview.NestedListView
                 android:id="@+id/question_optionsListview"
                 style="?android:attr/listViewWhiteStyle"
                 android:layout_width="match_parent"

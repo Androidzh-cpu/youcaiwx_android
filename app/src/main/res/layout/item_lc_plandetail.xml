@@ -9,7 +9,7 @@
     android:paddingEnd="@dimen/dp_12"
     android:paddingStart="@dimen/dp_12">
 
-    <com.ucfo.youcai.widget.customview.CricleFrameLayout
+    <com.ucfo.youcaiwx.widget.customview.CricleFrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -143,5 +143,5 @@
                     android:textSize="@dimen/sp_12" />
             </LinearLayout>
         </LinearLayout>
-    </com.ucfo.youcai.widget.customview.CricleFrameLayout>
+    </com.ucfo.youcaiwx.widget.customview.CricleFrameLayout>
 </android.support.constraint.ConstraintLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.ucfo.youcai"
+    package="com.ucfo.youcaiwx"
     android:installLocation="auto">
 
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" /> <!-- 杀死后台进程 -->

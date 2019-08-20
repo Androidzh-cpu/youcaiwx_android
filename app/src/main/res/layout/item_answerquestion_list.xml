@@ -87,7 +87,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/item_answer_imagelist">
 
-        <com.ucfo.youcai.widget.flowlayout.TagFlowLayout
+        <com.ucfo.youcaiwx.widget.flowlayout.TagFlowLayout
             android:id="@+id/flowlayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

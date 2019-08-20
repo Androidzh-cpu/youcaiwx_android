@@ -8,7 +8,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcai.view.user.activity.EditAddressActivity">
+    tools:context="com.ucfo.youcaiwx.view.user.activity.EditAddressActivity">
 
     <include layout="@layout/titlebar_toolbar" />
 
@@ -94,7 +94,7 @@
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/sp_14" />
 
-            <com.ucfo.youcai.widget.customview.SwitchView
+            <com.ucfo.youcaiwx.widget.customview.SwitchView
                 android:id="@+id/btn_switch"
                 android:layout_width="@dimen/dp_48"
                 android:layout_height="wrap_content"

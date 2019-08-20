@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcai.view.learncenter.UnFinishedPlanActivity">
+    tools:context="com.ucfo.youcaiwx.view.learncenter.UnFinishedPlanActivity">
 
     <include layout="@layout/titlebar_toolbar" />
 
-    <com.ucfo.youcai.widget.customview.LoadingLayout
+    <com.ucfo.youcaiwx.widget.customview.LoadingLayout
         android:id="@+id/loadinglayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -43,5 +43,5 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
-    </com.ucfo.youcai.widget.customview.LoadingLayout>
+    </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
 </LinearLayout>

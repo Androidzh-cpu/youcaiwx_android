@@ -31,9 +31,9 @@
    -->
     <list><!-- 有几张表就在list之间写几个mapping-->
         <!--list标签中的实体类都应该继承LitePalSupport这个类,这个千万别忘记，实体类里面不能包含如List类型的字段，否则会报错-->
-        <mapping class="com.ucfo.youcai.entity.download.DataBaseCourseListBean" />
-        <mapping class="com.ucfo.youcai.entity.download.DataBaseSectioinListBean" />
-        <mapping class="com.ucfo.youcai.entity.download.DataBaseVideoListBean" />
+        <mapping class="com.ucfo.youcaiwx.entity.download.DataBaseCourseListBean" />
+        <mapping class="com.ucfo.youcaiwx.entity.download.DataBaseSectioinListBean" />
+        <mapping class="com.ucfo.youcaiwx.entity.download.DataBaseVideoListBean" />
     </list>
     <!--
         Define where the .db file should be. "internal" means the .db file

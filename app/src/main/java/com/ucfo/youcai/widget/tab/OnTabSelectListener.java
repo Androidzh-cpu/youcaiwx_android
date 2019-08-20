@@ -1,7 +1,0 @@
-package com.ucfo.youcai.widget.tab;
-
-public interface OnTabSelectListener {
-    void onTabSelect(int position);
-
-    void onTabReselect(int position);
-}

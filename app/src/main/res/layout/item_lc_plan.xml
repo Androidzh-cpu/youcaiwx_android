@@ -10,7 +10,7 @@
     android:paddingStart="@dimen/dp_12"
     tools:ignore="RtlCompat">
 
-    <com.ucfo.youcai.widget.customview.CricleFrameLayout
+    <com.ucfo.youcaiwx.widget.customview.CricleFrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:radius="@dimen/dp_5">
@@ -83,6 +83,6 @@
                 app:rv_isRadiusHalfHeight="true" />
 
         </LinearLayout>
-    </com.ucfo.youcai.widget.customview.CricleFrameLayout>
+    </com.ucfo.youcaiwx.widget.customview.CricleFrameLayout>
 
 </LinearLayout>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparency"
-    tools:context="com.ucfo.youcai.view.home.ScanActivity">
+    tools:context="com.ucfo.youcaiwx.view.home.ScanActivity">
 
     <cn.bingoogolapple.qrcode.zxing.ZXingView
         android:id="@+id/zxingview"

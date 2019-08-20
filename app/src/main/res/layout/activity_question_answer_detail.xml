@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcai.view.course.CourseAnswerDetailActivity"
+    tools:context="com.ucfo.youcaiwx.view.course.CourseAnswerDetailActivity"
     tools:ignore="RtlCompat">
 
     <include layout="@layout/titlebar_toolbar" />
 
-    <com.ucfo.youcai.widget.customview.LoadingLayout
+    <com.ucfo.youcaiwx.widget.customview.LoadingLayout
         android:id="@+id/loadinglayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -128,7 +128,7 @@
                     android:paddingEnd="@dimen/dp_12"
                     android:paddingStart="@dimen/dp_12" />
                 <!--问题所属章节-->
-                <com.ucfo.youcai.widget.flowlayout.TagFlowLayout
+                <com.ucfo.youcaiwx.widget.flowlayout.TagFlowLayout
                     android:id="@+id/flowlayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -229,5 +229,5 @@
                 </LinearLayout>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
-    </com.ucfo.youcai.widget.customview.LoadingLayout>
+    </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
 </LinearLayout>

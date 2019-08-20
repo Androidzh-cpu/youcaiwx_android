@@ -61,7 +61,7 @@
         android:paddingStart="@dimen/dp_12"
         android:paddingTop="@dimen/dp_14">
 
-        <com.ucfo.youcai.widget.customview.NiceImageView
+        <com.ucfo.youcaiwx.widget.customview.NiceImageView
             android:id="@+id/order_image"
             android:layout_width="@dimen/dp_96"
             android:layout_height="@dimen/dp_58"

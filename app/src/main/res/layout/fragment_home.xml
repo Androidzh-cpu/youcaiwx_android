@@ -150,7 +150,7 @@
                         android:layout_marginStart="@dimen/dp_12"
                         android:background="@drawable/home_grayline" />
 
-                    <com.ucfo.youcai.widget.shimmer.ShimmerRecyclerView
+                    <com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView
                         android:id="@+id/recyclerview_live"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -186,7 +186,7 @@
                         android:layout_marginStart="@dimen/dp_12"
                         android:background="@drawable/home_grayline" />
 
-                    <com.ucfo.youcai.widget.shimmer.ShimmerRecyclerView
+                    <com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView
                         android:id="@+id/recyclerview_course"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -234,7 +234,7 @@
                         android:layout_marginStart="@dimen/dp_12"
                         android:background="@drawable/home_grayline" />
 
-                    <com.ucfo.youcai.widget.shimmer.ShimmerRecyclerView
+                    <com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView
                         android:id="@+id/recyclerview_news"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

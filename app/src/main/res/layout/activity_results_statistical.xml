@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcai.view.questionbank.activity.ResultsStatisticalActivity"
+    tools:context="com.ucfo.youcaiwx.view.questionbank.activity.ResultsStatisticalActivity"
     tools:ignore="RtlCompat">
     <!--标题栏-->
     <include layout="@layout/titlebar_toolbar" />
 
-    <com.ucfo.youcai.widget.customview.LoadingLayout
+    <com.ucfo.youcaiwx.widget.customview.LoadingLayout
         android:id="@+id/loadinglayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -60,7 +60,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="00:00:38" />
 
-                        <com.ucfo.youcai.widget.customview.CricleFrameLayout
+                        <com.ucfo.youcaiwx.widget.customview.CricleFrameLayout
                             android:id="@+id/cricle_framelayout"
                             android:layout_width="@dimen/dp_90"
                             android:layout_height="@dimen/dp_90"
@@ -81,21 +81,7 @@
                                 android:textColor="@color/color_333333"
                                 android:textSize="@dimen/sp_30" />
 
-                            <!-- <com.ucfo.youcai.widget.multiwave.MultiWaveHeader
-                                 android:id="@+id/waveHeader"
-                                 android:layout_width="match_parent"
-                                 android:layout_height="match_parent"
-                                 android:scaleY="-1"
-                                 app:mwhCloseColor="@color/colorPrimary"
-                                 app:mwhColorAlpha="0.5"
-                                 app:mwhGradientAngle="45"
-                                 app:mwhIsRunning="true"
-                                 app:mwhStartColor="#0AAB55"
-                                 app:mwhVelocity="0.3"
-                                 app:mwhWaveHeight="@dimen/dp_5"
-                                 app:mwhWaves="0,0,1,1,25
-                                  70,5,1,1.2,25" />-->
-                            <com.ucfo.youcai.widget.multiwave.MultiWaveHeader
+                            <com.ucfo.youcaiwx.widget.multiwave.MultiWaveHeader
                                 android:id="@+id/waveHeader"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -109,7 +95,7 @@
                                 app:mwhWaveHeight="@dimen/dp_5"
                                 app:mwhWaves="0,0,1,1,25
                                  70,5,1,1.2,25" />
-                        </com.ucfo.youcai.widget.customview.CricleFrameLayout>
+                        </com.ucfo.youcaiwx.widget.customview.CricleFrameLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -348,7 +334,7 @@
                         android:layout_marginStart="@dimen/dp_12"
                         android:background="@color/color_F5F5F5" />
 
-                    <com.ucfo.youcai.widget.customview.NestedGridView
+                    <com.ucfo.youcaiwx.widget.customview.NestedGridView
                         android:id="@+id/listView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -412,5 +398,5 @@
 
         </LinearLayout>
 
-    </com.ucfo.youcai.widget.customview.LoadingLayout>
+    </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
 </LinearLayout>

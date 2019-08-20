@@ -14,7 +14,7 @@
         android:singleLine="true" />
 
 
-    <com.ucfo.youcai.widget.tab.MsgView xmlns:mv="http://schemas.android.com/apk/res-auto"
+    <com.ucfo.youcaiwx.widget.tab.MsgView xmlns:mv="http://schemas.android.com/apk/res-auto"
         android:id="@+id/rtv_msg_tip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

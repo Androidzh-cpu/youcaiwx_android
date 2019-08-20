@@ -167,13 +167,13 @@ android {
                 variant.mergedFlavor.versionCode = rootProject.ext.versionCode
                 variant.mergedFlavor.versionName = rootProject.ext.versionName
                 // release：输出文件名必须命名为 outputFileName
-                outputFileName = "com.ucfo.youcai.${buildType.name}.${variant.versionName}.apk"
+                outputFileName = "com.ucfo.youcaiwx.${buildType.name}.${variant.versionName}.apk"
             } else {
                 variant.mergedFlavor.versionCode = rootProject.ext.versionCode
                 variant.mergedFlavor.versionName = rootProject.ext.versionName
                 // debug 输出文件名必须命名为 outputFileName
                 outputFileName = "${project.getName()}_${buildType.name}.apk"
-                outputFileName = "com.ucfo.youcai.${buildType.name}.${variant.versionName}.apk"
+                outputFileName = "com.ucfo.youcaiwx.${buildType.name}.${variant.versionName}.apk"
             }
         }
     }

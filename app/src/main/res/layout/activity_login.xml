@@ -8,7 +8,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcai.view.login.LoginActivity"
+    tools:context="com.ucfo.youcaiwx.view.login.LoginActivity"
     tools:ignore="RtlCompat">
     <!--引入标题栏-->
     <include layout="@layout/titlebar_toolbar" />

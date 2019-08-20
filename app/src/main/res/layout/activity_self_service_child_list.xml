@@ -7,11 +7,11 @@
     android:background="@android:color/white"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcai.view.questionbank.activity.SelfServiceChildListActivity">
+    tools:context="com.ucfo.youcaiwx.view.questionbank.activity.SelfServiceChildListActivity">
 
     <include layout="@layout/titlebar_toolbar" />
 
-    <com.ucfo.youcai.widget.customview.LoadingLayout
+    <com.ucfo.youcaiwx.widget.customview.LoadingLayout
         android:id="@+id/loadinglayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -67,6 +67,6 @@
                 android:textSize="@dimen/sp_14" />
         </LinearLayout>
 
-    </com.ucfo.youcai.widget.customview.LoadingLayout>
+    </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
 
 </LinearLayout>

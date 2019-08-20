@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcai.view.user.activity.MineCourseActivity">
+    tools:context="com.ucfo.youcaiwx.view.user.activity.MineCourseActivity">
 
     <include layout="@layout/titlebar_toolbar" />
 
@@ -58,7 +58,7 @@
             android:orientation="vertical"
             android:overScrollMode="never">
 
-            <com.ucfo.youcai.widget.shimmer.ShimmerRecyclerView
+            <com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

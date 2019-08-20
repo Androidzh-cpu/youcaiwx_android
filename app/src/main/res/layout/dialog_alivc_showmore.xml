@@ -67,7 +67,7 @@
         android:textColor="@android:color/white"
         android:textSize="@dimen/sp_13" />
 
-    <com.ucfo.youcai.widget.customview.SwitchView
+    <com.ucfo.youcaiwx.widget.customview.SwitchView
         android:id="@+id/switch_cricleplay"
         android:layout_width="@dimen/dp_45"
         android:layout_height="wrap_content"

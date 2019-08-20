@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcai.view.main.activity.MainActivity">
+    tools:context="com.ucfo.youcaiwx.view.main.activity.MainActivity">
 
     <FrameLayout
         android:id="@+id/frame_layout"

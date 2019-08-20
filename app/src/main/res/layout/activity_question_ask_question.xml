@@ -98,7 +98,7 @@
 
             </LinearLayout>
             <!--问题所属章节-->
-            <com.ucfo.youcai.widget.flowlayout.TagFlowLayout
+            <com.ucfo.youcaiwx.widget.flowlayout.TagFlowLayout
                 android:id="@+id/flowlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

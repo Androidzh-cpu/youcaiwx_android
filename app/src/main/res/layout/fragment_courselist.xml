@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.ucfo.youcai.widget.customview.LoadingLayout
+    <com.ucfo.youcaiwx.widget.customview.LoadingLayout
         android:id="@+id/loadinglayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -20,7 +20,7 @@
             app:srlEnableLoadMore="false">
 
 
-            <com.ucfo.youcai.widget.shimmer.ShimmerRecyclerView
+            <com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -28,6 +28,6 @@
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-    </com.ucfo.youcai.widget.customview.LoadingLayout>
+    </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
 
 </android.support.constraint.ConstraintLayout>
