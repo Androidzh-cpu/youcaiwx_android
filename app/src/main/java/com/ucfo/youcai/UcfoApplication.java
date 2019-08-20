@@ -3,6 +3,7 @@ package com.ucfo.youcai;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -60,6 +61,8 @@ import com.xuexiang.xupdate.utils.UpdateUtils;
 import org.litepal.LitePal;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -123,6 +126,7 @@ public class UcfoApplication extends Application {
         if (application == null) {
             application = this;
         }
+        disableAPIDialog();
         intiDownloadConfig();
         initOk();
         regToWx();
@@ -350,6 +354,26 @@ public class UcfoApplication extends Application {
                 })
                 .setIUpdateHttpService(new OKHttpUpdateHttpService()) //这个必须设置！实现网络请求功能。
                 .init(this);   //这个必须初始化
+    }
+
+    /**
+     * 反射 禁止弹窗
+     */
+    private void disableAPIDialog() {
+        if (Build.VERSION.SDK_INT < 28) {
+            return;
+        }
+        try {
+            Class clazz = Class.forName("android.app.ActivityThread");
+            Method currentActivityThread = clazz.getDeclaredMethod("currentActivityThread");
+            currentActivityThread.setAccessible(true);
+            Object activityThread = currentActivityThread.invoke(null);
+            Field mHiddenApiWarningShown = clazz.getDeclaredField("mHiddenApiWarningShown");
+            mHiddenApiWarningShown.setAccessible(true);
+            mHiddenApiWarningShown.setBoolean(activityThread, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

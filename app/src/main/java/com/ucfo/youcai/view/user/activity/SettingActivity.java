@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
@@ -19,7 +18,6 @@ import com.ucfo.youcai.R;
 import com.ucfo.youcai.base.BaseActivity;
 import com.ucfo.youcai.common.ApiStores;
 import com.ucfo.youcai.common.Constant;
-import com.ucfo.youcai.entity.address.StateStatusBean;
 import com.ucfo.youcai.utils.ActivityUtil;
 import com.ucfo.youcai.utils.DataCleanManager;
 import com.ucfo.youcai.utils.sharedutils.SharedPreferencesUtils;
@@ -211,8 +209,7 @@ public class SettingActivity extends BaseActivity {
                 startActivity(WebActivity.class, bundle);
                 break;
             case R.id.btn_exit://TODO 退出登录
-                exitLogin();//弃用
-                //exitLoginSuccess();
+                exitLogin();
                 break;
             default:
                 break;
@@ -223,7 +220,6 @@ public class SettingActivity extends BaseActivity {
     private void exitLogin() {
         int userid = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         OkGo.<String>post(ApiStores.LOGIN_EXITLOGIN)
-                .tag(this)
                 .params(Constant.USER_ID, userid)
                 .execute(new StringCallback() {
                     @Override
@@ -236,18 +232,11 @@ public class SettingActivity extends BaseActivity {
                     public void onSuccess(Response<String> response) {
                         String body = response.body();
                         if (body != null && !body.equals("")) {
-                            Gson gson = new Gson();
                             try {
                                 JSONObject object = new JSONObject(response.body());
                                 int code = object.optInt(Constant.CODE);//状态码
                                 if (code == 200) {
-                                    StateStatusBean bean = gson.fromJson(body, StateStatusBean.class);
-                                    int state = bean.getData().getState();
-                                    if (state == 1) {
-                                        exitLoginSuccess();
-                                    } else {
-                                        exitLoginError();
-                                    }
+                                    exitLoginSuccess();
                                 } else {
                                     exitLoginError();
                                 }
@@ -281,6 +270,7 @@ public class SettingActivity extends BaseActivity {
         setProcessLoading(null, false);
         sharedPreferencesUtils.remove(Constant.USER_ID);
         sharedPreferencesUtils.remove(Constant.LOGIN_STATUS);
+        sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
         TimerTask task = new TimerTask() {
             @Override
             public void run() {

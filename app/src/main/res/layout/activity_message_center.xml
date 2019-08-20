@@ -65,6 +65,7 @@
                 android:id="@+id/text_noticeContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/holder_nomessage"
                 android:textColor="@color/color_999999"
                 android:textSize="@dimen/sp_12" />
         </LinearLayout>
@@ -131,6 +132,7 @@
                 android:id="@+id/text_notificationContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/holder_nomessage"
                 android:textColor="@color/color_999999"
                 android:textSize="@dimen/sp_12" />
         </LinearLayout>
@@ -142,5 +144,4 @@
         android:layout_marginEnd="@dimen/dp_12"
         android:layout_marginStart="@dimen/dp_12"
         android:background="@color/color_E6E6E6" />
-
 </LinearLayout>

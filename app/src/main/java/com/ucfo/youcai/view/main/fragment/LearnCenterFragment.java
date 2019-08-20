@@ -125,7 +125,6 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);
         return rootView;
@@ -141,15 +140,6 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    public static LearnCenterFragment newInstance(String content, String tab) {
-        LearnCenterFragment newFragment = new LearnCenterFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("content", content);
-        bundle.putString("tab", tab);
-        newFragment.setArguments(bundle);
-        return newFragment;
     }
 
     @Override
@@ -228,13 +218,20 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                     startActivity(MineCourseActivity.class, null);
                     break;
                 case R.id.user_errorcenter://错题中心
-                    if (projectList != null && projectList.size() > 0) {
+                    if (currentSubject_id != 0) {
                         int currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
                         Bundle bundle = new Bundle();
                         bundle.putInt(Constant.COURSE_ID, currentSubjectId);
                         startActivity(ErrorCenterActivity.class, bundle);
                     } else {
-                        ToastUtil.showBottomShortText(getActivity(), getResources().getString(R.string.course_bugBank));
+                        if (projectList != null && projectList.size() > 0) {
+                            int currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
+                            Bundle bundle = new Bundle();
+                            bundle.putInt(Constant.COURSE_ID, currentSubjectId);
+                            startActivity(ErrorCenterActivity.class, bundle);
+                        } else {
+                            ToastUtil.showBottomShortText(getActivity(), getResources().getString(R.string.course_bugBank));
+                        }
                     }
                     break;
                 case R.id.user_offline://离线课程
