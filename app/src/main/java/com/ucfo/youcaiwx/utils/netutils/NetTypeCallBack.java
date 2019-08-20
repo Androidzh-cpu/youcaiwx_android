@@ -5,9 +5,7 @@ package com.ucfo.youcaiwx.utils.netutils;
  * Time: 2019-3-28.  上午 10:42
  * Email:2911743255@qq.com
  * ClassName: NetTypeCallBack
- * Package: com.ucfo.youcai.utils.netutils
  * Description:网络状态变化回调
- * Detail:
  */
 public interface NetTypeCallBack {
 

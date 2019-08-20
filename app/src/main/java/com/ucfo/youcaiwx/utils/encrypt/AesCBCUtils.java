@@ -5,11 +5,7 @@ package com.ucfo.youcaiwx.utils.encrypt;
  * Time: 2019-3-23.  下午 4:35
  * Email:2911743255@qq.com
  * ClassName: AesCBCUtils
- * Package: com.ucfo.youcai.utils.encrypt
- * Description:
- * Detail:
  */
-
 
 import android.util.Base64;
 
@@ -28,8 +24,9 @@ public class AesCBCUtils {
     }
 
     public static AesCBCUtils getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new AesCBCUtils();
+        }
         return instance;
     }
 

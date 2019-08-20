@@ -10,9 +10,6 @@ import java.util.List;
  * Time: 2019-3-28.  上午 10:46
  * Email:2911743255@qq.com
  * ClassName: ShellUtils
- * Package: com.ucfo.youcai.utils.netutils
- * Description:
- * Detail:
  */
 public final class ShellUtils {
 

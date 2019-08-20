@@ -11,9 +11,7 @@ import java.util.TimerTask;
  * Time: 2019-4-29.  下午 3:36
  * Email:2911743255@qq.com
  * ClassName: CountDownTimerSupport
- * Package: com.ucfo.youcai.utils.time
  * Description:TODO   主要用于倒计时
- * Detail:TODO
  */
 public class CountDownTimerSupport implements ITimerSupport {
     private Timer mTimer;

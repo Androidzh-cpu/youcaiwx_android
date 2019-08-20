@@ -24,9 +24,7 @@ import java.util.Enumeration;
  * Time: 2019-3-5.  下午 6:19
  * Email:2911743255@qq.com
  * ClassName: NetworkUtils
- * Package: com.ucfo.youcai.utils.netutils
  * Description:TODO 网络监测
- * Detail:
  */
 public final class NetworkUtils {
     private NetworkUtils() {

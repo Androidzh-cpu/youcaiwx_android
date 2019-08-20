@@ -5,7 +5,6 @@ package com.ucfo.youcaiwx.utils;
  * Time: 2019-4-19.  下午 4:39
  * Email:2911743255@qq.com
  * ClassName: JsonUtil
- * Package: com.ucfo.youcai.utils
  * Description:主要用于okhttp答疑日志使用
  */
 public class JsonUtil {

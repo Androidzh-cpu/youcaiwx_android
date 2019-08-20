@@ -25,7 +25,6 @@ import butterknife.OnClick;
 /**
  * Author: AND
  * Time: 2019-8-8 上午 10:32
- * Package: com.ucfo.youcai.view.home
  * FileName: MessageCenterActivity
  * ORG: www.youcaiwx.com
  * Description:TODO 消息中心

@@ -52,7 +52,6 @@ import butterknife.Unbinder;
  * Time: 2019-4-3.  上午 10:02
  * Email:2911743255@qq.com
  * ClassName: CourseDirectoryListFragment
- * Package: com.ucfo.youcai.view.course.player.fragment
  * Description:TODO 课程目录
  * Detail:TODO fragment_coursedirectorylist
  */

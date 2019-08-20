@@ -12,9 +12,6 @@ import java.io.IOException;
  * Time: 2019-3-28.  上午 10:48
  * Email:2911743255@qq.com
  * ClassName: CloseUtils
- * Package: com.ucfo.youcai.utils.netutils
- * Description:
- * Detail:
  */
 public final class CloseUtils {
 

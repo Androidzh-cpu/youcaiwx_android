@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
  * Time: 2019-3-6.  上午 9:26
  * Email:2911743255@qq.com
  * ClassName: FastBlurUtil
- * Package: com.ucfo.youcai.utils
  * Description:毛玻璃特效
  * Detail:采用的是StackBlur模糊算法，这种算法应用非常广泛，能得到非常良好的毛玻璃效果
  */

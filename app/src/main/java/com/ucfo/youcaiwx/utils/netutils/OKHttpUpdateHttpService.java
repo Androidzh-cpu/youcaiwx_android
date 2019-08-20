@@ -20,9 +20,7 @@ import okhttp3.Response;
  * Time: 2019-3-6.  上午 11:37
  * Email:2911743255@qq.com
  * ClassName: OKHttpUpdateHttpService
- * Package: com.ucfo.youcai.utils.netutils
  * Description:TODO Xupdate自定义网络更新框架
- * Detail:
  */
 public class OKHttpUpdateHttpService implements IUpdateHttpService {
     public OKHttpUpdateHttpService() {

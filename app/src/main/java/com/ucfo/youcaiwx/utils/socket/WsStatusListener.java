@@ -6,10 +6,7 @@ import okio.ByteString;
 /**
  * Author: AND
  * Time: 2019-6-28.  下午 2:13
- * Package: com.ucfo.youcai.utils.socket
  * FileName: WsStatusListener
- * Description:TODO
- * Detail:TODO
  */
 public abstract class WsStatusListener {
     public void onOpen(Response response) {

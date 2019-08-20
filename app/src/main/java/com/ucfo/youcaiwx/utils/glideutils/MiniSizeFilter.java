@@ -17,7 +17,6 @@ import java.util.Set;
 /**
  * Author: AND
  * Time: 2019-6-15.  下午 2:55
- * Package: com.ucfo.youcai.utils.glideutils
  * FileName: MiniSizeFilter
  * Description:TODO Filter 过滤图片大小等操作
  */

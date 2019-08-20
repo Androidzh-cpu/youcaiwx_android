@@ -12,7 +12,6 @@ import java.util.Random;
  * Time: 2019-3-6.  上午 9:21
  * Email:2911743255@qq.com
  * ClassName: CodeUtils
- * Package: com.ucfo.youcai.utils.codeutils
  * Description:TODO 图形验证码的工具类
  * Detail:      //TODO 步骤
                 CodeUtils codeUtils = CodeUtils.getInstance();

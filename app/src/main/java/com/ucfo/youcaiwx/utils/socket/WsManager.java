@@ -19,10 +19,7 @@ import okio.ByteString;
 /**
  * Author: AND
  * Time: 2019-6-28.  下午 2:12
- * Package: com.ucfo.youcai.utils.socket
  * FileName: WsManager
- * Description:TODO
- * Detail:TODO
  */
 public class WsManager implements IWsManager {
     private final static int RECONNECT_INTERVAL = 10 * 1000;    //重连自增步长

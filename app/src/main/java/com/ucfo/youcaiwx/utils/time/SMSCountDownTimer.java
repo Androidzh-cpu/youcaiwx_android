@@ -16,7 +16,6 @@ import com.ucfo.youcaiwx.R;
  * Time: 2019-3-26.  上午 11:23
  * Email:2911743255@qq.com
  * ClassName: SMSCountDownTimer
- * Package: com.ucfo.youcai.utils
  * Description:TODO  登录页的倒计时按钮
  * Detail:
  */

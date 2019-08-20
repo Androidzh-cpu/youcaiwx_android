@@ -17,10 +17,7 @@ import okio.ByteString;
 /**
  * Author: AND
  * Time: 2019-6-28.  下午 3:01
- * Package: com.ucfo.youcai.utils.socket
  * FileName: FirstTest
- * Description:TODO
- * Detail:TODO
  */
 public class FirstTest {
 

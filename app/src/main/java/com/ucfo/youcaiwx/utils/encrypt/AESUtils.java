@@ -5,9 +5,6 @@ package com.ucfo.youcaiwx.utils.encrypt;
  * Time: 2019-3-23.  下午 4:46
  * Email:2911743255@qq.com
  * ClassName: AESUtils
- * Package: com.ucfo.youcai.utils.encrypt
- * Description:
- * Detail:
  */
 
 import android.util.Base64;

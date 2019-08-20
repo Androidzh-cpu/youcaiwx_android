@@ -31,7 +31,6 @@ import butterknife.ButterKnife;
 /**
  * Author: AND
  * Time: 2019-5-9 上午 9:29
- * Package: com.ucfo.youcai.view.questionbank.activity
  * FileName: HighFrequencyWrongTopicActivity
  * ORG: www.youcaiwx.com
  * Description:TODO  系统高频错题
