@@ -45,7 +45,6 @@ import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
-import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.view.course.CourseListActivity;
 import com.ucfo.youcaiwx.view.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.view.home.MessageCenterActivity;
@@ -151,26 +150,6 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         unbinder.unbind();
     }
 
-    /**
-     * Description:HomeFragment
-     * Time:2019-3-28   上午 11:23
-     * Detail:快速置顶
-     */
-    public void refreshToTop() {
-        ToastUtil.showCenterShortText(context, "你好");
-        scrollView.fling(0);
-        scrollView.smoothScrollTo(0, 0);
-    }
-
-    public static HomeFragment newInstance(String content, String tab) {
-        HomeFragment newFragment = new HomeFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("content", content);
-        bundle.putString("tab", tab);
-        newFragment.setArguments(bundle);
-        return newFragment;
-    }
-
     @Override
     protected void initView(View view) {
         context = (MainActivity) getActivity();
@@ -196,9 +175,8 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         courseList = new ArrayList<>();
         newLists = new ArrayList<>();
 
-        //注册homepresenter
         homePresenter = new HomePresenter(this);
-        //请求首页接口
+
         homePresenter.getHomeData("home");
 
         layoutManager();
@@ -313,10 +291,10 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     //TODO 顶部banner的点击事件
     @Override
     public void OnBannerClick(int position) {
-        String jump_href = bannerList.get(position).getJump_href();
+        String jumpHref = bannerList.get(position).getJump_href();
         Intent intent = new Intent(getActivity(), WebActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString(Constant.WEB_URL, jump_href);
+        bundle.putString(Constant.WEB_URL, jumpHref);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -334,7 +312,6 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                 }
             }
         }
-
         if (homeBean != null) {
             HomeBean.DataBean data = homeBean.getData();
             if (data != null) {
@@ -460,7 +437,10 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         homeLiveAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.WEB_TITLE,liveList.get(position).getTitle());
+                bundle.putString(Constant.WEB_URL,liveList.get(position).getJumplink());
+                startActivity(WebActivity.class, bundle);
             }
         });
     }

@@ -90,19 +90,19 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
     @Override
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         LearncenterHomeBean.DataBean.LearnListBean bean = list.get(position);
-        String plan_name = bean.getPlan_name();//标题
+        String planName = bean.getPlan_name();//标题
         int number = bean.getNumber();//距离考试时间
         String schedule = bean.getSchedule();//出勤天数
-        int plan_days = bean.getPlan_days();//计划总工天数
-        int join_days = bean.getJoin_days();//已开多少天
-        int progress = join_days * 100 / plan_days;//2*100/4
+        int planDays = bean.getPlan_days();//计划总工天数
+        int joinDays = bean.getJoin_days();//已开多少天
+        int progress = joinDays * 100 / planDays;//2*100/4
         holder.mProgressbar.setProgress(progress);
 
-        if (!TextUtils.isEmpty(plan_name)) {
-            holder.mTitle.setText(plan_name);
+        if (!TextUtils.isEmpty(planName)) {
+            holder.mTitle.setText(planName);
         }
-        holder.mStudyAlldayItem.setText(context.getResources().getString(R.string.learncenter_examTips2, String.valueOf(plan_days)));
-        holder.mStudydayItem.setText(context.getResources().getString(R.string.learncenter_examTips1, String.valueOf(join_days)));
+        holder.mStudyAlldayItem.setText(context.getResources().getString(R.string.learncenter_examTips2, String.valueOf(planDays)));
+        holder.mStudydayItem.setText(context.getResources().getString(R.string.learncenter_examTips1, String.valueOf(joinDays)));
         holder.mExamdayItem.setText(String.valueOf(number));
         int i = position % 3;
         switch (i) {
@@ -118,8 +118,7 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
             default:
                 break;
         }
-        int progress2 = Integer.parseInt(schedule) * 100 / plan_days;
-        holder.mSeekbar.setMax(100);
+        int progress2 = Integer.parseInt(schedule) * 100 / planDays;
         holder.mSeekbar.setProgress(progress2);
         holder.mTextSeekbar.setText(context.getResources().getString(R.string.progressbarIndetior, String.valueOf(schedule)));
         SimpleTarget<GlideDrawable> simpleTarget = new SimpleTarget<GlideDrawable>() {
@@ -130,8 +129,8 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
             }
         };
         Glide.with(context).load(userBeanHead).centerCrop().placeholder(R.mipmap.icon_headdefault)
-                .override(DensityUtil.dp2px(22), DensityUtil.dp2px(22))
-                .transform(new GlideCircleTransform(context, 2, ContextCompat.getColor(context, R.color.color_FAA827)))
+                .override(DensityUtil.dip2px(context,22), DensityUtil.dip2px(context,22))
+                .transform(new GlideCircleTransform(context, 3, ContextCompat.getColor(context, R.color.color_FAA827)))
                 .diskCacheStrategy(DiskCacheStrategy.ALL).into(simpleTarget);
         holder.mSeekbar.setOnTouchListener(new View.OnTouchListener() {
             @Override

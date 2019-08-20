@@ -170,6 +170,15 @@ public class HomeBean {
             private String app_image;
             private String teacher_id;
             private String teacher_name;
+            private String jumplink;
+
+            public String getJumplink() {
+                return jumplink == null ? "" : jumplink;
+            }
+
+            public void setJumplink(String jumplink) {
+                this.jumplink = jumplink;
+            }
 
             public String getTitle() {
                 return title == null ? "" : title;

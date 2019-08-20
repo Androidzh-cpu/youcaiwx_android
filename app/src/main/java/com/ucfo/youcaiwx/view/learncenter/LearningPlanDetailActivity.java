@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -204,14 +205,8 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
             if (result.getData() != null) {
                 String advert = result.getData().getAdvert();
                 if (!this.isFinishing()) {
-                    Glide.with(this)
-                            .load(advert)
-                            .asBitmap()
-                            .skipMemoryCache(true)
-                            .placeholder(R.mipmap.banner_default)
-                            .error(R.mipmap.image_loaderror)
-                            .skipMemoryCache(true)
-                            .into(cover);
+                    Glide.with(this).load(advert).asBitmap().skipMemoryCache(true).placeholder(R.mipmap.banner_default)
+                            .error(R.mipmap.image_loaderror).skipMemoryCache(true).into(cover);
                 }
                 if (result.getData().getDate() != null && result.getData().getDate().size() > 0) {
                     List<LearnPlanDetailBean.DataBean.DateBean> dateBeanList = result.getData().getDate();
@@ -230,7 +225,9 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
         }
     }
 
-    //TODO 日期计划
+    /**
+     * 日期计划
+     */
     private void initAdapter() {
         if (dateAdapter == null) {
             dateAdapter = new LearnPlanDetailDateAdapter(context, list);
@@ -241,11 +238,12 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
         dateAdapter.setItemClick(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                //滑动至当天计划
                 gridLayoutManager.smoothScrollToPosition(calendarListview, new RecyclerView.State(), position);
                 LearnPlanDetailBean.DataBean.DateBean bean = list.get(position);
+                //设置日期
                 englishMonth.setText(bean.getYmonth());
                 textMonth.setText(String.valueOf(bean.getMonth()));
-
                 int size = list.size();
                 for (int i = 0; i < size; i++) {
                     if (i == position) {
@@ -256,30 +254,31 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                 }
                 dateAdapter.notifyDataSetChanged();
                 currentDay = bean.getDays();
-
                 //是否是休息日
                 if (bean.getIs_rest() == 1) {
-                    //TODO 获取计划详情
+                    //TODO 获取计划详情  1工作日,2休息日
                     planDetailPresenter.getLearnPlanDetailVideoList(user_id, course_id, plan_id, type, bean.getSameday(), currentDay);
                 } else {
                     loadinglayout.showEmpty();
                 }
             }
         });
+        boolean flag = true;
+        //获取当天计划详情
         int size = list.size();
         for (int i = 0; i < size; i++) {
             int sameday = list.get(i).getSameday();
             if (sameday == 1) {
+                //是否是当天计划
                 gridLayoutManager.smoothScrollToPosition(calendarListview, new RecyclerView.State(), i);
                 list.get(i).setChecked(true);
                 dateAdapter.notifyDataSetChanged();
-
+                //设置日期
                 LearnPlanDetailBean.DataBean.DateBean bean = list.get(i);
                 englishMonth.setText(bean.getYmonth());
                 textMonth.setText(String.valueOf(bean.getMonth()));
-
+                //当天日期
                 currentDay = list.get(i).getDays();
-
                 //是否是休息日
                 if (bean.getIs_rest() == 1) {
                     //TODO 获取计划详情
@@ -287,10 +286,18 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                 } else {
                     loadinglayout.showEmpty();
                 }
+
+                flag = false;
                 break;
             }
         }
-
+        if (flag) {
+            list.get(0).setChecked(true);
+            dateAdapter.notifyDataSetChanged();
+            int sameday = list.get(0).getSameday();
+            currentDay = list.get(0).getDays();
+            planDetailPresenter.getLearnPlanDetailVideoList(user_id, course_id, plan_id, type, sameday, currentDay);
+        }
     }
 
     @Override
@@ -326,7 +333,7 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                 @Override
                 public void setOnNoteClick(int position) {
                     String sameday = videoList.get(position).getSameday();
-                    if (sameday.equals("1")) {
+                    if (TextUtils.equals(sameday, String.valueOf(1))) {
                         Bundle bundle = new Bundle();
                         bundle.putString(Constant.TITLE, videoList.get(position).getVideo_name());
                         bundle.putString(Constant.URL, videoList.get(position).getHandouts());
@@ -338,7 +345,7 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                 public void setOnExerciseClick(int position) {
                     LearnPlanDetailVideoBean.DataBean.VideoBean videoBean = videoList.get(position);
                     String sameday = videoBean.getSameday();
-                    if (sameday.equals("1")) {
+                    if (TextUtils.equals(sameday, String.valueOf(1))) {
                         Bundle bundle = new Bundle();
                         bundle.putInt(Constant.COURSE_ID, course_id);
                         bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_E);

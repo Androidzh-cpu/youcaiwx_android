@@ -49,19 +49,19 @@ public class QuestionStageTestAdapter extends BaseAdapter<QuestionStageOfTestBea
     @Override
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         QuestionStageOfTestBean.DataBean bean = list.get(position);
-        String section_name = bean.getSection_name();
-        String paper_name = bean.getPaper_name();
+        String sectionName = bean.getSection_name();
+        String paperName = bean.getPaper_name();
         String difficulty = bean.getDifficulty();
 
         if (plate_id == Constant.PLATE_2 || plate_id == Constant.PLATE_3) {
-            if (!TextUtils.isEmpty(paper_name)) {
-                holder.mStageKnowledgeTitleItem.setText(paper_name);
+            if (!TextUtils.isEmpty(paperName)) {
+                holder.mStageKnowledgeTitleItem.setText(paperName);
             } else {
                 holder.mStageKnowledgeTitleItem.setText(R.string.default_title);
             }
         } else {
-            if (!TextUtils.isEmpty(section_name)) {
-                holder.mStageKnowledgeTitleItem.setText(section_name);
+            if (!TextUtils.isEmpty(sectionName)) {
+                holder.mStageKnowledgeTitleItem.setText(sectionName);
             } else {
                 holder.mStageKnowledgeTitleItem.setText(R.string.default_title);
             }

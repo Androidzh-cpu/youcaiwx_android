@@ -208,7 +208,7 @@ public class AnnouncementCenterActivity extends BaseActivity implements IMessage
                 messageCenterPresenter.havedReadMessage(userId, 4, list.get(position).getMessage_id());
                 Bundle bundle = new Bundle();
                 bundle.putString(Constant.WEB_TITLE, list.get(position).getTitle());
-                bundle.putString(Constant.WEB_URL, "https://www.apple.com");
+                bundle.putString(Constant.WEB_URL, list.get(position).getHref());
                 startActivity(WebActivity.class, bundle);
             }
         });
