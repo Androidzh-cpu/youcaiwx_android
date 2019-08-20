@@ -2,101 +2,85 @@ package com.ucfo.youcaiwx.utils.netutils;
 
 import android.support.annotation.NonNull;
 
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Progress;
 import com.xuexiang.xupdate.proxy.IUpdateHttpService;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.FileCallBack;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.File;
 import java.util.Map;
 import java.util.TreeMap;
 
-import okhttp3.Call;
-import okhttp3.Request;
-import okhttp3.Response;
-
 /**
- * Author:AND
- * Time: 2019-3-6.  上午 11:37
- * Email:2911743255@qq.com
- * ClassName: OKHttpUpdateHttpService
- * Description:TODO Xupdate自定义网络更新框架
+ * Author: AND
+ * Time: 2019-8-20.  下午 4:37
+ * Package: com.ucfo.youcaiwx.utils.netutils
+ * FileName: OKHttpUpdateHttpService
  */
 public class OKHttpUpdateHttpService implements IUpdateHttpService {
     public OKHttpUpdateHttpService() {
-        OkHttpUtils.getInstance().timeout(20000);
     }
 
     @Override
     public void asyncGet(@NonNull String url, @NonNull Map<String, Object> params, final @NonNull Callback callBack) {
-        OkHttpUtils.get()
-                .url(url)
-                .params(transform(params))
-                .build()
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Response response, Exception e, int id) {
-                        callBack.onError(e);
+        OkGo.<String>get(url).params(transform(params)).execute(new com.lzy.okgo.callback.StringCallback() {
+            @Override
+            public void onSuccess(com.lzy.okgo.model.Response<String> response) {
+                callBack.onSuccess(response.body());
+            }
 
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        callBack.onSuccess(response);
-                    }
-                });
+            @Override
+            public void onError(com.lzy.okgo.model.Response<String> response) {
+                super.onError(response);
+                Throwable exception = response.getException();
+                callBack.onError(exception);
+            }
+        });
     }
 
     @Override
     public void asyncPost(@NonNull String url, @NonNull Map<String, Object> params, final @NonNull Callback callBack) {
-        OkHttpUtils.post()
-                .url(url)
-                .params(transform(params))
-                .build()
-                .execute(new StringCallback() {
+        //这里默认post的是Form格式，使用json格式的请修改 post -> postString
+        OkGo.<String>post(url).params(transform(params)).execute(new com.lzy.okgo.callback.StringCallback() {
+            @Override
+            public void onSuccess(com.lzy.okgo.model.Response<String> response) {
+                callBack.onSuccess(response.body());
+            }
 
-                    @Override
-                    public void onError(Call call, Response response, Exception e, int id) {
-                        callBack.onError(e);
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        callBack.onSuccess(response);
-                    }
-                });
+            @Override
+            public void onError(com.lzy.okgo.model.Response<String> response) {
+                super.onError(response);
+                callBack.onError(response.getException());
+            }
+        });
     }
 
     @Override
     public void download(@NonNull String url, @NonNull String path, @NonNull String fileName, final @NonNull DownloadCallback callback) {
-        OkHttpUtils.get()
-                .url(url)
-                .build()
-                .execute(new FileCallBack(path, fileName) {
-                    @Override
-                    public void onBefore(Request request, int id) {
-                        super.onBefore(request, id);
-                        callback.onStart();
-                    }
+        OkGo.<File>get(url).execute(new com.lzy.okgo.callback.FileCallback(path, fileName) {
+            @Override
+            public void onSuccess(com.lzy.okgo.model.Response<File> response) {
+                File body = response.body();
+                callback.onSuccess(body);
+            }
 
-                    @Override
-                    public void inProgress(float progress, long total, int id) {
-                        callback.onProgress(progress, total);
-                    }
+            @Override
+            public void onStart(com.lzy.okgo.request.base.Request<File, ? extends com.lzy.okgo.request.base.Request> request) {
+                super.onStart(request);
+                callback.onStart();
+            }
 
-                    @Override
-                    public void onError(Call call, Response response, Exception e, int id) {
-                        callback.onError(e);
+            @Override
+            public void onError(com.lzy.okgo.model.Response<File> response) {
+                super.onError(response);
+                callback.onError(response.getException());
+            }
 
-                    }
-
-                    @Override
-                    public void onResponse(File response, int id) {
-                        callback.onSuccess(response);
-                    }
-
-
-                });
+            @Override
+            public void downloadProgress(Progress progress) {
+                super.downloadProgress(progress);
+                callback.onProgress(progress.fraction, progress.totalSize);
+            }
+        });
     }
 
     @Override

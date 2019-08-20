@@ -682,3 +682,5 @@
 -keep class * extends org.litepal.crud.LitePalSupport {
     *;
 }
+#----------------------------------------------TODO 版本更新------------------------------------------------#
+-keep class com.xuexiang.xupdate.entity.** { *; }

@@ -37,7 +37,6 @@ public class InvoiceInfomationDialog {
         btn_neg = (RoundTextView) contentView.findViewById(R.id.btn_neg);
         dialog = new Dialog(context, R.style.AlertDialogStyle);
         dialog.setContentView(contentView);
-        dialog.getWindow().setWindowAnimations(R.style.MaterialDialogTopToBottomAnimation);
         ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
         layoutParams.width = context.getResources().getDisplayMetrics().widthPixels;
         contentView.setLayoutParams(layoutParams);

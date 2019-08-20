@@ -54,8 +54,6 @@ import com.umeng.message.PushAgent;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
 import com.xuexiang.xupdate.XUpdate;
-import com.xuexiang.xupdate.entity.UpdateError;
-import com.xuexiang.xupdate.listener.OnUpdateFailureListener;
 import com.xuexiang.xupdate.utils.UpdateUtils;
 
 import org.litepal.LitePal;
@@ -131,16 +129,24 @@ public class UcfoApplication extends Application {
         regToWx();
         initWebview();
         initUmeng();
-        initUpdate();
         initLogger();
+        initUpdate();
+    }
+
+    private void initUpdate() {
+        XUpdate.get()
+                .debug(true)
+                .isWifiOnly(true)                                               //默认设置只在wifi下检查版本更新
+                .isGet(true)                                                    //默认设置使用get请求检查版本
+                .isAutoMode(false)                                              //默认设置非自动模式，可根据具体使用配置
+                .param(Constant.versioncode, UpdateUtils.getVersionCode(this))         //设置默认公共请求参数
+                .param(Constant.APP_KEY, getPackageName())
+                .supportSilentInstall(true)                                     //设置是否支持静默安装，默认是true
+                .setIUpdateHttpService(new OKHttpUpdateHttpService())           //这个必须设置！实现网络请求功能。
+                .init(this);
     }
 
     private void initLogger() {
-    /*Logger.init("==Blogs==")//设置日志库tag标签
-            .hideThreadInfo()
-            .methodCount(3)// 决定打印多少行（每一行代表一个方法）默认：2
-            .logLevel(BuildConfig.LOG_DEBUG ? LogLevel.FULL : LogLevel.NONE)//根据是否是debug模式显示日志
-            .methodOffset(2);*/
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(false)      //是否显示线程信息 默认显示
                 .methodCount(2)             //展示方法的行数 默认是2
@@ -334,25 +340,6 @@ public class UcfoApplication extends Application {
                 .setRetryCount(3)                               //全局统一超时重连次数，默认为三次，那么最差的情况会请求4次(一次原始请求，三次重连请求)，不需要可以设置为0
                 .addCommonHeaders(headers)                      //全局公共头
                 .addCommonParams(params);                       //全局公共参数
-
-    }
-
-    private void initUpdate() {
-        XUpdate.get()
-                .debug(false) //开启debug模式，可用于问题的排查
-                .isWifiOnly(false)     //默认设置只在wifi下检查版本更新
-                .isGet(true)          //默认设置使用get请求检查版本
-                .isAutoMode(false)    //默认设置非自动模式，可根据具体使用配置
-                .param(Constant.VERSION_CODE, UpdateUtils.getVersionCode(this)) //设置默认公共请求参数
-                .param(Constant.APP_KEY, getPackageName())
-                .setOnUpdateFailureListener(new OnUpdateFailureListener() { //设置版本更新出错的监听
-                    @Override
-                    public void onFailure(UpdateError error) {
-                        LogUtils.e("UpdateError" + error.toString());
-                    }
-                })
-                .setIUpdateHttpService(new OKHttpUpdateHttpService()) //这个必须设置！实现网络请求功能。
-                .init(this);   //这个必须初始化
     }
 
     /**

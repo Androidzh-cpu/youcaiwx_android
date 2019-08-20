@@ -36,7 +36,7 @@ public class HomeNewsAdapter extends BaseAdapter<HomeBean.DataBean.CurriculumBea
         this.list = list;
         this.context = context;
     }
-
+    @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();
     }
@@ -44,12 +44,12 @@ public class HomeNewsAdapter extends BaseAdapter<HomeBean.DataBean.CurriculumBea
     @Override
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         HomeBean.DataBean.InformationBean bean = list.get(position);
-        String create_time = bean.getCreate_time();
+        String createTime = bean.getCreate_time();
         String imageurl = bean.getImageurl();
         String title = bean.getTitle();
         String source = bean.getSource();
-        if (!TextUtils.isEmpty(create_time)) {
-            holder.mCourseTimeItem.setText(create_time);
+        if (!TextUtils.isEmpty(createTime)) {
+            holder.mCourseTimeItem.setText(createTime);
         }
         if (!TextUtils.isEmpty(title)) {
             holder.mCourseTitleItem.setText(title);

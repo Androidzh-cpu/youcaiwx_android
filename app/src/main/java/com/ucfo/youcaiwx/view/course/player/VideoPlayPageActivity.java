@@ -68,6 +68,7 @@ import com.qw.soul.permission.bean.Permission;
 import com.qw.soul.permission.bean.Permissions;
 import com.qw.soul.permission.callbcak.CheckRequestPermissionListener;
 import com.qw.soul.permission.callbcak.CheckRequestPermissionsListener;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
@@ -77,6 +78,7 @@ import com.ucfo.youcaiwx.presenter.presenterImpl.course.CoursePlayPresenter;
 import com.ucfo.youcaiwx.presenter.view.course.ICoursePlayerView;
 import com.ucfo.youcaiwx.utils.CallUtils;
 import com.ucfo.youcaiwx.utils.LogUtils;
+import com.ucfo.youcaiwx.utils.ShareUtils;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
@@ -103,6 +105,7 @@ import com.ucfo.youcaiwx.view.pay.CommitOrderActivity;
 import com.ucfo.youcaiwx.view.questionbank.activity.QuestionAskQuestionActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingView;
 import com.ucfo.youcaiwx.widget.customview.SwitchView;
+import com.ucfo.youcaiwx.widget.dialog.ShareDialog;
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
@@ -2270,7 +2273,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 topBack();
                 break;
             case R.id.player_share://TODO 顶部分享按键
-/*
                 new ShareDialog(this)
                         .builder()
                         .setFriendButton(new View.OnClickListener() {
@@ -2291,7 +2293,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                             }
                         })
                         .show();
-*/
                 break;
             case R.id.player_collect://TODO 顶部收藏按键
                 switchCollectionStatus();

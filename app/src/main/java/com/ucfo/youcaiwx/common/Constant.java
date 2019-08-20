@@ -13,6 +13,7 @@ public class Constant {
     public static final boolean ISTEST_ENVIRONMENT = true;//是否显示打印日志
     //---------------------------------------------TODO 基础变量-----------------------------------------------//
     public static final String VERSION_CODE = "VersionCode";//版本名
+    public static final String versioncode = "versioncode";//版本名
     public static final String APP_KEY = "AppKey";//Appkey
     public static final String WEIXIN_KEY = "wx48f8af6eabfbe542";//TODO 微信APPID
     public static final String WEIXIN_SECRET = "8ecab40c2ee5d5b53098a5d4435fd7a0";//TODO 微信secret

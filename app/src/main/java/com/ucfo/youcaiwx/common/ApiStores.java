@@ -13,6 +13,7 @@ public class ApiStores {
     public static final String BASE_URL = "http://ycapi.youcaiwx.com/apps/";  //开发内网测试环境
     public static final String SOCKET = "ws://ycapi.youcaiwx.com:2346";//socket地址
     public static final String FILE_UPLOAD = "http://ycapi.youcaiwx.com/upload/Index/uploadImage";//上传文件
+    public static final String VERSION_UPDATE = "http://ycapi.youcaiwx.com/apps/Version/upAndroid";//版本更新
 
     //-----------------------------------------TODO 首页--------------------------------------------------------------//
     public static final String HOME_API = BASE_URL + "First/newInformation";//首页
