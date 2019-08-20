@@ -40,6 +40,7 @@ import com.ucfo.youcaiwx.view.user.activity.OfflineCourseActivity;
 import com.ucfo.youcaiwx.view.user.activity.PersonnelSettingActivity;
 import com.ucfo.youcaiwx.view.user.activity.SettingActivity;
 import com.ucfo.youcaiwx.view.user.activity.WatchTheRecordActivity;
+import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
 import com.ucfo.youcaiwx.widget.dialog.ShareDialog;
 
 import butterknife.BindView;
@@ -209,6 +210,21 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                 case R.id.btn_wxRemind://TODO 学习提醒
                     /*String certificateSHA1Fingerprint = SHA1Utils.getCertificateSHA1Fingerprint(getActivity());
                     LogUtils.e("设备唯一标识----------------:" + certificateSHA1Fingerprint);*/
+                    new AlertDialog(getActivity()).builder().setCancelable(false).setCanceledOnTouchOutside(false)
+                            .setMsg("暂未开发,请后续等待")
+                            .setNegativeButton(null, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                }
+                            })
+                            .setPositiveButton(null, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                }
+                            })
+                            .show();
                     break;
                 case R.id.btn_recommendfriend://TODO 推荐给好友
                     new ShareDialog(getActivity())
