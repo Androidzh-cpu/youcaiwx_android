@@ -49,8 +49,6 @@ import com.ucfo.youcaiwx.view.course.CourseListActivity;
 import com.ucfo.youcaiwx.view.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.view.home.MessageCenterActivity;
 import com.ucfo.youcaiwx.view.home.ScanActivity;
-import com.ucfo.youcaiwx.view.learncenter.AddLearningPlanActivity;
-import com.ucfo.youcaiwx.view.learncenter.LoadPdfActivity;
 import com.ucfo.youcaiwx.view.login.LoginActivity;
 import com.ucfo.youcaiwx.view.main.activity.MainActivity;
 import com.ucfo.youcaiwx.view.main.activity.WebActivity;
@@ -252,6 +250,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         long nowTime = System.currentTimeMillis();
         if (nowTime - mLastClickTime > TIME_INTERVAL) {
             mLastClickTime = nowTime;
+            Bundle bundle = new Bundle();
             switch (view.getId()) {
                 case R.id.titlebar_scan://TODO 扫描
                     startActivity(new Intent(context, ScanActivity.class));
@@ -260,6 +259,9 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                     startActivity(new Intent(context, MessageCenterActivity.class));
                     break;
                 case R.id.icon_live://TODO 直播
+                    bundle.putString(Constant.WEB_URL, "https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzIwMjU0MjI1Nw==&scene=126#wechat_redirect");
+                    bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_live));
+                    startActivity(WebActivity.class, bundle);
                     break;
                 case R.id.icon_course://TODO 课程
                     startActivity(new Intent(getActivity(), CourseListActivity.class));
@@ -269,18 +271,19 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                     startActivity(intent);
                     break;
                 case R.id.icon_active://TODO 活动
-                    Bundle bundle = new Bundle();
-                    bundle.putString(Constant.TITLE, "这是个讲义");
-                    bundle.putString(Constant.URL, "http://www.youcaiwx.com/Public/Uploads/newtopicpics/2018-11-28/5bfe567be3c3b.pdf");
-                    startActivity(LoadPdfActivity.class, bundle);
                     break;
                 case R.id.icon_news://TODO 资讯
-                    startActivity(AddLearningPlanActivity.class, null);
+                    bundle.putString(Constant.WEB_URL, "http://m.ucwx.com.cn/news");
+                    bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_live));
+                    startActivity(WebActivity.class, bundle);
                     break;
                 case R.id.check_more_course://TODO 查看更多课程
                     startActivity(new Intent(getActivity(), CourseListActivity.class));
                     break;
                 case R.id.check_more_news://TODO 查看更多资讯
+                    bundle.putString(Constant.WEB_URL, "http://m.ucwx.com.cn/news");
+                    bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_live));
+                    startActivity(WebActivity.class, bundle);
                     break;
                 default:
                     break;
@@ -438,8 +441,8 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
             @Override
             public void onItemClick(View view, int position) {
                 Bundle bundle = new Bundle();
-                bundle.putString(Constant.WEB_TITLE,liveList.get(position).getTitle());
-                bundle.putString(Constant.WEB_URL,liveList.get(position).getJumplink());
+                bundle.putString(Constant.WEB_TITLE, liveList.get(position).getTitle());
+                bundle.putString(Constant.WEB_URL, liveList.get(position).getJumplink());
                 startActivity(WebActivity.class, bundle);
             }
         });
