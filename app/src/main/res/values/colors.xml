@@ -20,6 +20,10 @@
     <color name="color_5B78F6">#5B78F6</color>
     <color name="color_F88C00">#F88C00</color>
     <color name="color_E66D01">#E66D01</color>
+    <color name="color_FF7C28">#FF7C28</color>
+    <color name="color_FAA827">#FAA827</color>
+    <color name="color_F99111">#F99111</color>
+    <color name="color_FEEEDB">#FEEEDB</color>
     <color name="color_FDF0E1">#FDF0E1</color>
     <color name="color_FFF8F2">#FFF8F2</color>
     <color name="color_C2C2C2">#C2C2C2</color>
@@ -31,7 +35,6 @@
     <color name="color_FD7D74">#FD7D74</color>
     <color name="color_D1F0FF">#D1F0FF</color>
     <color name="color_F5F5F5">#F5F5F5</color>
-    <color name="color_FAA827">#FAA827</color>
     <color name="color_ECEEF0">#ECEEF0</color>
     <color name="color_6F6E6E">#6F6E6E</color>
     <color name="color_C7C7C7">#C7C7C7</color>
@@ -44,8 +47,6 @@
     <color name="color_F7F9FB">#F7F9FB</color>
     <color name="color_E3EEFF">#E3EEFF</color>
     <color name="color_CDE1FF">#CDE1FF</color>
-    <color name="color_F99111">#F99111</color>
-    <color name="color_FEEEDB">#FEEEDB</color>
     <color name="color_4A4A4A">#4A4A4A</color>
     <color name="color_E6E6E6">#E6E6E6</color>
     <color name="color_50FF00">#50FF00</color>

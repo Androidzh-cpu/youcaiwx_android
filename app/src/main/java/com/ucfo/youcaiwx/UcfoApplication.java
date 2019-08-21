@@ -40,7 +40,7 @@ import com.tencent.smtt.sdk.QbSdk;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.utils.JsonUtil;
 import com.ucfo.youcaiwx.utils.LogUtils;
-import com.ucfo.youcaiwx.utils.netutils.OKHttpUpdateHttpService;
+import com.ucfo.youcaiwx.utils.update.OKHttpUpdateHttpService;
 import com.ucfo.youcaiwx.view.course.CourseAnswerDetailActivity;
 import com.ucfo.youcaiwx.view.course.player.download.Common;
 import com.ucfo.youcaiwx.view.main.activity.WebActivity;

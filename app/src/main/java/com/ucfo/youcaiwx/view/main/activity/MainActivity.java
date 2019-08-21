@@ -26,9 +26,9 @@ import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
 import com.ucfo.youcaiwx.utils.CallUtils;
-import com.ucfo.youcaiwx.utils.netutils.UpdateCustomParser;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
+import com.ucfo.youcaiwx.utils.update.UpdateCustomParser;
 import com.ucfo.youcaiwx.view.main.fragment.ClassFragment;
 import com.ucfo.youcaiwx.view.main.fragment.HomeFragment;
 import com.ucfo.youcaiwx.view.main.fragment.LearnCenterFragment;
@@ -113,8 +113,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateApp() {
-        XUpdate.newBuild(this).themeColor(ContextCompat.getColor(this, R.color.colorPrimary))
-                .updateUrl(ApiStores.VERSION_UPDATE).updateParser(new UpdateCustomParser()).update();
+        XUpdate.newBuild(this)
+                .themeColor(ContextCompat.getColor(this, R.color.color_FF7C28))
+                .topResId(R.mipmap.update_background)
+                .updateUrl(ApiStores.VERSION_UPDATE)
+                .updateParser(new UpdateCustomParser())
+                .update();
     }
 
     private void initView() {

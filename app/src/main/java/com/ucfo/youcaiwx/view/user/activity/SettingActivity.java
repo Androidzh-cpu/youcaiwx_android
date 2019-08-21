@@ -21,7 +21,8 @@ import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
 import com.ucfo.youcaiwx.utils.DataCleanManager;
-import com.ucfo.youcaiwx.utils.netutils.UpdateCustomParser;
+import com.ucfo.youcaiwx.utils.update.CustomUpdatePrompter;
+import com.ucfo.youcaiwx.utils.update.UpdateCustomParser;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
@@ -182,9 +183,12 @@ public class SettingActivity extends BaseActivity {
                 startActivity(ModifyPasswordActivity.class, null);
                 break;
             case R.id.btn_currentVersion://TODO 版本更新
-                XUpdate.newBuild(this).themeColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                XUpdate.newBuild(this)
+                        .themeColor(ContextCompat.getColor(this, R.color.color_FF7C28))
+                        .topResId(R.mipmap.update_background)
                         .updateUrl(ApiStores.VERSION_UPDATE)
                         .updateParser(new UpdateCustomParser())
+                        .updatePrompter(new CustomUpdatePrompter(this))
                         .updateChecker(new DefaultUpdateChecker() {
                             @Override
                             public void processCheckResult(@NonNull String result, @NonNull IUpdateProxy updateProxy) {

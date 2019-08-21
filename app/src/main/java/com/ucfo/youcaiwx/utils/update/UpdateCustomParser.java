@@ -1,4 +1,4 @@
-package com.ucfo.youcaiwx.utils.netutils;
+package com.ucfo.youcaiwx.utils.update;
 
 import com.google.gson.Gson;
 import com.ucfo.youcaiwx.entity.home.UpdateBean;
