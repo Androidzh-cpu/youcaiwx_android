@@ -15,11 +15,12 @@
     <string name="home_face">面授</string>
     <string name="home_active">活动</string>
     <string name="home_news">资讯</string>
+    <string name="home_scan">扫一扫</string>
     <string name="home_live_recommend">直播推荐</string>
     <string name="home_course_recommend">课程推荐</string>
     <string name="home_news_zixun">最新资讯</string>
     <string name="home_more">查看更多</string>
-    <string name="scan_tiptext">将二维码放入框内,即可自动扫描</string>
+    <string name="scan_tiptext">将二维码/条码放入框内,即可自动扫描</string>
 
     <!-- Strings related to login业务文案 -->
     <string name="net_loadingtext">加载中</string>

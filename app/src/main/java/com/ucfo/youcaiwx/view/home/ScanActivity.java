@@ -4,8 +4,12 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.util.Patterns;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.qw.soul.permission.SoulPermission;
 import com.qw.soul.permission.bean.Permission;
@@ -34,15 +38,21 @@ public class ScanActivity extends BaseActivity implements QRCodeView.Delegate {
     ZXingView mZXingView;
     @BindView(R.id.light_btn)
     ImageView lightBtn;
+    @BindView(R.id.titlebar_midtitle)
+    TextView titlebarMidtitle;
+    @BindView(R.id.titlebar_righttitle)
+    TextView titlebarRighttitle;
+    @BindView(R.id.titlebar_toolbar)
+    Toolbar titlebarToolbar;
+    @BindView(R.id.showline)
+    View showline;
     private ScanActivity context;
-    private static final int REQUEST_CODE_CHOOSE_QRCODE_FROM_GALLERY = 666;
     private boolean lightFlag = false;
 
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
 
@@ -70,14 +80,35 @@ public class ScanActivity extends BaseActivity implements QRCodeView.Delegate {
 
     @Override
     protected void onStop() {
-        mZXingView.stopCamera(); // 关闭摄像头预览，并且隐藏扫描框
+        // 关闭摄像头预览，并且隐藏扫描框
+        mZXingView.stopCamera();
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        mZXingView.onDestroy(); // 销毁二维码扫描控件
+        // 销毁二维码扫描控件
+        mZXingView.onDestroy();
         super.onDestroy();
+    }
+
+    @Override
+    protected void initToolbar() {
+        super.initToolbar();
+        setSupportActionBar(titlebarToolbar);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+            supportActionBar.setDisplayShowTitleEnabled(false);
+        }
+        titlebarMidtitle.setText(getResources().getString(R.string.home_scan));
+        titlebarToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        showline.setVisibility(View.GONE);
     }
 
     @Override
@@ -135,9 +166,9 @@ public class ScanActivity extends BaseActivity implements QRCodeView.Delegate {
 
     @OnClick(R.id.light_btn)
     public void onViewClicked() {
-        if (lightFlag == false) {
+        if (!lightFlag) {
             lightBtn.setImageResource(R.drawable.ic_icon_scan_open);
-            mZXingView.openFlashlight(); // 打开闪光灯
+            mZXingView.openFlashlight();
             lightFlag = true;
         } else {
             lightBtn.setImageResource(R.drawable.ic_icon_scan_close);
