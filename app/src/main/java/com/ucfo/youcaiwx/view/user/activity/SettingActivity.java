@@ -3,6 +3,8 @@ package com.ucfo.youcaiwx.view.user.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
 import com.ucfo.youcaiwx.utils.DataCleanManager;
+import com.ucfo.youcaiwx.utils.netutils.UpdateCustomParser;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
@@ -28,12 +31,12 @@ import com.ucfo.youcaiwx.view.main.activity.MainActivity;
 import com.ucfo.youcaiwx.view.main.activity.WebActivity;
 import com.ucfo.youcaiwx.widget.customview.SwitchView;
 import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
+import com.xuexiang.xupdate.XUpdate;
+import com.xuexiang.xupdate.proxy.IUpdateProxy;
+import com.xuexiang.xupdate.proxy.impl.DefaultUpdateChecker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -183,6 +186,26 @@ public class SettingActivity extends BaseActivity {
                 startActivity(ModifyPasswordActivity.class, null);
                 break;
             case R.id.btn_currentVersion://TODO 版本更新
+                XUpdate.newBuild(this).themeColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                        .updateUrl(ApiStores.VERSION_UPDATE)
+                        .updateParser(new UpdateCustomParser())
+                        .updateChecker(new DefaultUpdateChecker() {
+                            @Override
+                            public void processCheckResult(@NonNull String result, @NonNull IUpdateProxy updateProxy) {
+                                super.processCheckResult(result, updateProxy);
+                                try {
+                                    JSONObject jsonObject = new JSONObject(result);
+                                    JSONObject data = jsonObject.optJSONObject("data");
+                                    boolean isUpdate = data.optBoolean("is_update");
+                                    if (!isUpdate) {
+                                        ToastUtil.showBottomLongText(context, getResources().getString(R.string.ThisIsTheLatestVersion));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                        .update();
                 break;
             case R.id.btn_clearCache://TODO 清除缓存
                 new AlertDialog(context).builder()
@@ -266,26 +289,13 @@ public class SettingActivity extends BaseActivity {
     }
 
     public void exitLoginSuccess() {
-        setProcessLoading(null, false);
         sharedPreferencesUtils.remove(Constant.USER_ID);
         sharedPreferencesUtils.remove(Constant.LOGIN_STATUS);
         sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent intent = new Intent(context, MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        ActivityUtil.getInstance().finishToActivity(MainActivity.class, true);
-                        dismissPorcess();
-                    }
-                });
-            }
-        };
-        Timer timer = new Timer();
-        timer.schedule(task, 1000);
+
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        ActivityUtil.getInstance().finishToActivity(MainActivity.class, true);
     }
 }

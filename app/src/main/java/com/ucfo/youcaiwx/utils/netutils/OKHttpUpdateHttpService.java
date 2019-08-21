@@ -3,12 +3,17 @@ package com.ucfo.youcaiwx.utils.netutils;
 import android.support.annotation.NonNull;
 
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Progress;
 import com.xuexiang.xupdate.proxy.IUpdateHttpService;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.FileCallBack;
 
 import java.io.File;
 import java.util.Map;
 import java.util.TreeMap;
+
+import okhttp3.Call;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Author: AND
@@ -56,31 +61,31 @@ public class OKHttpUpdateHttpService implements IUpdateHttpService {
 
     @Override
     public void download(@NonNull String url, @NonNull String path, @NonNull String fileName, final @NonNull DownloadCallback callback) {
-        OkGo.<File>get(url).execute(new com.lzy.okgo.callback.FileCallback(path, fileName) {
-            @Override
-            public void onSuccess(com.lzy.okgo.model.Response<File> response) {
-                File body = response.body();
-                callback.onSuccess(body);
-            }
+        OkHttpUtils.get()
+                .url(url)
+                .build()
+                .execute(new FileCallBack(path, fileName) {
+                    @Override
+                    public void inProgress(float progress, long total, int id) {
+                        callback.onProgress(progress, total);
+                    }
 
-            @Override
-            public void onStart(com.lzy.okgo.request.base.Request<File, ? extends com.lzy.okgo.request.base.Request> request) {
-                super.onStart(request);
-                callback.onStart();
-            }
+                    @Override
+                    public void onError(Call call, Response response, Exception e, int id) {
+                        callback.onError(e);
+                    }
 
-            @Override
-            public void onError(com.lzy.okgo.model.Response<File> response) {
-                super.onError(response);
-                callback.onError(response.getException());
-            }
+                    @Override
+                    public void onResponse(File response, int id) {
+                        callback.onSuccess(response);
+                    }
 
-            @Override
-            public void downloadProgress(Progress progress) {
-                super.downloadProgress(progress);
-                callback.onProgress(progress.fraction, progress.totalSize);
-            }
-        });
+                    @Override
+                    public void onBefore(Request request, int id) {
+                        super.onBefore(request, id);
+                        callback.onStart();
+                    }
+                });
     }
 
     @Override

@@ -256,6 +256,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
             initLearnCenter(result);
         } else {
             loadinglayout.showError();
+            userInfoClear();
         }
     }
 
@@ -289,6 +290,15 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
         //TODO nothing
     }
 
+    /**
+     * 清除用户信息
+     */
+    private void userInfoClear() {
+        Glide.with(context).load(R.mipmap.icon_headdefault).dontAnimate().crossFade().skipMemoryCache(false).into(userIcon);
+        userNickname.setText(getResources().getString(R.string.learncenter_login));
+        userClockinDay.setText(String.valueOf(0));
+    }
+
     //TODO 初始化学习中心页面
     private void initLearnCenter(LearncenterHomeBean data) {
         loadinglayout.showContent();
@@ -303,6 +313,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
             if (planBeanList != null && planBeanList.size() > 0) {
                 initPlanAdapter();
             }
+            userInfoClear();
         } else {//已登录
             int state = dataData.getState();//TODO 是否有未完成的学习计划    1有未读2已读
             int addlearn = dataData.getAddlearn();//TODO 是否拥有学习计划     1有2没有
@@ -326,6 +337,8 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                             .into(userIcon);
                 }
                 userClockinDay.setText(String.valueOf(card));
+            } else {
+                userInfoClear();
             }
             ///////////////////////////////TODO 再丑也要看的分割线///////////////////////////////////////////////
             switch (addlearn) {//TODO 学习计划

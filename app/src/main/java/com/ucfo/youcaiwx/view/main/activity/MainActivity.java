@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,7 +16,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.qw.soul.permission.SoulPermission;
 import com.qw.soul.permission.bean.Permission;
 import com.qw.soul.permission.bean.Permissions;
@@ -24,9 +24,9 @@ import com.qw.soul.permission.callbcak.CheckRequestPermissionsListener;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
-import com.ucfo.youcaiwx.entity.home.UpdateBean;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
 import com.ucfo.youcaiwx.utils.CallUtils;
+import com.ucfo.youcaiwx.utils.netutils.UpdateCustomParser;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.view.main.fragment.ClassFragment;
@@ -38,8 +38,6 @@ import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 import com.xuexiang.xupdate.XUpdate;
-import com.xuexiang.xupdate.entity.UpdateEntity;
-import com.xuexiang.xupdate.proxy.IUpdateParser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -115,37 +113,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateApp() {
-        XUpdate.newBuild(this)
-                .updateUrl(ApiStores.VERSION_UPDATE)
-                .updateParser(new CustomUpdateParser()) //设置自定义的版本更新解析器
-                .update();
-    }
-
-    public class CustomUpdateParser implements IUpdateParser {
-        @Override
-        public UpdateEntity parseJson(String json) throws Exception {
-            Gson gson = new Gson();
-            UpdateBean data = gson.fromJson(json, UpdateBean.class);
-            UpdateBean.DataBean updateBean = data.getData();
-            if (updateBean != null) {
-                boolean flag = false;
-                int updatestatus = updateBean.getUpdatestatus();
-                if (updatestatus == 2) {
-                    flag = true;
-                }
-                return new UpdateEntity()
-                        .setHasUpdate(updateBean.isIs_update())
-                        .setIsIgnorable(true)
-                        .setIsAutoInstall(true)
-                        .setForce(flag)
-                        .setVersionCode(updateBean.getVersioncode())
-                        .setVersionName(updateBean.getVersionname())
-                        .setUpdateContent(updateBean.getModifycontent())
-                        .setDownloadUrl(updateBean.getDownloadurl())
-                        .setSize(updateBean.getApksize());
-            }
-            return null;
-        }
+        XUpdate.newBuild(this).themeColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                .updateUrl(ApiStores.VERSION_UPDATE).updateParser(new UpdateCustomParser()).update();
     }
 
     private void initView() {
