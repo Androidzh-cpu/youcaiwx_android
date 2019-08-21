@@ -1,8 +1,10 @@
 package com.ucfo.youcaiwx.view.main.fragment;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -32,6 +34,7 @@ import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.view.login.LoginActivity;
+import com.ucfo.youcaiwx.view.main.activity.MainActivity;
 import com.ucfo.youcaiwx.view.main.activity.WebActivity;
 import com.ucfo.youcaiwx.view.questionbank.activity.ErrorCenterActivity;
 import com.ucfo.youcaiwx.view.questionbank.activity.HighFrequencyWrongTopicActivity;
@@ -60,8 +63,6 @@ import butterknife.Unbinder;
  * Detail:TODO plate_id代表板块 1知识点练习,2阶段测试,3论述题自测,4错题智能练习,5自主练习,6组卷模考
  */
 public class QuestionBankFragment extends BaseFragment implements IQuestionBankHomeView {
-    public static final String TAG = "QuestionBankFragment";
-
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_toolbar)
@@ -105,10 +106,11 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     View statusbarView;
     @BindView(R.id.view_line)
     View viewLine;
-    private Context context;
+    private MainActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private QuestionBankHomePresenter questionBankHomePresenter;
-    private int user_id, currentSubject_id;//用户ID,当前选中的题库
+    //用户ID,当前选中的题库
+    private int userId, currentSubjectId;
     private boolean loginStatus;//用户登录状态
     private long lastClickTime = 0;
     private ArrayList<QuestionMyProjectBean.DataBean> projectList;//已购买题库
@@ -116,10 +118,12 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     private SubjectAdapter subjectAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
+        if (rootView != null) {
+            unbinder = ButterKnife.bind(this, rootView);
+        }
         return rootView;
     }
 
@@ -127,10 +131,10 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     public void onResume() {
         super.onResume();
         loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);//用户登录状态
-        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-        currentSubject_id = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
+        userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
         if (loginStatus) {//TODO 用户已登录
-            questionBankHomePresenter.getMyProejctList(user_id);
+            questionBankHomePresenter.getMyProejctList(userId);
         } else {//TODO 未登录
             questionbankUnloginhome.setVisibility(View.VISIBLE);//零元体验题库
             questionbankLoginhome.setVisibility(View.GONE);//真正题库隐藏
@@ -143,15 +147,6 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
         unbinder.unbind();
     }
 
-    public static QuestionBankFragment newInstance(String content, String tab) {
-        QuestionBankFragment newFragment = new QuestionBankFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("content", content);
-        bundle.putString("tab", tab);
-        newFragment.setArguments(bundle);
-        return newFragment;
-    }
-
     @Override
     protected int setContentView() {
         return R.layout.fragment_questionbank;
@@ -159,11 +154,15 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
 
     @Override
     protected void initView(View view) {
-        context = getActivity();
+        FragmentActivity activity = getActivity();
+        if (activity instanceof MainActivity) {
+            context = (MainActivity) activity;
+        }
+
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) statusbarView.getLayoutParams();
         layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        layoutParams.height = StatusBarUtil.getStatusBarHeight(getActivity());
+        layoutParams.height = StatusBarUtil.getStatusBarHeight(context);
         statusbarView.setLayoutParams(layoutParams);
     }
 
@@ -208,32 +207,32 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 projectList.addAll(dataBeanList);
 
                 if (projectList != null && projectList.size() > 0) {//TODO  已购买过的科目
-                    currentSubject_id = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
+                    currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
 
                     if (projectList.size() == 1) {//TODO  只购买了一个科目
-                        currentSubject_id = projectList.get(0).getId();//当前选中的科目ID
-                        sharedPreferencesUtils.putInt(Constant.SUBJECT_ID, currentSubject_id);//存放当前的科目ID
+                        currentSubjectId = projectList.get(0).getId();//当前选中的科目ID
+                        sharedPreferencesUtils.putInt(Constant.SUBJECT_ID, currentSubjectId);//存放当前的科目ID
 
                         titlebarMidtitle.setText(projectList.get(0).getName());
                         titlebarMidimage.setVisibility(View.GONE);
-                        questionBankHomePresenter.getSubjectInfo(user_id, currentSubject_id);//获取对应的科目的信息
+                        questionBankHomePresenter.getSubjectInfo(userId, currentSubjectId);//获取对应的科目的信息
                     } else {//TODO  购买了多个科目
-                        if (currentSubject_id != 0) {//TODO 本地已存储上次的科目
+                        if (currentSubjectId != 0) {//TODO 本地已存储上次的科目
                             for (int i = 0; i < projectList.size(); i++) {
-                                if (currentSubject_id == projectList.get(i).getId()) {
+                                if (currentSubjectId == projectList.get(i).getId()) {
                                     titlebarMidtitle.setText(projectList.get(i).getName());
                                     break;
                                 }
                             }
-                            questionBankHomePresenter.getSubjectInfo(user_id, currentSubject_id);
+                            questionBankHomePresenter.getSubjectInfo(userId, currentSubjectId);
                             titlebarMidimage.setVisibility(View.VISIBLE);
                         } else {//TODO 未存储上次的科目
-                            currentSubject_id = projectList.get(0).getId();//默认选中第一个
-                            sharedPreferencesUtils.putInt(Constant.SUBJECT_ID, currentSubject_id);//存放当前的科目ID
+                            currentSubjectId = projectList.get(0).getId();//默认选中第一个
+                            sharedPreferencesUtils.putInt(Constant.SUBJECT_ID, currentSubjectId);//存放当前的科目ID
                             titlebarMidtitle.setText(projectList.get(0).getName());
                             titlebarMidimage.setVisibility(View.VISIBLE);
 
-                            questionBankHomePresenter.getSubjectInfo(user_id, currentSubject_id);
+                            questionBankHomePresenter.getSubjectInfo(userId, currentSubjectId);
                         }
                     }
                 }
@@ -284,10 +283,10 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             lastClickTime = currentTime;
             if (sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false)) {
                 Bundle bundle = new Bundle();
-                bundle.putInt(Constant.COURSE_ID, currentSubject_id);
+                bundle.putInt(Constant.COURSE_ID, currentSubjectId);
                 switch (view.getId()) {
                     case R.id.question_assessment://TODO 能力评估
-                        bundle.putString(Constant.WEB_URL, ApiStores.QUESTION_AbilityTOAssess + "?user_id=" + user_id + "&course_id=" + currentSubject_id);
+                        bundle.putString(Constant.WEB_URL, ApiStores.QUESTION_AbilityTOAssess + "?userId=" + userId + "&course_id=" + currentSubjectId);
                         bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.question_title_assessment));
                         startToActivity(bundle, WebActivity.class);
                         break;
@@ -344,6 +343,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
      * Time:2019-4-26   下午 3:15
      * Detail: 学科弹出框
      */
+    @SuppressLint("InflateParams")
     private void subjectWindow() {
         if (projectList.size() > 1) {
             View mContentView = null;
@@ -372,9 +372,9 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    currentSubject_id = projectList.get(position).getId();//当前选中的科目ID
-                    sharedPreferencesUtils.putInt(Constant.SUBJECT_ID, currentSubject_id);//存放当前的科目ID
-                    questionBankHomePresenter.getSubjectInfo(user_id, projectList.get(position).getId());
+                    currentSubjectId = projectList.get(position).getId();//当前选中的科目ID
+                    sharedPreferencesUtils.putInt(Constant.SUBJECT_ID, currentSubjectId);//存放当前的科目ID
+                    questionBankHomePresenter.getSubjectInfo(userId, projectList.get(position).getId());
 
                     titlebarMidtitle.setText(projectList.get(position).getName());//设置选中的标题
                     if (popupWindow != null) {
