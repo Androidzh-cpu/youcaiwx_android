@@ -352,15 +352,16 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             }
             if (popupWindow == null) {
                 popupWindow = new PopupWindow(mContentView);
-                popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+                popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+                popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
                 popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                 popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.icon_test9));
                 popupWindow.setOutsideTouchable(false);
                 popupWindow.setFocusable(true);
             }
-            popupWindow.showAtLocation(viewLine, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 0);
-            //popupWindow.showAsDropDown(viewLine, 0, 0);
+            int[] a = new int[2];
+            titlebarToolbar.getLocationInWindow(a);
+            popupWindow.showAtLocation(titlebarToolbar, Gravity.TOP | Gravity.CENTER_HORIZONTAL, a[0], titlebarToolbar.getHeight() + a[1] / 3);
 
             ListView recyclerView = mContentView.findViewById(R.id.subject_recyclerview);
             if (subjectAdapter == null) {

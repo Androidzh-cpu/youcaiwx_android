@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:fitsSystemWindows="true">
-    <!--TODO 使用android:fitsSystemWindows="true"才不会覆盖状态栏,此版本需要对状态栏做白底黑字处理-->
-
+    android:fitsSystemWindows="true"
+    tools:ignore="RtlCompat">
+    <!--使用android:fitsSystemWindows="true"才不会覆盖状态栏,此版本需要对状态栏做白底黑字处理-->
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/titlebar_toolbar"
@@ -19,14 +19,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@mipmap/icon_back"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        app:titleTextColor="@color/color_333333"
-        tools:ignore="RtlCompat">
+        app:titleMargin="0dp"
+        app:titleTextColor="@color/color_333333">
 
         <TextView
             android:id="@+id/titlebar_midtitle"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/dp_12"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
@@ -40,11 +41,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="@dimen/dp_12"
-            android:clickable="true"
             android:gravity="center"
             android:textColor="@color/color_666666"
             android:textSize="@dimen/sp_14" />
-
     </android.support.v7.widget.Toolbar>
 
     <View
@@ -53,6 +52,4 @@
         android:layout_height="@dimen/dp_3_5"
         android:background="@drawable/titlebar_showline"
         app:layout_constraintTop_toBottomOf="@id/titlebar_toolbar" />
-
-
 </android.support.constraint.ConstraintLayout>
