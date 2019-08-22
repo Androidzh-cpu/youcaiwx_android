@@ -111,7 +111,7 @@
     <string name="course_completed">播放完毕</string>
     <string name="course_videoLoading">视频加载中</string>
     <string name="course_courseDuration">课程时长</string>
-    <string name="course_freeWatchCompleted">试看结束,请购买课程</string>
+    <string name="course_freeWatchCompleted">试看结束,请购买相关课程</string>
     <string name="image_size_to_small">大小不超过 %1$sM。</string>
     <string name="error_size_to_small">长宽不小于 %1$dpx，且大小不超过 %2$sM。</string>
 

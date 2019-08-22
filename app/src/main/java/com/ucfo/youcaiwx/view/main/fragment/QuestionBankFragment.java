@@ -242,12 +242,18 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 questionbankUnloginhome.setVisibility(View.VISIBLE);//零元体验题库
                 questionbankLoginhome.setVisibility(View.GONE);//真正题库隐藏
                 titlebarMidtitle.setText(getResources().getString(R.string.question_default));
+
+                projectList.clear();
+                sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
             }
         } else {//TODO  未购买科目
             questionbankUnloginhome.setVisibility(View.VISIBLE);//零元体验题库
             questionbankLoginhome.setVisibility(View.GONE);//真正题库隐藏
             titlebarMidimage.setVisibility(View.GONE);//下拉箭头隐藏
             titlebarMidtitle.setText(getResources().getString(R.string.question_default));
+
+            projectList.clear();
+            sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
         }
     }
 
@@ -258,12 +264,12 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             float accuracy = dataData.getAccuracy();//正确率
             int ranking = dataData.getRanking();//学院排名
             float score = dataData.getScore();//平均分
-            String total_num = dataData.getTotal_num();//总体书
+            String totalNum = dataData.getTotal_num();//总体书
 
             questionAccuracyPercent.setPercentData(accuracy, "%", false, new DecelerateInterpolator());
             questionAveragePercent.setPercentData(score, "", false, new DecelerateInterpolator());
             questionRankingPercent.setPercentData(ranking, "", false, new DecelerateInterpolator());
-            questionDoexercisecount.setText(String.valueOf(total_num));
+            questionDoexercisecount.setText(String.valueOf(totalNum));
 
         } else {
             questionAccuracyPercent.setPercentData(0, "%", false, new DecelerateInterpolator());

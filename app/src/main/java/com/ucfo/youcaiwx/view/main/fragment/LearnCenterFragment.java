@@ -183,6 +183,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
         planBeanList = new ArrayList<>();
         learnList = new ArrayList<>();
         newsBeanList = new ArrayList<>();
+        projectList = new ArrayList<>();
 
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
@@ -469,7 +470,8 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     public void getMyProejctList(QuestionMyProjectBean result) {
         if (result != null) {
             if (result.getData() != null && result.getData().size() > 0) {//TODO 购买的有题库
-                projectList = result.getData();
+                projectList.clear();
+                projectList.addAll(result.getData());
                 if (projectList != null && projectList.size() > 0) {//TODO  已购买过的科目
                     currentSubject_id = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
                     if (projectList.size() == 1) {//TODO  只有一个题库
@@ -488,6 +490,9 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                         }
                     }
                 }
+            } else {
+                projectList.clear();
+                sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
             }
         }
     }

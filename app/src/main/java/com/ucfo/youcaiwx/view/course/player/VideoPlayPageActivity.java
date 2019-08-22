@@ -235,6 +235,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private int mVideoBufferPosition;
     //当前的清晰度
     private String mCurrentQuality;
+    private static final int START = 0;//开始计时消息标志，下面用到
+    private static final int STOP = 1;//停止计时消息标志，下面用到
     //进度更新计时器
     private ProgressUpdateTimer mProgressUpdateTimer = new ProgressUpdateTimer();
     //控制菜单计时器
@@ -277,7 +279,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private class ProgressUpdateTimer extends Handler {
         @Override
         public void handleMessage(Message msg) {
-            handleProgressUpdateMessage();
+            handleProgressUpdateMessage(msg);
+            LogUtils.e("ProgressUpdateTimer   msg: " + msg.what);
             super.handleMessage(msg);
         }
     }
@@ -382,6 +385,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             aliyunVodPlayer.release();
         }
         stopProgressUpdateTimer();
+        mProgressUpdateTimer.removeCallbacksAndMessages(null);
         mProgressUpdateTimer = null;
 
         if (mNetWatchdog != null) {
@@ -867,22 +871,24 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     /**
      * TODO 实时处理进度更新消息的线程
      */
-    private void handleProgressUpdateMessage() {
-        if (aliyunVodPlayer != null && !inSeek) {
-            playerTotalduration.setText(TimeFormater.formatMs(mAliyunMediaInfo.getDuration()));//控制器设置总时长
-            playerCurrentduration.setText(TimeFormater.formatMs(aliyunVodPlayer.getCurrentPosition()));//控制器设置当前时长
-            playerSeekprogress.setMax(mAliyunMediaInfo.getDuration());//进度条设置总时长
-            if (isSeekbarTouching) {
-                //用户拖动的时候，不去更新进度值，防止跳动。
-            } else {
-                mVideoBufferPosition = aliyunVodPlayer.getBufferingPosition();
-                playerSeekprogress.setSecondaryProgress(aliyunVodPlayer.getBufferingPosition());//进度条设置缓存吗进度
-                playerSeekprogress.setProgress(Integer.parseInt(String.valueOf(aliyunVodPlayer.getCurrentPosition())));//进度条设置当前进度
+    private void handleProgressUpdateMessage(Message msg) {
+        if (msg.what == 0) {
+            if (aliyunVodPlayer != null && !inSeek) {
+                playerTotalduration.setText(TimeFormater.formatMs(mAliyunMediaInfo.getDuration()));//控制器设置总时长
+                playerCurrentduration.setText(TimeFormater.formatMs(aliyunVodPlayer.getCurrentPosition()));//控制器设置当前时长
+                playerSeekprogress.setMax(mAliyunMediaInfo.getDuration());//进度条设置总时长
+                if (isSeekbarTouching) {
+                    //用户拖动的时候，不去更新进度值，防止跳动。
+                } else {
+                    mVideoBufferPosition = aliyunVodPlayer.getBufferingPosition();
+                    playerSeekprogress.setSecondaryProgress(aliyunVodPlayer.getBufferingPosition());//进度条设置缓存吗进度
+                    playerSeekprogress.setProgress(Integer.parseInt(String.valueOf(aliyunVodPlayer.getCurrentPosition())));//进度条设置当前进度
+                }
+                freeWatch();
             }
-            freeWatch();
+            //解决bug：在Prepare中开始更新的时候，不会发送更新消息。
+            startProgressUpdateTimer();
         }
-        //解决bug：在Prepare中开始更新的时候，不会发送更新消息。
-        startProgressUpdateTimer();
     }
 
     //试听限制
@@ -894,10 +900,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //未购买,试看指定时间
             int millis = Integer.parseInt(String.valueOf(aliyunVodPlayer.getCurrentPosition() / 1000));//总的剩余时间
             if (millis >= freeTime) {
-                stop();//停止播放
-                stopProgressUpdateTimer();//关闭计时器
                 playerTipsview.setVisibility(View.VISIBLE);
                 playerTipsview.setText(getResources().getString(R.string.course_freeWatchCompleted));
+                stop();
+                stopProgressUpdateTimer();
+                courseCoverimage.setColorFilter(Color.BLACK);//背景设置为黑色的
+                courseCoverimage.setVisibility(View.VISIBLE);//背景图可见
             }
         }
     }
@@ -907,12 +915,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      */
     private void startProgressUpdateTimer() {
         if (mProgressUpdateTimer != null) {
-            mProgressUpdateTimer.removeMessages(0);
-            mProgressUpdateTimer.sendEmptyMessageDelayed(0, 1000);
+            mProgressUpdateTimer.removeMessages(START);
+            mProgressUpdateTimer.sendEmptyMessageDelayed(START, 1000);
         } else {
             mProgressUpdateTimer = new ProgressUpdateTimer();
-            mProgressUpdateTimer.removeMessages(0);
-            mProgressUpdateTimer.sendEmptyMessageDelayed(0, 1000);
+            mProgressUpdateTimer.removeMessages(START);
+            mProgressUpdateTimer.sendEmptyMessageDelayed(START, 1000);
         }
     }
 
@@ -921,10 +929,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      */
     private void stopProgressUpdateTimer() {
         if (mProgressUpdateTimer != null) {
-            mProgressUpdateTimer.removeMessages(0);
+            mProgressUpdateTimer.removeMessages(START);
         } else {
             mProgressUpdateTimer = new ProgressUpdateTimer();
-            mProgressUpdateTimer.removeMessages(0);
+            mProgressUpdateTimer.removeMessages(START);
         }
     }
 

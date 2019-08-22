@@ -32,7 +32,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CourseListActivity extends BaseActivity implements ICourseListView {
-
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -126,25 +125,6 @@ public class CourseListActivity extends BaseActivity implements ICourseListView 
         viewpager.setCurrentItem(0);//设置当前viewpager
         //tablayout.setViewPager(viewpager);//tablayout  viewpager联动
         tablayout.setupWithViewPager(viewpager);
-        viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                currentPosition = position;//获取当前索引值
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                //viewpager的滑动状态：当我们手指按下时 state=1，当我们手指抬起时 state=2，
-                // 当viewpager处于空闲状态时 state=0；所以我们完全可以在state=0时 去加载或者处理我们的事情，因为这时候滑动已经结束。
-                if (state == 0) {
-                }
-            }
-        });
-
     }
 
     @Override

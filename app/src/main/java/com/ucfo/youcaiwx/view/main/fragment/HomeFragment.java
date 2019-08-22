@@ -259,7 +259,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                     startActivity(new Intent(context, MessageCenterActivity.class));
                     break;
                 case R.id.icon_live://TODO 直播
-                    bundle.putString(Constant.WEB_URL, "https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzIwMjU0MjI1Nw==&scene=126#wechat_redirect");
+                    bundle.putString(Constant.WEB_URL, "https://mp.weixin.qq.com");
                     bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_live));
                     startActivity(WebActivity.class, bundle);
                     break;
@@ -274,7 +274,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                     break;
                 case R.id.icon_news://TODO 资讯
                     bundle.putString(Constant.WEB_URL, "http://m.ucwx.com.cn/news");
-                    bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_live));
+                    bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_news));
                     startActivity(WebActivity.class, bundle);
                     break;
                 case R.id.check_more_course://TODO 查看更多课程
