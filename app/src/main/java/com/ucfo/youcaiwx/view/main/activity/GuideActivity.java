@@ -19,7 +19,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class GuideActivity extends BaseActivity {
-
     @BindView(R.id.banner_guide_background)
     BGABanner bannerGuideBackground;
     @BindView(R.id.banner_guide_foreground)
@@ -33,7 +32,6 @@ public class GuideActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
 

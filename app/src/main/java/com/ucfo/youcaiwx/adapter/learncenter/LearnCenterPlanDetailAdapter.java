@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -95,6 +96,7 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         String schedule = bean.getSchedule();//出勤天数
         int planDays = bean.getPlan_days();//计划总工天数
         int joinDays = bean.getJoin_days();//已开多少天
+        String isOverdue = bean.getIs_overdue();
         int progress = joinDays * 100 / planDays;//2*100/4
         holder.mProgressbar.setProgress(progress);
 
@@ -118,6 +120,16 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
             default:
                 break;
         }
+        if (TextUtils.equals(isOverdue, String.valueOf(2))) {
+            holder.mBackgroundItem.setBackground(ContextCompat.getDrawable(context, R.color.color_E6E6E6));
+            holder.mLayoutFrame.setVisibility(View.GONE);
+            holder.mTextSeekbar.setVisibility(View.GONE);
+            holder.mPlanEndText.setVisibility(View.VISIBLE);
+        } else {
+            holder.mLayoutFrame.setVisibility(View.VISIBLE);
+            holder.mTextSeekbar.setVisibility(View.VISIBLE);
+            holder.mPlanEndText.setVisibility(View.GONE);
+        }
         int progress2 = Integer.parseInt(schedule) * 100 / planDays;
         holder.mSeekbar.setProgress(progress2);
         holder.mTextSeekbar.setText(context.getResources().getString(R.string.progressbarIndetior, String.valueOf(schedule)));
@@ -129,7 +141,7 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
             }
         };
         Glide.with(context).load(userBeanHead).centerCrop().placeholder(R.mipmap.icon_headdefault)
-                .override(DensityUtil.dip2px(context,22), DensityUtil.dip2px(context,22))
+                .override(DensityUtil.dip2px(context, 22), DensityUtil.dip2px(context, 22))
                 .transform(new GlideCircleTransform(context, 3, ContextCompat.getColor(context, R.color.color_FAA827)))
                 .diskCacheStrategy(DiskCacheStrategy.ALL).into(simpleTarget);
         holder.mSeekbar.setOnTouchListener(new View.OnTouchListener() {
@@ -146,15 +158,15 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
                 float finalPostion = 0;
                 float textWidth = DensityUtil.dp2px(82);
                 float seekBarWidth = displayMetrics.widthPixels - DensityUtil.dp2px(48) - thumbWidth;
-                float thumbHalfSWidth = thumbWidth / 2;
+                float thumbhalfswidth = thumbWidth / 2;
                 float average = seekBarWidth / seekBar.getMax();
                 float residueAverage = (seekBar.getMax() - seekBar.getProgress()) * average;
                 if (residueAverage < textWidth) {
                     holder.mTextSeekbar.setBackground(indicator_end);
-                    finalPostion = average * progress + thumbHalfSWidth - textWidth + thumbWidth;
+                    finalPostion = average * progress + thumbhalfswidth - textWidth + thumbWidth;
                 } else {
                     holder.mTextSeekbar.setBackground(indicator_start);
-                    finalPostion = thumbHalfSWidth + average * progress - DensityUtil.dp2px(5);
+                    finalPostion = thumbhalfswidth + average * progress - DensityUtil.dp2px(5);
                 }
                 holder.mTextSeekbar.setX(finalPostion);
             }
@@ -171,22 +183,22 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         });
     }
 
-    public void setSeekBarDistance(SeekBar seekBar, TextView textView) {
+    private void setSeekBarDistance(SeekBar seekBar, TextView textView) {
         int progress = seekBar.getProgress();
         int thumbWidth = seekBar.getThumb().getBounds().width();
         seekBar.setPadding(thumbWidth / 2, 0, thumbWidth / 2, 0);
         float finalPostion = 0;
         float textWidth = DensityUtil.dp2px(82);
         float seekBarWidth = displayMetrics.widthPixels - DensityUtil.dp2px(48) - thumbWidth;
-        float thumbHalfSWidth = thumbWidth / 2;
+        float thumbhalfswidth = thumbWidth / 2;
         float average = seekBarWidth / seekBar.getMax();
         float residueAverage = (seekBar.getMax() - seekBar.getProgress()) * average;
         if (residueAverage < textWidth) {
             textView.setBackground(indicator_end);
-            finalPostion = average * progress + thumbHalfSWidth - textWidth + thumbWidth;
+            finalPostion = average * progress + thumbhalfswidth - textWidth + thumbWidth;
         } else {
             textView.setBackground(indicator_start);
-            finalPostion = thumbHalfSWidth + average * progress - DensityUtil.dp2px(5);
+            finalPostion = thumbhalfswidth + average * progress - DensityUtil.dp2px(5);
         }
         textView.setX(finalPostion);
     }
@@ -208,6 +220,8 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         private ProgressBar mProgressbar;
         private SeekBar mSeekbar;
         private TextView mTextSeekbar;
+        private TextView mPlanEndText;
+        private FrameLayout mLayoutFrame;
 
         public ViewHolder(View view) {
             super(view);
@@ -223,6 +237,8 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
             mProgressbar = (ProgressBar) itemView.findViewById(R.id.progressbar);
             mSeekbar = (SeekBar) itemView.findViewById(R.id.seekbar);
             mTextSeekbar = (TextView) itemView.findViewById(R.id.seekbar_text);
+            mPlanEndText = (TextView) itemView.findViewById(R.id.text_plan_end);
+            mLayoutFrame = (FrameLayout) itemView.findViewById(R.id.frame_layout);
         }
     }
 }

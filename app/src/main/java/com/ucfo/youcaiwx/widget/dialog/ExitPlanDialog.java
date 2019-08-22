@@ -135,6 +135,14 @@ public class ExitPlanDialog {
         return this;
     }
 
+    public ExitPlanDialog setNegativeButtonVisibility(boolean flag) {
+        if (!flag) {
+            btn_neg.setVisibility(View.GONE);
+            img_line.setVisibility(View.GONE);
+        }
+        return this;
+    }
+
     public void show() {
         dialog.show();
     }

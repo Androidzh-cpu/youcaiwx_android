@@ -304,6 +304,15 @@ public class LearncenterHomeBean {
             private String create_time;
             private int number;
             private int is_exper;
+            private String is_overdue;
+
+            public String getIs_overdue() {
+                return is_overdue == null ? "" : is_overdue;
+            }
+
+            public void setIs_overdue(String is_overdue) {
+                this.is_overdue = is_overdue;
+            }
 
             public int getJoin_id() {
                 return join_id;

@@ -219,7 +219,6 @@ public class MainActivity extends AppCompatActivity {
         if (mineFragment != null) {
             fragmentTransaction.hide(mineFragment);
         }
-
     }
 
     @Override

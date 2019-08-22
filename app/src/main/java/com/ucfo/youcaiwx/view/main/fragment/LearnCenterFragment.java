@@ -446,6 +446,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                 bundle.putInt(Constant.ID, bean.getPlan_id());
                 bundle.putInt(Constant.TYPE, bean.getIs_exper());//TODO 1:0元体验 2:正课
                 bundle.putString(Constant.TITLE, bean.getPlan_name());
+                bundle.putString(Constant.OVER, bean.getIs_overdue());
                 startActivity(LearningPlanDetailActivity.class, bundle);
             }
         });

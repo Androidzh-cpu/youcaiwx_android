@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_nameWX">新优财网校Beta</string>
+    <string name="app_nameWX">优财CMA网校</string>
     <string name="youcaiWXdescribe">优财网校CMA为在职财务人员提供专业与时俱进的CMA智能学习平台</string>
 
     <!-- Strings related to 导航栏文案 -->
@@ -216,8 +216,11 @@
     <string name="learncenter_examTips1">进行%s天</string>
     <string name="learncenter_examTips2">共%s天 </string>
     <string name="progressbarIndetior">已出勤%s天</string>
+    <string name="learncenter_planend">该计划已结束\n点击查看</string>
     <string name="learncenter_exitMessage">退出计划后，学习记录将无法找回</string>
     <string name="learncenter_exitTitle">退出学习计划</string>
+    <string name="learncenter_exit2Title">您的学习计划已到期</string>
+    <string name="learncenter_exit2Message">如需体验更多，请购买正课。</string>
 
     <!-- Strings related to 我的订单 -->
     <string name="orderForm_info">订单信息</string>

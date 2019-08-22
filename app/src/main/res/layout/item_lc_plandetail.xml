@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingEnd="@dimen/dp_12"
@@ -73,6 +74,17 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/text_plan_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:paddingBottom="@dimen/dp_13"
+                android:text="@string/learncenter_planend"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/sp_14" />
+
+            <TextView
                 android:id="@+id/seekbar_text"
                 android:layout_width="@dimen/dp_82"
                 android:layout_height="@dimen/dp_25"
@@ -81,6 +93,7 @@
                 android:textColor="@android:color/white" />
 
             <FrameLayout
+                android:id="@+id/frame_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -105,6 +118,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:max="100"
                     android:progressDrawable="@color/transparency"
                     android:thumbOffset="0dp" />

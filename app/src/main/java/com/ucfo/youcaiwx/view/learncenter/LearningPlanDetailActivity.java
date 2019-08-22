@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.view.learncenter;
 
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -30,7 +29,6 @@ import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.view.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.view.questionbank.activity.TESTMODEActivity;
@@ -62,6 +60,7 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
 
     private Bundle bundle;
     private int user_id, course_id, plan_id, type;
+    private String overFlag;
     private LearnPlanDetailPresenter planDetailPresenter;
     private LearningPlanDetailActivity context;
     private List<LearnPlanDetailBean.DataBean.DateBean> list;
@@ -85,7 +84,6 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
@@ -175,6 +173,7 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
             course_id = bundle.getInt(Constant.COURSE_ID, 0);//课程ID
             plan_id = bundle.getInt(Constant.ID, 0);//学习计划ID
             type = bundle.getInt(Constant.TYPE, 0);//TODO 1:0元体验  2:正课
+            overFlag = bundle.getString(Constant.OVER);//TODO 1:0元体验  2:正课
             String title = bundle.getString(Constant.TITLE, getResources().getString(R.string.default_title));
             titlebarMidtitle.setText(title);
 
@@ -188,6 +187,23 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                 planDetailPresenter.getLearnPlanDetailList(user_id, course_id, plan_id, type);
             }
         });
+        //计划已过期
+        if (TextUtils.equals(overFlag, String.valueOf(2))) {
+            new ExitPlanDialog(LearningPlanDetailActivity.this).builder()
+                    .setAssistantMsg(getResources().getString(R.string.learncenter_exit2Message))
+                    .setMsg(getResources().getString(R.string.learncenter_exit2Title))
+                    .setCancelable(false)
+                    .setCanceledOnTouchOutside(false)
+                    .setNegativeButtonVisibility(false)
+                    .setPositiveButton(getResources().getString(R.string.exit), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            setProcessLoading(null, true);
+                            planDetailPresenter.exitStudyPlan(user_id, plan_id, type);
+                        }
+                    }).show();
+
+        }
     }
 
     @Override

@@ -106,6 +106,8 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                         ToastUtil.showBottomShortText(this, getResources().getString(R.string.sharedSuccess));
                         WXEntryActivity.this.finish();
                         break;
+                    default:
+                        break;
                 }
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL://TODO ERR_USER_CANCEL = -2（用户取消）
@@ -122,6 +124,8 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                 LogUtils.e("onResp: 发送请求被拒绝");
                 ToastUtil.showBottomShortText(this, getResources().getString(R.string.TheSendRequestWasDenied));
                 WXEntryActivity.this.finish();
+                break;
+            default:
                 break;
         }
 
@@ -151,7 +155,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                             if (!TextUtils.isEmpty(openId)) {
                                 getUserInfo(accessToken, openId);
                             }
-                            LogUtils.e("微信通过code获取access_token" + response.body());
+                            LogUtils.e("getAccessToken()---------微信通过code获取access_token" + response.body());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -176,9 +180,18 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                             String unionid = object.optString("unionid");
                             wxUserInfo.setUnionid(unionid);
                             wxLogin(unionid, openId);
+
+                            LogUtils.e("getUserInfo()---------获取微信用户信息" + object.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        ToastUtil.showBottomShortText(getApplicationContext(), getResources().getString(R.string.login_error));
+                        WXEntryActivity.this.finish();
                     }
                 });
     }
@@ -225,10 +238,11 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
         int code = userInfo.getCode();
         if (code == 200) {
             WXLoginBean.DataBean data = userInfo.getData();
-            int equipment = data.getEquipment();//绑定状态
-            switch (equipment) {
+            String equipment = data.getEquipment();//绑定状态
+            int parseInt = Integer.parseInt(equipment);
+            switch (parseInt) {
                 case 1://1未绑定手机号
-                    LogUtils.e("wecheat loginresult:1未绑定手机号");
+                    LogUtils.e("wecheat setUserInfo:1未绑定手机号");
                     Intent conpletedIntent = new Intent(WXEntryActivity.this, CompleteAndForgetActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString(Constant.TYPE, Constant.TYPE_COMPLET);//完善信息
@@ -241,12 +255,12 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                     ActivityUtil.getInstance().finishActivity(SMSLoginActivity.class);
                     break;
                 case 2://2已成功
-                    LogUtils.e("wecheat loginresult:2登录成功");
-                    int user_id = data.getId();
-                    int status = data.getStatus();
+                    LogUtils.e("wecheat setUserInfo:2登录成功");
+                    String userId = data.getId();
+                    String status = data.getStatus();
                     SharedPreferencesUtils.getInstance(getApplicationContext()).putBoolean(Constant.LOGIN_STATUS, true);
-                    SharedPreferencesUtils.getInstance(getApplicationContext()).putInt(Constant.USER_ID, user_id);
-                    SharedPreferencesUtils.getInstance(getApplicationContext()).putInt(Constant.USER_STATUS, status);
+                    SharedPreferencesUtils.getInstance(getApplicationContext()).putInt(Constant.USER_ID, Integer.parseInt(userId));
+                    SharedPreferencesUtils.getInstance(getApplicationContext()).putInt(Constant.USER_STATUS, Integer.parseInt(status));
                     ToastUtil.showBottomShortText(getApplicationContext(), getResources().getString(R.string.login_success));
                     Intent intent = new Intent(WXEntryActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -254,7 +268,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                     WXEntryActivity.this.finish();
                     break;
                 case 3://3设备达到上限
-                    LogUtils.e("wecheat loginresult:3设备达到上限");
+                    LogUtils.e("wecheat setUserInfo:3设备达到上限");
                     ToastUtil.showBottomShortText(getApplicationContext(), getResources().getString(R.string.wx_upperlimit));
                     WXEntryActivity.this.finish();
                     break;

@@ -6,36 +6,13 @@ package com.ucfo.youcaiwx.common;
  * Email:2911743255@qq.com
  * ClassName: Constant
  * Description:TODO 字段常量
- * Detail:
  */
 public class Constant {
-    //---------------------------------------------TODO 日志开关-----------------------------------------------//
-    public static final boolean ISTEST_ENVIRONMENT = true;//是否显示打印日志
     //---------------------------------------------TODO 基础变量-----------------------------------------------//
-    public static final String VERSION_CODE = "VersionCode";//版本名
-    public static final String versioncode = "versioncode";//版本名
-    public static final String APP_KEY = "AppKey";//Appkey
-    public static final String WEIXIN_KEY = "wx48f8af6eabfbe542";//TODO 微信APPID
-    public static final String WEIXIN_SECRET = "8ecab40c2ee5d5b53098a5d4435fd7a0";//TODO 微信secret
-    public static final String WEIXIN_PARAMS1 = "snsapi_userinfo";//TODO 微信登录参数
-    public static final String WEIXIN_PARAMS2 = "wechat_youcailogin";//TODO 微信登录参数
-    public static final String AES_KEY = "1234567812345678";//AES加密key
-    public static final String AES_IV = "1234567812345678";//AES加密向量
-    public static final String ALIYUN_DECRYPT = "CMAyoucai2020999999";//TODO 阿里云视频安全下载所需安全文件的离线解密私钥
-    public static final String UMENG_APPKEY = "5d521d4e3fc195b523000353";//友盟平台唯一标识
-    public static final String UMENG_MESSAGE_SCRECT = "d9a3baa0dff24082751e60940cdb94f3";//友盟平台客户端推送密钥
-    public static final String UMENG_CHANNEL = "umeng";//友盟平台客户端渠道
-    public static final String UMENG_PACKAGE_NAME = "com.ucfo.youcaiwx";//友盟平台自定义packagename
-    public static final String UMENG_MESSAGE_TYPE = "jumptype";//通知栏消息跳转类型
-    public static final String UMENG_MESSAGE_INFORMATION = "newsMessage";//通知栏消息: 资讯消息
-    public static final String UMENG_MESSAGE_LIVE = "liveMessage";//通知栏消息: 直播消息
-    public static final String UMENG_MESSAGE_NOTICE = "systemMessage";//通知栏消息: 消息公告
-    public static final String UMENG_MESSAGE_ORDERFORM = "orderMessage";//通知栏消息: 订单消息
-    public static final String UMENG_MESSAGE_COURSEANSWER = "courseMessage";//通知栏消息: 课程答疑
-    public static final String UMENG_MESSAGE_QUESTIONANSWER = "queMessage";//通知栏消息: 题库答疑
-
-
-    public static final String SERVICE_NUM = "01053682942";//客服电话
+    //是否显示打印日志
+    public static final boolean ISTEST_ENVIRONMENT = true;
+    //客服电话
+    public static final String SERVICE_NUM = "4006665318";
     public static final String UTF_8 = "UTF-8";
     public static final String CODE = "code";
     public static final String MSG = "msg";
@@ -43,11 +20,51 @@ public class Constant {
     public static final String TYPE = "type";
     public static final String CONTENT = "content";
     public static final String VALUE = "value";
-
+    public static final String VERSION_CODE = "VersionCode";
+    public static final String versioncode = "versioncode";
+    public static final String APP_KEY = "AppKey";
+    //TODO 微信APPID
+    public static final String WEIXIN_KEY = "wx55d839e60fb4b35f";
+    //TODO 微信secret
+    public static final String WEIXIN_SECRET = "b18dd689f27360c730a2280b3b7132fd";
+    //TODO 微信登录参数
+    public static final String WEIXIN_PARAMS1 = "snsapi_userinfo";
+    //TODO 微信登录参数
+    public static final String WEIXIN_PARAMS2 = "wechat_youcailogin";
+    //AES加密key
+    public static final String AES_KEY = "1234567812345678";
+    //AES加密向量
+    public static final String AES_IV = "1234567812345678";
+    //TODO 阿里云视频安全下载所需安全文件的离线解密私钥
+    public static final String ALIYUN_DECRYPT = "CMAyoucai2020999999";
+    //友盟平台唯一标识
+    public static final String UMENG_APPKEY = "5d521d4e3fc195b523000353";
+    //友盟平台客户端推送密钥
+    public static final String UMENG_MESSAGE_SCRECT = "d9a3baa0dff24082751e60940cdb94f3";
+    //友盟平台客户端渠道
+    public static final String UMENG_CHANNEL = "umeng";
+    //友盟平台自定义packagename
+    public static final String UMENG_PACKAGE_NAME = "com.ucfo.youcaiwx";
+    //通知栏消息: 资讯消息
+    public static final String UMENG_MESSAGE_INFORMATION = "newsMessage";
+    //通知栏消息: 直播消息
+    public static final String UMENG_MESSAGE_LIVE = "liveMessage";
+    //通知栏消息: 消息公告
+    public static final String UMENG_MESSAGE_NOTICE = "systemMessage";
+    //通知栏消息: 订单消息
+    public static final String UMENG_MESSAGE_ORDERFORM = "orderMessage";
+    //通知栏消息: 课程答疑
+    public static final String UMENG_MESSAGE_COURSEANSWER = "courseMessage";
+    //通知栏消息: 题库答疑
+    public static final String UMENG_MESSAGE_QUESTIONANSWER = "queMessage";
+    //H5链接
+    public static final String WEB_URL = "url";
+    //H5标题
+    public static final String WEB_TITLE = "web_title";
     /*******************************************************TODO 再丑也要注意的分割线*******************************************************/
     //压缩图片地址
     public static final String LUBAN_PATH = "/youcai/image/";
-    //离线缓存地址        TODO 地址别篡改,统一都在跟目录的youcai文件夹下处理本应用的数据
+    //离线缓存地址        TODO 地址莫篡改,统一都在跟目录的youcai文件夹下处理本应用的数据
     public static final String CACHE_PATH = "/youcai/Download/";
     //pdf文件存放地址
     public static final String PDF_PATH = "/youcai/pdf/";
@@ -65,8 +82,6 @@ public class Constant {
     public static final String ID = "id";
     public static final String UPPER_ID = "Id";
     public static final String USER_STATUS = "status";//用户状态
-    public static final String WEB_URL = "url";//H5链接
-    public static final String WEB_TITLE = "web_title";//H5标题
     public static final String MOBILE = "mobile";//手机号
     public static final String PASSWORD = "password";//密码
     public static final String DEVICES = "devices";//设备ID
@@ -110,10 +125,9 @@ public class Constant {
     public static final String WATCH_RECORD = "watch_record";//观看记录
     public static final String WATCH_LEARNPLAN = "watch_learnPlan";//学习计划
     //WIFI观看处理
-    public static final String DOWNLOAD_WIFI = "download_wifi";//wifi下下载
-    public static final String LOOK_WIFI = "download_look";//wifi下观看
-
-    //---------------------------------------------题库-----------------------------------------------//
+    public static final String DOWNLOAD_WIFI = "download_wifi";
+    public static final String LOOK_WIFI = "download_look";
+    //--------------------------------------------------------题库----------------------------------------------------------//
     public static final String SUBJECT_ID = "subject_id";//选中题库的ID
     public static final String PAGE = "page";//分页加载
     public static final String LIMIT = "limit";//分页加载
@@ -129,6 +143,7 @@ public class Constant {
     public static final String QUESTION_ID = "question_id";//题目ID
     public static final String TITLE = "title";//标题
     public static final String URL = "url";//链接
+    public static final String OVER = "over";
     public static final String ANALYSIS_TYPE = "analysisType";//解析类型
     public static final String ANSEWR_ID = "answer_id";//题目ID
     public static final String BroadcastReceiver_TONEXT = "com.leyikao.jumptonext";//广播跳转下一页
@@ -150,7 +165,7 @@ public class Constant {
     public static final int PLATE_4 = 4;//TODO 4: 错题智能练习,高频错题
     public static final int PLATE_5 = 5;//TODO 5: 自助练习
     public static final int PLATE_6 = 6;//TODO 6: 组卷模考
-    //这些板块 自行规定用于区分庞杂的题库模块
+    //这些板块用于区分庞杂的题库模块
     public static final int PLATE_0 = 0;//TODO 0: 0元体验课
     public static final int PLATE_7 = 7;//TODO 7: 错题中心   或者查看解析
     public static final int PLATE_8 = 8;//TODO 8: 错题中心的重新做题

@@ -2286,17 +2286,20 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                         .setFriendButton(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String iamgeurl = "http://s1.dwstatic.com/group1/M00/A3/AE/96a6b6189983ad3eee816d3ce00eaeb9.jpg";
-                                ShareUtils.getInstance().shareImageToWx(iamgeurl, "兔子喝水吗", "原来兔子不喝水", SendMessageToWX.Req.WXSceneSession);
+                                String url = ApiStores.APP_DOWNLOAD_URL;
+                                String title = getResources().getString(R.string.app_nameWX);
+                                String desc = getResources().getString(R.string.youcaiWXdescribe);
+                                String iamgeurl = ApiStores.LOGO;
+                                ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneSession);
                             }
                         })
                         .setCircleToFriendButton(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String url = "https://www.iconfont.cn/";
-                                String title = "Iconfont";
-                                String desc = "一个开源的标准图库";
-                                String iamgeurl = "http://s1.dwstatic.com/group1/M00/A3/AE/96a6b6189983ad3eee816d3ce00eaeb9.jpg";
+                                String url = ApiStores.APP_DOWNLOAD_URL;
+                                String title = getResources().getString(R.string.app_nameWX);
+                                String desc = getResources().getString(R.string.youcaiWXdescribe);
+                                String iamgeurl = ApiStores.LOGO;
                                 ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneTimeline);
                             }
                         })

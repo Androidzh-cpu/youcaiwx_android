@@ -33,6 +33,7 @@ import com.ucfo.youcaiwx.adapter.home.HomeCourseRecommendAdapter;
 import com.ucfo.youcaiwx.adapter.home.HomeLiveAdapter;
 import com.ucfo.youcaiwx.adapter.home.HomeNewsAdapter;
 import com.ucfo.youcaiwx.base.BaseFragment;
+import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.home.HomeBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.home.HomePresenter;
@@ -49,7 +50,6 @@ import com.ucfo.youcaiwx.view.course.CourseListActivity;
 import com.ucfo.youcaiwx.view.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.view.home.MessageCenterActivity;
 import com.ucfo.youcaiwx.view.home.ScanActivity;
-import com.ucfo.youcaiwx.view.login.LoginActivity;
 import com.ucfo.youcaiwx.view.main.activity.MainActivity;
 import com.ucfo.youcaiwx.view.main.activity.WebActivity;
 import com.ucfo.youcaiwx.widget.ZoomOutPageTransformer;
@@ -259,21 +259,25 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                     startActivity(new Intent(context, MessageCenterActivity.class));
                     break;
                 case R.id.icon_live://TODO 直播
-                    bundle.putString(Constant.WEB_URL, "https://mp.weixin.qq.com");
+                    bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARYLIVE);
                     bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_live));
                     startActivity(WebActivity.class, bundle);
                     break;
                 case R.id.icon_course://TODO 课程
-                    startActivity(new Intent(getActivity(), CourseListActivity.class));
+                    startActivity(CourseListActivity.class, null);
                     break;
                 case R.id.icon_face://TODO 面授
-                    Intent intent = new Intent(context, LoginActivity.class);
-                    startActivity(intent);
+                    bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARFACE);
+                    bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_face));
+                    startActivity(WebActivity.class, bundle);
                     break;
                 case R.id.icon_active://TODO 活动
+                    bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARACTIVE);
+                    bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_active));
+                    startActivity(WebActivity.class, bundle);
                     break;
                 case R.id.icon_news://TODO 资讯
-                    bundle.putString(Constant.WEB_URL, "http://m.ucwx.com.cn/news");
+                    bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARYNEWS);
                     bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_news));
                     startActivity(WebActivity.class, bundle);
                     break;
@@ -281,8 +285,8 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                     startActivity(new Intent(getActivity(), CourseListActivity.class));
                     break;
                 case R.id.check_more_news://TODO 查看更多资讯
-                    bundle.putString(Constant.WEB_URL, "http://m.ucwx.com.cn/news");
-                    bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_live));
+                    bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARYNEWS);
+                    bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_news));
                     startActivity(WebActivity.class, bundle);
                     break;
                 default:

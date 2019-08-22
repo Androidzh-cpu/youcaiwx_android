@@ -8,7 +8,7 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="vertical"
-    app:rv_backgroundColor="@android:color/white"
+    app:rv_backgroundColor="@color/colorWhite"
     app:rv_cornerRadius="@dimen/dp_8">
 
     <ImageView
@@ -19,7 +19,7 @@
         android:gravity="center"
         android:minHeight="@dimen/dp_45"
         android:minWidth="@dimen/dp_45"
-        android:src="@mipmap/app_icon" />
+        android:src="@mipmap/icon_learn_exit" />
 
     <TextView
         android:id="@+id/txt_msg"
@@ -50,10 +50,12 @@
         android:layout_height="0.5dp"
         android:background="@color/color_E6E6E6" />
 
-    <LinearLayout
+    <com.flyco.roundview.RoundLinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_36"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:rv_cornerRadius_BL="@dimen/dp_8"
+        app:rv_cornerRadius_BR="@dimen/dp_8">
 
         <com.flyco.roundview.RoundTextView
             android:id="@+id/btn_neg"
@@ -69,6 +71,7 @@
             app:rv_backgroundColor="@android:color/white"
             app:rv_backgroundPressColor="@color/color_F5F5F5"
             app:rv_cornerRadius_BL="@dimen/dp_8"
+            app:rv_cornerRadius_BR="@dimen/dp_8"
             app:rv_textPressColor="@android:color/white" />
 
         <View
@@ -90,8 +93,9 @@
             android:textSize="@dimen/sp_12"
             app:rv_backgroundColor="@android:color/white"
             app:rv_backgroundPressColor="@color/color_F5F5F5"
+            app:rv_cornerRadius_BL="@dimen/dp_8"
             app:rv_cornerRadius_BR="@dimen/dp_8"
             app:rv_textPressColor="@android:color/white" />
-    </LinearLayout>
+    </com.flyco.roundview.RoundLinearLayout>
 
 </com.flyco.roundview.RoundLinearLayout>

@@ -14,6 +14,12 @@ public class ApiStores {
     public static final String SOCKET = "ws://ycapi.youcaiwx.com:2346";//socket地址
     public static final String FILE_UPLOAD = "http://ycapi.youcaiwx.com/upload/Index/uploadImage";//上传文件
     public static final String VERSION_UPDATE = "http://ycapi.youcaiwx.com/apps/Version/upAndroid";//版本更新
+    public static final String TEMPORARYLIVE = "https://w.url.cn/s/AkkfsXi";//临时直播地址
+    public static final String TEMPORARYNEWS = "http://m.ucwx.com.cn/news";//临时资讯地址
+    public static final String TEMPORARFACE = "http://m.ucfo.com.cn/mskc/";//临时面授地址
+    public static final String TEMPORARACTIVE = "http://m.ucfo.com.cn/yqh-wap/20190921/";//临时活动地址
+    public static final String APP_DOWNLOAD_URL = "http://www.youcaiwx.com/html/activity/activity.html";
+    public static final String LOGO = "http://www.youcaiwx.com/Public/Uploads/newtopicpics/2017-12-26/5a41b418a2e32.png";
 
     //-----------------------------------------TODO 首页--------------------------------------------------------------//
     public static final String HOME_API = BASE_URL + "First/newInformation";//首页
