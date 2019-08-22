@@ -70,9 +70,7 @@ public class Transferee implements DialogInterface.OnShowListener,
     }
 
     private void createDialog() {
-        transDialog = new AlertDialog.Builder(context, getDialogStyle())
-                .setView(transLayout)
-                .create();
+        transDialog = new AlertDialog.Builder(context, getDialogStyle()).setView(transLayout).create();
         transDialog.setOnShowListener(this);
         transDialog.setOnKeyListener(this);
     }
@@ -86,7 +84,7 @@ public class Transferee implements DialogInterface.OnShowListener,
         int dialogStyle;
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             //dialogStyle = android.R.style.Theme_Translucent_NoTitleBar_Fullscreen;
-            dialogStyle = android.R.style.Theme_Translucent_NoTitleBar ;
+            dialogStyle = android.R.style.Theme_Translucent_NoTitleBar;
         } else {
             dialogStyle = android.R.style.Theme_Translucent_NoTitleBar;
         }
@@ -126,7 +124,7 @@ public class Transferee implements DialogInterface.OnShowListener,
             fillByRecyclerView(originImageList);
         } else if (transConfig.getListView() != null) {
             fillByListView(originImageList);
-        } else if(transConfig.getImageView() != null) {
+        } else if (transConfig.getImageView() != null) {
             originImageList.add(transConfig.getImageView());
         }
         transConfig.setOriginImageList(originImageList);
