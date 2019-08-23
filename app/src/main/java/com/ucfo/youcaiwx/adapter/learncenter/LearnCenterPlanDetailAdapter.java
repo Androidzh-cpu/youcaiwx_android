@@ -20,6 +20,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -143,7 +144,8 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         Glide.with(context).load(userBeanHead).centerCrop().placeholder(R.mipmap.icon_headdefault)
                 .override(DensityUtil.dip2px(context, 22), DensityUtil.dip2px(context, 22))
                 .transform(new GlideCircleTransform(context, 3, ContextCompat.getColor(context, R.color.color_FAA827)))
-                .diskCacheStrategy(DiskCacheStrategy.ALL).into(simpleTarget);
+                .skipMemoryCache(false).priority(Priority.HIGH)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(simpleTarget);
         holder.mSeekbar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,7 +40,6 @@ import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankDoExerciseView
 import com.ucfo.youcaiwx.utils.ActivityUtil;
 import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.utils.time.CountDownTimerSupport;
 import com.ucfo.youcaiwx.utils.time.OnCountDownTimerListener;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
@@ -102,6 +100,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
 
     public ArrayList<DoProblemsBean.DataBean.TopicsBean> questionList;//TODO 所有题目数据集(从接口获取)
     public ArrayList<DoProblemsAnswerBean> optionsAnswerList;//TODO 所有题目数据集,主要用于答题卡和用户答题操作
+    @BindView(R.id.showline)
+    View showline;
 
     /*****************************************************TODO start 倒计时  **************************/
     private int millisecond = 1000;//TODO 一千毫秒,计时器基本单位
@@ -200,7 +200,6 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         unCollectionImage.setBounds(0, 0, unCollectionImage.getMinimumWidth(), unCollectionImage.getMinimumHeight());
 
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);//TODO 禁止屏幕截图
-
     }
 
     @Override
@@ -290,7 +289,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_question_my_errors));
                 break;
             case Constant.PLATE_8://TODO 错题中心  重新做题
-                questionBankExercisePresenter.getErrorCenterReform(course_id, user_id, section_id,String.valueOf(knob_id), know_id);
+                questionBankExercisePresenter.getErrorCenterReform(course_id, user_id, section_id, String.valueOf(knob_id), know_id);
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_question_my_errors));
                 break;
             case Constant.PLATE_9://TODO 6大板块错题解析(错题解析和全部解析)
@@ -336,7 +335,6 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
@@ -344,6 +342,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             supportActionBar.setDisplayShowTitleEnabled(false);
         }
         titlebarRighttitle.setVisibility(View.GONE);
+        showline.setVisibility(View.GONE);
         titlebarToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

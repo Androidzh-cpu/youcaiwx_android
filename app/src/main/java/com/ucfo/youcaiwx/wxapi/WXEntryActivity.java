@@ -103,7 +103,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                         getAccessToken(code);
                         break;
                     case RETURN_MSG_TYPE_SHARE:
-                        ToastUtil.showBottomShortText(this, getResources().getString(R.string.sharedSuccess));
+                        //ToastUtil.showBottomShortText(this, getResources().getString(R.string.sharedSuccess));
                         WXEntryActivity.this.finish();
                         break;
                     default:

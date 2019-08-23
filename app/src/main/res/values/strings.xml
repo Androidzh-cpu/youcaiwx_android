@@ -222,7 +222,7 @@
     <string name="learncenter_exitTitle">退出学习计划</string>
     <string name="learncenter_exit2Title">您的学习计划已到期</string>
     <string name="learncenter_exit2Message">如需体验更多，请购买正课。</string>
-    <string name="learncenter_buyCourseTips">如需体验更多，请购买正课。</string>
+    <string name="learncenter_buyCourseTips">请购买课程后再添加</string>
 
     <!-- Strings related to 我的订单 -->
     <string name="orderForm_info">订单信息</string>

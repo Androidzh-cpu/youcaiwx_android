@@ -176,38 +176,50 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         if (sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false)) {
             Bundle bundle = new Bundle();
             switch (view.getId()) {
-                case R.id.titlebar_setting://TODO 设置
+                case R.id.titlebar_setting:
+                    //TODO 设置
                     startActivity(SettingActivity.class, null);
                     break;
-                case R.id.btn_userInfo://TODO 个人设置中心
+                case R.id.btn_userInfo:
+                    //TODO 个人设置中心
                     startActivity(PersonnelSettingActivity.class, null);
                     break;
-                case R.id.btn_user_integral://TODO 积分
+                case R.id.btn_user_integral:
+                    //TODO 积分
                     break;
-                case R.id.btn_user_balance://TODO 余额
+                case R.id.btn_user_balance:
+                    //TODO 余额
                     break;
-                case R.id.btn_user_coupons://TODO 优惠券
+                case R.id.btn_user_coupons:
+                    //TODO 优惠券
                     startActivity(MineCouponsActivity.class, null);
                     break;
-                case R.id.user_course://TODO 我的课程
+                case R.id.user_course:
+                    //TODO 我的课程
                     startActivity(MineCourseActivity.class, null);
                     break;
-                case R.id.user_collection://TODO 我的收藏
+                case R.id.user_collection:
+                    //TODO 我的收藏
                     startActivity(MineCollectionActivity.class, null);
                     break;
-                case R.id.user_offline://TODO 离线课程
+                case R.id.user_offline:
+                    //TODO 离线课程
                     startActivity(OfflineCourseActivity.class, null);
                     break;
-                case R.id.user_order://TODO 我的订单
+                case R.id.user_order:
+                    //TODO 我的订单
                     startActivity(MineOrderFormActivity.class, null);
                     break;
-                case R.id.user_answer://TODO 我的答疑
+                case R.id.user_answer:
+                    //TODO 我的答疑
                     startActivity(MineAnswerQuestionActivity.class, null);
                     break;
-                case R.id.user_record://TODO 观看记录
+                case R.id.user_record:
+                    //TODO 观看记录
                     startActivity(WatchTheRecordActivity.class, null);
                     break;
-                case R.id.btn_wxRemind://TODO 学习提醒
+                case R.id.btn_wxRemind:
+                    //TODO 学习提醒
                     /*String certificateSHA1Fingerprint = SHA1Utils.getCertificateSHA1Fingerprint(getActivity());
                     LogUtils.e("设备唯一标识----------------:" + certificateSHA1Fingerprint);*/
                     new AlertDialog(getActivity()).builder().setCancelable(false).setCanceledOnTouchOutside(false)
@@ -226,7 +238,8 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                             })
                             .show();
                     break;
-                case R.id.btn_recommendfriend://TODO 推荐给好友
+                case R.id.btn_recommendfriend:
+                    //TODO 推荐给好友
                     new ShareDialog(getActivity()).builder()
                             .setFriendButton(new View.OnClickListener() {
                                 @Override
@@ -250,16 +263,19 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                             })
                             .show();
                     break;
-                case R.id.btn_call://TODO 打电话
+                case R.id.btn_call:
+                    //TODO 电话
                     MainActivity activity = (MainActivity) getActivity();
                     if (activity != null) {
                         activity.makeCall();
                     }
                     break;
-                case R.id.btn_feedback://TODO 意见反馈
+                case R.id.btn_feedback:
+                    //TODO 意见反馈
                     startActivity(FeedBackActivity.class, bundle);
                     break;
-                case R.id.btn_about://TODO 关于
+                case R.id.btn_about:
+                    //TODO 关于
                     bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.mine_about));
                     bundle.putString(Constant.WEB_URL, ApiStores.USER_ABOUT_YOUCAI);
                     startActivity(WebActivity.class, bundle);

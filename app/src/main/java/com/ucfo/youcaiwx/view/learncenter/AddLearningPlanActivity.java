@@ -144,7 +144,7 @@ public class AddLearningPlanActivity extends BaseActivity implements IAddlearnPl
     @Override
     public void getCheckCourseList(AddLearnPlanCheckCourseBean result) {
         if (result != null) {
-            if (result.getData() != null && result.getData().size() > 1) {
+            if (result.getData() != null && result.getData().size() > 0) {
                 List<AddLearnPlanCheckCourseBean.DataBean> beanList = result.getData();
                 list.clear();
                 list.addAll(beanList);

@@ -292,7 +292,8 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 bundle.putInt(Constant.COURSE_ID, currentSubjectId);
                 switch (view.getId()) {
                     case R.id.question_assessment://TODO 能力评估
-                        bundle.putString(Constant.WEB_URL, ApiStores.QUESTION_AbilityTOAssess + "?userId=" + userId + "&course_id=" + currentSubjectId);
+                        int anInt = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+                        bundle.putString(Constant.WEB_URL, ApiStores.QUESTION_AbilityTOAssess + "?user_id=" + anInt + "&course_id=" + currentSubjectId);
                         bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.question_title_assessment));
                         startToActivity(bundle, WebActivity.class);
                         break;
@@ -351,7 +352,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
      */
     @SuppressLint("InflateParams")
     private void subjectWindow() {
-        if (projectList.size() > 1) {
+        if (projectList.size() > 0) {
             View mContentView = null;
             if (mContentView == null) {
                 mContentView = LayoutInflater.from(getActivity()).inflate(R.layout.popuwindow_subject, null, false);

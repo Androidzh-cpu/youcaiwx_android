@@ -12,11 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.app.hubert.guide.NewbieGuide;
+import com.app.hubert.guide.core.Controller;
+import com.app.hubert.guide.listener.OnLayoutInflatedListener;
 import com.app.hubert.guide.model.GuidePage;
 import com.qw.soul.permission.SoulPermission;
 import com.qw.soul.permission.bean.Permission;
@@ -94,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
         checkPermission();
 
-        //initNewGuide();
+        initNewGuide();
 
         updateApp();
     }
@@ -117,30 +120,67 @@ public class MainActivity extends AppCompatActivity {
     private void initNewGuide() {
         NewbieGuide.with(this)
                 .setLabel("guide_home")
-                .alwaysShow(true)//总是显示，调试时可以打开
+                .alwaysShow(false)//总是显示，调试时可以打开
                 .addGuidePage(GuidePage.newInstance()
                         .setEverywhereCancelable(true)
-                        .setLayoutRes(R.layout.view_alertdialog)
+                        .setLayoutRes(R.layout.newbieguide)
+                        .setOnLayoutInflatedListener(new OnLayoutInflatedListener() {
+                            @Override
+                            public void onLayoutInflated(View view, Controller controller) {
+                                ImageView constraintLayout = view.findViewById(R.id.image_view);
+                                view.findViewById(R.id.button_back).setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        controller.remove();
+                                    }
+                                });
+                                constraintLayout.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_newguide_01));
+                            }
+                        })
                 )
                 .addGuidePage(GuidePage.newInstance()
                         .setEverywhereCancelable(true)
-                        .setLayoutRes(R.layout.view_alertdialog)
+                        .setLayoutRes(R.layout.newbieguide)
+                        .setOnLayoutInflatedListener(new OnLayoutInflatedListener() {
+                            @Override
+                            public void onLayoutInflated(View view, Controller controller) {
+                                ImageView constraintLayout = view.findViewById(R.id.image_view);
+                                constraintLayout.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_newguide_02));
+                            }
+                        })
                 )
                 .addGuidePage(GuidePage.newInstance()
                         .setEverywhereCancelable(true)
-                        .setLayoutRes(R.layout.view_alertdialog)
+                        .setLayoutRes(R.layout.newbieguide)
+                        .setOnLayoutInflatedListener(new OnLayoutInflatedListener() {
+                            @Override
+                            public void onLayoutInflated(View view, Controller controller) {
+                                ImageView constraintLayout = view.findViewById(R.id.image_view);
+                                constraintLayout.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_newguide_03));
+                            }
+                        })
                 )
                 .addGuidePage(GuidePage.newInstance()
                         .setEverywhereCancelable(true)
-                        .setLayoutRes(R.layout.view_alertdialog)
+                        .setLayoutRes(R.layout.newbieguide)
+                        .setOnLayoutInflatedListener(new OnLayoutInflatedListener() {
+                            @Override
+                            public void onLayoutInflated(View view, Controller controller) {
+                                ImageView constraintLayout = view.findViewById(R.id.image_view);
+                                constraintLayout.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_newguide_04));
+                            }
+                        })
                 )
                 .addGuidePage(GuidePage.newInstance()
                         .setEverywhereCancelable(true)
-                        .setLayoutRes(R.layout.view_alertdialog)
-                )
-                .addGuidePage(GuidePage.newInstance()
-                        .setEverywhereCancelable(true)
-                        .setLayoutRes(R.layout.view_alertdialog)
+                        .setLayoutRes(R.layout.newbieguide)
+                        .setOnLayoutInflatedListener(new OnLayoutInflatedListener() {
+                            @Override
+                            public void onLayoutInflated(View view, Controller controller) {
+                                ImageView constraintLayout = view.findViewById(R.id.image_view);
+                                constraintLayout.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.icon_newguide_05));
+                            }
+                        })
                 )
                 .show();
     }

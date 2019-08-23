@@ -42,7 +42,7 @@ public class Constant {
     //友盟平台客户端推送密钥
     public static final String UMENG_MESSAGE_SCRECT = "d9a3baa0dff24082751e60940cdb94f3";
     //友盟平台客户端渠道
-    public static final String UMENG_CHANNEL = "umeng";
+    public static final String UMENG_CHANNEL = "YingYongBao";
     //友盟平台自定义packagename
     public static final String UMENG_PACKAGE_NAME = "com.ucfo.youcaiwx";
     //通知栏消息: 资讯消息

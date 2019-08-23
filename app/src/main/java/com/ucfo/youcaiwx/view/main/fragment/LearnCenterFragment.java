@@ -2,6 +2,7 @@ package com.ucfo.youcaiwx.view.main.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -56,6 +57,7 @@ import com.ucfo.youcaiwx.view.main.activity.WebActivity;
 import com.ucfo.youcaiwx.view.questionbank.activity.ErrorCenterActivity;
 import com.ucfo.youcaiwx.view.user.activity.MineCourseActivity;
 import com.ucfo.youcaiwx.view.user.activity.OfflineCourseActivity;
+import com.ucfo.youcaiwx.view.user.activity.PersonnelSettingActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.dialog.ActiveEventDialog;
 import com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView;
@@ -134,9 +136,11 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     private List<QuestionMyProjectBean.DataBean> projectList;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
+        if (rootView != null) {
+            unbinder = ButterKnife.bind(this, rootView);
+        }
         return rootView;
     }
 
@@ -211,7 +215,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
      */
     private void initActive() {
         boolean loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
-        if (!loginStatus){
+        if (!loginStatus) {
             OkGo.<String>post(ApiStores.ACTIVEEVENT)
                     .execute(new StringCallback() {
                         @Override
@@ -273,26 +277,29 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     @OnClick({R.id.user_icon, R.id.user_nickname, R.id.btn_clockin, R.id.user_course, R.id.user_errorcenter, R.id.user_offline, R.id.btn_continueStudy, R.id.btn_addlearnplan})
     public void onViewClicked(View view) {
         if (login_status) {
+            Bundle bundle = new Bundle();
             switch (view.getId()) {
                 case R.id.user_icon://icon
                 case R.id.user_nickname://昵称
+                    startActivity(PersonnelSettingActivity.class, null);
                     break;
-                case R.id.btn_clockin://学习打卡
+                case R.id.btn_clockin:
+                    //学习打卡
                     learncenterHomePresenter.signDayCard(user_id);
                     break;
-                case R.id.user_course://我的课程
+                case R.id.user_course:
+                    //我的课程
                     startActivity(MineCourseActivity.class, null);
                     break;
-                case R.id.user_errorcenter://错题中心
+                case R.id.user_errorcenter:
+                    //错题中心
                     if (currentSubject_id != 0) {
                         int currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
-                        Bundle bundle = new Bundle();
                         bundle.putInt(Constant.COURSE_ID, currentSubjectId);
                         startActivity(ErrorCenterActivity.class, bundle);
                     } else {
                         if (projectList != null && projectList.size() > 0) {
                             int currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
-                            Bundle bundle = new Bundle();
                             bundle.putInt(Constant.COURSE_ID, currentSubjectId);
                             startActivity(ErrorCenterActivity.class, bundle);
                         } else {
@@ -300,13 +307,16 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                         }
                     }
                     break;
-                case R.id.user_offline://离线课程
+                case R.id.user_offline:
+                    //离线课程
                     startActivity(OfflineCourseActivity.class, null);
                     break;
-                case R.id.btn_continueStudy://继续学习
+                case R.id.btn_continueStudy:
+                    //继续学习
                     startActivity(UnFinishedPlanActivity.class, null);
                     break;
-                case R.id.btn_addlearnplan://添加学习计划
+                case R.id.btn_addlearnplan:
+                    //添加学习计划
                     startActivity(AddLearningPlanActivity.class, null);
                     break;
                 default:
