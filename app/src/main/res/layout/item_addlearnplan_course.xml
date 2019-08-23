@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
+    android:gravity="center_vertical|center"
     android:orientation="vertical">
 
     <ImageView
@@ -29,5 +29,12 @@
         android:paddingTop="@dimen/dp_5"
         android:textSize="@dimen/sp_13"
         tools:text="中文part-1" />
+
+    <ImageView
+        android:id="@+id/item_course_image"
+        android:layout_width="@dimen/dp_96"
+        android:layout_height="@dimen/dp_58"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/banner_default" />
 
 </LinearLayout>

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_10"
     android:background="@android:color/white"
     android:gravity="center_horizontal"
     android:orientation="vertical"
@@ -13,7 +14,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:paddingEnd="@dimen/dp_12"
         android:paddingStart="@dimen/dp_12">
 
         <ImageView
@@ -55,6 +55,7 @@
             android:layout_width="@dimen/dp_17"
             android:layout_height="@dimen/dp_23"
             android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dp_12"
             android:src="@mipmap/icon_lc_lock"
             android:visibility="gone" />
 
@@ -71,9 +72,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0_5"
-        android:background="@color/color_E6E6E6"
-        android:paddingEnd="@dimen/dp_12"
-        android:paddingStart="@dimen/dp_12" />
+        android:layout_marginEnd="@dimen/dp_12"
+        android:layout_marginStart="@dimen/dp_12"
+        android:background="@color/color_E6E6E6" />
 
     <LinearLayout
         android:layout_width="match_parent"

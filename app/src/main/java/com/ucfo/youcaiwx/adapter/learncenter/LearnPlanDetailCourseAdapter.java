@@ -58,17 +58,17 @@ public class LearnPlanDetailCourseAdapter extends BaseAdapter<LearnPlanDetailVid
     @Override
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         LearnPlanDetailVideoBean.DataBean.VideoBean bean = list.get(position);
-        String coverURL = bean.getCoverURL();
-        String video_name = bean.getVideo_name();
-        String video_time = bean.getVideo_time();
-        if (!TextUtils.isEmpty(video_name)) {
-            holder.mCourseTitleItem.setText(video_name);
+        String beancoverurl = bean.getCoverURL();
+        String videoName = bean.getVideo_name();
+        String videoTime = bean.getVideo_time();
+        if (!TextUtils.isEmpty(videoName)) {
+            holder.mCourseTitleItem.setText(videoName);
         }
-        if (!TextUtils.isEmpty(video_time)) {
-            holder.mCourseSubtitleItem.setText(video_time);
+        if (!TextUtils.isEmpty(videoTime)) {
+            holder.mCourseSubtitleItem.setText(videoTime);
         }
         Glide.with(context)
-                .load(coverURL)
+                .load(beancoverurl)
                 .asBitmap()
                 .placeholder(R.mipmap.banner_default)
                 .transform(new CenterCrop(context), new GlideRoundTransform(context, 4))
@@ -80,25 +80,31 @@ public class LearnPlanDetailCourseAdapter extends BaseAdapter<LearnPlanDetailVid
                 .into(holder.mCourseImageItem);
 
         String sameday = bean.getSameday();
-        if (sameday.equals("1")) {//当天计划
+        if (TextUtils.equals(sameday, String.valueOf(1))) {
+            //当天计划
             holder.mCourseTitleItem.setTextColor(ContextCompat.getColor(context, R.color.color_333333));
             holder.mCourseSubtitleItem.setTextColor(ContextCompat.getColor(context, R.color.color_333333));
             holder.mCourseNotesItem.setTextColor(ContextCompat.getColor(context, R.color.color_333333));
             holder.mCourseExerciseItem.setTextColor(ContextCompat.getColor(context, R.color.color_333333));
-            int is_watch = bean.getIs_watch();
-            if (is_watch == 1) {//已完成计划
-                holder.mCourse2StatusItem.setVisibility(View.VISIBLE);
-            } else {//未完成计划
-                holder.mCourseStatusItem.setVisibility(View.GONE);
+            int isWatch = bean.getIs_watch();
+            if (isWatch == 1) {
+                //已完成计划
+                holder.compltedImageView.setVisibility(View.VISIBLE);
+                holder.lockedImageView.setVisibility(View.GONE);
+            } else {
+                //未完成当天计划
+                holder.lockedImageView.setVisibility(View.GONE);
+                holder.compltedImageView.setVisibility(View.GONE);
             }
         } else {
+            //非当天计划
             holder.mCourseTitleItem.setTextColor(ContextCompat.getColor(context, R.color.color_C7C7C7));
             holder.mCourseSubtitleItem.setTextColor(ContextCompat.getColor(context, R.color.color_C7C7C7));
             holder.mCourseNotesItem.setTextColor(ContextCompat.getColor(context, R.color.color_C7C7C7));
             holder.mCourseExerciseItem.setTextColor(ContextCompat.getColor(context, R.color.color_C7C7C7));
 
-            holder.mCourseStatusItem.setVisibility(View.VISIBLE);
-            holder.mCourse2StatusItem.setVisibility(View.GONE);
+            holder.lockedImageView.setVisibility(View.VISIBLE);
+            holder.compltedImageView.setVisibility(View.GONE);
         }
 
         holder.mCourseNotesItem.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +133,7 @@ public class LearnPlanDetailCourseAdapter extends BaseAdapter<LearnPlanDetailVid
         private ImageView mCourseImageItem;
         private TextView mCourseTitleItem;
         private TextView mCourseSubtitleItem;
-        private ImageView mCourseStatusItem, mCourse2StatusItem;
+        private ImageView lockedImageView, compltedImageView;
         private TextView mCourseNotesItem;
         private TextView mCourseExerciseItem;
 
@@ -140,8 +146,8 @@ public class LearnPlanDetailCourseAdapter extends BaseAdapter<LearnPlanDetailVid
             mCourseImageItem = (ImageView) itemView.findViewById(R.id.item_course_image);
             mCourseTitleItem = (TextView) itemView.findViewById(R.id.item_course_title);
             mCourseSubtitleItem = (TextView) itemView.findViewById(R.id.item_course_subtitle);
-            mCourseStatusItem = (ImageView) itemView.findViewById(R.id.item_course_status);
-            mCourse2StatusItem = (ImageView) itemView.findViewById(R.id.item_course_status2);
+            lockedImageView = (ImageView) itemView.findViewById(R.id.item_course_status);
+            compltedImageView = (ImageView) itemView.findViewById(R.id.item_course_status2);
             mCourseNotesItem = (TextView) itemView.findViewById(R.id.item_course_notes);
             mCourseExerciseItem = (TextView) itemView.findViewById(R.id.item_course_exercise);
         }

@@ -1,5 +1,6 @@
 package com.ucfo.youcaiwx.view.main.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -17,12 +18,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.flyco.roundview.RoundTextView;
+import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.adapter.learncenter.LearnCenterNoticeAdapter;
 import com.ucfo.youcaiwx.adapter.learncenter.LearnCenterPlanDetailAdapter;
 import com.ucfo.youcaiwx.adapter.learncenter.LearncenterPlanAdapter;
 import com.ucfo.youcaiwx.base.BaseFragment;
+import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
+import com.ucfo.youcaiwx.entity.home.ActiveEventBean;
 import com.ucfo.youcaiwx.entity.learncenter.LearncenterHomeBean;
 import com.ucfo.youcaiwx.entity.learncenter.StudyClockInBean;
 import com.ucfo.youcaiwx.entity.learncenter.UnFinishPlanBean;
@@ -50,7 +57,11 @@ import com.ucfo.youcaiwx.view.questionbank.activity.ErrorCenterActivity;
 import com.ucfo.youcaiwx.view.user.activity.MineCourseActivity;
 import com.ucfo.youcaiwx.view.user.activity.OfflineCourseActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
+import com.ucfo.youcaiwx.widget.dialog.ActiveEventDialog;
 import com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -191,6 +202,61 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                 updateDataInfo();
             }
         });
+
+        initActive();
+    }
+
+    /**
+     * 活动弹窗
+     */
+    private void initActive() {
+        boolean loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
+        if (!loginStatus){
+            OkGo.<String>post(ApiStores.ACTIVEEVENT)
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onSuccess(Response<String> response) {
+                            String body = response.body();
+                            if (body != null) {
+                                try {
+                                    JSONObject object = new JSONObject(body);
+                                    int optInt = object.optInt(Constant.CODE);
+                                    if (optInt == 200) {
+                                        ActiveEventBean bean = new Gson().fromJson(body, ActiveEventBean.class);
+                                        ActiveEventBean.DataBean data = bean.getData();
+                                        int status = data.getStatus();
+                                        if (status == 1) {
+                                            String imageUrl = data.getImage_url();
+                                            if (!TextUtils.isEmpty(imageUrl)) {
+                                                activeEvent(imageUrl);
+                                            }
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    });
+
+        }
+    }
+
+    /**
+     * 弹出活动页
+     */
+    private void activeEvent(String url) {
+        new ActiveEventDialog(getActivity()).builder()
+                .setCancelable(true)
+                .setImageUrl(url)
+                .setCanceledOnTouchOutside(true)
+                .setNegativeButton(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                    }
+                }).show();
+
     }
 
     //获取学习中心首页数据

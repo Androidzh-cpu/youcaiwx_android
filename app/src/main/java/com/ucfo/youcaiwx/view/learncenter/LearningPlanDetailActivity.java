@@ -26,9 +26,7 @@ import com.ucfo.youcaiwx.presenter.view.learncenter.ILearnPlanDetailView;
 import com.ucfo.youcaiwx.utils.baseadapter.CenterLayoutManager;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
-import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.view.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.view.questionbank.activity.TESTMODEActivity;
@@ -157,8 +155,6 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.setReverseLayout(false);
-        int topBottom = DensityUtil.dip2px(context, 10);
-        listView.addItemDecoration(new SpacesItemDecoration(0, topBottom, ContextCompat.getColor(context, R.color.color_F5F5F5)));
         listView.setLayoutManager(layoutManager);
         listView.setNestedScrollingEnabled(false);
     }
@@ -195,7 +191,7 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                     .setCancelable(false)
                     .setCanceledOnTouchOutside(false)
                     .setNegativeButtonVisibility(false)
-                    .setPositiveButton(getResources().getString(R.string.exit), new View.OnClickListener() {
+                    .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             setProcessLoading(null, true);
@@ -376,7 +372,7 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                 @Override
                 public void onItemClick(View view, int position) {
                     String sameday = videoList.get(position).getSameday();
-                    if (sameday.equals("1")) {
+                    if (TextUtils.equals(sameday,String.valueOf(1))) {
                         LearnPlanDetailVideoBean.DataBean.VideoBean videoBean = videoList.get(position);
                         Bundle bundle = new Bundle();
                         bundle.putInt(Constant.COURSE_PACKAGE_ID, videoBean.getPackage_id());//包

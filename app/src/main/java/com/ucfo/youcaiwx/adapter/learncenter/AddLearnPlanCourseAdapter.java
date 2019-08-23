@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,10 +51,10 @@ public class AddLearnPlanCourseAdapter extends BaseAdapter<AddLearnPlanCheckCour
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         AddLearnPlanCheckCourseBean.DataBean bean = list.get(position);
 
-        String course_name = bean.getCourse_name();
+        String courseName = bean.getCourse_name();
         String state = bean.getState();
-        holder.mQuestionTitleItem.setText(course_name);
-        if (state.equals("1")) {
+        holder.mQuestionTitleItem.setText(courseName);
+        if (TextUtils.equals(state, String.valueOf(1))) {
             holder.imageView.setVisibility(View.VISIBLE);
         } else {
             holder.imageView.setVisibility(View.INVISIBLE);
@@ -79,6 +80,7 @@ public class AddLearnPlanCourseAdapter extends BaseAdapter<AddLearnPlanCheckCour
     protected class ViewHolder extends RecyclerView.ViewHolder {
         private TextView mQuestionTitleItem;
         private ImageView imageView;
+        private ImageView mCourseImageItem;
 
         public ViewHolder(View view) {
             super(view);
@@ -88,6 +90,7 @@ public class AddLearnPlanCourseAdapter extends BaseAdapter<AddLearnPlanCheckCour
         private void initView(@NonNull final View itemView) {
             mQuestionTitleItem = (TextView) itemView.findViewById(R.id.item_list_title);
             imageView = (ImageView) itemView.findViewById(R.id.item_list_image);
+            mCourseImageItem = (ImageView) itemView.findViewById(R.id.item_course_image);
         }
 
     }

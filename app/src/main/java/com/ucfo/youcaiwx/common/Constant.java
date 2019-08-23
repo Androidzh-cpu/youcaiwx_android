@@ -61,6 +61,7 @@ public class Constant {
     public static final String WEB_URL = "url";
     //H5标题
     public static final String WEB_TITLE = "web_title";
+    public static final String DATA = "data";
     /*******************************************************TODO 再丑也要注意的分割线*******************************************************/
     //压缩图片地址
     public static final String LUBAN_PATH = "/youcai/image/";

@@ -612,7 +612,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      */
     @Override
     public void onBackPressed() {
-        if (course_Source.equals(Constant.WATCH_RECORD) || course_Source.equals(Constant.LOCAL_CACHE)) {
+        if (TextUtils.equals(course_Source, Constant.WATCH_RECORD) ||
+                TextUtils.equals(course_Source, Constant.LOCAL_CACHE) || TextUtils.equals(course_Source, Constant.WATCH_LEARNPLAN)) {
             changeScreenMode(AliyunScreenMode.Small);//TODO 横竖屏切换
             finish();//退出本页面
             return;
@@ -2014,7 +2015,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     //TODO 顶部返回按键
     private void topBack() {
         if (getScreenMode() == AliyunScreenMode.Full) {
-            if (course_Source.equals(Constant.WATCH_RECORD) || course_Source.equals(Constant.LOCAL_CACHE)) {
+            if (TextUtils.equals(course_Source, Constant.WATCH_RECORD) ||
+                    TextUtils.equals(course_Source, Constant.LOCAL_CACHE) || TextUtils.equals(course_Source, Constant.WATCH_LEARNPLAN)) {
                 changeScreenMode(AliyunScreenMode.Small);//TODO 横竖屏切换
                 finish();//退出本页面
             } else {
@@ -2281,8 +2283,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 topBack();
                 break;
             case R.id.player_share://TODO 顶部分享按键
-                new ShareDialog(this)
-                        .builder()
+                new ShareDialog(this).builder()
                         .setFriendButton(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

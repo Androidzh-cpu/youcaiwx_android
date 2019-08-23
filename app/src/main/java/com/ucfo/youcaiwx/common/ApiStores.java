@@ -18,8 +18,10 @@ public class ApiStores {
     public static final String TEMPORARYNEWS = "http://m.ucwx.com.cn/news";//临时资讯地址
     public static final String TEMPORARFACE = "http://m.ucfo.com.cn/mskc/";//临时面授地址
     public static final String TEMPORARACTIVE = "http://m.ucfo.com.cn/yqh-wap/20190921/";//临时活动地址
-    public static final String APP_DOWNLOAD_URL = "http://www.youcaiwx.com/html/activity/activity.html";
+    public static final String APP_DOWNLOAD_URL = "http://www.youcaiwx.com/html/activity/activity.html";//App应用商店下载页
     public static final String LOGO = "http://www.youcaiwx.com/Public/Uploads/newtopicpics/2017-12-26/5a41b418a2e32.png";
+    public static final String ACTIVEEVENT = "http://ycapi.youcaiwx.com/web/Register/thickness";
+
 
     //-----------------------------------------TODO 首页--------------------------------------------------------------//
     public static final String HOME_API = BASE_URL + "First/newInformation";//首页
@@ -58,8 +60,8 @@ public class ApiStores {
     public static final String QUESTION_GETPROJECT = BASE_URL + "Question/getProject";//获取题库展示专业
     public static final String QUESTION_GETPROJECTINFO = BASE_URL + "Question/questionIndex";//获取用户对应题库信息
     public static final String QUESTION_GETQUSTIONONRECORD = BASE_URL + "Question/questionRecord";//获取用户答题记录
-    //public static final String QUESTION_AbilityTOAssess = BASE_URL + "Question/abiAssess";//用户能力评估
-    public static final String QUESTION_AbilityTOAssess = "http://192.168.3.23:8080/#/capacity-assessment-app";//用户能力评估
+    public static final String QUESTION_AbilityTOAssess = BASE_URL + "Question/abiAssess";//用户能力评估
+    //public static final String QUESTION_AbilityTOAssess = "http://192.168.3.23:8080/#/capacity-assessment-app";//用户能力评估
     public static final String QUESTION_GETSTAGEOFTESTLIST = BASE_URL + "Question/getCourse";//阶段测试列表
     public static final String QUESTION_GETGROUPEXAMLIST = BASE_URL + "Question/volumeList";//组卷模考列表
     public static final String QUESTION_GETKnowledgePractice = BASE_URL + "Question/getSection";//知识点章节列表

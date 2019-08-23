@@ -16,6 +16,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.app.hubert.guide.NewbieGuide;
+import com.app.hubert.guide.model.GuidePage;
 import com.qw.soul.permission.SoulPermission;
 import com.qw.soul.permission.bean.Permission;
 import com.qw.soul.permission.bean.Permissions;
@@ -79,13 +81,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         StatusBarUtil.immersive(this);
-
-        StatusbarUI.setStatusBarUIMode(MainActivity.this, Color.TRANSPARENT, true);
-
         StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
-
         context = MainActivity.this;
         ButterKnife.bind(this);
         ActivityUtil.getInstance().addActivity(this);
@@ -96,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
         initView();
 
         checkPermission();
+
+        //initNewGuide();
 
         updateApp();
     }
@@ -110,6 +109,40 @@ public class MainActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    /**
+     * 新手引导
+     */
+    private void initNewGuide() {
+        NewbieGuide.with(this)
+                .setLabel("guide_home")
+                .alwaysShow(true)//总是显示，调试时可以打开
+                .addGuidePage(GuidePage.newInstance()
+                        .setEverywhereCancelable(true)
+                        .setLayoutRes(R.layout.view_alertdialog)
+                )
+                .addGuidePage(GuidePage.newInstance()
+                        .setEverywhereCancelable(true)
+                        .setLayoutRes(R.layout.view_alertdialog)
+                )
+                .addGuidePage(GuidePage.newInstance()
+                        .setEverywhereCancelable(true)
+                        .setLayoutRes(R.layout.view_alertdialog)
+                )
+                .addGuidePage(GuidePage.newInstance()
+                        .setEverywhereCancelable(true)
+                        .setLayoutRes(R.layout.view_alertdialog)
+                )
+                .addGuidePage(GuidePage.newInstance()
+                        .setEverywhereCancelable(true)
+                        .setLayoutRes(R.layout.view_alertdialog)
+                )
+                .addGuidePage(GuidePage.newInstance()
+                        .setEverywhereCancelable(true)
+                        .setLayoutRes(R.layout.view_alertdialog)
+                )
+                .show();
     }
 
     private void updateApp() {

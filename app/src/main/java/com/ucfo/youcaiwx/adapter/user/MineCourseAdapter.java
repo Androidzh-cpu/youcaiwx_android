@@ -43,34 +43,33 @@ public class MineCourseAdapter extends BaseAdapter<MineCourseBean.DataBean, Mine
     @Override
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         MineCourseBean.DataBean bean = list.get(position);
-        String app_img = bean.getApp_img();
-        int join_num = bean.getJoin_num();
+        String appImg = bean.getApp_img();
+        int joinNum = bean.getJoin_num();
         String name = bean.getName();
-        String teacher_name = bean.getTeacher_name();
-        int study_days = bean.getStudy_days();//课时
+        String teacherName = bean.getTeacher_name();
+        int studyDays = bean.getStudy_days();//课时
         //GlideUtils.loadRoundImageView(context, app_img, holder.mCourseImageItem, R.mipmap.banner_default, 2);
         Glide.with(context)
-                .load(app_img)
+                .load(appImg)
                 .transform(new CenterCrop(context), new GlideRoundTransform(context))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
                 .into(holder.mCourseImageItem);
-        if (!TextUtils.isEmpty(teacher_name)) {
-            holder.mCourseTeacherItem.setText(String.valueOf(context.getResources().getString(R.string.holder_teacher) + teacher_name));
+        if (!TextUtils.isEmpty(teacherName)) {
+            holder.mCourseTeacherItem.setText(String.valueOf(context.getResources().getString(R.string.holder_teacher) + teacherName));
         }
         if (!TextUtils.isEmpty(name)) {
             holder.mCourseTitleItem.setText(name);
         }
-        holder.mCourseCountItem.setText(String.valueOf(join_num + context.getResources().getString(R.string.mine_Course_holder1)));
-        holder.mCourseTimeItem.setText(String.valueOf(study_days + context.getResources().getString(R.string.mine_Course_holder2)));
+        holder.mCourseCountItem.setText(String.valueOf(joinNum + context.getResources().getString(R.string.mine_Course_holder1)));
+        holder.mCourseTimeItem.setText(String.valueOf(studyDays + context.getResources().getString(R.string.mine_Course_holder2)));
     }
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View inflate = layoutInflater.inflate(R.layout.item_minecourse, viewGroup, false);
-        MineCourseAdapter.ViewHolder holder = new MineCourseAdapter.ViewHolder(inflate);
-        return holder;
+        return new MineCourseAdapter.ViewHolder(inflate);
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
