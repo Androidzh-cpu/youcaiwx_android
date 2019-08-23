@@ -1,6 +1,7 @@
 <resources>
     <string name="app_nameWX">优财CMA网校</string>
     <string name="youcaiWXdescribe">优财网校CMA为在职财务人员提供专业与时俱进的CMA智能学习平台</string>
+    <string name="youcaiWXShareDescribe">优财是引领CMA浪潮的先驱者</string>
 
     <!-- Strings related to 导航栏文案 -->
     <string name="tab_home">首页</string>
@@ -9,7 +10,7 @@
     <string name="tab_questionbank">题库</string>
     <string name="tab_mine">我的</string>
 
-    <!-- Strings related to 首页功能区文案 -->
+    <!-- Strings related to 首页文案 -->
     <string name="home_live">直播</string>
     <string name="home_course">课程</string>
     <string name="home_face">面授</string>
@@ -22,7 +23,7 @@
     <string name="home_more">查看更多</string>
     <string name="scan_tiptext">将二维码/条码放入框内,即可自动扫描</string>
 
-    <!-- Strings related to login业务文案 -->
+    <!-- Strings related to login文案 -->
     <string name="net_loadingtext">加载中</string>
     <string name="net_canceltext">取消中</string>
     <string name="file_loadingtext">正在上传</string>
@@ -221,6 +222,7 @@
     <string name="learncenter_exitTitle">退出学习计划</string>
     <string name="learncenter_exit2Title">您的学习计划已到期</string>
     <string name="learncenter_exit2Message">如需体验更多，请购买正课。</string>
+    <string name="learncenter_buyCourseTips">如需体验更多，请购买正课。</string>
 
     <!-- Strings related to 我的订单 -->
     <string name="orderForm_info">订单信息</string>
@@ -239,6 +241,8 @@
     <string name="orderForm_DiscountAmount">优惠金额</string>
     <string name="orderForm_RealPayment">实付款</string>
     <string name="orderForm_endtime">购买后%s天有效</string>
+    <string name="orderForm_endtime2">%s天有效</string>
+    <string name="orderForm_endtime3">有效期%s天</string>
 
     <string name="coupon_course">仅限正课使用</string>
     <string name="coupon_live">仅限直播课使用</string>

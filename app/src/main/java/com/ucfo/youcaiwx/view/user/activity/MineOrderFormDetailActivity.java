@@ -1,6 +1,8 @@
 package com.ucfo.youcaiwx.view.user.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -22,8 +24,10 @@ import com.ucfo.youcaiwx.presenter.view.user.IMineOrderFromView;
 import com.ucfo.youcaiwx.utils.CallUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
+import com.ucfo.youcaiwx.view.pay.PayActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.customview.NiceImageView;
+import com.ucfo.youcaiwx.widget.dialog.InvoiceActiveDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -94,6 +98,7 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
     private MineOrderFormPresenter mineOrderFormPresenter;
     private int order_status;
     private int address_id;
+    private String payPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +166,7 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
 
     @OnClick({R.id.order_service, R.id.order_cancel, R.id.order_invoice, R.id.order_pay, R.id.order_edit})
     public void onViewClicked(View view) {
+        Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.order_service://打电话
                 CallUtils.makeCallWithPermission(this);
@@ -169,11 +175,23 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
                 mineOrderFormPresenter.cancelOrderForm(user_id, order_number);
                 break;
             case R.id.order_invoice://发票
+                //TODO 发票
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                InvoiceActiveDialog invoiceActiveDialog = new InvoiceActiveDialog();
+                invoiceActiveDialog.show(fragmentTransaction, "invoice");
+                invoiceActiveDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                    }
+                });
                 break;
             case R.id.order_pay://去支付
+                bundle.putString(Constant.ORDER_NUM, order_number);
+                bundle.putFloat(Constant.COURSE_PRICE, Float.parseFloat(payPrice));
+                startActivity(PayActivity.class, bundle);
                 break;
             case R.id.order_edit://编辑地址
-                Bundle bundle = new Bundle();
                 bundle.putInt(Constant.TYPE, 0);
                 bundle.putInt(Constant.ADDRESS_ID, address_id);//TODO 地址ID
                 startActivity(EditAddressActivity.class, bundle);
@@ -248,11 +266,13 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
         String appImg = courseBean.getApp_img();//图片
         String couponPrice = courseBean.getCoupon_price();//优惠价格
         String price = courseBean.getPrice();//价格
-        String payPrice = courseBean.getPay_price();//师傅价格
+        //实际价格
+        payPrice = courseBean.getPay_price();
         String orderNum = courseBean.getOrder_num();//编号
         String teacherName = courseBean.getTeacher_name();//老师名字
         String packageName = courseBean.getPackage_name();//报名
-        int studyDays = courseBean.getStudy_days();//购买时效
+        String studyDays = courseBean.getStudy_days();//购买时效
+        String joinNum = courseBean.getJoin_num();
         int payStatus = courseBean.getPay_status();
         if (!TextUtils.isEmpty(packageName)) {
             itemCourseTitle.setText(packageName);
@@ -266,25 +286,21 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
         if (!TextUtils.isEmpty(addTime)) {
             orderTime.setText(String.valueOf(getResources().getString(R.string.orderForm_time) + " " + addTime));
         }
-        Glide.with(this)
-                .load(appImg)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.mipmap.banner_default)
-                .error(R.mipmap.banner_default)
-                .dontAnimate()
-                .crossFade()
-                .into(itemCourseImage);
-
-        itemCourseEffective.setText(String.valueOf(getResources().getString(R.string.orderForm_endtime, String.valueOf(studyDays))));
+        Glide.with(this).load(appImg).diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.mipmap.banner_default).error(R.mipmap.banner_default).dontAnimate().crossFade().into(itemCourseImage);
         orderCoursePrice.setText(String.valueOf(getResources().getString(R.string.RMB) + price));
         orderPreferentialPrice.setText(String.valueOf(getResources().getString(R.string.RMB) + couponPrice));
         orderRealPrice.setText(String.valueOf(getResources().getString(R.string.RMB) + payPrice));
-
+        //课程有效期
+        itemCourseTime.setText(String.valueOf(getResources().getString(R.string.orderForm_endtime2, studyDays)));
+        //学习人数
+        itemCourseEffective.setText(String.valueOf(joinNum + getResources().getString(R.string.mine_Course_holder1)));
         /*----------------------------------------------------------------再丑也要看的分割线----------------------------------------------------------------*/
         //TODO 订单状态
         switch (payStatus) {
-            case 1://已付款
-                orderInvoice.setVisibility(View.VISIBLE);
+            case 1:
+                //已付款
+                orderInvoice.setVisibility(View.GONE);
                 orderSuccess.setVisibility(View.VISIBLE);
                 orderPay.setVisibility(View.GONE);
                 orderCancel.setVisibility(View.GONE);
@@ -292,7 +308,8 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
                 orderEdit.setVisibility(View.GONE);
                 holderView.setVisibility(View.GONE);
                 break;
-            case 2://未付款
+            case 2:
+                //未付款
                 orderInvoice.setVisibility(View.GONE);
                 orderSuccess.setVisibility(View.GONE);
                 orderPay.setVisibility(View.VISIBLE);
@@ -301,7 +318,8 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
                 orderEdit.setVisibility(View.VISIBLE);
                 holderView.setVisibility(View.VISIBLE);
                 break;
-            case 3://订单已取消
+            case 3:
+                //订单已取消
             default:
                 break;
         }

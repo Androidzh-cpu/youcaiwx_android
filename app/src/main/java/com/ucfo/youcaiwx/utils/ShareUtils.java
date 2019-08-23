@@ -32,7 +32,7 @@ import java.net.URL;
  */
 public class ShareUtils {
     public static String title = String.valueOf(UcfoApplication.getInstance().getResources().getString(R.string.app_nameWX));
-    public static String desc = String.valueOf(UcfoApplication.getInstance().getResources().getString(R.string.youcaiWXdescribe));
+    public static String desc = String.valueOf(UcfoApplication.getInstance().getResources().getString(R.string.youcaiWXShareDescribe));
     public static String icon = "http://www.youcaiwx.com/Public/Uploads/newtopicpics/2017-12-26/5a41b418a2e32.png";
     public static String url = "http://www.youcaiwx.com/html/activity/activity.html";
 

@@ -62,7 +62,7 @@ public class MineCourseAdapter extends BaseAdapter<MineCourseBean.DataBean, Mine
             holder.mCourseTitleItem.setText(name);
         }
         holder.mCourseCountItem.setText(String.valueOf(joinNum + context.getResources().getString(R.string.mine_Course_holder1)));
-        holder.mCourseTimeItem.setText(String.valueOf(studyDays + context.getResources().getString(R.string.mine_Course_holder2)));
+        holder.mCourseTimeItem.setText(String.valueOf(context.getResources().getString(R.string.orderForm_endtime2, String.valueOf(studyDays))));
     }
 
     @Override

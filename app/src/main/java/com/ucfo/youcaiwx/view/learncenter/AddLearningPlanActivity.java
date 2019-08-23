@@ -1,12 +1,12 @@
 package com.ucfo.youcaiwx.view.learncenter;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,7 +24,6 @@ import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
@@ -65,7 +64,6 @@ public class AddLearningPlanActivity extends BaseActivity implements IAddlearnPl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
 
@@ -77,7 +75,6 @@ public class AddLearningPlanActivity extends BaseActivity implements IAddlearnPl
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
@@ -131,7 +128,7 @@ public class AddLearningPlanActivity extends BaseActivity implements IAddlearnPl
         int selectPosition = addLearnPlanCourseAdapter.getSelectPosition();
         if (selectPosition >= 0) {
             String state = list.get(selectPosition).getState();
-            if (state.equals("1")) {
+            if (TextUtils.equals(state, String.valueOf(1))) {
                 ToastUtil.showBottomShortText(this, getResources().getString(R.string.learncenter_haveCheckCourse));
             } else {
                 Bundle bundle = new Bundle();

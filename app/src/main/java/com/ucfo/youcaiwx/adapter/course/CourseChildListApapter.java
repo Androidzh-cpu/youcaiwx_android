@@ -38,6 +38,7 @@ public class CourseChildListApapter extends BaseAdapter<CourseDataListBean.DataB
         this.context = context;
     }
 
+    @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();
     }
@@ -64,7 +65,7 @@ public class CourseChildListApapter extends BaseAdapter<CourseDataListBean.DataB
         if (!TextUtils.isEmpty(teacher_name)) {
             holder.mCourseAuthorItem.setText(String.valueOf(context.getString(R.string.holder_teacher) + teacher_name));
         }
-        holder.mCourseCountItem.setText(String.valueOf(context.getString(R.string.holder_courseTime) + study_days));
+        holder.mCourseCountItem.setText(String.valueOf(context.getString(R.string.orderForm_endtime3,String.valueOf(study_days))));
         switch (billing_status) {//1免费2收费3按积分越换4按等级进入
             case 1:
                 holder.mCoursePriceItem.setBackgroundResource(R.drawable.item_home_purpleback);

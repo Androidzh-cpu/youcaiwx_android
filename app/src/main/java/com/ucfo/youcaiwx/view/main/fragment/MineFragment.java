@@ -227,14 +227,13 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                             .show();
                     break;
                 case R.id.btn_recommendfriend://TODO 推荐给好友
-                    new ShareDialog(getActivity())
-                            .builder()
+                    new ShareDialog(getActivity()).builder()
                             .setFriendButton(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     String url = ApiStores.APP_DOWNLOAD_URL;
                                     String title = getResources().getString(R.string.app_nameWX);
-                                    String desc = getResources().getString(R.string.youcaiWXdescribe);
+                                    String desc = getResources().getString(R.string.youcaiWXShareDescribe);
                                     String iamgeurl = ApiStores.LOGO;
                                     ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneSession);
                                 }
@@ -244,7 +243,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                                 public void onClick(View v) {
                                     String url = ApiStores.APP_DOWNLOAD_URL;
                                     String title = getResources().getString(R.string.app_nameWX);
-                                    String desc = getResources().getString(R.string.youcaiWXdescribe);
+                                    String desc = getResources().getString(R.string.youcaiWXShareDescribe);
                                     String iamgeurl = ApiStores.LOGO;
                                     ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneTimeline);
                                 }
@@ -253,8 +252,9 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                     break;
                 case R.id.btn_call://TODO 打电话
                     MainActivity activity = (MainActivity) getActivity();
-                    assert activity != null;
-                    activity.makeCall();
+                    if (activity != null) {
+                        activity.makeCall();
+                    }
                     break;
                 case R.id.btn_feedback://TODO 意见反馈
                     startActivity(FeedBackActivity.class, bundle);
@@ -306,17 +306,14 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         String username = dataBean.getUsername();
         int sex = dataBean.getSex();
         int coupon = dataBean.getCoupon();
-        int is_read = dataBean.getIs_read();
+        int isRead = dataBean.getIs_read();
         int integral = dataBean.getIntegral();
         if (TextUtils.isEmpty(head)) {
             userIcon.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_headdefault));
         } else {
-            Glide.with(context)//todo 头像
-                    .load(head)
+            Glide.with(context).load(head)
                     .transform(new CenterCrop(context), new GlideRoundTransform(context))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .crossFade()
-                    .into(userIcon);
+                    .diskCacheStrategy(DiskCacheStrategy.ALL).crossFade().into(userIcon);
         }
         if (!TextUtils.isEmpty(username)) {//todo 昵称
             userNickname.setText(username);
@@ -344,7 +341,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                 userSex.setVisibility(userSex.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
                 break;
         }
-        switch (is_read) {
+        switch (isRead) {
             case 2://未查看
                 userCouponsMsg.setVisibility(userCouponsMsg.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
                 break;

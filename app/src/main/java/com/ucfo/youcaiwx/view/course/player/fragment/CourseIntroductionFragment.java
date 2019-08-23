@@ -291,7 +291,8 @@ public class CourseIntroductionFragment extends BaseFragment {
                 courseTeacher.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + teacherName));
             }
             courseCount.setText(String.valueOf(joinNum + getResources().getString(R.string.people)));
-            courseTime.setText(String.valueOf(getResources().getString(R.string.holder_courseTime) + studyDays + getResources().getString(R.string.mine_Course_holder2)));
+            //courseTime.setText(String.valueOf(getResources().getString(R.string.holder_courseTime) + studyDays + getResources().getString(R.string.mine_Course_holder2)));
+            courseTime.setText(String.valueOf(String.valueOf(getResources().getString(R.string.orderForm_endtime2, String.valueOf(studyDays)))));
             loadinglayout.showContent();
         } else {
             loadinglayout.showEmpty();

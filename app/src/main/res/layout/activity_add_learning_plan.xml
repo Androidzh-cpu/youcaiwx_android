@@ -13,6 +13,8 @@
 
     <com.ucfo.youcaiwx.widget.customview.LoadingLayout
         android:id="@+id/loadinglayout"
+        app:llEmptyText="@string/learncenter_buyCourseTips"
+        app:llEmptyImage="@mipmap/icon_restingday"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

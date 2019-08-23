@@ -72,8 +72,6 @@ public class AddLearnPlanPresenter implements IAddLearnPlanPresenter {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                        } else {
-                            view.getCheckCourseList(null);
                         }
                     }
                 });

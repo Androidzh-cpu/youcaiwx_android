@@ -2289,7 +2289,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                             public void onClick(View v) {
                                 String url = ApiStores.APP_DOWNLOAD_URL;
                                 String title = getResources().getString(R.string.app_nameWX);
-                                String desc = getResources().getString(R.string.youcaiWXdescribe);
+                                String desc = getResources().getString(R.string.youcaiWXShareDescribe);
                                 String iamgeurl = ApiStores.LOGO;
                                 ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneSession);
                             }
@@ -2299,7 +2299,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                             public void onClick(View v) {
                                 String url = ApiStores.APP_DOWNLOAD_URL;
                                 String title = getResources().getString(R.string.app_nameWX);
-                                String desc = getResources().getString(R.string.youcaiWXdescribe);
+                                String desc = getResources().getString(R.string.youcaiWXShareDescribe);
                                 String iamgeurl = ApiStores.LOGO;
                                 ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneTimeline);
                             }

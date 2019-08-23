@@ -62,7 +62,6 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);
         return rootView;
@@ -189,13 +188,13 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
         Bundle bundle = new Bundle();
         CourseDataListBean.DataBean bean = list.get(position);
 
-        String course_iamge = bean.getApp_img();//TODO 课程封面
+        String beanAppImg = bean.getApp_img();//TODO 课程封面
         int coursePackageId = bean.getId();//TODO  课程包ID(课程包内含多们课程)
-        int is_purchase = bean.getIs_purchase();//TODO 是否购买1购买2未购买"
+        int isPurchase = bean.getIs_purchase();//TODO 是否购买1购买2未购买"
 
-        bundle.putString(Constant.COURSE_COVER_IMAGE, course_iamge);//封面
+        bundle.putString(Constant.COURSE_COVER_IMAGE, beanAppImg);//封面
         bundle.putInt(Constant.COURSE_PACKAGE_ID, coursePackageId);//课程包ID
-        bundle.putInt(Constant.COURSE_BUY_STATE, is_purchase);//购买状态
+        bundle.putInt(Constant.COURSE_BUY_STATE, isPurchase);//购买状态
         bundle.putString(Constant.COURSE_PRICE, bean.getPrice());//课程包价格
         startActivity(VideoPlayPageActivity.class, bundle);
     }

@@ -93,7 +93,8 @@ public class MineOrderFormDetailBean {
             private String teacher_name;
             private String app_img;
             private String package_name;
-            private int study_days;
+            private String study_days;
+            private String join_num;
 
             public String getOrder_num() {
                 return order_num == null ? "" : order_num;
@@ -183,12 +184,20 @@ public class MineOrderFormDetailBean {
                 this.package_name = package_name;
             }
 
-            public int getStudy_days() {
-                return study_days;
+            public String getStudy_days() {
+                return study_days == null ? "" : study_days;
             }
 
-            public void setStudy_days(int study_days) {
+            public void setStudy_days(String study_days) {
                 this.study_days = study_days;
+            }
+
+            public String getJoin_num() {
+                return join_num == null ? "" : join_num;
+            }
+
+            public void setJoin_num(String join_num) {
+                this.join_num = join_num;
             }
         }
 
