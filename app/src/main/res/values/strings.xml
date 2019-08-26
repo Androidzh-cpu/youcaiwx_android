@@ -154,8 +154,8 @@
     <string name="mine_zhang">张</string>
     <string name="mine_nicknameHint">请输入昵称</string>
     <string name="mine_modifyNameHint">4-10个字符,可由中英文、数字、“_”、“-”组成</string>
-    <string name="mine_maxEdittor10">不能超过10字</string>
-    <string name="mine_modifyNameTips1">昵称长度为4～6个字符</string>
+    <string name="mine_maxEdittor10">昵称长度不能超过10个字符</string>
+    <string name="mine_modifyNameTips1">昵称长度为4～10个字符</string>
     <string name="mine_modifyNameTips2">昵称不能包含特殊字符</string>
     <string name="mine_modifyNameTips3">昵称不能重复</string>
     <string name="mine_addressHint_Name">收货人</string>

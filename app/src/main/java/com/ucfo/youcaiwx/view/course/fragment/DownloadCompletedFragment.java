@@ -3,6 +3,7 @@ package com.ucfo.youcaiwx.view.course.fragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -222,9 +223,18 @@ public class DownloadCompletedFragment extends BaseFragment {
                         courseListAdapter.notifyDataSetChanged();
                     }
                 }
+                if (isCheckAll) {//全选
+                    btnDelete.setBackgroundColor(ContextCompat.getColor(context, R.color.color_0267FF));
+                    btnCheckAll.setText(getResources().getString(R.string.cancelCheckAll));
+                } else {//取消全选
+                    btnDelete.setBackgroundColor(ContextCompat.getColor(context, R.color.color_DCDCDC));
+                    btnCheckAll.setText(getResources().getString(R.string.checkAll));
+                }
                 break;
             case R.id.btn_delete://删除
                 deleteMethord();
+                break;
+            default:
                 break;
         }
     }

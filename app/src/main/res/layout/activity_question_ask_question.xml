@@ -30,6 +30,8 @@
                 android:hint="@string/answer_editHinttext"
                 android:inputType="textMultiLine"
                 android:maxLength="500"
+                android:maxLines="200"
+                android:minLines="5"
                 android:overScrollMode="ifContentScrolls"
                 android:paddingEnd="@dimen/dp_14"
                 android:paddingStart="@dimen/dp_14"

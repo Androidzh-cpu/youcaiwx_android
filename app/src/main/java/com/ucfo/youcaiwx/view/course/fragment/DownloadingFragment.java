@@ -69,7 +69,6 @@ import butterknife.Unbinder;
  * detail:TODO 准备下载和开始下载为相互独立的功能，在用户获取到需要下载的Datasource便可开始下载
  */
 public class DownloadingFragment extends BaseFragment {
-
     public OfflineCourseActivity offlineCourseActivity;
     @BindView(R.id.listView)
     ListView listView;
@@ -380,12 +379,16 @@ public class DownloadingFragment extends BaseFragment {
                 String vid2 = bean.getVid();
                 if (vid.equals(vid2)) {
                     List<DataBaseCourseListBean> courseListBeanList = LitePal.where("courseId = ?", bean.getCourseId()).find(DataBaseCourseListBean.class);
-                    if (courseListBeanList != null && courseListBeanList.size() > 0) {//DB已有该课程
+                    if (courseListBeanList != null && courseListBeanList.size() > 0) {
+                        //TODO DB已有该课程
                         List<DataBaseSectioinListBean> sectioinListBeanList = LitePal.where("sectionId = ?", bean.getSectionId()).find(DataBaseSectioinListBean.class);
-                        if (sectioinListBeanList != null && sectioinListBeanList.size() > 0) {//DB已有该章节,直接添加视频
+                        if (sectioinListBeanList != null && sectioinListBeanList.size() > 0) {
+                            //DB已有该章节,直接添加新的视频到对应章节
                             List<DataBaseVideoListBean> videoListBeans = LitePal.where("vid = ?", bean.getVid()).find(DataBaseVideoListBean.class);
-                            if (videoListBeans != null && videoListBeans.size() > 0) {//已有该视频
-                            } else {//添加新视频
+                            if (videoListBeans != null && videoListBeans.size() > 0) {
+                                //已有该视频
+                            } else {
+                                //添加新视频
                                 dataBaseVideoListBean.setStatus(0);
                                 dataBaseVideoListBean.setVideoDuration(bean.getVideoDuration());
                                 dataBaseVideoListBean.setVideoId(bean.getVideoId());
@@ -395,14 +398,17 @@ public class DownloadingFragment extends BaseFragment {
                                 dataBaseVideoListBean.setCourseId(bean.getCourseId());
                                 dataBaseVideoListBean.save();
                             }
-                        } else {//添加新的章节
+                        } else {
+                            //在改课程目录下添加新的章节
                             dataBaseSectioinListBean.setCourseId(bean.getCourseId());
                             dataBaseSectioinListBean.setSectionId(bean.getSectionId());
                             dataBaseSectioinListBean.setSectionName(bean.getSectionName());
                             dataBaseSectioinListBean.save();
                             List<DataBaseVideoListBean> videoListBeans = LitePal.where("vid = ?", bean.getVid()).find(DataBaseVideoListBean.class);
-                            if (videoListBeans != null && videoListBeans.size() > 0) {//已有该视频
-                            } else {//添加新视频
+                            if (videoListBeans != null && videoListBeans.size() > 0) {
+                                //已有该视频
+                            } else {
+                                //添加新视频
                                 dataBaseVideoListBean.setVideoDuration(bean.getVideoDuration());
                                 dataBaseVideoListBean.setVideoId(bean.getVideoId());
                                 dataBaseVideoListBean.setVideoName(bean.getVideoName());
@@ -412,15 +418,20 @@ public class DownloadingFragment extends BaseFragment {
                                 dataBaseVideoListBean.save();
                             }
                         }
-                    } else {//数据库不存在该数据
+                    } else {
+                        //TODO 数据库不存在该数据
                         dataBaseCourseListBean.setCourseId(bean.getCourseId());
                         dataBaseCourseListBean.setCourseTitle(bean.getCourseName());
                         dataBaseCourseListBean.setTeacherName(bean.getTeacherName());
-                        dataBaseCourseListBean.save();//添加课程
+                        //添加课程
+                        dataBaseCourseListBean.save();
+
                         dataBaseSectioinListBean.setCourseId(bean.getCourseId());
                         dataBaseSectioinListBean.setSectionId(bean.getSectionId());
                         dataBaseSectioinListBean.setSectionName(bean.getSectionName());
-                        dataBaseSectioinListBean.save();//添加章节
+                        //添加章节
+                        dataBaseSectioinListBean.save();
+
                         dataBaseVideoListBean.setStatus(0);
                         dataBaseVideoListBean.setVid(bean.getVid());
                         dataBaseVideoListBean.setVideoDuration(bean.getVideoDuration());
@@ -428,7 +439,8 @@ public class DownloadingFragment extends BaseFragment {
                         dataBaseVideoListBean.setVideoName(bean.getVideoName());
                         dataBaseVideoListBean.setSectionId(bean.getSectionId());
                         dataBaseVideoListBean.setCourseId(bean.getCourseId());
-                        dataBaseVideoListBean.save();//添加视频
+                        //添加视频
+                        dataBaseVideoListBean.save();
                     }
                     break;
                 }
@@ -624,10 +636,10 @@ public class DownloadingFragment extends BaseFragment {
                 }
                 notifyDataSetChanged();
                 if (isCheckAll) {//全选
-                    btnDelete.setBackgroundColor(ContextCompat.getColor(context,R.color.color_0267FF));
+                    btnDelete.setBackgroundColor(ContextCompat.getColor(context, R.color.color_0267FF));
                     btnCheckAll.setText(getResources().getString(R.string.cancelCheckAll));
                 } else {//取消全选
-                    btnDelete.setBackgroundColor(ContextCompat.getColor(context,R.color.color_DCDCDC));
+                    btnDelete.setBackgroundColor(ContextCompat.getColor(context, R.color.color_DCDCDC));
                     btnCheckAll.setText(getResources().getString(R.string.checkAll));
                 }
                 break;

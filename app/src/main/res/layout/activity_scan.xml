@@ -53,6 +53,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/dp_100"
         android:clickable="true"
-        android:src="@drawable/ic_icon_scan_close" />
+        android:src="@drawable/ic_icon_scan_close"
+        tools:ignore="ContentDescription" />
 
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.ucfo.youcaiwx.view.main.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,6 +23,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.google.gson.Gson;
+import com.qw.soul.permission.SoulPermission;
+import com.qw.soul.permission.bean.Permission;
+import com.qw.soul.permission.callbcak.CheckRequestPermissionListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -253,7 +257,18 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
             Bundle bundle = new Bundle();
             switch (view.getId()) {
                 case R.id.titlebar_scan://TODO 扫描
-                    startActivity(new Intent(context, ScanActivity.class));
+                    SoulPermission.getInstance()
+                            .checkAndRequestPermission(Manifest.permission.CAMERA, new CheckRequestPermissionListener() {
+                                @Override
+                                public void onPermissionOk(Permission permission) {
+                                    startActivity(new Intent(context, ScanActivity.class));
+                                }
+
+                                @Override
+                                public void onPermissionDenied(Permission permission) {
+                                }
+                            });
+
                     break;
                 case R.id.titlebar_message://TODO 消息
                     startActivity(new Intent(context, MessageCenterActivity.class));

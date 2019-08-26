@@ -1,12 +1,10 @@
 package com.ucfo.youcaiwx.view.user.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,7 +18,6 @@ import com.ucfo.youcaiwx.presenter.presenterImpl.user.UserInfoPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IUserInfoView;
 import com.ucfo.youcaiwx.utils.RegexUtil;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 
 import butterknife.BindView;
@@ -34,7 +31,6 @@ import butterknife.OnClick;
  * ORG: www.youcaiwx.com
  * Description:TODO 修改昵称
  */
-
 public class ModifyNameActivity extends BaseActivity implements IUserInfoView {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
@@ -54,7 +50,6 @@ public class ModifyNameActivity extends BaseActivity implements IUserInfoView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
 
@@ -82,14 +77,12 @@ public class ModifyNameActivity extends BaseActivity implements IUserInfoView {
             finish();
         }
         //输入字数限制
-        userNickname.addTextChangedListener(textWatcher);
+        userNickname.setFilters(new InputFilter[]{new InputFilter.LengthFilter(10)});
     }
 
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        //状态栏白色,字体黑色
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
@@ -171,41 +164,5 @@ public class ModifyNameActivity extends BaseActivity implements IUserInfoView {
     public void showError() {
 
     }
-
-    //TODO 输入文字监听
-    private TextWatcher textWatcher = new TextWatcher() {
-        private int maxLen = 10; // 最大输入字符
-        private CharSequence beforeSeq; // 保存修改前的值
-        private int afterStart;
-        private int afterCount;
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            if (s.length() + (after - count) > maxLen) {
-                beforeSeq = s.subSequence(start, start + count);
-                ToastUtil.showBottomShortText(context, getResources().getString(R.string.mine_maxEdittor10));
-            }
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (count > before && s.length() > maxLen) { //如果字符数增加时，且当前字符数超过限制了, 保存原串用于还原
-                afterStart = start;
-                afterCount = count;
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (s.length() > maxLen) {
-                try {
-                    s.replace(afterStart, afterStart + afterCount, beforeSeq);
-                } catch (IndexOutOfBoundsException e) {
-                    String message = e.getMessage();
-                }
-            }
-        }
-    };
-
 
 }

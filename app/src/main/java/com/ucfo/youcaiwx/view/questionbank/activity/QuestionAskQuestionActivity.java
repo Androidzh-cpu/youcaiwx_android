@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
@@ -16,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -41,7 +41,6 @@ import com.ucfo.youcaiwx.presenter.view.answer.IAnswerAskQuestionView;
 import com.ucfo.youcaiwx.utils.glideutils.MiniSizeFilter;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.view.course.player.utils.TimeFormater;
 import com.ucfo.youcaiwx.widget.flowlayout.FlowLayout;
@@ -122,8 +121,6 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        //状态栏白色,字体黑色
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
@@ -209,6 +206,7 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
         }
         //输入字数限制
         askEdittextContent.addTextChangedListener(textWatcher);
+        askEdittextContent.setFilters(new InputFilter[]{new InputFilter.LengthFilter(200)});
     }
 
     @Override
@@ -304,6 +302,8 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
                         }
                     }
                 }
+                break;
+            default:
                 break;
         }
     }
@@ -468,36 +468,18 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
     //TODO 输入文字监听
     private TextWatcher textWatcher = new TextWatcher() {
         private int maxLen = 200; // 最大输入字符
-        private CharSequence beforeSeq; // 保存修改前的值
-        private int afterStart;
-        private int afterCount;
-
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            if (s.length() + (after - count) > maxLen) {
-                beforeSeq = s.subSequence(start, start + count);
-                ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_title_maxEdittor200));
-            }
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (count > before && s.length() > maxLen) { //如果字符数增加时，且当前字符数超过限制了, 保存原串用于还原
-                afterStart = start;
-                afterCount = count;
-            }
             askContentNumber.setText(String.format("%s/" + maxLen, s.length()));
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (s.length() > maxLen) {
-                try {
-                    s.replace(afterStart, afterStart + afterCount, beforeSeq);
-                } catch (IndexOutOfBoundsException e) {
-                    String message = e.getMessage();
-                }
-            }
+
         }
     };
 
