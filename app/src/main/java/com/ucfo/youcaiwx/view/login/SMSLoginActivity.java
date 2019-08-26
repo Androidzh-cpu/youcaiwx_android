@@ -181,14 +181,13 @@ public class SMSLoginActivity extends BaseActivity implements ILoginView {
                 }
                 String registrationId = PushAgent.getInstance(this).getRegistrationId();
                 //验证通过,开始短信登录
-                loginPresenter.smsLogin(mobile, mobileCode, androidid,registrationId);
+                loginPresenter.smsLogin(mobile, mobileCode, androidid, registrationId);
 
                 break;
             case R.id.tv_forgetpass://TODO 忘记密码
                 startActivity(new Intent(context, CompleteAndForgetActivity.class));
                 break;
             case R.id.wx_login:// TODO 微信登录
-
                 wxLoginPresenter.wxLogin();
                 break;
             case R.id.account_login://TODO 账号登录

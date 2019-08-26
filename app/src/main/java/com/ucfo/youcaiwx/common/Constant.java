@@ -80,6 +80,7 @@ public class Constant {
     public static final String TYPE_FORGET = "type_forget";//忘记密码
     public static final String TYPE_COMPLET = "type_complet";//完善信息
     public static final String USER_ID = "user_id";//用户ID
+    public static final String USER_NAME = "username";//用户昵称
     public static final String ID = "id";
     public static final String UPPER_ID = "Id";
     public static final String USER_STATUS = "status";//用户状态

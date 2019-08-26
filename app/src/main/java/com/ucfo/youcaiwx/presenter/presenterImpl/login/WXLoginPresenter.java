@@ -67,7 +67,7 @@ public class WXLoginPresenter {
      * Time:2019-3-29   上午 11:59
      * Detail:微信完善信息
      */
-    public void wxLoginCompletedInfo(String mobile, String mobileCode, String password, String unionId, String openid) {
+    public void wxLoginCompletedInfo(String mobile, String mobileCode, String password, String unionId, String openid, String userName) {
         AESUtils aesEncrypt = new AESUtils();
         String encryptMobile = aesEncrypt.encrypt(mobile, Constant.AES_KEY, Constant.AES_IV);
         String resultMobile = "";
@@ -83,6 +83,7 @@ public class WXLoginPresenter {
                 .params(Constant.PASSWORD, password)
                 .params(Constant.UNIONID, unionId)
                 .params(Constant.OPENID, openid)
+                .params(Constant.USER_NAME, userName)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {

@@ -45,7 +45,6 @@ public class LoginPresenter implements ILoginPresenter {
             e.printStackTrace();
         }
         OkGo.<String>post(ApiStores.LOGIN_ACCOUMENT)
-                .tag(this)
                 .params(Constant.MOBILE, iphone)//手机号
                 .params(Constant.PASSWORD, password)//密码
                 .params(Constant.DEVICES, andoridid)

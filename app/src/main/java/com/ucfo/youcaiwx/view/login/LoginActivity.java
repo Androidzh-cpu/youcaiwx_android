@@ -204,7 +204,6 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                 String registrationId = PushAgent.getInstance(this).getRegistrationId();
                 //请求网络,准备登录
                 loginPresenter.commonLogin(mobile, password, androidid, registrationId);
-
                 break;
             case R.id.tv_forgetpass://TODO 忘记密码
                 startActivity(new Intent(context, CompleteAndForgetActivity.class));
@@ -229,10 +228,10 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                 //TODO 登录成功
                 LoginBean.DataBean dataData = data.getData();
                 int id = dataData.getId();
-                int user_status = dataData.getUser_status();
+                int userStatus = dataData.getUser_status();
 
                 sharedPreferencesUtils.putInt(Constant.USER_ID, id);//用户ID
-                sharedPreferencesUtils.putInt(Constant.USER_STATUS, user_status);//用户类别信息
+                sharedPreferencesUtils.putInt(Constant.USER_STATUS, userStatus);//用户类别信息
                 sharedPreferencesUtils.putBoolean(Constant.LOGIN_STATUS, true);//用户登录状态
 
                 toastInfo(getResources().getString(R.string.login_success));

@@ -231,7 +231,6 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
                 imagePickerAdapter.setOnItemClickListener(new ImagePickerAdapter.OnRecyclerViewItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-
                     }
 
                     @Override

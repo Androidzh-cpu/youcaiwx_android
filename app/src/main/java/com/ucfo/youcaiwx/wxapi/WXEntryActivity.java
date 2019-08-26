@@ -178,8 +178,10 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                             JSONObject object = new JSONObject(response.body());
                             WxUserInfoEvent wxUserInfo = new WxUserInfoEvent();
                             String unionid = object.optString("unionid");
+                            String nickname = object.optString("nickname");
                             wxUserInfo.setUnionid(unionid);
-                            wxLogin(unionid, openId);
+                            wxUserInfo.setNickname(nickname);
+                            wxLogin(unionid, openId, nickname);
 
                             LogUtils.e("getUserInfo()---------获取微信用户信息" + object.toString());
                         } catch (JSONException e) {
@@ -199,7 +201,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
     /**
      * 请求后台开始登录
      */
-    private void wxLogin(String unionid, String openId) {
+    private void wxLogin(String unionid, String openId, String nickname) {
         String registrationId = PushAgent.getInstance(this).getRegistrationId();
         String appID = AppUtils.getAppIMEI(this);
         OkGo.<String>post(ApiStores.LOGIN_WECHEATLOGIN)
@@ -220,7 +222,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                             Gson gson = new Gson();
                             WXLoginBean wxLoginBean = gson.fromJson(response.body(), WXLoginBean.class);
                             //后台登录成功
-                            setUserInfo(wxLoginBean, unionid, openId);
+                            setUserInfo(wxLoginBean, unionid, openId, nickname);
                             LogUtils.e("wecheat loginresult: " + response.body());
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -234,7 +236,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
      * Time:2019-3-29   下午 1:58
      * Detail:根据后台返回结果判断下一步操作
      */
-    public void setUserInfo(WXLoginBean userInfo, String unionid, String openId) {
+    public void setUserInfo(WXLoginBean userInfo, String unionid, String openId, String nickname) {
         int code = userInfo.getCode();
         if (code == 200) {
             WXLoginBean.DataBean data = userInfo.getData();
@@ -248,6 +250,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                     bundle.putString(Constant.TYPE, Constant.TYPE_COMPLET);//完善信息
                     bundle.putString(Constant.UNIONID, unionid);
                     bundle.putString(Constant.OPENID, openId);
+                    bundle.putString(Constant.USER_NAME, nickname);
                     conpletedIntent.putExtras(bundle);
                     startActivity(conpletedIntent);
                     WXEntryActivity.this.finish();

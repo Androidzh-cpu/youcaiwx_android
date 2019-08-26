@@ -70,13 +70,10 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
     private Bundle bundle;
     private String type;
     private boolean passWrodFlag = false;
-    private String mobile;
-    private String password;
-    private String mobileCode;
+    private String mobile, password, mobileCode;
     private ForgetPwdPresenter forgetPwdPresenter;
     private WXLoginPresenter wxLoginPresenter;
-    private String unioid;
-    private String openid;
+    private String unioid, openid, userName;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -128,6 +125,7 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
         } else {
             openid = bundle.getString(Constant.OPENID, "");
             unioid = bundle.getString(Constant.UNIONID, "");
+            userName = bundle.getString(Constant.USER_NAME, "");
             type = bundle.getString(Constant.TYPE, Constant.TYPE_FORGET);//TODO 默认此页面处理忘记密码类型
         }
         if (type.equals(Constant.TYPE_FORGET)) {//忘记密码
@@ -200,7 +198,8 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
     @OnClick({R.id.verification_btn, R.id.tv_soundcode, R.id.btn_confirm})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.verification_btn://TODO  获取短信验证码
+            case R.id.verification_btn:
+                //TODO  获取短信验证码
                 mobile = etPhone.getText().toString().trim();
                 password = etPassword.getText().toString().trim();
                 if (TextUtils.isEmpty(mobile)) {//TODO 手机号
@@ -226,7 +225,8 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
                     forgetPwdPresenter.getWXVerifyCode(mobile, 1);
                 }
                 break;
-            case R.id.tv_soundcode://TODO  获取 语音验证码
+            case R.id.tv_soundcode:
+                //TODO  获取 语音验证码
                 mobile = etPhone.getText().toString().trim();
                 password = etPassword.getText().toString().trim();
                 if (TextUtils.isEmpty(mobile)) {//TODO 手机号
@@ -248,7 +248,8 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
                 //TODO  获取语音验证码
                 forgetPwdPresenter.getVoiceCode(mobile);
                 break;
-            case R.id.btn_confirm://TODO  确认按钮
+            case R.id.btn_confirm:
+                //TODO  确认按钮
                 mobile = etPhone.getText().toString().trim();
                 password = etPassword.getText().toString().trim();
                 mobileCode = etVerificationcode.getText().toString().trim();
@@ -275,15 +276,18 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
                 //处理不同页面的逻辑
                 confirmBtnEventClick(mobile, mobileCode, password);
                 break;
+            default:
+                break;
         }
     }
 
     private void confirmBtnEventClick(String mobile, String mobileCode, String password) {
-        if (type.equals(Constant.TYPE_FORGET)) {//忘记密码
+        if (type.equals(Constant.TYPE_FORGET)) {
+            //忘记密码
             //开始重置密码
             forgetPwdPresenter.resetPassWord(mobile, mobileCode, password);
         } else {//完善信息
-            wxLoginPresenter.wxLoginCompletedInfo(mobile, mobileCode, password, unioid, openid);
+            wxLoginPresenter.wxLoginCompletedInfo(mobile, mobileCode, password, unioid, openid,userName);
         }
     }
 
