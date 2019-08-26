@@ -655,7 +655,7 @@ public class DownloadingFragment extends BaseFragment {
                         .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (alivcDownloadMediaInfos != null && alivcDownloadMediaInfos.size() > 0) {
+                                if (alivcDownloadMediaInfos.size() > 0) {
                                     for (Iterator<AlivcDownloadMediaInfo> it = alivcDownloadingMediaInfos.iterator(); it.hasNext(); ) {
                                         AlivcDownloadMediaInfo val = it.next();
                                         if (val.isCheckedState()) {

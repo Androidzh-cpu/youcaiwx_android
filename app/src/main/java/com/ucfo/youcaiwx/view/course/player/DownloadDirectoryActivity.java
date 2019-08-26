@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.view.course.player;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -18,7 +17,6 @@ import com.ucfo.youcaiwx.entity.download.PreparedDownloadInfoBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.course.CourseDirPresenter;
 import com.ucfo.youcaiwx.presenter.view.course.ICourseDirView;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.view.user.activity.OfflineCourseActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
@@ -81,7 +79,6 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
@@ -137,6 +134,58 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
         });
     }
 
+    @Override
+    public void getCourseDirData(CourseDirBean courseDirBean) {
+        if (courseDirBean.getData() != null && courseDirBean.getData().size() != 0) {
+            List<CourseDirBean.DataBean> data = courseDirBean.getData();
+            list.clear();
+            list.addAll(data);
+            initAdapter();
+            loadinglayout.showContent();
+        } else {
+            loadinglayout.showEmpty();
+        }
+    }
+
+    private void initAdapter() {
+        List<CourseDirBean.DataBean.SectionBean> sectionBeanList = list.get(currentClickCourseIndex).getSection();
+        if (downloadDirAdapter == null) {
+            downloadDirAdapter = new DownloadDirAdapter(this, sectionBeanList);
+        } else {
+            downloadDirAdapter.notifyDataSetChanged();
+        }
+        listView.setGroupIndicator(null);
+        listView.setAdapter(downloadDirAdapter);
+        //展开父列表
+        for (int i = 0; i < downloadDirAdapter.getGroupCount(); i++) {
+            listView.expandGroup(i);
+        }
+        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                CourseDirBean.DataBean.SectionBean.VideoBean bean = sectionBeanList.get(groupPosition).getVideo().get(childPosition);
+                bean.setChecked(!bean.getChecked());
+                downloadDirAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void showLoadingFinish() {
+
+    }
+
+    @Override
+    public void showError() {
+        loadinglayout.showError();
+    }
+
     @OnClick(R.id.btn_exit)
     public void onViewClicked() {
         int resultSize = 0;
@@ -175,54 +224,4 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
         }
     }
 
-    @Override
-    public void getCourseDirData(CourseDirBean courseDirBean) {
-        if (courseDirBean.getData() != null && courseDirBean.getData().size() != 0) {
-            List<CourseDirBean.DataBean> data = courseDirBean.getData();
-            list.clear();
-            list.addAll(data);
-            initAdapter();
-            loadinglayout.showContent();
-        } else {
-            loadinglayout.showEmpty();
-        }
-    }
-
-    private void initAdapter() {
-        List<CourseDirBean.DataBean.SectionBean> sectionBeanList = list.get(currentClickCourseIndex).getSection();
-        if (downloadDirAdapter == null) {
-            downloadDirAdapter = new DownloadDirAdapter(this, sectionBeanList);
-        } else {
-            downloadDirAdapter.notifyDataSetChanged();
-        }
-        listView.setGroupIndicator(null);
-        listView.setAdapter(downloadDirAdapter);
-        for (int i = 0; i < downloadDirAdapter.getGroupCount(); i++) {
-            listView.expandGroup(i);
-        }
-        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                CourseDirBean.DataBean.SectionBean.VideoBean bean = sectionBeanList.get(groupPosition).getVideo().get(childPosition);
-                bean.setChecked(!bean.getChecked());
-                downloadDirAdapter.notifyDataSetChanged();
-                return true;
-            }
-        });
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void showLoadingFinish() {
-
-    }
-
-    @Override
-    public void showError() {
-        loadinglayout.showError();
-    }
 }

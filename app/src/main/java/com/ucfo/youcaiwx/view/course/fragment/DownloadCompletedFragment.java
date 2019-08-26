@@ -2,6 +2,7 @@ package com.ucfo.youcaiwx.view.course.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -73,10 +74,11 @@ public class DownloadCompletedFragment extends BaseFragment {
     private DownloadSaveInfoUtil downloadSaveInfoUtil;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
+        if (rootView != null) {
+            unbinder = ButterKnife.bind(this, rootView);
+        }
         return rootView;
     }
 
@@ -125,15 +127,19 @@ public class DownloadCompletedFragment extends BaseFragment {
 
         if (list != null && list.size() > 0) {
             int size = list.size();
-            for (int i = 0; i < size; i++) {//遍历该课程下的视频
+            for (int i = 0; i < size; i++) {
+                //遍历该课程下的视频
                 DataBaseCourseListBean courseListBean = list.get(i);
                 String courseId = courseListBean.getCourseId();
                 List<DataBaseVideoListBean> videoListBeans = LitePal.where("courseId = ? and status = ?", courseId, "1").find(DataBaseVideoListBean.class);
                 List<DataBaseVideoListBean> videoNoCompltedBeans = LitePal.where("courseId = ? and status = ?", courseId, "0").find(DataBaseVideoListBean.class);
-                if (videoListBeans.size() > 0) {//已下载的数据
+                if (videoListBeans.size() > 0) {
+                    //已下载的数据
                     list.get(i).setCourseDownloadNum(videoListBeans.size());
-                } else {//已下载为0
-                    if (videoNoCompltedBeans.size() > 0) {//还存在未下载的数据
+                } else {
+                    //已下载为0
+                    if (videoNoCompltedBeans.size() > 0) {
+                        //还存在未下载的数据
                         list.remove(courseListBean);
                     } else {
                         LitePal.deleteAll(DataBaseCourseListBean.class, "courseId = ?", courseId);//删除课
