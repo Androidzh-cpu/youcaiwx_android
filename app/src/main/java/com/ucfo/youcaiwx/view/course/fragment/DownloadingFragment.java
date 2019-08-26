@@ -23,7 +23,6 @@ import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
-import com.lzy.okgo.request.base.Request;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.UcfoApplication;
 import com.ucfo.youcaiwx.adapter.download.DownloadingAdapter;
@@ -65,7 +64,7 @@ import butterknife.Unbinder;
  * Author: AND
  * Time: 2019-7-2.  下午 1:51
  * FileName: DownloadingFragment
- * Description:TODO 正在下载
+ * Description:TODO 正在下载中的视频
  * detail:TODO 准备下载和开始下载为相互独立的功能，在用户获取到需要下载的Datasource便可开始下载
  */
 public class DownloadingFragment extends BaseFragment {
@@ -120,9 +119,6 @@ public class DownloadingFragment extends BaseFragment {
     @Override
     public void onStop() {
         super.onStop();
-        /*if (downloadManager != null && downloadDataProvider != null) {
-            downloadManager.stopDownloadMedias(downloadDataProvider.getAllDownloadMediaInfo());
-        }*/
         if (mNetWatchdog != null) {
             mNetWatchdog.stopWatch();
         }
@@ -137,9 +133,6 @@ public class DownloadingFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        /*if (downloadManager != null && downloadDataProvider != null) {
-            downloadManager.removeDownloadInfoListener(myDownloadInfoListener);
-        }*/
         if (mNetWatchdog != null) {
             mNetWatchdog.stopWatch();
         }
@@ -158,17 +151,18 @@ public class DownloadingFragment extends BaseFragment {
             offlineCourseActivity = (OfflineCourseActivity) activity;
         }
         initSdcardSpace();
-        initNetWatchdog();//网络状态监听
+        initNetWatchdog();
         offlineCourseActivityParcelableArrayList = offlineCourseActivity.getParcelableArrayList();
     }
 
     @Override
     protected void initData() {
-        //initDownloadConfig();//TODO 下载配置
         downloadWifi = SharedPreferencesUtils.getInstance(getActivity()).getBoolean(Constant.DOWNLOAD_WIFI, false);
     }
 
-    //TODO 视频下载配置
+    /**
+     * 视频下载配置
+     */
     private void initDownloadConfig() {
         LitePal.getDatabase();
         alivcDownloadingMediaInfos = new ArrayList<>();
@@ -213,7 +207,9 @@ public class DownloadingFragment extends BaseFragment {
         mNetWatchdog.setNetConnectedListener(new MyNetConnectedListener());
     }
 
-    //TODO 手机可用空间大小
+    /**
+     * 手机可用空间大小
+     */
     private void initSdcardSpace() {
         String availSize = StorageQueryUtil.getAvailSize(getActivity());
         String totalSize = StorageQueryUtil.getTotalSize(getActivity());
@@ -221,7 +217,9 @@ public class DownloadingFragment extends BaseFragment {
         sdcardResidueSpace.setText(availSize);
     }
 
-    //TODO 编辑视频
+    /**
+     * 编辑视频
+     */
     public void editVideoList(boolean Status) {
         editStatus = Status;
         if (editStatus) {//编辑中
@@ -239,7 +237,9 @@ public class DownloadingFragment extends BaseFragment {
         }
     }
 
-    //TODO 设置下载中适配器
+    /**
+     * 设置下载中适配器
+     */
     private void initDownloadingAdapter() {
         if (alivcDownloadingMediaInfos.size() > 0) {
             loadinglayout.showContent();
@@ -288,16 +288,13 @@ public class DownloadingFragment extends BaseFragment {
         initDownloadingAdapter();
     }
 
-    //获取STS信息
+    /**
+     * 获取STS信息(链接网络)
+     */
     private void loadSTSData(String vid, int position) {
         OkGo.<String>post(ApiStores.COURSE_GETVIDEO_STS)
                 .params(Constant.COURSE_VIDEOID, vid)//阿里库里的vid
                 .execute(new StringCallback() {
-                    @Override
-                    public void onStart(Request<String, ? extends Request> request) {
-                        super.onStart(request);
-                    }
-
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
@@ -324,7 +321,9 @@ public class DownloadingFragment extends BaseFragment {
                 });
     }
 
-    //测试单个视频下载
+    /**
+     * 根据获取的石头是信息添加视频下载信息
+     */
     private void getDownVideoSts(GetVideoStsBean data, int position) {
         if (data != null) {
             //以下参数使用STS方式下载的用户使用
@@ -343,7 +342,9 @@ public class DownloadingFragment extends BaseFragment {
         }
     }
 
-    //添加一个视频到下载队列
+    /**
+     * 添加一个视频到下载队列
+     */
     private void addNewInfo(AliyunDownloadMediaInfo info) {
         if (hasAdded(info)) {
             return;
@@ -472,7 +473,7 @@ public class DownloadingFragment extends BaseFragment {
         return false;
     }
 
-    // 视频下载的回调  注意在不需要的时候，调用remove，移除监听。
+    //视频下载的回调  注意在不需要的时候，调用remove，移除监听。
     public class MyDownloadInfoListener implements AliyunDownloadInfoListener {
         @Override
         public void onPrepared(List<AliyunDownloadMediaInfo> infos) {//TODO 当调用downloadManager.prepareDownloadMedia(vidSts);后该方法起作用
@@ -519,7 +520,8 @@ public class DownloadingFragment extends BaseFragment {
         @Override
         public void onCompletion(AliyunDownloadMediaInfo info) {//TODO 下载完成时回调
             outputLog("onCompletion---Title:" + info.getTitle() + "   status:" + info.getStatus() + "  vid:" + info.getVid());
-            updateInfoToDB(info);//修改数据库保存信息
+            //修改数据库保存信息
+            updateInfoToDB(info);
             if (info.getStatus() == AliyunDownloadMediaInfo.Status.Complete) {
                 for (AlivcDownloadMediaInfo mediaInfo : alivcDownloadingMediaInfos) {
                     if (mediaInfo.getAliyunDownloadMediaInfo().getVid().equals(info.getVid())) {
