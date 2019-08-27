@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.aliyun.vodplayer.downloader.AliyunDownloadManager;
 import com.aliyun.vodplayer.downloader.AliyunDownloadMediaInfo;
+import com.google.gson.Gson;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.UcfoApplication;
 import com.ucfo.youcaiwx.adapter.download.DownloadCompletedCourseListAdapter;
@@ -24,6 +25,7 @@ import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.download.DataBaseCourseListBean;
 import com.ucfo.youcaiwx.entity.download.DataBaseSectioinListBean;
 import com.ucfo.youcaiwx.entity.download.DataBaseVideoListBean;
+import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.view.course.player.DownloadComletedDirActivity;
@@ -35,6 +37,7 @@ import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
 
 import org.litepal.LitePal;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,8 +73,10 @@ public class DownloadCompletedFragment extends BaseFragment {
     private OfflineCourseActivity offlineCourseActivity;
     private DownloadCompletedCourseListAdapter courseListAdapter;
     private List<DataBaseCourseListBean> list;
+    private List<DataBaseVideoListBean> dataBaseVideoListBeanList;
     private AliyunDownloadManager downloadManager;
     private DownloadSaveInfoUtil downloadSaveInfoUtil;
+    private Gson gson;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -110,8 +115,11 @@ public class DownloadCompletedFragment extends BaseFragment {
     @Override
     protected void initData() {
         list = new ArrayList<>();
+        dataBaseVideoListBeanList = new ArrayList<>();
+
         downloadManager = UcfoApplication.downloadManager;
         downloadSaveInfoUtil = new DownloadSaveInfoUtil(downloadManager.getSaveDir());
+        gson = new Gson();
     }
 
     @Override
@@ -120,7 +128,9 @@ public class DownloadCompletedFragment extends BaseFragment {
         updateDataBase();
     }
 
-    //更新本地数据库
+    /**
+     * 本地实时更新数据库
+     */
     private void updateDataBase() {
         list.clear();
         list.addAll(LitePal.findAll(DataBaseCourseListBean.class));
@@ -135,7 +145,18 @@ public class DownloadCompletedFragment extends BaseFragment {
                 List<DataBaseVideoListBean> videoNoCompltedBeans = LitePal.where("courseId = ? and status = ?", courseId, "0").find(DataBaseVideoListBean.class);
                 if (videoListBeans.size() > 0) {
                     //已下载的数据
-                    list.get(i).setCourseDownloadNum(videoListBeans.size());
+                    dataBaseVideoListBeanList.clear();
+                    for (int j = 0; j < videoListBeans.size(); j++) {
+                        String saveDir = videoListBeans.get(j).getSaveDir();
+                        File file = new File(saveDir);
+                        if (file.exists()) {
+                            dataBaseVideoListBeanList.add(videoListBeans.get(j));
+                        } else {
+                            LitePal.deleteAll(DataBaseVideoListBean.class, "courseId = ? and vid = ?", courseId, videoListBeans.get(j).getVid());
+                        }
+                        LogUtils.e("调试-------file: " + gson.toJson(videoListBeans.get(j)) + "     file.exists()" + file.exists());
+                    }
+                    list.get(i).setCourseDownloadNum(dataBaseVideoListBeanList.size());
                 } else {
                     //已下载为0
                     if (videoNoCompltedBeans.size() > 0) {
@@ -190,15 +211,17 @@ public class DownloadCompletedFragment extends BaseFragment {
     private boolean editStatus = false, isCheckAll = false;
 
     //TODO 编辑视频
-    public void editVideoList(boolean Status) {
-        editStatus = Status;
-        if (editStatus) {//编辑中
+    public void editVideoList(boolean status) {
+        editStatus = status;
+        if (editStatus) {
+            //编辑中
             if (courseListAdapter != null) {
                 courseListAdapter.notifychange(true);
             }
             linearEdittor.setVisibility(View.VISIBLE);
             linearSdcardSpace.setVisibility(View.GONE);
-        } else {//取消编辑
+        } else {
+            //取消编辑
             if (courseListAdapter != null) {
                 courseListAdapter.notifychange(false);
             }
@@ -266,9 +289,9 @@ public class DownloadCompletedFragment extends BaseFragment {
                         if (arrayList.size() > 0) {
                             int size = arrayList.size();
                             for (int i = 0; i < size; i++) {//TODO 遍历选中的专业课
-                                String course_id = arrayList.get(i);
+                                String courseId = arrayList.get(i);
                                 //查询所有的该课下并已完成的数据
-                                List<DataBaseVideoListBean> courseList = LitePal.where("courseId = ? and status = ?", course_id, "1").find(DataBaseVideoListBean.class);
+                                List<DataBaseVideoListBean> courseList = LitePal.where("courseId = ? and status = ?", courseId, "1").find(DataBaseVideoListBean.class);
                                 for (int j = 0; j < courseList.size(); j++) {//TODO 遍历选中视频
                                     String vid = courseList.get(j).getVid();//获取vid
                                     List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
@@ -278,15 +301,11 @@ public class DownloadCompletedFragment extends BaseFragment {
                                             downloadManager.addDownloadMedia(info);
                                             downloadManager.removeDownloadMedia(info);
                                             downloadSaveInfoUtil.deleteInfo(info);
-                                            /*File file = new File(info.getSavePath());
-                                            if (file.exists()) {
-                                                file.delete();
-                                            }*/
                                             break;
                                         }
                                     }
                                 }
-                                LitePal.deleteAll(DataBaseVideoListBean.class, "courseId = ? and status = ?", course_id, "1");//删除已下载视频
+                                LitePal.deleteAll(DataBaseVideoListBean.class, "courseId = ? and status = ?", courseId, "1");//删除已下载视频
                             }
                             updateDataBase();//更新数据
                             showContentnView();
@@ -298,7 +317,6 @@ public class DownloadCompletedFragment extends BaseFragment {
                 .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //nothing
                     }
                 })
                 .setCancelable(false)

@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.view.course.player;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -23,7 +22,6 @@ import com.ucfo.youcaiwx.entity.download.DataBaseSectioinListBean;
 import com.ucfo.youcaiwx.entity.download.DataBaseVideoListBean;
 import com.ucfo.youcaiwx.entity.download.DownloadCompletedDirBean;
 import com.ucfo.youcaiwx.utils.LogUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.view.course.player.download.DownloadSaveInfoUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
@@ -46,9 +44,7 @@ import butterknife.OnClick;
  * ORG: www.youcaiwx.com
  * Description:TODO 已下载课程列表
  */
-
 public class DownloadComletedDirActivity extends BaseActivity {
-
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -80,7 +76,6 @@ public class DownloadComletedDirActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
 
@@ -92,7 +87,6 @@ public class DownloadComletedDirActivity extends BaseActivity {
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
@@ -287,14 +281,14 @@ public class DownloadComletedDirActivity extends BaseActivity {
                     notifyDataSetChanged();
                 }
                 if (isCheckAll) {//全选
-                    btnDelete.setBackgroundColor(ContextCompat.getColor(context,R.color.color_0267FF));
+                    btnDelete.setBackgroundColor(ContextCompat.getColor(context, R.color.color_0267FF));
 
 
                     btnCheckAll.setText(getResources().getString(R.string.cancelCheckAll));
                     titlebarRighttitle.setText(getResources().getString(R.string.cancel));
                 } else {//取消全选
                     titlebarRighttitle.setText(getResources().getString(R.string.edit));
-                    btnDelete.setBackgroundColor(ContextCompat.getColor(context,R.color.color_DCDCDC));
+                    btnDelete.setBackgroundColor(ContextCompat.getColor(context, R.color.color_DCDCDC));
                     btnCheckAll.setText(getResources().getString(R.string.checkAll));
                 }
                 break;
@@ -345,10 +339,6 @@ public class DownloadComletedDirActivity extends BaseActivity {
                                         downloadManager.addDownloadMedia(info);
                                         downloadManager.removeDownloadMedia(info);
                                         downloadSaveInfoUtil.deleteInfo(info);
-                                        /*File file = new File(info.getSavePath());
-                                        if (file.exists()) {
-                                            file.delete();
-                                        }*/
                                         break;
                                     }
                                 }

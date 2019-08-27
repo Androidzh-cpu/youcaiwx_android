@@ -390,7 +390,8 @@
     <string name="demo_downloaded">视频 %s 已下载</string>
     <string name="download_deleteComfirm">确认删除选择的视频吗?(%s)个选项</string>
     <string name="alivc_video_downloading_tips">该视频正在下载</string>
-    <string name="alivc_video_download_finish_tips">该视频下载完成</string>
+    <string name="alivc_video_download_finish_tips">该视频已下载</string>
+    <string name="alivc_video_download_finish_haved">该视频已在下载列表</string>
     <string name="alivc_video_download_notfile">文件不存在或已被删除</string>
     <string name="alivc_video_download_startdownwithhand">网络恢复, 请手动开启下载任务...</string>
     <string name="alivc_video_download_downwithwifi">下载将消耗流量,是否继续?</string>

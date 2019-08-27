@@ -8,18 +8,23 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.adapter.download.DownloadDirAdapter;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.course.CourseDirBean;
+import com.ucfo.youcaiwx.entity.download.DataBaseVideoListBean;
 import com.ucfo.youcaiwx.entity.download.PreparedDownloadInfoBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.course.CourseDirPresenter;
 import com.ucfo.youcaiwx.presenter.view.course.ICourseDirView;
+import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.view.user.activity.OfflineCourseActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
+
+import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,16 +64,13 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
     private int package_id, user_id, currentClickCourseIndex;
     private ArrayList<CourseDirBean.DataBean> list;
     private DownloadDirAdapter downloadDirAdapter;
+    private Gson gson;
+    private String courseId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -121,10 +123,10 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
             courseName.setText(course_title);
             courseTeacherName.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + "  " + course_teachername));
 
+            //获取对应课程视频列表
             courseDirPresenter.getCourseDirData(package_id, user_id);
         } else {
             loadinglayout.showEmpty();
-            return;
         }
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
@@ -132,6 +134,16 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
                 courseDirPresenter.getCourseDirData(package_id, user_id);
             }
         });
+        initVideoDataBase();
+    }
+
+    /**
+     * 本地数据处理
+     */
+    private void initVideoDataBase() {
+        gson = new Gson();
+        List<DataBaseVideoListBean> dataBaseCourseListBeans = LitePal.findAll(DataBaseVideoListBean.class);
+        LogUtils.e("DB查询-----------DB视频:" + gson.toJson(dataBaseCourseListBeans));
     }
 
     @Override
@@ -149,6 +161,7 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
 
     private void initAdapter() {
         List<CourseDirBean.DataBean.SectionBean> sectionBeanList = list.get(currentClickCourseIndex).getSection();
+        courseId = list.get(currentClickCourseIndex).getCourse_id();
         if (downloadDirAdapter == null) {
             downloadDirAdapter = new DownloadDirAdapter(this, sectionBeanList);
         } else {
@@ -156,19 +169,42 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
         }
         listView.setGroupIndicator(null);
         listView.setAdapter(downloadDirAdapter);
-        //展开父列表
         for (int i = 0; i < downloadDirAdapter.getGroupCount(); i++) {
             listView.expandGroup(i);
         }
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                CourseDirBean.DataBean.SectionBean.VideoBean bean = sectionBeanList.get(groupPosition).getVideo().get(childPosition);
-                bean.setChecked(!bean.getChecked());
-                downloadDirAdapter.notifyDataSetChanged();
+                initItemClick(sectionBeanList, groupPosition, childPosition);
                 return true;
             }
         });
+    }
+
+    /**
+     * 列表时间处理
+     */
+    private void initItemClick(List<CourseDirBean.DataBean.SectionBean> sectionBeanList, int groupPosition, int childPosition) {
+        CourseDirBean.DataBean.SectionBean.VideoBean bean = sectionBeanList.get(groupPosition).getVideo().get(childPosition);
+        //TODO 获取item视频的vid
+        String vid = bean.getVideoId();
+        //查询库中是否含有该视频
+        List<DataBaseVideoListBean> baseVideoListBeans = LitePal.where("courseId = ? and vid = ?", String.valueOf(courseId), vid).find(DataBaseVideoListBean.class);
+        if (baseVideoListBeans != null && baseVideoListBeans.size() > 0) {
+            DataBaseVideoListBean videoListBean = baseVideoListBeans.get(0);
+            int status = videoListBean.getStatus();
+            if (status == 1) {
+                ToastUtil.showBottomShortText(context, getResources().getString(R.string.alivc_video_download_finish_tips));
+            } else {
+                ToastUtil.showBottomShortText(context, getResources().getString(R.string.alivc_video_download_finish_haved));
+            }
+            bean.setChecked(false);
+            downloadDirAdapter.notifyDataSetChanged();
+        } else {
+            //DB没有存贮该视频
+            bean.setChecked(!bean.getChecked());
+            downloadDirAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

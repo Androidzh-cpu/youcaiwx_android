@@ -449,7 +449,9 @@ public class DownloadingFragment extends BaseFragment {
         }
     }
 
-    //修改数据库信息
+    /**
+     * 修改数据库信息(添加保存地址)
+     */
     private void updateInfoToDB(AliyunDownloadMediaInfo info) {
         DataBaseVideoListBean bean = new DataBaseVideoListBean();
         bean.setStatus(1);
@@ -531,6 +533,7 @@ public class DownloadingFragment extends BaseFragment {
                 }
                 downloadDataProvider.addDownloadMediaInfo(info);//添加到队列?
                 notifyDataSetChanged();
+                //
                 showDownloadContentView();
             }
         }
@@ -611,16 +614,24 @@ public class DownloadingFragment extends BaseFragment {
         LogUtils.e("SafeDownload--" + log);
     }
 
-    //根据是否有数据判断是否显示downloadEmptyView
+    /**
+     * 根据是否有数据判断是否显示downloadEmptyView
+     */
     public void showDownloadContentView() {
         if (alivcDownloadingMediaInfos != null && alivcDownloadingMediaInfos.size() > 0) {
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
-    //刷新数据
+    /**
+     * 刷新数据
+     */
     public void notifyDataSetChanged() {
         if (downloadingAdapter != null) {
             downloadingAdapter.notifyDataSetChanged();

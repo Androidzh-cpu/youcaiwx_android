@@ -2188,7 +2188,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private class MyNetChangeListener implements NetWatchdog.NetChangeListener {
         private WeakReference<VideoPlayPageActivity> weakReference;
 
-        public MyNetChangeListener(VideoPlayPageActivity videoPlayPageActivity) {
+        MyNetChangeListener(VideoPlayPageActivity videoPlayPageActivity) {
             weakReference = new WeakReference<>(videoPlayPageActivity);
         }
 
@@ -2200,14 +2200,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
             //隐藏其他的动作,防止点击界面去进行其他操作
             mGestureView.hide(Normal);
-            LogUtils.e("网络状态--------------------onWifiTo4G");
+            //LogUtils.e("网络状态--------------------onWifiTo4G");
 
             if (look_wifi) {//允许4G下观看视频
                 //TODO nothing
             } else {//不允许4G下播放
-                if (flowFlag) {//已经在本次播放允许4G
-
-                } else {
+                if (!flowFlag) {//已经在本次播放允许4G
                     AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.WhiteDialogStyle);
                     builder.setTitle(context.getResources().getString(R.string.explication));
                     builder.setMessage(context.getResources().getString(R.string.course_consumeFlow));
@@ -2233,12 +2231,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
         @Override
         public void on4GToWifi() {//TODO  4G转到WiFi
-            LogUtils.e("网络状态--------------------on4GToWifi");
+            //LogUtils.e("网络状态--------------------on4GToWifi");
         }
 
         @Override
         public void onNetDisconnected() {//TODO //网络断开。由于安卓这块网络切换的时候，有时候也会先报断开。所以这个回调是不准确的。
-            LogUtils.e("网络状态--------------------onNetDisconnected");
+            //LogUtils.e("网络状态--------------------onNetDisconnected");
         }
     }
 
@@ -2248,8 +2246,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private class MyNetConnectedListener implements NetWatchdog.NetConnectedListener {
         @Override
         public void onReNetConnected(boolean isReconnect) {//重新连接
-            LogUtils.e("网络状态---------MyNetConnectedListener---------------onReNetConnected" + isReconnect);
-
+            //LogUtils.e("网络状态---------MyNetConnectedListener---------------onReNetConnected" + isReconnect);
             currentError = ErrorInfo.Normal;
 
             if (isReconnect) {
@@ -2259,7 +2256,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
         @Override
         public void onNetUnConnected() {//网络未连接
-            LogUtils.e("网络状态---------MyNetConnectedListener----------------onNetUnConnected");
+            //LogUtils.e("网络状态---------MyNetConnectedListener----------------onNetUnConnected");
             currentError = ErrorInfo.UnConnectInternet;
 
             toastInfo(getResources().getString(R.string.NetworkDisconnected));//管他准不准,先给个提示再说
