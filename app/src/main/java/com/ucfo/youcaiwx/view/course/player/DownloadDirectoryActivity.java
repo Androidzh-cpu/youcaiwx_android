@@ -208,7 +208,6 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
             for (AliyunDownloadMediaInfo info : alivcDownloadeds) {
                 String vid2 = info.getVid();
                 if (TextUtils.equals(vid, vid2)) {
-                    downloadSaveInfoUtil.deleteInfo(info);
                     String savePath = info.getSavePath();
                     if (!TextUtils.isEmpty(savePath)) {
                         File file = new File(savePath);
@@ -216,6 +215,7 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
                             file.delete();
                         }
                     }
+                    downloadSaveInfoUtil.deleteInfo(info);
                     break;
                 }
             }

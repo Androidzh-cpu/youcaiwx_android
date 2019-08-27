@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         checkPermission();
 
-        initNewGuide();
+        //initNewGuide();
 
         updateApp();
     }
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 新手引导
      */
-    private void initNewGuide() {
+    public void initNewGuide() {
         NewbieGuide.with(this)
                 .setLabel("guide_home")
                 .alwaysShow(false)//总是显示，调试时可以打开

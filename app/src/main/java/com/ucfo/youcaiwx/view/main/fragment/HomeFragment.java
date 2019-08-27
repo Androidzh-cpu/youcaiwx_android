@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -323,7 +324,6 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
 
     @Override
     public void getHomeData(HomeBean homeBean) {
-        //加载失败,没网状态，走缓存
         if (homeBean == null) {
             String dataJson = sharedPreferencesUtils.getString(Constant.HOME_CACHE, "");
             if (dataJson != null && !dataJson.equals("")) {
@@ -367,15 +367,18 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
 
                 checkMoreCourse.setVisibility(View.VISIBLE);
                 checkMoreNews.setVisibility(View.VISIBLE);
+
+                FragmentActivity activity = getActivity();
+                if (activity instanceof MainActivity) {
+                    MainActivity mainActivity = (MainActivity) activity;
+                    mainActivity.initNewGuide();
+                }
             }
-
         } else {
-
             bannerConfig(bannerList);
             checkMoreCourse.setVisibility(View.GONE);
             checkMoreNews.setVisibility(View.GONE);
         }
-
         refreshLayout.finishLoadMore();
         refreshLayout.finishRefresh();
     }

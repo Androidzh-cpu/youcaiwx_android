@@ -309,7 +309,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         userBalance.setText(String.valueOf(0 + getResources().getString(R.string.mine_yuan)));
         userCoupons.setText(String.valueOf(0 + getResources().getString(R.string.mine_zhang)));
         userIntegral.setText(String.valueOf(0));
-        userNickname.setText(getResources().getString(R.string.default_title));
+        userNickname.setText(getResources().getString(R.string.mine_tologin));
         userSex.setVisibility(userSex.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
         userCouponsMsg.setVisibility(userCouponsMsg.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
         userIcon.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_headdefault));
