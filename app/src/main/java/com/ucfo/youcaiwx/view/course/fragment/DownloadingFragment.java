@@ -100,6 +100,7 @@ public class DownloadingFragment extends BaseFragment {
     private NetWatchdog mNetWatchdog;
     private boolean downloadWifi;
     private ErrorInfo currentError = ErrorInfo.Normal;
+    private Gson gson;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -158,6 +159,7 @@ public class DownloadingFragment extends BaseFragment {
     @Override
     protected void initData() {
         downloadWifi = SharedPreferencesUtils.getInstance(getActivity()).getBoolean(Constant.DOWNLOAD_WIFI, false);
+        gson = new Gson();
     }
 
     /**
@@ -220,8 +222,8 @@ public class DownloadingFragment extends BaseFragment {
     /**
      * 编辑视频
      */
-    public void editVideoList(boolean Status) {
-        editStatus = Status;
+    public void editVideoList(boolean status) {
+        editStatus = status;
         if (editStatus) {//编辑中
             if (downloadingAdapter != null) {
                 downloadingAdapter.notifychange(editStatus);
@@ -479,8 +481,6 @@ public class DownloadingFragment extends BaseFragment {
     public class MyDownloadInfoListener implements AliyunDownloadInfoListener {
         @Override
         public void onPrepared(List<AliyunDownloadMediaInfo> infos) {//TODO 当调用downloadManager.prepareDownloadMedia(vidSts);后该方法起作用
-            outputLog("onPrepared----" + infos.get(0).getTitle());
-
             AliyunDownloadMediaInfo info = infos.get(0);
             for (int i = 0; i < infos.size(); i++) {
                 if (infos.get(i).getQuality().equals(IAliyunVodPlayer.QualityValue.QUALITY_LOW)) {
@@ -488,10 +488,10 @@ public class DownloadingFragment extends BaseFragment {
                     break;
                 }
             }
+            outputLog("onPrepared----" + gson.toJson(info));
             File downloadFile = new File(info.getSavePath());
             if (downloadFile.exists()) {
-                ToastUtil.showBottomShortText(context, getString(R.string.demo_downloaded, infos.get(0).getTitle()));
-                return;
+                /*ToastUtil.showBottomShortText(context, getString(R.string.demo_downloaded, infos.get(0).getTitle()));return;*/
             }
             //添加至下载队列
             addNewInfo(info);

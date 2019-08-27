@@ -92,27 +92,13 @@ public class SignInActive extends DialogFragment implements View.OnClickListener
                     mSignRelativelayout.setBackground(resource);
                 }
             };
-            Glide.with(this)
-                    .load(userBean.getImage_url())
-                    .placeholder(R.color.colorWhite)
-                    .error(R.mipmap.image_loaderror)
-                    .dontAnimate()
-                    .centerCrop()
-                    .transform(new CenterCrop(getActivity()), new GlideRoundTransform(getActivity(), 5))
-                    .skipMemoryCache(false)
-                    .priority(Priority.HIGH)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(simpleTarget);
+            Glide.with(this).load(userBean.getImage_url()).placeholder(R.color.colorWhite).error(R.mipmap.image_loaderror)
+                    .dontAnimate().centerCrop().transform(new CenterCrop(getActivity()), new GlideRoundTransform(getActivity(), 5))
+                    .skipMemoryCache(false).priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.ALL).into(simpleTarget);
 
-            Glide.with(this)
-                    .load(userBean.getHead())
-                    .error(R.mipmap.icon_headdefault)
-                    .dontAnimate()
-                    .crossFade()
-                    .skipMemoryCache(false)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .priority(Priority.HIGH)
-                    .into(mIconUser);
+            Glide.with(this).load(userBean.getHead()).error(R.mipmap.icon_headdefault)
+                    .dontAnimate().crossFade().skipMemoryCache(false).diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .priority(Priority.HIGH).into(mIconUser);
 
             if (!TextUtils.isEmpty(userBean.getUsername())) {
                 mNicknameUser.setText(userBean.getUsername());

@@ -3,13 +3,16 @@ package com.ucfo.youcaiwx.view.course.player;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.aliyun.vodplayer.downloader.AliyunDownloadMediaInfo;
 import com.google.gson.Gson;
 import com.ucfo.youcaiwx.R;
+import com.ucfo.youcaiwx.UcfoApplication;
 import com.ucfo.youcaiwx.adapter.download.DownloadDirAdapter;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
@@ -21,11 +24,13 @@ import com.ucfo.youcaiwx.presenter.view.course.ICourseDirView;
 import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
+import com.ucfo.youcaiwx.view.course.player.download.DownloadSaveInfoUtil;
 import com.ucfo.youcaiwx.view.user.activity.OfflineCourseActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import org.litepal.LitePal;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +71,7 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
     private DownloadDirAdapter downloadDirAdapter;
     private Gson gson;
     private String courseId;
+    private DownloadSaveInfoUtil downloadSaveInfoUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,16 +140,9 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
                 courseDirPresenter.getCourseDirData(package_id, user_id);
             }
         });
-        initVideoDataBase();
-    }
-
-    /**
-     * 本地数据处理
-     */
-    private void initVideoDataBase() {
-        gson = new Gson();
-        List<DataBaseVideoListBean> dataBaseCourseListBeans = LitePal.findAll(DataBaseVideoListBean.class);
-        LogUtils.e("DB查询-----------DB视频:" + gson.toJson(dataBaseCourseListBeans));
+        downloadSaveInfoUtil = new DownloadSaveInfoUtil(UcfoApplication.downloadManager.getSaveDir());
+        List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
+        LogUtils.e("下载列表--------------" + new Gson().toJson(alivcDownloadeds));
     }
 
     @Override
@@ -204,6 +203,22 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
             //DB没有存贮该视频
             bean.setChecked(!bean.getChecked());
             downloadDirAdapter.notifyDataSetChanged();
+
+            List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
+            for (AliyunDownloadMediaInfo info : alivcDownloadeds) {
+                String vid2 = info.getVid();
+                if (TextUtils.equals(vid, vid2)) {
+                    downloadSaveInfoUtil.deleteInfo(info);
+                    String savePath = info.getSavePath();
+                    if (!TextUtils.isEmpty(savePath)) {
+                        File file = new File(savePath);
+                        if (file.exists()) {
+                            file.delete();
+                        }
+                    }
+                    break;
+                }
+            }
         }
     }
 
