@@ -1,81 +1,128 @@
 def versions = [:]
+versions.SdkVersion = 27
+versions.minSdkVersion = 16
+versions.buildToolsVersion = "27.1.1"
 versions.support = "27.1.1"
+
+versions.constraint = "1.1.2"
+versions.butterknife = "8.8.1"
+versions.multidex = "1.0.2"
+versions.smartrefresh = "1.1.0-alpha-21"
+versions.okhttp3 = "3.12.0"
+versions.okhttpUtils = "3.8.0"
+versions.glide = "3.7.0"
+versions.logger = "2.2.0"
+versions.XTabLayout = "1.1.4"
+versions.soulpermission = "1.1.8"
+versions.XUpdate = "1.0.9"
+versions.banner = "1.4.10"
+versions.pdf = "3.1.0-beta.1"
+versions.NewbieGuide = "v2.4.0"
+versions.litepal = "3.0.0"
+versions.circleimageview = "3.0.0"
+versions.gson = "2.8.5"
+versions.qrcode = "1.3.6"
+versions.zxing = "3.3.3"
+
+versions.versionCode = 1
+versions.versionName = "1.0.0"
+
 ext {
     //==Android Third party,include Application Layer,SDK Layer==
     android = [
             //编译sdk版本，也就是API Level，例如API-19、API-20等,使用 Android 8.0版本的API
-            compileSdkVersion   : 27,
+            compileSdkVersion        : versions.SdkVersion,
             //build tools的版本，其中包括了打包工具aapt、dx等等。工具的目录位于sdk目录/build-tools/下,构建工具版本使用Android 8.0版本,建议使用新版本
-            buildToolsVersion   : "27.1.1",
+            buildToolsVersion        : "$versions.buildToolsVersion",
             //最小sdk版本，如果设备小于这个版本或者大于maxSdkVersion将无法安装这个应用! 最小支持 Android 4.1
-            minSdkVersion       : 16,
+            minSdkVersion            : versions.minSdkVersion,
             //目标sdk版本，充分测试过的版本（建议版本）Android 8.0
-            targetSdkVersion    : 27,
-            applicationId       : "com.ucfo.youcaiwx",//应用程序唯一标识
-            versionCode         : 1,
-            versionName         : "1.0.0",
-            defaultPublishConfig: "debug",
-            publishNonDefault   : true
+            targetSdkVersion         : versions.SdkVersion,
+            applicationId            : "com.ucfo.youcaiwx",//应用程序唯一标识
+            versionCode              : versions.versionCode,
+            versionName              : "$versions.versionName",
+            testInstrumentationRunner: "android.support.test.runner.AndroidJUnitRunner",
+            defaultPublishConfig     : "debug",
+            publishNonDefault        : true
     ]
     supportLib = [
-            "appcompat-v7"  : "com.android.support:appcompat-v7:27.1.1",
-            "support-v4"    : "com.android.support:support-v4:27.1.1",
-            "support-design": "com.android.support:design:27.1.1",
-            "design"        : "com.android.support:design:27.1.1",
-            "cardview"      : "com.android.support:cardview-v7:27.1.1",
-            "recyclerview"  : "com.android.support:recyclerview-v7:27.1.0"
+            "appcompat_v7"       : "com.android.support:appcompat-v7:$versions.support",
+            "support_v4"         : "com.android.support:support-v4:$versions.support",
+            "support_design"     : "com.android.support:design:$versions.support",
+            "support_annotations": "com.android.support:support-annotations:$versions.support",
+            "cardview"           : "com.android.support:cardview-v7:$versions.support",
+            "recyclerview"       : "com.android.support:recyclerview-v7:$versions.support",
+            "multidex"           : "com.android.support:multidex:$versions.multidex",
+            "support_constraint" : "com.android.support.constraint:constraint-layout:$versions.constraint"
     ]
     dependencies = [
-            "androidTestImplementation"      : "com.android.support.test.espresso:espresso-core:3.0.2",
-            "testImplementation"             : "junit:junit:4.12",
-            "runner"                         : "com.android.support.test:runner:1.0.2",
+            "androidTestImplementation": "com.android.support.test.espresso:espresso-core:3.0.2",
+            "junit"                    : "junit:junit:4.12",
+            "runner"                   : "com.android.support.test:runner:1.0.2",
 
-            "support-annotations"            : "com.android.support:support-annotations:27.1.1",
-            "multidex"                       : "com.android.support:multidex:1.0.2",
+            "XTabLayout"               : "com.androidkun:XTabLayout:$versions.XTabLayout",
+            "orhanobut"                : "com.orhanobut:logger:$versions.logger",
+            "soulpermission"           : "com.qw:soulpermission:$versions.soulpermission",
+            "XUpdate"                  : "com.github.xuexiangjys:XUpdate:$versions.XUpdate",
+            "banner"                   : "com.youth.banner:banner:$versions.banner",
+            "barteksc_pdf"             : "com.github.barteksc:android-pdf-viewer:$versions.pdf",
+            "NewbieGuide"              : "com.github.huburt-Hu:NewbieGuide:$versions.NewbieGuide",
+            "circleimageview"          : "de.hdodenhof:circleimageview:$versions.circleimageview",
+            "litepal"                  : "org.litepal.android:java:$versions.litepal",
+            "wechat_opensdk"           : "com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+",
+            "aliyun_oss"               : "com.aliyun.dpa:oss-android-sdk:+",
+            "AlivcConan"               : "com.alivc.conan:AlivcConan:0.9.5"
+    ]
 
-            "constraint-layout"              : "com.android.support.constraint:constraint-layout:1.1.2",
-            "gson"                           : "com.google.code.gson:gson:2.8.5",
-            "qrcode"                         : "cn.bingoogolapple:bga-qrcode-zxing:1.3.6",
-            "zxing"                          : "com.google.zxing:core:3.3.3",
+    google = [
+            "gson"  : "com.google.code.gson:gson:$versions.gson",
+            "qrcode": "cn.bingoogolapple:bga-qrcode-zxing:$versions.qrcode",
+            "zxing" : "com.google.zxing:core:$versions.zxing"
+    ]
 
-            "XTabLayout"                     : "com.androidkun:XTabLayout:1.1.4",
-            "butterknife"                    : "com.jakewharton:butterknife:8.8.1",
-            "jakewharton_annotationProcessor": "com.jakewharton:butterknife-compiler:8.8.1",
+    picture = [
+            "matisse"    : "com.zhihu.android:matisse:0.5.2-beta4",
+            "Luban"      : "top.zibin:Luban:1.1.8",
+            "imagepicker": "com.lzy.widget:imagepicker:0.6.1"
+    ]
 
-            "glide"                          : "com.github.bumptech.glide:glide:3.7.0",
-            "glide_annotationProcessor"      : "com.github.bumptech.glide:compiler:4.0.0",
-            "glide_okhttp3"                  : "com.github.bumptech.glide:okhttp3-integration:1.4.0@aar",
+    butterknife = [
+            "butterknife"        : "com.jakewharton:butterknife:$versions.butterknife",
+            "annotationProcessor": "com.jakewharton:butterknife-compiler:$versions.butterknife"
+    ]
 
-            "orhanobut"                      : "com.orhanobut:logger:2.2.0",
-            "SmartRefreshLayout"             : "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21",
-            "SmartRefreshHeader"             : "com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21",
-            "droidsonroids.gif"              : "pl.droidsonroids.gif:android-gif-drawable:1.2.3",
+    glide = [
+            "glide"         : "com.github.bumptech.glide:glide:$versions.glide",
+            "glide_compiler": "com.github.bumptech.glide:compiler:4.0.0",
+            "glide_okhttp3" : "com.github.bumptech.glide:okhttp3-integration:1.4.0@aar"
+    ]
 
-            "okhttp3"                        : "com.squareup.okhttp3:okhttp:3.12.0",
-            "okhttp3_mockwebserver"          : "com.squareup.okhttp3:mockwebserver:3.12.0",
-            "okhttp3_logging_interceptor"    : "com.squareup.okhttp3:logging-interceptor:3.8.0",
-            "okhttp_utils"                   : "com.qianwen:okhttp-utils:3.8.0",
+    okhttp3 = [
+            "okhttp3"            : "com.squareup.okhttp3:okhttp:$versions.okhttp3",
+            "mockwebserver"      : "com.squareup.okhttp3:mockwebserver:$versions.okhttp3",
+            "logging_interceptor": "com.squareup.okhttp3:logging-interceptor:$versions.okhttpUtils",
+            "okhttp_utils"       : "com.qianwen:okhttp-utils:$versions.okhttpUtils"
+    ]
 
-            "soulpermission"                 : "com.qw:soulpermission:1.1.8",
-            "XUpdate"                        : "com.github.xuexiangjys:XUpdate:1.0.9",
-            "banner"                         : "com.youth.banner:banner:1.4.10",
-            "shimmerlayout"                  : "io.supercharge:shimmerlayout:2.1.0",
-            "shimmer"                        : "com.facebook.shimmer:shimmer:0.1.0",
-            "android-pdf-viewer"             : "com.github.barteksc:android-pdf-viewer:3.1.0-beta.1",
+    //App下拉刷新  1.0.5 为 1.0.4 与 1.1.0 的过度版，其中API改动过大   1.0.5 （重大bug发现，无法兼容 Android P，不推荐使用）
+    SmartRefreshLayout = [
+            "SmartRefreshLayout": "com.scwang.smartrefresh:SmartRefreshLayout:$versions.smartrefresh",
+            "SmartRefreshHeader": "com.scwang.smartrefresh:SmartRefreshHeader:$versions.smartrefresh",
+            "drawable_gif"      : "pl.droidsonroids.gif:android-gif-drawable:1.2.3"
+    ]
 
-            "aliyun_oss-android"             : "com.aliyun.dpa:oss-android-sdk:+",
-            "AlivcConan"                     : "com.alivc.conan:AlivcConan:0.9.5",
+    //Facebook的闪光效果开开源框架
+    facebook = [
+            //recyclerview的默认加载布局
+            "shimmerlayout": "io.supercharge:shimmerlayout:2.1.0",
+            "shimmer"      : "com.facebook.shimmer:shimmer:0.1.0"
+    ]
 
-            "matisse"                        : "com.zhihu.android:matisse:0.5.2-beta4",
-            "Luban"                          : "top.zibin:Luban:1.1.8",
-            "imagepicker"                    : "com.lzy.widget:imagepicker:0.6.1",
-            "NewbieGuide"                    : "com.github.huburt-Hu:NewbieGuide:v2.4.0",
-
-            "litepal"                        : "org.litepal.android:java:3.0.0",
-            "wechat_opensdk"                 : "com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+",
-            "umeng_common"                   : "com.umeng.umsdk:common:2.1.0",
-            "umeng_utdid"                    : "com.umeng.umsdk:utdid:1.1.5.3",
-            "umeng_analytics"                : "com.umeng.umsdk:analytics:8.0.2",
-            "umeng_push"                     : "com.umeng.umsdk:push:6.0.1",
+    //友盟配置文件
+    umeng = [
+            "umeng_common"   : "com.umeng.umsdk:common:2.1.0",
+            "umeng_utdid"    : "com.umeng.umsdk:utdid:1.1.5.3",
+            "umeng_analytics": "com.umeng.umsdk:analytics:8.0.2",
+            "umeng_push"     : "com.umeng.umsdk:push:6.0.1"
     ]
 }

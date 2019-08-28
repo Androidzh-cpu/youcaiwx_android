@@ -23,12 +23,12 @@ allprojects {
     repositories {
         google()
         jcenter()
-        mavenCentral() //sonatype的maven库
+        mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url 'https://dl.bintray.com/umsdk/release' }
         maven { url "http://maven.aliyun.com/nexus/content/repositories/releases" }
         flatDir {
-            dirs 'libs' //本地aar文件
+            dirs 'libs'
         }
     }
     tasks.withType(Javadoc) {
@@ -67,9 +67,7 @@ ext {
     checkLintRelease = false
     useJack = false
     abortOnLintError = false
-    javaVersion = JavaVersion.VERSION_1_8//Java JDK版本为1.8
-}
-ext {
+    javaVersion = JavaVersion.VERSION_1_8
     var = [
             supportLibraryVersion: "27.1.1"
     ]

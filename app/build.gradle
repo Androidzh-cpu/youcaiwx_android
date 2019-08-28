@@ -1,22 +1,20 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
     aaptOptions.cruncherEnabled = false
     aaptOptions.useNewCruncher = false
-    //rxjava冲突：在app build.gradle下添加
-    /*packagingOptions {
-        exclude 'META-INF/rxjava.properties'
-    }*/
     defaultConfig {
-        applicationId "com.ucfo.youcaiwx"//配置包名，没配置的话，默认使用 AndroidManifest.xml 文件中指定的包名。
+        applicationId rootProject.ext.android.applicationId
 
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
-        multiDexEnabled true  // this line will solve this problem
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+
+        multiDexEnabled true
+        testInstrumentationRunner rootProject.ext.android.testInstrumentationRunner
+
         javaCompileOptions {
             annotationProcessorOptions {
                 includeCompileClasspath = true
@@ -177,73 +175,69 @@ android {
             }
         }
     }
-    productFlavors {
 
-    }
 }
 
 dependencies {
-    //约束布局远程库
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    //引入libs 文件下所有的jar文件
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation 'junit:junit:4.12'
+    testImplementation rootProject.ext.dependencies.junit
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    //分包处理
-    implementation 'com.android.support:multidex:1.0.2'
-    //noinspection GradleCompatible从maven获取的库文件
-    implementation "com.android.support:appcompat-v7:$var.supportLibraryVersion"
-    implementation "com.android.support:support-v4:$var.supportLibraryVersion"
-    implementation "com.android.support:design:$var.supportLibraryVersion"
-    implementation "com.android.support:cardview-v7:$var.supportLibraryVersion"
-    implementation "com.android.support:recyclerview-v7:$var.supportLibraryVersion"
-    implementation 'com.androidkun:XTabLayout:1.1.4'
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    implementation 'com.github.bumptech.glide:glide:3.7.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
-    annotationProcessor 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
-    implementation 'com.orhanobut:logger:2.2.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
-    //App下拉刷新  1.0.5 为 1.0.4 与 1.1.0 的过度版，其中API改动过大
-    //1.0.5 （重大bug发现，无法兼容 Android P，不推荐使用）
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21'
-    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.3'
-    //日志拦截器 //添加HttpLoggingInterceptor进行调试
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
-    //动态权限申请
-    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
-    implementation 'com.qw:soulpermission:1.1.8'
-    implementation 'com.github.xuexiangjys:XUpdate:1.0.9'
-    implementation 'com.youth.banner:banner:1.4.10'
-    implementation 'de.hdodenhof:circleimageview:3.0.0'
-    //okhttp以及socket
-    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
-    implementation 'com.squareup.okhttp3:mockwebserver:3.12.0'
-    implementation 'com.qianwen:okhttp-utils:3.8.0'
-    implementation 'com.google.zxing:core:3.3.3'
-    implementation 'cn.bingoogolapple:bga-qrcode-zxing:1.3.6'
-    //recyclerview的默认加载布局
-    implementation 'io.supercharge:shimmerlayout:2.1.0'
-    //Facebook的闪光效果开开源框架
-    implementation 'com.facebook.shimmer:shimmer:0.1.0'
-    implementation 'com.github.barteksc:android-pdf-viewer:3.1.0-beta.1'
-    implementation 'com.aliyun.dpa:oss-android-sdk:+'
-    implementation 'com.alivc.conan:AlivcConan:0.9.5'
-    implementation 'com.zhihu.android:matisse:0.5.2-beta4'
-    implementation 'top.zibin:Luban:1.1.8'
-    implementation 'org.litepal.android:java:3.0.0'
-    implementation 'com.lzy.widget:imagepicker:0.6.1'
-    implementation 'com.github.huburt-Hu:NewbieGuide:v2.4.0'
-    //微信Android接入指南
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
-    implementation 'com.umeng.umsdk:common:2.1.0'
-    implementation 'com.umeng.umsdk:utdid:1.1.5.3'
-    implementation 'com.umeng.umsdk:analytics:8.0.2'
-    implementation 'com.umeng.umsdk:push:6.0.1'
+    implementation rootProject.ext.supportLib.appcompat_v7
+    implementation rootProject.ext.supportLib.support_v4
+    implementation rootProject.ext.supportLib.support_design
+    implementation rootProject.ext.supportLib.cardview
+    implementation rootProject.ext.supportLib.recyclerview
+    implementation rootProject.ext.supportLib.support_constraint
+    implementation rootProject.ext.supportLib.support_annotations
+    implementation rootProject.ext.supportLib.multidex
+
+    implementation rootProject.ext.dependencies.XTabLayout
+    implementation rootProject.ext.dependencies.barteksc_pdf
+    implementation rootProject.ext.dependencies.litepal
+    implementation rootProject.ext.dependencies.NewbieGuide
+    implementation rootProject.ext.dependencies.orhanobut
+    implementation rootProject.ext.dependencies.soulpermission
+    implementation rootProject.ext.dependencies.XUpdate
+    implementation rootProject.ext.dependencies.banner
+    implementation rootProject.ext.dependencies.circleimageview
+    implementation rootProject.ext.dependencies.wechat_opensdk
+    implementation rootProject.ext.dependencies.aliyun_oss
+    implementation rootProject.ext.dependencies.AlivcConan
+
+    implementation rootProject.ext.butterknife.butterknife
+    annotationProcessor rootProject.ext.butterknife.annotationProcessor
+
+    implementation rootProject.ext.glide.glide
+    annotationProcessor rootProject.ext.glide.glide_compiler
+    annotationProcessor rootProject.ext.glide.glide_okhttp3
+
+    implementation rootProject.ext.SmartRefreshLayout.SmartRefreshLayout
+    implementation rootProject.ext.SmartRefreshLayout.SmartRefreshHeader
+    implementation rootProject.ext.SmartRefreshLayout.drawable_gif
+
+    implementation rootProject.ext.okhttp3.okhttp3
+    implementation rootProject.ext.okhttp3.mockwebserver
+    implementation rootProject.ext.okhttp3.logging_interceptor
+    implementation rootProject.ext.okhttp3.okhttp_utils
+
+    implementation rootProject.ext.google.gson
+    implementation rootProject.ext.google.qrcode
+    implementation rootProject.ext.google.zxing
+
+    implementation rootProject.ext.facebook.shimmerlayout
+    implementation rootProject.ext.facebook.shimmer
+
+    implementation rootProject.ext.picture.matisse
+    implementation rootProject.ext.picture.Luban
+    implementation rootProject.ext.picture.imagepicker
+
+    implementation rootProject.ext.umeng.umeng_common
+    implementation rootProject.ext.umeng.umeng_utdid
+    implementation rootProject.ext.umeng.umeng_analytics
+    implementation rootProject.ext.umeng.umeng_push
+
     implementation project(':okgo')
     implementation project(':Transferee')
     implementation project(':FlycoRoundView_Lib')
