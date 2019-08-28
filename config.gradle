@@ -1,0 +1,81 @@
+def versions = [:]
+versions.support = "27.1.1"
+ext {
+    //==Android Third party,include Application Layer,SDK Layer==
+    android = [
+            //编译sdk版本，也就是API Level，例如API-19、API-20等,使用 Android 8.0版本的API
+            compileSdkVersion   : 27,
+            //build tools的版本，其中包括了打包工具aapt、dx等等。工具的目录位于sdk目录/build-tools/下,构建工具版本使用Android 8.0版本,建议使用新版本
+            buildToolsVersion   : "27.1.1",
+            //最小sdk版本，如果设备小于这个版本或者大于maxSdkVersion将无法安装这个应用! 最小支持 Android 4.1
+            minSdkVersion       : 16,
+            //目标sdk版本，充分测试过的版本（建议版本）Android 8.0
+            targetSdkVersion    : 27,
+            applicationId       : "com.ucfo.youcaiwx",//应用程序唯一标识
+            versionCode         : 1,
+            versionName         : "1.0.0",
+            defaultPublishConfig: "debug",
+            publishNonDefault   : true
+    ]
+    supportLib = [
+            "appcompat-v7"  : "com.android.support:appcompat-v7:27.1.1",
+            "support-v4"    : "com.android.support:support-v4:27.1.1",
+            "support-design": "com.android.support:design:27.1.1",
+            "design"        : "com.android.support:design:27.1.1",
+            "cardview"      : "com.android.support:cardview-v7:27.1.1",
+            "recyclerview"  : "com.android.support:recyclerview-v7:27.1.0"
+    ]
+    dependencies = [
+            "androidTestImplementation"      : "com.android.support.test.espresso:espresso-core:3.0.2",
+            "testImplementation"             : "junit:junit:4.12",
+            "runner"                         : "com.android.support.test:runner:1.0.2",
+
+            "support-annotations"            : "com.android.support:support-annotations:27.1.1",
+            "multidex"                       : "com.android.support:multidex:1.0.2",
+
+            "constraint-layout"              : "com.android.support.constraint:constraint-layout:1.1.2",
+            "gson"                           : "com.google.code.gson:gson:2.8.5",
+            "qrcode"                         : "cn.bingoogolapple:bga-qrcode-zxing:1.3.6",
+            "zxing"                          : "com.google.zxing:core:3.3.3",
+
+            "XTabLayout"                     : "com.androidkun:XTabLayout:1.1.4",
+            "butterknife"                    : "com.jakewharton:butterknife:8.8.1",
+            "jakewharton_annotationProcessor": "com.jakewharton:butterknife-compiler:8.8.1",
+
+            "glide"                          : "com.github.bumptech.glide:glide:3.7.0",
+            "glide_annotationProcessor"      : "com.github.bumptech.glide:compiler:4.0.0",
+            "glide_okhttp3"                  : "com.github.bumptech.glide:okhttp3-integration:1.4.0@aar",
+
+            "orhanobut"                      : "com.orhanobut:logger:2.2.0",
+            "SmartRefreshLayout"             : "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21",
+            "SmartRefreshHeader"             : "com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-21",
+            "droidsonroids.gif"              : "pl.droidsonroids.gif:android-gif-drawable:1.2.3",
+
+            "okhttp3"                        : "com.squareup.okhttp3:okhttp:3.12.0",
+            "okhttp3_mockwebserver"          : "com.squareup.okhttp3:mockwebserver:3.12.0",
+            "okhttp3_logging_interceptor"    : "com.squareup.okhttp3:logging-interceptor:3.8.0",
+            "okhttp_utils"                   : "com.qianwen:okhttp-utils:3.8.0",
+
+            "soulpermission"                 : "com.qw:soulpermission:1.1.8",
+            "XUpdate"                        : "com.github.xuexiangjys:XUpdate:1.0.9",
+            "banner"                         : "com.youth.banner:banner:1.4.10",
+            "shimmerlayout"                  : "io.supercharge:shimmerlayout:2.1.0",
+            "shimmer"                        : "com.facebook.shimmer:shimmer:0.1.0",
+            "android-pdf-viewer"             : "com.github.barteksc:android-pdf-viewer:3.1.0-beta.1",
+
+            "aliyun_oss-android"             : "com.aliyun.dpa:oss-android-sdk:+",
+            "AlivcConan"                     : "com.alivc.conan:AlivcConan:0.9.5",
+
+            "matisse"                        : "com.zhihu.android:matisse:0.5.2-beta4",
+            "Luban"                          : "top.zibin:Luban:1.1.8",
+            "imagepicker"                    : "com.lzy.widget:imagepicker:0.6.1",
+            "NewbieGuide"                    : "com.github.huburt-Hu:NewbieGuide:v2.4.0",
+
+            "litepal"                        : "org.litepal.android:java:3.0.0",
+            "wechat_opensdk"                 : "com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+",
+            "umeng_common"                   : "com.umeng.umsdk:common:2.1.0",
+            "umeng_utdid"                    : "com.umeng.umsdk:utdid:1.1.5.3",
+            "umeng_analytics"                : "com.umeng.umsdk:analytics:8.0.2",
+            "umeng_push"                     : "com.umeng.umsdk:push:6.0.1",
+    ]
+}

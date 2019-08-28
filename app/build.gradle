@@ -135,7 +135,7 @@ android {
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
             //移除无用的resources文件,假如发生resources$弄他foundexception:resources ID #0X4错误可关闭此功能
-            shrinkResources true
+            shrinkResources false
             //应用程序标识后缀
             //applicationIdSuffix ".beta"//因为7.0文件共享的原因,导致配置单额fileprovide与应用程序后缀无法同步
             // 为版本名添加后缀
