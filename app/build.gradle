@@ -196,8 +196,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation rootProject.ext.dependencies.junit
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation rootProject.ext.dependencies.espresso
+    androidTestImplementation rootProject.ext.dependencies.runner
     implementation rootProject.ext.supportLib.appcompat_v7
     implementation rootProject.ext.supportLib.support_v4
     implementation rootProject.ext.supportLib.support_design
