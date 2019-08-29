@@ -1,6 +1,18 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 android {
+    //加载资源
+    Properties properties = new Properties()
+    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+    properties.load(inputStream)
+    //读取文件
+    def sdkDir = properties.getProperty('key.file')
+    //读取字段
+    def key_file = file(sdkDir)
+    def key_keyAlias = properties.getProperty('keyAlias')
+    def key_keyPassword = properties.getProperty('keyPassword')
+    def key_storePassword = properties.getProperty('storePassword')
+
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
 
@@ -93,10 +105,10 @@ android {
     signingConfigs {
         relese {
             try {
-                keyAlias 'youcaiRelase'
-                keyPassword 'CMAyoucai2020'
-                storeFile file('D:/YouCaiFile/优财智业项目/新版App签名/appkey.jks')
-                storePassword 'CMAyoucai2020'
+                storeFile key_file
+                storePassword key_storePassword
+                keyAlias key_keyAlias
+                keyPassword key_keyPassword
             } catch (ex) {
                 ex.printStackTrace()
                 throw new InvalidUserDataException("秘钥用户名或密码错误${ex.getMessage()}")
@@ -104,10 +116,10 @@ android {
         }
         debug {
             try {
-                keyAlias 'youcaiRelase'
-                keyPassword 'CMAyoucai2020'
-                storeFile file('D:/YouCaiFile/优财智业项目/新版App签名/appkey.jks')
-                storePassword 'CMAyoucai2020'
+                storeFile key_file
+                storePassword key_storePassword
+                keyAlias key_keyAlias
+                keyPassword key_keyPassword
             } catch (ex) {
                 ex.printStackTrace()
                 throw new InvalidUserDataException("秘钥用户名或密码错误${ex.getMessage()}")
@@ -149,7 +161,7 @@ android {
             jniDebuggable true
             //是否进行混淆
             minifyEnabled true
-            signingConfig signingConfigs.relese
+            signingConfig signingConfigs.debug
             //前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
