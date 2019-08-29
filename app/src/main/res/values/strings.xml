@@ -3,14 +3,14 @@
     <string name="youcaiWXdescribe">优财网校CMA为在职财务人员提供专业与时俱进的CMA智能学习平台</string>
     <string name="youcaiWXShareDescribe">优财是引领CMA浪潮的先驱者</string>
 
-    <!-- Strings related to 导航栏文案 -->
+    <!-- Strings related to homeNavigation -->
     <string name="tab_home">首页</string>
     <string name="tab_class">课程</string>
     <string name="tab_learncenter">学习中心</string>
     <string name="tab_questionbank">题库</string>
     <string name="tab_mine">我的</string>
 
-    <!-- Strings related to 首页文案 -->
+    <!-- Strings related to home -->
     <string name="home_live">直播</string>
     <string name="home_course">课程</string>
     <string name="home_face">面授</string>
@@ -23,11 +23,7 @@
     <string name="home_more">查看更多</string>
     <string name="scan_tiptext">将二维码/条码放入框内,即可自动扫描</string>
 
-    <!-- Strings related to login文案 -->
-    <string name="net_loadingtext">加载中</string>
-    <string name="net_canceltext">取消中</string>
-    <string name="file_loadingtext">正在上传</string>
-    <string name="net_loading_no">当前网络不可用</string>
+    <!-- Strings related to login -->
     <string name="guide_jump">跳过</string>
     <string name="guide_tomain">立即体验</string>
     <string name="home_title">优财网校</string>
@@ -82,7 +78,7 @@
     <string name="wx_noinstanl">您手机尚未安装微信，请安装后再登录</string>
     <string name="wx_upperlimit">设备达到上限</string>
 
-    <!-- Strings related to 课程 -->
+    <!-- Strings related to class -->
     <string name="course_consumeFlow">播放将消耗流量,是否继续?</string>
     <string name="course_free">免费试听</string>
     <string name="course_joincount">参加人数: </string>
@@ -116,7 +112,7 @@
     <string name="image_size_to_small">大小不超过 %1$sM。</string>
     <string name="error_size_to_small">长宽不小于 %1$dpx，且大小不超过 %2$sM。</string>
 
-    <!-- Strings related to 个人中心 -->
+    <!-- Strings related to minecenter -->
     <string name="mine_integral">我的积分</string>
     <string name="mine_balance">账户余额</string>
     <string name="mine_Coupon">优惠券</string>
@@ -294,27 +290,6 @@
     <string name="question_title_allAnalysis">全部解析</string>
     <string name="question_title_ResultsStatistical">成绩统计</string>
 
-    <!-- Strings related to 成绩统计-->
-    <string name="holder_nodata">暂无数据</string>
-    <string name="holder_nomessage">暂无消息</string>
-    <string name="holder_notmake">未作答</string>
-    <string name="holder_noMoreData">没有更多数据了!</string>
-    <string name="holder_usedtime">用时:  </string>
-    <string name="holder_analysis">解析:  </string>
-    <string name="holder_difficulty">难度:  </string>
-    <string name="question_tips_resultreport_rightnum">做对试题</string>
-    <string name="question_tips_resultreport_notmakenum">未做试题</string>
-    <string name="question_tips_resultreport_wrongnum">做错试题</string>
-    <string name="question_tips_havedAnentire">已做/总题</string>
-    <string name="question_tips_holder1">已掌握</string>
-    <string name="question_tips_holder2">未掌握</string>
-    <string name="question_tips_holder3">未做题</string>
-    <string name="question_tips_holder4">准确率</string>
-    <string name="question_tips_holder6">继续做题</string>
-    <string name="question_tips_holder7">查看试题</string>
-    <string name="question_tips_holder5">%    已做</string>
-    <string name="question_tips_holder8">老师</string>
-
     <!-- Strings related to 题库首页提示信息-->
     <string name="question_tips_count">做题数</string>
     <string name="question_tips_accuracy_percent">正确率</string>
@@ -369,8 +344,30 @@
     <string name="question_tab_query">答疑</string>
     <string name="question_tab_commit">交卷</string>
 
+    <!-- Strings related to 成绩统计-->
+    <string name="holder_nodata">暂无数据</string>
+    <string name="holder_nomessage">暂无消息</string>
+    <string name="holder_notmake">未作答</string>
+    <string name="holder_noMoreData">没有更多数据了!</string>
+    <string name="holder_usedtime">用时:  </string>
+    <string name="holder_analysis">解析:  </string>
+    <string name="holder_difficulty">难度:  </string>
+    <string name="question_tips_resultreport_rightnum">做对试题</string>
+    <string name="question_tips_resultreport_notmakenum">未做试题</string>
+    <string name="question_tips_resultreport_wrongnum">做错试题</string>
+    <string name="question_tips_havedAnentire">已做/总题</string>
+    <string name="question_tips_holder1">已掌握</string>
+    <string name="question_tips_holder2">未掌握</string>
+    <string name="question_tips_holder3">未做题</string>
+    <string name="question_tips_holder4">准确率</string>
+    <string name="question_tips_holder6">继续做题</string>
+    <string name="question_tips_holder7">查看试题</string>
+    <string name="question_tips_holder5">%    已做</string>
+    <string name="question_tips_holder8">老师</string>
+
     <!--<string name="github_qq_browser_kernel">The web page is provided by github.com.\nThe QQ browser X5 kernel has been enabled.</string>-->
     <string name="github_qq_browser_kernel">网页由 www.youcaiwx.com 提供\nQQ浏览器X5内核提供技术支持</string>
+    <string name="github_qq_browser_urlIllegality">网页链接不正确</string>
     <string name="title_activity_test_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -384,7 +381,7 @@
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
 
-    <!-- Strings related to 离线中心 -->
+    <!-- Strings related to offlineCenter -->
     <string name="downloadCompleted">下载完成</string>
     <string name="downloading">正在下载</string>
     <string name="download">下载</string>
@@ -412,7 +409,7 @@
     <string name="delete">删除</string>
     <string name="no_delete">没有删除的视频选项...</string>
 
-    <!-- Strings related to 订单支付 -->
+    <!-- Strings related to orderform -->
     <string name="pay_commitOrder">提交订单</string>
     <string name="pay_notice">《用户支付须知》</string>
     <string name="pay_havereaded">我已阅读</string>
@@ -432,7 +429,7 @@
     <string name="pay_commitOrderSuccess">生成订单成功</string>
     <string name="pay_commitOrderSuccess2">请在24小时内完成支付，超时后将取消订单</string>
 
-    <!-- Strings related to 发票 -->
+    <!-- Strings related to invoice -->
     <string name="invoice">发票</string>
     <string name="invoice_person">个人</string>
     <string name="invoice_company">单位</string>
@@ -465,7 +462,7 @@
     <string name="invoice_editTips7">请输入银行账户</string>
     <string name="invoice_editTips10">请输入正确的银行账户</string>
 
-    <!--string related to 消息中心-->
+    <!--string related to messageCenter-->
     <string name="message_center">消息中心</string>
     <string name="message_notice">网校公告</string>
     <string name="message_notification">系统通知</string>
@@ -475,12 +472,16 @@
     <string name="message_answerHolder">有人回复了您的问题</string>
     <string name="message_courseHolder">上课提醒通知</string>
 
-    <!--string related to common-->
+    <!--string related to update-->
     <string name="WhetherToUpgrade">是否升级到%s版本？</string>
     <string name="ThisIsTheLatestVersion">当前已是最新版本</string>
     <string name="update">升级</string>
 
     <!--string related to common-->
+    <string name="net_loadingtext">加载中</string>
+    <string name="net_canceltext">取消中</string>
+    <string name="file_loadingtext">正在上传</string>
+    <string name="net_loading_no">当前网络不可用</string>
     <string name="difficulty">困难</string>
     <string name="medium">中等</string>
     <string name="easy">简单</string>

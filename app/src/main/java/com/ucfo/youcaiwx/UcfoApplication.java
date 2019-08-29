@@ -74,7 +74,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * ClassName: UcfoApplication
  * Detail:程序清单
  */
-
 public class UcfoApplication extends Application {
     private static UcfoApplication application;
     // IWXAPI 是第三方app和微信通信的openApi接口
