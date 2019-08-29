@@ -174,7 +174,7 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         holder.mSeekbar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return false;
+                return true;
             }
         });
         holder.mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -186,7 +186,7 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
                 float finalPostion = 0;
                 float textWidth = DensityUtil.dp2px(82);
                 int b = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, context.getResources().getDisplayMetrics());
-                float seekBarWidth = displayMetrics.widthPixels - DensityUtil.dp2px(48) - thumbWidth;
+                float seekBarWidth = displayMetrics.widthPixels - b - thumbWidth;
                 float thumbhalfswidth = thumbWidth / 2;
                 float average = seekBarWidth / seekBar.getMax();
                 float residueAverage = (seekBar.getMax() - seekBar.getProgress()) * average;
@@ -220,7 +220,7 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         float finalPostion = 0;
         float textWidth = DensityUtil.dp2px(82);
         int b = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, context.getResources().getDisplayMetrics());
-        float seekBarWidth = displayMetrics.widthPixels - DensityUtil.dp2px(48) - thumbWidth;
+        float seekBarWidth = displayMetrics.widthPixels - b - thumbWidth;
         float thumbhalfswidth = thumbWidth / 2;
         float average = seekBarWidth / seekBar.getMax();
         float residueAverage = (seekBar.getMax() - seekBar.getProgress()) * average;
