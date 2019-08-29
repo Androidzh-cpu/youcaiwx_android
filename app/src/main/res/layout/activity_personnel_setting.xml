@@ -24,7 +24,7 @@
             android:id="@+id/btn_userIcon"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_58"
-            android:background="?attr/selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -59,7 +59,7 @@
             android:id="@+id/btn_userNickname"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_58"
-            android:background="?attr/selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -97,7 +97,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_58"
-            android:background="?attr/selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -150,7 +150,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_58"
-            android:background="?attr/selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -183,7 +183,7 @@
             android:id="@+id/btn_userAddress"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_58"
-            android:background="?attr/selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:gravity="center_vertical"
             android:orientation="horizontal">

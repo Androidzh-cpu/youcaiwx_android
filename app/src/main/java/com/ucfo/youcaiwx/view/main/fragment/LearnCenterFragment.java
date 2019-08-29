@@ -67,6 +67,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -120,8 +121,8 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     Unbinder unbinder;
     private MainActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
-    private boolean login_status;
-    private int user_id;
+    private boolean loginStatus;
+    private int userId;
     private LearncenterHomePresenter learncenterHomePresenter;
 
     private List<LearncenterHomeBean.DataBean.PlanBean> planBeanList;
@@ -132,7 +133,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     private LearnCenterNoticeAdapter learnCenterNoticeAdapter;
     private String userBeanHead;
     private QuestionBankHomePresenter questionBankHomePresenter;
-    private int currentSubject_id;
+    private int currentSubjectId;
     private List<QuestionMyProjectBean.DataBean> projectList;
 
     @Override
@@ -260,23 +261,22 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                         startActivity(new Intent(getActivity(), LoginActivity.class));
                     }
                 }).show();
-
     }
 
     //获取学习中心首页数据
     public void updateDataInfo() {
-        login_status = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
-        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-        learncenterHomePresenter.learncenterHome(user_id);
-        currentSubject_id = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
-        if (currentSubject_id == 0) {
-            questionBankHomePresenter.getMyProejctList(user_id);
+        loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
+        userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        learncenterHomePresenter.learncenterHome(userId);
+        currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
+        if (currentSubjectId == 0) {
+            questionBankHomePresenter.getMyProejctList(userId);
         }
     }
 
     @OnClick({R.id.user_icon, R.id.user_nickname, R.id.btn_clockin, R.id.user_course, R.id.user_errorcenter, R.id.user_offline, R.id.btn_continueStudy, R.id.btn_addlearnplan})
     public void onViewClicked(View view) {
-        if (login_status) {
+        if (loginStatus) {
             Bundle bundle = new Bundle();
             switch (view.getId()) {
                 case R.id.user_icon://icon
@@ -285,7 +285,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                     break;
                 case R.id.btn_clockin:
                     //学习打卡
-                    learncenterHomePresenter.signDayCard(user_id);
+                    learncenterHomePresenter.signDayCard(userId);
                     break;
                 case R.id.user_course:
                     //我的课程
@@ -293,7 +293,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                     break;
                 case R.id.user_errorcenter:
                     //错题中心
-                    if (currentSubject_id != 0) {
+                    if (currentSubjectId != 0) {
                         int currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
                         bundle.putInt(Constant.COURSE_ID, currentSubjectId);
                         startActivity(ErrorCenterActivity.class, bundle);
@@ -343,7 +343,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
             if (result.getCode() == 200) {
                 if (result.getData() != null) {
                     StudyClockInBean.DataBean data = result.getData();
-                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     SignInActive signInActive = new SignInActive();
                     signInActive.setUserBean(data);
@@ -380,7 +380,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     private void initLearnCenter(LearncenterHomeBean data) {
         loadinglayout.showContent();
         LearncenterHomeBean.DataBean dataData = data.getData();
-        if (!login_status) {//未登录
+        if (!loginStatus) {//未登录
             linearContinueStudy.setVisibility(linearContinueStudy.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//继续学习
             linearPlandetail.setVisibility(linearPlandetail.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//学习计划详情
             linearNotice.setVisibility(linearNotice.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//学习公告
@@ -492,7 +492,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
         learncenterPlanAdapter.setItemClick(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (login_status) {
+                if (loginStatus) {
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constant.COURSE_ID, planBeanList.get(position).getCourse_id());
                     bundle.putInt(Constant.TYPE, planBeanList.get(position).getIs_exper());
@@ -550,20 +550,20 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                 projectList.clear();
                 projectList.addAll(result.getData());
                 if (projectList != null && projectList.size() > 0) {//TODO  已购买过的科目
-                    currentSubject_id = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
+                    currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
                     if (projectList.size() == 1) {//TODO  只有一个题库
-                        currentSubject_id = projectList.get(0).getId();//默认选中第一个
-                        sharedPreferencesUtils.putInt(Constant.SUBJECT_ID, currentSubject_id);//存放当前的科目ID
+                        currentSubjectId = projectList.get(0).getId();//默认选中第一个
+                        sharedPreferencesUtils.putInt(Constant.SUBJECT_ID, currentSubjectId);//存放当前的科目ID
                     } else {//TODO  多个题库
-                        if (currentSubject_id != 0) {//TODO 本地已存储上次的科目
+                        if (currentSubjectId != 0) {//TODO 本地已存储上次的科目
                             for (int i = 0; i < projectList.size(); i++) {
-                                if (currentSubject_id == projectList.get(i).getId()) {
+                                if (currentSubjectId == projectList.get(i).getId()) {
                                     break;
                                 }
                             }
                         } else {//TODO 未存储上次的科目
-                            currentSubject_id = projectList.get(0).getId();//默认选中第一个
-                            sharedPreferencesUtils.putInt(Constant.SUBJECT_ID, currentSubject_id);//存放当前的科目ID
+                            currentSubjectId = projectList.get(0).getId();//默认选中第一个
+                            sharedPreferencesUtils.putInt(Constant.SUBJECT_ID, currentSubjectId);//存放当前的科目ID
                         }
                     }
                 }

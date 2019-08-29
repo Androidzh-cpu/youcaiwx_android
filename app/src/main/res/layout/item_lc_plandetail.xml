@@ -23,7 +23,6 @@
             android:id="@+id/item_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_FCFF00"
             android:orientation="vertical"
             android:paddingBottom="@dimen/dp_8"
             android:paddingEnd="@dimen/dp_7"
@@ -121,6 +120,8 @@
                     android:clickable="false"
                     android:focusable="false"
                     android:max="100"
+                    android:maxHeight="@dimen/dp_20"
+                    android:minHeight="@dimen/dp_10"
                     android:progressDrawable="@color/transparency"
                     android:thumbOffset="0dp" />
             </FrameLayout>
