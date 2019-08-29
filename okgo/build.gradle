@@ -1,19 +1,19 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion rootProject.ext.okGo.compileSdkVersion
+    buildToolsVersion rootProject.ext.okGo.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion rootProject.ext.libMinSdkVersion_okgo
-        targetSdkVersion rootProject.ext.targetSdkVersion_okgo
-        versionCode rootProject.ext.versionCode_okgo
-        versionName rootProject.ext.versionName_okgo
+        minSdkVersion rootProject.ext.okGo.libMinSdkVersion_okgo
+        targetSdkVersion rootProject.ext.okGo.targetSdkVersion_okgo
+        versionCode rootProject.ext.okGo.versionCode_okgo
+        versionName rootProject.ext.okGo.versionName_okgo
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation rootProject.ext.okGo.okhttp3
 
 }

@@ -2,8 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
     aaptOptions.cruncherEnabled = false
     aaptOptions.useNewCruncher = false
+
     defaultConfig {
         applicationId rootProject.ext.android.applicationId
 
@@ -179,11 +182,10 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation rootProject.ext.dependencies.junit
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation rootProject.ext.supportLib.appcompat_v7
     implementation rootProject.ext.supportLib.support_v4
     implementation rootProject.ext.supportLib.support_design
