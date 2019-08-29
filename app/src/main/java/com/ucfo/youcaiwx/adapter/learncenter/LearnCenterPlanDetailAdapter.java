@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -37,8 +38,6 @@ import com.ucfo.youcaiwx.utils.glideutils.GlideCircleTransform;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 
 import java.util.List;
-
-import it.sephiroth.android.library.imagezoom.graphics.FastBitmapDrawable;
 
 /**
  * Author: AND
@@ -146,19 +145,21 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         SimpleTarget<GlideDrawable> simpleTarget = new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource, GlideAnimation glideAnimation) {
-                int minimumHeight = resource.getMinimumHeight();
-                int minimumWidth = resource.getMinimumWidth();
+                int w = resource.getIntrinsicWidth();
+                int h = resource.getIntrinsicHeight();
                 Bitmap.Config config = resource.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
-                Bitmap bitmap = Bitmap.createBitmap(minimumWidth, minimumHeight, config);
+                Bitmap bitmap = Bitmap.createBitmap(w, h, config);
                 Canvas canvas = new Canvas(bitmap);
-                resource.setBounds(0, 0, minimumWidth, minimumHeight);
+                resource.setBounds(0, 0, w, h);
                 resource.draw(canvas);
+                int bitmapWidth = bitmap.getWidth();
+                int bitmapHeight = bitmap.getHeight();
                 Matrix matrix = new Matrix();
-                float scaleWidth = ((float) DensityUtil.dip2px(context, 22) / minimumWidth);
-                float scaleHeight = ((float) DensityUtil.dip2px(context, 22) / minimumHeight);
+                float scaleWidth = ((float) DensityUtil.dip2px(context, 22) / bitmapWidth);
+                float scaleHeight = ((float) DensityUtil.dip2px(context, 22) / bitmapHeight);
                 matrix.postScale(scaleWidth, scaleHeight);
-                Bitmap newbmp = Bitmap.createBitmap(bitmap, 0, 0, minimumWidth, minimumHeight, matrix, true);
-                Drawable drawable = new FastBitmapDrawable(newbmp);
+                Bitmap newbmp = Bitmap.createBitmap(bitmap, 0, 0, bitmapWidth, bitmapHeight, matrix, true);
+                BitmapDrawable drawable = new BitmapDrawable(context.getResources(), newbmp);
                 holder.mSeekbar.setThumb(drawable);
                 setSeekBarDistance(holder.mSeekbar, holder.mTextSeekbar);
             }
@@ -166,7 +167,6 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, context.getResources().getDisplayMetrics());
         int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, context.getResources().getDisplayMetrics());
         Glide.with(context).load(userBeanHead).centerCrop().placeholder(R.mipmap.icon_headdefault)
-                //.override(DensityUtil.dip2px(context, 22), DensityUtil.dip2px(context, 22))
                 .override(width, height)
                 .transform(new GlideCircleTransform(context, 3, ContextCompat.getColor(context, R.color.color_FAA827)))
                 .skipMemoryCache(false).priority(Priority.HIGH)
@@ -174,16 +174,18 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         holder.mSeekbar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return true;
+                return false;
             }
         });
         holder.mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int thumbWidth = seekBar.getThumb().getBounds().width();
-                seekBar.setPadding(thumbWidth / 2, 0, thumbWidth / 2, 0);
+                int thumbPadding = thumbWidth / 2;
+                seekBar.setPadding(thumbPadding, 0, thumbPadding, 0);
                 float finalPostion = 0;
                 float textWidth = DensityUtil.dp2px(82);
+                int b = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, context.getResources().getDisplayMetrics());
                 float seekBarWidth = displayMetrics.widthPixels - DensityUtil.dp2px(48) - thumbWidth;
                 float thumbhalfswidth = thumbWidth / 2;
                 float average = seekBarWidth / seekBar.getMax();
@@ -218,7 +220,7 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         float finalPostion = 0;
         float textWidth = DensityUtil.dp2px(82);
         int b = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, context.getResources().getDisplayMetrics());
-        float seekBarWidth = displayMetrics.widthPixels - b - thumbWidth;
+        float seekBarWidth = displayMetrics.widthPixels - DensityUtil.dp2px(48) - thumbWidth;
         float thumbhalfswidth = thumbWidth / 2;
         float average = seekBarWidth / seekBar.getMax();
         float residueAverage = (seekBar.getMax() - seekBar.getProgress()) * average;
