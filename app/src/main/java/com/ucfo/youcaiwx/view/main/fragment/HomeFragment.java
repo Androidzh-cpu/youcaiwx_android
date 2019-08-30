@@ -66,6 +66,7 @@ import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -188,35 +189,37 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
 
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(RefreshLayout refreshLayout) {
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 homePresenter.getHomeData("home");
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onLoadMore(RefreshLayout refreshLayout) {
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 homePresenter.getHomeData("home");
             }
         });
 
-        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) Objects.requireNonNull(getActivity()).getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
+        if (wm != null) {
+            wm.getDefaultDisplay().getMetrics(dm);
+        }
         int width = dm.widthPixels;         // 屏幕宽度（像素）
         int titleMeasuredWidth = AppUtils.getViewWidth(titlebarTitle);
 
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            private int lastScrollY = 0;
+            private int lastscrolly = 0;
             private int h = width / 2 - titleMeasuredWidth / 2 - DensityUtil.dip2px(context, 21);
 
             @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (lastScrollY < h) {
-                    scrollY = Math.min(h, scrollY);
-                    mScrollY = scrollY > h ? h : scrollY;
+            public void onScrollChange(NestedScrollView v, int scrollx, int scrolly, int oldscrollx, int oldscrolly) {
+                if (lastscrolly < h) {
+                    scrolly = Math.min(h, scrolly);
+                    mScrollY = scrolly > h ? h : scrolly;
                     titlebarTitle.setTranslationX(mScrollY - mOffset);
                 }
-                lastScrollY = scrollY;
+                lastscrolly = scrolly;
             }
         });
         refreshLayout.setOnMultiPurposeListener(new SimpleMultiPurposeListener() {

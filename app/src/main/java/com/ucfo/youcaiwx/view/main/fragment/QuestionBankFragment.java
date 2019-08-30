@@ -352,11 +352,9 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
      */
     @SuppressLint("InflateParams")
     private void subjectWindow() {
-        if (projectList.size() > 0) {
+        if (projectList.size() > 1) {
             View mContentView = null;
-            if (mContentView == null) {
-                mContentView = LayoutInflater.from(getActivity()).inflate(R.layout.popuwindow_subject, null, false);
-            }
+            mContentView = LayoutInflater.from(getActivity()).inflate(R.layout.popuwindow_subject, null, false);
             if (popupWindow == null) {
                 popupWindow = new PopupWindow(mContentView);
                 popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
@@ -407,4 +405,5 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     public void toastInfo(CharSequence text) {
         ToastUtil.showBottomShortText(getActivity(), text);
     }
+
 }

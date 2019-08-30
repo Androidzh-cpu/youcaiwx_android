@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -99,11 +100,13 @@ public class AddLearningPlanActivity extends BaseActivity implements IAddlearnPl
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         context = this;
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
-        SpacesItemDecoration spacesItemDecoration = new SpacesItemDecoration(DensityUtil.dp2px(10), DensityUtil.dp2px(34), ContextCompat.getColor(context, R.color.colorWhite));
+        SpacesItemDecoration spacesItemDecoration = new SpacesItemDecoration(0, DensityUtil.dp2px(10), ContextCompat.getColor(context, R.color.colorWhite));
         recyclerview.addItemDecoration(spacesItemDecoration);
-        recyclerview.setLayoutManager(gridLayoutManager);
+        recyclerview.setLayoutManager(linearLayoutManager);
     }
 
     @Override

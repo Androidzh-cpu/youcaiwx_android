@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.hubert.guide.NewbieGuide;
@@ -128,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onLayoutInflated(View view, Controller controller) {
                                 ImageView constraintLayout = view.findViewById(R.id.image_view);
+                                TextView button = view.findViewById(R.id.button_back);
+                                button.setVisibility(View.VISIBLE);
+                                button.bringToFront();
                                 view.findViewById(R.id.button_back).setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
