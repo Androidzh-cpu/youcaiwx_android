@@ -79,8 +79,8 @@ import com.ucfo.youcaiwx.presenter.view.course.ICoursePlayerView;
 import com.ucfo.youcaiwx.utils.CallUtils;
 import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.ShareUtils;
-import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
+import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
@@ -139,7 +139,6 @@ import static com.ucfo.youcaiwx.view.course.player.courseinterface.ViewAction.Hi
  * TODO course_buy_state:1购买2未购买
  */
 public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceHolder.Callback, ICoursePlayerView {
-
     @BindView(R.id.course_coverimage)
     ImageView courseCoverimage;
     @BindView(R.id.tablayout)
@@ -280,7 +279,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         @Override
         public void handleMessage(Message msg) {
             handleProgressUpdateMessage(msg);
-            LogUtils.e("ProgressUpdateTimer   msg: " + msg.what);
             super.handleMessage(msg);
         }
     }
@@ -334,6 +332,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         initNetWatchdog();
         //播放来源视频设置
         initSourseType();
+
         if (login_status) {//登录后择机开启socket
             boolean equals = TextUtils.equals(course_Source, Constant.LOCAL_CACHE);
             if (!equals) {
@@ -526,25 +525,22 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     //TODO 播放来源视频设置
     private void initSourseType() {
         if (course_Source.equals(Constant.COLLECTION)) {//TODO 收藏
-            int section_id = bundle.getInt(Constant.SECTION_ID, 0);//章
+            int sectionId = bundle.getInt(Constant.SECTION_ID, 0);//章
             String vid = bundle.getString(Constant.COURSE_VIDEOID, "");//阿里VID
-            int video_id = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
-            int course_id = bundle.getInt(Constant.COURSE_ID, 0);//课ID
-            String title = bundle.getString(Constant.TITLE, getResources().getString(R.string.default_title));//视频标题
+            int videoId = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
+            int courseId = bundle.getInt(Constant.COURSE_ID, 0);//课ID
 
-            setPlayVideoName(title);//切换提问标题
             setCourse_un_con(course_un_con);//正课标识
 
-            changePlayVidSource(vid, video_id, course_id, section_id);//切换视频播放源
+            changePlayVidSource(vid, videoId, courseId, sectionId);//切换视频播放源
         } else if (course_Source.equals(Constant.WATCH_RECORD)) {//TODO 观看记录
-            int section_id = bundle.getInt(Constant.SECTION_ID, 0);//章
+            int sectionId = bundle.getInt(Constant.SECTION_ID, 0);//章
             String vid = bundle.getString(Constant.COURSE_VIDEOID, "");//阿里VID
-            int video_id = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
-            int course_id = bundle.getInt(Constant.COURSE_ID, 0);//课ID
-            String title = bundle.getString(Constant.TITLE, getResources().getString(R.string.default_title));//视频标题
-            setPlayVideoName(title);//切换标题
+            int videoId = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
+            int courseId = bundle.getInt(Constant.COURSE_ID, 0);//课ID
+
             setCourse_un_con(course_un_con);//正课标识
-            changePlayVidSource(vid, video_id, course_id, section_id);//切换视频播放源
+            changePlayVidSource(vid, videoId, courseId, sectionId);//切换视频播放源
 
             AliyunScreenMode targetMode;
             if (mCurrentScreenMode == AliyunScreenMode.Small) {
@@ -587,11 +583,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             String vid = bundle.getString(Constant.COURSE_VIDEOID, "");//阿里VID
             int video_id = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
             int course_id = bundle.getInt(Constant.COURSE_ID, 0);//课ID
-            String title = bundle.getString(Constant.TITLE, getResources().getString(R.string.default_title));//视频标题
             learnPlanid = bundle.getInt(Constant.PLAN_ID, 0);//计划
             learnDays = bundle.getInt(Constant.DAYS, 0);//计划天数
 
-            setPlayVideoName(title);//切换提问标题
             setCourse_un_con(course_un_con);//正课标识
             changePlayVidSource(vid, video_id, course_id, section_id);//切换视频播放源
 
@@ -657,7 +651,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         mNetWatchdog = new NetWatchdog(context);
         mNetWatchdog.setNetChangeListener(new MyNetChangeListener(this));
         mNetWatchdog.setNetConnectedListener(new MyNetConnectedListener());
-
     }
 
     /**
@@ -845,7 +838,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         aliyunVodPlayer.prepareAsync(mAliyunPlayAuth);//播放器开始准备播放
     }
 
-
     /**
      * 切换播放状态。点播播放按钮之后的操作
      */
@@ -892,7 +884,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
     }
 
-    //试听限制
+    /**
+     * 试听时间设置
+     */
     private void freeWatch() {
         //已购买
         if (getCourse_buy_state() == 1 || TextUtils.equals(course_Source, Constant.LOCAL_CACHE)
@@ -1019,7 +1013,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         File externalFilesDir = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {//API19以上在应用存储空间里存储
             externalFilesDir = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
-        } else {//低于API19则存储在自定义文件夹下
+        } else {
+            //低于API19则存储在自定义文件夹下
             externalFilesDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + Constant.PDF_PATH);
         }
         if (externalFilesDir != null) {
@@ -1072,11 +1067,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             public void onError(com.lzy.okgo.model.Response<File> response) {
                 super.onError(response);
                 pdfDownloadStatus = false;
-            }
-
-            @Override
-            public void onFinish() {
-                super.onFinish();
             }
         });
     }
@@ -1388,13 +1378,16 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 //状态栏可操作
                 setLayoutVisibility(true, false);
 
-                if (course_Source.equals(Constant.WATCH_RECORD) || course_Source.equals(Constant.LOCAL_CACHE)) {
-                    changeScreenMode(AliyunScreenMode.Small);//TODO 横竖屏切换
-                    finish();//退出本页面
+                //本地视频,学习中心,观看记录视频播放完毕后需退出本页面
+                if (TextUtils.equals(course_Source, Constant.WATCH_RECORD) ||
+                        TextUtils.equals(course_Source, Constant.LOCAL_CACHE) || TextUtils.equals(course_Source, Constant.WATCH_LEARNPLAN)) {
+                    changeScreenMode(AliyunScreenMode.Small);
+                    finish();
                     return;
                 }
-                if (continuousPlay) {//连续播放
-                    onNext();//TODO 播放下一个视频
+                if (continuousPlay) {
+                    //TODO 播放下一个视频
+                    onNext();
                 } else {
                     playerTipsview.setVisibility(View.VISIBLE);
                     playerTipsview.setText(getResources().getString(R.string.course_completed));
@@ -1524,13 +1517,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private void initGestureView() {
         mGestureDialogManager = new GestureDialogManager(this);
         mGestureView = new GestureView(this);
+        int playerToplinerHeight = AppUtils.getViewHeight(playerTopliner);
+        int playerBottomlinerHeight = AppUtils.getViewHeight(playerBottomliner);
 
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.MATCH_PARENT);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        params.setMargins(0, DensityUtil.dip2px(this, 42), 0, DensityUtil.dip2px(this, 32));
+        params.setMargins(0, playerToplinerHeight, 0, playerBottomlinerHeight);
         playerRelativelayout.addView(mGestureView, params);//添加到布局中
-
 
         //设置手势监听
         mGestureView.setOnGestureListener(new GestureView.GestureListener() {
@@ -1670,7 +1663,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             if (TextUtils.isEmpty(course_coverimage)) {
                 courseCoverimage.setImageDrawable(ContextCompat.getDrawable(context, R.color.colorPrimary));
             } else {
-                GlideUtils.loadImageViewLoding(context, course_coverimage, courseCoverimage, R.mipmap.banner_default, R.mipmap.banner_default);//TODO 课程封面
+                Glide.with(this).load(course_coverimage)
+                        .placeholder(ContextCompat.getDrawable(context, R.mipmap.banner_default)).error(R.mipmap.banner_default)
+                        .crossFade(500)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL).priority(Priority.HIGH)
+                        .into(courseCoverimage);
             }
         } else {
             courseCoverimage.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.banner_default));
@@ -1682,15 +1679,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (TextUtils.isEmpty(course_coverimage)) {
             courseCoverimage.setImageDrawable(ContextCompat.getDrawable(context, R.color.colorPrimary));
         } else {
-            Glide.with(this)
-                    .load(course_coverimage)
-                    .asBitmap()
-                    .placeholder(ContextCompat.getDrawable(context, R.color.colorPrimary))
-                    .error(R.mipmap.image_loaderror)
-                    .dontAnimate()
-                    .skipMemoryCache(false)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .priority(Priority.HIGH)
+            Glide.with(this).load(course_coverimage)
+                    .placeholder(ContextCompat.getDrawable(context, R.mipmap.banner_default)).error(R.mipmap.banner_default)
+                    .crossFade(500)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL).priority(Priority.HIGH)
                     .into(courseCoverimage);
         }
     }
@@ -1704,12 +1696,17 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         videoPlayPageActivity = VideoPlayPageActivity.this;
         context = this;
         windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        //重新设置菜单栏的高度
+        int statusBarHeight = StatusBarUtil.getStatusBarHeight(this);
+        playerTopliner.setPadding(DensityUtil.dp2px(15), statusBarHeight, DensityUtil.dp2px(15), DensityUtil.dp2px(2));
 
-        playerSpeed.setText(String.valueOf(currentSpeed + "X"));//当前倍速设置文字
+        //当前倍速设置文字
+        playerSpeed.setText(String.valueOf(currentSpeed + "X"));
 
-        surfaceview.setKeepScreenOn(true);//TODO 保持屏幕常亮
+        //TODO 保持屏幕常亮
+        surfaceview.setKeepScreenOn(true);
         surfaceHolder = surfaceview.getHolder();
-        surfaceHolder.addCallback(this);//添加surfaceviewholder回调接口
+        surfaceHolder.addCallback(this);
 
         //seekbar的滑动监听
         SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
@@ -1950,7 +1947,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
     }
 
-    //todo 提问
+    /**
+     * 提问
+     */
     private void askCourseQuestion() {
         if (login_status) {
             if (getCourse_buy_state() == 1) {//todo 已购买
@@ -2073,26 +2072,42 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (data == null) {
             playerTipsview.setText(getResources().getString(R.string.course_getInfoError));
             playerTipsview.setVisibility(View.VISIBLE);
+            courseCoverimage.setVisibility(courseCoverimage.getVisibility() == View.VISIBLE ? View.GONE : View.INVISIBLE);
         } else {
             if (data.getCode() == 200) {
-                playerLoadingview.setVisibility(View.VISIBLE);//开始加载,进度
-                playerTipsview.setVisibility(View.GONE);//开始加载,进度
-                courseCoverimage.setVisibility(courseCoverimage.getVisibility() == View.VISIBLE ? View.GONE : View.INVISIBLE);//封面隐藏
+                //开始加载,进度
+                playerLoadingview.setVisibility(View.VISIBLE);
+                playerTipsview.setVisibility(View.GONE);
+                //封面隐藏
+                courseCoverimage.setVisibility(courseCoverimage.getVisibility() == View.VISIBLE ? View.GONE : View.INVISIBLE);
 
-                String playAuth = data.getData().getPlayAuth();//获取播放凭证
-                int time = data.getData().getWatch_time();//获取视频时间
+                //获取播放凭证
+                String playAuth = data.getData().getPlayAuth();
+                //获取视频时间
+                int time = data.getData().getWatch_time();
                 watch_time = time * 1000;
-                currentVideoCollectState = data.getData().getCollect();//当前播放视频收藏状态
-                if (currentVideoCollectState == 2) {//2 没有收藏
+                //当前播放视频收藏状态
+                currentVideoCollectState = data.getData().getCollect();
+                if (currentVideoCollectState == 2) {
+                    //2 没有收藏
                     playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playunstar));
                 } else {
                     playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playstar));
                 }
                 if (!TextUtils.isEmpty(data.getData().getHandouts())) {
                     switchPDF(data.getData().getHandouts(), currentVid);
-                    pdfExists = true;//讲义存在
+                    //讲义存在
+                    pdfExists = true;
                 } else {
-                    pdfExists = false;//讲义不存在
+                    //讲义不存在
+                    pdfExists = false;
+                }
+                if (!TextUtils.isEmpty(data.getData().getTitle())) {
+                    String title = data.getData().getTitle();
+                    if (title.endsWith(".mp4")) {
+                        title = title.replace(".mp4", "").trim();
+                    }
+                    setPlayVideoName(title);
                 }
 
                 AliyunPlayAuth.AliyunPlayAuthBuilder aliyunPlayAuthBuilder = new AliyunPlayAuth.AliyunPlayAuthBuilder();
@@ -2175,7 +2190,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         LogUtils.e(" surfaceDestroyed = surfaceHolder = " + surfaceHolder);
-
     }
 
     /**
@@ -2365,7 +2379,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
     public void setPlayVideoName(String playVideoName) {
         this.playVideoName = playVideoName;
-        playerVideotitle.setText(playVideoName);//设置播放标题
+        //设置播放标题
+        playerVideotitle.setText(playVideoName);
     }
 
     public int getCourse_un_con() {

@@ -13,7 +13,6 @@ import java.util.Stack;
  * Email:2911743255@qq.com
  * ClassName: ActivityUtil
  * Description:activity管理器
- * Detail:
  */
 public class ActivityUtil {
     private static ActivityUtil mSingleInstance;
@@ -55,8 +54,9 @@ public class ActivityUtil {
         Activity activity;
         while (!mActicityStack.empty()) {
             activity = mActicityStack.pop();
-            if (activity != null)
+            if (activity != null) {
                 activity.finish();
+            }
         }
     }
 
@@ -72,7 +72,7 @@ public class ActivityUtil {
         return false;
     }
 
-    public Activity findActivityByClass(Class<? extends Activity> actCls) {
+    private Activity findActivityByClass(Class<? extends Activity> actCls) {
         Activity aActivity = null;
         Iterator<Activity> itr = mActicityStack.iterator();
         while (itr.hasNext()) {

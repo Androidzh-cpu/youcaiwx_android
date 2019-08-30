@@ -180,7 +180,6 @@ public class WatchTheRecordActivity extends BaseActivity implements IMineCourseV
                     bundle.putString(Constant.COURSE_VIDEOID, bean.getVideoId());//阿里VID
                     bundle.putInt(Constant.VIDEO_ID, bean.getVideo_id());//小节ID
                     bundle.putInt(Constant.COURSE_ID, bean.getCourse_id());//课ID
-                    bundle.putString(Constant.TITLE, bean.getVideo_name());//视频标题
                     startActivity(VideoPlayPageActivity.class, bundle);
                 }
             }

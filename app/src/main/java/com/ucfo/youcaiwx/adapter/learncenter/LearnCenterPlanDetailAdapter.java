@@ -141,6 +141,7 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         }
         int progress2 = Integer.parseInt(schedule) * 100 / planDays;
         holder.mSeekbar.setProgress(progress2);
+        holder.mSeekbar.setThumb(ContextCompat.getDrawable(context, R.color.transparency));
         holder.mTextSeekbar.setText(context.getResources().getString(R.string.progressbarIndetior, String.valueOf(schedule)));
         SimpleTarget<GlideDrawable> simpleTarget = new SimpleTarget<GlideDrawable>() {
             @Override
@@ -180,24 +181,7 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         holder.mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int thumbWidth = seekBar.getThumb().getBounds().width();
-                int thumbPadding = thumbWidth / 2;
-                seekBar.setPadding(thumbPadding, 0, thumbPadding, 0);
-                float finalPostion = 0;
-                float textWidth = DensityUtil.dp2px(82);
-                int b = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, context.getResources().getDisplayMetrics());
-                float seekBarWidth = displayMetrics.widthPixels - b - thumbWidth;
-                float thumbhalfswidth = thumbWidth / 2;
-                float average = seekBarWidth / seekBar.getMax();
-                float residueAverage = (seekBar.getMax() - seekBar.getProgress()) * average;
-                if (residueAverage < textWidth) {
-                    holder.mTextSeekbar.setBackground(indicator_end);
-                    finalPostion = average * progress + thumbhalfswidth - textWidth + thumbWidth;
-                } else {
-                    holder.mTextSeekbar.setBackground(indicator_start);
-                    finalPostion = thumbhalfswidth + average * progress - DensityUtil.dp2px(5);
-                }
-                holder.mTextSeekbar.setX(finalPostion);
+                setSeekBarDistance(seekBar, holder.mTextSeekbar);
             }
 
             @Override
@@ -213,6 +197,7 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
     }
 
     private void setSeekBarDistance(SeekBar seekBar, TextView textView) {
+        textView.setX(0);
         int progress = seekBar.getProgress();
         int thumbWidth = seekBar.getThumb().getBounds().width();
         int thumbPadding = thumbWidth / 2;
@@ -231,7 +216,9 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
             textView.setBackground(indicator_start);
             finalPostion = thumbhalfswidth + average * progress - DensityUtil.dp2px(5);
         }
-        textView.setX(finalPostion);
+        //textView.setX(finalPostion);
+        float textViewX = textView.getX();
+        textView.setTranslationX(finalPostion - textViewX - DensityUtil.dp2px(5));
     }
 
     @Override

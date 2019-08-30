@@ -15,7 +15,6 @@ import com.ucfo.youcaiwx.R;
 public class AntiShakeUtils {
     private final static long INTERNAL_TIME = 1000;
 
-
     /**
      * Whether this click event is invalid.
      *
@@ -23,11 +22,8 @@ public class AntiShakeUtils {
      * @return true, invalid click event.
      * @see #isInvalidClick(View, long)
      */
-
     public static boolean isInvalidClick(@NonNull View target) {
-
         return isInvalidClick(target, INTERNAL_TIME);
-
     }
 
 

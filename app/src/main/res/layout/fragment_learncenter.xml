@@ -65,9 +65,12 @@
                             android:id="@+id/user_nickname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:ellipsize="middle"
+                            android:maxLines="1"
                             android:text="@string/learncenter_login"
                             android:textColor="@android:color/white"
-                            android:textSize="@dimen/sp_20" />
+                            android:textSize="@dimen/sp_20"
+                            tools:ignore="EllipsizeMaxLines" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"

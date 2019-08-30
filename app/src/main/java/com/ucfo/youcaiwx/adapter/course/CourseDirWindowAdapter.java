@@ -80,19 +80,19 @@ public class CourseDirWindowAdapter extends BaseExpandableListAdapter {
                 view = LayoutInflater.from(context).inflate(R.layout.item_coursedir_group, parent, false);
             }
             groupholder = new GroupHolder();
-            groupholder.course_title = (TextView) view.findViewById(R.id.item_course_sectionname);
-            groupholder.course_groupbtn = (ImageView) view.findViewById(R.id.item_course_groupbtn);
+            groupholder.courseTitle = (TextView) view.findViewById(R.id.item_course_sectionname);
+            groupholder.courseGroupbtn = (ImageView) view.findViewById(R.id.item_course_groupbtn);
             view.setTag(groupholder);
         }
         //判断是否已经打开列表
         if (isExpanded) {//已打开
-            groupholder.course_groupbtn.setImageResource(R.mipmap.icon_top_arrows);
+            groupholder.courseGroupbtn.setImageResource(R.mipmap.icon_top_arrows);
         } else {//关闭状态
-            groupholder.course_groupbtn.setImageResource(R.mipmap.icon_bottom_arrows);
+            groupholder.courseGroupbtn.setImageResource(R.mipmap.icon_bottom_arrows);
         }
         String section_name = list.get(groupPosition).getSection_name();
         if (!TextUtils.isEmpty(section_name)) {
-            groupholder.course_title.setText(section_name);
+            groupholder.courseTitle.setText(section_name);
         }
         return view;
     }
@@ -109,8 +109,8 @@ public class CourseDirWindowAdapter extends BaseExpandableListAdapter {
                 view = LayoutInflater.from(context).inflate(R.layout.item_coursedir_child, parent, false);
             }
             childholder = new ChildHolder();
-            childholder.course_sectionname = (TextView) view.findViewById(R.id.item_course_sectionname);
-            childholder.course_titme = (TextView) view.findViewById(R.id.item_course_sectiontime);
+            childholder.courseSectionname = (TextView) view.findViewById(R.id.item_course_sectionname);
+            childholder.courseTitme = (TextView) view.findViewById(R.id.item_course_sectiontime);
             view.setTag(childholder);
         }
         if (list.get(groupPosition).getVideo() != null && list.get(groupPosition).getVideo().size() > 0) {
@@ -118,24 +118,24 @@ public class CourseDirWindowAdapter extends BaseExpandableListAdapter {
 
             if (videoBean != null) {
                 if (!TextUtils.isEmpty(videoBean.getVideo_name())) {
-                    childholder.course_sectionname.setText(videoBean.getVideo_name());
+                    childholder.courseSectionname.setText(videoBean.getVideo_name());
                 }
                 if (!TextUtils.isEmpty(videoBean.getVideo_time())) {
-                    childholder.course_titme.setText(videoBean.getVideo_time());
+                    childholder.courseTitme.setText(videoBean.getVideo_time());
                 }
 
                 //TODO 添加多个套餐中播放课程的索引
                 if (currentPlayCourseIndex == currentClickCourseIndex) {
                     if (groupIndex == groupPosition && sonIndex == childPosition) {
-                        childholder.course_sectionname.setTextColor(ContextCompat.getColor(context, R.color.color_0267FF));
-                        childholder.course_titme.setTextColor(ContextCompat.getColor(context, R.color.color_0267FF));
+                        childholder.courseSectionname.setTextColor(ContextCompat.getColor(context, R.color.color_0267FF));
+                        childholder.courseTitme.setTextColor(ContextCompat.getColor(context, R.color.color_0267FF));
                     } else {
-                        childholder.course_sectionname.setTextColor(ContextCompat.getColor(context, R.color.color_666666));
-                        childholder.course_titme.setTextColor(ContextCompat.getColor(context, R.color.color_999999));
+                        childholder.courseSectionname.setTextColor(ContextCompat.getColor(context, R.color.color_666666));
+                        childholder.courseTitme.setTextColor(ContextCompat.getColor(context, R.color.color_999999));
                     }
                 } else {
-                    childholder.course_sectionname.setTextColor(ContextCompat.getColor(context, R.color.color_666666));
-                    childholder.course_titme.setTextColor(ContextCompat.getColor(context, R.color.color_999999));
+                    childholder.courseSectionname.setTextColor(ContextCompat.getColor(context, R.color.color_666666));
+                    childholder.courseTitme.setTextColor(ContextCompat.getColor(context, R.color.color_999999));
                 }
             }
         }
@@ -155,12 +155,12 @@ public class CourseDirWindowAdapter extends BaseExpandableListAdapter {
     }
 
     protected static class GroupHolder {
-        TextView course_title;
-        ImageView course_groupbtn;
+        TextView courseTitle;
+        ImageView courseGroupbtn;
     }
 
     protected static class ChildHolder {
-        TextView course_titme;
-        TextView course_sectionname;
+        TextView courseTitme;
+        TextView courseSectionname;
     }
 }

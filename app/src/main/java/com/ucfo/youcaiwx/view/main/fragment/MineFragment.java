@@ -328,8 +328,8 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
             userIcon.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_headdefault));
         } else {
             Glide.with(context).load(head)
-                    .transform(new CenterCrop(context), new GlideRoundTransform(context))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL).crossFade().into(userIcon);
+                    .transform(new CenterCrop(context), new GlideRoundTransform(context)).crossFade()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL).into(userIcon);
         }
         if (!TextUtils.isEmpty(username)) {//todo 昵称
             userNickname.setText(username);

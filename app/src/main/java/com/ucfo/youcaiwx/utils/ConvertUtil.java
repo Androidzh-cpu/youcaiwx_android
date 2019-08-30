@@ -10,7 +10,6 @@ import android.text.TextUtils;
  */
 
 public class ConvertUtil {
-
     //把String转化为float
     public static float convertToFloat(String number, float defaultValue) {
         if (TextUtils.isEmpty(number)) {
@@ -69,7 +68,6 @@ public class ConvertUtil {
         }
 
     }
-
 
 
 }

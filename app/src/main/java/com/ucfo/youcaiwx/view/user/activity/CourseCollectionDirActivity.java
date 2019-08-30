@@ -183,7 +183,6 @@ public class CourseCollectionDirActivity extends BaseActivity implements IMineCo
                 bundle.putString(Constant.COURSE_VIDEOID, list.get(groupPosition).getVideo().get(childPosition).getVideoId());//阿里VID
                 bundle.putInt(Constant.VIDEO_ID, list.get(groupPosition).getVideo().get(childPosition).getId());//小节ID
                 bundle.putInt(Constant.COURSE_ID, course_id);//课ID
-                bundle.putString(Constant.TITLE, list.get(groupPosition).getVideo().get(childPosition).getVideo_name());//视频标题
                 startActivity(VideoPlayPageActivity.class, bundle);
                 return true;
             }

@@ -104,7 +104,7 @@
     <string name="course_baoming">立即报名</string>
     <string name="course_bugBank">您还未购买题库</string>
     <string name="course_bugCourse">您还未购买课程</string>
-    <string name="course_notAsk">改课程无法提问</string>
+    <string name="course_notAsk">该课程无法提问</string>
     <string name="course_completed">播放完毕</string>
     <string name="course_videoLoading">视频加载中</string>
     <string name="course_courseDuration">课程时长</string>

@@ -29,10 +29,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:ellipsize="middle"
                 android:gravity="center"
+                android:maxLines="1"
                 android:text="@string/question_default"
                 android:textColor="@color/color_333333"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_16"
+                tools:ignore="EllipsizeMaxLines" />
 
             <ImageView
                 android:id="@+id/titlebar_midimage"

@@ -346,13 +346,13 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                     startActivity(LoginActivity.class, null);
                 } else {
                     String vid = sectionList.get(groupPosition).getVideo().get(childPosition).getVideoId();
-                    int video_id = sectionList.get(groupPosition).getVideo().get(childPosition).getId();
-                    int course_id = sectionList.get(groupPosition).getVideo().get(childPosition).getCourse_id();
-                    int section_id = sectionList.get(groupPosition).getVideo().get(childPosition).getSection_id();
-                    String video_name = sectionList.get(groupPosition).getVideo().get(childPosition).getVideo_name();
+                    int videoId = sectionList.get(groupPosition).getVideo().get(childPosition).getId();
+                    int courseId = sectionList.get(groupPosition).getVideo().get(childPosition).getCourse_id();
+                    int sectionId = sectionList.get(groupPosition).getVideo().get(childPosition).getSection_id();
+                    String videoName = sectionList.get(groupPosition).getVideo().get(childPosition).getVideo_name();
 
-                    videoPlayPageActivity.changePlayVidSource(vid, video_id, course_id, section_id);//TODO 调用播放器,切换视频
-                    videoPlayPageActivity.setPlayVideoName(video_name);//切换提问标题
+                    videoPlayPageActivity.changePlayVidSource(vid, videoId, courseId, sectionId);//TODO 调用播放器,切换视频
+                    //是否是正课标识
                     videoPlayPageActivity.setCourse_un_con(course_un_con);//是否是正课标识
 
                     groupIndex = groupPosition;
@@ -400,23 +400,23 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                 }
             }
         }
-        if (groupIndex <= section.size() - 1) {
+        if (section != null && groupIndex <= section.size() - 1) {
             ToastUtil.showBottomLongText(getActivity(), getResources().getString(R.string.course_changing));
             //TODO 获取切换视频所需信息
             CourseDirBean.DataBean.SectionBean.VideoBean videoBean = section.get(groupIndex).getVideo().get(sonIndex);
             String vid = videoBean.getVideoId();
-            int video_id = videoBean.getId();
-            int course_id = videoBean.getCourse_id();
-            int section_id = videoBean.getSection_id();
+            int videoId = videoBean.getId();
+            int courseId = videoBean.getCourse_id();
+            int sectionId = videoBean.getSection_id();
 
-            videoPlayPageActivity.changePlayVidSource(vid, video_id, course_id, section_id);//TODO 调用播放器,切换视频
+            videoPlayPageActivity.changePlayVidSource(vid, videoId, courseId, sectionId);//TODO 调用播放器,切换视频
 
             if (courseDirWindowAdapter != null) {
+                //设置选中的位置
+                courseDirWindowAdapter.setSelectPosition(groupIndex, sonIndex, currentPlayCourseIndex, currentClickCourseIndex);
                 courseDirWindowAdapter.notifyDataSetChanged();
             }
-            courseDirWindowAdapter.setSelectPosition(groupIndex, sonIndex, currentPlayCourseIndex, currentClickCourseIndex);//设置选中的位置
-            coursePackageListAdapter.notifyDataSetChanged();//列表刷新
-            courseDirWindowAdapter.notifyDataSetChanged();//列表刷新
+            coursePackageListAdapter.notifyDataSetChanged();
         }
     }
 
