@@ -200,6 +200,7 @@
         <attr name="mwhGradientAngle" format="integer" />
         <attr name="mwhWaves" />
     </declare-styleable>
+
     <style name="MultiWaveHeader">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
@@ -212,34 +213,26 @@
         <attr name="bottomLeftRadius" format="dimension" />
         <attr name="bottomRightRadius" format="dimension" />
     </declare-styleable>
-
+    <!--圆角图-->
     <declare-styleable name="NiceImageView">
-
         <attr name="is_circle" format="boolean" />
-
         <attr name="is_cover_src" format="boolean" />
-
         <attr name="corner_radius" format="dimension" />
-
         <attr name="corner_top_left_radius" format="dimension" />
-
         <attr name="corner_top_right_radius" format="dimension" />
-
         <attr name="corner_bottom_left_radius" format="dimension" />
-
         <attr name="corner_bottom_right_radius" format="dimension" />
-
         <attr name="border_width" format="dimension" />
-
         <attr name="border_color" format="color" />
-
         <attr name="inner_border_width" format="dimension" />
-
         <attr name="inner_border_color" format="color" />
-
         <attr name="mask_color" format="color" />
-
     </declare-styleable>
 
+    <!--小菊花-->
+    <declare-styleable name="LoadingView">
+        <attr name="startColor" format="color" />
+        <attr name="endColor" format="color" />
+    </declare-styleable>
 
 </resources>

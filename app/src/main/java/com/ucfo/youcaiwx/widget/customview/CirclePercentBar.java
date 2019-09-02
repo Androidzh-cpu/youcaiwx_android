@@ -63,8 +63,9 @@ public class CirclePercentBar extends View {
         mArcColor = typedArray.getColor(R.styleable.CirclePercentBar_arcColor, 0xff0000);//圆环颜色
         useFloat = typedArray.getBoolean(R.styleable.CirclePercentBar_useFloat, false);//是否使用浮点型
         usePercentSuffix = typedArray.getBoolean(R.styleable.CirclePercentBar_usePercentSuffix, true);//是否使用百分号作为后缀
-        if (!usePercentSuffix)
+        if (!usePercentSuffix) {
             this.mSuffix = "";
+        }
 
         mArcBackColor = typedArray.getColor(R.styleable.CirclePercentBar_arcBackColor, 0xffffff);//圆环背景颜色
         mArcWidth = typedArray.getDimensionPixelSize(R.styleable.CirclePercentBar_arcWidth, DensityUtil.dip2px(context, 20));//

@@ -1,13 +1,15 @@
 package com.ucfo.youcaiwx.widget.customview;
 
+import android.animation.ArgbEvaluator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
-import android.animation.ArgbEvaluator;
 
+import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 
 /**
@@ -25,7 +27,6 @@ public class LoadingView extends View {
     private float radiusOffset;
 
     // 不是固定不变的，当width为30dp时，它为2dp，当宽度变大，这个也会相应的变大
-
     private float stokeWidth = 2f;
 
     private ArgbEvaluator argbEvaluator = new ArgbEvaluator();
@@ -36,122 +37,77 @@ public class LoadingView extends View {
     float avgAngle = 360f / lineCount;
     int time = 0; // 重复次数
     float centerX, centerY; // 中心x，y
+
     public LoadingView(Context context) {
-
         this(context, null);
-
     }
-
 
     public LoadingView(Context context, AttributeSet attrs) {
-
         this(context, attrs, 0);
-
     }
 
-
     public LoadingView(Context context, AttributeSet attrs, int defStyleAttr) {
-
         super(context, attrs, defStyleAttr);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LoadingView, defStyleAttr, 0);
+        startColor = typedArray.getColor(R.styleable.LoadingView_startColor, Color.parseColor("#f6f6f6"));
+        endColor = typedArray.getColor(R.styleable.LoadingView_endColor, Color.parseColor("#989697"));
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
         stokeWidth = DensityUtil.dip2px(context, stokeWidth);
-
         paint.setStrokeWidth(stokeWidth);
 
+        typedArray.recycle();
     }
 
 
     @Override
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-
         super.onSizeChanged(w, h, oldw, oldh);
-
         radius = getMeasuredWidth() / 2;
-
         radiusOffset = radius / 2.5f;
-
-
         centerX = getMeasuredWidth() / 2;
-
         centerY = getMeasuredHeight() / 2;
-
-
         stokeWidth *= getMeasuredWidth() * 1f / DensityUtil.dip2px(getContext(), 30);
-
         paint.setStrokeWidth(stokeWidth);
-
     }
 
 
     @Override
 
     protected void onDraw(final Canvas canvas) {
-
         // 1 2 3 4 5
-
         // 2 3 4 5 1
-
         // 3 4 5 1 2
-
         // ...
-
         for (int i = lineCount - 1; i >= 0; i--) {
-
             int temp = Math.abs(i + time) % lineCount;
-
             float fraction = (temp + 1) * 1f / lineCount;
-
             int color = (int) argbEvaluator.evaluate(fraction, startColor, endColor);
-
             paint.setColor(color);
-
-
             float startX = centerX + radiusOffset;
-
             float endX = startX + radius / 3f;
-
             canvas.drawLine(startX, centerY, endX, centerY, paint);
-
             // 线的两端画个点，看着圆滑
-
             canvas.drawCircle(startX, centerY, stokeWidth / 2, paint);
-
             canvas.drawCircle(endX, centerY, stokeWidth / 2, paint);
-
             canvas.rotate(avgAngle, centerX, centerY);
-
         }
-
         postDelayed(increaseTask, 80);
-
     }
 
 
     private Runnable increaseTask = new Runnable() {
-
         @Override
-
         public void run() {
-
             time++;
-
             invalidate();
-
         }
-
     };
 
-
     @Override
-
     protected void onDetachedFromWindow() {
-
         super.onDetachedFromWindow();
-
         removeCallbacks(increaseTask);
-
     }
 }
