@@ -1,7 +1,9 @@
 package com.ucfo.youcaiwx.view.main.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -42,6 +44,8 @@ import com.ucfo.youcaiwx.view.user.activity.SettingActivity;
 import com.ucfo.youcaiwx.view.user.activity.WatchTheRecordActivity;
 import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
 import com.ucfo.youcaiwx.widget.dialog.ShareDialog;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -117,10 +121,12 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
     private boolean loginstatus;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
+        if (rootView != null) {
+            unbinder = ButterKnife.bind(this, rootView);
+        }
         return rootView;
     }
 
@@ -310,6 +316,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         userCoupons.setText(String.valueOf(0 + getResources().getString(R.string.mine_zhang)));
         userIntegral.setText(String.valueOf(0));
         userNickname.setText(getResources().getString(R.string.mine_tologin));
+        userNickname.setCompoundDrawables(null, null, null, null);
         userSex.setVisibility(userSex.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
         userCouponsMsg.setVisibility(userCouponsMsg.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
         userIcon.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_headdefault));
@@ -327,7 +334,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         if (TextUtils.isEmpty(head)) {
             userIcon.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_headdefault));
         } else {
-            Glide.with(context).load(head)
+            Glide.with(context).load(head).error(R.mipmap.image_loaderror)
                     .transform(new CenterCrop(context), new GlideRoundTransform(context)).crossFade()
                     .diskCacheStrategy(DiskCacheStrategy.ALL).into(userIcon);
         }
@@ -346,22 +353,31 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
 
         switch (sex) {
             case 1://man
-                userSex.setVisibility(userSex.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-                userSex.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_sex_man));
+                //userSex.setVisibility(userSex.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+                //userSex.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_sex_man));
+                Drawable drawableMan = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.mipmap.icon_sex_man);
+                drawableMan.setBounds(0, 0, Objects.requireNonNull(drawableMan).getMinimumWidth(), drawableMan.getMinimumHeight());
+                userNickname.setCompoundDrawables(null, null, drawableMan, null);
                 break;
             case 2://woman
-                userSex.setVisibility(userSex.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-                userSex.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_sex_woman));
+                //userSex.setVisibility(userSex.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+                //userSex.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_sex_woman));
+                Drawable drawableWoman = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.mipmap.icon_sex_woman);
+                drawableWoman.setBounds(0, 0, Objects.requireNonNull(drawableWoman).getMinimumWidth(), drawableWoman.getMinimumHeight());
+                userNickname.setCompoundDrawables(null, null, drawableWoman, null);
                 break;
             default://default
-                userSex.setVisibility(userSex.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+                //userSex.setVisibility(userSex.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+                userNickname.setCompoundDrawables(null, null, null, null);
                 break;
         }
         switch (isRead) {
-            case 2://未查看
+            case 2:
+                //未查看
                 userCouponsMsg.setVisibility(userCouponsMsg.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
                 break;
-            case 1://查看
+            case 1:
+                //查看
             default:
                 userCouponsMsg.setVisibility(userCouponsMsg.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
                 break;

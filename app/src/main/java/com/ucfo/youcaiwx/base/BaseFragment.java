@@ -50,13 +50,22 @@ public abstract class BaseFragment extends Fragment {
         if (savedInstanceState != null) {
             boolean aBoolean = savedInstanceState.getBoolean(STATE_SAVE_IS_HIDDEN);
             FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            if (aBoolean) {
-                fragmentTransaction.hide(this);
-            } else {
-                fragmentTransaction.show(this);
+            FragmentTransaction fragmentTransaction = null;
+            if (fragmentManager != null) {
+                fragmentTransaction = fragmentManager.beginTransaction();
             }
-            fragmentTransaction.commit();
+            if (aBoolean) {
+                if (fragmentTransaction != null) {
+                    fragmentTransaction.hide(this);
+                }
+            } else {
+                if (fragmentTransaction != null) {
+                    fragmentTransaction.show(this);
+                }
+            }
+            if (fragmentTransaction != null) {
+                fragmentTransaction.commit();
+            }
         }
     }
 
@@ -124,8 +133,6 @@ public abstract class BaseFragment extends Fragment {
 
     /**
      * 处理对用户是否可见
-     *
-     * @param isVisibleToUser
      */
     private void handleOnVisibilityChangedToUser(boolean isVisibleToUser) {
         if (isVisibleToUser) {
@@ -167,9 +174,6 @@ public abstract class BaseFragment extends Fragment {
 
     /**
      * 跳转activity
-     *
-     * @param cls
-     * @param bundle
      */
     protected void startActivity(Class<?> cls, Bundle bundle) {
         Intent intent = new Intent(getActivity(), cls);

@@ -48,6 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_19"
+                    android:drawablePadding="@dimen/dp_8"
                     android:ellipsize="middle"
                     android:singleLine="true"
                     android:textColor="@color/color_333333"
@@ -59,8 +60,7 @@
                     android:id="@+id/user_sex"
                     android:layout_width="@dimen/dp_19"
                     android:layout_height="@dimen/dp_19"
-                    android:layout_marginStart="@dimen/dp_9"
-                    android:src="@mipmap/icon_sex_woman"
+                    android:layout_marginStart="@dimen/dp_8"
                     android:visibility="gone" />
             </LinearLayout>
             <!--财产信息-->
