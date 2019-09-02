@@ -1,13 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 android {
-    //加载资源
     Properties properties = new Properties()
     InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
     properties.load(inputStream)
-    //读取文件
     def sdkDir = properties.getProperty('key.file')
-    //读取字段
     def key_file = file(sdkDir)
     def key_keyAlias = properties.getProperty('keyAlias')
     def key_keyPassword = properties.getProperty('keyPassword')
