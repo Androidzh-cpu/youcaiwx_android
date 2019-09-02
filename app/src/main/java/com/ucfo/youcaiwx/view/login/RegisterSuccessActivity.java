@@ -2,7 +2,6 @@ package com.ucfo.youcaiwx.view.login;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.Button;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.view.main.activity.MainActivity;
 
 import butterknife.BindView;
@@ -51,7 +49,6 @@ public class RegisterSuccessActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
     }

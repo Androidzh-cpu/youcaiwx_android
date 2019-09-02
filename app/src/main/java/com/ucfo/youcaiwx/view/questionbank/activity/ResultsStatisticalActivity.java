@@ -24,7 +24,6 @@ import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionResultReportView;
 import com.ucfo.youcaiwx.utils.ConvertUtil;
 import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.view.course.player.utils.TimeFormater;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.customview.NestedGridView;
@@ -107,7 +106,6 @@ public class ResultsStatisticalActivity extends BaseActivity implements IQuestio
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

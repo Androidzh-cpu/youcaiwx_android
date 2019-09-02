@@ -2,7 +2,6 @@ package com.ucfo.youcaiwx.view.user.activity;
 
 import android.Manifest;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,10 +23,9 @@ import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.download.PreparedDownloadInfoBean;
 import com.ucfo.youcaiwx.utils.LogUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
-import com.ucfo.youcaiwx.view.course.player.adapter.CommonTabAdapter;
 import com.ucfo.youcaiwx.view.course.fragment.DownloadCompletedFragment;
 import com.ucfo.youcaiwx.view.course.fragment.DownloadingFragment;
+import com.ucfo.youcaiwx.view.course.player.adapter.CommonTabAdapter;
 
 import java.util.ArrayList;
 
@@ -75,7 +73,6 @@ public class OfflineCourseActivity extends BaseActivity {
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

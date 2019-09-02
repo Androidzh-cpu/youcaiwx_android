@@ -1,7 +1,6 @@
 package com.ucfo.youcaiwx.view.learncenter;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +11,6 @@ import com.flyco.roundview.RoundTextView;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.view.main.activity.MainActivity;
 
 import butterknife.BindView;
@@ -57,7 +55,6 @@ public class AddLearningPlanCompleteActivity extends BaseActivity {
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

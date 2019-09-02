@@ -1,7 +1,6 @@
 package com.ucfo.youcaiwx.view.course;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -21,7 +20,6 @@ import com.ucfo.youcaiwx.entity.course.CourseDataListBean;
 import com.ucfo.youcaiwx.entity.course.CourseSubjectsBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.course.CourseListPresenter;
 import com.ucfo.youcaiwx.presenter.view.course.ICourseListView;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.view.course.fragment.CourseChildListFragment;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
@@ -66,7 +64,6 @@ public class CourseListActivity extends BaseActivity implements ICourseListView 
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

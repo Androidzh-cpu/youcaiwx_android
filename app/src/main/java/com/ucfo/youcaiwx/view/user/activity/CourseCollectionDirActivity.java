@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.view.user.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +19,6 @@ import com.ucfo.youcaiwx.entity.user.ProjectListBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineCollectionPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineCollectionView;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.view.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
@@ -83,7 +81,6 @@ public class CourseCollectionDirActivity extends BaseActivity implements IMineCo
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

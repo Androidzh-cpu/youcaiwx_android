@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.view.questionbank.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,7 +14,6 @@ import com.androidkun.xtablayout.XTabLayout;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.view.course.player.adapter.CommonTabAdapter;
 import com.ucfo.youcaiwx.view.questionbank.fragment.AllAnswerQuestionFragment;
 import com.ucfo.youcaiwx.view.questionbank.fragment.MineAskQuestionsFragment;
@@ -72,8 +70,6 @@ public class QuestionAnswerActivity extends BaseActivity {
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        //状态栏白色,字体黑色
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

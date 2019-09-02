@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.view.questionbank.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +18,6 @@ import com.ucfo.youcaiwx.entity.questionbank.QuestionKnowledgeListBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.questionbank.QuestionBankKnowledgePresenter;
 import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankKonwledgeView;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -103,8 +101,6 @@ public class SelfServiceListActivity extends BaseActivity implements IQuestionBa
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        //状态栏白色,字体黑色
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

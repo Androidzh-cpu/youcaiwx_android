@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBar;
@@ -39,7 +38,6 @@ import com.ucfo.youcaiwx.presenter.presenterImpl.upload.IUploadFileView;
 import com.ucfo.youcaiwx.presenter.presenterImpl.upload.UploadFilePresenter;
 import com.ucfo.youcaiwx.utils.glideutils.MiniSizeFilter;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
@@ -106,7 +104,6 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

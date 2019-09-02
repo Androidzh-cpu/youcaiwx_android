@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.view.learncenter;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.ActionBar;
@@ -16,7 +15,6 @@ import com.lzy.okgo.callback.FileCallback;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.io.File;
@@ -69,7 +67,6 @@ public class LoadPdfActivity extends BaseActivity {
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

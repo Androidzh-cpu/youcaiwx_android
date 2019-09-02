@@ -15,9 +15,6 @@ import android.view.ViewGroup;
 
 import com.ucfo.youcaiwx.widget.customview.NetLoadingProgress;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -26,7 +23,6 @@ import butterknife.Unbinder;
  * Time: 2019/1/7.  19:12
  * Email:2911743255@qq.com
  * Description:BaseFragment是所有Fragment的基类
- * Detail:
  */
 public abstract class BaseFragment extends Fragment {
     private static final String STATE_SAVE_IS_HIDDEN = "STATE_SAVE_IS_HIDDEN";
@@ -191,27 +187,6 @@ public abstract class BaseFragment extends Fragment {
         NetLoadingProgress.Builder builder = new NetLoadingProgress.Builder(context).setMessage(text).setShowMessage(showText);
         netLoadingProgress = builder.create();
         netLoadingProgress.show();
-    }
-
-    /**
-     * 关闭显示中的进度条
-     */
-    public void dismissPorcessDelay(long delaytime) {
-        if (netLoadingProgress != null && netLoadingProgress.isShowing()) {
-            TimerTask task = new TimerTask() {
-                @Override
-                public void run() {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            netLoadingProgress.dismiss();
-                        }
-                    });
-                }
-            };
-            Timer timer = new Timer();
-            timer.schedule(task, delaytime);//n秒后执行
-        }
     }
 
     /**

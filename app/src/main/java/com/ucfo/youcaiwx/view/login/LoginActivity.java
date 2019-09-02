@@ -3,7 +3,6 @@ package com.ucfo.youcaiwx.view.login;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,7 +29,6 @@ import com.ucfo.youcaiwx.utils.AsteriskPasswordTransformationMethod;
 import com.ucfo.youcaiwx.utils.RegexUtil;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.view.main.activity.MainActivity;
 import com.umeng.message.PushAgent;
@@ -89,8 +87,6 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        //状态栏白色,字体黑色
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(toolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.view.user.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -18,7 +17,6 @@ import com.ucfo.youcaiwx.entity.user.UserInfoBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.UserInfoPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IUserInfoView;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 
 import butterknife.BindView;
@@ -74,7 +72,6 @@ public class ModifyPasswordActivity extends BaseActivity implements IUserInfoVie
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

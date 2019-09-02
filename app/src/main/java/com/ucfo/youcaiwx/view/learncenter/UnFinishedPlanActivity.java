@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.view.learncenter;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,7 +20,6 @@ import com.ucfo.youcaiwx.presenter.presenterImpl.learncenter.LearncenterHomePres
 import com.ucfo.youcaiwx.presenter.view.learncenter.ILearncenterHomeView;
 import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.view.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
@@ -79,7 +77,6 @@ public class UnFinishedPlanActivity extends BaseActivity implements ILearncenter
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

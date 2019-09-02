@@ -24,9 +24,6 @@ import com.ucfo.youcaiwx.widget.customview.NetLoadingProgress;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -156,9 +153,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
 
     /**
      * 跳转activity
-     *
-     * @param cls
-     * @param bundle
      */
     protected void startActivity(Class<?> cls, Bundle bundle) {
         Intent intent = new Intent(this, cls);
@@ -198,36 +192,11 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
         return true;
     }
 
-    /**
-     * 公共base类中弹出进度条
-     */
     public void setProcessLoading(String text, boolean showText) {
         if (netLoadingProgress == null) {
             NetLoadingProgress.Builder builder = new NetLoadingProgress.Builder(this).setMessage(text).setShowMessage(showText);
             netLoadingProgress = builder.create();
             netLoadingProgress.show();
-        }
-    }
-
-    /**
-     * 关闭显示中的进度条
-     */
-    public void dismissPorcessDelay() {
-        if (netLoadingProgress != null && netLoadingProgress.isShowing()) {
-            TimerTask task = new TimerTask() {
-                @Override
-                public void run() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            netLoadingProgress.dismiss();
-                        }
-                    });
-                }
-            };
-            Timer timer = new Timer();
-            timer.schedule(task, 1000);//1秒后执行
-            netLoadingProgress = null;
         }
     }
 
@@ -242,11 +211,11 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
     public void onNetChange(NetworkUtils.NetworkType type) {
         switch (type) {
             case NETWORK_NO:
-                if (!NetworkUtils.getMobileDataEnabled())
+                if (!NetworkUtils.getMobileDataEnabled()) {
                     ToastUtil.showBottomLongText(this, getResources().getString(R.string.net_loading_no));
+                }
                 break;
             case NETWORK_WIFI:
-
                 break;
             default://2G,3G,4G以及未知网络
                 break;
