@@ -57,22 +57,22 @@ ext {
             "support_constraint" : "com.android.support.constraint:constraint-layout:$versions.constraint"
     ]
     dependencies = [
-            "espresso": "com.android.support.test.espresso:espresso-core:3.0.2",
-            "junit"                    : "junit:junit:4.12",
-            "runner"                   : "com.android.support.test:runner:1.0.2",
+            "espresso"       : "com.android.support.test.espresso:espresso-core:3.0.2",
+            "junit"          : "junit:junit:4.12",
+            "runner"         : "com.android.support.test:runner:1.0.2",
 
-            "XTabLayout"               : "com.androidkun:XTabLayout:$versions.XTabLayout",
-            "orhanobut"                : "com.orhanobut:logger:$versions.logger",
-            "soulpermission"           : "com.qw:soulpermission:$versions.soulpermission",
-            "XUpdate"                  : "com.github.xuexiangjys:XUpdate:$versions.XUpdate",
-            "banner"                   : "com.youth.banner:banner:$versions.banner",
-            "barteksc_pdf"             : "com.github.barteksc:android-pdf-viewer:$versions.pdf",
-            "NewbieGuide"              : "com.github.huburt-Hu:NewbieGuide:$versions.NewbieGuide",
-            "circleimageview"          : "de.hdodenhof:circleimageview:$versions.circleimageview",
-            "litepal"                  : "org.litepal.android:java:$versions.litepal",
-            "wechat_opensdk"           : "com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+",
-            "aliyun_oss"               : "com.aliyun.dpa:oss-android-sdk:+",
-            "AlivcConan"               : "com.alivc.conan:AlivcConan:0.9.5"
+            "XTabLayout"     : "com.androidkun:XTabLayout:$versions.XTabLayout",
+            "orhanobut"      : "com.orhanobut:logger:$versions.logger",
+            "soulpermission" : "com.qw:soulpermission:$versions.soulpermission",
+            "XUpdate"        : "com.github.xuexiangjys:XUpdate:$versions.XUpdate",
+            "banner"         : "com.youth.banner:banner:$versions.banner",
+            "barteksc_pdf"   : "com.github.barteksc:android-pdf-viewer:$versions.pdf",
+            "NewbieGuide"    : "com.github.huburt-Hu:NewbieGuide:$versions.NewbieGuide",
+            "circleimageview": "de.hdodenhof:circleimageview:$versions.circleimageview",
+            "litepal"        : "org.litepal.android:java:$versions.litepal",
+            "wechat_opensdk" : "com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+",
+            "aliyun_oss"     : "com.aliyun.dpa:oss-android-sdk:+",
+            "AlivcConan"     : "com.alivc.conan:AlivcConan:0.9.5"
     ]
 
     okGo = [
@@ -82,7 +82,7 @@ ext {
             "buildToolsVersion"    : "28.0.3",
             "versionName_okgo"     : "3.0.4",
             "versionCode_okgo"     : 29,
-            "okhttp3"           : "com.squareup.okhttp3:okhttp:3.10.0"
+            "okhttp3"              : "com.squareup.okhttp3:okhttp:3.10.0"
     ]
 
     google = [
