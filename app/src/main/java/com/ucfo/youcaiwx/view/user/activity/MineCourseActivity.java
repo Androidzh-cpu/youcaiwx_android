@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.view.user.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
@@ -24,7 +23,6 @@ import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineCoursePresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineCourseView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.view.course.CourseListActivity;
 import com.ucfo.youcaiwx.view.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView;
@@ -80,8 +78,6 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        //状态栏白色,字体黑色
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
@@ -182,9 +178,9 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
                 if (!fastClick(1000)) {
                     Bundle bundle = new Bundle();
                     MineCourseBean.DataBean bean = list.get(position);
-                    String course_iamge = bean.getApp_img();//TODO 课程封面
+                    String courseIamge = bean.getApp_img();//TODO 课程封面
                     int coursePackageId = bean.getPackage_id();//TODO  课程包ID(课程包内含多们课程)
-                    bundle.putString(Constant.COURSE_COVER_IMAGE, course_iamge);//封面
+                    bundle.putString(Constant.COURSE_COVER_IMAGE, courseIamge);//封面
                     bundle.putInt(Constant.COURSE_PACKAGE_ID, coursePackageId);//课程包ID
                     bundle.putInt(Constant.COURSE_BUY_STATE, 1);//课程是否购买
                     startActivity(VideoPlayPageActivity.class, bundle);

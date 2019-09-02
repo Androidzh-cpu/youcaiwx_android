@@ -30,8 +30,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CourseCollectionDirActivity extends BaseActivity implements IMineCollectionView {
+/**
+ * Author: AND
+ * Time: 2019-9-2 上午 10:12
+ * Package: com.ucfo.youcaiwx.view.user.activity
+ * FileName: CourseCollectionDirActivity
+ * ORG: www.youcaiwx.com
+ * Description:TODO 课程收藏播放目录
+ */
 
+public class CourseCollectionDirActivity extends BaseActivity implements IMineCollectionView {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -47,7 +55,7 @@ public class CourseCollectionDirActivity extends BaseActivity implements IMineCo
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
     private CourseCollectionDirActivity context;
-    private int user_id, package_id, course_id,course_un_con;
+    private int user_id, package_id, course_id, course_un_con;
     private MineCollectionPresenter mineCollectionPresenter;
     private Bundle bundle;
     private ArrayList<MineCourseCollectionDirBean.DataBean.SectionBean> list;

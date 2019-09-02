@@ -387,7 +387,9 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         });
     }
 
-    //TODO 初次开始计时
+    /**
+     * //TODO 初次开始计时
+     */
     public void startCounter(int type, int startTime) {
         switch (type) {
             case -1://倒计时
@@ -404,7 +406,9 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         }
     }
 
-    //TODO 暂停计时
+    /**
+     * TODO 暂停计时
+     */
     public void stopCounter() {
         switch (timingType) {
             case -1://倒计时
@@ -418,23 +422,32 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         }
     }
 
-    //TODO 重新开始计时
+    /**
+     * //TODO 重新开始计时
+     */
     public void resumeCounter() {
         if (EXERCISE_TYPE.equals(Constant.EXERCISE_A) || discuss_analysis) {
             //todo nothing
         } else {
             switch (timingType) {
-                case -1://倒计时
+                case -1:
+                    //倒计时
                     countDownTimer.resume();
                     break;
-                case 1://正计时
+                case 1:
+                    //正计时
+                    timer.postDelayed(runnable, CountDownInterval);
+                    break;
+                default:
                     timer.postDelayed(runnable, CountDownInterval);
                     break;
             }
         }
     }
 
-    // TODO 获取计时器时间计量
+    /**
+     * TODO 获取计时器时间计量
+     */
     public int getTimeMillis() {
         if (timingType == -1) {//倒计时返回总计用时时间
             return resultCountDownTime;
@@ -443,7 +456,9 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         }
     }
 
-    // TODO 跳转至下一个题目做题
+    /**
+     * TODO 跳转至下一个题目做题
+     */
     public void jumpToNextPage() {
         int currentItem = viewPager.getCurrentItem();
         currentItem = currentItem + 1;
@@ -556,10 +571,10 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         ArrayList<ErrorCenterSubmitAnswerBean> answerList = new ArrayList<>();
         for (int i = 0; i < optionsAnswerList.size(); i++) {
             DoProblemsAnswerBean bean = optionsAnswerList.get(i);
-            String question_id = bean.getQuestion_id();
-            String true_options = bean.getTrue_options();
-            String user_answer = bean.getUser_answer();
-            answerList.add(new ErrorCenterSubmitAnswerBean(question_id, true_options, user_answer));
+            String questionId = bean.getQuestion_id();
+            String trueOptions = bean.getTrue_options();
+            String userAnswer = bean.getUser_answer();
+            answerList.add(new ErrorCenterSubmitAnswerBean(questionId, trueOptions, userAnswer));
         }
         String json = new Gson().toJson(answerList);
         String questionContent = "";
@@ -601,8 +616,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
 
         //TODO step2:遍历做的题目集合，是否存在未做的题目,全部答案为空则直接退出做题页,有的话就显示提示框
         for (int i = 0; i < optionsAnswerList.size(); i++) {
-            String user_answer = optionsAnswerList.get(i).getUser_answer();
-            if (!TextUtils.isEmpty(user_answer)) {//用户已作答
+            String userAnswer = optionsAnswerList.get(i).getUser_answer();
+            if (!TextUtils.isEmpty(userAnswer)) {//用户已作答
                 isDone = true;//是否做完题用于退出保存判断
                 break;
             }
@@ -642,21 +657,25 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         }
     }
 
-    //TODO 删除当前错题
+    /**
+     * TODO 删除当前错题
+     */
     public void deleteCurrentQuestion() {
         String id = questionList.get(viewPager.getCurrentItem()).getID();
         int parseInt = Integer.parseInt(id);
         questionBankExercisePresenter.deleteProblems(course_id, user_id, parseInt);
     }
 
-    //TODO 取消收藏当前题目
+    /**
+     * TODO 取消收藏当前题目
+     */
     public void cancelCurrentQuestion() {
         int currentItem = viewPager.getCurrentItem();//当前题目所在位置坐标==题目在list的坐标
-        int question_id = Integer.parseInt(questionList.get(currentItem).getID());//question_id
+        int questionId = Integer.parseInt(questionList.get(currentItem).getID());
         int collection = Integer.parseInt(questionList.get(currentItem).getCollection());//当前题目收藏状态
         //请求收藏接口,更改收藏状态
         loadingTips = getResources().getString(R.string.net_loadingtext);
-        questionBankExercisePresenter.setProblemsCollection(user_id, course_id, question_id, collection);
+        questionBankExercisePresenter.setProblemsCollection(user_id, course_id, questionId, collection);
     }
 
     /**
@@ -893,13 +912,16 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         List<DoProblemsBean.DataBean.TopicsBean> topics = dataBean.getTopics();
 
         String title = dataBean.getTitle();
-        String answer_time = dataBean.getAnswer_time();
+        String answerTime = dataBean.getAnswer_time();
         //TODO step1:设置标题,强转开始时间为int型
         int startTime = 0;
-        if (!TextUtils.isEmpty(answer_time)) {
-            startTime = Integer.parseInt(answer_time);
+        if (!TextUtils.isEmpty(answerTime)) {
+            startTime = Integer.parseInt(answerTime);
         }
-        tvHeaderTitle.setText(title);//试卷名称
+        if (!TextUtils.isEmpty(title)) {
+            //试卷名称
+            tvHeaderTitle.setText(title);
+        }
 
         //TODO step2:清空List,添加新的数据
         questionList.clear();

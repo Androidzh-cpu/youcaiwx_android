@@ -120,12 +120,14 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             optionsAnswerList = testmodeActivity.getOptionsAnswerList();
         }
         //TODO 判断移除错题和收藏
-        if (plate_id == Constant.PLATE_7) {//错题中心查看解析
+        if (plate_id == Constant.PLATE_7) {
+            //错题中心查看解析
             mRemovequestionQuestion.setVisibility(View.VISIBLE);
         } else {
             mRemovequestionQuestion.setVisibility(View.GONE);
         }
-        if (plate_id == Constant.PLATE_13) {//我的收藏查看试题
+        if (plate_id == Constant.PLATE_13) {
+            //我的收藏查看试题
             mCollectionBtn.setVisibility(View.VISIBLE);
         } else {
             mCollectionBtn.setVisibility(View.GONE);
@@ -239,10 +241,10 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         if (!TextUtils.isEmpty(analysisPic)) {//解析图片
             Glide.with(testmodeActivity)
                     .load(analysisPic)
-                    .asBitmap()
+                    .centerCrop()
                     .placeholder(R.mipmap.banner_default)
                     .error(R.mipmap.image_loaderror)
-                    .dontAnimate()
+                    .crossFade()
                     .skipMemoryCache(false)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .priority(Priority.HIGH)
@@ -258,13 +260,13 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         if (!TextUtils.isEmpty(userOption)) {//正确答案
             mAnalysisFalseQuestion.setText(userOption);
             if (rightAnswer.equals(userOption)) {//做对了
-                mAnalysisFalseQuestion.setTextColor(ContextCompat.getColor(testmodeActivity,R.color.color_F99111));
+                mAnalysisFalseQuestion.setTextColor(ContextCompat.getColor(testmodeActivity, R.color.color_F99111));
             } else {//做错了
-                mAnalysisFalseQuestion.setTextColor(ContextCompat.getColor(testmodeActivity,R.color.color_E84342));
+                mAnalysisFalseQuestion.setTextColor(ContextCompat.getColor(testmodeActivity, R.color.color_E84342));
             }
         } else {
             mAnalysisFalseQuestion.setText(getResources().getString(R.string.holder_notmake));
-            mAnalysisFalseQuestion.setTextColor(ContextCompat.getColor(testmodeActivity,R.color.color_F99111));
+            mAnalysisFalseQuestion.setTextColor(ContextCompat.getColor(testmodeActivity, R.color.color_F99111));
         }
 
         TransferConfig config = TransferConfig.build()
@@ -338,10 +340,10 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         if (!TextUtils.isEmpty(topicImage1)) {
             Glide.with(testmodeActivity)
                     .load(topicImage1)
-                    .asBitmap()
+                    .centerCrop()
                     .placeholder(R.mipmap.banner_default)
                     .error(R.mipmap.image_loaderror)
-                    .dontAnimate()
+                    .crossFade()
                     .skipMemoryCache(false)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .priority(Priority.HIGH)
@@ -378,10 +380,10 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         if (!TextUtils.isEmpty(topicImage2)) {
             Glide.with(testmodeActivity)
                     .load(topicImage2)
-                    .asBitmap()
+                    .centerCrop()
                     .placeholder(R.mipmap.banner_default)
                     .error(R.mipmap.image_loaderror)
-                    .dontAnimate()
+                    .crossFade()
                     .skipMemoryCache(false)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .priority(Priority.HIGH)
@@ -414,10 +416,12 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.question_removequestion://TODO 19/05/28 移除当前错题
+            case R.id.question_removequestion:
+                //TODO 19/05/28 移除当前错题
                 testmodeActivity.deleteCurrentQuestion();
                 break;
-            case R.id.btn_collection://TODO 19/05/28 取消收藏==移除当前错题
+            case R.id.btn_collection:
+                //TODO 19/05/28 取消收藏==移除当前错题
                 testmodeActivity.cancelCurrentQuestion();
                 break;
             default:

@@ -115,8 +115,8 @@ public class FragmentQuestionCollection extends BaseFragment implements IMineCol
 
     private void initTablayout(List<ProjectListBean.DataBean> data) {
         for (int i = 0; i < data.size(); i++) {
-            titlesList.add(data.get(i).getName().trim());//创建标题
-            FragmentQuestionChildCollection fragmentQuestionChildCollection = new FragmentQuestionChildCollection();//创建碎片
+            titlesList.add(data.get(i).getName().trim());
+            FragmentQuestionChildCollection fragmentQuestionChildCollection = new FragmentQuestionChildCollection();
             fragmentQuestionChildCollection.setId(data.get(i).getCourse_id());
             fragmentArrayList.add(fragmentQuestionChildCollection);
         }
@@ -126,7 +126,7 @@ public class FragmentQuestionCollection extends BaseFragment implements IMineCol
         xTablayout.setupWithViewPager(viewpager);
         if (data.size() == 1) {
             xTablayout.setTabMode(XTabLayout.MODE_FIXED);
-        }else {
+        } else {
             xTablayout.setTabMode(XTabLayout.MODE_SCROLLABLE);
         }
     }

@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.view.user.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
@@ -27,7 +26,6 @@ import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineCollectionPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineCollectionView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -96,7 +94,6 @@ public class CourseCollectionChildActivity extends BaseActivity implements IMine
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

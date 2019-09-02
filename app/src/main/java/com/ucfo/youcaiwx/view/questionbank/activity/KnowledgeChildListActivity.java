@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.view.questionbank.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -23,7 +22,6 @@ import com.ucfo.youcaiwx.entity.questionbank.QuestionKnowledgeListBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.questionbank.QuestionBankKnowledgePresenter;
 import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankKonwledgeView;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.dialog.TestModeSwitchDialog;
 
@@ -134,7 +132,6 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
     @Override
     protected void initToolbar() {
         super.initToolbar();
-        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(titlebarToolbar);
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
@@ -247,6 +244,7 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
                         bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_A);
                         bundle.putInt(Constant.PLATE_ID, Constant.PLATE_13);
                         bundle.putString(Constant.KNOW_ID, dataBean.getId());
+                        bundle.putString(Constant.TITLE, dataBean.getKnow_name());
                         startActivity(TESTMODEActivity.class, bundle);
                         break;
                     default:
@@ -254,7 +252,8 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
                 }
             }
         });
-        if (plate_id == Constant.PLATE_7) {//错题中心的知识点列表
+        if (plate_id == Constant.PLATE_7) {
+            //错题中心的知识点列表
             holderLinearlayout.setVisibility(View.VISIBLE);
         }
     }
@@ -281,7 +280,8 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
         bundle.putInt(Constant.COURSE_ID, course_id);
         bundle.putInt(Constant.SECTION_ID, section_id);
         switch (view.getId()) {
-            case R.id.btn_look_analysis://查看解析
+            case R.id.btn_look_analysis:
+                //查看解析
                 if (selectedPosition >= 0) {
                     String id = list.get(selectedPosition).getId();
                     bundle.putString(Constant.KNOW_ID, id);
@@ -290,7 +290,8 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
                     startActivity(TESTMODEActivity.class, bundle);
                 }
                 break;
-            case R.id.btn_exercise://去做题
+            case R.id.btn_exercise:
+                //去做题
                 if (selectedPosition >= 0) {
                     String id = list.get(selectedPosition).getId();
                     bundle.putString(Constant.KNOW_ID, id);

@@ -150,12 +150,12 @@ public class FragmentQuestionChildCollection extends BaseFragment implements IMi
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 final Bundle bundle = new Bundle();
                 MineQuestionCollectionListBean.DataBean.KnobBean bean = list.get(groupPosition).getKnob().get(childPosition);
-                int section_id = list.get(groupPosition).getSection_id();
-                int knob_id = bean.getKnob_id();
+                int sectionId = list.get(groupPosition).getSection_id();
+                int knobId = bean.getKnob_id();
 
                 bundle.putInt(Constant.COURSE_ID, course_id);
-                bundle.putInt(Constant.SECTION_ID, section_id);
-                bundle.putInt(Constant.KNOB_ID, knob_id);
+                bundle.putInt(Constant.SECTION_ID, sectionId);
+                bundle.putInt(Constant.KNOB_ID, knobId);
                 bundle.putInt(Constant.PLATE_ID, Constant.PLATE_13);
                 startActivity(KnowledgeChildListActivity.class, bundle);
                 return true;
