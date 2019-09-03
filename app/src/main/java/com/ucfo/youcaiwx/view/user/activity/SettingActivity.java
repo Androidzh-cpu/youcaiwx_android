@@ -21,11 +21,11 @@ import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
 import com.ucfo.youcaiwx.utils.DataCleanManager;
-import com.ucfo.youcaiwx.utils.update.CustomUpdatePrompter;
-import com.ucfo.youcaiwx.utils.update.UpdateCustomParser;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
+import com.ucfo.youcaiwx.utils.update.CustomUpdatePrompter;
+import com.ucfo.youcaiwx.utils.update.UpdateCustomParser;
 import com.ucfo.youcaiwx.view.main.activity.MainActivity;
 import com.ucfo.youcaiwx.view.main.activity.WebActivity;
 import com.ucfo.youcaiwx.widget.customview.SwitchView;
@@ -48,7 +48,6 @@ import butterknife.OnClick;
  * ORG: www.youcaiwx.com
  * Description:TODO 设置页
  */
-
 public class SettingActivity extends BaseActivity {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
@@ -127,10 +126,10 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void initSetting() {
-        boolean download_wifi = sharedPreferencesUtils.getBoolean(Constant.DOWNLOAD_WIFI, false);
-        boolean look_wifi = sharedPreferencesUtils.getBoolean(Constant.LOOK_WIFI, false);
-        btnWifiDownload.setOpened(download_wifi);
-        btnWifiLook.setOpened(look_wifi);
+        boolean downloadWifi = sharedPreferencesUtils.getBoolean(Constant.DOWNLOAD_WIFI, false);
+        boolean lookWifi = sharedPreferencesUtils.getBoolean(Constant.LOOK_WIFI, false);
+        btnWifiDownload.setOpened(downloadWifi);
+        btnWifiLook.setOpened(lookWifi);
 
         btnWifiDownload.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override

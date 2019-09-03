@@ -3,6 +3,7 @@ package com.ucfo.youcaiwx.view.main.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -54,12 +55,20 @@ import java.lang.reflect.Field;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Author: AND
+ * Time: 2019-9-3 下午 1:35
+ * Package: com.ucfo.youcaiwx.view.main.activity
+ * FileName: MainActivity
+ * ORG: www.youcaiwx.com
+ * Description:主页
+ */
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.frame_layout)
     FrameLayout frameLayout;
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigation;
-    private int state = 0;
+    private int indexTab = 0;
     private FragmentTransaction fragmentTransaction;
     private FragmentManager supportFragmentManager;
     private HomeFragment homeFragment;
@@ -208,18 +217,30 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @SuppressLint("CommitTransaction")
     private void initView() {
-        //TODO  接收其他页面传入的索引,进入指定的页面
-        if (getIntent().getStringExtra(Constant.STATE) != null) {
-            state = Integer.parseInt(getIntent().getStringExtra(Constant.STATE));
-        }
         supportFragmentManager = getSupportFragmentManager();
-        fragmentTransaction = supportFragmentManager.beginTransaction();
+
         disableShiftMode(bottomNavigation);
         bottomNavigation.setItemIconTintList(null);
 
-        initSelectTab(state);
+        initSelectTab(indexTab);
 
         bottomNavigation.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        //TODO  接收其他页面传入的索引,进入指定的页面
+        if (intent != null) {
+            indexTab = intent.getIntExtra(Constant.INDEX, indexTab);
+            initSelectTab(indexTab);
+        }
+/*      跳转至指定页面代码
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(Constant.INDEX, 1);
+        startActivity(intent);
+*/
     }
 
     /**
@@ -227,12 +248,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
      */
     private void initSelectTab(int index) {
         if (index < 0 || index > 3) {
-            state = 0;
-            index = state;
+            indexTab = 0;
+            index = indexTab;
         }
+        fragmentTransaction = supportFragmentManager.beginTransaction();
+        hideAllFragment(fragmentTransaction);
+        bottomNavigation.getMenu().getItem(index).setChecked(true);
         switch (index) {
             case 0:
-                state = 0;
+                indexTab = 0;
                 if (homeFragment == null) {
                     homeFragment = new HomeFragment();
                     fragmentTransaction.add(R.id.frame_layout, homeFragment, HomeFragment.TAG);
@@ -242,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragmentTransaction.commit();
                 break;
             case 1:
-                state = 1;
+                indexTab = 1;
                 if (learnCenterFragment == null) {
                     learnCenterFragment = new LearnCenterFragment();
                     fragmentTransaction.add(R.id.frame_layout, learnCenterFragment, LearnCenterFragment.TAG);
@@ -252,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragmentTransaction.commit();
                 break;
             case 2:
-                state = 2;
+                indexTab = 2;
                 if (questionBankFragment == null) {
                     questionBankFragment = new QuestionBankFragment();
                     fragmentTransaction.add(R.id.frame_layout, questionBankFragment, QuestionBankFragment.TAG);
@@ -262,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragmentTransaction.commit();
                 break;
             case 3:
-                state = 3;
+                indexTab = 3;
                 if (mineFragment == null) {
                     mineFragment = new MineFragment();
                     fragmentTransaction.add(R.id.frame_layout, mineFragment, MineFragment.TAG);
@@ -387,7 +411,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         hideAllFragment(fragmentTransaction);
         switch (item.getItemId()) {
             case R.id.action_home:
-                state = 0;
+                indexTab = 0;
                 if (homeFragment == null) {
                     homeFragment = new HomeFragment();
                     fragmentTransaction.add(R.id.frame_layout, homeFragment, HomeFragment.TAG);
@@ -397,7 +421,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragmentTransaction.commit();
                 return true;
             case R.id.action_learncenter:
-                state = 1;
+                indexTab = 1;
                 if (learnCenterFragment == null) {
                     learnCenterFragment = new LearnCenterFragment();
                     fragmentTransaction.add(R.id.frame_layout, learnCenterFragment, LearnCenterFragment.TAG);
@@ -407,7 +431,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragmentTransaction.commit();
                 return true;
             case R.id.action_questionbank:
-                state = 2;
+                indexTab = 2;
                 if (questionBankFragment == null) {
                     questionBankFragment = new QuestionBankFragment();
                     fragmentTransaction.add(R.id.frame_layout, questionBankFragment, QuestionBankFragment.TAG);
@@ -417,7 +441,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragmentTransaction.commit();
                 return true;
             case R.id.action_mine:
-                state = 3;
+                indexTab = 3;
                 if (mineFragment == null) {
                     mineFragment = new MineFragment();
                     fragmentTransaction.add(R.id.frame_layout, mineFragment, MineFragment.TAG);

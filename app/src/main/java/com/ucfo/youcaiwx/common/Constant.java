@@ -75,7 +75,7 @@ public class Constant {
     //---------------------------------------------登录-----------------------------------------------//
     public static final String FIRST_LOGIN = "first_login";//第一次登陆
     public static final String LOGIN_STATUS = "is_login";//用户是否登录
-    public static final String STATE = "state";//首页底部导航栏标签
+    public static final String STATE = "state";
     public static final String HOME_CACHE = "home_cache";//首页底部导航栏标签
     public static final String TYPE_FORGET = "type_forget";//忘记密码
     public static final String TYPE_COMPLET = "type_complet";//完善信息
