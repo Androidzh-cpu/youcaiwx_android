@@ -26,17 +26,16 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".Main2Activity" />
         <activity android:name=".Main3Activity" />
-        <activity android:name=".Main4Activity">
+        <activity android:name=".Main4Activity" />
+        <activity
+            android:name=".BottomNavigationActivity"
+            android:label="@string/title_activity_bottom_navigation" />
+        <activity android:name=".Main5Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".BottomNavigationActivity"
-            android:label="@string/title_activity_bottom_navigation">
-
         </activity>
     </application>
 

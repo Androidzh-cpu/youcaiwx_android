@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_home"
+        android:enabled="true"
+        android:icon="@drawable/selector_tab_home"
+        android:title="@string/tab_home"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_learncenter"
+        android:enabled="true"
+        android:icon="@drawable/selector_tab_learn"
+        android:title="@string/tab_learncenter"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_questionbank"
+        android:enabled="true"
+        android:icon="@drawable/selector_tab_question"
+        android:title="@string/tab_questionbank"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_mine"
+        android:enabled="true"
+        android:icon="@drawable/selector_tab_mine"
+        android:title="@string/tab_mine"
+        app:showAsAction="ifRoom" />
+</menu>

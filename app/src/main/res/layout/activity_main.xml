@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:background="@android:color/white"
     android:fitsSystemWindows="false"
     android:orientation="vertical"
     tools:context="com.ucfo.youcaiwx.view.main.activity.MainActivity">
@@ -12,46 +13,16 @@
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/colorWhite" />
+        android:layout_weight="1" />
 
-    <FrameLayout
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
-
-        <RadioGroup
-            android:id="@+id/radiogroup"
-            android:layout_width="match_parent"
-            android:layout_height="49dp"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="5dp"
-            android:background="@color/colorWhite"
-            android:gravity="bottom"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
-
-            <RadioButton
-                android:id="@+id/tab_home"
-                style="@style/bottom_radiobutton"
-                android:checked="true"
-                android:drawableTop="@drawable/tab_home_selecter" />
-
-            <RadioButton
-                android:id="@+id/tab_learncenter"
-                style="@style/bottom_radiobutton"
-                android:drawableTop="@drawable/tab_learn_selecter" />
-
-            <RadioButton
-                android:id="@+id/tab_questionbank"
-                style="@style/bottom_radiobutton"
-                android:drawableTop="@drawable/tab_question_selecter" />
-
-            <RadioButton
-                android:id="@+id/tab_mine"
-                style="@style/bottom_radiobutton"
-                android:drawableTop="@drawable/tab_mine_selecter" />
-        </RadioGroup>
-    </FrameLayout>
-
+        android:layout_gravity="bottom"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:background="@android:color/white"
+        app:itemTextColor="@drawable/selector_tab_color"
+        app:menu="@menu/bottom_navigation_main" />
 </LinearLayout>

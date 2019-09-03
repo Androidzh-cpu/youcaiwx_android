@@ -8,9 +8,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 public class BottomNavigationActivity extends AppCompatActivity {
-
     private TextView mTextMessage;
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {

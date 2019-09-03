@@ -3,8 +3,8 @@
 
     <string name="progressbarIndetior">已出勤%s天</string>
     <string name="title_activity_bottom_navigation">BottomNavigationActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_message">Message</string>
+    <string name="title_home">首页</string>
+    <string name="title_dashboard">学习中心</string>
+    <string name="title_notifications">题库</string>
+    <string name="title_message">我的</string>
 </resources>

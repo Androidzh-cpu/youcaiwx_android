@@ -1,20 +1,24 @@
 package com.ucfo.youcaiwx.view.main.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,32 +49,17 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 import com.xuexiang.xupdate.XUpdate;
 
+import java.lang.reflect.Field;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
-
-    private static final int PERMISSION_REQUESTCODE = 1;
-    //申请权限组
-    final String[] permissions = new String[]{
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.CALL_PHONE,
-            Manifest.permission.CAMERA,
-            Manifest.permission.READ_PHONE_STATE};
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     @BindView(R.id.frame_layout)
     FrameLayout frameLayout;
-    @BindView(R.id.tab_home)
-    RadioButton tabHome;
-    @BindView(R.id.tab_learncenter)
-    RadioButton tabLearncenter;
-    @BindView(R.id.tab_questionbank)
-    RadioButton tabQuestionbank;
-    @BindView(R.id.tab_mine)
-    RadioButton tabMine;
-    @BindView(R.id.radiogroup)
-    RadioGroup radiogroup;
-    private int state = 1;
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView bottomNavigation;
+    private int state = 0;
     private FragmentTransaction fragmentTransaction;
     private FragmentManager supportFragmentManager;
     private HomeFragment homeFragment;
@@ -79,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
     private QuestionBankFragment questionBankFragment;
     private MineFragment mineFragment;
     private MainActivity context;
-    private long lastClick = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,17 +75,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         StatusBarUtil.immersive(this);
         StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
+
         context = MainActivity.this;
         ButterKnife.bind(this);
         ActivityUtil.getInstance().addActivity(this);
 
         //统计应用启动数据在所有的Activity 的onCreate 方法或在应用的BaseActivity的onCreate方法中添加
         PushAgent.getInstance(this).onAppStart();
+
         initView();
 
         checkPermission();
-
-        //initNewGuide();
 
         updateApp();
     }
@@ -114,6 +102,26 @@ public class MainActivity extends AppCompatActivity {
         MobclickAgent.onPause(this);
     }
 
+    //BottomNavigationViewHelper.java
+    @SuppressLint("RestrictedApi")
+    public static void disableShiftMode(BottomNavigationView view) {
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
+        try {
+            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
+            shiftingMode.setAccessible(true);
+            shiftingMode.setBoolean(menuView, false);
+            shiftingMode.setAccessible(false);
+            for (int i = 0; i < menuView.getChildCount(); i++) {
+                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
+                item.setShiftingMode(false);
+                item.setChecked(item.getItemData().isChecked());
+            }
+        } catch (NoSuchFieldException e) {
+            Log.e("BNVHelper", "Unable to get shift mode field", e);
+        } catch (IllegalAccessException e) {
+            Log.e("BNVHelper", "Unable to change value of shift mode", e);
+        }
+    }
 
     /**
      * 新手引导
@@ -198,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
                 .update();
     }
 
+    @SuppressLint("CommitTransaction")
     private void initView() {
         //TODO  接收其他页面传入的索引,进入指定的页面
         if (getIntent().getStringExtra(Constant.STATE) != null) {
@@ -205,66 +214,72 @@ public class MainActivity extends AppCompatActivity {
         }
         supportFragmentManager = getSupportFragmentManager();
         fragmentTransaction = supportFragmentManager.beginTransaction();
+        disableShiftMode(bottomNavigation);
+        bottomNavigation.setItemIconTintList(null);
 
-        homeFragment = new HomeFragment();
-        fragmentTransaction.add(R.id.frame_layout, homeFragment, HomeFragment.TAG);
-        fragmentTransaction.commit();
-        tabHome.setChecked(true);
-        radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                fragmentTransaction = supportFragmentManager.beginTransaction();
-                hideAllFragment(fragmentTransaction);
-                switch (checkedId) {
-                    case R.id.tab_home://TODO 首页
-                        state = 1;
-                        tabHome.setChecked(true);
-                        if (homeFragment == null) {
-                            homeFragment = new HomeFragment();
-                            fragmentTransaction.add(R.id.frame_layout, homeFragment);
-                        } else {
-                            fragmentTransaction.show(homeFragment);
-                        }
-                        break;
-                    case R.id.tab_learncenter:
-                        state = 2;
-                        tabLearncenter.setChecked(true);
-                        if (learnCenterFragment == null) {
-                            learnCenterFragment = new LearnCenterFragment();
-                            fragmentTransaction.add(R.id.frame_layout, learnCenterFragment);
-                        } else {
-                            fragmentTransaction.show(learnCenterFragment);
-                        }
-                        break;
-                    case R.id.tab_questionbank:
-                        state = 3;
-                        tabQuestionbank.setChecked(true);
-                        if (questionBankFragment == null) {
-                            questionBankFragment = new QuestionBankFragment();
-                            fragmentTransaction.add(R.id.frame_layout, questionBankFragment);
-                        } else {
-                            fragmentTransaction.show(questionBankFragment);
-                        }
-                        break;
-                    case R.id.tab_mine:
-                        state = 4;
-                        tabMine.setChecked(true);
-                        if (mineFragment == null) {
-                            mineFragment = new MineFragment();
-                            fragmentTransaction.add(R.id.frame_layout, mineFragment);
-                        } else {
-                            fragmentTransaction.show(mineFragment);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                fragmentTransaction.commit();
-            }
-        });
+        initSelectTab(state);
+
+        bottomNavigation.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
     }
 
-    //TODO 检查权限
+    /**
+     * 选中指定页面
+     */
+    private void initSelectTab(int index) {
+        if (index < 0 || index > 3) {
+            state = 0;
+            index = state;
+        }
+        switch (index) {
+            case 0:
+                state = 0;
+                if (homeFragment == null) {
+                    homeFragment = new HomeFragment();
+                    fragmentTransaction.add(R.id.frame_layout, homeFragment, HomeFragment.TAG);
+                } else {
+                    fragmentTransaction.show(homeFragment);
+                }
+                fragmentTransaction.commit();
+                break;
+            case 1:
+                state = 1;
+                if (learnCenterFragment == null) {
+                    learnCenterFragment = new LearnCenterFragment();
+                    fragmentTransaction.add(R.id.frame_layout, learnCenterFragment, LearnCenterFragment.TAG);
+                } else {
+                    fragmentTransaction.show(learnCenterFragment);
+                }
+                fragmentTransaction.commit();
+                break;
+            case 2:
+                state = 2;
+                if (questionBankFragment == null) {
+                    questionBankFragment = new QuestionBankFragment();
+                    fragmentTransaction.add(R.id.frame_layout, questionBankFragment, QuestionBankFragment.TAG);
+                } else {
+                    fragmentTransaction.show(questionBankFragment);
+                }
+                fragmentTransaction.commit();
+                break;
+            case 3:
+                state = 3;
+                if (mineFragment == null) {
+                    mineFragment = new MineFragment();
+                    fragmentTransaction.add(R.id.frame_layout, mineFragment, MineFragment.TAG);
+                } else {
+                    fragmentTransaction.show(mineFragment);
+                }
+                fragmentTransaction.commit();
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    /**
+     * 检查权限
+     */
     private void checkPermission() {
         SoulPermission.getInstance().checkAndRequestPermissions(
                 Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE),
@@ -279,7 +294,9 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    //TODO 隐藏所有Fragment
+    /**
+     * 隐藏所有Fragment
+     */
     private void hideAllFragment(FragmentTransaction fragmentTransaction) {
         if (homeFragment != null) {
             fragmentTransaction.hide(homeFragment);
@@ -310,6 +327,9 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * 客服
+     */
     public void makeCall() {
         SoulPermission.getInstance()
                 .checkAndRequestPermission(Manifest.permission.CALL_PHONE, new CheckRequestPermissionListener() {
@@ -338,6 +358,9 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * 退出程序
+     */
     private void exitApplication() {
         new AlertDialog(this).builder()
                 .setMsg(getResources().getString(R.string.exit_confirm))
@@ -358,4 +381,54 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        fragmentTransaction = supportFragmentManager.beginTransaction();
+        hideAllFragment(fragmentTransaction);
+        switch (item.getItemId()) {
+            case R.id.action_home:
+                state = 0;
+                if (homeFragment == null) {
+                    homeFragment = new HomeFragment();
+                    fragmentTransaction.add(R.id.frame_layout, homeFragment, HomeFragment.TAG);
+                } else {
+                    fragmentTransaction.show(homeFragment);
+                }
+                fragmentTransaction.commit();
+                return true;
+            case R.id.action_learncenter:
+                state = 1;
+                if (learnCenterFragment == null) {
+                    learnCenterFragment = new LearnCenterFragment();
+                    fragmentTransaction.add(R.id.frame_layout, learnCenterFragment, LearnCenterFragment.TAG);
+                } else {
+                    fragmentTransaction.show(learnCenterFragment);
+                }
+                fragmentTransaction.commit();
+                return true;
+            case R.id.action_questionbank:
+                state = 2;
+                if (questionBankFragment == null) {
+                    questionBankFragment = new QuestionBankFragment();
+                    fragmentTransaction.add(R.id.frame_layout, questionBankFragment, QuestionBankFragment.TAG);
+                } else {
+                    fragmentTransaction.show(questionBankFragment);
+                }
+                fragmentTransaction.commit();
+                return true;
+            case R.id.action_mine:
+                state = 3;
+                if (mineFragment == null) {
+                    mineFragment = new MineFragment();
+                    fragmentTransaction.add(R.id.frame_layout, mineFragment, MineFragment.TAG);
+                } else {
+                    fragmentTransaction.show(mineFragment);
+                }
+                fragmentTransaction.commit();
+                return true;
+            default:
+                break;
+        }
+        return false;
+    }
 }

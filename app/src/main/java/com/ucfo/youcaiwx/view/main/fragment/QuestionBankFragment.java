@@ -63,6 +63,7 @@ import butterknife.Unbinder;
  * Detail:TODO plate_id代表板块 1知识点练习,2阶段测试,3论述题自测,4错题智能练习,5自主练习,6组卷模考
  */
 public class QuestionBankFragment extends BaseFragment implements IQuestionBankHomeView {
+    public static final String TAG = "QuestionBankFragment";
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_toolbar)
