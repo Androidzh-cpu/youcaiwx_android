@@ -12,6 +12,7 @@ import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
+import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,7 +21,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SplashActivity extends BaseActivity {
-
     private static final int MESSAGE_INTENT = 1001;
     @BindView(R.id.welcome)
     LinearLayout welcome;
@@ -45,6 +45,11 @@ public class SplashActivity extends BaseActivity {
 
         handler = null;
 
+    }
+
+    @Override
+    protected void initToolbar() {
+        StatusBarUtil.immersive(this);
     }
 
     @Override
@@ -83,7 +88,6 @@ public class SplashActivity extends BaseActivity {
         if (null == timer) {
             timer = new Timer();
         }
-
         timer.schedule(refreshTimerTask(), 1000);
     }
 

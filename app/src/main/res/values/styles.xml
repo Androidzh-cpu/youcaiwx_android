@@ -17,6 +17,8 @@
         <!--EditText 输入框中字体的颜色，colorPrimary如果设置深色，一般字体设置为白色-->
         <item name="editTextColor">@android:color/black</item>
 
+        <item name="android:windowBackground">@color/colorWhite</item>
+
         <!--按钮水波纹动画状态-->
         <!--<item name="colorControlHighlight">@color/colorPrimary</item>
         <item name="colorButtonNormal">@color/material_blue_grey_800</item>-->
@@ -59,8 +61,9 @@
     </style>
 
     <!--TODO 欢迎页样式-->
-    <style name="WelcomAppTheme" parent="android:style/Theme.Black.NoTitleBar.Fullscreen">
-        <item name="android:windowBackground">@color/colorWhite</item>
+    <style name="SplashTheme" parent="android:Theme.Holo.Light.NoActionBar.Fullscreen">
+        <!--parent="android:style/Theme.Black.NoTitleBar.Fullscreen"  ic_launcher-->
+        <item name="android:windowBackground">@mipmap/splash_img</item>
         <item name="android:screenOrientation">portrait</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>

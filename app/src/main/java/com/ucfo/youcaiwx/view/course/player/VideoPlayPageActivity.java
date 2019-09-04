@@ -135,8 +135,8 @@ import static com.ucfo.youcaiwx.view.course.player.courseinterface.ViewAction.Hi
  * Email:2911743255@qq.com
  * ClassName: VideoPlayPageActivity
  * Description:TODO 课程播放页
- * Detail:TODO  course_un_con:1正课2非正课
- * TODO course_buy_state:1购买2未购买
+ * Detail:TODO  courseUnCon:1正课2非正课
+ * TODO courseBuyState:1购买2未购买
  */
 public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceHolder.Callback, ICoursePlayerView {
     @BindView(R.id.course_coverimage)
@@ -203,7 +203,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private ArrayList<String> titlesList;
     private ArrayList<Fragment> fragmentArrayList;
     private Bundle bundle;
-    private int course_un_con, course_packageId, course_buy_state, user_id;//是否正课  课程包ID  课程购买状态 用户ID
+    private int courseUnCon, coursePackageId, courseBuyState, userId;//是否正课  课程包ID  课程购买状态 用户ID
     private String course_coverimage, course_PackagePrice, currentVid, course_Source;//课程封面  课程价格 阿里视频video,课程来源
     private int currentCourseID, currentSectionID, currentVideoID, currentVideoCollectState;//TODO 当前播放视频的信息,供收藏,播放使用
     private VideoPlayPageActivity videoPlayPageActivity;
@@ -530,7 +530,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             int videoId = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
             int courseId = bundle.getInt(Constant.COURSE_ID, 0);//课ID
 
-            setCourse_un_con(course_un_con);//正课标识
+            setCourseUnCon(courseUnCon);//正课标识
 
             changePlayVidSource(vid, videoId, courseId, sectionId);//切换视频播放源
         } else if (course_Source.equals(Constant.WATCH_RECORD)) {//TODO 观看记录
@@ -539,7 +539,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             int videoId = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
             int courseId = bundle.getInt(Constant.COURSE_ID, 0);//课ID
 
-            setCourse_un_con(course_un_con);//正课标识
+            setCourseUnCon(courseUnCon);//正课标识
             changePlayVidSource(vid, videoId, courseId, sectionId);//切换视频播放源
 
             AliyunScreenMode targetMode;
@@ -586,7 +586,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             learnPlanid = bundle.getInt(Constant.PLAN_ID, 0);//计划
             learnDays = bundle.getInt(Constant.DAYS, 0);//计划天数
 
-            setCourse_un_con(course_un_con);//正课标识
+            setCourseUnCon(courseUnCon);//正课标识
             changePlayVidSource(vid, video_id, course_id, section_id);//切换视频播放源
 
             AliyunScreenMode targetMode;
@@ -865,7 +865,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      * TODO 实时处理进度更新消息的线程
      */
     private void handleProgressUpdateMessage(Message msg) {
-        if (msg.what == 0) {
+        if (msg.what == START) {
             if (aliyunVodPlayer != null && !inSeek) {
                 playerTotalduration.setText(TimeFormater.formatMs(mAliyunMediaInfo.getDuration()));//控制器设置总时长
                 playerCurrentduration.setText(TimeFormater.formatMs(aliyunVodPlayer.getCurrentPosition()));//控制器设置当前时长
@@ -882,20 +882,21 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //解决bug：在Prepare中开始更新的时候，不会发送更新消息。
             startProgressUpdateTimer();
         }
+        LogUtils.e("handleProgressUpdateMessage--------------------" + msg.what);
     }
 
     /**
      * 试听时间设置
      */
     private void freeWatch() {
-        //已购买
-        if (getCourse_buy_state() == 1 || TextUtils.equals(course_Source, Constant.LOCAL_CACHE)
+        if (getCourseBuyState() == 1 || TextUtils.equals(course_Source, Constant.LOCAL_CACHE)
                 || TextUtils.equals(course_Source, Constant.WATCH_LEARNPLAN)) {
+            //已购买
         } else {
             //未购买,试看指定时间
             int millis = Integer.parseInt(String.valueOf(aliyunVodPlayer.getCurrentPosition() / 1000));//总的剩余时间
             if (millis >= freeTime) {
-                playerTipsview.setVisibility(View.VISIBLE);
+                playerTipsview.setVisibility(playerTipsview.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
                 playerTipsview.setText(getResources().getString(R.string.course_freeWatchCompleted));
                 stop();
                 stopProgressUpdateTimer();
@@ -1211,7 +1212,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             playerShare.setVisibility(playerShare.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);//TODO 分享按钮控制
 
             playerToprightlinear.setVisibility(playerToprightlinear.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//TODO 横屏时的提问按钮
-            if (getCourse_un_con() == 1) {//TODO 正课
+            if (getCourseUnCon() == 1) {//TODO 正课
                 playerAskQuestion.setVisibility(playerAskQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
             } else {
                 playerAskQuestion.setVisibility(playerAskQuestion.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
@@ -1235,10 +1236,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
         //获取对应视频答疑列表
         if (courseAnswerQuestionFragment != null) {
-            courseAnswerQuestionFragment.getAnswerListData(course_packageId, currentCourseID, currentSectionID, currentVideoID);
+            courseAnswerQuestionFragment.getAnswerListData(coursePackageId, currentCourseID, currentSectionID, currentVideoID);
         }
         //获取播放凭证
-        coursePlayPresenter.getVideoPlayAuthor(currentVid, currentVideoID, currentCourseID, currentSectionID, user_id, course_packageId);
+        coursePlayPresenter.getVideoPlayAuthor(currentVid, currentVideoID, currentCourseID, currentSectionID, userId, coursePackageId);
 
         sendSocketMessage();
     }
@@ -1632,7 +1633,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      */
     private void initData() {
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
-        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         login_status = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         download_wifi = sharedPreferencesUtils.getBoolean(Constant.DOWNLOAD_WIFI, false);
         look_wifi = sharedPreferencesUtils.getBoolean(Constant.LOOK_WIFI, false);
@@ -1643,14 +1644,14 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         bundle = getIntent().getExtras();
         if (bundle != null) {
             course_coverimage = bundle.getString(Constant.COURSE_COVER_IMAGE, "");//TODO 封面
-            course_packageId = bundle.getInt(Constant.COURSE_PACKAGE_ID, 0);//TODO 课程包ID
-            course_un_con = bundle.getInt(Constant.COURSE_UN_CON, 2);//TODO 是否是正课1正课2非正课
-            course_buy_state = bundle.getInt(Constant.COURSE_BUY_STATE, 2);//TODO 购买状态:1购买2未购买
+            coursePackageId = bundle.getInt(Constant.COURSE_PACKAGE_ID, 0);//TODO 课程包ID
+            courseUnCon = bundle.getInt(Constant.COURSE_UN_CON, 2);//TODO 是否是正课1正课2非正课
+            courseBuyState = bundle.getInt(Constant.COURSE_BUY_STATE, 2);//TODO 购买状态:1购买2未购买
             course_PackagePrice = bundle.getString(Constant.COURSE_PRICE, "");//TODO 购买价格
             course_Source = bundle.getString(Constant.COURSE_SOURCE, "");//TODO 来源
 
 
-            setCourse_buy_state(course_buy_state);//TODO 购买状态
+            setCourseBuyState(courseBuyState);//TODO 购买状态
 
             setCourse_Cover();
         }
@@ -1789,8 +1790,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
         if (currentCourseID != 0 && currentSectionID != 0 && currentVideoID != 0 && seconds != 0) {
             CourseSocketBean courseSocketBean = new CourseSocketBean();
-            courseSocketBean.setUser_id(user_id);//用户id
-            courseSocketBean.setPackage_id(course_packageId);//	课程包id
+            courseSocketBean.setUser_id(userId);//用户id
+            courseSocketBean.setPackage_id(coursePackageId);//	课程包id
             courseSocketBean.setCourse_id(currentCourseID);//	专业课id
             courseSocketBean.setSection_id(currentSectionID);//章节id
             courseSocketBean.setVideo_id(currentVideoID);//视频id
@@ -1874,6 +1875,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                         currentScreenSize = 1;
                         setSurfaceViewLayout(currentScreenSize);
                         break;
+                    default:
+                        break;
                 }
 
             }
@@ -1896,7 +1899,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
     //TODO 讲义切换按钮操作
     private void switchPdfHandouts() {
-        if (getCourse_buy_state() != 1) {//todo 未购买
+        if (getCourseBuyState() != 1) {//todo 未购买
             toastInfo(getResources().getString(R.string.course_bugCourse));
         } else {//todo 已购买
             if (pdfExists) {//TODO 讲义存在
@@ -1940,7 +1943,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
     //TODO 设置购买按钮
     public void updateBuyUI() {
-        if (getCourse_buy_state() == 1) {
+        if (getCourseBuyState() == 1) {
             linearPayCourse.setVisibility(linearPayCourse.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
         } else {
             linearPayCourse.setVisibility(linearPayCourse.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
@@ -1952,8 +1955,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      */
     private void askCourseQuestion() {
         if (login_status) {
-            if (getCourse_buy_state() == 1) {//todo 已购买
-                if (getCourse_un_con() == 1) {//todo 正课
+            if (getCourseBuyState() == 1) {//todo 已购买
+                if (getCourseUnCon() == 1) {//todo 正课
                     if (getScreenMode() == AliyunScreenMode.Full) {
                         AliyunScreenMode targetMode2;
                         if (mCurrentScreenMode == AliyunScreenMode.Small) {
@@ -1966,7 +1969,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     Intent intent = new Intent(videoPlayPageActivity, QuestionAskQuestionActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString(Constant.TYPE, Constant.TYPE_COURSE_ASK);//TODO 提问类型
-                    bundle.putInt(Constant.PACKAGE_ID, course_packageId);//TODO 课程包ID
+                    bundle.putInt(Constant.PACKAGE_ID, coursePackageId);//TODO 课程包ID
                     bundle.putInt(Constant.COURSE_ID, currentCourseID);//TODO 课程ID
                     bundle.putInt(Constant.VIDEO_ID, currentVideoID);//TODO 视频videoid
                     bundle.putInt(Constant.SECTION_ID, currentSectionID);//TODO 章节ID
@@ -2001,12 +2004,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             return;
         }
         if (currentVideoCollectState == 1) {//取消收藏操作
-            coursePlayPresenter.getVideoCollect(course_packageId, currentCourseID, currentSectionID, currentVideoID, user_id, currentVideoCollectState);
+            coursePlayPresenter.getVideoCollect(coursePackageId, currentCourseID, currentSectionID, currentVideoID, userId, currentVideoCollectState);
         } else {//收藏视频条件
-            if (getCourse_buy_state() != 1) {//未购买
+            if (getCourseBuyState() != 1) {//未购买
                 toastInfo(getResources().getString(R.string.course_bugCourse));
             } else {//已购买
-                coursePlayPresenter.getVideoCollect(course_packageId, currentCourseID, currentSectionID, currentVideoID, user_id, currentVideoCollectState);
+                coursePlayPresenter.getVideoCollect(coursePackageId, currentCourseID, currentSectionID, currentVideoID, userId, currentVideoCollectState);
             }
         }
     }
@@ -2085,7 +2088,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 String playAuth = data.getData().getPlayAuth();
                 //获取视频时间
                 int time = data.getData().getWatch_time();
-                watch_time = time * 1000;
+                if (getCourseBuyState() == 1) {
+                    watch_time = time * 1000;
+                }
                 //当前播放视频收藏状态
                 currentVideoCollectState = data.getData().getCollect();
                 if (currentVideoCollectState == 2) {
@@ -2359,7 +2364,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             case R.id.btn_pay://TODO 直接购买课程
                 Intent intent = new Intent(this, CommitOrderActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt(Constant.COURSE_PACKAGE_ID, getCourse_packageId());
+                bundle.putInt(Constant.COURSE_PACKAGE_ID, getCoursePackageId());
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
@@ -2369,8 +2374,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     }
 
 
-    public int getCourse_packageId() {
-        return course_packageId;
+    public int getCoursePackageId() {
+        return coursePackageId;
     }
 
     public AliyunScreenMode getScreenMode() {
@@ -2383,21 +2388,21 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         playerVideotitle.setText(playVideoName);
     }
 
-    public int getCourse_un_con() {
-        return course_un_con;
+    public int getCourseUnCon() {
+        return courseUnCon;
     }
 
-    public void setCourse_un_con(int course_un_con) {
-        this.course_un_con = course_un_con;
+    public void setCourseUnCon(int courseUnCon) {
+        this.courseUnCon = courseUnCon;
     }
 
-    public void setCourse_buy_state(int course_buy_state) {
-        this.course_buy_state = course_buy_state;
+    public void setCourseBuyState(int courseBuyState) {
+        this.courseBuyState = courseBuyState;
         updateBuyUI();
     }
 
-    public int getCourse_buy_state() {
-        return course_buy_state;
+    public int getCourseBuyState() {
+        return courseBuyState;
     }
 
     public void setCourse_PackagePrice(String course_PackagePrice) {

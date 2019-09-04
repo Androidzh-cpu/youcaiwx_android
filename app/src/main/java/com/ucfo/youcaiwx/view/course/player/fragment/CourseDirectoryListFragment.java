@@ -69,8 +69,8 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
 
     private VideoPlayPageActivity videoPlayPageActivity;
     private Context context;
-    private int course_packageId;
-    private int user_id;
+    private int coursePackageId;
+    private int userId;
     private CourseDirPresenter courseDirPresenter;
     private List<CourseDirBean.DataBean> coursePackageList;
     private List<CourseDirBean.DataBean.SectionBean> sectionBeanList;
@@ -78,8 +78,8 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     private PopupWindow courseDirWindow;
     private CourseDirWindowAdapter courseDirWindowAdapter;
     private int currentPlayCourseIndex = -1, currentClickCourseIndex = -1;//当前播放的课程所属套餐索引值;  当前点击的课程所属套餐索引值
-    private int groupIndex = -1, sonIndex = -1, course_buy_state;
-    private boolean login_status;
+    private int groupIndex = -1, sonIndex = -1, courseBuyState;
+    private boolean loginStatus;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -130,19 +130,18 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         context = getActivity();
         loadinglayout = view.findViewById(R.id.loadinglayout);
 
-        user_id = SharedPreferencesUtils.getInstance(getActivity()).getInt(Constant.USER_ID, 0);
-        login_status = SharedPreferencesUtils.getInstance(getActivity()).getBoolean(Constant.LOGIN_STATUS, false);
+        userId = SharedPreferencesUtils.getInstance(getActivity()).getInt(Constant.USER_ID, 0);
+        loginStatus = SharedPreferencesUtils.getInstance(getActivity()).getBoolean(Constant.LOGIN_STATUS, false);
 
         FragmentActivity activity = getActivity();
         if (activity instanceof VideoPlayPageActivity) {
             videoPlayPageActivity = (VideoPlayPageActivity) getActivity();
         }
 
-        course_packageId = videoPlayPageActivity.getCourse_packageId();
+        coursePackageId = videoPlayPageActivity.getCoursePackageId();
 
         coursePackageList = new ArrayList<>();
         sectionBeanList = new ArrayList<>();
-
     }
 
     @Override
@@ -159,14 +158,14 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
-                courseDirPresenter.getCourseDirData(course_packageId, user_id);
+                courseDirPresenter.getCourseDirData(coursePackageId, userId);
             }
         });
 
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                courseDirPresenter.getCourseDirData(course_packageId, user_id);
+                courseDirPresenter.getCourseDirData(coursePackageId, userId);
             }
         });
 
@@ -176,7 +175,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     protected void onLazyLoadOnce() {
         super.onLazyLoadOnce();
         //获取课程目录
-        courseDirPresenter.getCourseDirData(course_packageId, user_id);
+        courseDirPresenter.getCourseDirData(coursePackageId, userId);
     }
 
     @Override
@@ -193,7 +192,6 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     protected int setContentView() {
         return R.layout.fragment_coursedirectorylist;
     }
-
 
     /**
      * Description:CourseDirectoryListFragment
@@ -233,13 +231,13 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         recyclerview.setAdapter(coursePackageListAdapter);
         coursePackageListAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int i) {
-                List<CourseDirBean.DataBean.SectionBean> section = coursePackageLists.get(i).getSection();
-                String is_zhengke = coursePackageLists.get(i).getIs_zhengke();
-                int parseInt = Integer.parseInt(is_zhengke);
-                CourseDirBean.DataBean dataBean = coursePackageLists.get(i);//当前课程信息
+            public void onItemClick(View view, int position) {
+                List<CourseDirBean.DataBean.SectionBean> section = coursePackageLists.get(position).getSection();
+                String isZhengke = coursePackageLists.get(position).getIs_zhengke();
+                int parseInt = Integer.parseInt(isZhengke);
+                CourseDirBean.DataBean dataBean = coursePackageLists.get(position);//当前课程信息
 
-                currentClickCourseIndex = i;//当前课程点击位置
+                currentClickCourseIndex = position;//当前课程点击位置
 
                 showCourseDirWindow(dataBean, section, parseInt);
             }
@@ -255,12 +253,12 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         sectionBeanList.clear();
         sectionBeanList.addAll(beanList);
 
-        course_buy_state = videoPlayPageActivity.getCourse_buy_state();
+        courseBuyState = videoPlayPageActivity.getCourseBuyState();
 
         View contentView = LayoutInflater.from(context).inflate(R.layout.dialog_coursedir_window, null);
         courseDirWindow = new PopupWindow(contentView);
         courseDirWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);//TODO 设置宽高
-        if (course_buy_state == 1) {
+        if (courseBuyState == 1) {
             courseDirWindow.setHeight(layoutMain.getMeasuredHeight());
         } else {
             courseDirWindow.setHeight(layoutMain.getMeasuredHeight() + DensityUtil.dip2px(getActivity(), 45));
@@ -303,6 +301,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         }
         courseTree.setGroupIndicator(null);//去掉系统默认的一级列表指示器
         courseTree.setAdapter(courseDirWindowAdapter);//添加适配器
+        courseDirWindowAdapter.setSelectPosition(currentPlayCourseIndex, currentClickCourseIndex);
         //如果当前点击的套餐列表的索引值==当前播放的课程套餐的索引,可以展开对应的一级目录和二级目录
         if (currentPlayCourseIndex == currentClickCourseIndex) {
             courseTree.expandGroup(groupIndex);
@@ -320,19 +319,19 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         courseDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!login_status) {
+                if (!loginStatus) {
                     startActivity(LoginActivity.class, null);
                 } else {
-                    if (course_buy_state == 1) {
+                    if (courseBuyState == 1) {
+                        videoPlayPageActivity.pause();
                         Bundle bundle = new Bundle();
-                        String teacher_name = dataBean.getTeacher_name();
+                        String teacherName = dataBean.getTeacher_name();
                         String name = dataBean.getName();
                         bundle.putString(Constant.TITLE, name);
-                        bundle.putString(Constant.TEACHER_NAME, teacher_name);
-                        bundle.putInt(Constant.PACKAGE_ID, course_packageId);
+                        bundle.putString(Constant.TEACHER_NAME, teacherName);
+                        bundle.putInt(Constant.PACKAGE_ID, coursePackageId);
                         bundle.putInt(Constant.PAGE, currentClickCourseIndex);
                         startActivity(DownloadDirectoryActivity.class, bundle);
-                        videoPlayPageActivity.pause();
                     } else {
                         ToastUtil.showBottomShortText(videoPlayPageActivity, getResources().getString(R.string.course_bugCourse));
                     }
@@ -343,7 +342,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         courseTree.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                if (!login_status) {
+                if (!loginStatus) {
                     startActivity(LoginActivity.class, null);
                 } else {
                     String vid = sectionList.get(groupPosition).getVideo().get(childPosition).getVideoId();
@@ -354,7 +353,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
 
                     videoPlayPageActivity.changePlayVidSource(vid, videoId, courseId, sectionId);//TODO 调用播放器,切换视频
                     //是否是正课标识
-                    videoPlayPageActivity.setCourse_un_con(course_un_con);//是否是正课标识
+                    videoPlayPageActivity.setCourseUnCon(course_un_con);//是否是正课标识
 
                     groupIndex = groupPosition;
                     sonIndex = childPosition;
@@ -363,7 +362,6 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                     courseDirWindowAdapter.setSelectPosition(groupIndex, sonIndex, currentPlayCourseIndex, currentClickCourseIndex);//设置选中的位置
 
                     coursePackageListAdapter.notifyDataSetChanged();//课程包列表刷新
-                    courseDirWindowAdapter.notifyDataSetChanged();//课程播放目录列表刷新
                 }
                 return true;
             }

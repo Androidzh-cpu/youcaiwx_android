@@ -175,7 +175,7 @@ public class CourseIntroductionFragment extends BaseFragment {
     @Override
     protected void onLazyLoadOnce() {
         super.onLazyLoadOnce();
-        course_packageId = videoPlayPageActivity.getCourse_packageId();
+        course_packageId = videoPlayPageActivity.getCoursePackageId();
         user_id = SharedPreferencesUtils.getInstance(videoPlayPageActivity).getInt(Constant.USER_ID, 0);
 
         loadCourseInfo(course_packageId, user_id);
@@ -271,9 +271,9 @@ public class CourseIntroductionFragment extends BaseFragment {
             String isPurchase = data.getIs_purchase();//课程是否购买
             String appImg = data.getApp_img();
             if (TextUtils.isEmpty(isPurchase)) {//TODO 课程购买状态
-                videoPlayPageActivity.setCourse_buy_state(2);
+                videoPlayPageActivity.setCourseBuyState(2);
             } else {
-                videoPlayPageActivity.setCourse_buy_state(Integer.parseInt(isPurchase));
+                videoPlayPageActivity.setCourseBuyState(Integer.parseInt(isPurchase));
             }
             videoPlayPageActivity.setCourse_PackagePrice(price);//TODO 课程购买价格
             videoPlayPageActivity.setCourse_Cover(appImg);

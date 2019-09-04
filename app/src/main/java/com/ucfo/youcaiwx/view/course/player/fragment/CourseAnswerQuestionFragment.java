@@ -80,7 +80,7 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
         loginstatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         //用户课程购买状态
-        courseBuyState = videoPlayPageActivity.getCourse_buy_state();
+        courseBuyState = videoPlayPageActivity.getCourseBuyState();
     }
 
     @Override
@@ -113,7 +113,7 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     protected void initData() {
         answerList = new ArrayList<>();
         courseAnswerListPresenter = new CourseCourseAnswerListPresenter(this);
-        coursePackageId = videoPlayPageActivity.getCourse_packageId();//课程包ID
+        coursePackageId = videoPlayPageActivity.getCoursePackageId();//课程包ID
 
         refreshlayout.setDisableContentWhenRefresh(true);//是否在刷新的时候禁止列表的操作
         refreshlayout.setDisableContentWhenLoading(true);//是否在加载的时候禁止列表的操作

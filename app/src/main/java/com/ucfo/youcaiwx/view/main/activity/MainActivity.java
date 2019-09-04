@@ -248,15 +248,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
      */
     private void initSelectTab(int index) {
         if (index < 0 || index > 3) {
-            indexTab = 0;
-            index = indexTab;
+            index = 0;
         }
         fragmentTransaction = supportFragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+
         hideAllFragment(fragmentTransaction);
+
         bottomNavigation.getMenu().getItem(index).setChecked(true);
+        indexTab = index;
         switch (index) {
             case 0:
-                indexTab = 0;
                 if (homeFragment == null) {
                     homeFragment = new HomeFragment();
                     fragmentTransaction.add(R.id.frame_layout, homeFragment, HomeFragment.TAG);
@@ -266,7 +268,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragmentTransaction.commit();
                 break;
             case 1:
-                indexTab = 1;
                 if (learnCenterFragment == null) {
                     learnCenterFragment = new LearnCenterFragment();
                     fragmentTransaction.add(R.id.frame_layout, learnCenterFragment, LearnCenterFragment.TAG);
@@ -276,7 +277,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragmentTransaction.commit();
                 break;
             case 2:
-                indexTab = 2;
                 if (questionBankFragment == null) {
                     questionBankFragment = new QuestionBankFragment();
                     fragmentTransaction.add(R.id.frame_layout, questionBankFragment, QuestionBankFragment.TAG);
@@ -286,7 +286,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragmentTransaction.commit();
                 break;
             case 3:
-                indexTab = 3;
                 if (mineFragment == null) {
                     mineFragment = new MineFragment();
                     fragmentTransaction.add(R.id.frame_layout, mineFragment, MineFragment.TAG);
@@ -399,7 +398,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        finish();
+                        ActivityUtil.getInstance().finishAllActivity();
                     }
                 }).show();
 
@@ -407,48 +406,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        fragmentTransaction = supportFragmentManager.beginTransaction();
-        hideAllFragment(fragmentTransaction);
         switch (item.getItemId()) {
             case R.id.action_home:
                 indexTab = 0;
-                if (homeFragment == null) {
-                    homeFragment = new HomeFragment();
-                    fragmentTransaction.add(R.id.frame_layout, homeFragment, HomeFragment.TAG);
-                } else {
-                    fragmentTransaction.show(homeFragment);
-                }
-                fragmentTransaction.commit();
+                initSelectTab(indexTab);
                 return true;
             case R.id.action_learncenter:
                 indexTab = 1;
-                if (learnCenterFragment == null) {
-                    learnCenterFragment = new LearnCenterFragment();
-                    fragmentTransaction.add(R.id.frame_layout, learnCenterFragment, LearnCenterFragment.TAG);
-                } else {
-                    fragmentTransaction.show(learnCenterFragment);
-                }
-                fragmentTransaction.commit();
+                initSelectTab(indexTab);
                 return true;
             case R.id.action_questionbank:
                 indexTab = 2;
-                if (questionBankFragment == null) {
-                    questionBankFragment = new QuestionBankFragment();
-                    fragmentTransaction.add(R.id.frame_layout, questionBankFragment, QuestionBankFragment.TAG);
-                } else {
-                    fragmentTransaction.show(questionBankFragment);
-                }
-                fragmentTransaction.commit();
+                initSelectTab(indexTab);
                 return true;
             case R.id.action_mine:
                 indexTab = 3;
-                if (mineFragment == null) {
-                    mineFragment = new MineFragment();
-                    fragmentTransaction.add(R.id.frame_layout, mineFragment, MineFragment.TAG);
-                } else {
-                    fragmentTransaction.show(mineFragment);
-                }
-                fragmentTransaction.commit();
+                initSelectTab(indexTab);
                 return true;
             default:
                 break;

@@ -45,13 +45,14 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
+
     <application
         android:name=".UcfoApplication"
         android:allowBackup="false"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/app_icon"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_nameWX"
-        android:roundIcon="@mipmap/app_icon"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
@@ -68,21 +69,22 @@
                 android:resource="@xml/file_paths_public" />
         </provider>
 
-        <!-- TODO 欢迎页 -->
+        <!-- TODO 启动页 -->
         <activity
             android:name=".view.main.activity.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/WelcomAppTheme">
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- TODO APP引导页 -->
+        <!-- TODO 引导页 -->
         <activity
             android:name=".view.main.activity.GuideActivity"
-            android:theme="@style/WelcomAppTheme" />
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme" />
         <!-- TODO APP主页面 -->
         <activity
             android:name=".view.main.activity.MainActivity"

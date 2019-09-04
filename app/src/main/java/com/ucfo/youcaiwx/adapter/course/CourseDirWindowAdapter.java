@@ -25,8 +25,8 @@ import java.util.List;
 public class CourseDirWindowAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<CourseDirBean.DataBean.SectionBean> list;
-    private int groupIndex = -1, sonIndex = -1;
-    private int currentPlayCourseIndex = -1, currentClickCourseIndex = -1;
+    private int groupIndex, sonIndex;
+    private int currentPlayCourseIndex, currentClickCourseIndex;
 
     public CourseDirWindowAdapter(Context context, List<CourseDirBean.DataBean.SectionBean> list) {
         this.context = context;
@@ -90,9 +90,9 @@ public class CourseDirWindowAdapter extends BaseExpandableListAdapter {
         } else {//关闭状态
             groupholder.courseGroupbtn.setImageResource(R.mipmap.icon_bottom_arrows);
         }
-        String section_name = list.get(groupPosition).getSection_name();
-        if (!TextUtils.isEmpty(section_name)) {
-            groupholder.courseTitle.setText(section_name);
+        String sectionName = list.get(groupPosition).getSection_name();
+        if (!TextUtils.isEmpty(sectionName)) {
+            groupholder.courseTitle.setText(sectionName);
         }
         return view;
     }
@@ -126,7 +126,7 @@ public class CourseDirWindowAdapter extends BaseExpandableListAdapter {
 
                 //TODO 添加多个套餐中播放课程的索引
                 if (currentPlayCourseIndex == currentClickCourseIndex) {
-                    if (groupIndex == groupPosition && sonIndex == childPosition) {
+                    if (groupPosition == groupIndex && childPosition == sonIndex) {
                         childholder.courseSectionname.setTextColor(ContextCompat.getColor(context, R.color.color_0267FF));
                         childholder.courseTitme.setTextColor(ContextCompat.getColor(context, R.color.color_0267FF));
                     } else {
@@ -152,6 +152,13 @@ public class CourseDirWindowAdapter extends BaseExpandableListAdapter {
         sonIndex = childPosition;
         currentPlayCourseIndex = currentPlayCourse;
         currentClickCourseIndex = currentClickCourse;
+        notifyDataSetChanged();
+    }
+
+    public void setSelectPosition(int currentPlayCourse, int currentClickCourse) {
+        currentPlayCourseIndex = currentPlayCourse;
+        currentClickCourseIndex = currentClickCourse;
+        notifyDataSetChanged();
     }
 
     protected static class GroupHolder {
