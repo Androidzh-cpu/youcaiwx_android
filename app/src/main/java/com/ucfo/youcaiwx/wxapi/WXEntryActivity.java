@@ -40,12 +40,14 @@ import org.json.JSONObject;
  * Time: 2019-3-28.  下午 3:21
  * Email:2911743255@qq.com
  * ClassName: WXEntryActivity
- * Description:微信回调
+ * Description:微信回调(透明activity)
  */
 public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHandler {
     //TODO  微信操作状态码
-    private static final int RETURN_MSG_TYPE_LOGIN = 1;//登录操作
-    private static final int RETURN_MSG_TYPE_SHARE = 2;//分享操作
+    //登录操作
+    private static final int RETURN_MSG_TYPE_LOGIN = 1;
+    //分享操作
+    private static final int RETURN_MSG_TYPE_SHARE = 2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,7 +75,9 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
         UcfoApplication.api.handleIntent(intent, this);
     }
 
-    // 微信发送请求到第三方应用时，会回调到该方法
+    /**
+     * 微信发送请求到第三方应用时，会回调到该方法
+     */
     @Override
     public void onReq(BaseReq baseReq) {
         switch (baseReq.getType()) {
@@ -87,8 +91,10 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
         finish();
     }
 
-    // 第三方应用发送到微信的请求处理后的响应结果，会回调到该方法
-    //app发送消息给微信，处理返回消息的回调
+    /**
+     * 第三方应用发送到微信的请求处理后的响应结果，会回调到该方法
+     * app发送消息给微信，处理返回消息的回调
+     */
     @Override
     public void onResp(BaseResp baseResp) {
         LogUtils.e("wechat  baseResp:" + baseResp.errCode);
@@ -134,8 +140,8 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
 
     /**
      * 获取access_token
-     *
-     * @param code 用户换取access_token的code，仅在ErrCode为0时有效
+     * <p>
+     * code 用户换取access_token的code，仅在ErrCode为0时有效
      */
     private void getAccessToken(String code) {
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + Constant.WEIXIN_KEY + "&secret="
@@ -203,10 +209,10 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
      */
     private void wxLogin(String unionid, String openId, String nickname) {
         String registrationId = PushAgent.getInstance(this).getRegistrationId();
-        String appID = AppUtils.getAppIMEI(this);
+        String appIMEI = AppUtils.getAppIMEI(this);
         OkGo.<String>post(ApiStores.LOGIN_WECHEATLOGIN)
                 .params(Constant.UNIONID, unionid)
-                .params(Constant.DEVICES, appID)
+                .params(Constant.DEVICES, appIMEI)
                 .params(Constant.DEVICES_TOKEN, registrationId)
                 .execute(new StringCallback() {
                     @Override
@@ -243,7 +249,8 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
             String equipment = data.getEquipment();//绑定状态
             int parseInt = Integer.parseInt(equipment);
             switch (parseInt) {
-                case 1://1未绑定手机号
+                case 1:
+                    //1未绑定手机号
                     LogUtils.e("wecheat setUserInfo:1未绑定手机号");
                     Intent conpletedIntent = new Intent(WXEntryActivity.this, CompleteAndForgetActivity.class);
                     Bundle bundle = new Bundle();
@@ -257,7 +264,8 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                     ActivityUtil.getInstance().finishActivity(LoginActivity.class);
                     ActivityUtil.getInstance().finishActivity(SMSLoginActivity.class);
                     break;
-                case 2://2已成功
+                case 2:
+                    //2已成功
                     LogUtils.e("wecheat setUserInfo:2登录成功");
                     String userId = data.getId();
                     String status = data.getStatus();
@@ -270,7 +278,8 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                     startActivity(intent);
                     WXEntryActivity.this.finish();
                     break;
-                case 3://3设备达到上限
+                case 3:
+                    //3设备达到上限
                     LogUtils.e("wecheat setUserInfo:3设备达到上限");
                     ToastUtil.showBottomShortText(getApplicationContext(), getResources().getString(R.string.wx_upperlimit));
                     WXEntryActivity.this.finish();
