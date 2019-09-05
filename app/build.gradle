@@ -25,7 +25,7 @@ android {
         versionName rootProject.ext.android.versionName
 
         multiDexEnabled true
-        multiDexKeepFile file('multiDexKeep.txt') // keep specific classes
+        multiDexKeepProguard file('multiDexKeep.pro') // keep specific classes
         testInstrumentationRunner rootProject.ext.android.testInstrumentationRunner
 
         javaCompileOptions {
@@ -141,7 +141,8 @@ android {
             //签名
             signingConfig signingConfigs.relese
             // 混淆文件的位置
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
@@ -161,7 +162,7 @@ android {
             minifyEnabled true
             signingConfig signingConfigs.debug
             //前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 

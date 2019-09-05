@@ -70,6 +70,7 @@ import com.qw.soul.permission.callbcak.CheckRequestPermissionListener;
 import com.qw.soul.permission.callbcak.CheckRequestPermissionsListener;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.ucfo.youcaiwx.BuildConfig;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
@@ -270,6 +271,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private boolean download_wifi, look_wifi;
     private AliyunPlayAuth currentaAliyunPlayAuth;
     private boolean pdfDownloadStatus = false, pdfExists = false;
+    private String freeWatchTips;
 
 
     /**
@@ -898,7 +900,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             int millis = Integer.parseInt(String.valueOf(aliyunVodPlayer.getCurrentPosition() / 1000));//总的剩余时间
             if (millis >= freeTime) {
                 playerTipsview.setVisibility(playerTipsview.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-                playerTipsview.setText(getResources().getString(R.string.course_freeWatchCompleted));
+                playerTipsview.setText(freeWatchTips);
                 stop();
                 stopProgressUpdateTimer();
                 courseCoverimage.setColorFilter(Color.BLACK);//背景设置为黑色的
@@ -1274,7 +1276,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         aliyunVodPlayer = new AliyunVodPlayer(this);
         aliyunVodPlayer.setVideoScalingMode(IAliyunVodPlayer.VideoScalingMode.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
         setCirclePlay(false);//设置循环播放 default false
-        enableNativeLog();//打印底层日日志
+        if (BuildConfig.DEBUG) {
+            //打印底层日日志
+            enableNativeLog();
+        } else {
+            disableNativeLog();
+        }
         //TODO 播放器加载进度监听
         aliyunVodPlayer.setOnLoadingListener(new IAliyunVodPlayer.OnLoadingListener() {
             @Override
@@ -1701,6 +1708,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private void initView() {
         videoPlayPageActivity = VideoPlayPageActivity.this;
         context = this;
+        freeWatchTips = getResources().getString(R.string.course_freeWatchCompleted);
+
         windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
         //重新设置菜单栏的高度
         int statusBarHeight = StatusBarUtil.getStatusBarHeight(this);

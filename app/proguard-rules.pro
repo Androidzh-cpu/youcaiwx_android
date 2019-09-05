@@ -331,7 +331,7 @@
 # 需要通过反射来调用的类，没有可忽略，you.package.path 请改成你自己的项目路径
 #-keep class you.package.path.** { *; }
 
-#删除log代码-----begin-----
+#删除log代码-----begin-----  https://www.guardsquare.com/en/products/proguard/manual/examples#logging
 -assumenosideeffects class android.util.Log {
     public static boolean isLoggable(java.lang.String, int);
     public static int v(...);
@@ -687,4 +687,3 @@
 #----------------------------------------------TODO bugly------------------------------------------------#
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
--keep class android.support.**{*;}

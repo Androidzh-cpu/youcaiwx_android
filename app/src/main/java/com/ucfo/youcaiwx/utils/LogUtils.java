@@ -20,7 +20,7 @@ import java.util.Date;
  * Description:TODO log工具
  */
 public class LogUtils {
-    private static boolean sIsDebug = Constant.ISTEST_ENVIRONMENT ? true : false;
+    private static boolean sIsDebug = Constant.ISTEST_ENVIRONMENT;
     //private static boolean sIsDebug = true;
     private static String sPath; // SDCard路径
     private static FileOutputStream sOutputStream;

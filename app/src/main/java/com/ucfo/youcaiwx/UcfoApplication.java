@@ -87,16 +87,16 @@ public class UcfoApplication extends Application {
         SmartRefreshLayout.setDefaultRefreshInitializer(new DefaultRefreshInitializer() {
             @Override
             public void initialize(@NonNull Context mContext, @NonNull RefreshLayout layout) {
-                layout.setDisableContentWhenRefresh(true);//是否在刷新的时候禁止列表的操作
-                layout.setDisableContentWhenLoading(true);//是否在加载的时候禁止列表的操作
-                layout.setEnableAutoLoadMore(false);//是否启用列表惯性滑动到底部时自动加载更多
+                layout.setDisableContentWhenRefresh(true);
+                layout.setDisableContentWhenLoading(true);
+                layout.setEnableAutoLoadMore(false);
 
-                layout.setPrimaryColorsId(R.color.colorWhite, android.R.color.black);//背景色和字体颜色
-                layout.setDragRate(0.5f);//显示下拉高度/手指真实下拉高度=阻尼效果
-                layout.setReboundDuration(400);//回弹动画时长（毫秒）
+                layout.setPrimaryColorsId(R.color.colorWhite, android.R.color.black);
+                layout.setDragRate(0.5f);
+                layout.setReboundDuration(500);
             }
         });
-        //设置全局的Header构建器 TODO 1.0.5和1.0.4不一样
+        //设置全局的Header构建器 1.0.5和1.0.4不一样
         SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
             @NonNull
             @Override
@@ -140,16 +140,16 @@ public class UcfoApplication extends Application {
         userStrategy.setAppChannel(Constant.UMENG_CHANNEL);
         //App的包名
         userStrategy.setAppPackageName(Constant.UMENG_PACKAGE_NAME);
-
-        CrashReport.initCrashReport(this, Constant.BUGLY_ID, true, userStrategy);
-
+        //初始化配置
+        CrashReport.initCrashReport(this, Constant.BUGLY_ID, Constant.ISTEST_ENVIRONMENT, userStrategy);
+        //设置测试设备
         CrashReport.setIsDevelopmentDevice(this, BuildConfig.DEBUG);
     }
 
     private void initUpdate() {
         XUpdate.get()
-                .debug(true)
-                .isWifiOnly(true)                                               //默认设置只在wifi下检查版本更新
+                .debug(Constant.ISTEST_ENVIRONMENT)
+                .isWifiOnly(false)                                               //默认设置只在wifi下检查版本更新
                 .isGet(true)                                                    //默认设置使用get请求检查版本
                 .isAutoMode(false)                                              //默认设置非自动模式，可根据具体使用配置
                 .param(Constant.versioncode, UpdateUtils.getVersionCode(this))         //设置默认公共请求参数
@@ -197,7 +197,7 @@ public class UcfoApplication extends Application {
     }
 
     private void initUmeng() {
-        UMConfigure.setLogEnabled(true);
+        UMConfigure.setLogEnabled(Constant.ISTEST_ENVIRONMENT);
         UMConfigure.init(this, Constant.UMENG_APPKEY, Constant.UMENG_CHANNEL, UMConfigure.DEVICE_TYPE_PHONE, Constant.UMENG_MESSAGE_SCRECT);
         PushAgent mPushAgent = PushAgent.getInstance(this);
         //Android Studio开发工具是基于gradle的配置方式，资源文件的包和应用程序的包是可以分开的，为了正确的找到资源包名，
@@ -227,7 +227,6 @@ public class UcfoApplication extends Application {
                 Map<String, String> extra1 = uMessage.extra;
                 Gson gson = new Gson();
                 String jsonImgList = gson.toJson(extra1);
-                LogUtils.e("Umeng:--------------launchApp:" + jsonImgList);
                 Map<String, String> extra = uMessage.extra;
                 if (extra != null) {
                     Intent intent = new Intent();
