@@ -31,6 +31,16 @@ public class Constant {
     public static final String WEIXIN_PARAMS1 = "snsapi_userinfo";
     //TODO 微信登录参数
     public static final String WEIXIN_PARAMS2 = "wechat_youcailogin";
+    //TODO buglyAppID
+    public static final String BUGLY_ID = "507d69a881";
+    //TODO bugly标签_视频播放标签
+    public static final int BUGLY_TAG_VIDEO = 127217;
+    //TODO bugly标签_习题练习标签
+    public static final int BUGLY_TAG_EXERCISE = 127218;
+    //TODO bugly标签_提交订单标签
+    public static final int BUGLY_TAG_ORDER = 127220;
+    //TODO bugly标签_订单支付标签
+    public static final int BUGLY_TAG_PAY = 127221;
     //AES加密key
     public static final String AES_KEY = "1234567812345678";
     //AES加密向量

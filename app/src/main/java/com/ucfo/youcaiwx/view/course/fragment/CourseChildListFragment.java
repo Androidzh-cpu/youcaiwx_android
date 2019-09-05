@@ -40,7 +40,6 @@ import butterknife.Unbinder;
  * ClassName: CourseChildListFragment
  * Description:TODO 课程分类子页面
  */
-
 public class CourseChildListFragment extends BaseFragment implements ICourseListView {
     @BindView(R.id.recyclerview)
     ShimmerRecyclerView recyclerview;

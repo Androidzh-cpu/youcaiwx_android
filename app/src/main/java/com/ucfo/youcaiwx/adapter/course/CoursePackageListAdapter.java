@@ -30,6 +30,7 @@ public class CoursePackageListAdapter extends BaseAdapter<CourseDirBean.DataBean
         this.context = context;
     }
 
+    @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();
     }
@@ -38,13 +39,13 @@ public class CoursePackageListAdapter extends BaseAdapter<CourseDirBean.DataBean
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         CourseDirBean.DataBean dataBean = list.get(position);
         String name = dataBean.getName();
-        String teacher_name = dataBean.getTeacher_name();
+        String teacherName = dataBean.getTeacher_name();
         if (!TextUtils.isEmpty(name)) {
             holder.mCourseTitleItem.setText(name);
         }
 
-        if (!TextUtils.isEmpty(teacher_name)) {
-            holder.mCourseAuthorItem.setText(String.valueOf(context.getResources().getString(R.string.holder_teacher) + "  " + teacher_name));
+        if (!TextUtils.isEmpty(teacherName)) {
+            holder.mCourseAuthorItem.setText(String.valueOf(context.getResources().getString(R.string.holder_teacher) + "  " + teacherName));
         }
     }
 
@@ -52,8 +53,7 @@ public class CoursePackageListAdapter extends BaseAdapter<CourseDirBean.DataBean
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View inflate = layoutInflater.inflate(R.layout.item_coursepackagelist, viewGroup, false);
-        CoursePackageListAdapter.ViewHolder holder = new CoursePackageListAdapter.ViewHolder(inflate);
-        return holder;
+        return new ViewHolder(inflate);
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {

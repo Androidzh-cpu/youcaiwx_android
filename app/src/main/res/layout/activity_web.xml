@@ -22,6 +22,7 @@
             app:srlEnableAutoLoadMore="false"
             app:srlEnableLoadMore="false"
             app:srlHeaderHeight="@dimen/dp_130"
+            app:srlEnableOverScrollDrag="true"
             app:srlHeaderMaxDragRate="1">
             <!--自定义阻尼提示-->
             <TextView

@@ -34,6 +34,7 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.smtt.sdk.QbSdk;
@@ -128,8 +129,21 @@ public class UcfoApplication extends Application {
         regToWx();
         initWebview();
         initUmeng();
+        initBugly();
         initLogger();
         initUpdate();
+    }
+
+    private void initBugly() {
+        CrashReport.UserStrategy userStrategy = new CrashReport.UserStrategy(this);
+        //设置渠道
+        userStrategy.setAppChannel(Constant.UMENG_CHANNEL);
+        //App的包名
+        userStrategy.setAppPackageName(Constant.UMENG_PACKAGE_NAME);
+
+        CrashReport.initCrashReport(this, Constant.BUGLY_ID, true, userStrategy);
+
+        CrashReport.setIsDevelopmentDevice(this, BuildConfig.DEBUG);
     }
 
     private void initUpdate() {

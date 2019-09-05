@@ -65,18 +65,18 @@ public class TencentWebview extends WebView {
 
     private class MyWebCromeClient extends WebChromeClient {
         @Override
-        public void onProgressChanged(WebView view, int newProgress) {
+        public void onProgressChanged(WebView webView, int newProgress) {
             if (newProgress == 100) {
                 //加载完毕进度条消失
                 progressView.setVisibility(View.GONE);
             } else {
                 //更新进度
-                if (progressView.getVisibility() == GONE)
+                if (progressView.getVisibility() == GONE) {
                     progressView.setVisibility(VISIBLE);
+                }
                 progressView.setProgress(newProgress);
-
             }
-            super.onProgressChanged(view, newProgress);
+            super.onProgressChanged(webView, newProgress);
         }
 
         @Override

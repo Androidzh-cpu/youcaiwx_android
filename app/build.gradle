@@ -216,6 +216,7 @@ dependencies {
     implementation rootProject.ext.dependencies.wechat_opensdk
     implementation rootProject.ext.dependencies.aliyun_oss
     implementation rootProject.ext.dependencies.AlivcConan
+    implementation rootProject.ext.dependencies.bugly
 
     implementation rootProject.ext.butterknife.butterknife
     annotationProcessor rootProject.ext.butterknife.annotationProcessor

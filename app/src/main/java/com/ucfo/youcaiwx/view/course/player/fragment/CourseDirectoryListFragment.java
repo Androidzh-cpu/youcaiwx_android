@@ -153,11 +153,12 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         layoutManager3.setReverseLayout(false);
         recyclerview.setLayoutManager(layoutManager3);
 
-        int topBottom = DensityUtil.dip2px(getActivity(), 4);
+        int topBottom = DensityUtil.dip2px(getActivity(), 2);
+        int leftRight = DensityUtil.dip2px(getActivity(), 12);
         recyclerview.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(RefreshLayout refreshLayout) {
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 courseDirPresenter.getCourseDirData(coursePackageId, userId);
             }
         });
@@ -261,7 +262,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         if (courseBuyState == 1) {
             courseDirWindow.setHeight(layoutMain.getMeasuredHeight());
         } else {
-            courseDirWindow.setHeight(layoutMain.getMeasuredHeight() + DensityUtil.dip2px(getActivity(), 45));
+            courseDirWindow.setHeight(layoutMain.getMeasuredHeight() + DensityUtil.dp2px(40));
         }
         courseDirWindow.setFocusable(false);//区域外点击不消失
         courseDirWindow.setOutsideTouchable(false);////区域外点击不消失

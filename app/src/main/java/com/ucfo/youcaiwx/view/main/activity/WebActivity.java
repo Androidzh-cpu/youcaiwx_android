@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.bugly.crashreport.crash.h5.H5JavaScriptInterface;
 import com.tencent.smtt.export.external.extension.interfaces.IX5WebViewExtension;
 import com.tencent.smtt.export.external.interfaces.SslError;
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
@@ -127,10 +129,8 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         IX5WebViewExtension x5WebViewExtension = tencentWebview.getX5WebViewExtension();
         //如果成功为null表示X5没集成
         LogUtils.e("X5webview-----------:" + x5WebViewExtension);
-
         //启用硬件加速
         initHardwareAccelerate();
-
         //webview默认配置
         setDefaultWebSettings(tencentWebview);
 
@@ -174,6 +174,35 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
                 isDownload = true;
             }
         });
+        CrashReport.WebViewInterface webViewInterface = new CrashReport.WebViewInterface() {
+            @Override
+            public String getUrl() {
+                return tencentWebview.getUrl();
+            }
+
+            @Override
+            public void setJavaScriptEnabled(boolean b) {
+                WebSettings webSettings = tencentWebview.getSettings();
+                webSettings.setJavaScriptEnabled(b);
+            }
+
+            @Override
+            public void loadUrl(String s) {
+                tencentWebview.loadUrl(s);
+            }
+
+            @Override
+            public void addJavascriptInterface(H5JavaScriptInterface h5JavaScriptInterface, String s) {
+                tencentWebview.addJavascriptInterface(h5JavaScriptInterface, s);
+            }
+
+            @Override
+            public CharSequence getContentDescription() {
+                return tencentWebview.getContentDescription();
+            }
+        };
+        CrashReport.setJavascriptMonitor(webViewInterface, true);
+
         //重新加载按钮
         mLoadinglayout.setRetryListener(new View.OnClickListener() {
             @Override

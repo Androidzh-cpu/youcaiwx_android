@@ -32,11 +32,13 @@ import com.qw.soul.permission.bean.Permission;
 import com.qw.soul.permission.bean.Permissions;
 import com.qw.soul.permission.callbcak.CheckRequestPermissionListener;
 import com.qw.soul.permission.callbcak.CheckRequestPermissionsListener;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
 import com.ucfo.youcaiwx.utils.CallUtils;
+import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.utils.update.UpdateCustomParser;
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private QuestionBankFragment questionBankFragment;
     private MineFragment mineFragment;
     private MainActivity context;
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +106,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+        int anInt = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        if (anInt != 0) {
+            //该用户本次启动后的异常日志用户ID
+            CrashReport.setUserId(String.valueOf(anInt));
+        }
     }
 
     @Override
@@ -217,6 +225,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @SuppressLint("CommitTransaction")
     private void initView() {
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
+
         supportFragmentManager = getSupportFragmentManager();
 
         disableShiftMode(bottomNavigation);
@@ -226,6 +236,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         bottomNavigation.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
     }
+
 
     @Override
     protected void onNewIntent(Intent intent) {

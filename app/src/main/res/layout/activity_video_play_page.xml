@@ -321,7 +321,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/linear_pay_course"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_47"
+        android:layout_height="@dimen/dp_38"
         android:background="@color/color_F5F5F5"
         app:layout_constraintBottom_toBottomOf="parent">
 

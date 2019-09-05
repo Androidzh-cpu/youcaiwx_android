@@ -68,6 +68,7 @@ import com.qw.soul.permission.bean.Permission;
 import com.qw.soul.permission.bean.Permissions;
 import com.qw.soul.permission.callbcak.CheckRequestPermissionListener;
 import com.qw.soul.permission.callbcak.CheckRequestPermissionsListener;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.common.ApiStores;
@@ -1651,12 +1652,16 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             course_Source = bundle.getString(Constant.COURSE_SOURCE, "");//TODO 来源
 
 
-            setCourseBuyState(courseBuyState);//TODO 购买状态
-
+            //TODO 购买状态
+            setCourseBuyState(courseBuyState);
+            //设置封面
             setCourse_Cover();
         }
 
         initTablayout();//TODO 创建tablayout
+
+        // 上报后的Crash会显示该标签
+        CrashReport.setUserSceneTag(context, Constant.BUGLY_TAG_VIDEO);
     }
 
     private void setCourse_Cover() {

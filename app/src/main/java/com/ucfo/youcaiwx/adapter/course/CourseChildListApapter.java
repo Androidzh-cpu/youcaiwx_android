@@ -52,21 +52,23 @@ public class CourseChildListApapter extends BaseAdapter<CourseDataListBean.DataB
                 .transform(new CenterCrop(context), new GlideRoundTransform(context))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .error(R.mipmap.banner_default)
+                .placeholder(R.mipmap.banner_default)
+                .dontAnimate()
                 .into(holder.mCourseImageItem);
 
-        int billing_status = dataBean.getBilling_status();//付费
+        int billingStatus = dataBean.getBilling_status();//付费
         String price = dataBean.getPrice();//课程价格
-        String teacher_name = dataBean.getTeacher_name();//老师名称
+        String teacherName = dataBean.getTeacher_name();//老师名称
         String name = dataBean.getName();//课程名称
-        int study_days = dataBean.getStudy_days();//课时
+        int studyDays = dataBean.getStudy_days();//课时
         if (!TextUtils.isEmpty(name)) {
             holder.mCourseTitleItem.setText(name);
         }
-        if (!TextUtils.isEmpty(teacher_name)) {
-            holder.mCourseAuthorItem.setText(String.valueOf(context.getString(R.string.holder_teacher) + teacher_name));
+        if (!TextUtils.isEmpty(teacherName)) {
+            holder.mCourseAuthorItem.setText(String.valueOf(context.getString(R.string.holder_teacher) + teacherName));
         }
-        holder.mCourseCountItem.setText(String.valueOf(context.getString(R.string.orderForm_endtime3,String.valueOf(study_days))));
-        switch (billing_status) {//1免费2收费3按积分越换4按等级进入
+        holder.mCourseCountItem.setText(String.valueOf(context.getString(R.string.orderForm_endtime3, String.valueOf(studyDays))));
+        switch (billingStatus) {//1免费2收费3按积分越换4按等级进入
             case 1:
                 holder.mCoursePriceItem.setBackgroundResource(R.drawable.item_home_purpleback);
                 holder.mCoursePriceItem.setText(context.getResources().getString(R.string.course_free));
@@ -90,8 +92,7 @@ public class CourseChildListApapter extends BaseAdapter<CourseDataListBean.DataB
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View inflate = layoutInflater.inflate(R.layout.item_course_list, viewGroup, false);
-        CourseChildListApapter.ViewHolder holder = new CourseChildListApapter.ViewHolder(inflate);
-        return holder;
+        return new ViewHolder(inflate);
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {

@@ -16,6 +16,7 @@
         android:layout_height="match_parent"
         app:srlEnableLoadMore="true"
         app:srlEnableRefresh="true"
+        app:srlAccentColor="@android:color/black"
         app:srlPrimaryColor="@color/color_F5F5F5">
 
         <com.ucfo.youcaiwx.widget.customview.LoadingLayout

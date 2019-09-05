@@ -684,3 +684,7 @@
 }
 #----------------------------------------------TODO 版本更新------------------------------------------------#
 -keep class com.xuexiang.xupdate.entity.** { *; }
+#----------------------------------------------TODO bugly------------------------------------------------#
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+-keep class android.support.**{*;}

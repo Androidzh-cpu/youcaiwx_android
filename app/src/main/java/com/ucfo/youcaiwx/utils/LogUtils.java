@@ -28,8 +28,8 @@ public class LogUtils {
     static {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             sPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/WriteLogFile/";
-            File file_Path = new File(sPath);
-            file_Path.mkdirs();
+            File filePath = new File(sPath);
+            filePath.mkdirs();
             File file = new File(sPath, "log.txt");
             if (!file.exists()) {
                 try {
@@ -59,6 +59,7 @@ public class LogUtils {
     public static void e(String log) {
         if (sIsDebug) {
             Logger.e(log);
+            save2Sd(log);
         }
     }
 

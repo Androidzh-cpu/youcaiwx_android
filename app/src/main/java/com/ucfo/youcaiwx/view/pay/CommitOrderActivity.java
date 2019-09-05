@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.ApiStores;
@@ -50,7 +51,6 @@ import butterknife.OnClick;
  * Description:TODO 提交订单
  */
 public class CommitOrderActivity extends BaseActivity implements IPayView {
-
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -151,6 +151,9 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+
+        // 上报后的Crash会显示该标签
+        CrashReport.setUserSceneTag(this, Constant.BUGLY_TAG_ORDER);
     }
 
     @Override

@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.flyco.roundview.RoundTextView;
 import com.google.gson.Gson;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.adapter.questionbank.QuestionAnswerSheetAdapter;
 import com.ucfo.youcaiwx.adapter.questionbank.QuestionItemAdapter;
@@ -68,7 +69,6 @@ import butterknife.OnClick;
  */
 
 public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExerciseView {
-
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -200,6 +200,9 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         unCollectionImage.setBounds(0, 0, unCollectionImage.getMinimumWidth(), unCollectionImage.getMinimumHeight());
 
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);//TODO 禁止屏幕截图
+
+        // 上报后的Crash会显示该标签
+        CrashReport.setUserSceneTag(this, Constant.BUGLY_TAG_EXERCISE);
     }
 
     @Override

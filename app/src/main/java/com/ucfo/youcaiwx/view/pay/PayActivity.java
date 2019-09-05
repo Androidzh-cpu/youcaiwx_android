@@ -5,6 +5,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
@@ -13,9 +14,15 @@ import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+/**
+ * Author: AND
+ * Time: 2019-9-5 上午 11:35
+ * Package: com.ucfo.youcaiwx.view.pay
+ * FileName: PayActivity
+ * ORG: www.youcaiwx.com
+ * Description:TODO 订单支付
+ */
 public class PayActivity extends BaseActivity {
-
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -61,6 +68,9 @@ public class PayActivity extends BaseActivity {
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+
+        // 上报后的Crash会显示该标签
+        CrashReport.setUserSceneTag(this, Constant.BUGLY_TAG_PAY);
     }
 
     @Override
