@@ -25,6 +25,7 @@ android {
         versionName rootProject.ext.android.versionName
 
         multiDexEnabled true
+        multiDexKeepFile file('multiDexKeep.txt') // keep specific classes
         testInstrumentationRunner rootProject.ext.android.testInstrumentationRunner
 
         javaCompileOptions {
