@@ -361,7 +361,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
                 popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
                 popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.icon_test9));
+                popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.icon_pulldown));
                 popupWindow.setOutsideTouchable(false);
                 popupWindow.setFocusable(true);
             }

@@ -5,20 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:background="@android:color/white"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:ignore="RtlCompat">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -28,10 +27,13 @@
                 <ImageView
                     android:id="@+id/image_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_186"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
                     android:scaleType="fitXY"
                     android:src="@mipmap/icon_learnback" />
-                <!--还是个背景图-->
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_28"
@@ -39,8 +41,9 @@
                     android:background="@color/color_F5F5F5" />
                 <!--个人信息-->
                 <LinearLayout
+                    android:id="@+id/holder_linearlayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_58"
                     android:layout_marginTop="@dimen/dp_35"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
@@ -126,26 +129,28 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
+                    android:layout_below="@id/holder_linearlayout"
+                    android:layout_marginTop="@dimen/dp_20"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <com.flyco.roundview.RoundLinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/dp_86"
                         android:layout_marginEnd="@dimen/dp_14"
                         android:layout_marginStart="@dimen/dp_14"
-                        android:elevation="1dp"
+                        android:elevation="@dimen/dp_1"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:translationZ="1dp"
+                        android:translationZ="@dimen/dp_1"
                         app:rv_backgroundColor="@android:color/white"
-                        app:rv_cornerRadius="@dimen/dp_5">
+                        app:rv_cornerRadius="@dimen/dp_5"
+                        tools:ignore="UnusedAttribute">
 
                         <TextView
                             android:id="@+id/user_course"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="?android:attr/selectableItemBackground"
                             android:clickable="true"
@@ -155,12 +160,13 @@
                             android:paddingTop="@dimen/dp_10"
                             android:text="@string/mine_Course"
                             android:textColor="@color/color_666666"
-                            android:textSize="@dimen/sp_12" />
+                            android:textSize="@dimen/sp_12"
+                            tools:ignore="KeyboardInaccessibleWidget" />
 
                         <TextView
                             android:id="@+id/user_errorcenter"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="?android:attr/selectableItemBackground"
                             android:clickable="true"
@@ -170,12 +176,13 @@
                             android:paddingTop="@dimen/dp_10"
                             android:text="@string/question_title_errorscenter"
                             android:textColor="@color/color_666666"
-                            android:textSize="@dimen/sp_12" />
+                            android:textSize="@dimen/sp_12"
+                            tools:ignore="KeyboardInaccessibleWidget" />
 
                         <TextView
                             android:id="@+id/user_offline"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="?android:attr/selectableItemBackground"
                             android:clickable="true"
@@ -185,12 +192,15 @@
                             android:paddingTop="@dimen/dp_10"
                             android:text="@string/mine_offline"
                             android:textColor="@color/color_666666"
-                            android:textSize="@dimen/sp_12" />
+                            android:textSize="@dimen/sp_12"
+                            tools:ignore="KeyboardInaccessibleWidget" />
                     </com.flyco.roundview.RoundLinearLayout>
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_14" />
+                        android:layout_height="@dimen/dp_10"
+                        android:background="@color/color_F5F5F5"
+                        android:visibility="invisible" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -248,11 +258,6 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
                         android:visibility="gone">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/dp_10"
-                            android:background="@color/color_F5F5F5" />
                         <!--TODO 登录后需要添加的学习计划列表-->
                         <com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView
                             android:id="@+id/listview_plan"
@@ -261,7 +266,8 @@
                             android:background="@android:color/white"
                             android:nestedScrollingEnabled="false"
                             app:shimmer_demo_child_count="2"
-                            app:shimmer_demo_layout_manager_type="linear_vertical" />
+                            app:shimmer_demo_layout_manager_type="linear_vertical"
+                            tools:ignore="UnusedAttribute" />
                     </LinearLayout>
                     <!--TODO 已登录,并已添加学习计划-->
                     <LinearLayout
@@ -368,9 +374,4 @@
             </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_10"
-        android:background="@color/color_F5F5F5" />
 </LinearLayout>

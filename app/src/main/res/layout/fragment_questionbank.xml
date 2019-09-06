@@ -45,7 +45,7 @@
                 android:background="@mipmap/icon_qb_topback"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/dp_15">
-
+                <!--做题数-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                         app:rv_backgroundColor="#3BFFFFFF"
                         app:rv_isRadiusHalfHeight="true" />
                 </LinearLayout>
-
+                <!--排名情况-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -207,6 +207,7 @@
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>
+
             <!--能力评估中心-->
             <LinearLayout
                 android:layout_width="match_parent"
