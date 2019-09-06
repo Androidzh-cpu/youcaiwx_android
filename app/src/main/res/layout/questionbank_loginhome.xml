@@ -180,7 +180,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_9"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -282,7 +283,6 @@
                 android:textColor="@color/color_999999"
                 android:textSize="@dimen/sp_11" />
         </LinearLayout>
-
 
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>

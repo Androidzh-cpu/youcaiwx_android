@@ -265,8 +265,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
         hideAllFragment(fragmentTransaction);
-
         bottomNavigation.getMenu().getItem(index).setChecked(true);
+
         indexTab = index;
         switch (index) {
             case 0:
