@@ -16,7 +16,8 @@ public class ApiStores {
     public static final String VERSION_UPDATE = "http://ycapi.youcaiwx.com/apps/Version/upAndroid";//版本更新
     //public static final String TEMPORARYLIVE = "https://w.url.cn/s/AkkfsXi";//临时直播地址
     //public static final String TEMPORARYLIVE = "http://www.youcaiwx.com/html/DirectSeeding/Index/index.html";//临时直播地址
-    public static final String TEMPORARYLIVE = "http://m.youcaiwx.com/zhibo";//临时直播地址
+    //public static final String TEMPORARYLIVE = "http://m.youcaiwx.com/zhibo";//临时直播地址
+    public static final String TEMPORARYLIVE = "http://ycfx.youcaiwx.com/static/Video.html?user_id=888888";//临时直播地址
     public static final String TEMPORARYNEWS = "http://m.ucwx.com.cn/news";//临时资讯地址
     public static final String TEMPORARFACE = "http://m.ucfo.com.cn/mskc/";//临时面授地址
     public static final String TEMPORARACTIVE = "http://m.ucfo.com.cn/yqh-wap/20190921/";//临时活动地址

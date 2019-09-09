@@ -140,7 +140,8 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
             mAnalysisAreaQuestion.setVisibility(View.VISIBLE);
             //输入框不可编辑
             mElaborationEt.setKeyListener(null);
-            mElaborationEt.setText(questionList.get(index).getDiscuss_useranswer());
+            //mElaborationEt.setText(questionList.get(index).getDiscuss_useranswer());不要从题干中获取用户答案,因为这时候的用户答案是空的
+            mElaborationEt.setText(optionsAnswerList.get(index).getUser_answer());
 
             analysisStatus = false;
             mCheckAnalysisQuestion.setText(getResources().getString(R.string.question_tips_uncheckanalysis));
@@ -148,7 +149,6 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
         } else {
             //TODO 开始做题
             mElaborationEt.addTextChangedListener(new TextWatcher() {
-
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                     // 输入前的监听

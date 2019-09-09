@@ -67,7 +67,6 @@ import butterknife.OnClick;
  * Description:TODO 工程模式,做题主界面
  * Detail:TODO =_=都已经乱了,就酱吧
  */
-
 public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExerciseView {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
@@ -749,24 +748,25 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     public void submitStatus(SubmitStatusResultBean bean) {
         if (bean != null) {
             int state = bean.getData().getState();
-            String paper_id = bean.getData().getPaper_id();//获取此试卷的ID用于查询成绩
+            String paperId = bean.getData().getPaper_id();//获取此试卷的ID用于查询成绩
             if (state == 1) {
                 Bundle bundle = new Bundle();
                 bundle.putInt(Constant.COURSE_ID, course_id);
                 switch (submitStatus) {
                     case 1://交卷操作
                         if (EXERCISE_TYPE.equals(Constant.EXERCISE_D)) {//论述题交卷模式
-                            discussAnalysis();//不跳页,直接隐藏计时器,打开论述题解析内容(因为论述题并没有成绩统计和错题这一说,走解析接口也是多走一步)
+                            //不跳页,直接隐藏计时器,打开论述题解析内容(因为论述题并没有成绩统计和错题这一说,走解析接口也是多走一步)
+                            discussAnalysis();
                         } else {
                             if (plate_id == Constant.PLATE_14) {//学习中心交卷
-                                bundle.putInt(Constant.PAPER_ID, Integer.parseInt(paper_id));
+                                bundle.putInt(Constant.PAPER_ID, Integer.parseInt(paperId));
                                 bundle.putInt(Constant.PLATE_ID, Constant.PLATE_14);
                                 bundle.putInt(Constant.COURSE_ID, course_id);
                                 startActivity(ResultsStatisticalActivity.class, bundle);
                                 finish();
                             } else {//其他版块交卷
-                                if (!TextUtils.isEmpty(paper_id)) {
-                                    bundle.putInt(Constant.PAPER_ID, Integer.parseInt(paper_id));
+                                if (!TextUtils.isEmpty(paperId)) {
+                                    bundle.putInt(Constant.PAPER_ID, Integer.parseInt(paperId));
                                 } else {//为空传输默认值
                                     bundle.putInt(Constant.PAPER_ID, 0);
                                 }
@@ -987,7 +987,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         lbm.registerReceiver(mMessageReceiver, filter);
 
         switch (plate_id) {
-            case Constant.PLATE_11://todo 答题记录继续做题跳转至最后一道做过的题目位置
+            case Constant.PLATE_11:
+                //todo 答题记录继续做题跳转至最后一道做过的题目位置
                 int currentIndex = 0;
                 for (int i = 0; i < optionsAnswerList.size(); i++) {
                     String userAnswer = optionsAnswerList.get(i).getUser_answer();
@@ -999,10 +1000,13 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 jumpToAppointPage(currentIndex);
                 break;
             case Constant.PLATE_12:
-                discussAnalysis();//TODO 直接打开解析模式
+                //TODO 直接打开解析模式
+                discussAnalysis();
                 break;
             case Constant.PLATE_13:
                 discuss_analysis = true;
+                break;
+            default:
                 break;
         }
 

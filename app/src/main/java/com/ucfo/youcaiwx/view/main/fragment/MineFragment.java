@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.ucfo.youcaiwx.BuildConfig;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.ApiStores;
@@ -158,6 +159,11 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
 
     @Override
     protected void initData() {
+        if (BuildConfig.DEBUG) {
+            btnUserBalance.setVisibility(View.VISIBLE);
+        } else {
+            btnUserBalance.setVisibility(View.GONE);
+        }
     }
 
     @Override

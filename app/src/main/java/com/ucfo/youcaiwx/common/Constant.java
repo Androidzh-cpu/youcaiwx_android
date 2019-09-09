@@ -1,7 +1,5 @@
 package com.ucfo.youcaiwx.common;
 
-import com.ucfo.youcaiwx.BuildConfig;
-
 /**
  * Author:AND
  * Time: 2019-3-5.  下午 5:38
@@ -12,8 +10,8 @@ import com.ucfo.youcaiwx.BuildConfig;
 public class Constant {
     //---------------------------------------------TODO 基础变量-----------------------------------------------//
     //是否显示打印日志
-    //public static final boolean ISTEST_ENVIRONMENT = false;
-    public static final boolean ISTEST_ENVIRONMENT = BuildConfig.DEBUG;
+    public static final boolean ISTEST_ENVIRONMENT = false;
+    //public static final boolean ISTEST_ENVIRONMENT = BuildConfig.DEBUG;
     //客服电话
     public static final String SERVICE_NUM = "4006665318";
     public static final String UTF_8 = "UTF-8";

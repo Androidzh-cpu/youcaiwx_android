@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/progressbar_indicator"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="3dp">
+    android:paddingBottom="3dp"
+    android:paddingEnd="4dp"
+    android:paddingStart="4dp"
+    android:paddingTop="3dp">
     <!--if you does not want to change this text by progress,
                you can set the TextView's id to others(not isb_progress).-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="已出勤"
+        android:textColor="#FFFFFF"
+        tools:ignore="RtlCompat" />
+
     <TextView
         android:id="@+id/isb_progress"
         android:layout_width="wrap_content"
@@ -18,8 +29,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" miles"
-        android:textColor="#FFFFFF" />
-
+        android:text="天"
+        android:textColor="#FFFFFF"
+        tools:ignore="RtlCompat" />
 
 </LinearLayout>
