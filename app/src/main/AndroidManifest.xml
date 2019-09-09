@@ -75,7 +75,6 @@
         <!-- TODO 启动页 -->
         <activity
             android:name=".view.main.activity.SplashActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -86,7 +85,6 @@
         <!-- TODO 引导页 -->
         <activity
             android:name=".view.main.activity.GuideActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme" />
         <!-- TODO APP主页面 -->
         <activity

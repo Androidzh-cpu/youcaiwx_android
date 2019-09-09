@@ -16,8 +16,8 @@
         <item name="android:textColorPrimary">@color/color_333333</item>
         <!--EditText 输入框中字体的颜色，colorPrimary如果设置深色，一般字体设置为白色-->
         <item name="editTextColor">@android:color/black</item>
-
-        <item name="android:windowBackground">@color/colorWhite</item>
+        <!--窗口背景颜色-->
+        <item name="android:windowBackground">@android:color/white</item>
 
         <!--按钮水波纹动画状态-->
         <!--<item name="colorControlHighlight">@color/colorPrimary</item>
@@ -41,7 +41,7 @@
     <style name="BaseThemeForActivity" parent="AppTheme">
         <item name="android:windowIsTranslucent">false</item>
         <!--TODO 方向垂直,不随手记方向改变而改变布局-->
-        <item name="android:screenOrientation">nosensor</item>
+        <item name="android:screenOrientation">portrait</item>
         <!--TODO 取消actionbar-->
         <item name="windowActionBar">false</item>
         <!--TODO 无标题-->
