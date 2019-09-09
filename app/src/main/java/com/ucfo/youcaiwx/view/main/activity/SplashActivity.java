@@ -20,6 +20,14 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Author: AND
+ * Time: 2019-9-9 下午 5:41
+ * Package: com.ucfo.youcaiwx.view.main.activity
+ * FileName: SplashActivity
+ * ORG: www.youcaiwx.com
+ * Description:TODO 启动页
+ */
 public class SplashActivity extends BaseActivity {
     private static final int MESSAGE_INTENT = 1001;
     @BindView(R.id.welcome)

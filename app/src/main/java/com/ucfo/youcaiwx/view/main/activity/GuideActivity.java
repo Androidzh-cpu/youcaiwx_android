@@ -18,6 +18,14 @@ import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Author: AND
+ * Time: 2019-9-9 下午 5:42
+ * Package: com.ucfo.youcaiwx.view.main.activity
+ * FileName: GuideActivity
+ * ORG: www.youcaiwx.com
+ * Description:TODO 引导页
+ */
 public class GuideActivity extends BaseActivity {
     @BindView(R.id.banner_guide_background)
     BGABanner bannerGuideBackground;
