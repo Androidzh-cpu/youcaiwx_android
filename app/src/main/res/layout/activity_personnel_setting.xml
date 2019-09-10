@@ -47,7 +47,7 @@
                 android:layout_width="@dimen/dp_16"
                 android:layout_height="@dimen/dp_16"
                 android:layout_marginStart="@dimen/dp_8"
-                android:src="@mipmap/icon_right_in" />
+                android:src="@drawable/ic_right_in" />
         </LinearLayout>
 
         <View
@@ -85,7 +85,7 @@
                 android:layout_width="@dimen/dp_16"
                 android:layout_height="@dimen/dp_16"
                 android:layout_marginStart="@dimen/dp_8"
-                android:src="@mipmap/icon_right_in" />
+                android:src="@drawable/ic_right_in" />
 
         </LinearLayout>
 
@@ -200,7 +200,7 @@
                 android:layout_width="@dimen/dp_16"
                 android:layout_height="@dimen/dp_16"
                 android:layout_marginStart="@dimen/dp_8"
-                android:src="@mipmap/icon_right_in" />
+                android:src="@drawable/ic_right_in" />
         </LinearLayout>
 
         <View

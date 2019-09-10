@@ -273,7 +273,6 @@
                 layout="@layout/questionbank_loginhome"
                 android:visibility="gone" />
 
-
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

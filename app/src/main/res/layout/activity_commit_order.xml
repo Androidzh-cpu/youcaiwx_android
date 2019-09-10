@@ -113,7 +113,7 @@
                         <ImageView
                             android:layout_width="@dimen/dp_16"
                             android:layout_height="@dimen/dp_16"
-                            android:src="@mipmap/icon_right_in" />
+                            android:src="@drawable/ic_right_in" />
                     </LinearLayout>
 
                     <View
@@ -219,7 +219,7 @@
                         <ImageView
                             android:layout_width="@dimen/dp_16"
                             android:layout_height="@dimen/dp_16"
-                            android:src="@mipmap/icon_right_in" />
+                            android:src="@drawable/ic_right_in" />
                     </LinearLayout>
 
                     <View
@@ -259,7 +259,7 @@
                         <ImageView
                             android:layout_width="@dimen/dp_16"
                             android:layout_height="@dimen/dp_16"
-                            android:src="@mipmap/icon_right_in" />
+                            android:src="@drawable/ic_right_in" />
                     </LinearLayout>
 
                     <View
