@@ -168,10 +168,14 @@
         <item name="android:windowEnterAnimation">@anim/popup_show</item>
         <item name="android:windowExitAnimation">@anim/popup_hide</item>
     </style>
-
+    <!--从上至下动画-->
     <style name="MaterialDialogTopToBottomAnimation" parent="@android:style/Animation.Dialog">
         <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
         <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+    <!--底部弹出,系统消失动画-->
+    <style name="MaterialDialogBottominAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/popup_show</item>
     </style>
 
 </resources>

@@ -14,6 +14,7 @@ import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 /**
  * Author: AND
  * Time: 2019-9-5 上午 11:35
@@ -98,5 +99,23 @@ public class PayActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    /**
+     * Description:PayActivity
+     * Time:2019-9-10 上午 9:27
+     * Detail:TODO 微信支付
+     */
+    private void wechatPayMethod() {
+
+    }
+
+    /**
+     * Description:PayActivity
+     * Time:2019-9-10 上午 9:27
+     * Detail:TODO 支付宝支付
+     */
+    private void alipayMethod() {
+
     }
 }

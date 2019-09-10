@@ -38,7 +38,6 @@ import java.util.Objects;
  * Description:TODO 添加发票
  */
 public class InvoiceActiveDialog extends DialogFragment implements View.OnClickListener {
-
     private TextView mInvoiceinfomationBtn;
     private ImageView mExitBtn;
     private RadioButton mCommonRadiobtn;
@@ -91,6 +90,7 @@ public class InvoiceActiveDialog extends DialogFragment implements View.OnClickL
         params.gravity = Gravity.CENTER | Gravity.BOTTOM;
         window.setAttributes(params);
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        window.setWindowAnimations(R.style.MaterialDialogBottominAnimation);
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         /*if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);

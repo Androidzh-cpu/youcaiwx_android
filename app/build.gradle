@@ -259,6 +259,7 @@ dependencies {
     implementation(name: 'AlivcPlayer-3.4.9', ext: 'aar')
     implementation(name: 'AlivcReporter-1.2', ext: 'aar')
     implementation(name: 'AliyunVodPlayer-3.4.9', ext: 'aar')
+    implementation(name: 'alipaySdk-15.6.5-20190718211148', ext: 'aar')
     implementation files('libs/umeng-share-core-6.9.4.jar')
     implementation files('libs/umeng-share-wechat-simplify-6.9.4.jar')
     implementation files('libs/umeng-shareboard-widget-6.9.4.jar')

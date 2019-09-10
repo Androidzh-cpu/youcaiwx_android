@@ -428,6 +428,7 @@
     <string name="pay_readPayNotice">请同意支付协议</string>
     <string name="pay_commitOrderSuccess">生成订单成功</string>
     <string name="pay_commitOrderSuccess2">请在24小时内完成支付，超时后将取消订单</string>
+    <string name="pay_noinstanl">您尚未安装微信，请安装后重试</string>
 
     <!-- Strings related to invoice -->
     <string name="invoice">发票</string>
