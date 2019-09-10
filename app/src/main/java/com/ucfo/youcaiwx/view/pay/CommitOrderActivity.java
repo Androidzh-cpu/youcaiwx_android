@@ -29,7 +29,7 @@ import com.ucfo.youcaiwx.entity.pay.CommitOrderFormBean;
 import com.ucfo.youcaiwx.entity.pay.InvoiceInfoBean;
 import com.ucfo.youcaiwx.entity.pay.OrderFormDetailBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.pay.PayPresenter;
-import com.ucfo.youcaiwx.presenter.view.IPayView;
+import com.ucfo.youcaiwx.presenter.view.pay.IPayView;
 import com.ucfo.youcaiwx.utils.glideutils.GlideRoundTransform;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;

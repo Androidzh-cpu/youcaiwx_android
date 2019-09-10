@@ -462,7 +462,7 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
     }
 
     @Override
-    public void resultUploadFile(UploadFileBean data) {
+    public void resultUploadFile(UploadFileBean data, int index) {
         if (data != null) {
             if (data.getCode() == 200) {
                 String newHeadUrl = data.getData().getImage_url();

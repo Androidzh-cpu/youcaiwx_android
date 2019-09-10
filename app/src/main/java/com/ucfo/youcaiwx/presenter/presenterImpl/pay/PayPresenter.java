@@ -13,7 +13,7 @@ import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.pay.CommitOrderFormBean;
 import com.ucfo.youcaiwx.entity.pay.InvoiceInfoBean;
 import com.ucfo.youcaiwx.entity.pay.OrderFormDetailBean;
-import com.ucfo.youcaiwx.presenter.view.IPayView;
+import com.ucfo.youcaiwx.presenter.view.pay.IPayView;
 
 import org.json.JSONException;
 import org.json.JSONObject;

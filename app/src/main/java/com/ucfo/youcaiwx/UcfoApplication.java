@@ -90,7 +90,7 @@ public class UcfoApplication extends Application {
                 layout.setDisableContentWhenRefresh(true);
                 layout.setDisableContentWhenLoading(true);
                 layout.setEnableAutoLoadMore(false);
-
+                //默认白色背景,黑色强调颜色
                 layout.setPrimaryColorsId(R.color.colorWhite, android.R.color.black);
                 layout.setDragRate(0.5f);
                 layout.setReboundDuration(500);

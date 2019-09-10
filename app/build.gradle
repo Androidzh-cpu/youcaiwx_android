@@ -248,7 +248,6 @@ dependencies {
     implementation rootProject.ext.picture.imagepicker
 
     implementation rootProject.ext.umeng.umeng_common
-    implementation rootProject.ext.umeng.umeng_utdid
     implementation rootProject.ext.umeng.umeng_analytics
     implementation rootProject.ext.umeng.umeng_push
 

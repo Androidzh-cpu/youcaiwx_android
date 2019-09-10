@@ -41,7 +41,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
         </LinearLayout>
     </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
 </LinearLayout>

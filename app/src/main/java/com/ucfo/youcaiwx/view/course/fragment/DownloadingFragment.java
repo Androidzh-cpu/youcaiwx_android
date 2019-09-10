@@ -163,6 +163,19 @@ public class DownloadingFragment extends BaseFragment {
         gson = new Gson();
     }
 
+    @Override
+    protected void onLazyLoadOnce() {
+        super.onLazyLoadOnce();
+        initDownloadConfig();
+
+        if (offlineCourseActivityParcelableArrayList != null && offlineCourseActivityParcelableArrayList.size() > 0) {
+            String vid = offlineCourseActivityParcelableArrayList.get(0).getVid();
+            loadSTSData(vid, 0);
+        }
+
+        initDownloadingAdapter();
+    }
+
     /**
      * 视频下载配置
      */
@@ -276,19 +289,6 @@ public class DownloadingFragment extends BaseFragment {
                 }
             }
         });
-    }
-
-    @Override
-    protected void onLazyLoadOnce() {
-        super.onLazyLoadOnce();
-        initDownloadConfig();
-
-        if (offlineCourseActivityParcelableArrayList != null && offlineCourseActivityParcelableArrayList.size() > 0) {
-            String vid = offlineCourseActivityParcelableArrayList.get(0).getVid();
-            loadSTSData(vid, 0);
-        }
-
-        initDownloadingAdapter();
     }
 
     /**

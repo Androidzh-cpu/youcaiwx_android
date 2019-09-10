@@ -99,7 +99,6 @@ public class UploadFilePresenter {
      * Detail: TODO 上传文件
      */
     public void upLoadFile(File file) {
-
         PostRequest<String> postRequest = OkGo.<String>post(ApiStores.FILE_UPLOAD).tag(this).isMultipart(true);
         postRequest.params("image", file);
         postRequest.execute(new StringCallback() {
@@ -130,7 +129,7 @@ public class UploadFilePresenter {
             @Override
             public void onSuccess(Response<String> response) {
                 String body = response.body();
-                if (body != null && !body.equals(equals(""))) {
+                if (body != null) {
                     if (response.code() == 200) {
                         Gson gson = new Gson();
                         try {
@@ -138,24 +137,91 @@ public class UploadFilePresenter {
                             int code = object.optInt(Constant.CODE);//状态码
                             if (code == 200) {
                                 UploadFileBean fileBean = gson.fromJson(response.body(), UploadFileBean.class);
-                                view.resultUploadFile(fileBean);
+                                view.resultUploadFile(fileBean, 0);
                             } else {
                                 UploadFileBean bean = new UploadFileBean();
                                 String message = object.optString("msg");
                                 bean.setCode(code);
                                 bean.setMsg(message);
-                                view.resultUploadFile(bean);
+                                view.resultUploadFile(bean, 0);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     } else {
-                        view.resultUploadFile(null);
+                        view.resultUploadFile(null, 0);
                     }
                 } else {
-                    view.resultUploadFile(null);
+                    view.resultUploadFile(null, 0);
                 }
             }
         });
     }
+
+    /**
+     * Description:UploadFilePresenter
+     * Time:2019-9-10 下午 1:58
+     * Detail:TODO 多图上传
+     */
+    public void upLoadFile(File file, int index) {
+        PostRequest<String> postRequest = OkGo.<String>post(ApiStores.FILE_UPLOAD).tag(this).isMultipart(true);
+        postRequest.params("image", file);
+        postRequest.execute(new StringCallback() {
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+                view.startUploadFile();
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                view.errorUploadFile();
+                view.resultUploadFile(null, index);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                view.errorUploadFile();
+            }
+
+            @Override
+            public void uploadProgress(Progress progress) {
+                super.uploadProgress(progress);
+                LogUtils.e("uploadProgress---------------------" + progress);
+            }
+
+            @Override
+            public void onSuccess(Response<String> response) {
+                String body = response.body();
+                if (body != null) {
+                    if (response.code() == 200) {
+                        Gson gson = new Gson();
+                        try {
+                            JSONObject object = new JSONObject(response.body());
+                            int code = object.optInt(Constant.CODE);//状态码
+                            if (code == 200) {
+                                UploadFileBean fileBean = gson.fromJson(response.body(), UploadFileBean.class);
+                                view.resultUploadFile(fileBean, index);
+                            } else {
+                                UploadFileBean bean = new UploadFileBean();
+                                String message = object.optString("msg");
+                                bean.setCode(code);
+                                bean.setMsg(message);
+                                view.resultUploadFile(bean, index);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        view.resultUploadFile(null, index);
+                    }
+                } else {
+                    view.resultUploadFile(null, index);
+                }
+            }
+        });
+    }
+
 }

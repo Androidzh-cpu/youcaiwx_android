@@ -15,6 +15,11 @@ public interface IUploadFileView {
 
     void errorUploadFile();
 
-    void resultUploadFile(UploadFileBean data);
+    /**
+     * Description:IUploadFileView
+     * Time:2019-9-10 下午 2:03
+     * Detail:TODO 后边的index方便与多图上传时做标记,其他地方可以不使用
+     */
+    void resultUploadFile(UploadFileBean data, int index);
 
 }

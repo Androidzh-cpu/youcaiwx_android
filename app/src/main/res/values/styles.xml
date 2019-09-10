@@ -40,8 +40,6 @@
     <!--TODO 基础activity设置-->
     <style name="BaseThemeForActivity" parent="AppTheme">
         <item name="android:windowIsTranslucent">false</item>
-        <!--TODO 方向垂直,不随手记方向改变而改变布局-->
-        <item name="android:screenOrientation">portrait</item>
         <!--TODO 取消actionbar-->
         <item name="windowActionBar">false</item>
         <!--TODO 无标题-->
@@ -64,7 +62,6 @@
     <style name="SplashTheme" parent="android:Theme.Holo.Light.NoActionBar.Fullscreen">
         <!--parent="android:style/Theme.Black.NoTitleBar.Fullscreen"  ic_launcher-->
         <item name="android:windowBackground">@mipmap/splash_img</item>
-        <item name="android:screenOrientation">portrait</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowFullscreen">true</item>

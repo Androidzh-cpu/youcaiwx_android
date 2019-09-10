@@ -109,7 +109,6 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
 
@@ -181,7 +180,7 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
             finish();
         }
         //TODO 提问类型,分为课程和题库
-        if (type.equals(Constant.TYPE_COURSE_ASK)) {//课程
+        if (TextUtils.equals(type, Constant.TYPE_COURSE_ASK)) {//课程
             titlebarMidtitle.setText(getResources().getString(R.string.answer_ask));
 
             askVideotime.setText(TimeFormater.formatMs(courseVideoTime));
@@ -199,7 +198,7 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
             };
             flowlayout.setAdapter(tagAdapter);
 
-        } else if (type.equals(Constant.TYPE_QUESTION_ASK)) {//题库
+        } else if (TextUtils.equals(type, Constant.TYPE_QUESTION_ASK)) {//题库
             titlebarMidtitle.setText(getResources().getString(R.string.answer_title_askQuestions2));
             tipsText = getResources().getString(R.string.net_loadingtext);
             answerAskPresenter.getKnowList(question_id);
@@ -247,7 +246,8 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
     @OnClick({R.id.ask_checkphoto, R.id.ask_submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.ask_checkphoto://TODO 选择图片
+            case R.id.ask_checkphoto:
+                //TODO 选择图片
                 SoulPermission.getInstance().checkAndRequestPermissions(
                         Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
                         new CheckRequestPermissionsListener() {
@@ -272,7 +272,8 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
                             }
                         });
                 break;
-            case R.id.ask_submit://TODO 发表问题
+            case R.id.ask_submit:
+                //TODO 发表问题
                 askContent = askEdittextContent.getText().toString().trim();
                 if (TextUtils.isEmpty(askContent)) {//输入为空
                     ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_hinttext));
@@ -283,21 +284,17 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
                     return;
                 }
                 if (!TextUtils.isEmpty(askContent)) {
-                    if (imageList != null && imageList.size() > 0) {//TODO 先上传图片再提问
-                        if (imageList.size() == 1) {//TODO  单张上传
-                            File file = new File(imageList.get(0));
-                            luban(file);
-                        } else {//TODO 循环上传图片
-                            for (int i = 0; i < imageList.size(); i++) {
-                                File file = new File(imageList.get(i));
-                                luban(file);
-                            }
-                        }
-                    } else {//TODO 直接提问
+                    if (imageList != null && imageList.size() > 0) {
+                        //TODO 有图的情况下先上传图片再提问
+                        File file = new File(imageList.get(0));
+                        luban(file, 0);
+                    } else {
+                        //TODO 没有图片,直接提问
                         tipsText = getResources().getString(R.string.answer_loading);
-                        if (type.equals(Constant.TYPE_COURSE_ASK)) {//课程
-                            answerAskPresenter.userAskQuestion(user_id, courseVideoId, courseSectionId, courseCourseId, coursePackageId, askContent, courseVideoTime, resultImageList);
-                        } else if (type.equals(Constant.TYPE_QUESTION_ASK)) {//题库
+                        if (TextUtils.equals(type, Constant.TYPE_COURSE_ASK)) {//课程
+                            answerAskPresenter.userAskQuestion(user_id, courseVideoId, courseSectionId, courseCourseId,
+                                    coursePackageId, askContent, courseVideoTime, null);
+                        } else if (TextUtils.equals(type, Constant.TYPE_QUESTION_ASK)) {//题库
                             answerAskPresenter.qustionAskQuestion(user_id, course_id, question_id, askContent, null);
                         }
                     }
@@ -332,11 +329,8 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
     }
 
     //TODO 鲁班压缩
-    private void luban(File file) {
-        Luban.with(this)
-                .load(file)
-                .ignoreBy(100)
-                .setTargetDir(getPath())
+    private void luban(File file, int index) {
+        Luban.with(this).load(file).ignoreBy(100).setTargetDir(getPath())
                 .filter(new CompressionPredicate() {
                     @Override
                     public boolean apply(String path) {
@@ -352,7 +346,7 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
                     @Override
                     public void onSuccess(File file) {
                         // TODO 压缩成功后调用，返回压缩后的图片文件
-                        uploadFilePresenter.upLoadFile(file);
+                        uploadFilePresenter.upLoadFile(file, index);
                     }
 
                     @Override
@@ -416,25 +410,41 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
         }
     }
 
+    /**
+     * Description:QuestionAskQuestionActivity
+     * Time:2019-9-10 下午 1:50
+     * Detail:TODO 图片压缩后并上传成功
+     */
     @Override
-    public void resultUploadFile(UploadFileBean data) {
+    public void resultUploadFile(UploadFileBean data, int index) {
         if (data != null) {
             if (data.getCode() == 200) {
                 resultImageList.add(data.getData().getImage_url().trim());
-                fileUploadFlag++;
-                if (fileUploadFlag == imageList.size()) {//上传成功张数等于上传图片集合的情况下走提问
-                    tipsText = getResources().getString(R.string.answer_loading);
-                    if (type.equals(Constant.TYPE_COURSE_ASK)) {//课程
-                        answerAskPresenter.userAskQuestion(user_id, courseVideoId, courseSectionId, courseCourseId, coursePackageId, askContent, courseVideoTime, resultImageList);
-                    } else if (type.equals(Constant.TYPE_QUESTION_ASK)) {//题库
-                        answerAskPresenter.qustionAskQuestion(user_id, course_id, question_id, askContent, resultImageList);
-                    }
-                }
             } else {
                 ToastUtil.showCenterLongText(context, data.getMsg());//提示上传错误信息
             }
         } else {
-            ToastUtil.showCenterLongText(context, getResources().getString(R.string.file_uploaderror));//提示上传错误信息
+            //提示上传错误信息
+            ToastUtil.showCenterLongText(context, getResources().getString(R.string.file_uploaderror));
+        }
+        index++;// 0-1 1-2 2-3 3-4
+        toNextImage(index);
+    }
+
+    /**
+     * 继续压缩下一张图片
+     */
+    private void toNextImage(int position) {
+        if (position < imageList.size()) {//1<3  2<3  3==3,
+            File file = new File(imageList.get(position));
+            luban(file, position);
+        } else {
+            tipsText = getResources().getString(R.string.answer_loading);
+            if (TextUtils.equals(type, Constant.TYPE_COURSE_ASK)) {//课程
+                answerAskPresenter.userAskQuestion(user_id, courseVideoId, courseSectionId, courseCourseId, coursePackageId, askContent, courseVideoTime, resultImageList);
+            } else if (TextUtils.equals(type, Constant.TYPE_QUESTION_ASK)) {//题库
+                answerAskPresenter.qustionAskQuestion(user_id, course_id, question_id, askContent, resultImageList);
+            }
         }
     }
 
@@ -468,6 +478,7 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
     //TODO 输入文字监听
     private TextWatcher textWatcher = new TextWatcher() {
         private int maxLen = 200; // 最大输入字符
+
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }

@@ -324,7 +324,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
     }
 
     @Override
-    public void resultUploadFile(UploadFileBean data) {
+    public void resultUploadFile(UploadFileBean data, int index) {
         if (data != null) {
             if (data.getCode() == 200) {
                 resultImageList.add(data.getData().getImage_url().trim());

@@ -64,10 +64,17 @@ public class UnFinishLearnPlan2Adapter extends BaseAdapter<UnFinishPlanBean.Data
         List<UnFinishPlanBean.DataBean.VideoBean> videoBeans = list.get(position).getVideo();
         List<UnFinishPlanBean.DataBean.VideoBean> videoBeanList = new ArrayList<>();
         videoBeanList.clear();
-        videoBeanList.addAll(list.get(position).getVideo());
-        if (videoBeanList.size() > 3) {
+        //videoBeanList.addAll(list.get(position).getVideo());
+        /*if (videoBeanList.size() > 3) {
             for (int i = 3; i < videoBeanList.size(); i++) {
                 videoBeanList.remove(i);
+            }
+        }*/
+        if (videoBeans.size() > 3) {
+            for (int i = 0; i < videoBeans.size(); i++) {
+                if (i < 3) {
+                    videoBeanList.add(videoBeans.get(i));
+                }
             }
         }
         UnFinishLearnVideoAdapter videoAdapter = new UnFinishLearnVideoAdapter(videoBeanList, context);
@@ -76,15 +83,21 @@ public class UnFinishLearnPlan2Adapter extends BaseAdapter<UnFinishPlanBean.Data
             @Override
             public void onClick(View v) {
                 videoBeanList.clear();
-                videoBeanList.addAll(list.get(position).getVideo());
+                //videoBeanList.addAll(list.get(position).getVideo());
                 if (expandGroup[0]) {//关闭列表
-                    for (int i = 3; i < videoBeanList.size(); i++) {
+                    /*for (int i = 3; i < videoBeanList.size(); i++) {
                         videoBeanList.remove(i);
+                    }*/
+                    for (int i = 0; i < videoBeans.size(); i++) {
+                        if (i < 3) {
+                            videoBeanList.add(videoBeans.get(i));
+                        }
                     }
                     videoAdapter.notifyDataSetChanged();
 
                     holder.mBtnSpread.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_lc_indicator_bottom));
                 } else {//展开列表
+                    videoBeanList.addAll(list.get(position).getVideo());
                     videoAdapter.notifyDataSetChanged();
                     holder.mBtnSpread.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_lc_indicator_top));
                 }

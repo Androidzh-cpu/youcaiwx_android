@@ -198,6 +198,8 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                     break;
                 case R.id.btn_user_integral:
                     //TODO 积分
+                    //继续学习
+                    //startActivity(UnFinishedPlanActivity.class, null);
                     break;
                 case R.id.btn_user_balance:
                     //TODO 余额

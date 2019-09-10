@@ -43,13 +43,12 @@ public class UnFinishedPlanActivity extends BaseActivity implements ILearncenter
     TextView titlebarRighttitle;
     @BindView(R.id.titlebar_toolbar)
     Toolbar titlebarToolbar;
-    /*@BindView(R.id.listView)
-    ExpandableListView listView;*/
     @BindView(R.id.listView)
     RecyclerView listView;
-
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
+    @BindView(R.id.showline)
+    View showline;
     private UnFinishedPlanActivity context;
     private int user_id;
     private LearncenterHomePresenter learncenterHomePresenter;
@@ -90,6 +89,7 @@ public class UnFinishedPlanActivity extends BaseActivity implements ILearncenter
                 finish();
             }
         });
+        showline.setVisibility(View.GONE);
     }
 
     @Override
