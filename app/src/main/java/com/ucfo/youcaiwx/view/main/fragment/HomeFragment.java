@@ -53,6 +53,7 @@ import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcaiwx.view.course.CourseListActivity;
 import com.ucfo.youcaiwx.view.course.player.VideoPlayPageActivity;
+import com.ucfo.youcaiwx.view.home.InformationActivity;
 import com.ucfo.youcaiwx.view.home.MessageCenterActivity;
 import com.ucfo.youcaiwx.view.home.ScanActivity;
 import com.ucfo.youcaiwx.view.main.activity.MainActivity;
@@ -295,18 +296,14 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                     bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_active));
                     startActivity(WebActivity.class, bundle);
                     break;
-                case R.id.icon_news://TODO 资讯
-                    bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARYNEWS);
-                    bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_news));
-                    startActivity(WebActivity.class, bundle);
-                    break;
                 case R.id.check_more_course://TODO 查看更多课程
                     startActivity(new Intent(getActivity(), CourseListActivity.class));
                     break;
+                case R.id.icon_news://TODO 资讯
                 case R.id.check_more_news://TODO 查看更多资讯
-                    bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARYNEWS);
-                    bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_news));
-                    startActivity(WebActivity.class, bundle);
+                    //bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARYNEWS);
+                    //bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_news));
+                    startActivity(InformationActivity.class, null);
                     break;
                 default:
                     break;
@@ -511,7 +508,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         recyclerviewLive.setLayoutManager(layoutManager3);
 
         int topBottom = DensityUtil.dip2px(context, 10);
-        recyclerviewNews.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
+        //recyclerviewNews.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
         recyclerviewCourse.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);

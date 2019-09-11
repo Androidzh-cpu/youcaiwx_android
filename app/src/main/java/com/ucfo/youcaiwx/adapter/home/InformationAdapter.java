@@ -14,25 +14,24 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.ucfo.youcaiwx.R;
-import com.ucfo.youcaiwx.entity.home.HomeBean;
+import com.ucfo.youcaiwx.entity.home.InformationListBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcaiwx.utils.glideutils.GlideRoundTransform;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
- * Author:AND
- * Time: 2019/3/14.  19:06
- * Email:2911743255@qq.com
- * ClassName: HomeNewsAdapter
- * Description:
- * Detail:
+ * Author: AND
+ * Time: 2019-9-11.  上午 9:43
+ * Package: com.ucfo.youcaiwx.adapter.home
+ * FileName: InformationAdapter
+ * Description:资讯列表
  */
-public class HomeNewsAdapter extends BaseAdapter<HomeBean.DataBean.CurriculumBean, HomeNewsAdapter.ViewHolder> {
-    private List<HomeBean.DataBean.InformationBean> list;
+public class InformationAdapter extends BaseAdapter<InformationListBean.DataBean, InformationAdapter.ViewHolder> {
+    private ArrayList<InformationListBean.DataBean> list;
     private Context context;
 
-    public HomeNewsAdapter(List<HomeBean.DataBean.InformationBean> list, Context context) {
+    public InformationAdapter(ArrayList<InformationListBean.DataBean> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -44,11 +43,12 @@ public class HomeNewsAdapter extends BaseAdapter<HomeBean.DataBean.CurriculumBea
 
     @Override
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
-        HomeBean.DataBean.InformationBean bean = list.get(position);
+        InformationListBean.DataBean bean = list.get(position);
         String createTime = bean.getCreate_time();
-        String imageurl = bean.getImageurl();
         String title = bean.getTitle();
         String source = bean.getSource();
+        String image = bean.getImage();
+
         if (!TextUtils.isEmpty(createTime)) {
             holder.mCourseTimeItem.setText(createTime);
         }
@@ -59,8 +59,8 @@ public class HomeNewsAdapter extends BaseAdapter<HomeBean.DataBean.CurriculumBea
             String s = String.valueOf(context.getResources().getString(R.string.source) + ": " + source);
             holder.mCourseAuthorItem.setText(s);
         }
-        if (!TextUtils.isEmpty(imageurl)) {
-            Glide.with(context).load(imageurl).transform(new CenterCrop(context), new GlideRoundTransform(context, 6))
+        if (!TextUtils.isEmpty(image)) {
+            Glide.with(context).load(image).transform(new CenterCrop(context), new GlideRoundTransform(context, 5))
                     .diskCacheStrategy(DiskCacheStrategy.ALL).crossFade().into(holder.mCourseImageItem);
         }
     }

@@ -44,7 +44,6 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
-
     <uses-permission
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
@@ -60,6 +59,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:supportsRtl,allowBackup,label">
+
         <!-- 相机适配 -->
         <!-- android:authorities="${applicationId}.provider" -->
         <provider
@@ -390,9 +390,14 @@
             android:name=".view.home.AnnouncementCenterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
-        <!--TODO 系统通知-->
+        <!-- TODO 系统通知 -->
         <activity
             android:name=".view.home.NotificationCenterActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseThemeForActivity" />
+        <!--TODO 资讯列表-->
+        <activity
+            android:name=".view.home.InformationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
     </application>
