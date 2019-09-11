@@ -175,18 +175,7 @@ android {
     //TODO 批量修改生成的 apk 文件名
     applicationVariants.all { variant ->
         variant.outputs.all {
-            if (variant.buildType.name == 'release') {
-                variant.mergedFlavor.versionCode = rootProject.ext.android.versionCode
-                variant.mergedFlavor.versionName = rootProject.ext.android.versionName
-                // release：输出文件名必须命名为 outputFileName
-                outputFileName = "com.ucfo.youcaiwx.${buildType.name}.${variant.versionName}.apk"
-            } else {
-                variant.mergedFlavor.versionCode = rootProject.ext.android.versionCode
-                variant.mergedFlavor.versionName = rootProject.ext.android.versionName
-                // debug 输出文件名必须命名为 outputFileName
-                outputFileName = "${project.getName()}_${buildType.name}.apk"
-                outputFileName = "com.ucfo.youcaiwx.${buildType.name}.${variant.versionName}.apk"
-            }
+            outputFileName = "${defaultConfig.applicationId}.${buildType.name}.${variant.versionName}.apk"
         }
     }
 

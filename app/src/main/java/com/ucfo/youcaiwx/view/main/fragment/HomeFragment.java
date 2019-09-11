@@ -30,7 +30,6 @@ import com.qw.soul.permission.callbcak.CheckRequestPermissionListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener;
 import com.ucfo.youcaiwx.R;
@@ -188,19 +187,13 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
 
         bannerIndex.setOnBannerListener(this);
 
+        refreshLayout.setEnableLoadMore(false);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 homePresenter.getHomeData("home");
             }
         });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                homePresenter.getHomeData("home");
-            }
-        });
-
         WindowManager wm = (WindowManager) Objects.requireNonNull(getActivity()).getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         if (wm != null) {
