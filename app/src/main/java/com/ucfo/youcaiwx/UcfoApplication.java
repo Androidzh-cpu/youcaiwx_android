@@ -41,6 +41,7 @@ import com.tencent.smtt.sdk.QbSdk;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.utils.JsonUtil;
 import com.ucfo.youcaiwx.utils.LogUtils;
+import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.update.OKHttpUpdateHttpService;
 import com.ucfo.youcaiwx.view.course.CourseAnswerDetailActivity;
 import com.ucfo.youcaiwx.view.course.player.download.Common;
@@ -140,6 +141,8 @@ public class UcfoApplication extends Application {
         userStrategy.setAppChannel(Constant.UMENG_CHANNEL);
         //App的包名
         userStrategy.setAppPackageName(Constant.UMENG_PACKAGE_NAME);
+        //设置版本
+        userStrategy.setAppVersion(AppUtils.getAppVersionName(this));
         //初始化配置
         CrashReport.initCrashReport(this, Constant.BUGLY_ID, Constant.ISTEST_ENVIRONMENT, userStrategy);
         //设置测试设备

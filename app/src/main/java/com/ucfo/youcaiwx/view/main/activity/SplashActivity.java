@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.widget.LinearLayout;
 
 import com.ucfo.youcaiwx.R;
@@ -32,6 +34,8 @@ public class SplashActivity extends BaseActivity {
     private static final int MESSAGE_INTENT = 1001;
     @BindView(R.id.welcome)
     LinearLayout welcome;
+    @BindView(R.id.image_view)
+    AppCompatImageView imageView;
     private Handler handler = null;
     private Timer timer = null;
 
@@ -50,9 +54,7 @@ public class SplashActivity extends BaseActivity {
             timer.cancel();
             timer = null;
         }
-
         handler = null;
-
     }
 
     @Override
@@ -87,9 +89,7 @@ public class SplashActivity extends BaseActivity {
                         startActivity(GuideActivity.class);
                         finish();
                     }
-
                 }
-
             }
         };
 
@@ -100,7 +100,8 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void showRandomWelcome() {
-        welcome.setBackgroundResource(R.mipmap.splash_img);
+        //welcome.setBackgroundResource(R.mipmap.splash_img);
+        imageView.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.splash_img));
     }
 
     private TimerTask refreshTimerTask() {
