@@ -244,7 +244,7 @@ dependencies {
 
     implementation project(':okgo')
     implementation project(':Transferee')
-    implementation project(':FlycoRoundView_Lib')
+    implementation project(':FlycoRoundView')
     implementation files('libs/tbs_sdk_thirdapp_v4.3.0.1072_43646_sharewithdownloadwithfile_withoutGame_obfs_20190429_175122.jar')
     implementation(name: 'AlivcPlayer-3.4.9', ext: 'aar')
     implementation(name: 'AlivcReporter-1.2', ext: 'aar')
