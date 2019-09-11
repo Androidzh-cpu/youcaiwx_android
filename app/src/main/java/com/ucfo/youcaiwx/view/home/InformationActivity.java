@@ -22,7 +22,6 @@ import com.ucfo.youcaiwx.entity.home.InformationListBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.home.InformationPresenter;
 import com.ucfo.youcaiwx.presenter.view.home.IInformationView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
-import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.view.main.activity.WebActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
@@ -101,8 +100,6 @@ public class InformationActivity extends BaseActivity implements IInformationVie
         super.initView(savedInstanceState);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        int topBottom = DensityUtil.dip2px(this, 10);
-        //recyclerview.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setNestedScrollingEnabled(false);
         recyclerview.setItemAnimator(new DefaultItemAnimator());
