@@ -27,7 +27,9 @@ import java.util.Map;
  * Description:TODO 微信支付工具类
  */
 public class PaymentHelper {
+    //调起支付的页面
     private AppCompatActivity appCompatActivity;
+    //支付标识
     private static final int SDK_PAY_FLAG = 1;
 
     /**

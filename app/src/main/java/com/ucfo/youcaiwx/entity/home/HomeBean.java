@@ -320,6 +320,15 @@ public class HomeBean {
             private String jumphref;
             private String image;
             private String create_time;
+            private String url;
+
+            public String getUrl() {
+                return url == null ? "" : url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
 
             public String getTitle() {
                 return title == null ? "" : title;

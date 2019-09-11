@@ -542,7 +542,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
             public void onItemClick(View view, int position) {
                 HomeBean.DataBean.InformationBean informationBean = newLists.get(position);
                 String title = informationBean.getTitle();
-                String jumphref = informationBean.getJumphref();
+                String jumphref = informationBean.getUrl();
                 Intent intent = new Intent(getActivity(), WebActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString(Constant.WEB_URL, jumphref);
