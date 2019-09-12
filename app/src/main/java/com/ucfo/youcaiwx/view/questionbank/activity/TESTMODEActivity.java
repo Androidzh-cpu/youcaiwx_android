@@ -143,10 +143,12 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (Constant.BroadcastReceiver_TONEXT.equals(intent.getAction())) {
+            if (TextUtils.equals(Constant.BroadcastReceiver_TONEXT, intent.getAction())) {
+                //跳转至下一页
                 jumpToNextPage();
-            } else if (Constant.BroadcastReceiver_TOPAGE.equals(intent.getAction())) {
+            } else if (TextUtils.equals(Constant.BroadcastReceiver_TOPAGE, intent.getAction())) {
                 int index = intent.getIntExtra(Constant.INDEX, 0);
+                //跳转至指定页
                 jumpToAppointPage(index);
             }
         }

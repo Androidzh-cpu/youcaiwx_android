@@ -308,7 +308,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             default:
                 break;
         }
-
     }
 
     /**

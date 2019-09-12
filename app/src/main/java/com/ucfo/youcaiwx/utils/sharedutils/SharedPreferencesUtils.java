@@ -18,11 +18,8 @@ import java.util.List;
  * ClassName: SecurePreferencesUtils
  * Package: com.study.studyapp.utils.systemutils
  * Description:加密存储数据
- * Detail:
  */
 public class SharedPreferencesUtils {
-
-
     private static final String LXSP_NAME = "youcaiwx_data";
     private static SharedPreferencesUtils spUtil = null;
     private static SecurePreferences sp = null;

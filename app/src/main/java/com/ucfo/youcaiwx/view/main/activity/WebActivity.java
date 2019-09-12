@@ -347,6 +347,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         webSetting.setGeolocationDatabasePath(this.getDir("geolocation", 0).getPath());
         //允许WebView使用File协议
         webSetting.setAllowFileAccess(true);
+
         //不保存密码
         webSetting.setSavePassword(false);
         //设置UA
@@ -363,6 +364,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
      * Time:2019-3-22   下午 2:57
      * Detail:TODO  如果启用了JavaScript，务必做好安全措施，防止远程执行漏洞
      */
+    @SuppressLint("ObsoleteSdkInt")
     @TargetApi(11)
     private static void removeJavascriptInterfaces(WebView webView) {
         try {
@@ -379,9 +381,10 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     /**
      * 启用硬件加速
      */
+    @SuppressLint("ObsoleteSdkInt")
     private void initHardwareAccelerate() {
         try {
-            if (Integer.parseInt(Build.VERSION.SDK) >= 11) {
+            if (Build.VERSION.SDK_INT >= 11) {
                 getWindow().setFlags(
                         WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                         WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
