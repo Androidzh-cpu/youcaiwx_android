@@ -21,9 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.hitomi.tilibrary.style.index.NumberIndexIndicator;
 import com.hitomi.tilibrary.style.progress.ProgressPieIndicator;
 import com.hitomi.tilibrary.transfer.TransferConfig;
@@ -34,6 +33,7 @@ import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.questionbank.DoProblemsAnswerBean;
 import com.ucfo.youcaiwx.entity.questionbank.DoProblemsBean;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.view.questionbank.activity.TESTMODEActivity;
 import com.ucfo.youcaiwx.widget.customview.NestedListView;
 
@@ -239,16 +239,13 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             mAnalysisContentQuestion.setVisibility(View.GONE);
         }
         if (!TextUtils.isEmpty(analysisPic)) {//解析图片
-            Glide.with(testmodeActivity)
-                    .load(analysisPic)
+            RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
                     .placeholder(R.mipmap.banner_default)
                     .error(R.mipmap.image_loaderror)
-                    .crossFade()
-                    .skipMemoryCache(false)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .priority(Priority.HIGH)
-                    .into(mAnalysisImageQuestion);
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+            GlideUtils.load(testmodeActivity, analysisPic, mAnalysisImageQuestion, requestOptions);
+
         } else {
             mAnalysisImageQuestion.setVisibility(View.GONE);
         }
@@ -338,16 +335,12 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         String topicImage1 = list.get(index);
         mImage1Question.setVisibility(View.VISIBLE);
         if (!TextUtils.isEmpty(topicImage1)) {
-            Glide.with(testmodeActivity)
-                    .load(topicImage1)
+            RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
                     .placeholder(R.mipmap.banner_default)
                     .error(R.mipmap.image_loaderror)
-                    .crossFade()
-                    .skipMemoryCache(false)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .priority(Priority.HIGH)
-                    .into(mImage1Question);
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+            GlideUtils.load(testmodeActivity, topicImage1, mImage1Question, requestOptions);
         }
         TransferConfig config = TransferConfig.build()
                 .setMissPlaceHolder(R.mipmap.banner_default)
@@ -378,16 +371,12 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         String topicImage2 = list.get(index);
         mImage2Question.setVisibility(View.VISIBLE);
         if (!TextUtils.isEmpty(topicImage2)) {
-            Glide.with(testmodeActivity)
-                    .load(topicImage2)
+            RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
                     .placeholder(R.mipmap.banner_default)
                     .error(R.mipmap.image_loaderror)
-                    .crossFade()
-                    .skipMemoryCache(false)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .priority(Priority.HIGH)
-                    .into(mImage2Question);
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+            GlideUtils.load(testmodeActivity, topicImage2, mImage2Question, requestOptions);
         }
         TransferConfig config = TransferConfig.build()
                 .setMissPlaceHolder(R.mipmap.banner_default)

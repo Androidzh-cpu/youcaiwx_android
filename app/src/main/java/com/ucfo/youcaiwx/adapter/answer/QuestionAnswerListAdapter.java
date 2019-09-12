@@ -12,7 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.flyco.roundview.RoundTextView;
 import com.hitomi.tilibrary.style.index.NumberIndexIndicator;
 import com.hitomi.tilibrary.style.progress.ProgressBarIndicator;
@@ -24,6 +25,7 @@ import com.ucfo.youcaiwx.entity.answer.QuestionAnswerListBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.widget.flowlayout.FlowLayout;
 import com.ucfo.youcaiwx.widget.flowlayout.TagAdapter;
@@ -100,7 +102,12 @@ public class QuestionAnswerListAdapter extends BaseAdapter<QuestionAnswerListBea
             holder.mAnswerImagelistItem.setVisibility(View.GONE);
         }
         //学员头像
-        Glide.with(context).load(head).error(R.mipmap.banner_default).into(holder.mAnswerUsericonItem);
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.mipmap.banner_default)
+                .error(R.mipmap.image_loaderror)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        GlideUtils.load(context, head, holder.mAnswerUsericonItem, requestOptions);
+
         TransferConfig config = TransferConfig.build()
                 .setMissPlaceHolder(R.mipmap.banner_default)
                 .setErrorPlaceHolder(R.mipmap.banner_default)

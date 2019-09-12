@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.adapter.learncenter.LearnPlanDetailCourseAdapter;
 import com.ucfo.youcaiwx.adapter.learncenter.LearnPlanDetailDateAdapter;
@@ -26,6 +28,7 @@ import com.ucfo.youcaiwx.presenter.view.learncenter.ILearnPlanDetailView;
 import com.ucfo.youcaiwx.utils.baseadapter.CenterLayoutManager;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.view.course.player.VideoPlayPageActivity;
@@ -217,8 +220,11 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
             if (result.getData() != null) {
                 String advert = result.getData().getAdvert();
                 if (!this.isFinishing()) {
-                    Glide.with(this).load(advert).asBitmap().skipMemoryCache(true).placeholder(R.mipmap.banner_default)
-                            .error(R.mipmap.image_loaderror).skipMemoryCache(true).into(cover);
+                    RequestOptions requestOptions = new RequestOptions()
+                            .placeholder(R.mipmap.banner_default)
+                            .error(R.mipmap.image_loaderror)
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                    GlideUtils.load(context, advert, cover, requestOptions);
                 }
                 if (result.getData().getDate() != null && result.getData().getDate().size() > 0) {
                     List<LearnPlanDetailBean.DataBean.DateBean> dateBeanList = result.getData().getDate();
@@ -372,7 +378,7 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                 @Override
                 public void onItemClick(View view, int position) {
                     String sameday = videoList.get(position).getSameday();
-                    if (TextUtils.equals(sameday,String.valueOf(1))) {
+                    if (TextUtils.equals(sameday, String.valueOf(1))) {
                         LearnPlanDetailVideoBean.DataBean.VideoBean videoBean = videoList.get(position);
                         Bundle bundle = new Bundle();
                         bundle.putInt(Constant.COURSE_PACKAGE_ID, videoBean.getPackage_id());//包

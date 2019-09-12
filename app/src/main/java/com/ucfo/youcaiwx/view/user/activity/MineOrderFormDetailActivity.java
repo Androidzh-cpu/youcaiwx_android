@@ -10,8 +10,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.flyco.roundview.RoundTextView;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
@@ -22,6 +22,7 @@ import com.ucfo.youcaiwx.entity.user.MineOrderListBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineOrderFormPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineOrderFromView;
 import com.ucfo.youcaiwx.utils.CallUtils;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.view.pay.PayActivity;
@@ -286,8 +287,11 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
         if (!TextUtils.isEmpty(addTime)) {
             orderTime.setText(String.valueOf(getResources().getString(R.string.orderForm_time) + " " + addTime));
         }
-        Glide.with(this).load(appImg).diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.mipmap.banner_default).error(R.mipmap.banner_default).dontAnimate().crossFade().into(itemCourseImage);
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.mipmap.banner_default)
+                .error(R.mipmap.image_loaderror)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        GlideUtils.load(context, appImg, itemCourseImage, requestOptions);
         orderCoursePrice.setText(String.valueOf(getResources().getString(R.string.RMB) + price));
         orderPreferentialPrice.setText(String.valueOf(getResources().getString(R.string.RMB) + couponPrice));
         orderRealPrice.setText(String.valueOf(getResources().getString(R.string.RMB) + payPrice));

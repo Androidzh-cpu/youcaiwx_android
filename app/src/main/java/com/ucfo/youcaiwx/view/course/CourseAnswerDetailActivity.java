@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +20,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.flyco.roundview.RoundTextView;
 import com.hitomi.tilibrary.style.index.NumberIndexIndicator;
 import com.hitomi.tilibrary.style.progress.ProgressBarIndicator;
@@ -37,6 +39,7 @@ import com.ucfo.youcaiwx.presenter.presenterImpl.answer.CourseCourseAnswerListPr
 import com.ucfo.youcaiwx.presenter.view.answer.ICourseAnswerListView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.view.course.player.utils.TimeFormater;
@@ -219,9 +222,17 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
                     formatMs = TimeFormater.formatMs(Integer.parseInt(videoTime));
                 }
                 if (TextUtils.isEmpty(userData.getHead())) {
-                    Glide.with(context).load(userData.getHead()).error(R.mipmap.icon_headdefault).into(answerUsericon);
+                    RequestOptions requestOptions = new RequestOptions()
+                            .placeholder(R.mipmap.icon_headdefault)
+                            .error(R.mipmap.image_loaderror)
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                    GlideUtils.load(context, userData.getHead(), answerUsericon, requestOptions);
                 } else {
-                    Glide.with(context).load(userData.getHead()).error(R.mipmap.icon_headdefault).into(answerUsericon);
+                    RequestOptions requestOptions = new RequestOptions()
+                            .placeholder(R.mipmap.icon_headdefault)
+                            .error(R.mipmap.image_loaderror)
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                    GlideUtils.load(context, userData.getHead(), answerUsericon, requestOptions);
                     TransferConfig headConfig = TransferConfig.build()
                             .setMissPlaceHolder(R.mipmap.banner_default)
                             .setErrorPlaceHolder(R.mipmap.banner_default)
@@ -288,9 +299,15 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
                 AnswerDetailBean.DataBeanX.ReplyBean dataReply = data.getReply();
 
                 if (TextUtils.isEmpty(dataReply.getHead_img())) {
-                    Glide.with(context).load(dataReply.getHead_img()).error(R.mipmap.icon_headdefault).into(answerTeachericon);//TODO 老师头像
+                    //TODO 老师头像
+                    answerTeachericon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_headdefault));
                 } else {
-                    Glide.with(context).load(dataReply.getHead_img()).error(R.mipmap.icon_headdefault).into(answerTeachericon);//TODO 老师头像
+                    //TODO 老师头像
+                    RequestOptions requestOptions = new RequestOptions()
+                            .placeholder(R.mipmap.icon_headdefault)
+                            .error(R.mipmap.image_loaderror)
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                    GlideUtils.load(context, dataReply.getHead_img(), answerTeachericon, requestOptions);
                     TransferConfig headConfig2 = TransferConfig.build()
                             .setMissPlaceHolder(R.mipmap.banner_default)
                             .setErrorPlaceHolder(R.mipmap.banner_default)

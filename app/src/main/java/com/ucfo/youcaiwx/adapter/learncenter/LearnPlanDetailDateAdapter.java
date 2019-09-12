@@ -49,8 +49,6 @@ public class LearnPlanDetailDateAdapter extends RecyclerView.Adapter<LearnPlanDe
             display = new DisplayMetrics();
             windowManager.getDefaultDisplay().getMetrics(display);
         }
-
-
         blue = ContextCompat.getDrawable(context, R.drawable.shape_cricle_hollow_blue);
         solidBlue = ContextCompat.getDrawable(context, R.drawable.shape_cricle_solid_blue);
     }

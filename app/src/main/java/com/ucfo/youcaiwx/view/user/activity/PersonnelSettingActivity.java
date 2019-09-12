@@ -22,9 +22,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.hitomi.tilibrary.style.index.NumberIndexIndicator;
 import com.hitomi.tilibrary.style.progress.ProgressPieIndicator;
 import com.hitomi.tilibrary.transfer.TransferConfig;
@@ -46,6 +45,7 @@ import com.ucfo.youcaiwx.presenter.presenterImpl.upload.UploadFilePresenter;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.UserInfoPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IUserInfoView;
 import com.ucfo.youcaiwx.utils.glideutils.GlideImageLoader;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.glideutils.MiniSizeFilter;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
@@ -360,15 +360,12 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
                 if (TextUtils.isEmpty(head)) {
                     userIcon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_headdefault));
                 } else {
-                    Glide.with(context)
-                            .load(head)
+                    RequestOptions requestOptions = new RequestOptions()
+                            .centerCrop()
+                            .placeholder(R.mipmap.banner_default)
                             .error(R.mipmap.image_loaderror)
-                            .dontAnimate()
-                            .crossFade()
-                            .skipMemoryCache(false)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .priority(Priority.HIGH)
-                            .into(userIcon);
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                    GlideUtils.load(context, head, userIcon, requestOptions);
 
                     TransferConfig headConfig = TransferConfig.build()
                             .setMissPlaceHolder(R.mipmap.banner_default)

@@ -216,6 +216,7 @@ dependencies {
     implementation rootProject.ext.glide.glide
     annotationProcessor rootProject.ext.glide.glide_compiler
     annotationProcessor rootProject.ext.glide.glide_okhttp3
+    implementation rootProject.ext.glide.glide_transformations
 
     implementation rootProject.ext.SmartRefreshLayout.SmartRefreshLayout
     implementation rootProject.ext.SmartRefreshLayout.SmartRefreshHeader

@@ -10,13 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.home.HomeBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
-import com.ucfo.youcaiwx.utils.glideutils.GlideRoundTransform;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 
 import java.util.List;
 
@@ -60,8 +61,12 @@ public class HomeNewsAdapter extends BaseAdapter<HomeBean.DataBean.CurriculumBea
             holder.mCourseAuthorItem.setText(s);
         }
         if (!TextUtils.isEmpty(imageurl)) {
-            Glide.with(context).load(imageurl).transform(new CenterCrop(context), new GlideRoundTransform(context, 6))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL).crossFade().into(holder.mCourseImageItem);
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(R.mipmap.banner_default)
+                    .error(R.mipmap.image_loaderror)
+                    .transform(new RoundedCorners(DensityUtil.dp2px(5)))
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+            GlideUtils.load(context, imageurl, holder.mCourseImageItem, requestOptions);
         }
     }
 

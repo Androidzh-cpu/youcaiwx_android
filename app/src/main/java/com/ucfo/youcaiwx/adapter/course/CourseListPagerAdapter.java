@@ -12,7 +12,6 @@ import java.util.List;
  * Email:2911743255@qq.com
  * ClassName: CourseListPagerAdapter
  * Description:课程列表tablayout适配器
- * Detail:
  */
 public class CourseListPagerAdapter extends FragmentPagerAdapter {
     private List<Fragment> fragments;

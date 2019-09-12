@@ -11,13 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.home.HomeBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
-import com.ucfo.youcaiwx.utils.glideutils.GlideRoundTransform;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 
 import java.util.List;
 
@@ -54,9 +56,12 @@ public class HomeCourseRecommendAdapter extends BaseAdapter<HomeBean.DataBean.Cu
         String billing_status = bean.getBilling_status();//计费方式: 1免费2收费3按积分越换4按等级进入
         String join_num = bean.getJoin_num();
         if (!TextUtils.isEmpty(app_img)) {
-            Glide.with(context).load(app_img).transform(new CenterCrop(context), new GlideRoundTransform(context, 6))
-                    .diskCacheStrategy(DiskCacheStrategy.ALL).crossFade().error(R.mipmap.banner_default).into(holder.mCourseImageItem);
-
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(R.mipmap.banner_default)
+                    .error(R.mipmap.image_loaderror)
+                    .transform(new CenterCrop(),new RoundedCorners(DensityUtil.dp2px(5)))
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+            GlideUtils.load(context, app_img, holder.mCourseImageItem, requestOptions);
         }
         if (!TextUtils.isEmpty(teacher_name)) {
             holder.mCourseAuthorItem.setText(String.valueOf(context.getResources().getString(R.string.holder_teacher) + teacher_name));
@@ -86,7 +91,7 @@ public class HomeCourseRecommendAdapter extends BaseAdapter<HomeBean.DataBean.Cu
         } else {
             holder.mCoursePriceItem.setBackgroundResource(R.drawable.item_home_purpleback);
             holder.mCoursePriceItem.setText(context.getResources().getString(R.string.course_free));
-            holder.mCoursePriceItem.setTextColor(ContextCompat.getColor(context,R.color.color_5B78F6));
+            holder.mCoursePriceItem.setTextColor(ContextCompat.getColor(context, R.color.color_5B78F6));
         }
         if (!TextUtils.isEmpty(join_num)) {
             holder.mCourseCountItem.setText(String.valueOf(context.getResources().getString(R.string.course_joincount) + join_num));
@@ -98,8 +103,7 @@ public class HomeCourseRecommendAdapter extends BaseAdapter<HomeBean.DataBean.Cu
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View inflate = layoutInflater.inflate(R.layout.item_home_course, viewGroup, false);
-        HomeCourseRecommendAdapter.ViewHolder holder = new HomeCourseRecommendAdapter.ViewHolder(inflate);
-        return holder;
+        return new ViewHolder(inflate);
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {

@@ -9,10 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.course.CourseIntroductionBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 
 import java.util.List;
 
@@ -50,15 +54,20 @@ public class CourseTeacherAdapter extends BaseAdapter<CourseIntroductionBean.Dat
         if (!TextUtils.isEmpty(teacher_name)) {
             holder.mTeachernameTv.setText(teacher_name);
         }
-        Glide.with(context).load(pictrue).error(R.mipmap.icon_headdefault).into(holder.mTeacherImage);
+        RequestOptions requestOptions = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.banner_default)
+                .error(R.mipmap.image_loaderror)
+                .transform(new RoundedCorners(DensityUtil.dp2px(5)))
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        GlideUtils.load(context, pictrue, holder.mTeacherImage, requestOptions);
     }
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View inflate = layoutInflater.inflate(R.layout.item_course_teacher, viewGroup, false);
-        CourseTeacherAdapter.ViewHolder holder = new CourseTeacherAdapter.ViewHolder(inflate);
-        return holder;
+        return new ViewHolder(inflate);
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {

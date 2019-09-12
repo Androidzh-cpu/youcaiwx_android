@@ -10,13 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.user.MineCourseBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
-import com.ucfo.youcaiwx.utils.glideutils.GlideRoundTransform;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 
 import java.util.ArrayList;
 
@@ -48,13 +49,13 @@ public class MineCourseAdapter extends BaseAdapter<MineCourseBean.DataBean, Mine
         String name = bean.getName();
         String teacherName = bean.getTeacher_name();
         int studyDays = bean.getStudy_days();//课时
-        //GlideUtils.loadRoundImageView(context, app_img, holder.mCourseImageItem, R.mipmap.banner_default, 2);
-        Glide.with(context)
-                .load(appImg)
-                .transform(new CenterCrop(context), new GlideRoundTransform(context))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .crossFade()
-                .into(holder.mCourseImageItem);
+        RequestOptions requestOptions = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.banner_default)
+                .error(R.mipmap.image_loaderror)
+                .transform(new RoundedCorners(DensityUtil.dp2px(5)))
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        GlideUtils.load(context, appImg, holder.mCourseImageItem, requestOptions);
         if (!TextUtils.isEmpty(teacherName)) {
             holder.mCourseTeacherItem.setText(String.valueOf(context.getResources().getString(R.string.holder_teacher) + teacherName));
         }

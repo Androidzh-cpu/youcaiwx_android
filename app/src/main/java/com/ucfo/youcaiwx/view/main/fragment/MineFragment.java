@@ -13,9 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.ucfo.youcaiwx.BuildConfig;
 import com.ucfo.youcaiwx.R;
@@ -27,7 +26,7 @@ import com.ucfo.youcaiwx.entity.user.UserInfoBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.UserInfoPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IUserInfoView;
 import com.ucfo.youcaiwx.utils.ShareUtils;
-import com.ucfo.youcaiwx.utils.glideutils.GlideRoundTransform;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcaiwx.view.login.LoginActivity;
@@ -342,9 +341,11 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         if (TextUtils.isEmpty(head)) {
             userIcon.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_headdefault));
         } else {
-            Glide.with(context).load(head).error(R.mipmap.image_loaderror)
-                    .transform(new CenterCrop(context), new GlideRoundTransform(context)).crossFade()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL).into(userIcon);
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(R.mipmap.icon_headdefault)
+                    .error(R.mipmap.image_loaderror)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+            GlideUtils.load(context, head, userIcon, requestOptions);
         }
         if (!TextUtils.isEmpty(username)) {//todo 昵称
             userNickname.setText(username);

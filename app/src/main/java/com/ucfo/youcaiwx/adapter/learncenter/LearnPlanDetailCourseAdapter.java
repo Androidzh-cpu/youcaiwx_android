@@ -11,14 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.learncenter.LearnPlanDetailVideoBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
-import com.ucfo.youcaiwx.utils.glideutils.GlideRoundTransform;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 
 import java.util.List;
 
@@ -67,17 +68,12 @@ public class LearnPlanDetailCourseAdapter extends BaseAdapter<LearnPlanDetailVid
         if (!TextUtils.isEmpty(videoTime)) {
             holder.mCourseSubtitleItem.setText(videoTime);
         }
-        Glide.with(context)
-                .load(beancoverurl)
-                .asBitmap()
+        RequestOptions requestOptions = new RequestOptions()
+                .transform(new CenterCrop(), new RoundedCorners(DensityUtil.dp2px(5)))
                 .placeholder(R.mipmap.banner_default)
-                .transform(new CenterCrop(context), new GlideRoundTransform(context, 4))
                 .error(R.mipmap.image_loaderror)
-                .dontAnimate()
-                .skipMemoryCache(false)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH)
-                .into(holder.mCourseImageItem);
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        GlideUtils.load(context, beancoverurl, holder.mCourseImageItem, requestOptions);
 
         String sameday = bean.getSameday();
         if (TextUtils.equals(sameday, String.valueOf(1))) {

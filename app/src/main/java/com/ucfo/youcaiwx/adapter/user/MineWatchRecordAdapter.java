@@ -10,17 +10,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.user.MineWatchRecordBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
-import com.ucfo.youcaiwx.utils.glideutils.GlideRoundTransform;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.view.course.player.utils.TimeFormater;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Author: AND
@@ -50,17 +51,12 @@ public class MineWatchRecordAdapter extends BaseAdapter<MineWatchRecordBean.Data
         String video_name = bean.getVideo_name();
         int watch_time = bean.getWatch_time();
 
-        Glide.with(context)
-                .load(app_img)
-                .asBitmap()
-                .transform(new CenterCrop(context), new GlideRoundTransform(context))
+        RequestOptions requestOptions = new RequestOptions()
+                .transform(new RoundedCornersTransformation(DensityUtil.dp2px(5),0))
                 .placeholder(R.mipmap.banner_default)
                 .error(R.mipmap.image_loaderror)
-                .dontAnimate()
-                .skipMemoryCache(false)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH)
-                .into(holder.mCourseImageItem);
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        GlideUtils.load(context, app_img, holder.mCourseImageItem, requestOptions);
 
         if (!TextUtils.isEmpty(course_name)) {
             holder.mCourseTitleItem.setText(course_name);
@@ -76,8 +72,7 @@ public class MineWatchRecordAdapter extends BaseAdapter<MineWatchRecordBean.Data
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View inflate = layoutInflater.inflate(R.layout.item_watchrecord, viewGroup, false);
-        MineWatchRecordAdapter.ViewHolder holder = new MineWatchRecordAdapter.ViewHolder(inflate);
-        return holder;
+        return new ViewHolder(inflate);
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {

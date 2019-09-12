@@ -9,6 +9,7 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -26,18 +27,18 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.learncenter.LearncenterHomeBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
-import com.ucfo.youcaiwx.utils.glideutils.GlideCircleTransform;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleWithBorderTransformation;
 
 /**
  * Author: AND
@@ -143,9 +144,9 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         holder.mSeekbar.setProgress(progress2);
         holder.mSeekbar.setThumb(ContextCompat.getDrawable(context, R.color.transparency));
         holder.mTextSeekbar.setText(context.getResources().getString(R.string.progressbarIndetior, String.valueOf(schedule)));
-        SimpleTarget<GlideDrawable> simpleTarget = new SimpleTarget<GlideDrawable>() {
+        SimpleTarget<Drawable> simpleTarget = new SimpleTarget<Drawable>() {
             @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation glideAnimation) {
+            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                 int w = resource.getIntrinsicWidth();
                 int h = resource.getIntrinsicHeight();
                 Bitmap.Config config = resource.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
@@ -165,13 +166,19 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
                 setSeekBarDistance(holder.mSeekbar, holder.mTextSeekbar);
             }
         };
+
         int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, context.getResources().getDisplayMetrics());
         int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, context.getResources().getDisplayMetrics());
-        Glide.with(context).load(userBeanHead).centerCrop().placeholder(R.mipmap.icon_headdefault)
+        RequestOptions requestOptions = new RequestOptions()
                 .override(width, height)
-                .transform(new GlideCircleTransform(context, 3, ContextCompat.getColor(context, R.color.color_FAA827)))
-                .skipMemoryCache(false).priority(Priority.HIGH)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(simpleTarget);
+                .placeholder(R.mipmap.icon_headdefault)
+                .error(R.mipmap.image_loaderror)
+                .transform(new CropCircleWithBorderTransformation(DensityUtil.dp2px(3), ContextCompat.getColor(context, R.color.color_FAA827)))
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        Glide.with(context)
+                .load(userBeanHead)
+                .apply(requestOptions)
+                .into(simpleTarget);
         holder.mSeekbar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

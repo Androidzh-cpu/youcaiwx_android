@@ -11,7 +11,7 @@ versions.multidex = "1.0.2"
 versions.smartrefresh = "1.1.0"
 versions.okhttp3 = "3.12.0"
 versions.okhttpUtils = "3.8.0"
-versions.glide = "3.7.0"
+versions.glide = "4.9.0"
 versions.logger = "2.2.0"
 versions.XTabLayout = "1.1.4"
 versions.soulpermission = "1.2.1"
@@ -105,9 +105,10 @@ ext {
     ]
 
     glide = [
-            "glide"         : "com.github.bumptech.glide:glide:$versions.glide",
-            "glide_compiler": "com.github.bumptech.glide:compiler:4.0.0",
-            "glide_okhttp3" : "com.github.bumptech.glide:okhttp3-integration:1.4.0@aar"
+            "glide"                : "com.github.bumptech.glide:glide:$versions.glide",
+            "glide_compiler"       : "com.github.bumptech.glide:compiler:$versions.glide",
+            "glide_transformations": "jp.wasabeef:glide-transformations:4.1.0",
+            "glide_okhttp3"        : "com.github.bumptech.glide:okhttp3-integration:4.8.0"
     ]
 
     okhttp3 = [

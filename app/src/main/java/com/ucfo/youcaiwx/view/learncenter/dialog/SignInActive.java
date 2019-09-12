@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,18 +24,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.learncenter.StudyClockInBean;
 import com.ucfo.youcaiwx.utils.ShareUtils;
-import com.ucfo.youcaiwx.utils.glideutils.GlideRoundTransform;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -86,20 +86,30 @@ public class SignInActive extends DialogFragment implements View.OnClickListener
         mWeekText.setText(format1);
 
         if (userBean != null) {
-            SimpleTarget<GlideDrawable> simpleTarget = new SimpleTarget<GlideDrawable>() {
+            SimpleTarget<Drawable> simpleTarget = new SimpleTarget<Drawable>() {
                 @Override
-                public void onResourceReady(GlideDrawable resource, GlideAnimation glideAnimation) {
+                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                     mSignRelativelayout.setBackground(resource);
                 }
             };
-            Glide.with(this).load(userBean.getImage_url()).placeholder(R.color.colorWhite).error(R.mipmap.image_loaderror)
-                    .dontAnimate().centerCrop().transform(new CenterCrop(getActivity()), new GlideRoundTransform(getActivity(), 5))
-                    .skipMemoryCache(false).priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.ALL).into(simpleTarget);
 
-            Glide.with(this).load(userBean.getHead()).error(R.mipmap.icon_headdefault)
-                    .dontAnimate().crossFade().skipMemoryCache(false).diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .priority(Priority.HIGH).into(mIconUser);
+            RequestOptions requestOptions = new RequestOptions()
+                    .error(R.mipmap.image_loaderror)
+                    .transform(new RoundedCorners(DensityUtil.dp2px(3)))
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+            Glide.with(this)
+                    .load(userBean.getImage_url())
+                    .apply(requestOptions)
+                    .into(simpleTarget);
 
+            RequestOptions requestOptions2 = new RequestOptions()
+                    .placeholder(R.mipmap.icon_headdefault)
+                    .error(R.mipmap.image_loaderror)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+            Glide.with(this)
+                    .load(userBean.getHead())
+                    .apply(requestOptions2)
+                    .into(mIconUser);
             if (!TextUtils.isEmpty(userBean.getUsername())) {
                 mNicknameUser.setText(userBean.getUsername());
             }

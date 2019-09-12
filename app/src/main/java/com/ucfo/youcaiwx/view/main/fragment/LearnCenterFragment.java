@@ -15,9 +15,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.flyco.roundview.RoundTextView;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
@@ -43,6 +42,7 @@ import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankHomeView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
@@ -371,7 +371,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
      * 清除用户信息
      */
     private void userInfoClear() {
-        Glide.with(context).load(R.mipmap.icon_headdefault).dontAnimate().crossFade().skipMemoryCache(false).into(userIcon);
+        userIcon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.mipmap.icon_headdefault));
         userNickname.setText(getResources().getString(R.string.learncenter_login));
         userClockinDay.setText(String.valueOf(0));
     }
@@ -403,15 +403,11 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                     userNickname.setText(username);
                 }
                 if (!TextUtils.isEmpty(userBeanHead)) {
-                    Glide.with(context)
-                            .load(userBeanHead)
+                    RequestOptions requestOptions = new RequestOptions()
+                            .placeholder(R.mipmap.banner_default)
                             .error(R.mipmap.image_loaderror)
-                            .dontAnimate()
-                            .crossFade()
-                            .skipMemoryCache(false)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .priority(Priority.HIGH)
-                            .into(userIcon);
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                    GlideUtils.load(context, userBeanHead, userIcon, requestOptions);
                 }
                 userClockinDay.setText(String.valueOf(card));
             } else {

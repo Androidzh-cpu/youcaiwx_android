@@ -13,7 +13,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.hitomi.tilibrary.style.index.NumberIndexIndicator;
 import com.hitomi.tilibrary.style.progress.ProgressBarIndicator;
 import com.hitomi.tilibrary.style.progress.ProgressPieIndicator;
@@ -29,6 +30,7 @@ import com.ucfo.youcaiwx.presenter.presenterImpl.answer.QuestionAnswerPresenter;
 import com.ucfo.youcaiwx.presenter.view.answer.IQuestionAnswerView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
@@ -230,9 +232,15 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
             List<String> quiz_image = data.getQuiz_image();
             List<String> know_name = data.getKnow_name();
             if (TextUtils.isEmpty(head)) {
-                Glide.with(context).load(head).error(R.mipmap.icon_headdefault).into(answerUsericon);//TODO 学员头像
+                //TODO 学员头像
+                answerUsericon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_headdefault));
             } else {
-                Glide.with(context).load(head).error(R.mipmap.icon_headdefault).into(answerUsericon);//TODO 学员头像
+                RequestOptions requestOptions = new RequestOptions()
+                        .placeholder(R.mipmap.icon_headdefault)
+                        .error(R.mipmap.image_loaderror)
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                GlideUtils.load(context, head, answerUsericon, requestOptions);
+
                 TransferConfig headConfig = TransferConfig.build()
                         .setMissPlaceHolder(R.mipmap.banner_default)
                         .setErrorPlaceHolder(R.mipmap.banner_default)
@@ -320,9 +328,13 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
                 String reply_quiz = reply.getReply_quiz();
                 List<String> reply_image = reply.getReply_image();
                 if (TextUtils.isEmpty(head_img)) {
-                    Glide.with(context).load(head_img).error(R.mipmap.icon_headdefault).into(answerTeachericon);
+                    answerTeachericon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_headdefault));
                 } else {
-                    Glide.with(context).load(head_img).error(R.mipmap.icon_headdefault).into(answerTeachericon);
+                    RequestOptions requestOptions = new RequestOptions()
+                            .placeholder(R.mipmap.icon_headdefault)
+                            .error(R.mipmap.image_loaderror)
+                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                    GlideUtils.load(context, head_img, answerTeachericon, requestOptions);
                     TransferConfig headConfig = TransferConfig.build()
                             .setMissPlaceHolder(R.mipmap.banner_default)
                             .setErrorPlaceHolder(R.mipmap.banner_default)

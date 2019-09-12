@@ -11,13 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.course.CourseDataListBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
-import com.ucfo.youcaiwx.utils.glideutils.GlideRoundTransform;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 
 import java.util.List;
 
@@ -26,8 +28,7 @@ import java.util.List;
  * Time: 2019-4-1.  下午 2:37
  * Email:2911743255@qq.com
  * ClassName: CourseChildListApapter
- * Description:
- * Detail:
+ * Description: 课程列表适配器
  */
 public class CourseChildListApapter extends BaseAdapter<CourseDataListBean.DataBean, CourseChildListApapter.ViewHolder> {
     private List<CourseDataListBean.DataBean> list;
@@ -46,15 +47,12 @@ public class CourseChildListApapter extends BaseAdapter<CourseDataListBean.DataB
     @Override
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         CourseDataListBean.DataBean dataBean = list.get(position);
-
-        Glide.with(context).load(dataBean.getApp_img())
-                .asBitmap()
-                .transform(new CenterCrop(context), new GlideRoundTransform(context))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(R.mipmap.banner_default)
+        RequestOptions requestOptions = new RequestOptions()
                 .placeholder(R.mipmap.banner_default)
-                .dontAnimate()
-                .into(holder.mCourseImageItem);
+                .error(R.mipmap.image_loaderror)
+                .transform(new CenterCrop(), new RoundedCorners(DensityUtil.dp2px(5)))
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        GlideUtils.load(context, dataBean.getApp_img(), holder.mCourseImageItem, requestOptions);
 
         int billingStatus = dataBean.getBilling_status();//付费
         String price = dataBean.getPrice();//课程价格

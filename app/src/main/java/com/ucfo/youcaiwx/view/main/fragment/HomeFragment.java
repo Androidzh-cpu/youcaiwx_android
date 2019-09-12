@@ -20,9 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.qw.soul.permission.SoulPermission;
 import com.qw.soul.permission.bean.Permission;
@@ -45,7 +45,7 @@ import com.ucfo.youcaiwx.presenter.view.home.IHomeView;
 import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
-import com.ucfo.youcaiwx.utils.glideutils.GlideRoundTransform;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
@@ -392,13 +392,13 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
             public void displayImage(Context context, Object path, ImageView imageView) {
                 imageView.setPadding(DensityUtil.dip2px(context, 2), 0, DensityUtil.dip2px(context, 2), 0);
                 HomeBean.DataBean.ListpicBean data = (HomeBean.DataBean.ListpicBean) path;
-                Glide.with(context).load(data.getImage_href()).transform(new CenterCrop(context), new GlideRoundTransform(context, 4))
-                        .dontAnimate()
-                        .crossFade()
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .error(R.mipmap.banner_default)
+                RequestOptions requestOptions = new RequestOptions()
+                        .centerCrop()
                         .placeholder(R.mipmap.banner_default)
-                        .into(imageView);
+                        .error(R.mipmap.banner_default)
+                        .transform(new RoundedCorners(DensityUtil.dp2px(5)))
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                GlideUtils.load(context, data.getImage_href(), imageView, requestOptions);
             }
         });//图片加载器
         bannerIndex.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);//指示器样式

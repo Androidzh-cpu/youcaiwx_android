@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.ucfo.youcaiwx.R;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 
 /**
  * Author: AND
@@ -58,7 +60,10 @@ public class ActiveEventDialog {
     }
 
     public ActiveEventDialog setImageUrl(String imageUrl) {
-        Glide.with(context).load(imageUrl).crossFade().dontAnimate().skipMemoryCache(true).into(imageview);
+        RequestOptions requestOptions = new RequestOptions()
+                .error(R.mipmap.image_loaderror)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        GlideUtils.load(context, imageUrl, imageview, requestOptions);
         return this;
     }
 

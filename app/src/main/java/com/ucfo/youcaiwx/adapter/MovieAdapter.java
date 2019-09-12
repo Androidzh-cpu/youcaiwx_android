@@ -44,7 +44,6 @@ public class MovieAdapter extends BaseAdapter<MovieBean.SubjectsBean, MovieAdapt
                 .placeholder(R.mipmap.banner_default)
                 .error(R.mipmap.image_loaderror)
                 .dontAnimate()
-                .crossFade()
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH)

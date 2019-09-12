@@ -2,24 +2,10 @@ package com.ucfo.youcaiwx.utils.glideutils;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.ucfo.youcaiwx.R;
-import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-
-import java.io.File;
+import com.bumptech.glide.request.RequestOptions;
 
 /**
  * Author:AND
@@ -27,185 +13,26 @@ import java.io.File;
  * Email:2911743255@qq.com
  * ClassName: GlideUtils
  * Package: com.study.studyapp.utils.glideutils
- * Description:TODO glide工具类
- * Detail:
+ * Description:glide工具类
+ * Detail: 自定义了模块或者Generated API后对该app帮助不大,故采用此种简单方法
+ * <p>
+ * note:Glide4.7加载图片RoundedCorners跟CenterCrop冲突问题解决
+ * 假如先调用了centercrop()然后transform后会覆盖掉之前的centercrop
+ * 建议
+ * Glide.with(mContext)
+ * .load(item.getImgUrl())
+ * .apply(new RequestOptions()
+ * .transforms(new CenterCrop(), new RoundedCorners(4)))
+ * .into(imagView)
  */
 
 public class GlideUtils {
-    /**
-     * Glide特点
-     * 使用简单
-     * 可配置度高，自适应程度高
-     * 支持常见图片格式 Jpg png gif webp
-     * 支持多种数据源  网络、本地、资源、Assets 等
-     * 高效缓存策略    支持Memory和Disk图片缓存 默认Bitmap格式采用RGB_565内存使用至少减少一半
-     * 生命周期集成   根据Activity/Fragment生命周期自动管理请求
-     * 高效处理Bitmap  使用Bitmap Pool使Bitmap复用，主动调用recycle回收需要回收的Bitmap，减小系统回收压力
-     * 这里默认支持Context，Glide支持Context,Activity,Fragment，FragmentActivity
-     */
-    //默认加载
-    public static void loadImageView(Context mContext, String path, ImageView mImageView) {
-        Glide.with(mContext).load(path).crossFade().into(mImageView);
+
+    public static void load(Context context, String url, ImageView imageView, RequestOptions options) {
+        Glide.with(context)
+                .load(url)
+                .apply(options)
+                .into(imageView);
     }
-
-    //加载指定大小
-    public static void loadImageViewSize(Context mContext, String path, int width, int height, ImageView mImageView) {
-        Glide.with(mContext).load(path).override(width, height).crossFade().into(mImageView);
-    }
-
-    //加载普通图片带占位图
-    public static void loadImageViewPlace(final Context mContext, String path, final ImageView mImageView, int placeholderid) {
-        Glide.with(mContext).load(path).placeholder(placeholderid).crossFade().into(mImageView);
-    }
-
-    //加载指定圆角图
-    public static void loadRoundImageView(final Context context, String path, final ImageView mImageView, int placeholderid, int rounds) {
-        Glide.with(context).load(path)
-                .placeholder(placeholderid)
-                .transform(new CenterCrop(context), new GlideRoundTransform(context, DensityUtil.dip2px(context, rounds)))
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .crossFade()
-                .into(mImageView);
-    }
-
-    //加载圆形默认占位图
-    public static void loadRoundImageViewPlace(final Context mContext, String path, final ImageView mImageView, int placeholderid) {
-        Glide.with(mContext).load(path).asBitmap().placeholder(placeholderid).centerCrop().into(new BitmapImageViewTarget(mImageView) {
-            @Override
-            protected void setResource(Bitmap resource) {
-                RoundedBitmapDrawable circularBitmapDrawable =
-                        RoundedBitmapDrawableFactory.create(mContext.getResources(), resource);
-                circularBitmapDrawable.setCircular(true);
-                mImageView.setImageDrawable(circularBitmapDrawable);
-            }
-        });
-    }
-
-    //设置加载中以及加载失败图片
-    public static void loadImageViewLoding(Context mContext, String path, ImageView mImageView, int lodingImage, int errorImageView) {
-        Glide.with(mContext).load(path).placeholder(lodingImage).error(errorImageView).crossFade().into(mImageView);
-    }
-
-    //设置加载中以及加载失败图片并且指定大小
-    public static void loadImageViewLodingSize(Context mContext, String path, int width, int height, ImageView mImageView, int lodingImage, int errorImageView) {
-        Glide.with(mContext).load(path).override(width, height).placeholder(lodingImage).error(errorImageView).crossFade().into(mImageView);
-    }
-
-    //设置跳过内存缓存
-    public static void loadImageViewCache(Context mContext, String path, ImageView mImageView) {
-        Glide.with(mContext).load(path).skipMemoryCache(true).crossFade().into(mImageView);
-    }
-
-    //设置下载优先级
-    public static void loadImageViewPriority(Context mContext, String path, ImageView mImageView) {
-        Glide.with(mContext).load(path).priority(Priority.NORMAL).crossFade().into(mImageView);
-    }
-
-    /**
-     * 策略解说：
-     * <p>
-     * all:缓存源资源和转换后的资源
-     * <p>
-     * none:不作任何磁盘缓存
-     * <p>
-     * source:缓存源资源
-     * <p>
-     * result：缓存转换后的资源
-     */
-
-    //设置缓存策略
-    public static void loadImageViewDiskCache(Context mContext, String path, ImageView mImageView) {
-        Glide.with(mContext).load(path).diskCacheStrategy(DiskCacheStrategy.ALL).crossFade().into(mImageView);
-    }
-
-    /**
-     * api也提供了几个常用的动画：比如crossFade()
-     */
-
-    //设置加载动画
-    public static void loadImageViewAnim(Context mContext, String path, int anim, ImageView mImageView) {
-        Glide.with(mContext).load(path).animate(anim).crossFade().into(mImageView);
-    }
-
-    /**
-     * 会先加载缩略图
-     */
-
-    //设置缩略图支持
-    public static void loadImageViewThumbnail(Context mContext, String path, ImageView mImageView) {
-        Glide.with(mContext).load(path).thumbnail(0.1f).crossFade().into(mImageView);
-    }
-
-    /**
-     * api提供了比如：centerCrop()、fitCenter()等
-     */
-
-    //设置动态转换
-    public static void loadImageViewCrop(Context mContext, String path, ImageView mImageView) {
-        Glide.with(mContext).load(path).centerCrop().crossFade().into(mImageView);
-    }
-
-    //设置动态GIF加载方式
-    public static void loadImageViewDynamicGif(Context mContext, String path, ImageView mImageView) {
-        Glide.with(mContext).load(path).asGif().crossFade().into(mImageView);
-    }
-
-    //设置静态GIF加载方式
-    public static void loadImageViewStaticGif(Context mContext, String path, ImageView mImageView) {
-        Glide.with(mContext).load(path).asBitmap().into(mImageView);
-    }
-
-    //设置监听的用处 可以用于监控请求发生错误来源，以及图片来源 是内存还是磁盘
-
-    //设置监听请求接口
-    public static void loadImageViewListener(Context mContext, String path, ImageView mImageView, RequestListener<String, GlideDrawable> requstlistener) {
-        Glide.with(mContext).load(path).listener(requstlistener).into(mImageView);
-    }
-
-    //项目中有很多需要先下载图片然后再做一些合成的功能，比如项目中出现的图文混排
-
-    //设置要加载的内容
-    public static void loadImageViewContent(Context mContext, String path, SimpleTarget<GlideDrawable> simpleTarget) {
-        Glide.with(mContext).load(path).centerCrop().into(simpleTarget);
-    }
-
-    //清理磁盘缓存
-    public static void GuideClearDiskCache(Context mContext) {
-        //理磁盘缓存 需要在子线程中执行
-        Glide.get(mContext).clearDiskCache();
-    }
-
-    //清理内存缓存
-    public static void GuideClearMemory(Context mContext) {
-        //清理内存缓存  可以在UI主线程中进行
-        Glide.get(mContext).clearMemory();
-    }
-
-    //加载圆图
-    public static void loadRoundBitmap(final Context context, String url, final ImageView imageView) {
-        Glide.with(context).load(url).asBitmap().placeholder(ContextCompat.getDrawable(context, R.mipmap.icon_headdefault)).centerCrop().into(new BitmapImageViewTarget(imageView) {
-            @Override
-            protected void setResource(Bitmap resource) {
-                RoundedBitmapDrawable circularBitmapDrawable =
-                        RoundedBitmapDrawableFactory.create(context.getResources(), resource);
-                circularBitmapDrawable.setCircular(true);
-                imageView.setImageDrawable(circularBitmapDrawable);
-            }
-        });
-    }
-
-    //j加载圆形默认占位图
-    public static void loadRoundImageViewPlace(final Context mContext, File path, final ImageView mImageView, int resourceId) {
-        Glide.with(mContext).load(path).asBitmap().placeholder(resourceId).centerCrop().into(new BitmapImageViewTarget(mImageView) {
-            @Override
-            protected void setResource(Bitmap resource) {
-                RoundedBitmapDrawable circularBitmapDrawable =
-                        RoundedBitmapDrawableFactory.create(mContext.getResources(), resource);
-                circularBitmapDrawable.setCircular(true);
-                mImageView.setImageDrawable(circularBitmapDrawable);
-            }
-        });
-    }
-
 
 }

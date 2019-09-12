@@ -9,13 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.flyco.roundview.RoundTextView;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.user.MineOrderListBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.view.user.activity.MineOrderFormActivity;
 import com.ucfo.youcaiwx.widget.customview.NiceImageView;
 
@@ -62,16 +64,13 @@ public class MineOrderFormListAdapter extends BaseAdapter<MineOrderListBean.Data
         String payPrice = bean.getPrice();//实付价格
         String packageName = bean.getPackage_name();//课程名
         //TODO 封面图
-        Glide.with(context)
-                .load(appImg)
-                .asBitmap()
+        RequestOptions requestOptions = new RequestOptions()
+                .centerCrop()
                 .placeholder(R.mipmap.banner_default)
-                .error(R.mipmap.banner_default)
-                .dontAnimate()
-                .skipMemoryCache(false)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.HIGH)
-                .into(holder.mImageOrder);
+                .error(R.mipmap.image_loaderror)
+                .transform(new RoundedCorners(DensityUtil.dp2px(5)))
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        GlideUtils.load(context, appImg, holder.mImageOrder, requestOptions);
 
 
         if (!TextUtils.isEmpty(orderNum)) {//TODO 订单编号

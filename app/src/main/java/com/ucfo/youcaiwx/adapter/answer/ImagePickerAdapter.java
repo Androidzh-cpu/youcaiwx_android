@@ -14,13 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.ucfo.youcaiwx.R;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 
 import java.util.List;
 
 /**
- * 片选择的Adapter
+ * 图片选择的Adapter
  */
 public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.SelectedPicViewHolder> {
     private Context context;
@@ -58,7 +60,11 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
             holder.iv_delete.setVisibility(View.GONE);
         } else {
             holder.iv_delete.setVisibility(View.VISIBLE);
-            Glide.with(context).load(item).error(R.mipmap.banner_default).into(holder.iv_img);
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(R.mipmap.banner_default)
+                    .error(R.mipmap.image_loaderror)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+            GlideUtils.load(context, item, holder.iv_img, requestOptions);
         }
         holder.iv_delete.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -12,7 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.flyco.roundview.RoundTextView;
 import com.hitomi.tilibrary.style.index.NumberIndexIndicator;
 import com.hitomi.tilibrary.style.progress.ProgressBarIndicator;
@@ -23,6 +24,7 @@ import com.ucfo.youcaiwx.entity.answer.AnswerListDataBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.widget.flowlayout.FlowLayout;
 import com.ucfo.youcaiwx.widget.flowlayout.TagAdapter;
@@ -102,7 +104,13 @@ public class CourseAnswerListAdapter extends BaseAdapter<AnswerListDataBean.Data
         } else {
             holder.mAnswerImagelistItem.setVisibility(View.GONE);
         }
-        Glide.with(context).load(head).error(R.mipmap.banner_default).into(holder.mAnswerUsericonItem);//学员头像
+        //学员头像
+        RequestOptions requestOptions = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.icon_headdefault)
+                .error(R.mipmap.image_loaderror)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        GlideUtils.load(context, head, holder.mAnswerUsericonItem, requestOptions);
         if (!TextUtils.isEmpty(username)) {//用户昵称
             holder.mAnswerUsernameItem.setText(username);
         }

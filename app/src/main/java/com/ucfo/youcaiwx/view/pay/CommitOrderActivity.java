@@ -16,10 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
@@ -30,8 +28,9 @@ import com.ucfo.youcaiwx.entity.pay.InvoiceInfoBean;
 import com.ucfo.youcaiwx.entity.pay.OrderFormDetailBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.pay.PayPresenter;
 import com.ucfo.youcaiwx.presenter.view.pay.IPayView;
-import com.ucfo.youcaiwx.utils.glideutils.GlideRoundTransform;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.view.main.activity.WebActivity;
 import com.ucfo.youcaiwx.view.user.activity.MineCouponsActivity;
@@ -42,6 +41,7 @@ import com.ucfo.youcaiwx.widget.dialog.InvoiceActiveDialog;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Author: AND
@@ -408,9 +408,13 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
         String price = beanPackages.getPrice();
         //封面
         String appImg = beanPackages.getApp_img();
-        Glide.with(context).load(appImg).asBitmap().placeholder(R.mipmap.banner_default)
-                .transform(new CenterCrop(context), new GlideRoundTransform(context, 4)).error(R.mipmap.image_loaderror).dontAnimate().skipMemoryCache(false)
-                .diskCacheStrategy(DiskCacheStrategy.ALL).priority(Priority.HIGH).into(courseImage);
+        RequestOptions requestOptions = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.banner_default)
+                .error(R.mipmap.image_loaderror)
+                .transform(new RoundedCornersTransformation(DensityUtil.dp2px(5),0))
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        GlideUtils.load(context, appImg, courseImage, requestOptions);
         //课程名
         if (!TextUtils.isEmpty(name)) {
             courseTitle.setText(name);

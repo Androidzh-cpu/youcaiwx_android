@@ -19,7 +19,8 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.flyco.roundview.RoundTextView;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
@@ -34,6 +35,7 @@ import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.course.CourseIntroductionBean;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
@@ -389,7 +391,12 @@ public class CourseIntroductionFragment extends BaseFragment {
         String longevity = teacehrListBean.getLongevity();
         String teacher_name = teacehrListBean.getTeacher_name();
 
-        Glide.with(videoPlayPageActivity).load(pictrue).error(R.mipmap.icon_headdefault).into(mIconTeacher);
+        RequestOptions requestOptions = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.mipmap.banner_default)
+                .error(R.mipmap.image_loaderror)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        GlideUtils.load(context, pictrue, mIconTeacher, requestOptions);
         mtitleTeacher.setText(teacher_title);
         mDetailTeacher.setText(longevity);
         mNameTeacher.setText(teacher_name);

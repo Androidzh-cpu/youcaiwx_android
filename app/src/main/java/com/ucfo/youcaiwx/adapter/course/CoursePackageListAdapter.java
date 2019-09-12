@@ -43,7 +43,6 @@ public class CoursePackageListAdapter extends BaseAdapter<CourseDirBean.DataBean
         if (!TextUtils.isEmpty(name)) {
             holder.mCourseTitleItem.setText(name);
         }
-
         if (!TextUtils.isEmpty(teacherName)) {
             holder.mCourseAuthorItem.setText(String.valueOf(context.getResources().getString(R.string.holder_teacher) + "  " + teacherName));
         }

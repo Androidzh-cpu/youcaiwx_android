@@ -53,9 +53,8 @@ import com.aliyun.vodplayer.media.AliyunPlayAuth;
 import com.aliyun.vodplayer.media.AliyunVodPlayer;
 import com.aliyun.vodplayer.media.IAliyunVodPlayer;
 import com.androidkun.xtablayout.XTabLayout;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.flyco.roundview.RoundTextView;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
@@ -81,6 +80,7 @@ import com.ucfo.youcaiwx.presenter.view.course.ICoursePlayerView;
 import com.ucfo.youcaiwx.utils.CallUtils;
 import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.ShareUtils;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
@@ -1676,11 +1676,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             if (TextUtils.isEmpty(course_coverimage)) {
                 courseCoverimage.setImageDrawable(ContextCompat.getDrawable(context, R.color.colorPrimary));
             } else {
-                Glide.with(this).load(course_coverimage)
-                        .placeholder(ContextCompat.getDrawable(context, R.mipmap.banner_default)).error(R.mipmap.banner_default)
-                        .crossFade(500)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL).priority(Priority.HIGH)
-                        .into(courseCoverimage);
+                RequestOptions requestOptions = new RequestOptions()
+                        .centerCrop()
+                        .placeholder(R.mipmap.banner_default)
+                        .error(R.mipmap.image_loaderror)
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                GlideUtils.load(context, course_coverimage, courseCoverimage, requestOptions);
             }
         } else {
             courseCoverimage.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.banner_default));
@@ -1692,11 +1693,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (TextUtils.isEmpty(course_coverimage)) {
             courseCoverimage.setImageDrawable(ContextCompat.getDrawable(context, R.color.colorPrimary));
         } else {
-            Glide.with(this).load(course_coverimage)
-                    .placeholder(ContextCompat.getDrawable(context, R.mipmap.banner_default)).error(R.mipmap.banner_default)
-                    .crossFade(500)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL).priority(Priority.HIGH)
-                    .into(courseCoverimage);
+            RequestOptions requestOptions = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.mipmap.banner_default)
+                    .error(R.mipmap.image_loaderror)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+            GlideUtils.load(context, course_coverimage, courseCoverimage, requestOptions);
         }
     }
 
