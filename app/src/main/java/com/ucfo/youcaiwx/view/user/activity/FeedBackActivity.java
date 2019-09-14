@@ -36,12 +36,12 @@ import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.UploadFileBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.upload.IUploadFileView;
 import com.ucfo.youcaiwx.presenter.presenterImpl.upload.UploadFilePresenter;
+import com.ucfo.youcaiwx.utils.glideutils.GlideEngine;
 import com.ucfo.youcaiwx.utils.glideutils.MiniSizeFilter;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
@@ -193,7 +193,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
         switch (view.getId()) {
             case R.id.ask_checkphoto:
                 SoulPermission.getInstance().checkAndRequestPermissions(
-                        Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA),
                         new CheckRequestPermissionsListener() {
                             @Override
                             public void onAllPermissionOk(Permission[] allPermissions) {
@@ -215,7 +215,6 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
                                 builder.show();
                             }
                         });
-
                 break;
             case R.id.ask_submit:
                 askContent = askEdittextContent.getText().toString().trim();
@@ -257,7 +256,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
                     .countable(true)
                     .maxSelectable(MAX_IMAGECOUNT)
                     .capture(true) //这两行要连用 是否在选择图片中展示照相 和适配安卓7.0 FileProvide
-                    .captureStrategy(new CaptureStrategy(true, "PhotoProvider"))//参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
+                    .captureStrategy(new CaptureStrategy(true, Constant.AUTHORITY))//参数2与 AndroidManifest中authorities值相同，用于适配7.0系统 必须设置
                     .gridExpectedSize(DensityUtil.dip2px(this, 120))
                     .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                     .thumbnailScale(0.85f)

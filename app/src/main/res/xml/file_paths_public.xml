@@ -15,7 +15,7 @@
         name="my_images"
         path="Pictures" />
 
-    <!--<external-path
-        name="external_files"
+    <!--<external-path     Pictures
+        name="external_files" Android/data/com.thunder.sample.fileprovider/files/Pictures
         path="." />-->
 </paths>

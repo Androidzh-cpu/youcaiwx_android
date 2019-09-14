@@ -44,9 +44,9 @@ public class Constant {
     public static final int BUGLY_TAG_ORDER = 127220;
     //TODO bugly标签_订单支付标签
     public static final int BUGLY_TAG_PAY = 127221;
-    //AES加密key
+    //TODO AES加密key
     public static final String AES_KEY = "1234567812345678";
-    //AES加密向量
+    //TODO AES加密向量
     public static final String AES_IV = "1234567812345678";
     //TODO 阿里云视频安全下载所需安全文件的离线解密私钥
     public static final String ALIYUN_DECRYPT = "CMAyoucai2020999999";
@@ -84,6 +84,8 @@ public class Constant {
     public static final String PDF_PATH = "/youcai/pdf/";
     //加密文件存放地址
     public static final String ENCRYPTED_PATH = "/aliyun/encryptedApp.dat";
+    //TODO fileprovider路径
+    public static final String AUTHORITY = "PhotoProvider";
     /*******************************************************TODO 再丑也要注意的分割线*******************************************************/
     //---------------------------------------------登录-----------------------------------------------//
     public static final String FIRST_LOGIN = "first_login";//第一次登陆

@@ -44,6 +44,7 @@ import com.ucfo.youcaiwx.presenter.presenterImpl.upload.IUploadFileView;
 import com.ucfo.youcaiwx.presenter.presenterImpl.upload.UploadFilePresenter;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.UserInfoPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IUserInfoView;
+import com.ucfo.youcaiwx.utils.glideutils.GlideEngine;
 import com.ucfo.youcaiwx.utils.glideutils.GlideImageLoader;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.glideutils.MiniSizeFilter;
@@ -53,7 +54,6 @@ import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.dialog.TakePhotoDialog;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.filter.Filter;
 
 import java.io.File;
