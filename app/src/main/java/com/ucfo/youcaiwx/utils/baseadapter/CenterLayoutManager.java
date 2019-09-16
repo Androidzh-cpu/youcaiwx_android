@@ -11,15 +11,10 @@ import android.util.DisplayMetrics;
  * Author: AND
  * Time: 2019-7-24.  下午 5:08
  * FileName: CenterLayoutManager
- * Description:TODO
+ * Description:滑动到指定item的manager
+ * Created by iblade.Wang on 2019/5/22 17:08
  */
 
-/**
- * Created by iblade.Wang on 2019/5/22 17:08
- */
-/**
- * Created by iblade.Wang on 2019/5/22 17:08
- */
 public class CenterLayoutManager extends LinearLayoutManager {
     public CenterLayoutManager(Context context) {
         super(context);

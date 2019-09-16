@@ -92,6 +92,7 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
                 finish();
             }
         });
+        showline.setVisibility(View.GONE);
     }
 
     @Override

@@ -136,6 +136,9 @@ public class UcfoApplication extends Application {
     }
 
     private void initBugly() {
+        //设置测试设备,在初始化Bugly之前通过以下接口把调试设备设置成“开发设备”
+        CrashReport.setIsDevelopmentDevice(this, BuildConfig.DEBUG);
+
         CrashReport.UserStrategy userStrategy = new CrashReport.UserStrategy(this);
         //设置渠道
         userStrategy.setAppChannel(Constant.UMENG_CHANNEL);
@@ -145,8 +148,6 @@ public class UcfoApplication extends Application {
         userStrategy.setAppVersion(AppUtils.getAppVersionName(this));
         //初始化配置
         CrashReport.initCrashReport(this, Constant.BUGLY_ID, Constant.ISTEST_ENVIRONMENT, userStrategy);
-        //设置测试设备
-        CrashReport.setIsDevelopmentDevice(this, BuildConfig.DEBUG);
     }
 
     private void initUpdate() {

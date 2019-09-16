@@ -14,6 +14,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0_5"
+        android:layout_marginEnd="@dimen/dp_6"
+        android:layout_marginStart="@dimen/dp_6"
         android:layout_marginTop="@dimen/dp_10"
         android:background="@color/color_E6E6E6" />
 
@@ -23,7 +25,9 @@
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/dp_6"
+        android:paddingStart="@dimen/dp_6">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -76,6 +80,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0_5"
+        android:layout_marginEnd="@dimen/dp_6"
+        android:layout_marginStart="@dimen/dp_6"
         android:background="@color/color_E6E6E6" />
 
     <ImageView

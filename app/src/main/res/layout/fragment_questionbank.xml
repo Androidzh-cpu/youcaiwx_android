@@ -33,9 +33,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingEnd="@dimen/dp_6"
-            android:paddingStart="@dimen/dp_6">
+            android:orientation="vertical">
             <!--顶部做题信息-->
             <RelativeLayout
                 android:layout_width="match_parent"

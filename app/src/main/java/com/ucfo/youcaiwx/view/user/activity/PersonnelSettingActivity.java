@@ -78,7 +78,6 @@ import top.zibin.luban.OnCompressListener;
  * Description:TODO 个人设置
  */
 public class PersonnelSettingActivity extends BaseActivity implements IUserInfoView, IUploadFileView {
-
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -103,6 +102,8 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
     TextView userPhone;
     @BindView(R.id.btn_userAddress)
     LinearLayout btnUserAddress;
+    @BindView(R.id.btn_phone)
+    LinearLayout btnPhone;
     private PersonnelSettingActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private UserInfoPresenter userInfoPresenter;
@@ -166,7 +167,7 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
         transferee = Transferee.getDefault(context);
     }
 
-    @OnClick({R.id.btn_userIcon, R.id.btn_userNickname, R.id.btn_userAddress, R.id.radiobtn_man, R.id.radiobtn_woman})
+    @OnClick({R.id.btn_userIcon, R.id.btn_userNickname, R.id.btn_userAddress, R.id.radiobtn_man, R.id.radiobtn_woman, R.id.btn_phone})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_userIcon://TODO 头像
@@ -211,6 +212,14 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
             case R.id.radiobtn_woman://todo 女
                 type = 3;
                 userInfoPresenter.retoucheInfo(user_id, type, String.valueOf(2));
+                break;
+            case R.id.btn_phone://todo 手机
+                /*Intent intent = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(Constant.INDEX, 1);
+                startActivity(intent);*/
+                break;
+            default:
                 break;
         }
     }

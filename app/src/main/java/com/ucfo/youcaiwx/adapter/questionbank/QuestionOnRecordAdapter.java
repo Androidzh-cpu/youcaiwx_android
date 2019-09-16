@@ -21,7 +21,7 @@ import java.util.List;
  * Author:29117
  * Time: 2019-4-30.  上午 10:42
  * Email:2911743255@qq.com
- * ClassName: QuestionOnRecordAdapter
+ * ClassName: QuestionOnRecordAdapter  答题记录适配器
  */
 public class QuestionOnRecordAdapter extends BaseAdapter<QuestionOnRecordBean.DataBean, QuestionOnRecordAdapter.ViewHolder> {
     private Context context;
@@ -49,18 +49,18 @@ public class QuestionOnRecordAdapter extends BaseAdapter<QuestionOnRecordBean.Da
         switch (state) {
             case 1://TODO  1成绩统计
                 holder.mQuestionrecordStateItem.setBackgroundResource(R.drawable.item_questionrecord_orange);
-                holder.mQuestionrecordStateItem.setTextColor(ContextCompat.getColor(context,R.color.color_F99111));
+                holder.mQuestionrecordStateItem.setTextColor(ContextCompat.getColor(context, R.color.color_F99111));
                 holder.mQuestionrecordStateItem.setText(context.getResources().getString(R.string.question_title_ResultsStatistical));
                 break;
             case 2://TODO 2继续做题
                 holder.mQuestionrecordStateItem.setBackgroundResource(R.drawable.item_questionrecord_blue);
-                holder.mQuestionrecordStateItem.setTextColor(ContextCompat.getColor(context,R.color.colorPrimary));
+                holder.mQuestionrecordStateItem.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
                 holder.mQuestionrecordStateItem.setText(context.getResources().getString(R.string.question_tips_holder6));
 
                 break;
             case 3://TODO  3查看试题
                 holder.mQuestionrecordStateItem.setBackgroundResource(R.drawable.item_questionrecord_green);
-                holder.mQuestionrecordStateItem.setTextColor(ContextCompat.getColor(context,R.color.color_0AAB55));
+                holder.mQuestionrecordStateItem.setTextColor(ContextCompat.getColor(context, R.color.color_0AAB55));
                 holder.mQuestionrecordStateItem.setText(context.getResources().getString(R.string.question_tips_holder7));
                 break;
             default:
@@ -85,8 +85,7 @@ public class QuestionOnRecordAdapter extends BaseAdapter<QuestionOnRecordBean.Da
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View inflate = layoutInflater.inflate(R.layout.item_questionbankonrecord, viewGroup, false);
-        QuestionOnRecordAdapter.ViewHolder holder = new QuestionOnRecordAdapter.ViewHolder(inflate);
-        return holder;
+        return new ViewHolder(inflate);
     }
 
     public interface OnItemClickListener {

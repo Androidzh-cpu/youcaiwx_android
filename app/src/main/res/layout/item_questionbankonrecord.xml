@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_69"
-    android:minHeight="@dimen/dp_69"
-    android:paddingEnd="@dimen/dp_12"
-    android:paddingStart="@dimen/dp_12">
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:minHeight="@dimen/dp_69">
 
     <TextView
         android:id="@+id/item_questionrecord_title"

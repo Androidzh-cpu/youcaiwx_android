@@ -95,7 +95,6 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
     @Override
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
-
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         login_status = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
@@ -105,7 +104,7 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.setReverseLayout(false);
         int topBottom = DensityUtil.dip2px(context, 1);
-        int leftRight = DensityUtil.dip2px(context, 12);
+        int leftRight = DensityUtil.dp2px(12);
         recyclerview.addItemDecoration(new SpacesItemDecoration(leftRight, topBottom, ContextCompat.getColor(context, R.color.color_E6E6E6)));
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setNestedScrollingEnabled(false);
