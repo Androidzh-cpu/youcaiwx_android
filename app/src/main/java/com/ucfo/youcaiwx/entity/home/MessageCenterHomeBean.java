@@ -10,7 +10,7 @@ public class MessageCenterHomeBean {
     /**
      * code : 200
      * msg : 操作成功
-     * data : {"announ":{"title":"呦呵，你个臭傻子","status":1},"notice":{"title":"订单支付成功通知","status":1}}
+     * data : {"announ":{"defaultTitle":"呦呵，你个臭傻子","status":1},"notice":{"defaultTitle":"订单支付成功通知","status":1}}
      */
 
     private int code;
@@ -43,8 +43,8 @@ public class MessageCenterHomeBean {
 
     public static class DataBean {
         /**
-         * announ : {"title":"呦呵，你个臭傻子","status":1}
-         * notice : {"title":"订单支付成功通知","status":1}
+         * announ : {"defaultTitle":"呦呵，你个臭傻子","status":1}
+         * notice : {"defaultTitle":"订单支付成功通知","status":1}
          */
 
         private AnnounBean announ;
@@ -68,7 +68,7 @@ public class MessageCenterHomeBean {
 
         public static class AnnounBean {
             /**
-             * title : 呦呵，你个臭傻子
+             * defaultTitle : 呦呵，你个臭傻子
              * status : 1
              */
 
@@ -94,7 +94,7 @@ public class MessageCenterHomeBean {
 
         public static class NoticeBean {
             /**
-             * title : 订单支付成功通知
+             * defaultTitle : 订单支付成功通知
              * status : 1
              */
 

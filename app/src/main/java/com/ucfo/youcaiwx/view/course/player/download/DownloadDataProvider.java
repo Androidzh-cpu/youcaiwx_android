@@ -61,7 +61,7 @@ public class DownloadDataProvider {
             AliyunDownloadMediaInfo.Status status = info.getStatus();
             if (status != AliyunDownloadMediaInfo.Status.Complete) {
                 downloadManager.addDownloadMedia(info);
-                LogUtils.e("本地存储数据--title:" + info.getTitle() + "   status:" + status + " progress:" + info.getProgress());
+                LogUtils.e("本地存储数据--defaultTitle:" + info.getTitle() + "   status:" + status + " progress:" + info.getProgress());
             }
         }
         return aliyunDownloadMediaInfos;

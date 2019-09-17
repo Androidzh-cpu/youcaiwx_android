@@ -563,7 +563,7 @@ public class DownloadingFragment extends BaseFragment {
         @Override
         public AliyunVidSts refreshSts(String vid, String quality, String format, String title, boolean encript) {
             //NOTE: 注意：这个不能启动线程去请求。因为这个方法已经在线程中调用了。
-            outputLog("refreshSts---vid:" + vid + "       quality:" + quality + "     title:" + title);
+            outputLog("refreshSts---vid:" + vid + "       quality:" + quality + "     defaultTitle:" + title);
             GetVideoStsBean.DataBean dataBean = null;
             try {
                 okhttp3.Response response = OkGo.get(ApiStores.COURSE_GETVIDEO_STS).tag(this).params(Constant.COURSE_VIDEOID, vid).execute();

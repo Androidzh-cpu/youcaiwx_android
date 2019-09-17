@@ -132,7 +132,7 @@ public class HomeBean {
 
         public static class HotspotBean {
             /**
-             * title : 3.5 大事件
+             * defaultTitle : 3.5 大事件
              * jumphref : http://pic34.photophoto.cn/20150110/0020033068599226_b.jpg
              */
 
@@ -158,7 +158,7 @@ public class HomeBean {
 
         public static class BroadcastBean {
             /**
-             * title : 翻转课堂
+             * defaultTitle : 翻转课堂
              * price : 0.00
              * app_image : http://pic34.photophoto.cn/20150110/0020033068599226_b.jpg
              * teacher_id : 1
@@ -308,7 +308,7 @@ public class HomeBean {
 
         public static class InformationBean {
             /**
-             * title : 3.5 大事件
+             * defaultTitle : 3.5 大事件
              * source : 优财网校
              * jumphref : http://pic34.photophoto.cn/20150110/0020033068599226_b.jpg
              * imageurl : http://pic34.photophoto.cn/20150110/0020033068599226_b.jpg

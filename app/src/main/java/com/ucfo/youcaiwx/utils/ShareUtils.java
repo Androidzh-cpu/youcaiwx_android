@@ -31,10 +31,10 @@ import java.net.URL;
  * Description:TODO 微信分享
  */
 public class ShareUtils {
-    public static String title = String.valueOf(UcfoApplication.getInstance().getResources().getString(R.string.app_nameWX));
+    public static String defaultTitle = String.valueOf(UcfoApplication.getInstance().getResources().getString(R.string.app_nameWX));
     public static String desc = String.valueOf(UcfoApplication.getInstance().getResources().getString(R.string.youcaiWXShareDescribe));
-    public static String icon = "http://www.youcaiwx.com/Public/Uploads/newtopicpics/2017-12-26/5a41b418a2e32.png";
-    public static String url = "http://www.youcaiwx.com/html/activity/activity.html";
+    public static String defaultIcon = "http://www.youcaiwx.com/Public/Uploads/newtopicpics/2017-12-26/5a41b418a2e32.png";
+    public static String defaultUrl = "http://www.youcaiwx.com/html/activity/activity.html";
 
     private static ShareUtils instance;
     private Bitmap shareBitmap;
@@ -61,6 +61,9 @@ public class ShareUtils {
      * 微信会话或者朋友圈等
      */
     public void shareTextToWx(String text, final int type) {
+        if (!isWeiXinAppInstall()) {
+            return;
+        }
         if (text == null || text.length() == 0) {
             return;
         }
@@ -82,25 +85,31 @@ public class ShareUtils {
     /**
      * 分享图片到微信
      */
-    public void shareImageToWx(String imgUrl, String title, String desc, int wxSceneSession) {
+    public void shareImageToWx(final String imgUrl, final String imageTitle, final String imageDes, final int wxSceneSession) {
         OkGo.<Bitmap>get(imgUrl)
                 .execute(new BitmapCallback() {
                     @Override
                     public void onSuccess(Response<Bitmap> response) {
                         Bitmap thumb = response.body();
-                        shareImageToWx2(thumb, title, desc, wxSceneSession);
+                        shareImageToWx2(thumb, imageTitle, imageDes, wxSceneSession);
                     }
 
                     @Override
                     public void onError(Response<Bitmap> response) {
                         super.onError(response);
                         Bitmap thumb = BitmapFactory.decodeResource(UcfoApplication.getInstance().getResources(), R.mipmap.app_icon);
-                        shareImageToWx2(thumb, title, desc, wxSceneSession);
+                        shareImageToWx2(thumb, imageTitle, imageDes, wxSceneSession);
                     }
                 });
     }
 
+    /**
+     * 直接分享bitmap对象到微信
+     */
     public void shareImageToWx2(Bitmap thumb, String title, String desc, int wxSceneSession) {
+        if (!isWeiXinAppInstall()) {
+            return;
+        }
         //初始化 WXImageObject 和 WXMediaMessage 对象
         WXImageObject imgObj = new WXImageObject(thumb);
         WXMediaMessage msg = new WXMediaMessage();
@@ -122,12 +131,11 @@ public class ShareUtils {
 
     /**
      * 分享音乐
-     *
-     * @param musicUrl 音乐资源地址
-     * @param title    标题
-     * @param desc     描述
      */
     public void shareMusicToWx(final String musicUrl, final String title, final String desc, final String iconUrl, final int wxSceneSession) {
+        if (!isWeiXinAppInstall()) {
+            return;
+        }
         WXMusicObject music = new WXMusicObject();
         music.musicUrl = musicUrl;
 
@@ -163,13 +171,11 @@ public class ShareUtils {
 
     /**
      * 分享视频
-     *
-     * @param videoUrl       视频地址
-     * @param title          标题
-     * @param desc           描述
-     * @param wxSceneSession
      */
     public void shareVideoToWx(String videoUrl, String title, String desc, final String iconUrl, final int wxSceneSession) {
+        if (!isWeiXinAppInstall()) {
+            return;
+        }
         WXVideoObject video = new WXVideoObject();
         video.videoUrl = videoUrl;
 
@@ -210,6 +216,9 @@ public class ShareUtils {
      * @param wxSceneSession 类型
      */
     public void shareUrlToWx(String url, String title, String desc, final String iconUrl, final int wxSceneSession) {
+        if (!isWeiXinAppInstall()) {
+            return;
+        }
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = url;
         WXMediaMessage msg = new WXMediaMessage(webpage);

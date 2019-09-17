@@ -13,7 +13,7 @@ public class MessageCenterNoticeBean {
     /**
      * code : 200
      * msg : 操作成功
-     * data : [{"message_id":2,"title":"你是一个小傻子","content":"哈哈哈哈哈哈哈哈","create_time":"2019-08-09 08:53:24","type":1,"types":4,"status":1},{"message_id":1,"title":"12312","content":"3131231313","create_time":"2019-08-07 10:28:24","type":1,"types":4,"status":1}]
+     * data : [{"message_id":2,"defaultTitle":"你是一个小傻子","content":"哈哈哈哈哈哈哈哈","create_time":"2019-08-09 08:53:24","type":1,"types":4,"status":1},{"message_id":1,"defaultTitle":"12312","content":"3131231313","create_time":"2019-08-07 10:28:24","type":1,"types":4,"status":1}]
      */
 
     private int code;
@@ -50,7 +50,7 @@ public class MessageCenterNoticeBean {
     public static class DataBean {
         /**
          * message_id : 2
-         * title : 你是一个小傻子
+         * defaultTitle : 你是一个小傻子
          * content : 哈哈哈哈哈哈哈哈
          * create_time : 2019-08-09 08:53:24
          * type : 1

@@ -85,7 +85,7 @@ ext {
             "buildToolsVersion"    : "28.0.3",
             "versionName_okgo"     : "3.0.4",
             "versionCode_okgo"     : 29,
-            "okhttp3"              : "com.squareup.okhttp3:okhttp:3.10.0"
+            "okhttp3"              : "com.squareup.okhttp3:okhttp:$versions.okhttp3"
     ]
 
     google = [

@@ -62,7 +62,7 @@ public class ActiveEventDialog {
     public ActiveEventDialog setImageUrl(String imageUrl) {
         RequestOptions requestOptions = new RequestOptions()
                 .error(R.mipmap.image_loaderror)
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
         GlideUtils.load(context, imageUrl, imageview, requestOptions);
         return this;
     }

@@ -92,10 +92,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         ButterKnife.bind(this);
         ActivityUtil.getInstance().addActivity(this);
 
-        SharedPreferencesUtils sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
-        sharedPreferencesUtils.putInt(Constant.USER_ID, 7);//用户ID
-        sharedPreferencesUtils.putBoolean(Constant.LOGIN_STATUS, true);//用户登录状态
-
         //统计应用启动数据在所有的Activity 的onCreate 方法或在应用的BaseActivity的onCreate方法中添加
         PushAgent.getInstance(this).onAppStart();
 

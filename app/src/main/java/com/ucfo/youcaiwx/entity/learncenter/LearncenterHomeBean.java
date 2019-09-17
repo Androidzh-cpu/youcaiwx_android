@@ -46,7 +46,7 @@ public class LearncenterHomeBean {
          * user : {"username":"Wang","head":"http://youcai2020.oss-cn-beijing.aliyuncs.com/style/images/20190612/0ec7f3a1e2c520c8cf2ab5d24a626dc1.png","card":0}
          * plan : [{"plan_id":2,"plan_name":"60天学习计划（中等）","course_id":1,"plan_num":1},{"plan_id":3,"plan_name":"30天学习计划","course_id":2,"plan_num":1},{"plan_id":5,"plan_name":"20天学习计划2","course_id":8,"plan_num":0},{"plan_id":8,"plan_name":"户籍","course_id":6,"plan_num":0}]
          * learnList : [{"join_id":1,"test_time":"2019-08-20","schedule":"1","join_days":1,"plan_days":30,"plan_name":"30天学习计划","create_time":"2019-09-16 16:55:52","number":33},{"join_id":2,"test_time":"2019-08-01","schedule":"0","join_days":2,"plan_days":60,"plan_name":"60天学习计划（中等）","create_time":"2019-07-16 14:13:25","number":14}]
-         * news : {"id":6,"title":"这个是学习公告","source":"这个是学习公告","image":"http://youcai2020.oss-cn-beijing.aliyuncs.com/style/images/20190718/541abb7c1877625d17428fd3c62d5073.jpeg","jumphref":"http://pic37.nipic.com/20140105/15166348_202320428000_2.jpg","create_time":"2019-07-18 11:07:43","creates_time":"2019-07-18"}
+         * news : {"id":6,"defaultTitle":"这个是学习公告","source":"这个是学习公告","image":"http://youcai2020.oss-cn-beijing.aliyuncs.com/style/images/20190718/541abb7c1877625d17428fd3c62d5073.jpeg","jumphref":"http://pic37.nipic.com/20140105/15166348_202320428000_2.jpg","create_time":"2019-07-18 11:07:43","creates_time":"2019-07-18"}
          */
 
         private int addlearn;
@@ -151,7 +151,7 @@ public class LearncenterHomeBean {
         public static class NewsBean {
             /**
              * id : 6
-             * title : 这个是学习公告
+             * defaultTitle : 这个是学习公告
              * source : 这个是学习公告
              * image : http://youcai2020.oss-cn-beijing.aliyuncs.com/style/images/20190718/541abb7c1877625d17428fd3c62d5073.jpeg
              * jumphref : http://pic37.nipic.com/20140105/15166348_202320428000_2.jpg

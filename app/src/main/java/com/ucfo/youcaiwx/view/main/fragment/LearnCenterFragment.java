@@ -279,7 +279,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
         if (loginStatus) {
             Bundle bundle = new Bundle();
             switch (view.getId()) {
-                case R.id.user_icon://icon
+                case R.id.user_icon://defaultIcon
                 case R.id.user_nickname://昵称
                     startActivity(PersonnelSettingActivity.class, null);
                     break;
@@ -339,6 +339,8 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
 
     @Override
     public void studyClockInResult(StudyClockInBean result) {
+        String string = "{\"code\":200,\"msg\":\"操作成功\",\"data\":{\"num\":2,\"image_url\":\"http://youcai2020.oss-cn-beijing.aliyuncs.com/style/images/20190813/c2fe7ff221c9481b56eb0334802ba858.jpeg\",\"head\":\"http://youcai2020.oss-cn-beijing.aliyuncs.com/style/images/20190703/1e6736c64fa1ab5c89e3a80a1ecdbd8b.jpeg\",\"username\":\"青春遗言\"}}";
+        result = new Gson().fromJson(string, StudyClockInBean.class);
         if (result != null) {
             if (result.getCode() == 200) {
                 if (result.getData() != null) {
@@ -404,7 +406,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                 }
                 if (!TextUtils.isEmpty(userBeanHead)) {
                     RequestOptions requestOptions = new RequestOptions()
-                            .placeholder(R.mipmap.banner_default)
+                            .placeholder(R.mipmap.icon_headdefault)
                             .error(R.mipmap.image_loaderror)
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
                     GlideUtils.load(context, userBeanHead, userIcon, requestOptions);

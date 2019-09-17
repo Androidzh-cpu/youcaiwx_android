@@ -1,5 +1,6 @@
 package com.ucfo.youcaiwx.view.learncenter.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -47,7 +48,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * FileName: SignInActive
  * Description:TODO 日签
  */
-public class SignInActive extends DialogFragment implements View.OnClickListener {
+public class SignInActive extends DialogFragment {
     private StudyClockInBean.DataBean userBean;
     private ImageView mExitBtn;
     private TextView mTodayText;
@@ -73,6 +74,7 @@ public class SignInActive extends DialogFragment implements View.OnClickListener
         return v;
     }
 
+    @SuppressLint("SimpleDateFormat")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -93,7 +95,7 @@ public class SignInActive extends DialogFragment implements View.OnClickListener
             };
             RequestOptions requestOptions = new RequestOptions()
                     .error(R.mipmap.image_loaderror)
-                    .transform(new RoundedCorners(DensityUtil.dp2px(3)));
+                    .transform(new RoundedCorners(DensityUtil.dp2px(4)));
             Glide.with(this)
                     .load(userBean.getImage_url())
                     .apply(requestOptions)
@@ -114,6 +116,7 @@ public class SignInActive extends DialogFragment implements View.OnClickListener
         initData();
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     public void onStart() {
         super.onStart();
@@ -129,7 +132,6 @@ public class SignInActive extends DialogFragment implements View.OnClickListener
             dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         } else {
             dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
     }
 
@@ -179,9 +181,7 @@ public class SignInActive extends DialogFragment implements View.OnClickListener
         mSignDaysUser = (TextView) itemView.findViewById(R.id.user_signDays);
         mSignRelativelayout = (RelativeLayout) itemView.findViewById(R.id.relativelayout_sign);
         mToweixinShare = (ImageView) itemView.findViewById(R.id.share_toweixin);
-        mToweixinShare.setOnClickListener(this);
         mTofriendShare = (ImageView) itemView.findViewById(R.id.share_tofriend);
-        mTofriendShare.setOnClickListener(this);
     }
 
     public void setUserBean(StudyClockInBean.DataBean userBean) {
@@ -194,20 +194,6 @@ public class SignInActive extends DialogFragment implements View.OnClickListener
         final Activity activity = getActivity();
         if (activity instanceof DialogInterface.OnDismissListener) {
             ((DialogInterface.OnDismissListener) activity).onDismiss(dialog);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.share_toweixin:
-                // TODO 19/07/23
-                break;
-            case R.id.share_tofriend:
-                // TODO 19/07/23
-                break;
-            default:
-                break;
         }
     }
 }

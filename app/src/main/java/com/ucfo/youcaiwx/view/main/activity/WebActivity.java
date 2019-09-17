@@ -136,7 +136,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            webUrl = bundle.getString(Constant.WEB_URL);//url
+            webUrl = bundle.getString(Constant.WEB_URL);//defaultUrl
             webTitle = bundle.getString(Constant.WEB_TITLE);//标题
         } else {
             mLoadinglayout.showEmpty();
@@ -287,7 +287,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            LogUtils.d("shouldOverrideUrlLoading--------------url:" + url);
+            LogUtils.d("shouldOverrideUrlLoading--------------defaultUrl:" + url);
             if (!url.startsWith("http")) {
                 try {
                     // 以下固定写法,表示跳转到第三方应用

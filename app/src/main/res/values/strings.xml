@@ -75,7 +75,7 @@
     <string name="register_smscode_error">请输入验证码</string>
     <string name="register_psdAndconfirmpsd_error">两次密码不一致</string>
     <string name="register_argument_tip">请同意用户注册协议</string>
-    <string name="wx_noinstanl">您手机尚未安装微信，请安装后再登录</string>
+    <string name="wx_noinstanl">您的设备尚未安装微信,请安装后再登录!</string>
     <string name="wx_upperlimit">设备达到上限</string>
 
     <!-- Strings related to class -->

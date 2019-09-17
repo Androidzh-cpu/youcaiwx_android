@@ -169,7 +169,7 @@ public class SlidingTabLayout extends HorizontalScrollView implements ViewPager.
 
 
     /**
-     * title
+     * defaultTitle
      */
 
     private static final int TEXT_BOLD_NONE = 0;

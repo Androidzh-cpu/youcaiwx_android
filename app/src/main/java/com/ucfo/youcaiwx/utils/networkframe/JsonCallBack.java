@@ -112,7 +112,7 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
                 if (code == 401 || code == 505) {
                     throw new IllegalStateException(String.valueOf(code + "," + simpleModel.getMessage()));
                 } else {
-//                    LogUtils.e("api-->" + response.request().url().toString(),
+//                    LogUtils.e("api-->" + response.request().defaultUrl().toString(),
 //                            "code-->" + code,
 //                            "method-->" + response.request().method(),
 //                            "data-->" + simpleModel.getMessage());
@@ -128,7 +128,7 @@ public abstract class JsonCallBack<T> extends AbsCallback<T> {
                 if (code == 401 || code == 505) {
                     throw new IllegalStateException(String.valueOf(code + "," + baseModel.getMessage()));
                 } else {
-//                    LogUtils.e("api-->" + response.request().url().toString(),
+//                    LogUtils.e("api-->" + response.request().defaultUrl().toString(),
 //                            "code-->" + code,
 //                            "method-->" + response.request().method(),
 //                            "data-->" + StringUtils.formatJson(gson.toJson(baseModel)));

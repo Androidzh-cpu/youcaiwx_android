@@ -71,7 +71,7 @@ public class Constant {
     //通知栏消息: 题库答疑
     public static final String UMENG_MESSAGE_QUESTIONANSWER = "queMessage";
     //H5链接
-    public static final String WEB_URL = "url";
+    public static final String WEB_URL = "defaultUrl";
     //H5标题
     public static final String WEB_TITLE = "web_title";
     public static final String DATA = "data";
@@ -158,8 +158,8 @@ public class Constant {
     public static final String USED_TIME = "used_time";//用时时间
     public static final String QUESTION_CONTENT = "question_content";//题目json信息
     public static final String QUESTION_ID = "question_id";//题目ID
-    public static final String TITLE = "title";//标题
-    public static final String URL = "url";//链接
+    public static final String TITLE = "defaultTitle";//标题
+    public static final String URL = "defaultUrl";//链接
     public static final String OVER = "over";
     public static final String ANALYSIS_TYPE = "analysisType";//解析类型
     public static final String ANSEWR_ID = "answer_id";//题目ID
