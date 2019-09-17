@@ -4,20 +4,19 @@
     package="com.ucfo.youcaiwx"
     android:installLocation="auto">
 
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" /> <!-- 杀死后台进程 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 读取设备文件 -->
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" /> <!-- 打电话 -->
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- 相机 -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 网络状态 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 读取手机信息 -->
-    <uses-permission android:name="android.permission.VIBRATE" /> <!-- 震动提示 -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <!-- X5webview所需权限 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- WiFi监听 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_SETTINGS" /> <!-- 读取舍至信息 -->
+    <uses-permission android:name="android.permission.READ_SETTINGS" />
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />

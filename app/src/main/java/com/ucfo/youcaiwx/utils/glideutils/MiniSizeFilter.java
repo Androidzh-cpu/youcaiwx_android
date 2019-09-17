@@ -18,7 +18,7 @@ import java.util.Set;
  * Author: AND
  * Time: 2019-6-15.  下午 2:55
  * FileName: MiniSizeFilter
- * Description:TODO Filter 过滤图片大小等操作
+ * Description:TODO Filter过滤图片大小等操作(Matrisee)
  */
 public class MiniSizeFilter extends Filter {
     private int mMinWidth;

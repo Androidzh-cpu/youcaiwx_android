@@ -73,6 +73,7 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
     private final Drawable indicator_end;
     private final Drawable indicator_start;
     private final DisplayMetrics displayMetrics;
+    private final int thumbWidth = 22;
 
     public void setUserBeanHead(String userBeanHead) {
         this.userBeanHead = userBeanHead;
@@ -157,8 +158,8 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
                 int bitmapWidth = bitmap.getWidth();
                 int bitmapHeight = bitmap.getHeight();
                 Matrix matrix = new Matrix();
-                float scaleWidth = ((float) DensityUtil.dip2px(context, 22) / bitmapWidth);
-                float scaleHeight = ((float) DensityUtil.dip2px(context, 22) / bitmapHeight);
+                float scaleWidth = ((float) DensityUtil.dip2px(context, thumbWidth) / bitmapWidth);
+                float scaleHeight = ((float) DensityUtil.dip2px(context, thumbWidth) / bitmapHeight);
                 matrix.postScale(scaleWidth, scaleHeight);
                 Bitmap newbmp = Bitmap.createBitmap(bitmap, 0, 0, bitmapWidth, bitmapHeight, matrix, true);
                 BitmapDrawable drawable = new BitmapDrawable(context.getResources(), newbmp);
@@ -167,14 +168,14 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
             }
         };
 
-        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, context.getResources().getDisplayMetrics());
-        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, context.getResources().getDisplayMetrics());
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, thumbWidth, context.getResources().getDisplayMetrics());
+        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, thumbWidth, context.getResources().getDisplayMetrics());
         RequestOptions requestOptions = new RequestOptions()
                 .override(width, height)
                 .placeholder(R.mipmap.icon_headdefault)
                 .error(R.mipmap.image_loaderror)
                 .transform(new CropCircleWithBorderTransformation(DensityUtil.dp2px(3), ContextCompat.getColor(context, R.color.color_FAA827)))
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
         Glide.with(context)
                 .load(userBeanHead)
                 .apply(requestOptions)
@@ -210,7 +211,7 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         int thumbPadding = thumbWidth / 2;
         seekBar.setPadding(thumbPadding, 0, thumbPadding, 0);
         float finalPostion = 0;
-        float textWidth = DensityUtil.dp2px(82);
+        float textWidth = DensityUtil.dp2px(83);
         int b = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, context.getResources().getDisplayMetrics());
         float seekBarWidth = displayMetrics.widthPixels - b - thumbWidth;
         float thumbhalfswidth = thumbWidth / 2;

@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.dialogtest.R;
 import com.warkiz.widget.IndicatorSeekBar;
@@ -75,8 +74,6 @@ public class OneFragment extends Fragment implements View.OnClickListener {
                 options.error(R.mipmap.ic_launcher);
                 //options.transform(new CropCircleWithBorderTransformation());
                 options.transform(new RoundedCornersTransformation(20, 0));
-                options.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);//设置缓存策略为none就可以禁止掉缓存
-                options.skipMemoryCache(true);//设置为true可以关闭内存缓存,false 默认开启内存缓存
                 Glide.with(this)
                         .asBitmap()
                         .load(url)

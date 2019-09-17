@@ -37,6 +37,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.example.dialogtest.utils.MyGlideModule"
+            android:value="GlideModule" />
     </application>
 
 </manifest>

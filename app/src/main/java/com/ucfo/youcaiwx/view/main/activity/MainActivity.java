@@ -92,6 +92,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         ButterKnife.bind(this);
         ActivityUtil.getInstance().addActivity(this);
 
+        SharedPreferencesUtils sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
+        sharedPreferencesUtils.putInt(Constant.USER_ID, 7);//用户ID
+        sharedPreferencesUtils.putBoolean(Constant.LOGIN_STATUS, true);//用户登录状态
+
         //统计应用启动数据在所有的Activity 的onCreate 方法或在应用的BaseActivity的onCreate方法中添加
         PushAgent.getInstance(this).onAppStart();
 
@@ -243,8 +247,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onNewIntent(intent);
         //TODO  接收其他页面传入的索引,进入指定的页面
         if (intent != null) {
-            indexTab = intent.getIntExtra(Constant.INDEX, indexTab);
-            initSelectTab(indexTab);
+            int intExtrai = intent.getIntExtra(Constant.INDEX, 0);
+            initSelectTab(intExtrai);
         }
 /*      跳转至指定页面代码
         Intent intent = new Intent(this, MainActivity.class);
@@ -252,6 +256,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         intent.putExtra(Constant.INDEX, 1);
         startActivity(intent);
 */
+// Unable to get provider com.tencent.bugly.beta.utils.BuglyFileProvider: java.lang.ClassNotFoundException: Didn't find class "com.tencent.bugly.beta.utils.BuglyFileProvider" on path: DexPathList[[zip file "/data/app/com.example.lebaobeiimprinter-1.apk"],
+// nativeLibraryDirectories=[/data/app-lib/com.example.lebaobeiimprinter-1, /vendor/lib, /system/lib]]
     }
 
     /**
@@ -315,7 +321,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
      */
     private void checkPermission() {
         SoulPermission.getInstance().checkAndRequestPermissions(
-                Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE),
+                Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE),
                 new CheckRequestPermissionsListener() {
                     @Override
                     public void onAllPermissionOk(Permission[] allPermissions) {
