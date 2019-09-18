@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.flyco.roundview.RoundTextView;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.learncenter.UnFinishPlanBean;
+import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
 import com.ucfo.youcaiwx.widget.customview.NestedListView;
@@ -76,6 +77,9 @@ public class UnFinishLearnPlan2Adapter extends BaseAdapter<UnFinishPlanBean.Data
                     videoBeanList.add(videoBeans.get(i));
                 }
             }
+        }else {
+            LogUtils.e("videoBeans.size() < 3");
+            videoBeanList.addAll(videoBeans);
         }
         UnFinishLearnVideoAdapter videoAdapter = new UnFinishLearnVideoAdapter(videoBeanList, context);
         holder.mNestedlistview.setAdapter(videoAdapter);

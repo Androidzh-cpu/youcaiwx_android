@@ -1,5 +1,6 @@
 package com.ucfo.youcaiwx;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -80,6 +81,7 @@ public class UcfoApplication extends Application {
     private static UcfoApplication application;
     // IWXAPI 是第三方app和微信通信的openApi接口
     public static IWXAPI api;
+    @SuppressLint("StaticFieldLeak")
     public static AliyunDownloadManager downloadManager;
 
     static {
@@ -366,7 +368,7 @@ public class UcfoApplication extends Application {
             return;
         }
         try {
-            Class clazz = Class.forName("android.app.ActivityThread");
+            @SuppressLint("PrivateApi") Class clazz = Class.forName("android.app.ActivityThread");
             Method currentActivityThread = clazz.getDeclaredMethod("currentActivityThread");
             currentActivityThread.setAccessible(true);
             Object activityThread = currentActivityThread.invoke(null);

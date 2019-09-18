@@ -130,6 +130,9 @@ public class UnFinishedPlanActivity extends BaseActivity implements ILearncenter
 
     @Override
     public void getUnFinishPlan(UnFinishPlanBean result) {
+        //测试数据
+        String s = "{\"code\":200,\"msg\":\"操作成功\",\"data\":[{\"package_id\":1,\"plan_id\":1,\"plan_name\":\"中文Part-1学习计划\",\"video\":[{\"video_name\":\"2018年7月考期考后盘点P1-杨晔\",\"id\":1},{\"video_name\":\"2018年7月考期考后盘点P2-杨晔\",\"id\":2},{\"video_name\":\"2018年7月考期考后盘点P3-杨晔\",\"id\":2},{\"video_name\":\"2018年7月考期考后盘点P4-杨晔\",\"id\":2},{\"video_name\":\"2018年7月考期考后盘点P5-杨晔\",\"id\":2},{\"video_name\":\"2018年7月考期考后盘点P6-杨晔\",\"id\":2}]},{\"package_id\":1,\"plan_id\":1,\"plan_name\":\"中文Part-2学习计划\",\"video\":[{\"video_name\":\"2018年7月考期考后盘点P1-杨晔\",\"id\":1},{\"video_name\":\"2018年7月考期考后盘点P2-杨晔\",\"id\":2},{\"video_name\":\"2018年7月考期考后盘点P3-杨晔\",\"id\":2},{\"video_name\":\"2018年7月考期考后盘点P4-杨晔\",\"id\":2},{\"video_name\":\"2018年7月考期考后盘点P5-杨晔\",\"id\":2},{\"video_name\":\"2018年7月考期考后盘点P6-杨晔\",\"id\":2}]}]}";
+        //result = new Gson().fromJson(s,UnFinishPlanBean.class);
         if (result != null) {
             if (result.getData() != null) {
                 List<UnFinishPlanBean.DataBean> data = result.getData();

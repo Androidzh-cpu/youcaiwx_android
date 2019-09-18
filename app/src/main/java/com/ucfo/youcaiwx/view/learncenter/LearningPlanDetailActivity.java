@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.adapter.learncenter.LearnPlanDetailCourseAdapter;
@@ -221,9 +220,9 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                 String advert = result.getData().getAdvert();
                 if (!this.isFinishing()) {
                     RequestOptions requestOptions = new RequestOptions()
+                            .centerCrop()
                             .placeholder(R.mipmap.banner_default)
-                            .error(R.mipmap.image_loaderror)
-                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                            .error(R.mipmap.image_loaderror);
                     GlideUtils.load(context, advert, cover, requestOptions);
                 }
                 if (result.getData().getDate() != null && result.getData().getDate().size() > 0) {
