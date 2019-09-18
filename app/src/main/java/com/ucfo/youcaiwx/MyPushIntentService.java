@@ -16,7 +16,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.utils.LogUtils;
-import com.ucfo.youcaiwx.view.main.activity.WebActivity;
+import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.umeng.message.UTrack;
 import com.umeng.message.UmengMessageService;
 import com.umeng.message.entity.UMessage;

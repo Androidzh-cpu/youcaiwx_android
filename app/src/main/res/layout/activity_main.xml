@@ -7,7 +7,7 @@
     android:background="@android:color/white"
     android:fitsSystemWindows="false"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcaiwx.view.main.activity.MainActivity">
+    tools:context="com.ucfo.youcaiwx.module.main.activity.MainActivity">
 
     <FrameLayout
         android:id="@+id/frame_layout"

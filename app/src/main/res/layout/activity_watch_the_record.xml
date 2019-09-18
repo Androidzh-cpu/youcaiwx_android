@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcaiwx.view.user.activity.WatchTheRecordActivity">
+    tools:context="com.ucfo.youcaiwx.module.user.activity.WatchTheRecordActivity">
 
     <include layout="@layout/titlebar_toolbar" />
 

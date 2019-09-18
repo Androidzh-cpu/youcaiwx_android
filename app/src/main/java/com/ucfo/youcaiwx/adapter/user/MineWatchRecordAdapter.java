@@ -17,7 +17,7 @@ import com.ucfo.youcaiwx.entity.user.MineWatchRecordBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.view.course.player.utils.TimeFormater;
+import com.ucfo.youcaiwx.module.course.player.utils.TimeFormater;
 
 import java.util.List;
 

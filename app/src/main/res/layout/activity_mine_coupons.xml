@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_F5F5F5"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcaiwx.view.user.activity.MineCouponsActivity">
+    tools:context="com.ucfo.youcaiwx.module.user.activity.MineCouponsActivity">
 
     <include layout="@layout/titlebar_toolbar" />
 

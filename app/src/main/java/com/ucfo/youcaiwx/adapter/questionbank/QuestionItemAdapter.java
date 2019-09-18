@@ -7,8 +7,8 @@ import android.text.TextUtils;
 
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.questionbank.DoProblemsBean;
-import com.ucfo.youcaiwx.view.questionbank.fragment.QuestionChoiceItemFragment;
-import com.ucfo.youcaiwx.view.questionbank.fragment.QuestionDiscussItemFragment;
+import com.ucfo.youcaiwx.module.questionbank.fragment.QuestionChoiceItemFragment;
+import com.ucfo.youcaiwx.module.questionbank.fragment.QuestionDiscussItemFragment;
 
 import java.util.ArrayList;
 

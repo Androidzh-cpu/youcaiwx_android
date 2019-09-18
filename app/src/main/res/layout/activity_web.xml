@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcaiwx.view.main.activity.WebActivity">
+    tools:context="com.ucfo.youcaiwx.module.main.activity.WebActivity">
 
     <include layout="@layout/titlebar_toolbar" />
 

@@ -73,7 +73,7 @@
 
         <!-- TODO 启动页 -->
         <activity
-            android:name=".view.main.activity.SplashActivity"
+            android:name=".module.main.activity.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -83,48 +83,48 @@
         </activity>
         <!-- TODO 引导页 -->
         <activity
-            android:name=".view.main.activity.GuideActivity"
+            android:name=".module.main.activity.GuideActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme" />
         <!-- TODO APP主页面 -->
         <activity
-            android:name=".view.main.activity.MainActivity"
+            android:name=".module.main.activity.MainActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!-- TODO 二维码 -->
         <activity
-            android:name=".view.home.ScanActivity"
+            android:name=".module.home.ScanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 登录页 -->
         <activity
-            android:name=".view.login.LoginActivity"
+            android:name=".module.login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 注册 -->
         <activity
-            android:name=".view.login.RegisterActivity"
+            android:name=".module.login.RegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 短信登录 -->
         <activity
-            android:name=".view.login.SMSLoginActivity"
+            android:name=".module.login.SMSLoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 注册成功 -->
         <activity
-            android:name=".view.login.RegisterSuccessActivity"
+            android:name=".module.login.RegisterSuccessActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <activity
-            android:name=".view.login.CompleteAndForgetActivity"
+            android:name=".module.login.CompleteAndForgetActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO X5内核webview -->
         <activity
-            android:name=".view.main.activity.WebActivity"
+            android:name=".module.main.activity.WebActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
@@ -151,12 +151,12 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- TODO 视频筛选列表 -->
         <activity
-            android:name=".view.course.CourseListActivity"
+            android:name=".module.course.CourseListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 视频播放界面 -->
         <activity
-            android:name=".view.course.player.VideoPlayPageActivity"
+            android:name=".module.course.player.VideoPlayPageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -166,242 +166,242 @@
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 课程答疑详情页面 -->
         <activity
-            android:name=".view.course.CourseAnswerDetailActivity"
+            android:name=".module.course.CourseAnswerDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 题库答题记录 -->
         <activity
-            android:name=".view.questionbank.activity.QuestionsOnRecordActivity"
+            android:name=".module.questionbank.activity.QuestionsOnRecordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 知识点练习 二级列表 -->
         <activity
-            android:name=".view.questionbank.activity.KnowledgePracticeActivity"
+            android:name=".module.questionbank.activity.KnowledgePracticeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 知识点练习三级列表 -->
         <activity
-            android:name=".view.questionbank.activity.KnowledgeChildListActivity"
+            android:name=".module.questionbank.activity.KnowledgeChildListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 阶段测试 -->
         <activity
-            android:name=".view.questionbank.activity.StageOfTestingActivity"
+            android:name=".module.questionbank.activity.StageOfTestingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 工程模式(做题)页 -->
         <activity
-            android:name=".view.questionbank.activity.TESTMODEActivity"
+            android:name=".module.questionbank.activity.TESTMODEActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 系统高频错题 -->
         <activity
-            android:name=".view.questionbank.activity.HighFrequencyWrongTopicActivity"
+            android:name=".module.questionbank.activity.HighFrequencyWrongTopicActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 自主练习选择题目数量 -->
         <activity
-            android:name=".view.questionbank.activity.SelfServiceActivity"
+            android:name=".module.questionbank.activity.SelfServiceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 自主练习二级列表 -->
         <activity
-            android:name=".view.questionbank.activity.SelfServiceListActivity"
+            android:name=".module.questionbank.activity.SelfServiceListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 自主练习三级列表 -->
         <activity
-            android:name=".view.questionbank.activity.SelfServiceChildListActivity"
+            android:name=".module.questionbank.activity.SelfServiceChildListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 错题中心 -->
         <activity
-            android:name=".view.questionbank.activity.ErrorCenterActivity"
+            android:name=".module.questionbank.activity.ErrorCenterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 成绩统计 -->
         <activity
-            android:name=".view.questionbank.activity.ResultsStatisticalActivity"
+            android:name=".module.questionbank.activity.ResultsStatisticalActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 题库答疑 -->
         <activity
-            android:name=".view.questionbank.activity.QuestionAnswerActivity"
+            android:name=".module.questionbank.activity.QuestionAnswerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 题库答疑详情 -->
         <activity
-            android:name=".view.questionbank.activity.QuestionAnswerDetailActivity"
+            android:name=".module.questionbank.activity.QuestionAnswerDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 题库答疑我要提问(课程提问) -->
         <activity
-            android:name=".view.questionbank.activity.QuestionAskQuestionActivity"
+            android:name=".module.questionbank.activity.QuestionAskQuestionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 个人中心设置 -->
         <activity
-            android:name=".view.user.activity.PersonnelSettingActivity"
+            android:name=".module.user.activity.PersonnelSettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 修改昵称 -->
         <activity
-            android:name=".view.user.activity.ModifyNameActivity"
+            android:name=".module.user.activity.ModifyNameActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 我的地址 -->
         <activity
-            android:name=".view.user.activity.UserAddressActivity"
+            android:name=".module.user.activity.UserAddressActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 地址编辑 -->
         <activity
-            android:name=".view.user.activity.EditAddressActivity"
+            android:name=".module.user.activity.EditAddressActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 我的课程 -->
         <activity
-            android:name=".view.user.activity.MineCourseActivity"
+            android:name=".module.user.activity.MineCourseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 我的收藏 -->
         <activity
-            android:name=".view.user.activity.MineCollectionActivity"
+            android:name=".module.user.activity.MineCollectionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 我的答疑 -->
         <activity
-            android:name=".view.user.activity.MineAnswerQuestionActivity"
+            android:name=".module.user.activity.MineAnswerQuestionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 我的收藏课程 -->
         <activity
-            android:name=".view.user.activity.CourseCollectionChildActivity"
+            android:name=".module.user.activity.CourseCollectionChildActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 我的收藏课程列表 -->
         <activity
-            android:name=".view.user.activity.CourseCollectionDirActivity"
+            android:name=".module.user.activity.CourseCollectionDirActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 设置页 -->
         <activity
-            android:name=".view.user.activity.SettingActivity"
+            android:name=".module.user.activity.SettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 修改密码 -->
         <activity
-            android:name=".view.user.activity.ModifyPasswordActivity"
+            android:name=".module.user.activity.ModifyPasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 我的订单 -->
         <activity
-            android:name=".view.user.activity.MineOrderFormActivity"
+            android:name=".module.user.activity.MineOrderFormActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 我的订单详情 -->
         <activity
-            android:name=".view.user.activity.MineOrderFormDetailActivity"
+            android:name=".module.user.activity.MineOrderFormDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 意见反馈 -->
         <activity
-            android:name=".view.user.activity.FeedBackActivity"
+            android:name=".module.user.activity.FeedBackActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 观看记录 -->
         <activity
-            android:name=".view.user.activity.WatchTheRecordActivity"
+            android:name=".module.user.activity.WatchTheRecordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 课程下载目录 -->
         <activity
-            android:name=".view.course.player.DownloadDirectoryActivity"
+            android:name=".module.course.player.DownloadDirectoryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 离线视频 -->
         <activity
-            android:name=".view.user.activity.OfflineCourseActivity"
+            android:name=".module.user.activity.OfflineCourseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 已下载视频章节目录 -->
         <activity
-            android:name=".view.course.player.DownloadComletedDirActivity"
+            android:name=".module.course.player.DownloadComletedDirActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 添加学习计划完成 -->
         <activity
-            android:name=".view.learncenter.AddLearningPlanCompleteActivity"
+            android:name=".module.learncenter.AddLearningPlanCompleteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 讲义加载页 -->
         <activity
-            android:name=".view.learncenter.LoadPdfActivity"
+            android:name=".module.learncenter.LoadPdfActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 添加学习计划   选择课程 -->
         <activity
-            android:name=".view.learncenter.AddLearningPlanActivity"
+            android:name=".module.learncenter.AddLearningPlanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 添加学习计划   选择考试时间 -->
         <activity
-            android:name=".view.learncenter.AddLearningTimeActivity"
+            android:name=".module.learncenter.AddLearningTimeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 未完成学习计划 -->
         <activity
-            android:name=".view.learncenter.UnFinishedPlanActivity"
+            android:name=".module.learncenter.UnFinishedPlanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 学习计划详情 -->
         <activity
-            android:name=".view.learncenter.LearningPlanDetailActivity"
+            android:name=".module.learncenter.LearningPlanDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 我的优惠券 -->
         <activity
-            android:name=".view.user.activity.MineCouponsActivity"
+            android:name=".module.user.activity.MineCouponsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 我的失效优惠券 -->
         <activity
-            android:name=".view.user.activity.MineDisabledCouponsActivity"
+            android:name=".module.user.activity.MineDisabledCouponsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 添加订单 -->
         <activity
-            android:name=".view.pay.CommitOrderActivity"
+            android:name=".module.pay.CommitOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 支付页 -->
         <activity
-            android:name=".view.pay.PayActivity"
+            android:name=".module.pay.PayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 消息中心 -->
         <activity
-            android:name=".view.home.MessageCenterActivity"
+            android:name=".module.home.MessageCenterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 网校公告 -->
         <activity
-            android:name=".view.home.AnnouncementCenterActivity"
+            android:name=".module.home.AnnouncementCenterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 系统通知 -->
         <activity
-            android:name=".view.home.NotificationCenterActivity"
+            android:name=".module.home.NotificationCenterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 资讯列表 -->
         <activity
-            android:name=".view.home.InformationActivity"
+            android:name=".module.home.InformationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!--TODO 我的积分首页-->
         <activity
-            android:name=".view.integral.MineIntegralActivity"
+            android:name=".module.integral.MineIntegralActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
     </application>

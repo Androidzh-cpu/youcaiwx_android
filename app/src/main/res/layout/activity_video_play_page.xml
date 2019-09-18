@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context=".view.course.player.VideoPlayPageActivity"
+    tools:context=".module.course.player.VideoPlayPageActivity"
     tools:ignore="RtlCompat">
     <!--播放器界面-->
     <RelativeLayout

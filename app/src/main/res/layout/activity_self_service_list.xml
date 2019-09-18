@@ -7,7 +7,7 @@
     android:background="@android:color/white"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcaiwx.view.questionbank.activity.SelfServiceListActivity">
+    tools:context="com.ucfo.youcaiwx.module.questionbank.activity.SelfServiceListActivity">
 
     <include layout="@layout/titlebar_toolbar" />
 

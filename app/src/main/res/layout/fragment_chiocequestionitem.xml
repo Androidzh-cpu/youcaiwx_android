@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:overScrollMode="never"
     android:scrollbars="none"
-    tools:context="com.ucfo.youcaiwx.view.questionbank.fragment.QuestionChoiceItemFragment"
+    tools:context="com.ucfo.youcaiwx.module.questionbank.fragment.QuestionChoiceItemFragment"
     tools:ignore="RtlCompat">
     <!--主布局-->
     <LinearLayout

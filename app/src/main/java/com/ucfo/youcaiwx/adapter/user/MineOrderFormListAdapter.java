@@ -18,7 +18,7 @@ import com.ucfo.youcaiwx.entity.user.MineOrderListBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.view.user.activity.MineOrderFormActivity;
+import com.ucfo.youcaiwx.module.user.activity.MineOrderFormActivity;
 import com.ucfo.youcaiwx.widget.customview.NiceImageView;
 
 import java.util.ArrayList;

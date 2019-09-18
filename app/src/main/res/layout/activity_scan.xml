@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ucfo.youcaiwx.view.home.ScanActivity">
+    tools:context="com.ucfo.youcaiwx.module.home.ScanActivity">
 
     <include
         android:id="@+id/top_toolbar"

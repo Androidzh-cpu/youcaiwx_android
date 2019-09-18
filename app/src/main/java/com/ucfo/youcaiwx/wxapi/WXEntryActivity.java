@@ -25,10 +25,10 @@ import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.view.login.CompleteAndForgetActivity;
-import com.ucfo.youcaiwx.view.login.LoginActivity;
-import com.ucfo.youcaiwx.view.login.SMSLoginActivity;
-import com.ucfo.youcaiwx.view.main.activity.MainActivity;
+import com.ucfo.youcaiwx.module.login.CompleteAndForgetActivity;
+import com.ucfo.youcaiwx.module.login.LoginActivity;
+import com.ucfo.youcaiwx.module.login.SMSLoginActivity;
+import com.ucfo.youcaiwx.module.main.activity.MainActivity;
 import com.umeng.message.PushAgent;
 import com.umeng.socialize.weixin.view.WXCallbackActivity;
 

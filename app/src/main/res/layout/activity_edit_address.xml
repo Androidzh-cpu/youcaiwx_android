@@ -8,7 +8,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.ucfo.youcaiwx.view.user.activity.EditAddressActivity">
+    tools:context="com.ucfo.youcaiwx.module.user.activity.EditAddressActivity">
 
     <include layout="@layout/titlebar_toolbar" />
 

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     android:orientation="vertical"
-    tools:context=".view.course.CourseListActivity">
+    tools:context=".module.course.CourseListActivity">
 
     <include layout="@layout/titlebar_toolbar" />
 
