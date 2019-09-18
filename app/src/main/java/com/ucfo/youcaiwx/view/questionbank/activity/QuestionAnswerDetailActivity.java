@@ -322,26 +322,26 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
         switch (reply_status) {
             case 1://1回复
                 answerTeacherLinear.setVisibility(answerTeacherLinear.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-                String head_img = reply.getHead_img();
-                String reply_user_name = reply.getReply_user_name();
-                String reply_times = reply.getReply_times();
-                String reply_quiz = reply.getReply_quiz();
-                List<String> reply_image = reply.getReply_image();
-                if (TextUtils.isEmpty(head_img)) {
+                String replyHeadImg = reply.getHead_img();
+                String replyUserName = reply.getReply_user_name();
+                String replyTimes = reply.getReply_times();
+                String replyQuiz = reply.getReply_quiz();
+                List<String> replyImage = reply.getReply_image();
+                if (TextUtils.isEmpty(replyHeadImg)) {
                     answerTeachericon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_headdefault));
                 } else {
                     RequestOptions requestOptions = new RequestOptions()
                             .placeholder(R.mipmap.icon_headdefault)
                             .error(R.mipmap.image_loaderror)
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-                    GlideUtils.load(context, head_img, answerTeachericon, requestOptions);
+                    GlideUtils.load(context, replyHeadImg, answerTeachericon, requestOptions);
                     TransferConfig headConfig = TransferConfig.build()
                             .setMissPlaceHolder(R.mipmap.banner_default)
                             .setErrorPlaceHolder(R.mipmap.banner_default)
                             .setProgressIndicator(new ProgressPieIndicator())
                             .setIndexIndicator(new NumberIndexIndicator())
                             .setJustLoadHitImage(true)
-                            .bindImageView(answerTeachericon, head_img);
+                            .bindImageView(answerTeachericon, replyHeadImg);
                     answerTeachericon.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -350,28 +350,28 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
                     });
                 }
 
-                if (!TextUtils.isEmpty(reply_user_name)) {//TODO 用户昵称
-                    answerTeachernickname.setText(reply_user_name);
+                if (!TextUtils.isEmpty(replyUserName)) {//TODO 用户昵称
+                    answerTeachernickname.setText(replyUserName);
                 }
-                if (!TextUtils.isEmpty(reply_times)) {//TODO 老师回复时间
-                    answerQuestionReplytime.setText(reply_times);
+                if (!TextUtils.isEmpty(replyTimes)) {//TODO 老师回复时间
+                    answerQuestionReplytime.setText(replyTimes);
                 }
-                if (!TextUtils.isEmpty(reply_quiz)) {//TODO 老师回复内容
-                    answerTeacherreply.setText(reply_quiz);
+                if (!TextUtils.isEmpty(replyQuiz)) {//TODO 老师回复内容
+                    answerTeacherreply.setText(replyQuiz);
                 }
-                if (reply_image != null && reply_image.size() > 0) {//TODO 学员问题图片处理
+                if (replyImage != null && replyImage.size() > 0) {//TODO 学员问题图片处理
                     answerTeacherimagelist.setVisibility(View.VISIBLE);
-                    PictureAdapter pictureAdapter = new PictureAdapter(reply_image, context);//创建图片列表适配器
+                    PictureAdapter pictureAdapter = new PictureAdapter(replyImage, context);//创建图片列表适配器
                     answerTeacherimagelist.setAdapter(pictureAdapter);
                     TransferConfig config = TransferConfig.build()//图片预览先关配置
-                            .setThumbnailImageList(reply_image)//预览图
-                            .setSourceImageList(reply_image)//图片地址
+                            .setThumbnailImageList(replyImage)//预览图
+                            .setSourceImageList(replyImage)//图片地址
                             .setMissPlaceHolder(R.mipmap.banner_default)
                             .setErrorPlaceHolder(R.mipmap.banner_default)
                             .setProgressIndicator(new ProgressBarIndicator())//加载进度
                             .setIndexIndicator(new NumberIndexIndicator())//指示器
                             .setJustLoadHitImage(true)//是否只加载当前显示在屏幕中的的原图
-                            .setOffscreenPageLimit(reply_image.size())
+                            .setOffscreenPageLimit(replyImage.size())
                             .bindRecyclerView(answerTeacherimagelist, R.id.iv_image);// RecyclerView 来排列显示图片,图片的ID
                     pictureAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
                         @Override

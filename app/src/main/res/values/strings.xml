@@ -478,6 +478,12 @@
     <string name="ThisIsTheLatestVersion">当前已是最新版本</string>
     <string name="update">升级</string>
 
+    <!--string related to 积分-->
+    <string name="integral_remainingPoints">剩余积分</string>
+    <string name="integral_inviteFriends">邀请好友赢大礼包</string>
+    <string name="integral_gainIntegral">赚积分</string>
+
+
     <!--string related to common-->
     <string name="net_loadingtext">加载中</string>
     <string name="net_canceltext">取消中</string>

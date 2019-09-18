@@ -29,6 +29,7 @@ import com.ucfo.youcaiwx.utils.ShareUtils;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
+import com.ucfo.youcaiwx.view.integral.MineIntegralActivity;
 import com.ucfo.youcaiwx.view.login.LoginActivity;
 import com.ucfo.youcaiwx.view.main.activity.MainActivity;
 import com.ucfo.youcaiwx.view.main.activity.WebActivity;
@@ -197,8 +198,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                     break;
                 case R.id.btn_user_integral:
                     //TODO 积分
-                    //继续学习
-                    //startActivity(UnFinishedPlanActivity.class, null);
+                    startActivity(MineIntegralActivity.class, null);
                     break;
                 case R.id.btn_user_balance:
                     //TODO 余额

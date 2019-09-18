@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context=".view.integral.MineIntegralActivity">
+
+    <include layout="@layout/titlebar_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp_14"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_14">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="@string/integral_remainingPoints"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_14" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textColor="@color/color_0267FF"
+                android:textSize="@dimen/sp_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分"
+                android:textColor="@color/color_0267FF"
+                android:textSize="@dimen/sp_14" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/color_F5F5F5" />
+
+    <com.androidkun.xtablayout.XTabLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_33"
+        app:xTabIndicatorColor="@color/color_0267FF"
+        app:xTabIndicatorHeight="@dimen/dp_2"
+        app:xTabIndicatorWidth="@dimen/dp_24"
+        app:xTabMode="fixed"
+        app:xTabSelectedTextColor="@color/color_0267FF"
+        app:xTabTextColor="@color/color_333333"
+        app:xTabTextSize="@dimen/sp_13" />
+
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/linear_edittor"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_43"
+        android:orientation="horizontal">
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/color_E3EEFF"
+            android:gravity="center"
+            android:stateListAnimator="@drawable/shape_selector_elevation"
+            android:text="@string/integral_inviteFriends"
+            android:textColor="@color/color_0267FF"
+            android:textSize="@dimen/sp_14" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/color_0267FF"
+            android:gravity="center"
+            android:stateListAnimator="@drawable/shape_selector_elevation"
+            android:text="@string/integral_gainIntegral"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/sp_14" />
+    </LinearLayout>
+
+</LinearLayout>

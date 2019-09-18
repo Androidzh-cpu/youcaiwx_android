@@ -90,7 +90,7 @@ public class QuestionAnswerDetailBean {
              * know_name : ["总论","成本度量和计量基本概念","案例-税收成本和会计成本的区别","案例-成本和意识","案例-复杂性（1）","风险管理流程-风险监控","风险管理流程-风险评估-分析方法"]
              */
 
-            private int Id;
+            private String Id;
             private String username;
             private String quiz;
             private String head;
@@ -98,11 +98,11 @@ public class QuestionAnswerDetailBean {
             private List<String> quiz_image;
             private List<String> know_name;
 
-            public int getId() {
-                return Id;
+            public String getId() {
+                return Id == null ? "" : Id;
             }
 
-            public void setId(int id) {
+            public void setId(String id) {
                 Id = id;
             }
 
