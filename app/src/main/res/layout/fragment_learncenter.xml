@@ -219,36 +219,48 @@
                         android:id="@+id/linear_continueStudy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
                         android:background="@android:color/white"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="@dimen/dp_12"
-                        android:paddingStart="@dimen/dp_12"
+                        android:orientation="vertical"
                         android:visibility="gone">
 
-                        <TextView
-                            android:layout_width="0dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/dp_19"
-                            android:layout_marginTop="@dimen/dp_19"
-                            android:layout_weight="1"
-                            android:text="@string/learncenter_unfinishedTips2"
-                            android:textColor="@color/color_666666"
-                            android:textSize="@dimen/sp_13" />
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingEnd="@dimen/dp_12"
+                            android:paddingStart="@dimen/dp_12">
 
-                        <com.flyco.roundview.RoundTextView
-                            android:id="@+id/btn_continueStudy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingBottom="@dimen/dp_4"
-                            android:paddingEnd="@dimen/dp_21"
-                            android:paddingStart="@dimen/dp_21"
-                            android:paddingTop="@dimen/dp_4"
-                            android:text="@string/look"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/sp_12"
-                            app:rv_backgroundColor="@color/colorPrimary"
-                            app:rv_isRadiusHalfHeight="true" />
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/dp_19"
+                                android:layout_marginTop="@dimen/dp_19"
+                                android:layout_weight="1"
+                                android:text="@string/learncenter_unfinishedTips2"
+                                android:textColor="@color/color_666666"
+                                android:textSize="@dimen/sp_13" />
+
+                            <com.flyco.roundview.RoundTextView
+                                android:id="@+id/btn_continueStudy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingBottom="@dimen/dp_4"
+                                android:paddingEnd="@dimen/dp_21"
+                                android:paddingStart="@dimen/dp_21"
+                                android:paddingTop="@dimen/dp_4"
+                                android:text="@string/look"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/sp_12"
+                                app:rv_backgroundColor="@color/colorPrimary"
+                                app:rv_isRadiusHalfHeight="true" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_10"
+                            android:background="@color/color_F5F5F5" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -278,11 +290,6 @@
                         android:gravity="center"
                         android:orientation="vertical"
                         android:visibility="gone">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/dp_10"
-                            android:background="@color/color_F5F5F5" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
