@@ -174,6 +174,11 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
         questionBankHomePresenter = new QuestionBankHomePresenter(this);
     }
 
+    public void refreshBankData() {
+        userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        questionBankHomePresenter.getMyProejctList(userId);
+    }
+
     /**
      * 界面跳转判断登陆状态
      */

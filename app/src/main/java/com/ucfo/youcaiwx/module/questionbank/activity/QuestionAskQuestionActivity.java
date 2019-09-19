@@ -34,6 +34,7 @@ import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.UploadFileBean;
 import com.ucfo.youcaiwx.entity.answer.AnswerKnowListBean;
+import com.ucfo.youcaiwx.module.course.player.utils.TimeFormater;
 import com.ucfo.youcaiwx.presenter.presenterImpl.answer.AnswerAskPresenter;
 import com.ucfo.youcaiwx.presenter.presenterImpl.upload.IUploadFileView;
 import com.ucfo.youcaiwx.presenter.presenterImpl.upload.UploadFilePresenter;
@@ -43,7 +44,6 @@ import com.ucfo.youcaiwx.utils.glideutils.MiniSizeFilter;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.module.course.player.utils.TimeFormater;
 import com.ucfo.youcaiwx.widget.flowlayout.FlowLayout;
 import com.ucfo.youcaiwx.widget.flowlayout.TagAdapter;
 import com.ucfo.youcaiwx.widget.flowlayout.TagFlowLayout;
@@ -245,63 +245,67 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
 
     @OnClick({R.id.ask_checkphoto, R.id.ask_submit})
     public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.ask_checkphoto:
-                //TODO 选择图片
-                SoulPermission.getInstance().checkAndRequestPermissions(
-                        Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA),
-                        new CheckRequestPermissionsListener() {
-                            @Override
-                            public void onAllPermissionOk(Permission[] allPermissions) {
-                                checkPhoto();
-                            }
+        if (!fastClick(1000)) {
+            switch (view.getId()) {
+                case R.id.ask_checkphoto:
+                    //TODO 选择图片
+                    SoulPermission.getInstance().checkAndRequestPermissions(
+                            Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA),
+                            new CheckRequestPermissionsListener() {
+                                @Override
+                                public void onAllPermissionOk(Permission[] allPermissions) {
+                                    checkPhoto();
+                                }
 
-                            @Override
-                            public void onPermissionDenied(Permission[] refusedPermissions) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(QuestionAskQuestionActivity.this, R.style.WhiteDialogStyle);
-                                builder.setTitle(getResources().getString(R.string.explication));
-                                builder.setMessage(getResources().getString(R.string.permission_sdcard2));
-                                builder.setPositiveButton(getResources().getString(R.string.donner), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        SoulPermission.getInstance().goApplicationSettings();
-                                    }
-                                });
-                                builder.create();
-                                builder.show();
-                            }
-                        });
-                break;
-            case R.id.ask_submit:
-                //TODO 发表问题
-                askContent = askEdittextContent.getText().toString().trim();
-                if (TextUtils.isEmpty(askContent)) {//输入为空
-                    ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_hinttext));
-                    return;
-                }
-                if (askContent.length() < 5) {//长度不够
-                    ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_hinttext2));
-                    return;
-                }
-                if (!TextUtils.isEmpty(askContent)) {
-                    if (imageList != null && imageList.size() > 0) {
-                        //TODO 有图的情况下先上传图片再提问
-                        File file = new File(imageList.get(0));
-                        luban(file, 0);
-                    } else {
-                        //TODO 没有图片,直接提问
+                                @Override
+                                public void onPermissionDenied(Permission[] refusedPermissions) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(QuestionAskQuestionActivity.this, R.style.WhiteDialogStyle);
+                                    builder.setTitle(getResources().getString(R.string.explication));
+                                    builder.setMessage(getResources().getString(R.string.permission_sdcard2));
+                                    builder.setPositiveButton(getResources().getString(R.string.donner), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            SoulPermission.getInstance().goApplicationSettings();
+                                        }
+                                    });
+                                    builder.create();
+                                    builder.show();
+                                }
+                            });
+                    break;
+                case R.id.ask_submit:
+                    //TODO 发表问题
+                    askContent = askEdittextContent.getText().toString().trim();
+                    if (TextUtils.isEmpty(askContent)) {//输入为空
+                        ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_hinttext));
+                        return;
+                    }
+                    if (askContent.length() < 5) {//长度不够
+                        ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_hinttext2));
+                        return;
+                    }
+                    if (!TextUtils.isEmpty(askContent)) {
                         tipsText = getResources().getString(R.string.answer_loading);
-                        if (TextUtils.equals(type, Constant.TYPE_COURSE_ASK)) {//课程
-                            answerAskPresenter.userAskQuestion(user_id, courseVideoId, courseSectionId, courseCourseId,
-                                    coursePackageId, askContent, courseVideoTime, null);
-                        } else if (TextUtils.equals(type, Constant.TYPE_QUESTION_ASK)) {//题库
-                            answerAskPresenter.qustionAskQuestion(user_id, course_id, question_id, askContent, null);
+                        setProcessLoading(tipsText, true);
+
+                        if (imageList != null && imageList.size() > 0) {
+                            //TODO 有图的情况下先上传图片再提问
+                            File file = new File(imageList.get(0));
+                            luban(file, 0);
+                        } else {
+                            //TODO 没有图片,直接提问
+                            if (TextUtils.equals(type, Constant.TYPE_COURSE_ASK)) {//课程
+                                answerAskPresenter.userAskQuestion(user_id, courseVideoId, courseSectionId, courseCourseId,
+                                        coursePackageId, askContent, courseVideoTime, null);
+                            } else if (TextUtils.equals(type, Constant.TYPE_QUESTION_ASK)) {//题库
+                                answerAskPresenter.qustionAskQuestion(user_id, course_id, question_id, askContent, null);
+                            }
                         }
                     }
-                }
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -408,6 +412,8 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
         } else {
             ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_request_error));
         }
+
+        dismissPorcess();
     }
 
     /**
@@ -450,12 +456,10 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
 
     @Override
     public void showLoading() {
-        setProcessLoading(tipsText, true);
     }
 
     @Override
     public void showLoadingFinish() {
-        dismissPorcess();
     }
 
     @Override
@@ -465,15 +469,11 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
 
     @Override
     public void startUploadFile() {
-        tipsText = getResources().getString(R.string.answer_loading);
-        setProcessLoading(tipsText, true);
     }
 
     @Override
     public void errorUploadFile() {
-        dismissPorcess();
     }
-
 
     //TODO 输入文字监听
     private TextWatcher textWatcher = new TextWatcher() {
