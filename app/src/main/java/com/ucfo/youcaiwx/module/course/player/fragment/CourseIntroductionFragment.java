@@ -89,7 +89,6 @@ public class CourseIntroductionFragment extends BaseFragment {
     private int user_id;
     private VideoPlayPageActivity videoPlayPageActivity;
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
@@ -303,7 +302,6 @@ public class CourseIntroductionFragment extends BaseFragment {
         } else {
             loadinglayout.showEmpty();
         }
-
     }
 
     @Override

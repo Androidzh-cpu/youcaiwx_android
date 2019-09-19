@@ -399,9 +399,14 @@
             android:name=".module.home.InformationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
-        <!--TODO 我的积分首页-->
+        <!-- TODO 我的积分首页 -->
         <activity
             android:name=".module.integral.MineIntegralActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseThemeForActivity" />
+        <!--TODO 赚积分-->
+        <activity
+            android:name=".module.integral.EarnIntegralActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
     </application>
