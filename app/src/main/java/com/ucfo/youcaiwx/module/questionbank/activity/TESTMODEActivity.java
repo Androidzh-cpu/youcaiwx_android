@@ -936,7 +936,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         initAnswerSheet();
 
         //TODO step4:开始倒计时
-        if (EXERCISE_TYPE.equals(Constant.EXERCISE_A)) {//解析模式关闭所有计时器
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A)) {//解析模式关闭所有计时器
             //TODO nothing
         } else {
             if (plate_id == Constant.PLATE_6 || continue_plate == Constant.PLATE_6) {//只有组卷模考为倒计时
@@ -1021,7 +1021,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
      * Detail:TODO 创建答题卡
      */
     private void initAnswerSheet() {
-        if (EXERCISE_TYPE.equals(Constant.EXERCISE_D)) {//论述题答题卡
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_D)) {//论述题答题卡
             for (int i = 0; i < questionList.size(); i++) {
                 DoProblemsBean.DataBean.TopicsBean bean = questionList.get(i);
                 String id = bean.getID();//题目ID
@@ -1054,7 +1054,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
      * Detail:TODO 设置底部功能区
      */
     private void setAnalyesStyle() {
-        if (EXERCISE_TYPE.equals(Constant.EXERCISE_A)) {//TODO 解析模式
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A)) {//TODO 解析模式
             if (plate_id == Constant.PLATE_7 || plate_id == Constant.PLATE_0 || plate_id == Constant.PLATE_13) {//错题中心查看错题,0元体验,查看收藏直接隐藏底部功能区
                 linearBottomFunction.setVisibility(btnQuery.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
             } else {//普通解析模式

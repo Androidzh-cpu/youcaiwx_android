@@ -41,7 +41,7 @@ public class QuestionItemAdapter extends FragmentStatePagerAdapter {
                 return new QuestionDiscussItemFragment(position, EXERCISE_TYPE, list.size(), plate_id);
             }
         } else {//非收藏
-            if (EXERCISE_TYPE.equals(Constant.EXERCISE_D)) {//TODO 论述题模式
+            if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_D)) {//TODO 论述题模式
                 return new QuestionDiscussItemFragment(position, EXERCISE_TYPE, list.size(), plate_id);
             } else {//TODO 选择题模式
                 return new QuestionChoiceItemFragment(position, EXERCISE_TYPE, list.size(), plate_id);
