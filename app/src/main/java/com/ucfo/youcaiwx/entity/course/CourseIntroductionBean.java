@@ -66,14 +66,38 @@ public class CourseIntroductionBean {
         private String name;
         private String teacher_id;
         private String app_img;
-        private int billing_status;
+        private String billing_status;
         private String price;
         private String brief_img;
         private String description;
         private String teacher_name;
-        private int join_num;
-        private int study_days;
+        private String join_num;
+        private String study_days;
         private List<TeacehrListBean> teacehr_list;
+
+        public String getBilling_status() {
+            return billing_status == null ? "" : billing_status;
+        }
+
+        public void setBilling_status(String billing_status) {
+            this.billing_status = billing_status;
+        }
+
+        public String getStudy_days() {
+            return study_days == null ? "" : study_days;
+        }
+
+        public void setStudy_days(String study_days) {
+            this.study_days = study_days;
+        }
+
+        public String getJoin_num() {
+            return join_num == null ? "" : join_num;
+        }
+
+        public void setJoin_num(String join_num) {
+            this.join_num = join_num;
+        }
 
         public String getIs_purchase() {
             return is_purchase == null ? "" : is_purchase;
@@ -123,14 +147,6 @@ public class CourseIntroductionBean {
             this.app_img = app_img;
         }
 
-        public int getBilling_status() {
-            return billing_status;
-        }
-
-        public void setBilling_status(int billing_status) {
-            this.billing_status = billing_status;
-        }
-
         public String getPrice() {
             return price;
         }
@@ -153,22 +169,6 @@ public class CourseIntroductionBean {
 
         public void setDescription(String description) {
             this.description = description;
-        }
-
-        public int getJoin_num() {
-            return join_num;
-        }
-
-        public void setJoin_num(int join_num) {
-            this.join_num = join_num;
-        }
-
-        public int getStudy_days() {
-            return study_days;
-        }
-
-        public void setStudy_days(int study_days) {
-            this.study_days = study_days;
         }
 
         public List<TeacehrListBean> getTeacehr_list() {

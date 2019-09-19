@@ -206,7 +206,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private ArrayList<Fragment> fragmentArrayList;
     private Bundle bundle;
     private int courseUnCon, coursePackageId, courseBuyState, userId;//是否正课  课程包ID  课程购买状态 用户ID
-    private String course_coverimage, course_PackagePrice, currentVid, course_Source;//课程封面  课程价格 阿里视频video,课程来源
+    private String courseCoverimageUrl, course_PackagePrice, currentVid, course_Source;//课程封面  课程价格 阿里视频video,课程来源
     private int currentCourseID, currentSectionID, currentVideoID, currentVideoCollectState;//TODO 当前播放视频的信息,供收藏,播放使用
     private VideoPlayPageActivity videoPlayPageActivity;
     private Context context;
@@ -1651,7 +1651,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
         bundle = getIntent().getExtras();
         if (bundle != null) {
-            course_coverimage = bundle.getString(Constant.COURSE_COVER_IMAGE, "");//TODO 封面
+            courseCoverimageUrl = bundle.getString(Constant.COURSE_COVER_IMAGE, "");//TODO 封面
             coursePackageId = bundle.getInt(Constant.COURSE_PACKAGE_ID, 0);//TODO 课程包ID
             courseUnCon = bundle.getInt(Constant.COURSE_UN_CON, 2);//TODO 是否是正课1正课2非正课
             courseBuyState = bundle.getInt(Constant.COURSE_BUY_STATE, 2);//TODO 购买状态:1购买2未购买
@@ -1659,10 +1659,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             course_Source = bundle.getString(Constant.COURSE_SOURCE, "");//TODO 来源
 
 
-            //TODO 购买状态
+            //购买状态
             setCourseBuyState(courseBuyState);
             //设置封面
-            setCourse_Cover();
+            setCourse_Cover(courseCoverimageUrl);
         }
 
         initTablayout();//TODO 创建tablayout
@@ -1671,34 +1671,19 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         CrashReport.setUserSceneTag(context, Constant.BUGLY_TAG_VIDEO);
     }
 
-    private void setCourse_Cover() {
-        if (bundle != null) {
-            if (TextUtils.isEmpty(course_coverimage)) {
-                courseCoverimage.setImageDrawable(ContextCompat.getDrawable(context, R.color.colorPrimary));
-            } else {
-                RequestOptions requestOptions = new RequestOptions()
-                        .centerCrop()
-                        .placeholder(R.mipmap.banner_default)
-                        .error(R.mipmap.image_loaderror)
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-                GlideUtils.load(context, course_coverimage, courseCoverimage, requestOptions);
-            }
-        } else {
-            courseCoverimage.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.banner_default));
-        }
-    }
-
-    //设置封面
-    public void setCourse_Cover(String course_coverimage) {
-        if (TextUtils.isEmpty(course_coverimage)) {
-            courseCoverimage.setImageDrawable(ContextCompat.getDrawable(context, R.color.colorPrimary));
+    /**
+     * 设置课程播放器封面
+     */
+    public void setCourse_Cover(String courseCoverUrl) {
+        if (TextUtils.isEmpty(courseCoverUrl)) {
+            courseCoverimage.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.banner_default));
         } else {
             RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
                     .placeholder(R.mipmap.banner_default)
                     .error(R.mipmap.image_loaderror)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            GlideUtils.load(context, course_coverimage, courseCoverimage, requestOptions);
+                    .diskCacheStrategy(DiskCacheStrategy.ALL);
+            GlideUtils.load(this, courseCoverUrl, courseCoverimage, requestOptions);
         }
     }
 

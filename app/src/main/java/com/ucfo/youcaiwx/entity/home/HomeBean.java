@@ -13,7 +13,6 @@ import java.util.List;
  */
 public class HomeBean {
 
-
     private int code;
     private String msg;
     private DataBean data;
@@ -112,6 +111,7 @@ public class HomeBean {
 
             private String image_href;
             private String jump_href;
+            private String title;
 
             public String getImage_href() {
                 return image_href == null ? "" : image_href;
@@ -127,6 +127,14 @@ public class HomeBean {
 
             public void setJump_href(String jump_href) {
                 this.jump_href = jump_href;
+            }
+
+            public String getTitle() {
+                return title == null ? "" : title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
             }
         }
 
@@ -240,6 +248,15 @@ public class HomeBean {
             private String price;
             private String join_num;
             private String teacher_name;
+            private String is_purchase;
+
+            public String getIs_purchase() {
+                return is_purchase == null ? "" : is_purchase;
+            }
+
+            public void setIs_purchase(String is_purchase) {
+                this.is_purchase = is_purchase;
+            }
 
             public String getName() {
                 return name == null ? "" : name;

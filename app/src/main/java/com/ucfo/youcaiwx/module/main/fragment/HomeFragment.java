@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
@@ -40,6 +40,13 @@ import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.home.HomeBean;
+import com.ucfo.youcaiwx.module.course.CourseListActivity;
+import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
+import com.ucfo.youcaiwx.module.home.InformationActivity;
+import com.ucfo.youcaiwx.module.home.MessageCenterActivity;
+import com.ucfo.youcaiwx.module.home.ScanActivity;
+import com.ucfo.youcaiwx.module.main.activity.MainActivity;
+import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.home.HomePresenter;
 import com.ucfo.youcaiwx.presenter.view.home.IHomeView;
 import com.ucfo.youcaiwx.utils.LogUtils;
@@ -50,13 +57,6 @@ import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
-import com.ucfo.youcaiwx.module.course.CourseListActivity;
-import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
-import com.ucfo.youcaiwx.module.home.InformationActivity;
-import com.ucfo.youcaiwx.module.home.MessageCenterActivity;
-import com.ucfo.youcaiwx.module.home.ScanActivity;
-import com.ucfo.youcaiwx.module.main.activity.MainActivity;
-import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.widget.ZoomOutPageTransformer;
 import com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView;
 import com.youth.banner.Banner;
@@ -78,7 +78,7 @@ import butterknife.Unbinder;
  * Time: 2019-3-12.  上午 10:17
  * Email:2911743255@qq.com
  * ClassName: HomeFragment
- * Description:TODO 首页  - 首页
+ * Description:TODO 主页- 首页
  * Detail:
  */
 public class HomeFragment extends BaseFragment implements OnBannerListener, IHomeView {
@@ -180,13 +180,11 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         newLists = new ArrayList<>();
 
         homePresenter = new HomePresenter(this);
-
         homePresenter.getHomeData("home");
 
         layoutManager();
 
         bannerIndex.setOnBannerListener(this);
-
         refreshLayout.setEnableLoadMore(false);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -199,7 +197,8 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         if (wm != null) {
             wm.getDefaultDisplay().getMetrics(dm);
         }
-        int width = dm.widthPixels;         // 屏幕宽度（像素）
+        // 屏幕宽度（像素）
+        int width = dm.widthPixels;
         int titleMeasuredWidth = AppUtils.getViewWidth(titlebarTitle);
 
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -230,11 +229,11 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                 mOffset = offset / 2;
             }
         });
-        refreshLayout.setDisableContentWhenRefresh(true);//是否在刷新的时候禁止列表的操作
-        refreshLayout.setDisableContentWhenLoading(true);//是否在加载的时候禁止列表的操作
-        refreshLayout.setEnableAutoLoadMore(false);//是否启用列表惯性滑动到底部时自动加载更多
-        refreshLayout.setEnableNestedScroll(true);//是否启用嵌套滚动
-        refreshLayout.setEnableOverScrollBounce(true);//是否启用越界回弹
+        refreshLayout.setDisableContentWhenRefresh(true);
+        refreshLayout.setDisableContentWhenLoading(true);
+        refreshLayout.setEnableAutoLoadMore(false);
+        refreshLayout.setEnableNestedScroll(true);
+        refreshLayout.setEnableOverScrollBounce(true);
 
     }
 
@@ -254,7 +253,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
             mLastClickTime = nowTime;
             Bundle bundle = new Bundle();
             switch (view.getId()) {
-                case R.id.titlebar_scan://TODO 扫描
+                case R.id.titlebar_scan://TODO 二维码
                     SoulPermission.getInstance()
                             .checkAndRequestPermission(Manifest.permission.CAMERA, new CheckRequestPermissionListener() {
                                 @Override
@@ -294,8 +293,6 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                     break;
                 case R.id.icon_news://TODO 资讯
                 case R.id.check_more_news://TODO 查看更多资讯
-                    //bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARYNEWS);
-                    //bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_news));
                     startActivity(InformationActivity.class, null);
                     break;
                 default:
@@ -307,19 +304,23 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     //TODO 顶部banner的点击事件
     @Override
     public void OnBannerClick(int position) {
-        String jumpHref = bannerList.get(position).getJump_href();
-        Intent intent = new Intent(getActivity(), WebActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString(Constant.WEB_URL, jumpHref);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        if (bannerList != null && bannerList.size() > 0) {
+            HomeBean.DataBean.ListpicBean bean = bannerList.get(position);
+            String jumpHref = bean.getJump_href();
+            String title = bean.getTitle();
+
+            Bundle bundle = new Bundle();
+            bundle.putString(Constant.WEB_URL, jumpHref);
+            bundle.putString(Constant.WEB_TITLE, title);
+            startActivity(WebActivity.class, bundle);
+        }
     }
 
     @Override
     public void getHomeData(HomeBean homeBean) {
         if (homeBean == null) {
             String dataJson = sharedPreferencesUtils.getString(Constant.HOME_CACHE, "");
-            if (dataJson != null && !dataJson.equals("")) {
+            if (dataJson != null && !TextUtils.equals(dataJson, "")) {
                 Gson gson = new Gson();
                 HomeBean cacheBean = gson.fromJson(dataJson, HomeBean.class);
                 if (cacheBean != null) {
@@ -332,14 +333,13 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
             if (data != null) {
                 try {
                     Gson gson = new Gson();
-                    String s = gson.toJson(homeBean);
-                    sharedPreferencesUtils.remove(Constant.HOME_CACHE);//清除本地缓存
-                    sharedPreferencesUtils.putString(Constant.HOME_CACHE, s);//存储本地缓存
+                    String json = gson.toJson(homeBean);
+                    sharedPreferencesUtils.remove(Constant.HOME_CACHE);
+                    sharedPreferencesUtils.putString(Constant.HOME_CACHE, json);
                 } catch (Throwable throwable) {
                     String message = throwable.getMessage();
                     LogUtils.e(message);
                 }
-
                 bannerList.clear();
                 hotspotBeanList.clear();
                 liveList.clear();
@@ -382,11 +382,12 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
      * Detail:TODO banner配置
      */
     private void bannerConfig(List<HomeBean.DataBean.ListpicBean> listpic) {
-        if (listpic != null && listpic.size() != 0) {
+        if (listpic != null && listpic.size() > 0) {
             bannerIndex.setImages(listpic);//图片地址
         }
-        bannerIndex.setPageTransformer(true, new ZoomOutPageTransformer());//设置viewpager的自定义动画
-        bannerIndex.setOffscreenPageLimit(2);//预加载数量
+        //设置viewpager的自定义动画
+        bannerIndex.setPageTransformer(true, new ZoomOutPageTransformer());
+        bannerIndex.setOffscreenPageLimit(2);
         bannerIndex.setImageLoader(new ImageLoader() {
             @Override
             public void displayImage(Context context, Object path, ImageView imageView) {
@@ -395,16 +396,14 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                 RequestOptions requestOptions = new RequestOptions()
                         .centerCrop()
                         .placeholder(R.mipmap.banner_default)
-                        .error(R.mipmap.banner_default)
-                        .transform(new RoundedCorners(DensityUtil.dp2px(5)))
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                        .error(R.mipmap.image_loaderror)
+                        .transform(new RoundedCorners(DensityUtil.dp2px(5)));
                 GlideUtils.load(context, data.getImage_href(), imageView, requestOptions);
             }
-        });//图片加载器
-        bannerIndex.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);//指示器样式
-        bannerIndex.setDelayTime(3000);//轮播时间间隔
+        });
+        bannerIndex.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        bannerIndex.setDelayTime(3000);
         bannerIndex.start();
-
     }
 
     //开启消息轮训
@@ -482,12 +481,17 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
             public void onItemClick(View view, int position) {
                 Bundle bundle = new Bundle();
                 HomeBean.DataBean.CurriculumBean bean = courseList.get(position);
-                String course_iamge = bean.getApp_img();//TODO 课程封面
+                String appImg = bean.getApp_img();//TODO 课程封面
                 String coursePackageId = bean.getPackage_id();//TODO  课程包ID(课程包内含多们课程)
+                String isPurchase = bean.getIs_purchase();
+                int courseBuyState = 2;
+                if (!TextUtils.isEmpty(isPurchase)) {
+                    courseBuyState = Integer.parseInt(isPurchase);
+                }
 
-                bundle.putString(Constant.COURSE_COVER_IMAGE, course_iamge);//封面
+                bundle.putString(Constant.COURSE_COVER_IMAGE, appImg);//封面
                 bundle.putInt(Constant.COURSE_PACKAGE_ID, Integer.parseInt(coursePackageId));//课程包ID
-                bundle.putInt(Constant.COURSE_BUY_STATE, 2);//购买状态
+                bundle.putInt(Constant.COURSE_BUY_STATE, courseBuyState);//购买状态
                 bundle.putString(Constant.COURSE_PRICE, bean.getPrice());//课程包价格
                 startActivity(VideoPlayPageActivity.class, bundle);
             }

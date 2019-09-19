@@ -1,5 +1,6 @@
 package com.ucfo.youcaiwx.module.course.player.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,7 +20,6 @@ import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.flyco.roundview.RoundTextView;
 import com.google.gson.Gson;
@@ -33,13 +33,13 @@ import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.course.CourseIntroductionBean;
+import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.customview.NoScrollWebView;
 import com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView;
@@ -94,7 +94,9 @@ public class CourseIntroductionFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
+        if (rootView != null) {
+            unbinder = ButterKnife.bind(this, rootView);
+        }
         return rootView;
     }
 
@@ -166,7 +168,6 @@ public class CourseIntroductionFragment extends BaseFragment {
                 loadCourseInfo(course_packageId, user_id);
             }
         });
-
     }
 
     /**
@@ -214,7 +215,7 @@ public class CourseIntroductionFragment extends BaseFragment {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String body = response.body();
-                        if (!body.equals("")) {
+                        if (!TextUtils.equals(body, "")) {
                             JSONObject jsonObject = null;
                             try {
                                 jsonObject = new JSONObject(body);
@@ -245,10 +246,9 @@ public class CourseIntroductionFragment extends BaseFragment {
             if (teacehrListBeanList == null) {
                 teacehrListBeanList = new ArrayList<>();
             }
-            List<CourseIntroductionBean.DataBean.TeacehrListBean> teacehr_list = data.getTeacehr_list();
+            List<CourseIntroductionBean.DataBean.TeacehrListBean> teacehrList = data.getTeacehr_list();
             teacehrListBeanList.clear();
-            teacehrListBeanList.addAll(teacehr_list);
-
+            teacehrListBeanList.addAll(teacehrList);
             if (courseTeacherAdapter == null) {
                 courseTeacherAdapter = new CourseTeacherAdapter(teacehrListBeanList, videoPlayPageActivity);
             } else {
@@ -263,21 +263,25 @@ public class CourseIntroductionFragment extends BaseFragment {
                 }
             });
 
+
             String briefImg = data.getBrief_img();//课程简介图
             String name = data.getName();//课程名字
             String description = data.getDescription();//描述
             String price = data.getPrice();//价格
-            int joinNum = data.getJoin_num();//参加人数
-            int studyDays = data.getStudy_days();//课时
+            String joinNum = data.getJoin_num();//参加人数
+            String studyDays = data.getStudy_days();//课时
             String teacherName = data.getTeacher_name();//讲师名字
             String isPurchase = data.getIs_purchase();//课程是否购买
             String appImg = data.getApp_img();
-            if (TextUtils.isEmpty(isPurchase)) {//TODO 课程购买状态
+            //TODO 课程购买状态
+            if (TextUtils.isEmpty(isPurchase)) {
                 videoPlayPageActivity.setCourseBuyState(2);
             } else {
                 videoPlayPageActivity.setCourseBuyState(Integer.parseInt(isPurchase));
             }
-            videoPlayPageActivity.setCourse_PackagePrice(price);//TODO 课程购买价格
+            //TODO 课程购买价格
+            videoPlayPageActivity.setCourse_PackagePrice(price);
+            //TODO 设置课程封面
             videoPlayPageActivity.setCourse_Cover(appImg);
 
             webView.loadUrl(briefImg);
@@ -294,7 +298,6 @@ public class CourseIntroductionFragment extends BaseFragment {
                 courseTeacher.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + teacherName));
             }
             courseCount.setText(String.valueOf(joinNum + getResources().getString(R.string.people)));
-            //courseTime.setText(String.valueOf(getResources().getString(R.string.holder_courseTime) + studyDays + getResources().getString(R.string.mine_Course_holder2)));
             courseTime.setText(String.valueOf(String.valueOf(getResources().getString(R.string.orderForm_endtime2, String.valueOf(studyDays)))));
             loadinglayout.showContent();
         } else {
@@ -313,6 +316,7 @@ public class CourseIntroductionFragment extends BaseFragment {
      * Time:2019-3-22   下午 2:56
      * Detail:TODO 参考考拉的配置
      */
+    @SuppressLint("SetJavaScriptEnabled")
     public void setDefaultWebSettings(WebView webView) {
         WebSettings webSetting = webView.getSettings();
         //5.0以上开启混合模式加载
@@ -394,14 +398,12 @@ public class CourseIntroductionFragment extends BaseFragment {
         RequestOptions requestOptions = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.banner_default)
-                .error(R.mipmap.image_loaderror)
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                .error(R.mipmap.image_loaderror);
         GlideUtils.load(context, pictrue, mIconTeacher, requestOptions);
         mtitleTeacher.setText(teacher_title);
         mDetailTeacher.setText(longevity);
         mNameTeacher.setText(teacher_name);
     }
-
 }
 
 
