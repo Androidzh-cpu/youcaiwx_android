@@ -33,8 +33,8 @@ import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.questionbank.DoProblemsAnswerBean;
 import com.ucfo.youcaiwx.entity.questionbank.DoProblemsBean;
-import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.module.questionbank.activity.TESTMODEActivity;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.widget.customview.NestedListView;
 
 import java.util.ArrayList;
@@ -149,28 +149,48 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         mOptionsListviewQuestion.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         mOptionsListviewQuestion.setAdapter(adapter);
 
+        /************************************************************** TODO 巨丑无比的分割线 **************************************************************************/
         //TODO 选项的点击事件
-        if (EXERCISE_TYPE.equals(Constant.EXERCISE_E)) {//TODO 考试模式
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_E)) {
+            //TODO 考试模式
             mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//关闭解析
             mOptionsListviewQuestion.setOnItemClickListener(this::onItemClick);
+        } else if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A)) {
+            //TODO 解析模式
 
-        } else if (EXERCISE_TYPE.equals(Constant.EXERCISE_A)) {//TODO 解析模式
-            //TODO 设置解析
-            initAnalysis();
-
-            mOptionsListviewQuestion.setOnItemClickListener(null);//注销点击事件
-            mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//打开解析
-
-        } else {//TODO 做题练习模式
             //设置解析
             initAnalysis();
-            mOptionsListviewQuestion.setOnItemClickListener(this::onItemClick);//设置点击事件
+
+            //注销点击事件
+            mOptionsListviewQuestion.setOnItemClickListener(null);
+            //打开解析
+            mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+
+        } else {
+            //TODO 练习模式(作对不显示答案跳转下一页,做错显示解析)
+
+            //设置解析
+            initAnalysis();
+            //设置点击事件
+            mOptionsListviewQuestion.setOnItemClickListener(this::onItemClick);
+        }
+        //TODO 继续做题模式下的练习模式处理
+        if (plate_id == Constant.PLATE_11) {
+            if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_P)) {
+                //设置解析内容
+                initAnalysis();
+                String userAnswer = optionsAnswerList.get(index).getUser_answer();//答题卡用户选项
+                if (!TextUtils.isEmpty(userAnswer)) {
+                    mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+                }
+            }
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (EXERCISE_TYPE.equals(Constant.EXERCISE_P)) {//TODO 练习模式
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_P)) {
+            //TODO 练习模式
             String userOption = questionList.get(index).getOptions().get(position).getOption();//获取用户选择的的选项
             String rightAnswer = optionsAnswerList.get(index).getTrue_options();//获取正确答案
             String userAnswer = optionsAnswerList.get(index).getUser_answer();//答题卡用户选项
@@ -180,18 +200,20 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
                 optionsAnswerList.get(index).setUser_answer(userOption);//重新给答题卡响应题目设置用户答案
                 testmodeActivity.setOptionsAnswerList(optionsAnswerList);//总数据重新复制
 
-                if (userOption.equals(rightAnswer)) {//TODO 做对
+                if (userOption.equals(rightAnswer)) {
+                    //TODO 做对
                     mLocalBroadcastManager.sendBroadcast(intent);//发送广播,跳转至下一页
-                } else {//TODO 做错
+                } else {
+                    //TODO 做错
 
                     //TODO 设置解析
                     initAnalysis();
-
-                    mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//打开解析
+                    //打开解析
+                    mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
                 }
             }
-
-        } else {//TODO 正常考试模式
+        } else {
+            //TODO 正常考试模式
             String userOption = questionList.get(index).getOptions().get(position).getOption();//获取用户的选项
             adapter.notifyDataChanged(userOption);
 

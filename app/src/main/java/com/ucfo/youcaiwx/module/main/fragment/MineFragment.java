@@ -23,12 +23,6 @@ import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.address.StateStatusBean;
 import com.ucfo.youcaiwx.entity.user.UserInfoBean;
-import com.ucfo.youcaiwx.presenter.presenterImpl.user.UserInfoPresenter;
-import com.ucfo.youcaiwx.presenter.view.user.IUserInfoView;
-import com.ucfo.youcaiwx.utils.ShareUtils;
-import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
-import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcaiwx.module.integral.MineIntegralActivity;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.module.main.activity.MainActivity;
@@ -43,6 +37,12 @@ import com.ucfo.youcaiwx.module.user.activity.OfflineCourseActivity;
 import com.ucfo.youcaiwx.module.user.activity.PersonnelSettingActivity;
 import com.ucfo.youcaiwx.module.user.activity.SettingActivity;
 import com.ucfo.youcaiwx.module.user.activity.WatchTheRecordActivity;
+import com.ucfo.youcaiwx.presenter.presenterImpl.user.UserInfoPresenter;
+import com.ucfo.youcaiwx.presenter.view.user.IUserInfoView;
+import com.ucfo.youcaiwx.utils.ShareUtils;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
+import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
+import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
 import com.ucfo.youcaiwx.widget.dialog.ShareDialog;
 
@@ -198,7 +198,11 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                     break;
                 case R.id.btn_user_integral:
                     //TODO 积分
-                    startActivity(MineIntegralActivity.class, null);
+                    if (BuildConfig.DEBUG) {
+                        startActivity(MineIntegralActivity.class, null);
+                    } else {
+                        noDev();
+                    }
                     break;
                 case R.id.btn_user_balance:
                     //TODO 余额
@@ -235,21 +239,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                     //TODO 学习提醒
                     /*String certificateSHA1Fingerprint = SHA1Utils.getCertificateSHA1Fingerprint(getActivity());
                     LogUtils.e("设备唯一标识----------------:" + certificateSHA1Fingerprint);*/
-                    new AlertDialog(getActivity()).builder().setCancelable(false).setCanceledOnTouchOutside(false)
-                            .setMsg("暂未开发,请后续等待")
-                            .setNegativeButton(null, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-
-                                }
-                            })
-                            .setPositiveButton(null, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-
-                                }
-                            })
-                            .show();
+                    noDev();
                     break;
                 case R.id.btn_recommendfriend:
                     //TODO 推荐给好友
@@ -315,6 +305,24 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         } else {
             updateUnLoginUi();
         }
+    }
+
+    private void noDev() {
+        new AlertDialog(getActivity()).builder().setCancelable(false).setCanceledOnTouchOutside(false)
+                .setMsg("功能尚在开发中")
+                .setNegativeButton(null, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                })
+                .setPositiveButton(null, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                })
+                .show();
     }
 
     //TODO 设置未登录个人信息

@@ -89,13 +89,12 @@ public class OptionsAdapter extends BaseAdapter {
             holder.tvOptionContent.setText(context.getResources().getString(R.string.holder_nodata));
         }
 
-
-        if (EXERCISETYPE.equals(Constant.EXERCISE_E)) {//TODO 考试模式
+        if (TextUtils.equals(EXERCISETYPE, Constant.EXERCISE_E)) {//TODO 考试模式
             if (TextUtils.isEmpty(userOptions)) {//用户答案为空
                 holder.tvOption.setBackground(gray);
                 holder.tvOption.setTextColor(ContextCompat.getColor(context, R.color.color_666666));
             } else {//用户已选择答案
-                if (option.equals(userOptions)) {//用户选择答案和选项符合变为蓝色
+                if (TextUtils.equals(option, userOptions)) {//用户选择答案和选项符合变为蓝色
                     holder.tvOption.setBackground(blue);
                     holder.tvOption.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
                 } else {
@@ -103,13 +102,13 @@ public class OptionsAdapter extends BaseAdapter {
                     holder.tvOption.setTextColor(ContextCompat.getColor(context, R.color.color_666666));
                 }
             }
-        } else if (EXERCISETYPE.equals(Constant.EXERCISE_P) || EXERCISETYPE.equals(Constant.EXERCISE_A)) {//TODO 练习模式和解析模式一样
+        } else if (TextUtils.equals(EXERCISETYPE, Constant.EXERCISE_P) || TextUtils.equals(EXERCISETYPE, Constant.EXERCISE_A)) {//TODO 练习模式和解析模式一样
             if (TextUtils.isEmpty(userOptions)) {//用户答案为空
                 holder.tvOption.setBackground(gray);
                 holder.tvOption.setTextColor(ContextCompat.getColor(context, R.color.color_666666));
             } else {//用户已选择答案
-                if (userOptions.equals(rightAnswer)) {//选对了   A  A
-                    if (option.equals(rightAnswer)) {
+                if (TextUtils.equals(userOptions, rightAnswer)) {//选对了   A  A
+                    if (TextUtils.equals(option, rightAnswer)) {
                         holder.tvOption.setBackground(green);
                         holder.tvOption.setTextColor(ContextCompat.getColor(context, R.color.color_0AAB55));
                     } else {
@@ -117,10 +116,10 @@ public class OptionsAdapter extends BaseAdapter {
                         holder.tvOption.setTextColor(ContextCompat.getColor(context, R.color.color_666666));
                     }
                 } else {//选错了
-                    if (option.equals(userOptions)) {//标记用户答案为红色
+                    if (TextUtils.equals(option, userOptions)) {//标记用户答案为红色
                         holder.tvOption.setBackground(red);
                         holder.tvOption.setTextColor(ContextCompat.getColor(context, R.color.color_E84342));
-                    } else if (option.equals(rightAnswer)) {//标记正确答案
+                    } else if (TextUtils.equals(option, rightAnswer)) {//标记正确答案
                         holder.tvOption.setBackground(green);
                         holder.tvOption.setTextColor(ContextCompat.getColor(context, R.color.color_0AAB55));
                     } else {

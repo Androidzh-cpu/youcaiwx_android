@@ -239,7 +239,8 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 }
                 questionbankUnloginhome.setVisibility(View.GONE);//零元体验题库
                 questionbankLoginhome.setVisibility(View.VISIBLE);//真正题库隐藏
-            } else {//TODO  未购买科目
+            } else {
+                //TODO  未购买科目
                 questionbankUnloginhome.setVisibility(View.VISIBLE);//零元体验题库
                 questionbankLoginhome.setVisibility(View.GONE);//真正题库隐藏
                 titlebarMidtitle.setText(getResources().getString(R.string.question_default));
@@ -247,7 +248,8 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 projectList.clear();
                 sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
             }
-        } else {//TODO  未购买科目
+        } else {
+            //TODO  未购买科目
             questionbankUnloginhome.setVisibility(View.VISIBLE);//零元体验题库
             questionbankLoginhome.setVisibility(View.GONE);//真正题库隐藏
             titlebarMidimage.setVisibility(View.GONE);//下拉箭头隐藏
