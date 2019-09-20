@@ -227,14 +227,15 @@ public class QuestionBankExercisePresenter implements IQuestionBankExercisePrese
      * Detail:TODO 系统高频错题
      */
     @Override
-    public void getQuestionHightErrors(int course_id, int user_id, int plate_id, int paper_type, int section_id, String know_id) {
+    public void getQuestionHightErrors(int course_id, int user_id, int plate_id, int paper_type, int section_id, String know_id, String knob_id) {
         OkGo.<String>post(ApiStores.QUESTION_GETPROBLEMSLIS)
                 .tag(this)
                 .params(Constant.COURSE_ID, course_id)//题库ID
                 .params(Constant.PLATE_ID, plate_id)//对应板块id
                 .params(Constant.PAPER_TYPE, paper_type)//题目类型
                 .params(Constant.USER_ID, user_id)//用户
-                .params(Constant.SECTION_ID, section_id)//章节
+                .params(Constant.SECTION_ID, section_id)//章
+                .params(Constant.KNOB_ID, knob_id)//节
                 .params(Constant.KNOW_ID, know_id)//知识点
                 .execute(new StringCallback() {
                     @Override
@@ -285,7 +286,7 @@ public class QuestionBankExercisePresenter implements IQuestionBankExercisePrese
      * Detail:TODO 自主练习
      */
     @Override
-    public void getSelfHelpPractice(int course_id, int user_id, int plate_id, int paper_type, int section_id, String know_id, int num) {
+    public void getSelfHelpPractice(int course_id, int user_id, int plate_id, int paper_type, int section_id, String know_id, String knob_id, int num) {
         String know = know_id.replaceAll(" ", "");
         OkGo.<String>post(ApiStores.QUESTION_GETPROBLEMSLIS)
                 .tag(this)
@@ -293,7 +294,8 @@ public class QuestionBankExercisePresenter implements IQuestionBankExercisePrese
                 .params(Constant.PLATE_ID, plate_id)//对应板块id
                 .params(Constant.PAPER_TYPE, paper_type)//题目类型
                 .params(Constant.USER_ID, user_id)//用户
-                .params(Constant.SECTION_ID, section_id)//章节
+                .params(Constant.SECTION_ID, section_id)//章
+                .params(Constant.KNOB_ID, knob_id)//节
                 .params(Constant.KNOW_ID, know)//多个知识点  [1,2,3]
                 .params(Constant.NUM, num)//做题数
                 .execute(new StringCallback() {

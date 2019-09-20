@@ -134,7 +134,7 @@ public class SelfServiceActivity extends BaseActivity {
             Intent intent = new Intent(this, SelfServiceListActivity.class);
             Bundle bundle = new Bundle();
             bundle.putInt(Constant.COURSE_ID, course_id);
-            bundle.putInt(Constant.NUMBER, list.get(selectPosition).intValue());
+            bundle.putInt(Constant.NUMBER, list.get(selectPosition));
             intent.putExtras(bundle);
             startActivity(intent);
         } else {

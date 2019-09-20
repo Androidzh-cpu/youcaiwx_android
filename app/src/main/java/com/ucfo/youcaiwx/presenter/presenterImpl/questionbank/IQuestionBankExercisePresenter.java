@@ -21,10 +21,10 @@ public interface IQuestionBankExercisePresenter {
     void getKnowledgePractice(int course_id, int user_id, int plate_id, int paper_type, int section_id, int knob_id, String know_id, int num);
 
     //TODO 系统高频错题
-    void getQuestionHightErrors(int course_id, int user_id, int plate_id, int paper_type, int section_id, String know_id);
+    void getQuestionHightErrors(int course_id, int user_id, int plate_id, int paper_type, int section_id, String know_id,String knob_id);
 
     //TODO 自助练习
-    void getSelfHelpPractice(int course_id, int user_id, int plate_id, int paper_type, int section_id, String know_id, int num);
+    void getSelfHelpPractice(int course_id, int user_id, int plate_id, int paper_type, int section_id, String know_id,String knob_id, int num);
 
     //TODO 论述题自测
     void getDissCussData(int course_id, int user_id, int plate_id, int paper_type, int paper_id);

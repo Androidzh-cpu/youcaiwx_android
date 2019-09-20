@@ -274,13 +274,13 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 break;
             case Constant.PLATE_4://TODO 系统高频高频错题
                 paper_type = 1;
-                questionBankExercisePresenter.getQuestionHightErrors(course_id, user_id, plate_id, paper_type, section_id, know_id);
+                questionBankExercisePresenter.getQuestionHightErrors(course_id, user_id, plate_id, paper_type, section_id, know_id, String.valueOf(knob_id));
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_question_hight_errors));
                 break;
             case Constant.PLATE_5://TODO 自助练习
                 LogUtils.e("know_id------: " + know_id.trim());
                 paper_type = 1;
-                questionBankExercisePresenter.getSelfHelpPractice(course_id, user_id, plate_id, paper_type, section_id, know_id.trim(), num);
+                questionBankExercisePresenter.getSelfHelpPractice(course_id, user_id, plate_id, paper_type, section_id, know_id.trim(), String.valueOf(knob_id), num);
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_writes_really));
                 break;
             case Constant.PLATE_6://TODO 组卷模考

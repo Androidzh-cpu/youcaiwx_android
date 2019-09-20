@@ -209,7 +209,8 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
                                 .setCanceledOnTouchOutside(false)
                                 .setNegativeButton(new View.OnClickListener() {
                                     @Override
-                                    public void onClick(View v) {//练习模式
+                                    public void onClick(View v) {
+                                        //练习模式
                                         bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_P);
                                         bundle.putInt(Constant.PLATE_ID, Constant.PLATE_1);
                                         bundle.putString(Constant.KNOW_ID, dataBean.getId());
@@ -219,7 +220,8 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
                                 })
                                 .setPositiveButton(new View.OnClickListener() {
                                     @Override
-                                    public void onClick(View v) {//考试模式
+                                    public void onClick(View v) {
+                                        //考试模式
                                         bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_E);
                                         bundle.putInt(Constant.PLATE_ID, Constant.PLATE_1);
                                         bundle.putString(Constant.KNOW_ID, dataBean.getId());
