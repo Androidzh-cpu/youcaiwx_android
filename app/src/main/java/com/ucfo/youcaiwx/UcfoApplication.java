@@ -308,7 +308,6 @@ public class UcfoApplication extends Application {
         };
         mPushAgent.setMessageHandler(umengMessageHandler);
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
-        //mPushAgent.setPushIntentServiceClass(UmengPushIntentService.class);
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
         MobclickAgent.setCatchUncaughtExceptions(true);
     }
