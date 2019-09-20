@@ -70,6 +70,8 @@ public class Constant {
     public static final String UMENG_MESSAGE_COURSEANSWER = "courseMessage";
     //通知栏消息: 题库答疑
     public static final String UMENG_MESSAGE_QUESTIONANSWER = "queMessage";
+    //强制下线
+    public static final String UMENG_MESSAGE_FORCE = "1000";
     //H5链接
     public static final String WEB_URL = "defaultUrl";
     //H5标题

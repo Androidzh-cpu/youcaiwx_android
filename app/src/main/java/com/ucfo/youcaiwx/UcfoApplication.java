@@ -14,7 +14,6 @@ import android.text.TextUtils;
 
 import com.aliyun.vodplayer.downloader.AliyunDownloadConfig;
 import com.aliyun.vodplayer.downloader.AliyunDownloadManager;
-import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -40,20 +39,23 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.smtt.sdk.QbSdk;
 import com.ucfo.youcaiwx.common.Constant;
-import com.ucfo.youcaiwx.utils.JsonUtil;
-import com.ucfo.youcaiwx.utils.LogUtils;
-import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
-import com.ucfo.youcaiwx.utils.update.OKHttpUpdateHttpService;
 import com.ucfo.youcaiwx.module.course.CourseAnswerDetailActivity;
 import com.ucfo.youcaiwx.module.course.player.download.Common;
+import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.module.questionbank.activity.QuestionAnswerDetailActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineOrderFormDetailActivity;
+import com.ucfo.youcaiwx.utils.JsonUtil;
+import com.ucfo.youcaiwx.utils.LogUtils;
+import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
+import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
+import com.ucfo.youcaiwx.utils.update.OKHttpUpdateHttpService;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.MsgConstant;
 import com.umeng.message.PushAgent;
+import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
 import com.xuexiang.xupdate.XUpdate;
@@ -226,13 +228,11 @@ public class UcfoApplication extends Application {
         mPushAgent.setNotificationPlayVibrate(MsgConstant.NOTIFICATION_PLAY_SERVER);
         mPushAgent.setNoDisturbMode(0, 0, 0, 0);
         mPushAgent.setNotificaitonOnForeground(true);
+        //TODO 自定义通知栏打开动作
         UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler() {
             @Override
             public void launchApp(Context mContext, UMessage uMessage) {
                 super.launchApp(mContext, uMessage);
-                Map<String, String> extra1 = uMessage.extra;
-                Gson gson = new Gson();
-                String jsonImgList = gson.toJson(extra1);
                 Map<String, String> extra = uMessage.extra;
                 if (extra != null) {
                     Intent intent = new Intent();
@@ -282,7 +282,33 @@ public class UcfoApplication extends Application {
                 }
             }
         };
+        //自定消息处理
+        UmengMessageHandler umengMessageHandler = new UmengMessageHandler() {
+            @Override
+            public int getNotificationDefaults(Context context, UMessage uMessage) {
+                Map<String, String> extra = uMessage.extra;
+                if (extra != null) {
+                    String messageType = extra.get(Constant.TYPE);
+                    if (!TextUtils.isEmpty(messageType)) {
+                        if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_FORCE)) {
+                            SharedPreferencesUtils sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
+                            sharedPreferencesUtils.remove(Constant.USER_ID);
+                            sharedPreferencesUtils.remove(Constant.LOGIN_STATUS);
+                            sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
+
+                            Intent intent = new Intent();
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.setClass(context, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                }
+                return super.getNotificationDefaults(context, uMessage);
+            }
+        };
+        mPushAgent.setMessageHandler(umengMessageHandler);
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
+        //mPushAgent.setPushIntentServiceClass(UmengPushIntentService.class);
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
         MobclickAgent.setCatchUncaughtExceptions(true);
     }
