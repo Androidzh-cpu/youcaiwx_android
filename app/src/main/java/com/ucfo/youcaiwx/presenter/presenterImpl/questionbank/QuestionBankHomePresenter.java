@@ -33,6 +33,7 @@ public class QuestionBankHomePresenter {
                 .tag(this)
                 .params(Constant.USER_ID, user_id)
                 .execute(new StringCallback() {
+
                     @Override
                     public void onSuccess(Response<String> response) {
                         String body = response.body();
@@ -42,7 +43,6 @@ public class QuestionBankHomePresenter {
                         } else {
                             view.getMyProejctList(null);
                         }
-
                     }
                 });
 

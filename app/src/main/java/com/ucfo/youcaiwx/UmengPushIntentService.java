@@ -2,9 +2,9 @@ package com.ucfo.youcaiwx;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.utils.LogUtils;
 import com.umeng.message.UTrack;
@@ -37,18 +37,17 @@ public class UmengPushIntentService extends UmengMessageService {
             LogUtils.e("Umeng:--------------onMessage:" + message);
 
             Intent intentAct = new Intent();
-            Bundle bundle = new Bundle();
 
             if (msg != null) {
-                messageType = msg.display_type;
                 extra = msg.extra;
             }
-            /*
-             * 强制下线
-             */
-            if (TextUtils.equals(message, String.valueOf(1000))) {
-                intentAct.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intentAct.setClass(context, LoginActivity.class);
+            if (extra != null) {
+                messageType = extra.get(Constant.TYPE);
+                if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_FORCE)) {
+                    intentAct.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intentAct.setClass(context, LoginActivity.class);
+                    startActivity(intentAct);
+                }
             }
             UTrack.getInstance(getApplicationContext()).trackMsgClick(msg);
         } catch (Exception e) {

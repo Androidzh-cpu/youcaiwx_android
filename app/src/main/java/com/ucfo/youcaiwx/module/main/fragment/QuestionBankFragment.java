@@ -28,11 +28,6 @@ import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.questionbank.QuestionMyProjectBean;
 import com.ucfo.youcaiwx.entity.questionbank.SubjectInfoBean;
-import com.ucfo.youcaiwx.presenter.presenterImpl.questionbank.QuestionBankHomePresenter;
-import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankHomeView;
-import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
-import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.module.main.activity.MainActivity;
 import com.ucfo.youcaiwx.module.main.activity.WebActivity;
@@ -43,6 +38,11 @@ import com.ucfo.youcaiwx.module.questionbank.activity.QuestionsOnRecordActivity;
 import com.ucfo.youcaiwx.module.questionbank.activity.SelfServiceActivity;
 import com.ucfo.youcaiwx.module.questionbank.activity.StageOfTestingActivity;
 import com.ucfo.youcaiwx.module.questionbank.activity.TESTMODEActivity;
+import com.ucfo.youcaiwx.presenter.presenterImpl.questionbank.QuestionBankHomePresenter;
+import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankHomeView;
+import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
+import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
+import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.CirclePercentBar;
 
 import java.util.ArrayList;
@@ -139,6 +139,9 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
         } else {//TODO 未登录
             questionbankUnloginhome.setVisibility(View.VISIBLE);//零元体验题库
             questionbankLoginhome.setVisibility(View.GONE);//真正题库隐藏
+            titlebarMidtitle.setText(getResources().getString(R.string.question_default));//设置零元体验标题
+            titlebarMidimage.setVisibility(View.GONE);//下拉箭头隐藏
+            sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
         }
     }
 
@@ -249,6 +252,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 questionbankUnloginhome.setVisibility(View.VISIBLE);//零元体验题库
                 questionbankLoginhome.setVisibility(View.GONE);//真正题库隐藏
                 titlebarMidtitle.setText(getResources().getString(R.string.question_default));
+                titlebarMidimage.setVisibility(View.GONE);//下拉箭头隐藏
 
                 projectList.clear();
                 sharedPreferencesUtils.remove(Constant.SUBJECT_ID);

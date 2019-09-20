@@ -14,6 +14,7 @@ import android.text.TextUtils;
 
 import com.aliyun.vodplayer.downloader.AliyunDownloadConfig;
 import com.aliyun.vodplayer.downloader.AliyunDownloadManager;
+import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -234,6 +235,7 @@ public class UcfoApplication extends Application {
             public void launchApp(Context mContext, UMessage uMessage) {
                 super.launchApp(mContext, uMessage);
                 Map<String, String> extra = uMessage.extra;
+                LogUtils.e("Umeng:------------------" + new Gson().toJson(extra));
                 if (extra != null) {
                     Intent intent = new Intent();
                     Bundle bundle = new Bundle();
@@ -291,7 +293,7 @@ public class UcfoApplication extends Application {
                     String messageType = extra.get(Constant.TYPE);
                     if (!TextUtils.isEmpty(messageType)) {
                         if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_FORCE)) {
-                            SharedPreferencesUtils sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
+                            SharedPreferencesUtils sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getApplicationContext());
                             sharedPreferencesUtils.remove(Constant.USER_ID);
                             sharedPreferencesUtils.remove(Constant.LOGIN_STATUS);
                             sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
@@ -308,6 +310,7 @@ public class UcfoApplication extends Application {
         };
         mPushAgent.setMessageHandler(umengMessageHandler);
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
+        //mPushAgent.setPushIntentServiceClass(UmengPushIntentService.class);
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
         MobclickAgent.setCatchUncaughtExceptions(true);
     }
