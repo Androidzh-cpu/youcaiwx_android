@@ -70,11 +70,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths_public" />
         </provider>
-
-        <service
-            android:name=".UmengPushIntentService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
         <!-- TODO 启动页 -->
         <activity
             android:name=".module.main.activity.SplashActivity"

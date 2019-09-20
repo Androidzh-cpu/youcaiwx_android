@@ -293,6 +293,9 @@ public class UcfoApplication extends Application {
                     String messageType = extra.get(Constant.TYPE);
                     if (!TextUtils.isEmpty(messageType)) {
                         if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_FORCE)) {
+                            //TODO 账号冻结,通知栏不提示消息,直接进入登录页
+                            mPushAgent.setNotificaitonOnForeground(false);
+
                             SharedPreferencesUtils sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getApplicationContext());
                             sharedPreferencesUtils.remove(Constant.USER_ID);
                             sharedPreferencesUtils.remove(Constant.LOGIN_STATUS);
@@ -302,15 +305,17 @@ public class UcfoApplication extends Application {
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.setClass(context, LoginActivity.class);
                             startActivity(intent);
+                        } else {
+                            //TODO 除去冻结消息以外的其他消息类型均允许在通知栏提示
+                            mPushAgent.setNotificaitonOnForeground(true);
                         }
                     }
                 }
                 return super.getNotificationDefaults(context, uMessage);
             }
         };
-        mPushAgent.setMessageHandler(umengMessageHandler);
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
-        //mPushAgent.setPushIntentServiceClass(UmengPushIntentService.class);
+        mPushAgent.setMessageHandler(umengMessageHandler);
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
         MobclickAgent.setCatchUncaughtExceptions(true);
     }
