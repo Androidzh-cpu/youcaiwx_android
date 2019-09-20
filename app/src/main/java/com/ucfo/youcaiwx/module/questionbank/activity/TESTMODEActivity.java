@@ -430,7 +430,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
      * //TODO 重新开始计时
      */
     public void resumeCounter() {
-        if (EXERCISE_TYPE.equals(Constant.EXERCISE_A) || discuss_analysis) {
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A) || discuss_analysis) {
             //todo nothing
         } else {
             switch (timingType) {
@@ -603,7 +603,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         loadingTips = getResources().getString(R.string.question_tips_saveing);//进度框提示文字
 
         //TODO step1:判断做题模式和板块
-        if (EXERCISE_TYPE.equals(Constant.EXERCISE_A)) {//todo 解析模式直接退出
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A)) {//todo 解析模式直接退出
             finish();//解析模式直接返回上一级
             return;
         }
@@ -756,7 +756,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 bundle.putInt(Constant.COURSE_ID, course_id);
                 switch (submitStatus) {
                     case 1://交卷操作
-                        if (EXERCISE_TYPE.equals(Constant.EXERCISE_D)) {//论述题交卷模式
+                        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_D)) {//论述题交卷模式
                             //不跳页,直接隐藏计时器,打开论述题解析内容(因为论述题并没有成绩统计和错题这一说,走解析接口也是多走一步)
                             discussAnalysis();
                         } else {
@@ -1170,7 +1170,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             gridView = inflate.findViewById(R.id.listView);
             submitBtn = inflate.findViewById(R.id.answer_submit);
         }
-        if (EXERCISE_TYPE.equals(Constant.EXERCISE_A) || discuss_analysis) {//解析模式挂掉交卷按钮
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A) || discuss_analysis) {//解析模式挂掉交卷按钮
             submitBtn.setVisibility(View.GONE);
         }
         closeBtn.setOnClickListener(new View.OnClickListener() {

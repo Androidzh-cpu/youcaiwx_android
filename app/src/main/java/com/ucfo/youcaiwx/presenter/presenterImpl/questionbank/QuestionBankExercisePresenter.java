@@ -1,5 +1,7 @@
 package com.ucfo.youcaiwx.presenter.presenterImpl.questionbank;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
@@ -663,7 +665,7 @@ public class QuestionBankExercisePresenter implements IQuestionBankExercisePrese
 
         //TODO attention:此处paper_type不再是获取题目时选择题和论述题了,变为1是知识点练习模式,2是正常考试模式
         int paper_type;//做题模式1练习模式2考试模式(除了知识点全是考试模式)
-        if (EXERCISE_TYPE.equals(Constant.EXERCISE_P)) {
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_P)) {
             paper_type = 1;
         } else {
             paper_type = 2;
@@ -840,7 +842,7 @@ public class QuestionBankExercisePresenter implements IQuestionBankExercisePrese
 
         //TODO attention:此处paper_type不再是获取题目时选择题和论述题了,变为1是知识点练习模式,2是正常考试模式
         int paper_type;//做题模式1练习模式2考试模式(除了知识点全是考试模式)
-        if (EXERCISE_TYPE.equals(Constant.EXERCISE_P)) {
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_P)) {
             paper_type = 1;
         } else {
             paper_type = 2;

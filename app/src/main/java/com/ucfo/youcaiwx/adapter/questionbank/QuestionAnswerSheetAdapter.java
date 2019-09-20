@@ -63,8 +63,7 @@ public class QuestionAnswerSheetAdapter extends BaseAdapter {
         textView.setGravity(Gravity.CENTER);
         textView.setLayoutParams(new GridView.LayoutParams(DensityUtil.dip2px(context, 33), DensityUtil.dip2px(context, 33)));
         textView.setText(String.valueOf(optionsAnswerList.get(position).getPosition() + 1));
-
-        if (EXERCISE_TYPE.equals(Constant.EXERCISE_E) || EXERCISE_TYPE.equals(Constant.EXERCISE_D)) {//TODO 正常考试模式和论述题模式一样
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_E) || TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_D)) {//TODO 正常考试模式和论述题模式一样
             String userAnswer = optionsAnswerList.get(position).getUser_answer();
             if (TextUtils.isEmpty(userAnswer)) {//用户答案为空
                 textView.setBackground(gray);
@@ -73,14 +72,14 @@ public class QuestionAnswerSheetAdapter extends BaseAdapter {
                 textView.setBackground(blue);
                 textView.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
             }
-        } else if (EXERCISE_TYPE.equals(Constant.EXERCISE_P) || EXERCISE_TYPE.equals(Constant.EXERCISE_A)) {//TODO 练习模式和解析模式一样
+        } else if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_P) || TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A)) {//TODO 练习模式和解析模式一样
             String userAnswer = optionsAnswerList.get(position).getUser_answer();
             String rightAnswer = optionsAnswerList.get(position).getTrue_options();
             if (TextUtils.isEmpty(userAnswer)) {//用户答案为空
                 textView.setBackground(gray);
                 textView.setTextColor(ContextCompat.getColor(context, R.color.color_333333));
             } else {//用户已填写答案,接下来判断对错
-                if (userAnswer.equals(rightAnswer)) {//做对显示绿色
+                if (TextUtils.equals(userAnswer, rightAnswer)) {//做对显示绿色
                     textView.setBackground(green);
                     textView.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
                 } else {//做错显示红色
