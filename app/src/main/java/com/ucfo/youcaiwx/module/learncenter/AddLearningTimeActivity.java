@@ -25,6 +25,7 @@ import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
+import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -172,10 +173,32 @@ public class AddLearningTimeActivity extends BaseActivity implements IAddlearnPl
                 loadinglayout.showContent();
             } else {
                 loadinglayout.showEmpty();
+                noBuy();
             }
         } else {
             loadinglayout.showEmpty();
+            noBuy();
         }
+
+    }
+
+    private void noBuy() {
+        new AlertDialog(this).builder()
+                .setMsg(getResources().getString(R.string.course_bugCourse))
+                .setCancelable(false)
+                .setCanceledOnTouchOutside(false)
+                .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                })
+                .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                }).show();
     }
 
     private void initAdapter() {
