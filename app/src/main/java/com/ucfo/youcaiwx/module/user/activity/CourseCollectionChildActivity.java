@@ -202,13 +202,15 @@ public class CourseCollectionChildActivity extends BaseActivity implements IMine
             @Override
             public void onItemClick(View view, int position) {
                 if (!fastClick(1000)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constant.PACKAGE_ID, packege_id);
-                    bundle.putInt(Constant.COURSE_ID, list.get(position).getCourse_id());
-                    bundle.putString(Constant.TITLE, list.get(position).getName());
-                    bundle.putString(Constant.TEACHER_NAME, list.get(position).getTeacher_name());
-                    bundle.putInt(Constant.COURSE_UN_CON, Integer.parseInt(list.get(position).getIs_zhengke()));
-                    startActivity(CourseCollectionDirActivity.class, bundle);
+                    if (list.get(position).getCourse_id() != 0) {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt(Constant.PACKAGE_ID, packege_id);
+                        bundle.putInt(Constant.COURSE_ID, list.get(position).getCourse_id());
+                        bundle.putString(Constant.TITLE, list.get(position).getName());
+                        bundle.putString(Constant.TEACHER_NAME, list.get(position).getTeacher_name());
+                        bundle.putInt(Constant.COURSE_UN_CON, Integer.parseInt(list.get(position).getIs_zhengke()));
+                        startActivity(CourseCollectionDirActivity.class, bundle);
+                    }
                 }
             }
         });

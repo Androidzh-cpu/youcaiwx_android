@@ -37,7 +37,7 @@ public class QuestionOnRecordAdapter extends BaseAdapter<QuestionOnRecordBean.Da
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         QuestionOnRecordBean.DataBean dataBean = list.get(position);
         String create_times = dataBean.getCreate_times();//创建时间
-        int state = dataBean.getState();//答题记录操作状态
+        String state = dataBean.getState();//答题记录操作状态
         String paper_name = dataBean.getPaper_name();//名称
 
         if (!TextUtils.isEmpty(create_times)) {
@@ -46,25 +46,29 @@ public class QuestionOnRecordAdapter extends BaseAdapter<QuestionOnRecordBean.Da
         if (!TextUtils.isEmpty(paper_name)) {
             holder.mQuestionrecordTitleItem.setText(paper_name);
         }
-        switch (state) {
-            case 1://TODO  1成绩统计
-                holder.mQuestionrecordStateItem.setBackgroundResource(R.drawable.item_questionrecord_orange);
-                holder.mQuestionrecordStateItem.setTextColor(ContextCompat.getColor(context, R.color.color_F99111));
-                holder.mQuestionrecordStateItem.setText(context.getResources().getString(R.string.question_title_ResultsStatistical));
-                break;
-            case 2://TODO 2继续做题
-                holder.mQuestionrecordStateItem.setBackgroundResource(R.drawable.item_questionrecord_blue);
-                holder.mQuestionrecordStateItem.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
-                holder.mQuestionrecordStateItem.setText(context.getResources().getString(R.string.question_tips_holder6));
+        if (!TextUtils.isEmpty(state)){
+            int parseInt = Integer.parseInt(state);
+            switch (parseInt) {
+                case 1://TODO  1成绩统计
+                    holder.mQuestionrecordStateItem.setBackgroundResource(R.drawable.item_questionrecord_orange);
+                    holder.mQuestionrecordStateItem.setTextColor(ContextCompat.getColor(context, R.color.color_F99111));
+                    holder.mQuestionrecordStateItem.setText(context.getResources().getString(R.string.question_title_ResultsStatistical));
+                    break;
+                case 2://TODO 2继续做题
+                    holder.mQuestionrecordStateItem.setBackgroundResource(R.drawable.item_questionrecord_blue);
+                    holder.mQuestionrecordStateItem.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                    holder.mQuestionrecordStateItem.setText(context.getResources().getString(R.string.question_tips_holder6));
 
-                break;
-            case 3://TODO  3查看试题
-                holder.mQuestionrecordStateItem.setBackgroundResource(R.drawable.item_questionrecord_green);
-                holder.mQuestionrecordStateItem.setTextColor(ContextCompat.getColor(context, R.color.color_0AAB55));
-                holder.mQuestionrecordStateItem.setText(context.getResources().getString(R.string.question_tips_holder7));
-                break;
-            default:
-                break;
+                    break;
+                case 3://TODO  3查看试题
+                    holder.mQuestionrecordStateItem.setBackgroundResource(R.drawable.item_questionrecord_green);
+                    holder.mQuestionrecordStateItem.setTextColor(ContextCompat.getColor(context, R.color.color_0AAB55));
+                    holder.mQuestionrecordStateItem.setText(context.getResources().getString(R.string.question_tips_holder7));
+                    break;
+                default:
+                    break;
+            }
+
         }
         //调用接口,模拟点击
         holder.mQuestionrecordStateItem.setOnClickListener(new View.OnClickListener() {

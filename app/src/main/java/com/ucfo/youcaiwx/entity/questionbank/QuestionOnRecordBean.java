@@ -65,21 +65,21 @@ public class QuestionOnRecordBean {
 
         private int id;
         private String paper_name;
-        private int status;
+        private String status;
         private String create_time;
-        private int question_num;
-        private int paper_status;
+        private String question_num;
+        private String paper_status;
         private int course_id;
         private int plate_id;
         private int section_id;
-        private int paper_type;
+        private String paper_type;
         private String question_content;
         private String knob_id;
         private String know_id;
         private String paper_id;
         private String mock_id;
         private String create_times;
-        private int state;
+        private String state;
 
         public int getId() {
             return id;
@@ -97,11 +97,11 @@ public class QuestionOnRecordBean {
             this.paper_name = paper_name;
         }
 
-        public int getStatus() {
-            return status;
+        public String getStatus() {
+            return status == null ? "" : status;
         }
 
-        public void setStatus(int status) {
+        public void setStatus(String status) {
             this.status = status;
         }
 
@@ -113,19 +113,19 @@ public class QuestionOnRecordBean {
             this.create_time = create_time;
         }
 
-        public int getQuestion_num() {
-            return question_num;
+        public String getQuestion_num() {
+            return question_num == null ? "" : question_num;
         }
 
-        public void setQuestion_num(int question_num) {
+        public void setQuestion_num(String question_num) {
             this.question_num = question_num;
         }
 
-        public int getPaper_status() {
-            return paper_status;
+        public String getPaper_status() {
+            return paper_status == null ? "" : paper_status;
         }
 
-        public void setPaper_status(int paper_status) {
+        public void setPaper_status(String paper_status) {
             this.paper_status = paper_status;
         }
 
@@ -151,6 +151,14 @@ public class QuestionOnRecordBean {
 
         public void setSection_id(int section_id) {
             this.section_id = section_id;
+        }
+
+        public String getPaper_type() {
+            return paper_type == null ? "" : paper_type;
+        }
+
+        public void setPaper_type(String paper_type) {
+            this.paper_type = paper_type;
         }
 
         public String getQuestion_content() {
@@ -201,20 +209,12 @@ public class QuestionOnRecordBean {
             this.create_times = create_times;
         }
 
-        public int getState() {
-            return state;
+        public String getState() {
+            return state == null ? "" : state;
         }
 
-        public void setState(int state) {
+        public void setState(String state) {
             this.state = state;
-        }
-
-        public int getPaper_type() {
-            return paper_type;
-        }
-
-        public void setPaper_type(int paper_type) {
-            this.paper_type = paper_type;
         }
     }
 }

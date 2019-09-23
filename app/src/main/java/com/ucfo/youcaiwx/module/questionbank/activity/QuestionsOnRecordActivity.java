@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -221,39 +222,45 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
             public void onItemClick(View view, int position) {
                 Bundle bundle = new Bundle();
                 QuestionOnRecordBean.DataBean bean = list.get(position);
-                switch (bean.getState()) {
-                    case 1://TODO  1成绩统计
-                        bundle.putInt(Constant.PAPER_ID, bean.getId());
-                        bundle.putInt(Constant.COURSE_ID, course_id);
-                        startActivity(ResultsStatisticalActivity.class, bundle);
-                        break;
-                    case 2://TODO 2继续做题
-                        int paper_type = bean.getPaper_type();//1练习模式,2考试模式
-                        if (paper_type == 1) {
-                            bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_P);//练习模式
-                        } else {
-                            bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_E);//考试模式
-                        }
-                        bundle.putInt(Constant.PLATE_ID, Constant.PLATE_11);
-                        bundle.putInt(Constant.CONTINUE_PLATE, bean.getPlate_id());//继续做题后续操作所需板块
-                        bundle.putInt(Constant.COURSE_ID, bean.getCourse_id());//专业
-                        bundle.putInt(Constant.SECTION_ID, bean.getSection_id());//章
-                        bundle.putInt(Constant.KNOB_ID, Integer.parseInt(bean.getKnob_id()));//节
-                        bundle.putString(Constant.KNOW_ID, bean.getKnow_id());//知识点
-                        bundle.putInt(Constant.MOCK_ID, Integer.parseInt(bean.getMock_id()));//组卷
-                        bundle.putInt(Constant.ID, bean.getId());//试卷ID,用于取题
-                        bundle.putInt(Constant.PAPER_ID, Integer.parseInt(bean.getPaper_id()));//试卷ID,用于取题
-                        startActivity(TESTMODEActivity.class, bundle);
-                        break;
-                    case 3://TODO  3查看试题
-                        bundle.putInt(Constant.PLATE_ID, Constant.PLATE_12);//做题页板块,主要用于区分功能
-                        bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_D);//论述题模式
-                        bundle.putInt(Constant.PAPER_ID, bean.getId());//答题记录列表里的ID
-                        bundle.putInt(Constant.COURSE_ID, bean.getCourse_id());//专业
-                        startActivity(TESTMODEActivity.class, bundle);
-                        break;
-                    default:
-                        break;
+                String state = bean.getState();
+                if (!TextUtils.isEmpty(state)) {
+                    int parseInt = Integer.parseInt(state);
+                    switch (parseInt) {
+                        case 1:
+                            //TODO  1成绩统计
+                            bundle.putInt(Constant.PAPER_ID, bean.getId());
+                            bundle.putInt(Constant.COURSE_ID, course_id);
+                            startActivity(ResultsStatisticalActivity.class, bundle);
+                            break;
+                        case 2://TODO 2继续做题
+                            String paper_type = bean.getPaper_type();//1练习模式,2考试模式
+
+                            if (TextUtils.equals(paper_type, String.valueOf(1))) {
+                                bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_P);//练习模式
+                            } else {
+                                bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_E);//考试模式
+                            }
+                            bundle.putInt(Constant.PLATE_ID, Constant.PLATE_11);
+                            bundle.putInt(Constant.CONTINUE_PLATE, bean.getPlate_id());//继续做题后续操作所需板块
+                            bundle.putInt(Constant.COURSE_ID, bean.getCourse_id());//专业
+                            bundle.putInt(Constant.SECTION_ID, bean.getSection_id());//章
+                            bundle.putInt(Constant.KNOB_ID, Integer.parseInt(bean.getKnob_id()));//节
+                            bundle.putString(Constant.KNOW_ID, bean.getKnow_id());//知识点
+                            bundle.putInt(Constant.MOCK_ID, Integer.parseInt(bean.getMock_id()));//组卷
+                            bundle.putInt(Constant.ID, bean.getId());//试卷ID,用于取题
+                            bundle.putInt(Constant.PAPER_ID, Integer.parseInt(bean.getPaper_id()));//试卷ID,用于取题
+                            startActivity(TESTMODEActivity.class, bundle);
+                            break;
+                        case 3://TODO  3查看试题
+                            bundle.putInt(Constant.PLATE_ID, Constant.PLATE_12);//做题页板块,主要用于区分功能
+                            bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_D);//论述题模式
+                            bundle.putInt(Constant.PAPER_ID, bean.getId());//答题记录列表里的ID
+                            bundle.putInt(Constant.COURSE_ID, bean.getCourse_id());//专业
+                            startActivity(TESTMODEActivity.class, bundle);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         });

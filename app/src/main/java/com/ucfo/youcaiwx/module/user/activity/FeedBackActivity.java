@@ -193,7 +193,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
         switch (view.getId()) {
             case R.id.ask_checkphoto:
                 SoulPermission.getInstance().checkAndRequestPermissions(
-                        Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA),
+                        Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA),
                         new CheckRequestPermissionsListener() {
                             @Override
                             public void onAllPermissionOk(Permission[] allPermissions) {
@@ -229,18 +229,12 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
                 }
 
                 if (!TextUtils.isEmpty(askContent)) {
+                    tipsText = getResources().getString(R.string.answer_loading);
+                    setProcessLoading(tipsText, true);
                     if (imageList != null && imageList.size() > 0) {//TODO 先上传图片再提问
-                        if (imageList.size() == 1) {//TODO  单张上传
-                            File file = new File(imageList.get(0));
-                            luban(file);
-                        } else {//TODO 循环上传图片
-                            for (int i = 0; i < imageList.size(); i++) {
-                                File file = new File(imageList.get(i));
-                                luban(file);
-                            }
-                        }
+                        File file = new File(imageList.get(0));
+                        luban(file, 0);
                     } else {//TODO 直接提问
-                        tipsText = getResources().getString(R.string.answer_loading);
                         commitFeedback(null, askContent, askConnect);
                     }
                 }
@@ -272,7 +266,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
     }
 
     //TODO 鲁班压缩
-    private void luban(File file) {
+    private void luban(File file, int index) {
         Luban.with(this)
                 .load(file)
                 .ignoreBy(100)
@@ -292,7 +286,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
                     @Override
                     public void onSuccess(File file) {
                         // TODO 压缩成功后调用，返回压缩后的图片文件
-                        uploadFilePresenter.upLoadFile(file);
+                        uploadFilePresenter.upLoadFile(file, index);
                     }
 
                     @Override
@@ -313,13 +307,10 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
 
     @Override
     public void startUploadFile() {
-        tipsText = getResources().getString(R.string.answer_loading);
-        setProcessLoading(tipsText, true);
     }
 
     @Override
     public void errorUploadFile() {
-        dismissPorcess();
     }
 
     @Override
@@ -327,11 +318,6 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
         if (data != null) {
             if (data.getCode() == 200) {
                 resultImageList.add(data.getData().getImage_url().trim());
-                fileUploadFlag++;
-                if (fileUploadFlag == imageList.size()) {//上传成功张数等于上传图片集合的情况下走提问
-                    tipsText = getResources().getString(R.string.answer_loading);
-                    commitFeedback(resultImageList, askContent, askConnect);
-                }
             } else {
                 ToastUtil.showCenterLongText(context, data.getMsg());//提示上传错误信息
             }
@@ -339,6 +325,20 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
             ToastUtil.showCenterLongText(context, getResources().getString(R.string.file_uploaderror));//提示上传错误信息
         }
 
+        index++;// 0-1 1-2 2-3 3-4
+        toNextImage(index);
+    }
+
+    /**
+     * 继续压缩下一张图片
+     */
+    private void toNextImage(int position) {
+        if (position < imageList.size()) {//1<3  2<3  3==3,
+            File file = new File(imageList.get(position));
+            luban(file, position);
+        } else {
+            commitFeedback(resultImageList, askContent, askConnect);
+        }
     }
 
     public void commitFeedback(ArrayList<String> imageList, String content, String connect) {

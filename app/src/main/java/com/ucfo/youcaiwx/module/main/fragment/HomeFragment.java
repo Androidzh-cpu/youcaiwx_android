@@ -390,6 +390,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
      * Description:HomeFragment
      * Time:2019/3/14   13:52
      * Detail:TODO banner配置
+     * 豪华房时代峻峰拉萨的
      */
     private void bannerConfig(List<HomeBean.DataBean.ListpicBean> listpic) {
         if (listpic != null && listpic.size() > 0) {
