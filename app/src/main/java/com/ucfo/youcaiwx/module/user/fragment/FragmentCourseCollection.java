@@ -163,7 +163,7 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
                 } else {//架子啊更多
                     if (list != null && list.size() > 0) {
                         mineCourseAdapter.notifyDataSetChanged();
-                        ToastUtil.showBottomShortText(context, getResources().getString(R.string.holder_noMoreData));
+                        ToastUtil.showBottomShortText(context, getResources().getString(R.string.noMoreData));
                     } else {
                         loadinglayout.showEmpty();
                     }

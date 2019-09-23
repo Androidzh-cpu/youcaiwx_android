@@ -193,7 +193,7 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
                 } else {//架子啊更多
                     if (list != null && list.size() > 0) {
                         questionOnRecordAdapter.notifyDataSetChanged();
-                        ToastUtil.showBottomShortText(context, getResources().getString(R.string.holder_noMoreData));
+                        ToastUtil.showBottomShortText(context, getResources().getString(R.string.noMoreData));
                     } else {
                         loadinglayout.showEmpty();
                     }

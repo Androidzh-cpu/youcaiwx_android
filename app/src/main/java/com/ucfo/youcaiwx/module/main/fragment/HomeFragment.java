@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
@@ -45,6 +46,7 @@ import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.module.home.InformationActivity;
 import com.ucfo.youcaiwx.module.home.MessageCenterActivity;
 import com.ucfo.youcaiwx.module.home.ScanActivity;
+import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.module.main.activity.MainActivity;
 import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.home.HomePresenter;
@@ -248,27 +250,35 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     @OnClick({R.id.titlebar_scan, R.id.titlebar_message, R.id.icon_live, R.id.icon_course, R.id.icon_face, R.id.icon_active, R.id.icon_news
             , R.id.check_more_course, R.id.check_more_news})
     public void onViewClicked(View view) {
+        boolean loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         long nowTime = System.currentTimeMillis();
         if (nowTime - mLastClickTime > TIME_INTERVAL) {
             mLastClickTime = nowTime;
             Bundle bundle = new Bundle();
             switch (view.getId()) {
                 case R.id.titlebar_scan://TODO 二维码
-                    SoulPermission.getInstance()
-                            .checkAndRequestPermission(Manifest.permission.CAMERA, new CheckRequestPermissionListener() {
-                                @Override
-                                public void onPermissionOk(Permission permission) {
-                                    startActivity(new Intent(context, ScanActivity.class));
-                                }
+                    if (loginStatus) {
+                        SoulPermission.getInstance()
+                                .checkAndRequestPermission(Manifest.permission.CAMERA, new CheckRequestPermissionListener() {
+                                    @Override
+                                    public void onPermissionOk(Permission permission) {
+                                        startActivity(new Intent(getActivity(), ScanActivity.class));
+                                    }
 
-                                @Override
-                                public void onPermissionDenied(Permission permission) {
-                                }
-                            });
-
+                                    @Override
+                                    public void onPermissionDenied(Permission permission) {
+                                    }
+                                });
+                    } else {
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                    }
                     break;
                 case R.id.titlebar_message://TODO 消息
-                    startActivity(new Intent(context, MessageCenterActivity.class));
+                    if (loginStatus) {
+                        startActivity(new Intent(getActivity(), MessageCenterActivity.class));
+                    } else {
+                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                    }
                     break;
                 case R.id.icon_live://TODO 直播
                     bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARYLIVE);
@@ -394,10 +404,9 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                 imageView.setPadding(DensityUtil.dip2px(context, 2), 0, DensityUtil.dip2px(context, 2), 0);
                 HomeBean.DataBean.ListpicBean data = (HomeBean.DataBean.ListpicBean) path;
                 RequestOptions requestOptions = new RequestOptions()
-                        .centerCrop()
                         .placeholder(R.mipmap.banner_default)
                         .error(R.mipmap.image_loaderror)
-                        .transform(new RoundedCorners(DensityUtil.dp2px(5)));
+                        .transform(new CenterCrop(), new RoundedCorners(DensityUtil.dp2px(5)));
                 GlideUtils.load(context, data.getImage_href(), imageView, requestOptions);
             }
         });

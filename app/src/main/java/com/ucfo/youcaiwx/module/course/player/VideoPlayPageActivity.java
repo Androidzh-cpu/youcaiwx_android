@@ -1244,7 +1244,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         //获取播放凭证
         coursePlayPresenter.getVideoPlayAuthor(currentVid, currentVideoID, currentCourseID, currentSectionID, userId, coursePackageId);
 
-        sendSocketMessage();
+        //sendSocketMessage();
     }
 
     /**
@@ -1776,6 +1776,34 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             viewpager.setAdapter(commonTabAdapter);
             viewpager.setOffscreenPageLimit(fragmentArrayList.size());
             tablayout.setupWithViewPager(viewpager);
+            tablayout.setOnTabSelectedListener(new XTabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(XTabLayout.Tab tab) {
+                    int position = tab.getPosition();
+                    switch (position) {
+                        case 0:
+                            updateBuyUI();
+                            break;
+                        case 1:
+                        case 2:
+                            linearPayCourse.setVisibility(linearPayCourse.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+                            break;
+                    }
+                    tab.select();
+                    viewpager.setCurrentItem(position);
+                }
+
+                @Override
+                public void onTabUnselected(XTabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(XTabLayout.Tab tab) {
+
+                }
+            });
+
         }
     }
 

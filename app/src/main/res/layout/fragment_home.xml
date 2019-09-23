@@ -42,6 +42,7 @@
                     android:clipChildren="false"
                     app:banner_default_image="@mipmap/banner_default"
                     app:banner_layout="@layout/banner_index"
+                    app:image_scale_type="center_crop"
                     app:indicator_height="@dimen/dp_7"
                     app:indicator_margin="@dimen/dp_3"
                     app:indicator_width="@dimen/dp_7"
@@ -202,7 +203,7 @@
                         android:padding="@dimen/dp_10"
                         android:text="@string/home_more"
                         android:textColor="@color/color_5B78F6"
-                        android:textSize="@dimen/sp_11"
+                        android:textSize="@dimen/sp_12"
                         android:visibility="gone" />
 
                 </LinearLayout>
@@ -250,7 +251,7 @@
                         android:padding="@dimen/dp_10"
                         android:text="@string/home_more"
                         android:textColor="@color/color_5B78F6"
-                        android:textSize="@dimen/sp_11"
+                        android:textSize="@dimen/sp_12"
                         android:visibility="gone" />
                 </LinearLayout>
 

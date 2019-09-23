@@ -259,11 +259,12 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         View contentView = LayoutInflater.from(context).inflate(R.layout.dialog_coursedir_window, null);
         courseDirWindow = new PopupWindow(contentView);
         courseDirWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);//TODO 设置宽高
-        if (courseBuyState == 1) {
+        /*if (courseBuyState == 1) {
             courseDirWindow.setHeight(layoutMain.getMeasuredHeight());
         } else {
             courseDirWindow.setHeight(layoutMain.getMeasuredHeight() + DensityUtil.dp2px(40));
-        }
+        }*/
+        courseDirWindow.setHeight(layoutMain.getMeasuredHeight());
         courseDirWindow.setFocusable(false);//区域外点击不消失
         courseDirWindow.setOutsideTouchable(false);////区域外点击不消失
         courseDirWindow.setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));//设置背景

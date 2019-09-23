@@ -275,6 +275,7 @@ public class DownloadingFragment extends BaseFragment {
                     AlivcDownloadMediaInfo mediaInfo = alivcDownloadingMediaInfos.get(position);//check this item
                     mediaInfo.setCheckedState(!mediaInfo.isCheckedState());
                     downloadingAdapter.notifyDataSetChanged();
+                    checkAndUnCheck(alivcDownloadingMediaInfos);
                 } else {//TODO nothing to do
                     AliyunDownloadMediaInfo info = alivcDownloadingMediaInfos.get(position).getAliyunDownloadMediaInfo();
                     AliyunDownloadMediaInfo.Status status = info.getStatus();
@@ -289,6 +290,24 @@ public class DownloadingFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+    private void checkAndUnCheck(ArrayList<AlivcDownloadMediaInfo> mediaInfos) {
+        boolean flag = false;
+        for (int i = 0; i < mediaInfos.size(); i++) {
+            boolean checked = mediaInfos.get(i).isCheckedState();
+            if (checked) {
+                flag = true;
+                break;
+            }
+        }
+        if (flag) {
+            btnDelete.setBackgroundColor(ContextCompat.getColor(context, R.color.color_0267FF));
+            btnCheckAll.setText(getResources().getString(R.string.cancelCheckAll));
+        } else {
+            btnDelete.setBackgroundColor(ContextCompat.getColor(context, R.color.color_DCDCDC));
+            btnCheckAll.setText(getResources().getString(R.string.checkAll));
+        }
     }
 
     /**

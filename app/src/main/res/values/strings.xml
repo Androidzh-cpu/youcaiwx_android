@@ -348,7 +348,6 @@
     <string name="holder_nodata">暂无数据</string>
     <string name="holder_nomessage">暂无消息</string>
     <string name="holder_notmake">未作答</string>
-    <string name="holder_noMoreData">没有更多数据了!</string>
     <string name="holder_usedtime">用时:  </string>
     <string name="holder_analysis">解析:  </string>
     <string name="holder_difficulty">难度:  </string>
@@ -397,7 +396,7 @@
     <string name="download_downloading">正在下载</string>
     <string name="download_downloadCompleted">下载完成</string>
     <string name="download_downloadError">下载出错</string>
-    <string name="download_downloadStop">下载停止</string>
+    <string name="download_downloadStop">暂停下载</string>
     <string name="download_downloadWait">等待中</string>
     <string name="download_downloadPrepared">准备中</string>
     <string name="download_holderTips1">手机存储:总空间</string>
@@ -484,7 +483,7 @@
     <string name="integral_gainIntegral">赚积分</string>
 
 
-    <!--string related to common-->
+    <!--string related to common tipstext-->
     <string name="net_loadingtext">加载中</string>
     <string name="net_canceltext">取消中</string>
     <string name="file_loadingtext">正在上传</string>
@@ -504,6 +503,7 @@
     <string name="loading">内容即将呈现</string>
     <string name="NetworkDisconnected">网络已断开,请检查网络</string>
     <string name="NetworkConnected">网络已连接</string>
+    <string name="noMoreData">我们是有底线的</string>
     <string name="operation_Error">操作失败</string>
     <string name="operation_Success">操作成功</string>
     <string name="cancel">取消</string>

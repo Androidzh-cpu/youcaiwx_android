@@ -81,6 +81,12 @@ public class LogUtils {
         }
     }
 
+    public static void w(String tag, String log) {
+        if (sIsDebug) {
+            Logger.t(tag).w(log);
+        }
+    }
+
     /**
      * 将错误信息保存到SD卡中去。
      */

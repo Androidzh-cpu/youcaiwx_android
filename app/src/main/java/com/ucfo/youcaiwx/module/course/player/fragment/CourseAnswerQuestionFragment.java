@@ -2,7 +2,6 @@ package com.ucfo.youcaiwx.module.course.player.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
@@ -22,15 +21,14 @@ import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.answer.AnswerDetailBean;
 import com.ucfo.youcaiwx.entity.answer.AnswerListDataBean;
-import com.ucfo.youcaiwx.presenter.presenterImpl.answer.CourseCourseAnswerListPresenter;
-import com.ucfo.youcaiwx.presenter.view.answer.ICourseAnswerListView;
-import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
-import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.module.course.CourseAnswerDetailActivity;
 import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
+import com.ucfo.youcaiwx.presenter.presenterImpl.answer.CourseCourseAnswerListPresenter;
+import com.ucfo.youcaiwx.presenter.view.answer.ICourseAnswerListView;
+import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
+import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -105,7 +103,7 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
         layoutManager3.setReverseLayout(false);
         recyclerview.setLayoutManager(layoutManager3);
         int topBottom = DensityUtil.dip2px(getActivity(), 6);
-        recyclerview.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
+        //recyclerview.addItemDecoration(new SpacesItemDecoration(0, 0, Color.TRANSPARENT));
         recyclerview.setNestedScrollingEnabled(false);
     }
 

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.flyco.roundview.RoundTextView;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
-import com.ucfo.youcaiwx.utils.ActivityUtil;
+import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.module.main.activity.MainActivity;
 
 import butterknife.BindView;
@@ -72,9 +72,13 @@ public class AddLearningPlanCompleteActivity extends BaseActivity {
 
     @OnClick(R.id.btn_tolearn)
     public void onViewClicked() {
-        Intent intent = new Intent(this, MainActivity.class);
+        /*Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-        ActivityUtil.getInstance().finishToActivity(MainActivity.class, true);
+        ActivityUtil.getInstance().finishToActivity(MainActivity.class, true);*/
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(Constant.INDEX, 1);
+        startActivity(intent);
     }
 }

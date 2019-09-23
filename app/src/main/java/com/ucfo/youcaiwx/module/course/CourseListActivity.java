@@ -70,6 +70,7 @@ public class CourseListActivity extends BaseActivity implements ICourseListView 
             supportActionBar.setDisplayHomeAsUpEnabled(true);
             supportActionBar.setDisplayShowTitleEnabled(false);
         }
+        titlebarMidtitle.setText(getResources().getString(R.string.tab_class));
         titlebarRighttitle.setVisibility(View.GONE);
         titlebarToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

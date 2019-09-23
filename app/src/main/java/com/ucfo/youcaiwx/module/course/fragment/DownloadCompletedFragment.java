@@ -184,6 +184,8 @@ public class DownloadCompletedFragment extends BaseFragment {
                         if (editStatus) {//TODO Editting
                             list.get(position).setChecked(!list.get(position).isChecked());
                             courseListAdapter.notifyDataSetChanged();
+
+                            checkAndUnChecked(list);
                         } else {//TODO nothing to do
                             Bundle bundle = new Bundle();
                             bundle.putString(Constant.COURSE_ID, list.get(position).getCourseId());
@@ -197,6 +199,26 @@ public class DownloadCompletedFragment extends BaseFragment {
             }
         } else {
             loadinglayout.showEmpty();
+        }
+    }
+
+    private void checkAndUnChecked(List<DataBaseCourseListBean> beans) {
+        if (beans != null && beans.size() > 0) {
+            boolean flag = false;
+            for (int i = 0; i < beans.size(); i++) {
+                boolean checked = beans.get(i).isChecked();
+                if (checked) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                btnDelete.setBackgroundColor(ContextCompat.getColor(context, R.color.color_0267FF));
+                btnCheckAll.setText(getResources().getString(R.string.cancelCheckAll));
+            } else {
+                btnDelete.setBackgroundColor(ContextCompat.getColor(context, R.color.color_DCDCDC));
+                btnCheckAll.setText(getResources().getString(R.string.checkAll));
+            }
         }
     }
 
@@ -230,6 +252,9 @@ public class DownloadCompletedFragment extends BaseFragment {
         }
     }
 
+    /**
+     * 空数据处理
+     */
     private void showContentnView() {
         List<DataBaseCourseListBean> dataBaseCourseListBeans = LitePal.findAll(DataBaseCourseListBean.class);
         if (dataBaseCourseListBeans != null && dataBaseCourseListBeans.size() > 0) {

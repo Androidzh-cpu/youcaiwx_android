@@ -116,7 +116,8 @@ public class CourseAnswerListAdapter extends BaseAdapter<AnswerListDataBean.Data
         }
         switch (type) {//问答创建时间
             case 0:
-                holder.mAnswerCreatetimeItem.setText(create_time);
+                //holder.mAnswerCreatetimeItem.setText(create_time);
+                holder.mAnswerCreatetimeItem.setText(create_times);
                 break;
             case 1:
                 holder.mAnswerCreatetimeItem.setText(create_times);
@@ -187,8 +188,7 @@ public class CourseAnswerListAdapter extends BaseAdapter<AnswerListDataBean.Data
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View inflate = layoutInflater.inflate(R.layout.item_answer_list, viewGroup, false);
-        CourseAnswerListAdapter.ViewHolder holder = new CourseAnswerListAdapter.ViewHolder(inflate);
-        return holder;
+        return new ViewHolder(inflate);
     }
 
     public interface OnItemViewClickListener {

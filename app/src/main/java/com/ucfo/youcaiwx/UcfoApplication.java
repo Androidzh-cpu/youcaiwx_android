@@ -370,7 +370,7 @@ public class UcfoApplication extends Application {
                 mMessage.append(message.concat("\n"));
                 // 请求或者响应结束，打印整条日志
                 if (message.startsWith("<-- END HTTP")) {
-                    LogUtils.w("OKHTTP: " + mMessage.toString());
+                    LogUtils.w("NetBlogs", "OKHTTP: " + mMessage.toString());
                 }
             }
         });

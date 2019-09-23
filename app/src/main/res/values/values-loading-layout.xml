@@ -39,7 +39,7 @@
         <item name="llButtonBackground">@drawable/loading_layout_button</item>
 
         <item name="llEmptyImage">@mipmap/icon_empty</item>
-        <item name="llEmptyText">本来无一物,何处惹尘埃</item>
+        <item name="llEmptyText">这里空空如也哦</item>
         <item name="llErrorImage">@mipmap/icon_neterror</item>
         <item name="llErrorText">无网络连接，请检查您的网络...</item>
         <item name="llRetryText">点击重试</item>
