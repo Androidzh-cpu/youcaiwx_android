@@ -41,7 +41,7 @@ public class MovieAdapter extends BaseAdapter<MovieBean.SubjectsBean, MovieAdapt
         holder.mMovieTitleItem.setText(subjectsBean.getTitle());
         Glide.with(context)
                 .load(subjectsBean.getImages().getSmall())
-                .placeholder(R.mipmap.banner_default)
+                .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
                 .dontAnimate()
                 .skipMemoryCache(false)

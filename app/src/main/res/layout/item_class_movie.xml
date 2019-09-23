@@ -8,7 +8,7 @@
         android:id="@+id/item_movie_image"
         android:layout_width="@dimen/dp_200"
         android:layout_height="@dimen/dp_120"
-        android:src="@mipmap/banner_default"
+        android:src="@mipmap/icon_default"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -53,7 +53,7 @@ public class MineWatchRecordAdapter extends BaseAdapter<MineWatchRecordBean.Data
 
         RequestOptions requestOptions = new RequestOptions()
                 .transform(new RoundedCornersTransformation(DensityUtil.dp2px(5),0))
-                .placeholder(R.mipmap.banner_default)
+                .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         GlideUtils.load(context, app_img, holder.mCourseImageItem, requestOptions);

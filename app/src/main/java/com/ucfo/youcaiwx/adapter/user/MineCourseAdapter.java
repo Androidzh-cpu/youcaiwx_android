@@ -51,7 +51,7 @@ public class MineCourseAdapter extends BaseAdapter<MineCourseBean.DataBean, Mine
         int studyDays = bean.getStudy_days();//课时
         RequestOptions requestOptions = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.mipmap.banner_default)
+                .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
                 .transform(new RoundedCorners(DensityUtil.dp2px(5)))
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);

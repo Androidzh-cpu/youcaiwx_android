@@ -89,8 +89,8 @@ public class CourseAnswerListAdapter extends BaseAdapter<AnswerListDataBean.Data
                     TransferConfig config = TransferConfig.build()//图片预览先关配置
                             .setThumbnailImageList(list.get(position).getQuiz_image())//预览图
                             .setSourceImageList(list.get(position).getQuiz_image())//图片地址
-                            .setMissPlaceHolder(R.mipmap.banner_default)
-                            .setErrorPlaceHolder(R.mipmap.banner_default)
+                            .setMissPlaceHolder(R.mipmap.icon_default)
+                            .setErrorPlaceHolder(R.mipmap.icon_default)
                             .setProgressIndicator(new ProgressBarIndicator())//加载进度
                             .setIndexIndicator(new NumberIndexIndicator())//指示器
                             .setJustLoadHitImage(true)//是否只加载当前显示在屏幕中的的原图

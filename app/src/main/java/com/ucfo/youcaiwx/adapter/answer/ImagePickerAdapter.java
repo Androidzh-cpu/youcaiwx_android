@@ -61,7 +61,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
         } else {
             holder.iv_delete.setVisibility(View.VISIBLE);
             RequestOptions requestOptions = new RequestOptions()
-                    .placeholder(R.mipmap.banner_default)
+                    .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
             GlideUtils.load(context, item, holder.iv_img, requestOptions);

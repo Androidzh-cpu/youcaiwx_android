@@ -221,7 +221,7 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                 if (!this.isFinishing()) {
                     RequestOptions requestOptions = new RequestOptions()
                             .centerCrop()
-                            .placeholder(R.mipmap.banner_default)
+                            .placeholder(R.mipmap.icon_default)
                             .error(R.mipmap.image_loaderror);
                     GlideUtils.load(context, advert, cover, requestOptions);
                 }

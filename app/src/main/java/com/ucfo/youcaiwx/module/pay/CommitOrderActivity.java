@@ -410,7 +410,7 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
         String appImg = beanPackages.getApp_img();
         RequestOptions requestOptions = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.mipmap.banner_default)
+                .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
                 .transform(new RoundedCornersTransformation(DensityUtil.dp2px(5),0))
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);

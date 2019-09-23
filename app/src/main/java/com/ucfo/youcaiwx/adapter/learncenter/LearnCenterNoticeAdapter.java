@@ -60,7 +60,7 @@ public class LearnCenterNoticeAdapter extends BaseAdapter<LearncenterHomeBean.Da
         }
         if (!TextUtils.isEmpty(imageurl)) {
             RequestOptions requestOptions = new RequestOptions()
-                    .placeholder(R.mipmap.banner_default)
+                    .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .transform(new RoundedCorners(DensityUtil.dp2px(5)))
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);

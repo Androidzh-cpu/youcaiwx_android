@@ -242,8 +242,8 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
                 GlideUtils.load(context, head, answerUsericon, requestOptions);
 
                 TransferConfig headConfig = TransferConfig.build()
-                        .setMissPlaceHolder(R.mipmap.banner_default)
-                        .setErrorPlaceHolder(R.mipmap.banner_default)
+                        .setMissPlaceHolder(R.mipmap.icon_default)
+                        .setErrorPlaceHolder(R.mipmap.icon_default)
                         .setProgressIndicator(new ProgressPieIndicator())
                         .setIndexIndicator(new NumberIndexIndicator())
                         .setJustLoadHitImage(true)
@@ -271,8 +271,8 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
                 TransferConfig config = TransferConfig.build()//图片预览先关配置
                         .setThumbnailImageList(quiz_image)//预览图
                         .setSourceImageList(quiz_image)//图片地址
-                        .setMissPlaceHolder(R.mipmap.banner_default)
-                        .setErrorPlaceHolder(R.mipmap.banner_default)
+                        .setMissPlaceHolder(R.mipmap.icon_default)
+                        .setErrorPlaceHolder(R.mipmap.icon_default)
                         .setProgressIndicator(new ProgressBarIndicator())//加载进度
                         .setIndexIndicator(new NumberIndexIndicator())//指示器
                         .setJustLoadHitImage(true)//是否只加载当前显示在屏幕中的的原图
@@ -336,8 +336,8 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
                     GlideUtils.load(context, replyHeadImg, answerTeachericon, requestOptions);
                     TransferConfig headConfig = TransferConfig.build()
-                            .setMissPlaceHolder(R.mipmap.banner_default)
-                            .setErrorPlaceHolder(R.mipmap.banner_default)
+                            .setMissPlaceHolder(R.mipmap.icon_default)
+                            .setErrorPlaceHolder(R.mipmap.icon_default)
                             .setProgressIndicator(new ProgressPieIndicator())
                             .setIndexIndicator(new NumberIndexIndicator())
                             .setJustLoadHitImage(true)
@@ -366,8 +366,8 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
                     TransferConfig config = TransferConfig.build()//图片预览先关配置
                             .setThumbnailImageList(replyImage)//预览图
                             .setSourceImageList(replyImage)//图片地址
-                            .setMissPlaceHolder(R.mipmap.banner_default)
-                            .setErrorPlaceHolder(R.mipmap.banner_default)
+                            .setMissPlaceHolder(R.mipmap.icon_default)
+                            .setErrorPlaceHolder(R.mipmap.icon_default)
                             .setProgressIndicator(new ProgressBarIndicator())//加载进度
                             .setIndexIndicator(new NumberIndexIndicator())//指示器
                             .setJustLoadHitImage(true)//是否只加载当前显示在屏幕中的的原图

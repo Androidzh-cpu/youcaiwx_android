@@ -122,7 +122,7 @@
                             android:layout_width="@dimen/dp_96"
                             android:layout_height="@dimen/dp_58"
                             android:scaleType="fitXY"
-                            android:src="@mipmap/banner_default"
+                            android:src="@mipmap/icon_default"
                             app:corner_radius="@dimen/dp_4" />
 
                         <LinearLayout

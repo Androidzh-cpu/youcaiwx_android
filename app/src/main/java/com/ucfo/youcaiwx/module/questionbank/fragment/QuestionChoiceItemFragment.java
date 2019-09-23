@@ -263,7 +263,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         if (!TextUtils.isEmpty(analysisPic)) {//解析图片
             RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
-                    .placeholder(R.mipmap.banner_default)
+                    .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
             GlideUtils.load(testmodeActivity, analysisPic, mAnalysisImageQuestion, requestOptions);
@@ -289,8 +289,8 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         }
 
         TransferConfig config = TransferConfig.build()
-                .setMissPlaceHolder(R.mipmap.banner_default)
-                .setErrorPlaceHolder(R.mipmap.banner_default)
+                .setMissPlaceHolder(R.mipmap.icon_default)
+                .setErrorPlaceHolder(R.mipmap.icon_default)
                 .setProgressIndicator(new ProgressPieIndicator())
                 .setIndexIndicator(new NumberIndexIndicator())
                 .setJustLoadHitImage(true)
@@ -359,14 +359,14 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         if (!TextUtils.isEmpty(topicImage1)) {
             RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
-                    .placeholder(R.mipmap.banner_default)
+                    .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
             GlideUtils.load(testmodeActivity, topicImage1, mImage1Question, requestOptions);
         }
         TransferConfig config = TransferConfig.build()
-                .setMissPlaceHolder(R.mipmap.banner_default)
-                .setErrorPlaceHolder(R.mipmap.banner_default)
+                .setMissPlaceHolder(R.mipmap.icon_default)
+                .setErrorPlaceHolder(R.mipmap.icon_default)
                 .setProgressIndicator(new ProgressPieIndicator())
                 .setIndexIndicator(new NumberIndexIndicator())
                 .setJustLoadHitImage(true)
@@ -395,14 +395,14 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         if (!TextUtils.isEmpty(topicImage2)) {
             RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
-                    .placeholder(R.mipmap.banner_default)
+                    .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
             GlideUtils.load(testmodeActivity, topicImage2, mImage2Question, requestOptions);
         }
         TransferConfig config = TransferConfig.build()
-                .setMissPlaceHolder(R.mipmap.banner_default)
-                .setErrorPlaceHolder(R.mipmap.banner_default)
+                .setMissPlaceHolder(R.mipmap.icon_default)
+                .setErrorPlaceHolder(R.mipmap.icon_default)
                 .setProgressIndicator(new ProgressPieIndicator())
                 .setIndexIndicator(new NumberIndexIndicator())
                 .setJustLoadHitImage(true)

@@ -395,7 +395,7 @@ public class CourseIntroductionFragment extends BaseFragment {
 
         RequestOptions requestOptions = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.mipmap.banner_default)
+                .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror);
         GlideUtils.load(context, pictrue, mIconTeacher, requestOptions);
         mtitleTeacher.setText(teacher_title);

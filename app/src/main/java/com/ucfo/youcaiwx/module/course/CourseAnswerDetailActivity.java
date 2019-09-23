@@ -234,8 +234,8 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
                     GlideUtils.load(context, userData.getHead(), answerUsericon, requestOptions);
                     TransferConfig headConfig = TransferConfig.build()
-                            .setMissPlaceHolder(R.mipmap.banner_default)
-                            .setErrorPlaceHolder(R.mipmap.banner_default)
+                            .setMissPlaceHolder(R.mipmap.icon_default)
+                            .setErrorPlaceHolder(R.mipmap.icon_default)
                             .setProgressIndicator(new ProgressPieIndicator())
                             .setIndexIndicator(new NumberIndexIndicator())
                             .setJustLoadHitImage(true)
@@ -309,8 +309,8 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
                     GlideUtils.load(context, dataReply.getHead_img(), answerTeachericon, requestOptions);
                     TransferConfig headConfig2 = TransferConfig.build()
-                            .setMissPlaceHolder(R.mipmap.banner_default)
-                            .setErrorPlaceHolder(R.mipmap.banner_default)
+                            .setMissPlaceHolder(R.mipmap.icon_default)
+                            .setErrorPlaceHolder(R.mipmap.icon_default)
                             .setProgressIndicator(new ProgressPieIndicator())
                             .setIndexIndicator(new NumberIndexIndicator())
                             .setJustLoadHitImage(true)

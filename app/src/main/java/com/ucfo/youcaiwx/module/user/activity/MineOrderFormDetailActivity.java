@@ -288,7 +288,7 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
             orderTime.setText(String.valueOf(getResources().getString(R.string.orderForm_time) + " " + addTime));
         }
         RequestOptions requestOptions = new RequestOptions()
-                .placeholder(R.mipmap.banner_default)
+                .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         GlideUtils.load(context, appImg, itemCourseImage, requestOptions);

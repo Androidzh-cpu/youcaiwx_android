@@ -40,7 +40,7 @@
                     android:layout_gravity="center_horizontal"
                     android:background="@color/colorWhite"
                     android:clipChildren="false"
-                    app:banner_default_image="@mipmap/banner_default"
+                    app:banner_default_image="@mipmap/icon_bannerdefault"
                     app:banner_layout="@layout/banner_index"
                     app:image_scale_type="center_crop"
                     app:indicator_height="@dimen/dp_7"

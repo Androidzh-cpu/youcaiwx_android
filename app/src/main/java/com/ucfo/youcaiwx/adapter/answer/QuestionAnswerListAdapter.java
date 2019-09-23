@@ -85,8 +85,8 @@ public class QuestionAnswerListAdapter extends BaseAdapter<QuestionAnswerListBea
             TransferConfig config = TransferConfig.build()//图片预览先关配置
                     .setThumbnailImageList(list.get(position).getQuiz_image())//预览图
                     .setSourceImageList(list.get(position).getQuiz_image())//图片地址
-                    .setMissPlaceHolder(R.mipmap.banner_default)
-                    .setErrorPlaceHolder(R.mipmap.banner_default)
+                    .setMissPlaceHolder(R.mipmap.icon_default)
+                    .setErrorPlaceHolder(R.mipmap.icon_default)
                     .setProgressIndicator(new ProgressBarIndicator())//加载进度
                     .setIndexIndicator(new NumberIndexIndicator())//指示器
                     .setJustLoadHitImage(true)//是否只加载当前显示在屏幕中的的原图
@@ -103,14 +103,14 @@ public class QuestionAnswerListAdapter extends BaseAdapter<QuestionAnswerListBea
         }
         //学员头像
         RequestOptions requestOptions = new RequestOptions()
-                .placeholder(R.mipmap.banner_default)
+                .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         GlideUtils.load(context, head, holder.mAnswerUsericonItem, requestOptions);
 
         TransferConfig config = TransferConfig.build()
-                .setMissPlaceHolder(R.mipmap.banner_default)
-                .setErrorPlaceHolder(R.mipmap.banner_default)
+                .setMissPlaceHolder(R.mipmap.icon_default)
+                .setErrorPlaceHolder(R.mipmap.icon_default)
                 .setProgressIndicator(new ProgressPieIndicator())
                 .setIndexIndicator(new NumberIndexIndicator())
                 .setJustLoadHitImage(true)

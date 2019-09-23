@@ -371,14 +371,14 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
                 } else {
                     RequestOptions requestOptions = new RequestOptions()
                             .centerCrop()
-                            .placeholder(R.mipmap.banner_default)
+                            .placeholder(R.mipmap.icon_default)
                             .error(R.mipmap.image_loaderror)
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
                     GlideUtils.load(context, head, userIcon, requestOptions);
 
                     TransferConfig headConfig = TransferConfig.build()
-                            .setMissPlaceHolder(R.mipmap.banner_default)
-                            .setErrorPlaceHolder(R.mipmap.banner_default)
+                            .setMissPlaceHolder(R.mipmap.icon_default)
+                            .setErrorPlaceHolder(R.mipmap.icon_default)
                             .setProgressIndicator(new ProgressPieIndicator())
                             .setIndexIndicator(new NumberIndexIndicator())
                             .setJustLoadHitImage(true)

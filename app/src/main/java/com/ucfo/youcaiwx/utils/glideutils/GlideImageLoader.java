@@ -19,8 +19,8 @@ public class GlideImageLoader implements ImageLoader {
 
         Glide.with(activity)                             //配置上下文
                 .load(Uri.fromFile(new File(path)))      //设置图片路径(fix #8,文件名包含%符号 无法识别和显示)
-                .error(R.mipmap.banner_default)           //设置错误图片
-                .placeholder(R.mipmap.banner_default)     //设置占位图片
+                .error(R.mipmap.icon_default)           //设置错误图片
+                .placeholder(R.mipmap.icon_default)     //设置占位图片
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)//缓存全尺寸
                 .into(imageView);
     }

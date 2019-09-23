@@ -53,7 +53,7 @@ public class HomeLiveAdapter extends BaseAdapter<HomeBean.DataBean.BroadcastBean
         if (!TextUtils.isEmpty(app_image)) {
             RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
-                    .placeholder(R.mipmap.banner_default)
+                    .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .transform(new RoundedCorners(DensityUtil.dp2px(5)))
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);

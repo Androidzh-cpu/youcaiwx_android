@@ -70,7 +70,7 @@ public class LearnPlanDetailCourseAdapter extends BaseAdapter<LearnPlanDetailVid
         }
         RequestOptions requestOptions = new RequestOptions()
                 .transform(new CenterCrop(), new RoundedCorners(DensityUtil.dp2px(5)))
-                .placeholder(R.mipmap.banner_default)
+                .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         GlideUtils.load(context, beancoverurl, holder.mCourseImageItem, requestOptions);

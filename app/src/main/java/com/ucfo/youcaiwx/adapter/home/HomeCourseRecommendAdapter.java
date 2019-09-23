@@ -57,7 +57,7 @@ public class HomeCourseRecommendAdapter extends BaseAdapter<HomeBean.DataBean.Cu
         String join_num = bean.getJoin_num();
         if (!TextUtils.isEmpty(app_img)) {
             RequestOptions requestOptions = new RequestOptions()
-                    .placeholder(R.mipmap.banner_default)
+                    .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .transform(new CenterCrop(),new RoundedCorners(DensityUtil.dp2px(5)))
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);

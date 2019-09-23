@@ -14,7 +14,7 @@
         android:id="@+id/item_course_image"
         android:layout_width="@dimen/dp_100"
         android:layout_height="@dimen/dp_60"
-        android:src="@mipmap/banner_default" />
+        android:src="@mipmap/icon_default" />
 
     <LinearLayout
         android:layout_width="0dp"
