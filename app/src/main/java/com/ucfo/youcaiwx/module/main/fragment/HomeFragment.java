@@ -12,6 +12,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +93,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     @BindView(R.id.titlebar_message)
     ImageView titlebarMessage;
     @BindView(R.id.banner_index)
-    Banner bannerIndex;
+    Banner banner;
     @BindView(R.id.refreshlayout)
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.scrollView)
@@ -147,7 +148,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     public void onStop() {
         super.onStop();
         //结束轮播
-        bannerIndex.stopAutoPlay();
+        banner.stopAutoPlay();
     }
 
     @Override
@@ -186,7 +187,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
 
         layoutManager();
 
-        bannerIndex.setOnBannerListener(this);
+        banner.setOnBannerListener(this);
         refreshLayout.setEnableLoadMore(false);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -202,7 +203,6 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         // 屏幕宽度（像素）
         int width = dm.widthPixels;
         int titleMeasuredWidth = AppUtils.getViewWidth(titlebarTitle);
-
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             private int lastscrolly = 0;
             private int h = width / 2 - titleMeasuredWidth / 2 - DensityUtil.dip2px(context, 21);
@@ -236,7 +236,6 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         refreshLayout.setEnableAutoLoadMore(false);
         refreshLayout.setEnableNestedScroll(true);
         refreshLayout.setEnableOverScrollBounce(true);
-
     }
 
     @Override
@@ -394,26 +393,28 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
      */
     private void bannerConfig(List<HomeBean.DataBean.ListpicBean> listpic) {
         if (listpic != null && listpic.size() > 0) {
-            bannerIndex.setImages(listpic);//图片地址
+            banner.setImages(listpic);//图片地址
+            //设置viewpager的自定义动画
+            banner.setPageTransformer(true, new ZoomOutPageTransformer());
+            banner.setOffscreenPageLimit(2);
+            banner.setImageLoader(new ImageLoader() {
+                @Override
+                public void displayImage(Context context, Object path, ImageView imageView) {
+                    imageView.setPadding(DensityUtil.dip2px(context, 2), 0, DensityUtil.dip2px(context, 2), 0);
+                    HomeBean.DataBean.ListpicBean data = (HomeBean.DataBean.ListpicBean) path;
+                    RequestOptions requestOptions = new RequestOptions()
+                            .placeholder(R.mipmap.icon_bannerdefault)
+                            .error(R.mipmap.image_loaderror)
+                            .transform(new CenterCrop(), new RoundedCorners(DensityUtil.dp2px(5)));
+                    GlideUtils.load(context, data.getImage_href(), imageView, requestOptions);
+                }
+            });
+            banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+            banner.setIndicatorGravity(Gravity.CENTER_HORIZONTAL);
+            banner.setViewPagerIsScroll(true);
+            banner.setDelayTime(3000);
+            banner.start();
         }
-        //设置viewpager的自定义动画
-        bannerIndex.setPageTransformer(true, new ZoomOutPageTransformer());
-        bannerIndex.setOffscreenPageLimit(2);
-        bannerIndex.setImageLoader(new ImageLoader() {
-            @Override
-            public void displayImage(Context context, Object path, ImageView imageView) {
-                imageView.setPadding(DensityUtil.dip2px(context, 2), 0, DensityUtil.dip2px(context, 2), 0);
-                HomeBean.DataBean.ListpicBean data = (HomeBean.DataBean.ListpicBean) path;
-                RequestOptions requestOptions = new RequestOptions()
-                        .placeholder(R.mipmap.icon_bannerdefault)
-                        .error(R.mipmap.image_loaderror)
-                        .transform(new CenterCrop(), new RoundedCorners(DensityUtil.dp2px(5)));
-                GlideUtils.load(context, data.getImage_href(), imageView, requestOptions);
-            }
-        });
-        bannerIndex.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-        bannerIndex.setDelayTime(3000);
-        bannerIndex.start();
     }
 
     //开启消息轮训
@@ -491,19 +492,20 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
             public void onItemClick(View view, int position) {
                 Bundle bundle = new Bundle();
                 HomeBean.DataBean.CurriculumBean bean = courseList.get(position);
-                String appImg = bean.getApp_img();//TODO 课程封面
-                String coursePackageId = bean.getPackage_id();//TODO  课程包ID(课程包内含多们课程)
-                String isPurchase = bean.getIs_purchase();
-                int courseBuyState = 2;
-                if (!TextUtils.isEmpty(isPurchase)) {
-                    courseBuyState = Integer.parseInt(isPurchase);
+                if (!TextUtils.isEmpty(bean.getPackage_id())) {
+                    String appImg = bean.getApp_img();//TODO 课程封面
+                    String coursePackageId = bean.getPackage_id();//TODO  课程包ID(课程包内含多们课程)
+                    String isPurchase = bean.getIs_purchase();
+                    int courseBuyState = 2;
+                    if (!TextUtils.isEmpty(isPurchase)) {
+                        courseBuyState = Integer.parseInt(isPurchase);
+                    }
+                    bundle.putString(Constant.COURSE_COVER_IMAGE, appImg);//封面
+                    bundle.putInt(Constant.COURSE_PACKAGE_ID, Integer.parseInt(coursePackageId));//课程包ID
+                    bundle.putInt(Constant.COURSE_BUY_STATE, courseBuyState);//购买状态
+                    bundle.putString(Constant.COURSE_PRICE, bean.getPrice());//课程包价格
+                    startActivity(VideoPlayPageActivity.class, bundle);
                 }
-
-                bundle.putString(Constant.COURSE_COVER_IMAGE, appImg);//封面
-                bundle.putInt(Constant.COURSE_PACKAGE_ID, Integer.parseInt(coursePackageId));//课程包ID
-                bundle.putInt(Constant.COURSE_BUY_STATE, courseBuyState);//购买状态
-                bundle.putString(Constant.COURSE_PRICE, bean.getPrice());//课程包价格
-                startActivity(VideoPlayPageActivity.class, bundle);
             }
         });
     }
@@ -550,12 +552,10 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                 HomeBean.DataBean.InformationBean informationBean = newLists.get(position);
                 String title = informationBean.getTitle();
                 String jumphref = informationBean.getUrl();
-                Intent intent = new Intent(getActivity(), WebActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString(Constant.WEB_URL, jumphref);
                 bundle.putString(Constant.WEB_TITLE, title);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                startActivity(WebActivity.class, bundle);
             }
         });
     }

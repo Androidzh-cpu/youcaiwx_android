@@ -268,6 +268,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private WebSocket mWebSocket = null;
     private Timer mTimer;
     private TimerTask timerTask;
+    private int socketPeriodTime = 1000 * 30;
     private boolean download_wifi, look_wifi;
     private AliyunPlayAuth currentaAliyunPlayAuth;
     private boolean pdfDownloadStatus = false, pdfExists = false;
@@ -434,7 +435,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 sendSocketMessage();
             }
         };
-        mTimer.schedule(timerTask, 0, 1000 * 30);
+        mTimer.schedule(timerTask, 0, socketPeriodTime);
     }
 
     private void initWsClient(String wsUrl) {
@@ -482,48 +483,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             }
         });
     }
-
-    /*private void initMockServer() {
-        mockWebServer.enqueue(new MockResponse().withWebSocketUpgrade(new WebSocketListener() {
-            @Override
-            public void onOpen(WebSocket webSocket, Response response) {
-                output("server onOpen");
-            }
-
-            @Override
-            public void onMessage(WebSocket webSocket, String string) {
-                output("server onMessage");
-                output("message:" + string);
-                //接受到N条信息后，关闭消息定时发送器
-                *//*if (msgCount == n) {
-                    mTimer.cancel();
-                    webSocket.close(1000, "close by server");
-                    return;
-                }*//*
-                //webSocket.send("response-" + string);
-            }
-
-            @Override
-            public void onClosing(WebSocket webSocket, int code, String reason) {
-                output("server onClosing");
-                output("code:" + code + " reason:" + reason);
-            }
-
-            @Override
-            public void onClosed(WebSocket webSocket, int code, String reason) {
-                output("server onClosed");
-                output("code:" + code + " reason:" + reason);
-            }
-
-            @Override
-            public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-                //出现异常会进入此回调
-                output("server onFailure");
-                output("throwable:" + t);
-            }
-        }));
-
-    }*/
 
     //TODO 播放来源视频设置
     private void initSourseType() {
@@ -1973,9 +1932,15 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     //TODO 设置购买按钮
     public void updateBuyUI() {
         if (getCourseBuyState() == 1) {
-            linearPayCourse.setVisibility(linearPayCourse.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+            //linearPayCourse.setVisibility(linearPayCourse.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+            if (linearPayCourse.getVisibility() == View.VISIBLE) {
+                linearPayCourse.setVisibility(View.GONE);
+            }
         } else {
-            linearPayCourse.setVisibility(linearPayCourse.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+            if (linearPayCourse.getVisibility() == View.GONE) {
+                linearPayCourse.setVisibility(View.VISIBLE);
+            }
+            //linearPayCourse.setVisibility(linearPayCourse.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
         }
     }
 

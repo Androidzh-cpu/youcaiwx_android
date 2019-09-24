@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         MobclickAgent.onPause(this);
     }
 
-    //BottomNavigationViewHelper.java
+    //BottomNavigationViewHelper.java  通过反射,去除3个以上的item的交互动画
     @SuppressLint("RestrictedApi")
     public static void disableShiftMode(BottomNavigationView view) {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
@@ -252,8 +252,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         intent.putExtra(Constant.INDEX, 1);
         startActivity(intent);
 */
-// Unable to get provider com.tencent.bugly.beta.utils.BuglyFileProvider: java.lang.ClassNotFoundException: Didn't find class "com.tencent.bugly.beta.utils.BuglyFileProvider" on path: DexPathList[[zip file "/data/app/com.example.lebaobeiimprinter-1.apk"],
-// nativeLibraryDirectories=[/data/app-lib/com.example.lebaobeiimprinter-1, /vendor/lib, /system/lib]]
     }
 
     /**
