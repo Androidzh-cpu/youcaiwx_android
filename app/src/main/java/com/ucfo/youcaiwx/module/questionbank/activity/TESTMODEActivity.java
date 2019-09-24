@@ -36,6 +36,8 @@ import com.ucfo.youcaiwx.entity.questionbank.DoProblemsBean;
 import com.ucfo.youcaiwx.entity.questionbank.ErrorCenterSubmitAnswerBean;
 import com.ucfo.youcaiwx.entity.questionbank.QuestionDeleteBean;
 import com.ucfo.youcaiwx.entity.questionbank.SubmitStatusResultBean;
+import com.ucfo.youcaiwx.module.course.player.utils.TimeFormater;
+import com.ucfo.youcaiwx.module.main.activity.MainActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.questionbank.QuestionBankExercisePresenter;
 import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankDoExerciseView;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
@@ -44,7 +46,6 @@ import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.time.CountDownTimerSupport;
 import com.ucfo.youcaiwx.utils.time.OnCountDownTimerListener;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.module.course.player.utils.TimeFormater;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.customview.NestedGridView;
 import com.ucfo.youcaiwx.widget.dialog.PauseExamDialog;
@@ -181,6 +182,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         //广播注销
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onDestroy();
+        ActivityUtil.getInstance().removeActivity(this);
     }
 
     @Override
@@ -191,14 +193,20 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     @Override
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
+        ActivityUtil.getInstance().addActivity(this);
+
         testModeActivity = TESTMODEActivity.this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(testModeActivity);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);//用户id
 
         collectionImage = ContextCompat.getDrawable(this, R.mipmap.icon_qb_collection);
-        collectionImage.setBounds(0, 0, collectionImage.getMinimumWidth(), collectionImage.getMinimumHeight());
+        if (collectionImage != null) {
+            collectionImage.setBounds(0, 0, collectionImage.getMinimumWidth(), collectionImage.getMinimumHeight());
+        }
         unCollectionImage = ContextCompat.getDrawable(this, R.mipmap.icon_qb_uncollection);
-        unCollectionImage.setBounds(0, 0, unCollectionImage.getMinimumWidth(), unCollectionImage.getMinimumHeight());
+        if (unCollectionImage != null) {
+            unCollectionImage.setBounds(0, 0, unCollectionImage.getMinimumWidth(), unCollectionImage.getMinimumHeight());
+        }
 
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);//TODO 禁止屏幕截图
 
@@ -780,9 +788,14 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                     case 2://退出保存操作
                         ToastUtil.showBottomShortText(testModeActivity, getResources().getString(R.string.question_tips_hasSaved));
                         if (plate_id == Constant.PLATE_5) {//TODO 自助练习模式
-                            ActivityUtil.getInstance().finishActivity(SelfServiceChildListActivity.class);
+                            /*ActivityUtil.getInstance().finishActivity(SelfServiceChildListActivity.class);
                             ActivityUtil.getInstance().finishActivity(SelfServiceListActivity.class);
                             ActivityUtil.getInstance().finishActivity(SelfServiceActivity.class);
+                            finish();*/
+                            Intent intent = new Intent(this, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.putExtra(Constant.INDEX, 2);
+                            startActivity(intent);
                             finish();
                         } else {
                             finish();

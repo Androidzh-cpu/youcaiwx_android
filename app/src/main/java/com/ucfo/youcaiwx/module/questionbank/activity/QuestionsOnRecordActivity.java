@@ -268,12 +268,12 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
 
     @Override
     public void showLoading() {
-        setProcessLoading(null, true);
+        //setProcessLoading(null, true);
     }
 
     @Override
     public void showLoadingFinish() {
-        dismissPorcess();
+        //dismissPorcess();
     }
 
     @Override

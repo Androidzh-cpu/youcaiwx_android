@@ -54,6 +54,8 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
     ExpandableListView listView;
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
+    @BindView(R.id.showline)
+    View showline;
     private KnowledgePracticeActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private boolean loginStaus;
@@ -88,7 +90,6 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         if (!loginStaus) {
             loadinglayout.showEmpty();
-            return;
         }
     }
 
@@ -141,6 +142,7 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
         }
         titlebarRighttitle.setVisibility(View.GONE);
         titlebarMidtitle.setText(getResources().getString(R.string.question_title_Knowledge_exercise));
+        showline.setVisibility(View.GONE);
         titlebarToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
