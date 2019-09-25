@@ -236,8 +236,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private int mVideoBufferPosition;
     //当前的清晰度
     private String mCurrentQuality;
-    private static final int START = 0;//开始计时消息标志，下面用到
-    private static final int STOP = 1;//停止计时消息标志，下面用到
+    private static final int START = 0;//开始计时消息标志
     //进度更新计时器
     private ProgressUpdateTimer mProgressUpdateTimer = new ProgressUpdateTimer();
     //控制菜单计时器
@@ -844,7 +843,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //解决bug：在Prepare中开始更新的时候，不会发送更新消息。
             startProgressUpdateTimer();
         }
-        LogUtils.e("handleProgressUpdateMessage--------------------" + msg.what);
     }
 
     /**

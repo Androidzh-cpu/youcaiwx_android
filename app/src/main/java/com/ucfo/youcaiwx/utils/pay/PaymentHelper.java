@@ -25,6 +25,7 @@ import java.util.Map;
  * Package: com.ucfo.youcaiwx.utils.pay
  * FileName: PaymentHelper
  * Description:TODO 微信支付工具类
+ * 微信师傅得在子线程开启支付
  */
 public class PaymentHelper {
     //调起支付的页面

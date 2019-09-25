@@ -187,13 +187,17 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
             } else {//TODO 加载的数据为0的情况
                 if (pageIndex == 1) {//初次加载或刷新
                     if (list != null && list.size() > 0) {
-                        questionOnRecordAdapter.notifyDataSetChanged();
+                        if (questionOnRecordAdapter!=null){
+                            questionOnRecordAdapter.notifyDataSetChanged();
+                        }
                     } else {
                         loadinglayout.showEmpty();
                     }
                 } else {//架子啊更多
                     if (list != null && list.size() > 0) {
-                        questionOnRecordAdapter.notifyDataSetChanged();
+                        if (questionOnRecordAdapter!=null){
+                            questionOnRecordAdapter.notifyDataSetChanged();
+                        }
                         ToastUtil.showBottomShortText(context, getResources().getString(R.string.noMoreData));
                     } else {
                         loadinglayout.showEmpty();

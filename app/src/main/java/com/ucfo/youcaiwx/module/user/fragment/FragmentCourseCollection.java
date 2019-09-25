@@ -156,13 +156,17 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
             } else {//TODO 加载的数据为0的情况
                 if (pageIndex == 1) {//初次加载或刷新
                     if (list != null && list.size() > 0) {
-                        mineCourseAdapter.notifyDataSetChanged();
+                        if (mineCourseAdapter != null) {
+                            mineCourseAdapter.notifyDataSetChanged();
+                        }
                     } else {
                         loadinglayout.showEmpty();
                     }
                 } else {//架子啊更多
                     if (list != null && list.size() > 0) {
-                        mineCourseAdapter.notifyDataSetChanged();
+                        if (mineCourseAdapter != null) {
+                            mineCourseAdapter.notifyDataSetChanged();
+                        }
                         ToastUtil.showBottomShortText(context, getResources().getString(R.string.noMoreData));
                     } else {
                         loadinglayout.showEmpty();

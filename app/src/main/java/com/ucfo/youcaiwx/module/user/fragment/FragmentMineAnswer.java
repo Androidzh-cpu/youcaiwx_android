@@ -156,13 +156,17 @@ public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView 
             } else {//TODO 加载的数据为0的情况
                 if (pageIndex == 1) {//初次加载或刷新
                     if (list != null && list.size() > 0) {
-                        courseAnswerListAdapter.notifyDataSetChanged();
+                        if (courseAnswerListAdapter != null) {
+                            courseAnswerListAdapter.notifyDataSetChanged();
+                        }
                     } else {
                         loadinglayout.showEmpty();
                     }
                 } else {//架子啊更多
                     if (list != null && list.size() > 0) {
-                        courseAnswerListAdapter.notifyDataSetChanged();
+                        if (courseAnswerListAdapter != null) {
+                            courseAnswerListAdapter.notifyDataSetChanged();
+                        }
                         ToastUtil.showBottomShortText(context, getResources().getString(R.string.noMoreData));
                     } else {
                         loadinglayout.showEmpty();
