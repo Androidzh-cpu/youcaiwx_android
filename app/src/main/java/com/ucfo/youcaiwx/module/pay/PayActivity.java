@@ -9,8 +9,6 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
-import com.ucfo.youcaiwx.utils.pay.PayListenerUtil;
-import com.ucfo.youcaiwx.utils.pay.PayResultListener;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 
 import butterknife.BindView;
@@ -25,7 +23,7 @@ import butterknife.OnClick;
  * ORG: www.youcaiwx.com
  * Description:TODO 订单支付
  */
-public class PayActivity extends BaseActivity implements PayResultListener {
+public class PayActivity extends BaseActivity {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -53,12 +51,6 @@ public class PayActivity extends BaseActivity implements PayResultListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        PayListenerUtil.getInstance(this).removeListener(this);
     }
 
     @Override
@@ -93,7 +85,6 @@ public class PayActivity extends BaseActivity implements PayResultListener {
             textOrdernum.setText(String.valueOf(orderNum));
             textPrice.setText(String.valueOf(price));
         }
-        PayListenerUtil.getInstance(this).addListener(this);
     }
 
     @OnClick({R.id.btn_WechatPay, R.id.pay_Alipay})
@@ -118,7 +109,6 @@ public class PayActivity extends BaseActivity implements PayResultListener {
      * Detail:TODO 微信支付
      */
     private void wechatPayMethod() {
-
     }
 
     /**
@@ -127,30 +117,6 @@ public class PayActivity extends BaseActivity implements PayResultListener {
      * Detail:TODO 支付宝支付
      */
     private void alipayMethod() {
-
-    }
-
-    /**
-     * 支付平台支付结果(最终支付结果要依靠自己服务器的结果)
-     */
-    @Override
-    public void onPaySuccess() {
-
-    }
-
-    /**
-     * 支付平台支付结果
-     */
-    @Override
-    public void onPayError() {
-
-    }
-
-    /**
-     * 支付平台支付结果
-     */
-    @Override
-    public void onPayCancel() {
 
     }
 }
