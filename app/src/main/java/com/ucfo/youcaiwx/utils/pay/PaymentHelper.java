@@ -107,19 +107,22 @@ public class PaymentHelper {
                     PayResult payResult = new PayResult((Map<String, String>) msg.obj);
                     String resultStatus = payResult.getResultStatus();
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表参考：https://docs.open.alipay.com/204/105301
-                    if (TextUtils.equals(resultStatus, "9000")) {
-                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                    if (TextUtils.equals(resultStatus, String.valueOf(9000))) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。支付结果一定要调用自己的服务端来确定，不能通过支付宝的回调结果来判断！
                         ToastUtil.showBottomLongText(appCompatActivity, "支付成功");
+                        PayListenerUtil.getInstance(appCompatActivity).addSuccess();
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
-                        if (TextUtils.equals(resultStatus, "8000")) {
+                        if (TextUtils.equals(resultStatus, String.valueOf(8000))) {
                             ToastUtil.showBottomLongText(appCompatActivity, "支付结果确认中");
-                        } else if (TextUtils.equals(resultStatus, "6001")) { //用户中途取消
+                        } else if (TextUtils.equals(resultStatus, String.valueOf(6001))) { //用户中途取消
                             ToastUtil.showBottomLongText(appCompatActivity, "取消支付");
+                            PayListenerUtil.getInstance(appCompatActivity).addCancel();
                         } else {
                             // 其他值就可以判断为支付失败
                             ToastUtil.showBottomLongText(appCompatActivity, "支付失败");
+                            PayListenerUtil.getInstance(appCompatActivity).addError();
                         }
                     }
                     break;

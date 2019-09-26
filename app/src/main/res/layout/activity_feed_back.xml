@@ -38,6 +38,7 @@
         android:background="@android:color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_6"
         android:paddingStart="@dimen/dp_12">
 
         <Button

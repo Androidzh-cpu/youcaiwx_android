@@ -148,6 +148,12 @@
             android:launchMode="singleTask"
             android:taskAffinity="net.sourceforge.simcpux"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--TODO 微信支付回调页-->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
         <!-- TODO 视频筛选列表 -->
         <activity
             android:name=".module.course.CourseListActivity"

@@ -14,6 +14,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.utils.LogUtils;
+import com.ucfo.youcaiwx.utils.pay.PayListenerUtil;
 
 /**
  * Author: AND
@@ -61,13 +62,19 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
             switch (code) {
                 case 0:
                     Toast.makeText(this, "支付成功", Toast.LENGTH_LONG).show();
+                    PayListenerUtil.getInstance(this).addSuccess();
+                    finish();
                     break;
                 case -1:
                     // 支付失败 可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等
                     Toast.makeText(this, "支付失败", Toast.LENGTH_LONG).show();
+                    PayListenerUtil.getInstance(this).addError();
+                    finish();
                     break;
                 case -2:
                     Toast.makeText(this, "支付取消", Toast.LENGTH_LONG).show();
+                    PayListenerUtil.getInstance(this).addCancel();
+                    finish();
                     break;
                 default:
                     break;
