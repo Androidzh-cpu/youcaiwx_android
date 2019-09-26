@@ -1,6 +1,8 @@
 package com.ucfo.youcaiwx.module.integral;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -9,8 +11,18 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.androidkun.xtablayout.XTabLayout;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
+import com.ucfo.youcaiwx.common.ApiStores;
+import com.ucfo.youcaiwx.module.course.player.adapter.CommonTabAdapter;
+import com.ucfo.youcaiwx.module.integral.fragment.ExchangeRecordFragment;
+import com.ucfo.youcaiwx.module.integral.fragment.IntegralSubsidiaryFragment;
+import com.ucfo.youcaiwx.module.integral.fragment.ProductListFragment;
+import com.ucfo.youcaiwx.utils.ShareUtils;
+import com.ucfo.youcaiwx.widget.dialog.ShareDialog;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,6 +94,23 @@ public class MineIntegralActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
+
+        ArrayList<String> titlesList = new ArrayList<String>();
+        ArrayList<Fragment> fragmentArrayList = new ArrayList<Fragment>();
+
+        titlesList.add(getResources().getString(R.string.integral_ProductList));
+        titlesList.add(getResources().getString(R.string.integral_exchange));
+        titlesList.add(getResources().getString(R.string.integral_subsidiary));
+
+        fragmentArrayList.add(new ProductListFragment());
+        fragmentArrayList.add(new ExchangeRecordFragment());
+        fragmentArrayList.add(new IntegralSubsidiaryFragment());
+
+
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        CommonTabAdapter commonTabAdapter = new CommonTabAdapter(supportFragmentManager, fragmentArrayList, titlesList);
+        viewpager.setAdapter(commonTabAdapter);//viewpager设置适配器
+        xTablayout.setupWithViewPager(viewpager);//tablayout关联viewpager
     }
 
     @OnClick({R.id.btn_invite, R.id.btn_getintegral})
@@ -89,6 +118,29 @@ public class MineIntegralActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.btn_invite:
                 //TODO 邀请朋友
+                new ShareDialog(this).builder()
+                        .setFriendButton(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String url = ApiStores.APP_DOWNLOAD_URL;
+                                String title = getResources().getString(R.string.app_nameWX);
+                                String desc = getResources().getString(R.string.youcaiWXShareDescribe);
+                                String iamgeurl = ApiStores.LOGO;
+                                ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneSession);
+                            }
+                        })
+                        .setCircleToFriendButton(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String url = ApiStores.APP_DOWNLOAD_URL;
+                                String title = getResources().getString(R.string.app_nameWX);
+                                String desc = getResources().getString(R.string.youcaiWXShareDescribe);
+                                String iamgeurl = ApiStores.LOGO;
+                                ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneTimeline);
+                            }
+                        })
+                        .show();
+
                 break;
             case R.id.btn_getintegral:
                 //TODO 赚积分

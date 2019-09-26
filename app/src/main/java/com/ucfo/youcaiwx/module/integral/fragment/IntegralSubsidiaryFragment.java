@@ -2,6 +2,7 @@ package com.ucfo.youcaiwx.module.integral.fragment;
 
 import android.view.View;
 
+import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseFragment;
 
 /**
@@ -24,6 +25,6 @@ public class IntegralSubsidiaryFragment extends BaseFragment {
 
     @Override
     protected int setContentView() {
-        return 0;
+        return R.layout.fragment_integral_subsidiary;
     }
 }

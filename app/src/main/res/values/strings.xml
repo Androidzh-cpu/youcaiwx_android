@@ -481,6 +481,9 @@
     <string name="integral_remainingPoints">剩余积分</string>
     <string name="integral_inviteFriends">邀请好友赢大礼包</string>
     <string name="integral_gainIntegral">赚积分</string>
+    <string name="integral_ProductList">商品列表</string>
+    <string name="integral_exchange">兑换记录</string>
+    <string name="integral_subsidiary">积分明细</string>
 
 
     <!--string related to common tipstext-->
