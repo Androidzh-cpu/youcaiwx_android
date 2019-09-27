@@ -19,6 +19,7 @@ public class TetsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_learncenter);
         StatusBarUtil.immersive(this);
+        //阿斯顿福建凹设计费
     }
 
 }
