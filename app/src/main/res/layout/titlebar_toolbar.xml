@@ -8,47 +8,46 @@
     android:fitsSystemWindows="true"
     tools:ignore="RtlCompat">
     <!--使用android:fitsSystemWindows="true"才不会覆盖状态栏,此版本需要对状态栏做白底黑字处理-->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/titlebar_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_41"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@mipmap/icon_back"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+            app:titleMargin="0dp"
+            app:titleTextColor="@color/color_333333">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/titlebar_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_41"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@mipmap/icon_back"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        app:titleMargin="0dp"
-        app:titleTextColor="@color/color_333333">
+            <TextView
+                android:id="@+id/titlebar_midtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/default_title"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_16" />
 
-        <TextView
-            android:id="@+id/titlebar_midtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="1"
-            android:text="@string/default_title"
-            android:textColor="@color/color_333333"
-            android:textSize="@dimen/sp_16" />
+            <TextView
+                android:id="@+id/titlebar_righttitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/dp_12"
+                android:gravity="center"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/sp_14" />
+        </android.support.v7.widget.Toolbar>
 
-        <TextView
-            android:id="@+id/titlebar_righttitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/dp_12"
-            android:gravity="center"
-            android:textColor="@color/color_666666"
-            android:textSize="@dimen/sp_14" />
-    </android.support.v7.widget.Toolbar>
-
-    <View
-        android:id="@+id/showline"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_3_5"
-        android:background="@drawable/titlebar_showline"
-        app:layout_constraintTop_toBottomOf="@id/titlebar_toolbar" />
+        <View
+            android:id="@+id/showline"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_3_5"
+            android:background="@drawable/titlebar_showline"
+            app:layout_constraintTop_toBottomOf="@id/titlebar_toolbar" />
 </android.support.constraint.ConstraintLayout>
