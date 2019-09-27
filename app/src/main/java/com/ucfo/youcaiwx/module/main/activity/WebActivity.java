@@ -293,7 +293,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
                     // 以下固定写法,表示跳转到第三方应用
                     final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    context.startActivity(intent);
+                    startActivity(intent);
                     isDownload = false;  //该字段是用于判断是否需要跳转浏览器下载
                 } catch (Exception e) {
                     // 防止没有安装的情况
@@ -317,12 +317,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSetting.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
-        webSetting.setSupportMultipleWindows(false);
-        webSetting.setGeolocationEnabled(true);
-        webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-        webSetting.setJavaScriptCanOpenWindowsAutomatically(true);//支持通过JS打开新窗口
-        webSetting.setPluginsEnabled(true);//支持插件
-        webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
         //设置自适应屏幕，两者合用
         webSetting.setLoadWithOverviewMode(true);// 缩放至屏幕的大小
         webSetting.setUseWideViewPort(true);//将图片调整到适合webview的大小
@@ -340,14 +334,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         webSetting.setAppCacheMaxSize(10 * 1024 * 1024);
         //允许缓存，设置缓存位置
         webSetting.setAppCacheEnabled(true);
-        // 设置缓存模式
-        webSetting.setCacheMode(WebSettings.LOAD_NORMAL);
-        webSetting.setAppCachePath(context.getDir("appcache", 0).getPath());
-        webSetting.setDatabasePath(this.getDir("databases", 0).getPath());
-        webSetting.setGeolocationDatabasePath(this.getDir("geolocation", 0).getPath());
+        webSetting.setAppCachePath(getDir("appcache", 0).getPath());
         //允许WebView使用File协议
         webSetting.setAllowFileAccess(true);
-
         //不保存密码
         webSetting.setSavePassword(false);
         //设置UA
@@ -356,6 +345,21 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         WebActivity.removeJavascriptInterfaces(webView);
         //自动加载图片
         webSetting.setLoadsImagesAutomatically(true);
+
+
+        webSetting.setSupportMultipleWindows(false);
+        webSetting.setGeolocationEnabled(true);
+        webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        webSetting.setJavaScriptCanOpenWindowsAutomatically(true);//支持通过JS打开新窗口
+        webSetting.setPluginsEnabled(true);//支持插件
+        webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
+
+        // 设置缓存模式
+        webSetting.setCacheMode(WebSettings.LOAD_NORMAL);
+        webSetting.setDatabasePath(this.getDir("databases", 0).getPath());
+        webSetting.setGeolocationDatabasePath(this.getDir("geolocation", 0).getPath());
+
+
     }
 
 
@@ -364,7 +368,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
      * Time:2019-3-22   下午 2:57
      * Detail:TODO  如果启用了JavaScript，务必做好安全措施，防止远程执行漏洞
      */
-    @SuppressLint("ObsoleteSdkInt")
     @TargetApi(11)
     private static void removeJavascriptInterfaces(WebView webView) {
         try {

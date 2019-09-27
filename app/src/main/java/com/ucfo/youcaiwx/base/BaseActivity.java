@@ -10,6 +10,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.service.NetworkReceiver;
@@ -181,6 +185,27 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void traverse(ViewGroup root) {
+        final int childCount = root.getChildCount();
+        for (int i = 0; i < childCount; ++i) {
+            final View child = root.getChildAt(i);
+            if (child instanceof ViewGroup) {
+                child.setBackground(null);
+                traverse((ViewGroup) child);
+            } else {
+                if (child != null) {
+                    child.setBackground(null);
+                }
+                if (child instanceof ImageView) {
+                    ((ImageView) child).setImageDrawable(null);
+                } else if (child instanceof EditText) {
+                    ((EditText) child).clearFocus();
+                    ((EditText) child).clearAnimation();
+                }
+            }
+        }
     }
 
     public boolean fastClick(int time) {
