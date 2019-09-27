@@ -1633,11 +1633,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      */
     public void setCourse_Cover(String courseCoverUrl) {
         if (TextUtils.isEmpty(courseCoverUrl)) {
-            courseCoverimage.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_default));
+            courseCoverimage.setImageDrawable(ContextCompat.getDrawable(this, R.color.color_F2F7FF));
         } else {
             RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
-                    .placeholder(R.mipmap.icon_default)
+                    .placeholder(R.color.color_F2F7FF)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.ALL);
             GlideUtils.load(this, courseCoverUrl, courseCoverimage, requestOptions);

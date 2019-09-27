@@ -1,5 +1,6 @@
 package com.hitomi.tilibrary.view.indicator;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.view.ViewPager;
@@ -15,6 +16,7 @@ import java.util.Locale;
  * <p>
  * email: 196425254@qq.com
  */
+@SuppressLint("AppCompatCustomView")
 public class NumberIndicator extends TextView {
 
     private static final String STR_NUM_FORMAT = "%s/%s";
