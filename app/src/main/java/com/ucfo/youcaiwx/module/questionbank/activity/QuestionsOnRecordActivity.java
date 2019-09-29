@@ -187,7 +187,7 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
             } else {//TODO 加载的数据为0的情况
                 if (pageIndex == 1) {//初次加载或刷新
                     if (list != null && list.size() > 0) {
-                        if (questionOnRecordAdapter!=null){
+                        if (questionOnRecordAdapter != null) {
                             questionOnRecordAdapter.notifyDataSetChanged();
                         }
                     } else {
@@ -195,7 +195,7 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
                     }
                 } else {//架子啊更多
                     if (list != null && list.size() > 0) {
-                        if (questionOnRecordAdapter!=null){
+                        if (questionOnRecordAdapter != null) {
                             questionOnRecordAdapter.notifyDataSetChanged();
                         }
                         ToastUtil.showBottomShortText(context, getResources().getString(R.string.noMoreData));
@@ -238,11 +238,14 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
                             break;
                         case 2://TODO 2继续做题
                             String paper_type = bean.getPaper_type();//1练习模式,2考试模式
-
                             if (TextUtils.equals(paper_type, String.valueOf(1))) {
                                 bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_P);//练习模式
                             } else {
                                 bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_E);//考试模式
+                            }
+                            if (TextUtils.isEmpty(bean.getPaper_id())) {
+                                ToastUtil.showBottomShortText(context, getResources().getString(R.string.data_error));
+                                return;
                             }
                             bundle.putInt(Constant.PLATE_ID, Constant.PLATE_11);
                             bundle.putInt(Constant.CONTINUE_PLATE, bean.getPlate_id());//继续做题后续操作所需板块

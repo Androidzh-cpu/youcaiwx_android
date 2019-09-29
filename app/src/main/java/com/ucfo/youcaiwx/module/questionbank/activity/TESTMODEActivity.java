@@ -66,8 +66,9 @@ import butterknife.OnClick;
  * FileName: TESTMODEActivity
  * ORG: www.youcaiwx.com
  * Description:TODO 工程模式,做题主界面
- * Detail:TODO =_=都已经乱了,就酱吧
+ * Detail:=_=都已经乱了,就酱吧
  */
+
 public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExerciseView {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
@@ -528,6 +529,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         } else {//TODO 题目未全部作答
             if (plate_id == Constant.PLATE_6 || continue_plate == Constant.PLATE_6) {//todo 组卷模考不需要提示框
                 if (plate_id == Constant.PLATE_11) {
+                    //6大板块继续做题
                     questionBankExercisePresenter.submitPapers(course_id, user_id, continue_plate, submitStatus, section_id,
                             knob_id, know_id, paper_id, mock_id, getTimeMillis(), countDownTimemillis, optionsAnswerList);
                 } else {

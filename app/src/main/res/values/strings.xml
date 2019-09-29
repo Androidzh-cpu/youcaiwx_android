@@ -509,6 +509,7 @@
     <string name="noMoreData">我们是有底线的</string>
     <string name="operation_Error">操作失败</string>
     <string name="operation_Success">操作成功</string>
+    <string name="data_error">数据错误</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
     <string name="explication">提示</string>

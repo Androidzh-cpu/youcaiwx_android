@@ -113,7 +113,6 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
     private ImagePicker imagePicker;
     private UploadFilePresenter uploadFilePresenter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -367,7 +366,7 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
                 String mobile = dataBean.getMobile();
                 int sex = dataBean.getSex();
                 if (TextUtils.isEmpty(head)) {
-                    userIcon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_headdefault));
+                    userIcon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_default));
                 } else {
                     RequestOptions requestOptions = new RequestOptions()
                             .centerCrop()
