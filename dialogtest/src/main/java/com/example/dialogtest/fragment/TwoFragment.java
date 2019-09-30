@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.dialogtest.R;
 
 /**
@@ -18,10 +19,29 @@ import com.example.dialogtest.R;
  * Description:TODO
  */
 public class TwoFragment extends Fragment {
+
+    private LottieAnimationView mAnimationview;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_two, container, false);
+        initView(rootView);
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initData();
+    }
+
+    private void initData() {
+        mAnimationview.setAnimation("moving_eye.json");
+        mAnimationview.playAnimation();
+    }
+
+    private void initView(@NonNull final View itemView) {
+        mAnimationview = (LottieAnimationView) itemView.findViewById(R.id.animationview);
     }
 }
