@@ -18,7 +18,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,17 +35,16 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
+import com.ucfo.youcaiwx.module.main.fragment.HomeFragment;
+import com.ucfo.youcaiwx.module.main.fragment.LearnCenterFragment;
+import com.ucfo.youcaiwx.module.main.fragment.MineFragment;
+import com.ucfo.youcaiwx.module.main.fragment.QuestionBankFragment;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
 import com.ucfo.youcaiwx.utils.CallUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.utils.update.UpdateCustomParser;
-import com.ucfo.youcaiwx.module.main.fragment.ClassFragment;
-import com.ucfo.youcaiwx.module.main.fragment.HomeFragment;
-import com.ucfo.youcaiwx.module.main.fragment.LearnCenterFragment;
-import com.ucfo.youcaiwx.module.main.fragment.MineFragment;
-import com.ucfo.youcaiwx.module.main.fragment.QuestionBankFragment;
 import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
@@ -66,15 +64,12 @@ import butterknife.ButterKnife;
  * Description:主页
  */
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    @BindView(R.id.frame_layout)
-    FrameLayout frameLayout;
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigation;
     private int indexTab = 0;
     private FragmentTransaction fragmentTransaction;
     private FragmentManager supportFragmentManager;
     private HomeFragment homeFragment;
-    private ClassFragment classFragment;
     private LearnCenterFragment learnCenterFragment;
     private QuestionBankFragment questionBankFragment;
     private MineFragment mineFragment;
@@ -91,14 +86,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         context = MainActivity.this;
         ButterKnife.bind(this);
         ActivityUtil.getInstance().addActivity(this);
-
         //统计应用启动数据在所有的Activity 的onCreate 方法或在应用的BaseActivity的onCreate方法中添加
         PushAgent.getInstance(this).onAppStart();
-
         initView();
-
         checkPermission();
-
         updateApp();
     }
 
@@ -255,62 +246,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     /**
-     * 选中指定页面
-     */
-    private void initSelectTab(int index) {
-        if (index < 0 || index > 3) {
-            index = 0;
-        }
-        fragmentTransaction = supportFragmentManager.beginTransaction();
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-
-        hideAllFragment(fragmentTransaction);
-        bottomNavigation.getMenu().getItem(index).setChecked(true);
-
-        indexTab = index;
-        switch (index) {
-            case 0:
-                if (homeFragment == null) {
-                    homeFragment = new HomeFragment();
-                    fragmentTransaction.add(R.id.frame_layout, homeFragment, HomeFragment.TAG);
-                } else {
-                    fragmentTransaction.show(homeFragment);
-                }
-                fragmentTransaction.commit();
-                break;
-            case 1:
-                if (learnCenterFragment == null) {
-                    learnCenterFragment = new LearnCenterFragment();
-                    fragmentTransaction.add(R.id.frame_layout, learnCenterFragment, LearnCenterFragment.TAG);
-                } else {
-                    fragmentTransaction.show(learnCenterFragment);
-                }
-                fragmentTransaction.commit();
-                break;
-            case 2:
-                if (questionBankFragment == null) {
-                    questionBankFragment = new QuestionBankFragment();
-                    fragmentTransaction.add(R.id.frame_layout, questionBankFragment, QuestionBankFragment.TAG);
-                } else {
-                    fragmentTransaction.show(questionBankFragment);
-                }
-                fragmentTransaction.commit();
-                break;
-            case 3:
-                if (mineFragment == null) {
-                    mineFragment = new MineFragment();
-                    fragmentTransaction.add(R.id.frame_layout, mineFragment, MineFragment.TAG);
-                } else {
-                    fragmentTransaction.show(mineFragment);
-                }
-                fragmentTransaction.commit();
-                break;
-            default:
-                break;
-        }
-    }
-
-    /**
      * 检查权限
      */
     private void checkPermission() {
@@ -334,9 +269,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private void hideAllFragment(FragmentTransaction fragmentTransaction) {
         if (homeFragment != null) {
             fragmentTransaction.hide(homeFragment);
-        }
-        if (classFragment != null) {
-            fragmentTransaction.hide(classFragment);
         }
         if (learnCenterFragment != null) {
             fragmentTransaction.hide(learnCenterFragment);
@@ -415,6 +347,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     }
 
+    /**
+     * 导航栏点击事件
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -438,5 +373,61 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
         }
         return false;
+    }
+
+    /**
+     * 选中指定页面
+     */
+    private void initSelectTab(int index) {
+        if (index < 0 || index > 3) {
+            index = 0;
+        }
+        fragmentTransaction = supportFragmentManager.beginTransaction();
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+
+        hideAllFragment(fragmentTransaction);
+        bottomNavigation.getMenu().getItem(index).setChecked(true);
+
+        indexTab = index;
+        switch (index) {
+            case 0:
+                if (homeFragment == null) {
+                    homeFragment = new HomeFragment();
+                    fragmentTransaction.add(R.id.frame_layout, homeFragment, HomeFragment.TAG);
+                } else {
+                    fragmentTransaction.show(homeFragment);
+                }
+                fragmentTransaction.commit();
+                break;
+            case 1:
+                if (learnCenterFragment == null) {
+                    learnCenterFragment = new LearnCenterFragment();
+                    fragmentTransaction.add(R.id.frame_layout, learnCenterFragment, LearnCenterFragment.TAG);
+                } else {
+                    fragmentTransaction.show(learnCenterFragment);
+                }
+                fragmentTransaction.commit();
+                break;
+            case 2:
+                if (questionBankFragment == null) {
+                    questionBankFragment = new QuestionBankFragment();
+                    fragmentTransaction.add(R.id.frame_layout, questionBankFragment, QuestionBankFragment.TAG);
+                } else {
+                    fragmentTransaction.show(questionBankFragment);
+                }
+                fragmentTransaction.commit();
+                break;
+            case 3:
+                if (mineFragment == null) {
+                    mineFragment = new MineFragment();
+                    fragmentTransaction.add(R.id.frame_layout, mineFragment, MineFragment.TAG);
+                } else {
+                    fragmentTransaction.show(mineFragment);
+                }
+                fragmentTransaction.commit();
+                break;
+            default:
+                break;
+        }
     }
 }
