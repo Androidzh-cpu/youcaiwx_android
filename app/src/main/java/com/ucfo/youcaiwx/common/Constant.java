@@ -7,25 +7,14 @@ import com.ucfo.youcaiwx.BuildConfig;
  * Time: 2019-3-5.  下午 5:38
  * Email:2911743255@qq.com
  * ClassName: Constant
- * Description:TODO 字段常量
+ * Description:恒量
  */
 public class Constant {
-    //---------------------------------------------TODO 基础变量-----------------------------------------------//
-    //是否显示打印日志,
-    //public static final boolean ISTEST_ENVIRONMENT = false;
+    //App测试模式控制字段
     public static final boolean ISTEST_ENVIRONMENT = BuildConfig.DEBUG;
+
     //客服电话
     public static final String SERVICE_NUM = "4006665318";
-    public static final String UTF_8 = "UTF-8";
-    public static final String CODE = "code";
-    public static final String MSG = "msg";
-    public static final String INDEX = "index";
-    public static final String TYPE = "type";
-    public static final String CONTENT = "content";
-    public static final String VALUE = "value";
-    public static final String VERSION_CODE = "VersionCode";
-    public static final String versioncode = "versioncode";
-    public static final String APP_KEY = "AppKey";
     //TODO 微信APPID
     public static final String WEIXIN_KEY = "wx55d839e60fb4b35f";
     //TODO 微信secret
@@ -34,6 +23,7 @@ public class Constant {
     public static final String WEIXIN_PARAMS1 = "snsapi_userinfo";
     //TODO 微信登录参数
     public static final String WEIXIN_PARAMS2 = "wechat_youcailogin";
+
     //TODO buglyAppID
     public static final String BUGLY_ID = "507d69a881";
     //TODO bugly标签_视频播放标签
@@ -44,20 +34,24 @@ public class Constant {
     public static final int BUGLY_TAG_ORDER = 127220;
     //TODO bugly标签_订单支付标签
     public static final int BUGLY_TAG_PAY = 127221;
+
+    //TODO 阿里云视频安全下载所需安全文件的离线解密私钥
+    public static final String ALIYUN_DECRYPT = "CMAyoucai2020999999";
+
+    //TODO 友盟平台唯一标识
+    public static final String UMENG_APPKEY = "5d521d4e3fc195b523000353";
+    //TODO 友盟平台客户端推送密钥
+    public static final String UMENG_MESSAGE_SCRECT = "d9a3baa0dff24082751e60940cdb94f3";
+    //友盟平台客户端渠道(bugly也是)
+    public static final String UMENG_CHANNEL = "YingYongBao";
+    //TODO 友盟平台自定义packagename
+    public static final String UMENG_PACKAGE_NAME = "com.ucfo.youcaiwx";
+
     //TODO AES加密key
     public static final String AES_KEY = "1234567812345678";
     //TODO AES加密向量
     public static final String AES_IV = "1234567812345678";
-    //TODO 阿里云视频安全下载所需安全文件的离线解密私钥
-    public static final String ALIYUN_DECRYPT = "CMAyoucai2020999999";
-    //友盟平台唯一标识
-    public static final String UMENG_APPKEY = "5d521d4e3fc195b523000353";
-    //友盟平台客户端推送密钥
-    public static final String UMENG_MESSAGE_SCRECT = "d9a3baa0dff24082751e60940cdb94f3";
-    //友盟平台客户端渠道
-    public static final String UMENG_CHANNEL = "YingYongBao";
-    //友盟平台自定义packagename
-    public static final String UMENG_PACKAGE_NAME = "com.ucfo.youcaiwx";
+
     //通知栏消息: 资讯消息
     public static final String UMENG_MESSAGE_INFORMATION = "newsMessage";
     //通知栏消息: 直播消息
@@ -72,11 +66,24 @@ public class Constant {
     public static final String UMENG_MESSAGE_QUESTIONANSWER = "queMessage";
     //强制下线
     public static final String UMENG_MESSAGE_FORCE = "freezeMessage";
+
     //H5链接
     public static final String WEB_URL = "defaultUrl";
     //H5标题
     public static final String WEB_TITLE = "web_title";
     public static final String DATA = "data";
+
+    public static final String UTF_8 = "UTF-8";
+    public static final String CODE = "code";
+    public static final String MSG = "msg";
+    public static final String INDEX = "index";
+    public static final String TYPE = "type";
+    public static final String CONTENT = "content";
+    public static final String VALUE = "value";
+    public static final String VERSION_CODE = "VersionCode";
+    public static final String versioncode = "versioncode";
+    public static final String APP_KEY = "AppKey";
+
     /*******************************************************TODO 再丑也要注意的分割线*******************************************************/
     //压缩图片地址
     public static final String LUBAN_PATH = "/youcai/image/";
@@ -86,9 +93,10 @@ public class Constant {
     public static final String PDF_PATH = "/youcai/pdf/";
     //加密文件存放地址
     public static final String ENCRYPTED_PATH = "/aliyun/encryptedApp.dat";
-    //TODO fileprovider路径
+    //fileprovider路径
     public static final String AUTHORITY = "PhotoProvider";
     /*******************************************************TODO 再丑也要注意的分割线*******************************************************/
+
     //---------------------------------------------登录-----------------------------------------------//
     public static final String FIRST_LOGIN = "first_login";//第一次登陆
     public static final String LOGIN_STATUS = "is_login";//用户是否登录
@@ -112,6 +120,13 @@ public class Constant {
     public static final String SMS_STATE = "state";//短信验证码  	TODO 1注册2登陆
 
     //---------------------------------------------TODO 课程-----------------------------------------------//
+    //免费试看时间(秒为基本单位)
+    public static final int FREE_TIME = 3 * 60;
+    //socket间隔时间(毫秒为基本单位)
+    public static final int SOCKET_TIME = 30 * 1000;
+    //菜单隐藏时间
+    public static final int DELAY_TIME = 5 * 1000;
+
     public static final String CLASS_ID = "class_id";//课程筛选分类id
     public static final String COURSE_PACKAGE_ID = "course_PackageId";//课程包的ID
     public static final String COURSE_COVER_IMAGE = "course_coverimage";//课程包封面
@@ -135,8 +150,6 @@ public class Constant {
     public static final String VIDEO_TITLE = "video_title";//视频标题
     public static final String PLAN_ID = "plan_id";//学习计划ID
     public static final String DAYS = "days";//学习计划天数
-    //免费试看时间
-    public static final int FREE_TIME = 3 * 60;
     //视频播放源
     public static final String LOCAL_CACHE = "localCache";//本地缓存
     public static final String LOCAL_PLAYURL = "localPlayUrl";//本地视频播放地址

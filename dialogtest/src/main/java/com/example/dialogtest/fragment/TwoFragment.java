@@ -37,7 +37,7 @@ public class TwoFragment extends Fragment {
     }
 
     private void initData() {
-        mAnimationview.setAnimation("moving_eye.json");
+        mAnimationview.setAnimation("atm_link.json");
         mAnimationview.playAnimation();
     }
 

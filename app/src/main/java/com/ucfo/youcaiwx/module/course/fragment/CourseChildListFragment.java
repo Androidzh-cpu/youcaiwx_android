@@ -172,9 +172,7 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
         courseChildListApapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (!fastClick(1000)) {
-                    starPlayActivity(courseList, position);
-                }
+                starPlayActivity(courseList, position);
             }
         });
     }
@@ -185,6 +183,8 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
      * Detail:跳转至课程播放页
      */
     private void starPlayActivity(List<CourseDataListBean.DataBean> list, int position) {
+        setProcessLoading(null,true);
+
         Bundle bundle = new Bundle();
         CourseDataListBean.DataBean bean = list.get(position);
 
@@ -197,6 +197,8 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
         bundle.putInt(Constant.COURSE_BUY_STATE, isPurchase);//购买状态
         bundle.putString(Constant.COURSE_PRICE, bean.getPrice());//课程包价格
         startActivity(VideoPlayPageActivity.class, bundle);
+
+        dismissPorcess();
     }
 
     @Override

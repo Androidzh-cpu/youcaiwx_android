@@ -298,7 +298,7 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
         //课程有效期
         itemCourseTime.setText(String.valueOf(getResources().getString(R.string.orderForm_endtime2, studyDays)));
         //学习人数
-        itemCourseEffective.setText(String.valueOf(joinNum + getResources().getString(R.string.mine_Course_holder1)));
+        itemCourseEffective.setText(String.valueOf(context.getResources().getString(R.string.course_NumOfLearning,String.valueOf(joinNum))));
         /*----------------------------------------------------------------再丑也要看的分割线----------------------------------------------------------------*/
         //TODO 订单状态
         switch (payStatus) {

@@ -2,7 +2,6 @@ package com.ucfo.youcaiwx.module.course.player;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,7 +14,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Vibrator;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,7 +23,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.Display;
@@ -75,17 +72,6 @@ import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.course.CourseSocketBean;
 import com.ucfo.youcaiwx.entity.course.GetVideoPlayAuthBean;
-import com.ucfo.youcaiwx.presenter.presenterImpl.course.CoursePlayPresenter;
-import com.ucfo.youcaiwx.presenter.view.course.ICoursePlayerView;
-import com.ucfo.youcaiwx.utils.CallUtils;
-import com.ucfo.youcaiwx.utils.LogUtils;
-import com.ucfo.youcaiwx.utils.ShareUtils;
-import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
-import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
-import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
-import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.module.course.player.adapter.CommonTabAdapter;
 import com.ucfo.youcaiwx.module.course.player.courseinterface.ViewAction;
 import com.ucfo.youcaiwx.module.course.player.fragment.CourseAnswerQuestionFragment;
@@ -105,6 +91,17 @@ import com.ucfo.youcaiwx.module.course.player.widget.SpeedListviewWindow;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.module.pay.CommitOrderActivity;
 import com.ucfo.youcaiwx.module.questionbank.activity.QuestionAskQuestionActivity;
+import com.ucfo.youcaiwx.presenter.presenterImpl.course.CoursePlayPresenter;
+import com.ucfo.youcaiwx.presenter.view.course.ICoursePlayerView;
+import com.ucfo.youcaiwx.utils.CallUtils;
+import com.ucfo.youcaiwx.utils.LogUtils;
+import com.ucfo.youcaiwx.utils.ShareUtils;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
+import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
+import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
+import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
+import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingView;
 import com.ucfo.youcaiwx.widget.customview.SwitchView;
 import com.ucfo.youcaiwx.widget.dialog.ShareDialog;
@@ -136,9 +133,9 @@ import static com.ucfo.youcaiwx.module.course.player.courseinterface.ViewAction.
  * Time: 2019-4-3.  上午 9:56
  * Email:2911743255@qq.com
  * ClassName: VideoPlayPageActivity
- * Description:TODO 课程播放页
- * Detail:TODO  courseUnCon:1正课2非正课
- * TODO courseBuyState:1购买2未购买
+ * Description:课程播放页
+ * Detail:TODO  courseUnCon: 1正课  2非正课
+ * TODO courseBuyState: 1购买  2未购买
  */
 public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceHolder.Callback, ICoursePlayerView {
     @BindView(R.id.course_coverimage)
@@ -248,7 +245,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private ErrorInfo currentError = ErrorInfo.Normal;
 
     private static final int WHAT_HIDE = 0;
-    private static final int DELAY_TIME = 5 * 1000; //5秒后隐藏
     private int currentScreenBrigtness, currentVolume;//当前亮度和音量
     private double currentScreenSize = 1;//当前画面比例
     private float currentSpeed = 1.0f;//默认倍速播放
@@ -256,18 +252,19 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private GestureDialogManager mGestureDialogManager;//手势操作框辅助工具
     private SpeedListviewWindow speedListviewWindow;//倍速播放列表
     private WindowManager windowManager;//windosmanager
-    private Vibrator mVibrator;//系统震动
     private PlaySettingWindow playSettingWindow;
     private CourseIntroductionFragment courseIntroductionFragment;
     private CourseDirectoryListFragment courseDirectoryListFragment;
     private CourseAnswerQuestionFragment courseAnswerQuestionFragment;
     private CoursePlayPresenter coursePlayPresenter;
-    private int watch_time = 0, freeTime = Constant.FREE_TIME, learnPlanid = 0, learnDays = 0;
+    private int watch_time = 0, learnPlanid = 0, learnDays = 0;
     private String playVideoName;//播放时的视频名称,从课程目录获取
     private WebSocket mWebSocket = null;
     private Timer mTimer;
     private TimerTask timerTask;
-    private int socketPeriodTime = 1000 * 30;
+    private int socketPeriodTime = Constant.SOCKET_TIME, freeTime = Constant.FREE_TIME;
+    private static final int DELAY_TIME = Constant.DELAY_TIME; //5秒后隐藏
+
     private boolean download_wifi, look_wifi;
     private AliyunPlayAuth currentaAliyunPlayAuth;
     private boolean pdfDownloadStatus = false, pdfExists = false;
@@ -429,6 +426,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             @Override
             public void run() {
                 if (mWebSocket == null) {
+                    return;
+                }
+                IAliyunVodPlayer.PlayerState playerState = aliyunVodPlayer.getPlayerState();
+                if (playerState != IAliyunVodPlayer.PlayerState.Started) {
                     return;
                 }
                 sendSocketMessage();
@@ -1138,11 +1139,17 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //不是固定竖屏播放。
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             playerControllerView(mCurrentScreenMode);
+
+            playerTopliner.setPadding(DensityUtil.dp2px(15), DensityUtil.dp2px(8), DensityUtil.dp2px(15), DensityUtil.dp2px(8));
         } else if (finalScreenMode == AliyunScreenMode.Small) {
             playerFullscreen.setImageResource(R.drawable.icon_fullscreen);
             //不是固定竖屏播放。
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             playerControllerView(mCurrentScreenMode);
+
+            //重新设置菜单栏的高度
+            int statusBarHeight = StatusBarUtil.getStatusBarHeight(this);
+            playerTopliner.setPadding(DensityUtil.dp2px(15), statusBarHeight, DensityUtil.dp2px(15), DensityUtil.dp2px(2));
         }
     }
 
@@ -1200,8 +1207,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
         //获取播放凭证
         coursePlayPresenter.getVideoPlayAuthor(currentVid, currentVideoID, currentCourseID, currentSectionID, userId, coursePackageId);
-
-        //sendSocketMessage();
     }
 
     /**
@@ -1603,7 +1608,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         download_wifi = sharedPreferencesUtils.getBoolean(Constant.DOWNLOAD_WIFI, false);
         look_wifi = sharedPreferencesUtils.getBoolean(Constant.LOOK_WIFI, false);
 
-        mVibrator = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
         coursePlayPresenter = new CoursePlayPresenter(this);
 
         bundle = getIntent().getExtras();
@@ -1614,7 +1618,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             courseBuyState = bundle.getInt(Constant.COURSE_BUY_STATE, 2);//TODO 购买状态:1购买2未购买
             course_PackagePrice = bundle.getString(Constant.COURSE_PRICE, "");//TODO 购买价格
             course_Source = bundle.getString(Constant.COURSE_SOURCE, "");//TODO 来源
-
 
             //购买状态
             setCourseBuyState(courseBuyState);
@@ -1708,12 +1711,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private void initTablayout() {
         titlesList = new ArrayList<String>();
         fragmentArrayList = new ArrayList<Fragment>();
-        if (course_Source.equals(Constant.COLLECTION)) {
+        if (TextUtils.equals(course_Source, Constant.COLLECTION)) {
             courseAnswerQuestionFragment = new CourseAnswerQuestionFragment();
             fragmentArrayList.add(courseAnswerQuestionFragment);
             titlesList.add(getResources().getString(R.string.course_ask));
-        } else if (course_Source.equals(Constant.WATCH_RECORD) || course_Source.equals(Constant.WATCH_LEARNPLAN) ||
-                course_Source.equals(Constant.LOCAL_CACHE)) {
+        } else if (TextUtils.equals(course_Source, Constant.WATCH_RECORD) || TextUtils.equals(course_Source, Constant.WATCH_LEARNPLAN) ||
+                TextUtils.equals(course_Source, Constant.LOCAL_CACHE)) {
             //TODO nothing
         } else {
             courseIntroductionFragment = new CourseIntroductionFragment();
@@ -1743,7 +1746,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                             break;
                         case 1:
                         case 2:
-                            linearPayCourse.setVisibility(linearPayCourse.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+                            if (linearPayCourse.getVisibility() == View.VISIBLE) {
+                                linearPayCourse.setVisibility(View.GONE);
+                            }
                             break;
                     }
                     tab.select();
@@ -1760,7 +1765,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
                 }
             });
-
         }
     }
 
@@ -1795,15 +1799,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             if (mWebSocket != null) {
                 mWebSocket.send(message);
             }
-        } else {
-            output("onMessage message: TODO nothing");
         }
     }
 
     /**
      * seek操作
-     *
-     * @param position 目标位置
      */
     public void seekTo(int position) {
         if (aliyunVodPlayer == null) {
@@ -1823,17 +1823,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
         aliyunVodPlayer.seekTo(position);
         start();
-    }
-
-    /**
-     * 震动通知
-     */
-    public void notifyVibrator() {
-        if (mVibrator != null) {
-            // 震动 0.3s
-            mVibrator.vibrate(20);
-            mVibrator.cancel();
-        }
     }
 
     /**
@@ -1930,7 +1919,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     //TODO 设置购买按钮
     public void updateBuyUI() {
         if (getCourseBuyState() == 1) {
-            //linearPayCourse.setVisibility(linearPayCourse.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
             if (linearPayCourse.getVisibility() == View.VISIBLE) {
                 linearPayCourse.setVisibility(View.GONE);
             }
@@ -1938,7 +1926,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             if (linearPayCourse.getVisibility() == View.GONE) {
                 linearPayCourse.setVisibility(View.VISIBLE);
             }
-            //linearPayCourse.setVisibility(linearPayCourse.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
         }
     }
 
@@ -2129,14 +2116,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 if (result == 1) {//TODO success
                     playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playstar));
                     //设置文字前景色
-                    SpannableString spannableString = new SpannableString(getResources().getString(R.string.course_collectionSuccess));
-                    ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#0EC500"));
-                    spannableString.setSpan(foregroundColorSpan, 7, 11, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-
-                    ToastUtil.showBottomLongText(VideoPlayPageActivity.this, spannableString);
-
+                    ToastUtil.showBottomLongText(VideoPlayPageActivity.this, getResources().getString(R.string.course_collectionSuccess));
                     currentVideoCollectState = 1;//已收藏
-                    notifyVibrator();
                 } else if (result == 2) {//TODO failed
                     playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playunstar));
                     ToastUtil.showBottomLongText(VideoPlayPageActivity.this, getResources().getString(R.string.operation_Error));
@@ -2146,9 +2127,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 if (result == 1) {
                     playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playunstar));
 
-                    ToastUtil.showBottomLongText(VideoPlayPageActivity.this, getResources().getString(R.string.question_tips_collection0));
+                    ToastUtil.showBottomLongText(VideoPlayPageActivity.this, getResources().getString(R.string.course_collectionCancel));
                     currentVideoCollectState = 2;//已取消收藏  question_tips_collection0
-                    notifyVibrator();
                 } else if (result == 2) {
                     playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playunstar));
                     ToastUtil.showBottomLongText(VideoPlayPageActivity.this, getResources().getString(R.string.operation_Error));

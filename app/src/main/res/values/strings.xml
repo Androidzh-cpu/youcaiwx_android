@@ -89,12 +89,15 @@
     <string name="course_ask">课程答疑</string>
     <string name="course_download">下载列表</string>
     <string name="course_getInfoError">视频信息获取失败</string>
-    <string name="course_collectionSuccess">收藏成功,可在"我的"页面查看</string>
+    <!--<string name="course_collectionSuccess">收藏成功,可在"我的"页面查看</string>-->
+    <string name="course_collectionSuccess">Get √</string>
+    <string name="course_collectionCancel">ヾ(￣▽￣)Bye~Bye~</string>
     <string name="course_qualityLoading">正在切换画质</string>
     <string name="course_qualityLoadingCompleted">画质切换完毕</string>
     <string name="course_changing">切换中,请稍后</string>
     <string name="course_PDFloading">讲义加载中,请稍后</string>
     <string name="course_PDFnotExits">讲义不存在</string>
+    <string name="course_NumOfLearning">%s人学习过</string>
     <string name="video">视频</string>
     <string name="notes">讲义</string>
     <string name="exercises">习题</string>
@@ -166,7 +169,6 @@
     <string name="mine_addressTips_Delete">地址已删除</string>
     <string name="mine_Course_nodata">您还没有购买课程哦～</string>
     <string name="mine_Course_Look">查看课程</string>
-    <string name="mine_Course_holder1">人学习过</string>
     <string name="mine_Course_holder2">小时</string>
     <string name="mine_collection_course">课程收藏</string>
     <string name="mine_collection_question">题库收藏</string>
@@ -501,7 +503,7 @@
     <string name="ISee">我知道了</string>
     <string name="day">天</string>
     <string name="month">月</string>
-    <string name="people">人</string>
+    <string name="people">%s人</string>
     <string name="source">来源</string>
     <string name="loading">内容即将呈现</string>
     <string name="NetworkDisconnected">网络已断开,请检查网络</string>
