@@ -27,21 +27,21 @@ import java.util.Map;
  * Description:TODO 支付工具类实践2
  */
 public class PaymentHelper2 {
+    @SuppressLint("StaticFieldLeak")
     private static PaymentHelper2 instance;
-    //支付结果回调接口
-    private PayStateCallback payStateCallback;
+    private PayStateCallback2 payStateCallback2;
     private Activity activity;
     private static final int SDK_PAY_FLAG = 1;
 
     private PaymentHelper2() {
     }
 
-    public static PaymentHelper2 getInstance(Activity activity, PayStateCallback payStateCallback) {
+    public static PaymentHelper2 getInstance(Activity activity, PayStateCallback2 payStateCallback2) {
         if (instance == null) {
             instance = new PaymentHelper2();
         }
         instance.setActivity(activity);
-        instance.setPayStateCallback(payStateCallback);
+        instance.setPayStateCallback2(payStateCallback2);
         return instance;
     }
 
@@ -49,16 +49,10 @@ public class PaymentHelper2 {
         this.activity = activity;
     }
 
-    private PaymentHelper2 setPayStateCallback(PayStateCallback payStateCallback) {
-        this.payStateCallback = payStateCallback;
-        return this;
+    private void setPayStateCallback2(PayStateCallback2 payStateCallback2) {
+        this.payStateCallback2 = payStateCallback2;
     }
 
-    /**
-     * 开启是福报支付
-     *
-     * @param aliPayResponseBean
-     */
     public void startAliPay(PayAliPayResponseBean aliPayResponseBean) {
         if (activity == null || aliPayResponseBean == null) {
             return;
@@ -100,24 +94,24 @@ public class PaymentHelper2 {
                     if (TextUtils.equals(resultStatus, String.valueOf(9000))) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。支付结果一定要调用自己的服务端来确定，不能通过支付宝的回调结果来判断！
                         ToastUtil.showBottomLongText(activity, "支付成功");
-                        if (payStateCallback != null) {
-                            payStateCallback.onPaySuccess("支付成功");
+                        if (payStateCallback2 != null) {
+                            payStateCallback2.onPaySuccess("支付成功");
                         }
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
                         if (TextUtils.equals(resultStatus, String.valueOf(8000))) {
                             ToastUtil.showBottomLongText(activity, "支付结果确认中");
-                            if (payStateCallback != null) {
-                                payStateCallback.onPayWatting("支付结果确认中");
+                            if (payStateCallback2 != null) {
+                                payStateCallback2.onPayWatting("支付结果确认中");
                             }
                         } else if (TextUtils.equals(resultStatus, String.valueOf(6001))) { //用户中途取消
                             ToastUtil.showBottomLongText(activity, "取消支付");
                         } else {
                             // 其他值就可以判断为支付失败
                             ToastUtil.showBottomLongText(activity, "支付失败");
-                            if (payStateCallback != null) {
-                                payStateCallback.onPayFailed("支付失败");
+                            if (payStateCallback2 != null) {
+                                payStateCallback2.onPayFailed("支付失败");
                             }
                         }
                     }
@@ -131,8 +125,6 @@ public class PaymentHelper2 {
 
     /**
      * 开启微信支付
-     *
-     * @param payWeChatResponseBean
      */
     public void startWeChatPay(PayWeChatResponseBean payWeChatResponseBean) {
         if (activity == null || payWeChatResponseBean == null) {

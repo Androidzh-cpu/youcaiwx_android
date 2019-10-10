@@ -1,5 +1,7 @@
 package com.example.dialogtest.fragment;
 
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.dialogtest.R;
+
+import java.lang.reflect.Field;
 
 /**
  * Author: AND
@@ -37,11 +41,25 @@ public class TwoFragment extends Fragment {
     }
 
     private void initData() {
-        mAnimationview.setAnimation("atm_link.json");
+        mAnimationview.setAnimation("data.json");
         mAnimationview.playAnimation();
     }
 
     private void initView(@NonNull final View itemView) {
         mAnimationview = (LottieAnimationView) itemView.findViewById(R.id.animationview);
+    }
+
+    public void setTypeface() {
+        AssetManager assets = getActivity().getAssets();
+        Typeface typeFace = Typeface.createFromAsset(assets, "fonts/Microsoft YaHei.TTF");
+        try {
+            Field field = Typeface.class.getDeclaredField("SERIF");
+            field.setAccessible(true);
+            field.set(null, typeFace);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -10,6 +10,40 @@
 
     <include layout="@layout/titlebar_toolbar" />
 
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_300"
+                android:src="@mipmap/icon_default"
+                app:layout_scrollFlags="scroll" />
+            <!--            AppBarLayout里放入的都可以跟着向上滑动滑出布局的的，            添加app:layout_scrollFlags="scroll"属性可以滑出布局            TabLayout没有添加，所以停留在顶部            -->
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tablayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabIndicatorColor="@color/color_0AAB55"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@color/color_0AAB55"
+                app:tabTextColor="@color/colorBlack" />
+        </android.support.design.widget.AppBarLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

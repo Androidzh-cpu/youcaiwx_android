@@ -3,14 +3,15 @@
     <string name="youcaiWXdescribe">优财网校CMA为在职财务人员提供专业与时俱进的CMA智能学习平台</string>
     <string name="youcaiWXShareDescribe">优财是引领CMA浪潮的先驱者</string>
 
-    <!-- Strings related to homeNavigation -->
+    <!-- Strings related to 首页导航栏文案 start-->
     <string name="tab_home">首页</string>
     <string name="tab_class">课程</string>
     <string name="tab_learncenter">学习中心</string>
     <string name="tab_questionbank">题库</string>
     <string name="tab_mine">我的</string>
+    <!-- Strings related to 首页导航栏文案 end-->
 
-    <!-- Strings related to home -->
+    <!-- Strings related to 首页 start-->
     <string name="home_live">直播</string>
     <string name="home_course">课程</string>
     <string name="home_face">面授</string>
@@ -22,14 +23,9 @@
     <string name="home_news_zixun">最新资讯</string>
     <string name="home_more">查看更多</string>
     <string name="scan_tiptext">将二维码/条码放入框内,即可自动扫描</string>
+    <!-- Strings related to 首页 end-->
 
-    <!-- Strings related to login -->
-    <string name="guide_jump">跳过</string>
-    <string name="guide_tomain">立即体验</string>
-    <string name="home_title">优财网校</string>
-    <string name="mine_title">个人中心</string>
-    <string name="default_title">优财网校</string>
-    <string name="default_subtitle">选项</string>
+    <!-- Strings related to 登录注册业务 start-->
     <string name="login_wechat">微信</string>
     <string name="login_sms">短信登录</string>
     <string name="login_account">账号</string>
@@ -57,6 +53,7 @@
     <string name="login_mobile_isempty">手机号不能为空</string>
     <string name="login_password_isempty">密码不能为空</string>
     <string name="login_mobile_iserror">您的账号格式不正确</string>
+
     <string name="login_error">登录失败</string>
     <string name="login_success">登录成功</string>
     <string name="login_logining">正在登录</string>
@@ -69,6 +66,7 @@
     <string name="reset_success">密码重置成功</string>
     <string name="register_sendcode">验证码已发送,请注意查收</string>
     <string name="register_sendcode_error">验证码发送失败</string>
+
     <string name="register_password_tip">请输入密码</string>
     <string name="register_mobile_tip">请输入您的账号</string>
     <string name="register_password_error">密码长度最小为6位</string>
@@ -77,8 +75,9 @@
     <string name="register_argument_tip">请同意用户注册协议</string>
     <string name="wx_noinstanl">您的设备尚未安装微信,请安装后再登录!</string>
     <string name="wx_upperlimit">设备达到上限</string>
+    <!-- Strings related to 登录注册业务 end-->
 
-    <!-- Strings related to class -->
+    <!-- Strings related to 课程 start-->
     <string name="course_consumeFlow">播放将消耗流量,是否继续?</string>
     <string name="course_free">免费试听</string>
     <string name="course_joincount">参加人数: </string>
@@ -89,7 +88,6 @@
     <string name="course_ask">课程答疑</string>
     <string name="course_download">下载列表</string>
     <string name="course_getInfoError">视频信息获取失败</string>
-    <!--<string name="course_collectionSuccess">收藏成功,可在"我的"页面查看</string>-->
     <string name="course_collectionSuccess">Get √</string>
     <string name="course_collectionCancel">ヾ(￣▽￣)Bye~Bye~</string>
     <string name="course_qualityLoading">正在切换画质</string>
@@ -112,10 +110,9 @@
     <string name="course_videoLoading">视频加载中</string>
     <string name="course_courseDuration">课程时长</string>
     <string name="course_freeWatchCompleted">试看结束,请购买相关课程</string>
-    <string name="image_size_to_small">大小不超过 %1$sM。</string>
-    <string name="error_size_to_small">长宽不小于 %1$dpx，且大小不超过 %2$sM。</string>
+    <!-- Strings related to 课程 end-->
 
-    <!-- Strings related to minecenter -->
+    <!-- Strings related to 个人中心 start-->
     <string name="mine_integral">我的积分</string>
     <string name="mine_balance">账户余额</string>
     <string name="mine_Coupon">优惠券</string>
@@ -191,8 +188,10 @@
     <string name="mine_feedbackTips2">请输入您的问题</string>
     <string name="mine_feedbackToast1">请输入反馈内容</string>
     <string name="mine_feedbackToast2">请输入联系方式</string>
+    <!-- Strings related to 个人中心 end-->
 
-    <!-- Strings related to 学习中心 -->
+
+    <!-- Strings related to 学习中心 start-->
     <string name="learncenter_login">请点击登录</string>
     <string name="learncenter_gotostudy">开始学习之旅</string>
     <string name="learncenter_gotostudy2">前往学习</string>
@@ -222,8 +221,10 @@
     <string name="learncenter_exit2Title">您的学习计划已到期</string>
     <string name="learncenter_exit2Message">如需体验更多，请购买正课。</string>
     <string name="learncenter_buyCourseTips">请购买课程后再添加</string>
+    <!-- Strings related to 学习中心 end-->
 
-    <!-- Strings related to 我的订单 -->
+
+    <!-- Strings related to 我的订单 start-->
     <string name="orderForm_info">订单信息</string>
     <string name="orderForm_number">订单编号: </string>
     <string name="orderForm_money">订单金额: </string>
@@ -247,8 +248,10 @@
     <string name="coupon_live">仅限直播课使用</string>
     <string name="coupon_all">全局使用</string>
     <string name="coupon_discount">折</string>
+    <!-- Strings related to 我的订单 end-->
 
-    <!-- Strings related to 我的答疑 -->
+
+    <!-- Strings related to 我的答疑 start-->
     <string name="answer_title_allAnswer">全部答疑</string>
     <string name="answer_title_mineAsk">我的提问</string>
     <string name="answer_title_askQuestions">我要提问</string>
@@ -275,8 +278,10 @@
     <string name="question_default">0元体验</string>
     <string name="the_next">下一步</string>
     <string name="question_start_exercise">开始练习</string>
+    <!-- Strings related to 我的答疑 end-->
 
-    <!-- Strings related to 题库首页-->
+
+    <!-- Strings related to 题库首页 start-->
     <string name="question_title_record">答题记录</string>
     <string name="question_title_assessment">能力评估</string>
     <string name="question_title_errorscenter">错题中心</string>
@@ -291,8 +296,10 @@
     <string name="question_title_errorAnalysis">错题解析</string>
     <string name="question_title_allAnalysis">全部解析</string>
     <string name="question_title_ResultsStatistical">成绩统计</string>
+    <!-- Strings related to 题库首页 end-->
 
-    <!-- Strings related to 题库首页提示信息-->
+
+    <!-- Strings related to 题库首页描述语 start-->
     <string name="question_tips_count">做题数</string>
     <string name="question_tips_accuracy_percent">正确率</string>
     <string name="question_tips_average_percent">平均分</string>
@@ -312,8 +319,10 @@
     <string name="question_tips_errorCount">道错题</string>
     <string name="question_tips_makequestion">去做题</string>
     <string name="question_tips_Count">道题</string>
+    <!-- Strings related to 题库首页描述语 end-->
 
-    <!-- Strings related to 题库做题页提示文案-->
+
+    <!-- Strings related to 题库做题页提示文案 start-->
     <string name="question_tips_checkquestionnumber">请选试题题数</string>
     <string name="question_tips_checkquestionnumber2">请选需要练习的章节</string>
     <string name="question_tips_checkquestionnumber3">请选需要练习的知识点</string>
@@ -338,15 +347,19 @@
     <string name="question_tips_hasSaved">试卷已保存</string>
     <string name="question_tips_make15">先做15道</string>
     <string name="question_tips_make30">先做30道</string>
+    <!-- Strings related to 题库做题页提示文案 end-->
 
-    <!-- Strings related to 做题页底部按钮 -->
+
+    <!-- Strings related to 做题页导航栏 start-->
     <string name="question_tab_collection">收藏</string>
     <string name="question_tab_answersheet">答题卡</string>
     <string name="question_tab_pause">暂停</string>
     <string name="question_tab_query">答疑</string>
     <string name="question_tab_commit">交卷</string>
+    <!-- Strings related to 做题页导航栏 end-->
 
-    <!-- Strings related to 成绩统计-->
+
+    <!-- Strings related to 成绩统计 start-->
     <string name="holder_nodata">暂无数据</string>
     <string name="holder_nomessage">暂无消息</string>
     <string name="holder_notmake">未作答</string>
@@ -365,12 +378,13 @@
     <string name="question_tips_holder7">查看试题</string>
     <string name="question_tips_holder5">%    已做</string>
     <string name="question_tips_holder8">老师</string>
+    <!-- Strings related to 成绩统计 end-->
+
 
     <!--<string name="github_qq_browser_kernel">The web page is provided by github.com.\nThe QQ browser X5 kernel has been enabled.</string>-->
     <string name="github_qq_browser_kernel">网页由 www.youcaiwx.com 提供\nQQ浏览器X5内核提供技术支持</string>
     <string name="github_qq_browser_urlIllegality">网页链接不正确</string>
     <string name="title_activity_test_login">Sign in</string>
-
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -382,7 +396,7 @@
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
 
-    <!-- Strings related to offlineCenter -->
+    <!-- Strings related to 离线中心 start-->
     <string name="downloadCompleted">下载完成</string>
     <string name="downloading">正在下载</string>
     <string name="download">下载</string>
@@ -392,7 +406,7 @@
     <string name="alivc_video_download_finish_tips">该视频已下载</string>
     <string name="alivc_video_download_finish_haved">该视频已在下载列表</string>
     <string name="alivc_video_download_notfile">文件不存在或已被删除</string>
-    <string name="alivc_video_download_startdownwithhand">网络恢复, 请手动开启下载任务...</string>
+    <string name="alivc_video_download_startdownwithhand">网络恢复, 请手动开启下载任务</string>
     <string name="alivc_video_download_downwithwifi">下载将消耗流量,是否继续?</string>
     <string name="download_haveDownload">已下载课程</string>
     <string name="download_downloading">正在下载</string>
@@ -408,9 +422,12 @@
     <string name="checkAll">全选</string>
     <string name="cancelCheckAll">取消全选</string>
     <string name="delete">删除</string>
-    <string name="no_delete">没有删除的视频选项...</string>
+    <string name="no_delete">没有删除的视频选项</string>
+    <!-- Strings related to 离线中心 end-->
 
-    <!-- Strings related to orderform -->
+
+    <!-- Strings related to 提交订单 start-->
+    <string name="pay_title">支付</string>
     <string name="pay_commitOrder">提交订单</string>
     <string name="pay_notice">《用户支付须知》</string>
     <string name="pay_havereaded">我已阅读</string>
@@ -428,10 +445,13 @@
     <string name="pay_addAddress">请添加地址</string>
     <string name="pay_readPayNotice">请同意支付协议</string>
     <string name="pay_commitOrderSuccess">生成订单成功</string>
+    <string name="pay_miss_orderinfo">订单信息有误</string>
     <string name="pay_commitOrderSuccess2">请在24小时内完成支付，超时后将取消订单</string>
     <string name="pay_noinstanl">您尚未安装微信，请安装后重试</string>
+    <!-- Strings related to 提交订单 end-->
 
-    <!-- Strings related to invoice -->
+
+    <!-- Strings related to 发票 start-->
     <string name="invoice">发票</string>
     <string name="invoice_person">个人</string>
     <string name="invoice_company">单位</string>
@@ -463,8 +483,10 @@
     <string name="invoice_editTips6">请输入注册银行</string>
     <string name="invoice_editTips7">请输入银行账户</string>
     <string name="invoice_editTips10">请输入正确的银行账户</string>
+    <!-- Strings related to 发票 end-->
 
-    <!--string related to messageCenter-->
+
+    <!--string related to 消息中心 start-->
     <string name="message_center">消息中心</string>
     <string name="message_notice">网校公告</string>
     <string name="message_notification">系统通知</string>
@@ -473,22 +495,35 @@
     <string name="message_form">来自: </string>
     <string name="message_answerHolder">有人回复了您的问题</string>
     <string name="message_courseHolder">上课提醒通知</string>
+    <!--string related to 消息中心 end-->
 
-    <!--string related to update-->
+
+    <!--string related to update  start-->
     <string name="WhetherToUpgrade">是否升级到%s版本？</string>
     <string name="ThisIsTheLatestVersion">当前已是最新版本</string>
     <string name="update">升级</string>
+    <!--string related to update  end-->
 
-    <!--string related to 积分-->
+
+    <!--string related to 积分  start-->
     <string name="integral_remainingPoints">剩余积分</string>
     <string name="integral_inviteFriends">邀请好友赢大礼包</string>
     <string name="integral_gainIntegral">赚积分</string>
     <string name="integral_ProductList">商品列表</string>
     <string name="integral_exchange">兑换记录</string>
     <string name="integral_subsidiary">积分明细</string>
+    <!--string related to 积分  end-->
 
 
-    <!--string related to common tipstext-->
+    <!--string related to common start-->
+    <string name="image_size_to_small">大小不超过 %1$sM。</string>
+    <string name="error_size_to_small">长宽不小于 %1$dpx，且大小不超过 %2$sM。</string>
+    <string name="guide_jump">跳过</string>
+    <string name="guide_tomain">立即体验</string>
+    <string name="home_title">优财网校</string>
+    <string name="mine_title">个人中心</string>
+    <string name="default_title">优财网校</string>
+    <string name="default_subtitle">选项</string>
     <string name="net_loadingtext">加载中</string>
     <string name="net_canceltext">取消中</string>
     <string name="file_loadingtext">正在上传</string>
@@ -540,4 +575,5 @@
     <string name="permission_sdcard">如果你拒绝了权限，你将无法使用视频服务，请点击授予权限</string>
     <string name="permission_sdcard2">如果你拒绝了权限，你将无法使用相册服务，请点击授予权限</string>
     <string name="permission_explication">授权失败,请手动去设置页打开权限，或者重试授权权限</string>
+    <!--string related to common end-->
 </resources>

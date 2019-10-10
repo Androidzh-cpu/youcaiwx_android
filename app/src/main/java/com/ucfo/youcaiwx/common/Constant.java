@@ -78,6 +78,7 @@ public class Constant {
     public static final String MSG = "msg";
     public static final String INDEX = "index";
     public static final String TYPE = "type";
+    public static final String TYPE_ID = "type_id";
     public static final String CONTENT = "content";
     public static final String VALUE = "value";
     public static final String VERSION_CODE = "VersionCode";

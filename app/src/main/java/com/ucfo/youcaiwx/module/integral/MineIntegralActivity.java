@@ -146,6 +146,8 @@ public class MineIntegralActivity extends BaseActivity {
                 //TODO 赚积分
                 startActivity(EarnIntegralActivity.class, null);
                 break;
+            default:
+                break;
         }
     }
 }

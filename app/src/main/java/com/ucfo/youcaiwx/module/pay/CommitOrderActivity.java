@@ -352,6 +352,10 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
                 String orderNum = dataBean.getOrder_num();
                 float payPrice = dataBean.getPay_price();
 
+                if (TextUtils.isEmpty(orderNum)) {
+                    ToastUtil.showBottomLongText(context, getResources().getString(R.string.pay_miss_orderinfo));
+                    return;
+                }
                 Bundle bundle = new Bundle();
                 bundle.putString(Constant.ORDER_NUM, orderNum);
                 bundle.putFloat(Constant.COURSE_PRICE, payPrice);
@@ -412,7 +416,7 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
                 .centerCrop()
                 .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
-                .transform(new RoundedCornersTransformation(DensityUtil.dp2px(5),0))
+                .transform(new RoundedCornersTransformation(DensityUtil.dp2px(5), 0))
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         GlideUtils.load(context, appImg, courseImage, requestOptions);
         //课程名

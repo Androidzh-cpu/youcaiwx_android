@@ -21,6 +21,5 @@ public class EarnIntegralActivity extends BaseActivity {
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
-
     }
 }

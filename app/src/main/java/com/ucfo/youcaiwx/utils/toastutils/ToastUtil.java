@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ucfo.youcaiwx.R;
+import com.ucfo.youcaiwx.utils.LogUtils;
 
 /**
  * Author:AND
@@ -29,16 +30,8 @@ public class ToastUtil extends Toast {
         super(context);
     }
 
-
-    public static void showBottomShortText(Context context, CharSequence text) {
-        showToast(context, text, 0, 0);
-    }
-
     /**
      * 显示Toast
-     *
-     * @param context 上下文
-     * @param text    显示的文本
      */
     private static void showToast(Context context, CharSequence text, int position, int time) {
         // 初始化一个新的Toast对象
@@ -59,9 +52,6 @@ public class ToastUtil extends Toast {
 
     /**
      * 初始化Toast
-     *
-     * @param context 上下文
-     * @param text    显示的文本
      */
     private static void initToast(Context context, CharSequence text, int position) {
         try {
@@ -72,8 +62,11 @@ public class ToastUtil extends Toast {
             // 获取LayoutInflater对象
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             // 由layout文件创建一个View对象
-            View layout = inflater.inflate(R.layout.view_toast_layout, null);
-            layout.getBackground().setAlpha(180);
+            View layout = null;
+            if (inflater != null) {
+                layout = inflater.inflate(R.layout.view_toast_layout, null);
+                layout.getBackground().setAlpha(180);
+            }
             // 吐司上的文字
             TextView toast_text = (TextView) layout.findViewById(R.id.message);
             toast_text.setText(text);
@@ -101,6 +94,7 @@ public class ToastUtil extends Toast {
         try {
             super.show();
         } catch (Exception e) {
+            LogUtils.e(e.toString());
         }
     }
 
@@ -124,6 +118,10 @@ public class ToastUtil extends Toast {
         }
     }
 
+    public static void showBottomShortText(Context context, CharSequence text) {
+        showToast(context, text, 0, 0);
+    }
+
     public static void showBottomLongText(Context context, CharSequence text) {
         showToast(context, text, 0, 1);
     }
@@ -136,12 +134,6 @@ public class ToastUtil extends Toast {
         showToast(context, text, 1, 1);
     }
 
-    /**
-     * 显示一个富文本吐司
-     *
-     * @param context 上下文
-     * @param text    显示的文本
-     */
     public static void showSpannableText(Context context, CharSequence text) {
         showToast(context, text, 0, 0);
     }

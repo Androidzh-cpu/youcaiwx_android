@@ -82,7 +82,6 @@ import butterknife.Unbinder;
  * Email:2911743255@qq.com
  * ClassName: HomeFragment
  * Description:TODO 主页- 首页
- * Detail:
  */
 public class HomeFragment extends BaseFragment implements OnBannerListener, IHomeView {
     public static final String TAG = "Homefragment";

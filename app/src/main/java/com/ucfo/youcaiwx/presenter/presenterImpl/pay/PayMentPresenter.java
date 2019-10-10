@@ -61,23 +61,19 @@ public class PayMentPresenter implements IPayMentPresenter {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String body = response.body();
-                        if (!body.equals("")) {
-                            JSONObject jsonObject = null;
-                            try {
-                                jsonObject = new JSONObject(body);
-                                int code = jsonObject.optInt(Constant.CODE);
-                                if (code == 200) {
-                                    Gson gson = new Gson();
-                                    PayWeChatResponseBean payWeChatResponseBean = gson.fromJson(body, PayWeChatResponseBean.class);
-                                    view.initWeCheatOrderFormDetail(payWeChatResponseBean);
-                                } else {
-                                    view.initWeCheatOrderFormDetail(null);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(body);
+                            int code = jsonObject.optInt(Constant.CODE);
+                            if (code == 200) {
+                                Gson gson = new Gson();
+                                PayWeChatResponseBean payWeChatResponseBean = gson.fromJson(body, PayWeChatResponseBean.class);
+                                view.initWeCheatOrderFormDetail(payWeChatResponseBean);
+                            } else {
+                                view.initWeCheatOrderFormDetail(null);
                             }
-                        } else {
-                            view.initWeCheatOrderFormDetail(null);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                     }
                 });

@@ -32,9 +32,9 @@ public class MineCouponsPresenter {
      * Time:2019-7-30 上午 9:40
      * Detail:TODO 获取我的优惠券
      */
-    public void getMineCouponsData(int user_id, int type) {
+    public void getMineCouponsData(int userId, int type) {
         OkGo.<String>post(ApiStores.MINE_COUPONS)
-                .params(Constant.USER_ID, user_id)
+                .params(Constant.USER_ID, userId)
                 .params("types", type)
                 .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
                 .execute(new StringCallback() {

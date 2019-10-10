@@ -7,4 +7,8 @@
     <string name="title_dashboard">学习中心</string>
     <string name="title_notifications">题库</string>
     <string name="title_message">我的</string>
+    <string name="test">数据库状态:</string>
+    <string name="test2">东成西就</string>
+
+
 </resources>

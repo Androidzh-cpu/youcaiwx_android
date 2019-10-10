@@ -144,9 +144,16 @@ public class ApiStores {
     public static final String LEARNCENTER_EXITPLAN = BASE_URL + "Plan/outPlan";//退出学习计划
 
     public static final String PAY_AGREEMENT = "http://www.youcaiwx.com/html/app/buy.html";//支付协议
+
     //------------------------------------------TODO 支付---------------------------------------------------------------------------------//
     public static final String PAY_GET_ORDERFORMDETAIL = BASE_URL + "Orders/showOrder";//订单详情
     public static final String PAY_GET_AVAILABLECOUPON = BASE_URL + "Orders/availableCoupon";//可用优惠券
     public static final String PAY_ADDORDERFORM = BASE_URL + "Orders/addOrder";//添加订单
+
+    //支付页获取支付返回的平台订单编号
+    public static final String PAY_GETPAYORDERNUMBER = BASE_URL + "";
+
+    //------------------------------------------TODO 积分---------------------------------------------------------------------------------//
+    public static final String INTEGRAL_EARNINTEGREAL = BASE_URL + "";
 
 }

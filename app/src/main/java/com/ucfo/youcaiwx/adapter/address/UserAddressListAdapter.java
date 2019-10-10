@@ -41,10 +41,10 @@ public class UserAddressListAdapter extends BaseAdapter<AddressListBean.DataBean
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         AddressListBean.DataBean bean = list.get(position);
         String address = bean.getAddress();
-        int is_default = bean.getIs_default();
+        int isDefault = bean.getIs_default();
         String telephone = bean.getTelephone();
         String consignee = bean.getConsignee();
-        switch (is_default) {
+        switch (isDefault) {
             case 1://默认地址
                 holder.mDefaultItem.setVisibility(holder.mDefaultItem.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
                 break;
