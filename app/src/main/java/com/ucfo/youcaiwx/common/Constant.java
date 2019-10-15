@@ -124,12 +124,16 @@ public class Constant {
     public static final String SMS_STATE = "state";//短信验证码  	TODO 1注册2登陆
 
     //---------------------------------------------TODO 课程-----------------------------------------------//
-    //免费试看时间(秒为基本单位)
+    //免费试看时间(单位: 秒)
     public static final int FREE_TIME = 3 * 60;
-    //socket间隔时间(毫秒为基本单位)
+    //socket间隔时间(单位: 毫秒)
     public static final int SOCKET_TIME = 30 * 1000;
-    //菜单隐藏时间
+    //菜单隐藏时间(单位 : 秒)
     public static final int DELAY_TIME = 5 * 1000;
+    //累计学习指定时间领取积分(单位: 秒)
+    public static final int INTEGRAL_TIME = 30 * 60;
+    //当日看课累计时间字段
+    public static final String INTEGRAL_COUNTER = "integral_counter";
 
     public static final String CLASS_ID = "class_id";//课程筛选分类id
     public static final String COURSE_PACKAGE_ID = "course_PackageId";//课程包的ID
@@ -234,7 +238,18 @@ public class Constant {
     //---------------------------------------------消息中心-----------------------------------------------//
     public static final String MESSAGE_ID = "message_id";
 
+    //---------------------------------------------积分-----------------------------------------------//
     public static final String INTEGRAL = "integral";
+    //App下载页分享
+    public static final int INTEGRAL_SHARE = 3;
+    //App日签分享
+    public static final int INTEGRAL_SIGN = 4;
+    //在线学习30分钟
+    public static final int INTEGRAL_STUDY = 2;
+    //商品列表
+    public static final String INTEGRAL_TYPE_PRODUCT = "product";
+    //优惠券列表
+    public static final String INTEGRAL_TYPE_COUPON = "coupon";
 
 
 }

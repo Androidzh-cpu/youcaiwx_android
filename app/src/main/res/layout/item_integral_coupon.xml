@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/dp_26"
+    android:paddingStart="@dimen/dp_26"
+    android:paddingTop="@dimen/dp_14">
 
     <LinearLayout
         android:id="@+id/linear_holder"

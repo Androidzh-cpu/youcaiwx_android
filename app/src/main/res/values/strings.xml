@@ -515,6 +515,13 @@
     <string name="integral_exchangegoods">商品兑换</string>
     <string name="integral_checkall">查看全部</string>
     <string name="integral_holder">%s积分</string>
+    <string name="integral_point">+%s</string>
+    <string name="integral_point2">+%s积分</string>
+    <string name="integral_surplus">剩余积分:</string>
+    <string name="integral_gotocompleted">已完成</string>
+    <string name="integral_gotoupload">去上传</string>
+    <string name="integral_gotoUpdate">去修改</string>
+    <string name="integral_gotostar">去关注</string>
     <!--string related to 积分  end-->
 
     <!--string related to 优惠卷  start-->

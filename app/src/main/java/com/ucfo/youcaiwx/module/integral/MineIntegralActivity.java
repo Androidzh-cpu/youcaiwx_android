@@ -22,6 +22,7 @@ import com.ucfo.youcaiwx.module.course.player.adapter.CommonTabAdapter;
 import com.ucfo.youcaiwx.module.integral.fragment.ExchangeRecordFragment;
 import com.ucfo.youcaiwx.module.integral.fragment.IntegralSubsidiaryFragment;
 import com.ucfo.youcaiwx.module.integral.fragment.ProductListHomeFragment;
+import com.ucfo.youcaiwx.presenter.presenterImpl.integral.EarnIntegralPresenter;
 import com.ucfo.youcaiwx.presenter.presenterImpl.integral.IntegralPresenter;
 import com.ucfo.youcaiwx.presenter.view.integral.IIntegralHomeView;
 import com.ucfo.youcaiwx.utils.ShareUtils;
@@ -61,12 +62,21 @@ public class MineIntegralActivity extends BaseActivity implements IIntegralHomeV
     Button btnInvite;
     @BindView(R.id.btn_getintegral)
     Button btnGetintegral;
+    private int userId;
+    private IntegralPresenter integralPresenter;
+    private String integral;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        integralPresenter.inquireIntegral(userId);
     }
 
     @Override
@@ -100,9 +110,8 @@ public class MineIntegralActivity extends BaseActivity implements IIntegralHomeV
     @Override
     protected void initData() {
         super.initData();
-        int anInt = SharedPreferencesUtils.getInstance(this).getInt(Constant.USER_ID, 0);
-        IntegralPresenter integralPresenter = new IntegralPresenter(this);
-        integralPresenter.inquireIntegral(anInt);
+        userId = SharedPreferencesUtils.getInstance(this).getInt(Constant.USER_ID, 0);
+        integralPresenter = new IntegralPresenter(this);
 
         ArrayList<String> titlesList = new ArrayList<String>();
         ArrayList<Fragment> fragmentArrayList = new ArrayList<Fragment>();
@@ -119,6 +128,7 @@ public class MineIntegralActivity extends BaseActivity implements IIntegralHomeV
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         CommonTabAdapter commonTabAdapter = new CommonTabAdapter(supportFragmentManager, fragmentArrayList, titlesList);
         viewpager.setAdapter(commonTabAdapter);//viewpager设置适配器
+        viewpager.setOffscreenPageLimit(titlesList.size());
         xTablayout.setupWithViewPager(viewpager);//tablayout关联viewpager
     }
 
@@ -136,6 +146,9 @@ public class MineIntegralActivity extends BaseActivity implements IIntegralHomeV
                                 String desc = getResources().getString(R.string.youcaiWXShareDescribe);
                                 String iamgeurl = ApiStores.LOGO;
                                 ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneSession);
+
+                                //设置签到积分
+                                EarnIntegralPresenter.getInstance().setIntegralType(Constant.INTEGRAL_SHARE);
                             }
                         })
                         .setCircleToFriendButton(new View.OnClickListener() {
@@ -146,6 +159,9 @@ public class MineIntegralActivity extends BaseActivity implements IIntegralHomeV
                                 String desc = getResources().getString(R.string.youcaiWXShareDescribe);
                                 String iamgeurl = ApiStores.LOGO;
                                 ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneTimeline);
+
+                                //设置签到积分
+                                EarnIntegralPresenter.getInstance().setIntegralType(Constant.INTEGRAL_SHARE);
                             }
                         })
                         .show();
@@ -160,10 +176,19 @@ public class MineIntegralActivity extends BaseActivity implements IIntegralHomeV
         }
     }
 
+    public String getIntegral() {
+        return integral == null ? "" : integral;
+    }
+
+    public void setIntegral(String integral) {
+        this.integral = integral;
+    }
+
     @Override
     public void inquiryIntegral(String integral) {
         if (!TextUtils.isEmpty(integral)) {
             textRemain.setText(integral);
+            setIntegral(integral);
         }
     }
 

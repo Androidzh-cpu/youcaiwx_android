@@ -8,7 +8,6 @@ import com.lzy.okgo.request.base.Request;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.integral.EarnIntegralBean;
-import com.ucfo.youcaiwx.entity.integral.IntegralCouponsListBean;
 import com.ucfo.youcaiwx.entity.integral.IntegralDetailBean;
 import com.ucfo.youcaiwx.entity.integral.IntegralExchangeRecordBean;
 import com.ucfo.youcaiwx.entity.integral.IntegralProductListBean;
@@ -157,60 +156,12 @@ public class IntegralPresenter implements IIntegralPresenter {
     }
 
     /**
-     * 全部积分优惠券列表
+     * 全部积分商品(含优惠券和商品)
      */
     @Override
-    public void inquereIntegralCouponList() {
-        OkGo.<String>post(ApiStores.INTEGRAL_COUPONLIST)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        integralGoodsListView.showError();
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        integralGoodsListView.showLoadingFinish();
-                    }
-
-                    @Override
-                    public void onStart(Request<String, ? extends Request> request) {
-                        super.onStart(request);
-                        integralGoodsListView.showLoading();
-                    }
-
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        String body = response.body();
-                        JSONObject jsonObject = null;
-                        try {
-                            jsonObject = new JSONObject(body);
-                            int code = jsonObject.optInt(Constant.CODE);
-                            if (code == 200) {
-                                if (jsonObject.has(Constant.DATA)) {
-                                    IntegralCouponsListBean listBean = new Gson().fromJson(body, IntegralCouponsListBean.class);
-                                    integralGoodsListView.inqueryIntegralCouponList(listBean);
-                                } else {
-                                    integralGoodsListView.inqueryIntegralCouponList(null);
-                                }
-                            } else {
-                                integralGoodsListView.inqueryIntegralCouponList(null);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-    }
-
-    /**
-     * 全部积分商品(不包含优惠券商品)
-     */
-    @Override
-    public void inquireIntegralProductList() {
+    public void inquireIntegralProductList(int type) {
         OkGo.<String>post(ApiStores.INTEGRAL_PRODUCTLIST)
+                .params(Constant.TYPE_ID, type)
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Response<String> response) {
@@ -357,11 +308,12 @@ public class IntegralPresenter implements IIntegralPresenter {
     }
 
     /**
-     * 赚积分
+     * 赚积分(任务清单)
      */
     @Override
-    public void earnIntegral() {
+    public void earnIntegral(int user_id) {
         OkGo.<String>post(ApiStores.INTEGRAL_EARNPOINT)
+                .params(Constant.USER_ID, user_id)
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Response<String> response) {

@@ -2,7 +2,7 @@ package com.ucfo.youcaiwx.module.integral.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,11 +18,12 @@ import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.adapter.integral.IntegralHomeCouponAdapter;
 import com.ucfo.youcaiwx.adapter.integral.IntegralHomeGoodsAdapter;
 import com.ucfo.youcaiwx.base.BaseFragment;
+import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.integral.IntegralShopHomeBean;
+import com.ucfo.youcaiwx.module.integral.MineIntegralActivity;
+import com.ucfo.youcaiwx.module.integral.ProductListActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.integral.IntegralPresenter;
 import com.ucfo.youcaiwx.presenter.view.integral.IIntegralHomeView;
-import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
-import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -60,6 +61,7 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
     private List<IntegralShopHomeBean.DataBean.ShopBean> shopBeanList;
     private IntegralHomeCouponAdapter integralHomeCouponAdapter;
     private IntegralHomeGoodsAdapter integralHomeGoodsAdapter;
+    private MineIntegralActivity mineIntegralActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,6 +79,11 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
 
     @Override
     protected void initView(View view) {
+        FragmentActivity activity = getActivity();
+        if (activity instanceof MineIntegralActivity) {
+            mineIntegralActivity = (MineIntegralActivity) getActivity();
+        }
+
         initLyaoutManager();
     }
 
@@ -84,23 +91,17 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerviewCoupon.setLayoutManager(linearLayoutManager);
-        int topBottom = DensityUtil.dip2px(getActivity(), 26);
-        recyclerviewCoupon.addItemDecoration(new SpacesItemDecoration(topBottom, 0, ContextCompat.getColor(context, R.color.transparency)));
-
-        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getActivity());
-        linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
-        //recyclerviewGoods.setLayoutManager(linearLayoutManager2);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-
+        gridLayoutManager.setSpanCount(3);
         recyclerviewGoods.setLayoutManager(gridLayoutManager);
+        recyclerviewGoods.setNestedScrollingEnabled(false);
     }
 
     @Override
     protected void initData() {
         couponBeanList = new ArrayList<>();
         shopBeanList = new ArrayList<>();
-
 
         integralPresenter = new IntegralPresenter(this);
         loadinglayout.setRetryListener(new View.OnClickListener() {
@@ -109,6 +110,7 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
                 integralPresenter.inquireIntegralProductHome();
             }
         });
+        refreshlayout.setEnableLoadMore(false);
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -185,12 +187,18 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
 
     @OnClick({R.id.btn_coupon_checkall, R.id.btn_goods_checkall})
     public void onViewClicked(View view) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.INTEGRAL, mineIntegralActivity.getIntegral());
         switch (view.getId()) {
             case R.id.btn_coupon_checkall:
-                //优惠券查看更多
+                //优惠券查看更多;
+                bundle.putString(Constant.TYPE, Constant.INTEGRAL_TYPE_COUPON);
+                startActivity(ProductListActivity.class, bundle);
                 break;
             case R.id.btn_goods_checkall:
                 //商品查看更多
+                bundle.putString(Constant.TYPE, Constant.INTEGRAL_TYPE_PRODUCT);
+                startActivity(ProductListActivity.class, bundle);
                 break;
             default:
                 break;

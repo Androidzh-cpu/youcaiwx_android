@@ -92,6 +92,7 @@ import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.module.pay.CommitOrderActivity;
 import com.ucfo.youcaiwx.module.questionbank.activity.QuestionAskQuestionActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.course.CoursePlayPresenter;
+import com.ucfo.youcaiwx.presenter.presenterImpl.integral.EarnIntegralPresenter;
 import com.ucfo.youcaiwx.presenter.view.course.ICoursePlayerView;
 import com.ucfo.youcaiwx.utils.CallUtils;
 import com.ucfo.youcaiwx.utils.LogUtils;
@@ -270,6 +271,32 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private boolean pdfDownloadStatus = false, pdfExists = false;
     private String freeWatchTips;
 
+    /*****************************************************TODO start 正计时  **************************/
+    private long CountDownInterval = 1 * 1000;//TODO 倒计时时间间隔(默认1秒 单位:seconds )
+    private Handler grandTotalTimer = new Handler();//grand total
+    private int grandTotalSeconds = 0;//TODO 正计时时间 单位:seconds
+    private Runnable grandTotalRunnable = new Runnable() {
+        @Override
+        public void run() {
+            grandTotalTimer.postDelayed(this, CountDownInterval);
+            if (aliyunVodPlayer != null) {
+                if (aliyunVodPlayer.getPlayerState() == IAliyunVodPlayer.PlayerState.Started) {
+                    grandTotalSeconds++;
+                    if (grandTotalSeconds >= Constant.INTEGRAL_TIME) {
+                        LogUtils.e("grandTotalRunnable----------------领积分去了");
+                        grandTotalTimer.removeCallbacks(grandTotalRunnable); // 停止倒计时
+                        //累计学习完成,领取积分
+                        EarnIntegralPresenter.getInstance().earnIntegralForTask(Constant.INTEGRAL_STUDY, userId);
+                        //本地记录清零
+                        SharedPreferencesUtils.getInstance(VideoPlayPageActivity.this).putInt(Constant.INTEGRAL_COUNTER, 0);
+                    }
+
+                }
+            }
+        }
+    };
+/*****************************************************TODO end 正计时  *************************/
+
 
     /**
      * 播放进度更新计时器
@@ -333,12 +360,22 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         //播放来源视频设置
         initSourseType();
 
-        if (login_status) {//登录后择机开启socket
+        if (login_status) {
+            //登录后择机开启socket
             boolean equals = TextUtils.equals(course_Source, Constant.LOCAL_CACHE);
             if (!equals) {
+                //线上视频开启socket
                 initWsClient(ApiStores.SOCKET);
+                //看课30分钟自动加积分
+                startIntegralCounter();
             }
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        resumeIntegralCounter();
     }
 
     /**
@@ -375,6 +412,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
         //保存播放器的状态，供resume恢复使用。
         savePlayerState();
+
+        //停止计时
+        stopIntegralCounter();
     }
 
     @Override
@@ -1633,6 +1673,30 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         // 上报后的Crash会显示该标签
         CrashReport.setUserSceneTag(context, Constant.BUGLY_TAG_VIDEO);
     }
+
+    //TODO 累计学习积分(开始计时)
+    private void startIntegralCounter() {
+        grandTotalSeconds = SharedPreferencesUtils.getInstance(this).getInt(Constant.INTEGRAL_COUNTER, 0);
+        if (grandTotalTimer != null) {
+            grandTotalTimer.postDelayed(grandTotalRunnable, CountDownInterval);
+        }
+    }
+
+    //TODO 暂停计时
+    public void stopIntegralCounter() {
+        if (grandTotalTimer != null) {
+            grandTotalTimer.removeCallbacks(grandTotalRunnable);
+        }
+        SharedPreferencesUtils.getInstance(this).putInt(Constant.INTEGRAL_COUNTER, grandTotalSeconds);
+    }
+
+    //TODO 重新开始计时
+    public void resumeIntegralCounter() {
+        if (grandTotalTimer != null) {
+            grandTotalTimer.postDelayed(grandTotalRunnable, CountDownInterval);
+        }
+    }
+
 
     /**
      * 设置课程播放器封面

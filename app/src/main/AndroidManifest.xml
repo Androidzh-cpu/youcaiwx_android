@@ -149,7 +149,7 @@
             android:launchMode="singleTask"
             android:taskAffinity="net.sourceforge.simcpux"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!--TODO 微信支付回调页-->
+        <!-- TODO 微信支付回调页 -->
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -410,9 +410,14 @@
             android:name=".module.integral.MineIntegralActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
-        <!--TODO 赚积分-->
+        <!-- TODO 积分任务 -->
         <activity
             android:name=".module.integral.EarnIntegralActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseThemeForActivity" />
+        <!--TODO 商品列表-->
+        <activity
+            android:name=".module.integral.ProductListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
     </application>

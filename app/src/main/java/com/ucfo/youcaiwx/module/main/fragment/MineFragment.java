@@ -37,6 +37,7 @@ import com.ucfo.youcaiwx.module.user.activity.OfflineCourseActivity;
 import com.ucfo.youcaiwx.module.user.activity.PersonnelSettingActivity;
 import com.ucfo.youcaiwx.module.user.activity.SettingActivity;
 import com.ucfo.youcaiwx.module.user.activity.WatchTheRecordActivity;
+import com.ucfo.youcaiwx.presenter.presenterImpl.integral.EarnIntegralPresenter;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.UserInfoPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IUserInfoView;
 import com.ucfo.youcaiwx.utils.ShareUtils;
@@ -252,6 +253,9 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                                     String desc = getResources().getString(R.string.youcaiWXShareDescribe);
                                     String iamgeurl = ApiStores.LOGO;
                                     ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneSession);
+
+                                    //设置签到积分
+                                    EarnIntegralPresenter.getInstance().setIntegralType(Constant.INTEGRAL_SHARE);
                                 }
                             })
                             .setCircleToFriendButton(new View.OnClickListener() {
@@ -262,6 +266,9 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                                     String desc = getResources().getString(R.string.youcaiWXShareDescribe);
                                     String iamgeurl = ApiStores.LOGO;
                                     ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneTimeline);
+
+                                    //设置签到积分
+                                    EarnIntegralPresenter.getInstance().setIntegralType(Constant.INTEGRAL_SHARE);
                                 }
                             })
                             .show();

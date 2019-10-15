@@ -113,7 +113,10 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                         break;
                     case RETURN_MSG_TYPE_SHARE:
                         //TODO 分享业务
-                        //ToastUtil.showBottomShortText(this, getResources().getString(R.string.sharedSuccess));
+                        //设置签到积分
+                        int userId = SharedPreferencesUtils.getInstance(this).getInt(Constant.USER_ID, 0);
+                        EarnIntegralPresenter.getInstance().earnIntegralForTask(userId);
+
                         int anInt = SharedPreferencesUtils.getInstance(this).getInt(Constant.USER_ID, 0);
                         EarnIntegralPresenter.getInstance().earnIntegralForTask(0, anInt);
                         WXEntryActivity.this.finish();

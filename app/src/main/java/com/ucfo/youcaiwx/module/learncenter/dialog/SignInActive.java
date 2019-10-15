@@ -31,7 +31,9 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.ucfo.youcaiwx.R;
+import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.learncenter.StudyClockInBean;
+import com.ucfo.youcaiwx.presenter.presenterImpl.integral.EarnIntegralPresenter;
 import com.ucfo.youcaiwx.utils.ShareUtils;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
@@ -145,6 +147,9 @@ public class SignInActive extends DialogFragment {
         mTofriendShare.setOnClickListener(new View.OnClickListener() {//TODO 分享至微信朋友圈
             @Override
             public void onClick(View v) {
+                //设置签到积分
+                EarnIntegralPresenter.getInstance().setIntegralType(Constant.INTEGRAL_SIGN);
+
                 Bitmap bitmap = null;
                 try {
                     bitmap = AppUtils.captureView(mSignRelativelayout);
@@ -159,6 +164,9 @@ public class SignInActive extends DialogFragment {
         mToweixinShare.setOnClickListener(new View.OnClickListener() {//TODO 分享至微信好友
             @Override
             public void onClick(View v) {
+                //设置签到积分
+                EarnIntegralPresenter.getInstance().setIntegralType(Constant.INTEGRAL_SIGN);
+
                 Bitmap bitmap = null;
                 try {
                     bitmap = AppUtils.captureView(mSignRelativelayout);

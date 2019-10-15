@@ -3,105 +3,107 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/refreshlayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@android:color/white"
-    app:srlEnableLoadMore="false"
-    app:srlEnableNestedScrolling="true"
-    app:srlEnableOverScrollBounce="true"
-    app:srlEnableOverScrollDrag="true"
-    app:srlEnableRefresh="true">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
-    <com.ucfo.youcaiwx.widget.customview.LoadingLayout
-        android:id="@+id/loadinglayout"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
 
-        <LinearLayout
+        <com.ucfo.youcaiwx.widget.customview.LoadingLayout
+            android:id="@+id/loadinglayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:minHeight="@dimen/dp_360">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/dp_14"
-                android:paddingTop="@dimen/dp_14">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <TextView
-                    style="@style/PaddingStartEnd12"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/integral_exchangecoupon"
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/sp_14"
-                    android:textStyle="bold" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/dp_14">
 
-                <TextView
-                    android:id="@+id/btn_coupon_checkall"
-                    style="@style/PaddingStartEnd12"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        style="@style/PaddingStartEnd12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/integral_exchangecoupon"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_14"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/btn_coupon_checkall"
+                        style="@style/PaddingStartEnd12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:drawableEnd="@mipmap/icon_right_in"
+                        android:drawablePadding="@dimen/dp_5"
+                        android:gravity="center_vertical|end"
+                        android:text="@string/integral_checkall"
+                        android:textColor="@color/color_999999"
+                        android:textSize="@dimen/sp_12" />
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_coupon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_10"
+                    android:background="@color/color_F5F5F5" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:drawableEnd="@mipmap/icon_right_in"
-                    android:drawablePadding="@dimen/dp_5"
-                    android:gravity="center_vertical|end"
-                    android:text="@string/integral_checkall"
-                    android:textColor="@color/color_999999"
-                    android:textSize="@dimen/sp_12" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="@dimen/dp_14"
+                    android:paddingTop="@dimen/dp_14">
+
+                    <TextView
+                        style="@style/PaddingStartEnd12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/integral_exchangegoods"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_14"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/btn_goods_checkall"
+                        style="@style/PaddingStartEnd12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:drawableEnd="@mipmap/icon_right_in"
+                        android:drawablePadding="@dimen/dp_5"
+                        android:gravity="center_vertical|end"
+                        android:text="@string/integral_checkall"
+                        android:textColor="@color/color_999999"
+                        android:textSize="@dimen/sp_12" />
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_goods"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never" />
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerview_coupon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+        </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_10"
-                android:background="@color/color_F5F5F5" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/dp_14"
-                android:paddingTop="@dimen/dp_14">
-
-                <TextView
-                    style="@style/PaddingStartEnd12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/integral_exchangegoods"
-                    android:textColor="@color/color_333333"
-                    android:textSize="@dimen/sp_14"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/btn_goods_checkall"
-                    style="@style/PaddingStartEnd12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:drawableEnd="@mipmap/icon_right_in"
-                    android:drawablePadding="@dimen/dp_5"
-                    android:gravity="center_vertical|end"
-                    android:text="@string/integral_checkall"
-                    android:textColor="@color/color_999999"
-                    android:textSize="@dimen/sp_12" />
-            </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerview_goods"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never" />
-        </LinearLayout>
-
-    </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </com.scwang.smartrefresh.layout.SmartRefreshLayout>

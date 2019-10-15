@@ -19,14 +19,9 @@ public interface IIntegralPresenter {
     void inquireIntegralProductHome();
 
     /**
-     * 全部积分优惠券列表
-     */
-    void inquereIntegralCouponList();
-
-    /**
      * 全部积分商品(不包含优惠券商品)
      */
-    void inquireIntegralProductList();
+    void inquireIntegralProductList(int type);
 
     /**
      * 积分兑换记录
@@ -41,5 +36,5 @@ public interface IIntegralPresenter {
     /**
      * 赚积分
      */
-    void earnIntegral();
+    void earnIntegral(int user_id);
 }
