@@ -20,6 +20,7 @@ import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.login.WXLoginBean;
 import com.ucfo.youcaiwx.entity.login.WxUserInfoEvent;
+import com.ucfo.youcaiwx.presenter.presenterImpl.integral.EarnIntegralPresenter;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
 import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
@@ -99,24 +100,30 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
     public void onResp(BaseResp baseResp) {
         LogUtils.e("wechat  baseResp:" + baseResp.errCode);
         switch (baseResp.errCode) {
-            case BaseResp.ErrCode.ERR_OK://TODO ERR_OK = 0 用户同意
+            case BaseResp.ErrCode.ERR_OK:
+                //TODO ERR_OK = 0 用户同意
                 LogUtils.e("onResp: 用户授权");
                 switch (baseResp.getType()) {
                     case RETURN_MSG_TYPE_LOGIN:
+                        //TODO 登录业务
                         //拿到了微信返回的code,立马再去请求access_token
                         String code = ((SendAuth.Resp) baseResp).code;
                         LogUtils.e("wecheat code : " + code);
                         getAccessToken(code);
                         break;
                     case RETURN_MSG_TYPE_SHARE:
+                        //TODO 分享业务
                         //ToastUtil.showBottomShortText(this, getResources().getString(R.string.sharedSuccess));
+                        int anInt = SharedPreferencesUtils.getInstance(this).getInt(Constant.USER_ID, 0);
+                        EarnIntegralPresenter.getInstance().earnIntegralForTask(0, anInt);
                         WXEntryActivity.this.finish();
                         break;
                     default:
                         break;
                 }
                 break;
-            case BaseResp.ErrCode.ERR_USER_CANCEL://TODO ERR_USER_CANCEL = -2（用户取消）
+            case BaseResp.ErrCode.ERR_USER_CANCEL:
+                //TODO ERR_USER_CANCEL = -2（用户取消）
                 LogUtils.e("onResp: 用户取消授权");
                 if (RETURN_MSG_TYPE_SHARE == baseResp.getType()) {
                     ToastUtil.showBottomShortText(this, getResources().getString(R.string.sharedError));
@@ -126,7 +133,8 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                     WXEntryActivity.this.finish();
                 }
                 break;
-            case BaseResp.ErrCode.ERR_AUTH_DENIED://TODO ERR_AUTH_DENIED = -4（用户拒绝授权）
+            case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                //TODO ERR_AUTH_DENIED = -4（用户拒绝授权）
                 LogUtils.e("onResp: 发送请求被拒绝");
                 ToastUtil.showBottomShortText(this, getResources().getString(R.string.TheSendRequestWasDenied));
                 WXEntryActivity.this.finish();

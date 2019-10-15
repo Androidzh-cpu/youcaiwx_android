@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/refreshlayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
     app:srlEnableLoadMore="false"
     app:srlEnableNestedScrolling="true"
     app:srlEnableOverScrollBounce="true"
     app:srlEnableOverScrollDrag="true"
-    app:srlEnableRefresh="false">
+    app:srlEnableRefresh="true">
 
     <com.ucfo.youcaiwx.widget.customview.LoadingLayout
         android:id="@+id/loadinglayout"
@@ -19,6 +21,87 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/dp_14"
+                android:paddingTop="@dimen/dp_14">
+
+                <TextView
+                    style="@style/PaddingStartEnd12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/integral_exchangecoupon"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_14"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/btn_coupon_checkall"
+                    style="@style/PaddingStartEnd12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:drawableEnd="@mipmap/icon_right_in"
+                    android:drawablePadding="@dimen/dp_5"
+                    android:gravity="center_vertical|end"
+                    android:text="@string/integral_checkall"
+                    android:textColor="@color/color_999999"
+                    android:textSize="@dimen/sp_12" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_coupon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_10"
+                android:background="@color/color_F5F5F5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/dp_14"
+                android:paddingTop="@dimen/dp_14">
+
+                <TextView
+                    style="@style/PaddingStartEnd12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/integral_exchangegoods"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_14"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/btn_goods_checkall"
+                    style="@style/PaddingStartEnd12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:drawableEnd="@mipmap/icon_right_in"
+                    android:drawablePadding="@dimen/dp_5"
+                    android:gravity="center_vertical|end"
+                    android:text="@string/integral_checkall"
+                    android:textColor="@color/color_999999"
+                    android:textSize="@dimen/sp_12" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_goods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
         </LinearLayout>
+
     </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
+
 </com.scwang.smartrefresh.layout.SmartRefreshLayout>

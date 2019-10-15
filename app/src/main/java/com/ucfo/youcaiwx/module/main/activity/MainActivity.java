@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             //该用户本次启动后的异常日志用户ID
             CrashReport.setUserId(String.valueOf(anInt));
         }
+        //有希望情况下可能不会显示指定的标签
+        //initSelectTab(indexTab);
     }
 
     @Override

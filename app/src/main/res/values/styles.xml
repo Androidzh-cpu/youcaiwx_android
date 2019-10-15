@@ -60,7 +60,6 @@
 
     <!--TODO 欢迎页样式-->
     <style name="SplashTheme" parent="android:Theme.Holo.Light.NoActionBar.Fullscreen">
-        <!--parent="android:style/Theme.Black.NoTitleBar.Fullscreen"  ic_launcher-->
         <item name="android:windowBackground">@mipmap/splash_img</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -173,6 +172,12 @@
     <!--底部弹出,系统消失动画-->
     <style name="MaterialDialogBottominAnimation" parent="@android:style/Animation.Dialog">
         <item name="android:windowEnterAnimation">@anim/popup_show</item>
+    </style>
+
+    <!--TODO 左右间距为12单位-->
+    <style name="PaddingStartEnd12">
+        <item name="android:paddingEnd">@dimen/dp_12</item>
+        <item name="android:paddingStart">@dimen/dp_12</item>
     </style>
 
 </resources>

@@ -402,7 +402,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                     imageView.setPadding(DensityUtil.dip2px(context, 2), 0, DensityUtil.dip2px(context, 2), 0);
                     HomeBean.DataBean.ListpicBean data = (HomeBean.DataBean.ListpicBean) path;
                     RequestOptions requestOptions = new RequestOptions()
-                            .placeholder(R.mipmap.icon_bannerdefault)
+                            .placeholder(R.mipmap.icon_default)
                             .error(R.mipmap.image_loaderror)
                             .transform(new CenterCrop(), new RoundedCorners(DensityUtil.dp2px(5)));
                     GlideUtils.load(context, data.getImage_href(), imageView, requestOptions);

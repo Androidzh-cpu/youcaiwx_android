@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,11 +16,16 @@ import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.ApiStores;
+import com.ucfo.youcaiwx.common.Constant;
+import com.ucfo.youcaiwx.entity.integral.IntegralShopHomeBean;
 import com.ucfo.youcaiwx.module.course.player.adapter.CommonTabAdapter;
 import com.ucfo.youcaiwx.module.integral.fragment.ExchangeRecordFragment;
 import com.ucfo.youcaiwx.module.integral.fragment.IntegralSubsidiaryFragment;
-import com.ucfo.youcaiwx.module.integral.fragment.ProductListFragment;
+import com.ucfo.youcaiwx.module.integral.fragment.ProductListHomeFragment;
+import com.ucfo.youcaiwx.presenter.presenterImpl.integral.IntegralPresenter;
+import com.ucfo.youcaiwx.presenter.view.integral.IIntegralHomeView;
 import com.ucfo.youcaiwx.utils.ShareUtils;
+import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.widget.dialog.ShareDialog;
 
 import java.util.ArrayList;
@@ -36,7 +42,7 @@ import butterknife.OnClick;
  * ORG: www.youcaiwx.com
  * Description:TODO 我的积分首页
  */
-public class MineIntegralActivity extends BaseActivity {
+public class MineIntegralActivity extends BaseActivity implements IIntegralHomeView {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -94,6 +100,9 @@ public class MineIntegralActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
+        int anInt = SharedPreferencesUtils.getInstance(this).getInt(Constant.USER_ID, 0);
+        IntegralPresenter integralPresenter = new IntegralPresenter(this);
+        integralPresenter.inquireIntegral(anInt);
 
         ArrayList<String> titlesList = new ArrayList<String>();
         ArrayList<Fragment> fragmentArrayList = new ArrayList<Fragment>();
@@ -102,7 +111,7 @@ public class MineIntegralActivity extends BaseActivity {
         titlesList.add(getResources().getString(R.string.integral_exchange));
         titlesList.add(getResources().getString(R.string.integral_subsidiary));
 
-        fragmentArrayList.add(new ProductListFragment());
+        fragmentArrayList.add(new ProductListHomeFragment());
         fragmentArrayList.add(new ExchangeRecordFragment());
         fragmentArrayList.add(new IntegralSubsidiaryFragment());
 
@@ -149,5 +158,32 @@ public class MineIntegralActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void inquiryIntegral(String integral) {
+        if (!TextUtils.isEmpty(integral)) {
+            textRemain.setText(integral);
+        }
+    }
+
+    @Override
+    public void inqieryIntegralHome(IntegralShopHomeBean integralShopHomeBean) {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void showLoadingFinish() {
+
+    }
+
+    @Override
+    public void showError() {
+
     }
 }

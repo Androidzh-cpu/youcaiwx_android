@@ -10,6 +10,9 @@ import com.ucfo.youcaiwx.BuildConfig;
  * Description:恒量
  */
 public class Constant {
+    private Constant() {
+    }
+
     //App测试模式控制字段
     public static final boolean ISTEST_ENVIRONMENT = BuildConfig.DEBUG;
 
@@ -230,6 +233,8 @@ public class Constant {
     public static final String PAY_COUPONID = "pay_couponId";
     //---------------------------------------------消息中心-----------------------------------------------//
     public static final String MESSAGE_ID = "message_id";
+
+    public static final String INTEGRAL = "integral";
 
 
 }

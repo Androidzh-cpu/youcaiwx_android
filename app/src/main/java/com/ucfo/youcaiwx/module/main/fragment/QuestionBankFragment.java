@@ -146,6 +146,16 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        if (popupWindow != null) {
+            if (popupWindow.isShowing()) {
+                popupWindow.dismiss();
+            }
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -295,7 +305,6 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             R.id.question_Knowledge_exercise, R.id.question_stage_test, R.id.question_elaboration_test,
             R.id.question_hight_errors, R.id.question_group_exam, R.id.question_writes_really, R.id.titlebar_midimage, R.id.titlebar_midtitle})
     public void onViewClicked(View view) {
-        //防止过快点击
         long currentTime = Calendar.getInstance().getTimeInMillis();
         if (currentTime - lastClickTime > 1000) {
             lastClickTime = currentTime;
@@ -413,9 +422,4 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             }
         }
     }
-
-    public void toastInfo(CharSequence text) {
-        ToastUtil.showBottomShortText(getActivity(), text);
-    }
-
 }

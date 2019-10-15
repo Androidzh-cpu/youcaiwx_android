@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,13 +20,13 @@ import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.address.StateStatusBean;
 import com.ucfo.youcaiwx.entity.user.MineOrderFormDetailBean;
 import com.ucfo.youcaiwx.entity.user.MineOrderListBean;
+import com.ucfo.youcaiwx.module.pay.PayActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineOrderFormPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineOrderFromView;
 import com.ucfo.youcaiwx.utils.CallUtils;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.module.pay.PayActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.customview.NiceImageView;
 import com.ucfo.youcaiwx.widget.dialog.InvoiceActiveDialog;
@@ -92,6 +93,10 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
     View holderView;
     @BindView(R.id.order_edit)
     TextView orderEdit;
+    @BindView(R.id.showline)
+    View showline;
+    @BindView(R.id.linear_holder)
+    LinearLayout linearHolder;
     private Bundle bundle;
     private String order_number;
     private MineOrderFormDetailActivity context;
@@ -135,6 +140,7 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
         }
         titlebarRighttitle.setVisibility(View.GONE);
         titlebarMidtitle.setText(getResources().getString(R.string.mine_orderDetail));
+        showline.setVisibility(View.GONE);
         titlebarToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,7 +251,9 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
         MineOrderFormDetailBean.DataBean.CourseBean courseBean = data.getCourse();
         if (data.getAddress().getAddress_id() != 0) {
             MineOrderFormDetailBean.DataBean.AddressBean address = data.getAddress();
-            linearAddress.setVisibility(linearAddress.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+            if (linearAddress != null) {
+                linearAddress.setVisibility(View.VISIBLE);
+            }
             String address1 = address.getAddress();
             String consignee = address.getConsignee();
             String telephone = address.getTelephone();
@@ -260,7 +268,9 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
                 addressPhone.setText(telephone);
             }
         } else {
-            linearAddress.setVisibility(linearAddress.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+            if (linearAddress != null) {
+                linearAddress.setVisibility(View.GONE);
+            }
         }
 
         String addTime = courseBean.getAdd_time();//下单时间
@@ -298,7 +308,7 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
         //课程有效期
         itemCourseTime.setText(String.valueOf(getResources().getString(R.string.orderForm_endtime2, studyDays)));
         //学习人数
-        itemCourseEffective.setText(String.valueOf(context.getResources().getString(R.string.course_NumOfLearning,String.valueOf(joinNum))));
+        itemCourseEffective.setText(String.valueOf(context.getResources().getString(R.string.course_NumOfLearning, String.valueOf(joinNum))));
         /*----------------------------------------------------------------再丑也要看的分割线----------------------------------------------------------------*/
         //TODO 订单状态
         switch (payStatus) {

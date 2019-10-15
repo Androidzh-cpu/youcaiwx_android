@@ -10,12 +10,15 @@
 
     <include layout="@layout/titlebar_toolbar" />
 
-    <com.ucfo.youcaiwx.widget.customview.LoadingLayout
-        android:id="@+id/loadinglayout"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:srlEnableLoadMore="false">
 
-        <android.support.v4.widget.NestedScrollView
+
+        <com.ucfo.youcaiwx.widget.customview.LoadingLayout
+            android:id="@+id/loadinglayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -38,7 +41,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="您有"
+                        android:text="@string/coupon_tips_usable1"
                         android:textColor="@color/color_333333"
                         android:textSize="@dimen/sp_14" />
 
@@ -53,7 +56,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="张优惠券可以使用"
+                        android:text="@string/coupon_tips_usable"
                         android:textColor="@color/color_333333"
                         android:textSize="@dimen/sp_14" />
                 </LinearLayout>
@@ -76,7 +79,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="没有更多的可用券"
+                        android:text="@string/coupon_NoMoreCouponsAvailable"
                         android:textColor="@color/color_C7C7C7"
                         android:textSize="@dimen/sp_12" />
 
@@ -91,11 +94,11 @@
                         android:id="@+id/btn_disabled"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="查看已经失效的券"
+                        android:text="@string/coupon_ViewExpiredCoupons"
                         android:textColor="@color/color_FD7D74"
                         android:textSize="@dimen/sp_12" />
                 </LinearLayout>
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
-    </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
+        </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

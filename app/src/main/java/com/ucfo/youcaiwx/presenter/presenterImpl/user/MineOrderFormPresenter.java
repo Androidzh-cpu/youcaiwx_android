@@ -130,7 +130,8 @@ public class MineOrderFormPresenter implements IMineOrderFormPresenter {
     //TODO 获取订单详情
     @Override
     public void getOrderFormDetail(int user_id, int status, String orderNumber) {
-        String url = null;
+        String url = ApiStores.MINE_ORDERFORM_HASBEENDETAIL;
+/*
         switch (status) {
             case 1://已付款
             case 3://订单已取消
@@ -142,6 +143,7 @@ public class MineOrderFormPresenter implements IMineOrderFormPresenter {
             default:
                 break;
         }
+*/
         OkGo.<String>post(url)
                 .params(Constant.USER_ID, user_id)
                 .params(Constant.ORDER_NUM, orderNumber)

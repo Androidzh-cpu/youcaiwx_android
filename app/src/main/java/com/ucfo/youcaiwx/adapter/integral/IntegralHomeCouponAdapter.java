@@ -1,9 +1,7 @@
-package com.ucfo.youcaiwx.adapter.user;
+package com.ucfo.youcaiwx.adapter.integral;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,29 +12,27 @@ import android.widget.TextView;
 
 import com.flyco.roundview.RoundTextView;
 import com.ucfo.youcaiwx.R;
-import com.ucfo.youcaiwx.entity.user.MineCouponsBean;
+import com.ucfo.youcaiwx.entity.integral.IntegralShopHomeBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: AND
- * Time: 2019-7-29.  下午 2:32
- * FileName: MineCouponsAdapter
- * Description:TODO 我的优惠券
+ * Time: 2019-10-14.  下午 3:50
+ * Package: com.ucfo.youcaiwx.adapter.integral
+ * FileName: IntegralHomeCouponAdapter
+ * Description:TODO 积分商城首页
  */
-public class MineCouponsAdapter extends BaseAdapter<MineCouponsBean.DataBean, MineCouponsAdapter.ViewHolder> {
+public class IntegralHomeCouponAdapter extends BaseAdapter<IntegralShopHomeBean.DataBean.CouponBean, IntegralHomeCouponAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<MineCouponsBean.DataBean> list;
-    private int type;
-    private final Drawable usableCoupon, unusedCoupon;
+    private List<IntegralShopHomeBean.DataBean.CouponBean> list;
 
-    public MineCouponsAdapter(Context context, ArrayList<MineCouponsBean.DataBean> list, int type) {
+    public IntegralHomeCouponAdapter(Context context, List<IntegralShopHomeBean.DataBean.CouponBean> list) {
         this.context = context;
         this.list = list;
-        this.type = type;
-        usableCoupon = ContextCompat.getDrawable(context, R.mipmap.icon_usable_coupon);
-        unusedCoupon = ContextCompat.getDrawable(context, R.mipmap.icon_unused_coupon);
+        this.context = context;
+        this.list = list;
     }
 
     @Override
@@ -46,27 +42,16 @@ public class MineCouponsAdapter extends BaseAdapter<MineCouponsBean.DataBean, Mi
 
     @Override
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
-        switch (type) {
-            case 1:
-                holder.mHolderLinear.setBackground(usableCoupon);
-                holder.mCouponsRangeItem.setTextColor(ContextCompat.getColor(context, R.color.color_FD7D74));
-                break;
-            case 2:
-            default:
-                holder.mHolderLinear.setBackground(unusedCoupon);
-                holder.mCouponsRangeItem.setTextColor(ContextCompat.getColor(context, R.color.color_DCDCDC));
-                break;
-        }
-
-        MineCouponsBean.DataBean dataBean = list.get(position);
-        String name = dataBean.getName();//优惠券名
-        String couponPrice = dataBean.getCoupon_price();//优惠金额
-        int range = dataBean.getRange();//适用范围1课程2直播3全部
-        String endTime = dataBean.getEnd_time();//到期时间
-        int isType = dataBean.getIs_type();//1:满减 2:打折
+        IntegralShopHomeBean.DataBean.CouponBean couponBean = list.get(position);
+        String name = couponBean.getName();//优惠券名
+        String couponPrice = couponBean.getCoupon_price();//优惠金额
+        String range = couponBean.getRange();//适用范围1课程2直播3全部
+        String endTime = couponBean.getEnd_time();//到期时间
+        String isType = couponBean.getIs_type();//1:满减 2:打折
+        String integralPrice = couponBean.getIntegral_price();
 
         if (!TextUtils.isEmpty(couponPrice)) {
-            if (isType == 1) {//满减
+            if (TextUtils.equals(isType, String.valueOf(1))) {//满减
                 float v = Float.parseFloat(couponPrice);
                 int b = Math.round(v);
                 holder.mCouponsMoneyItem.setText(String.valueOf(b));
@@ -80,42 +65,49 @@ public class MineCouponsAdapter extends BaseAdapter<MineCouponsBean.DataBean, Mi
         } else {
             holder.mCouponsMoneyItem.setText(String.valueOf(0));
         }
+
         if (!TextUtils.isEmpty(name)) {
             holder.mCouponsDesItem.setText(name);
         }
         if (!TextUtils.isEmpty(endTime)) {
             holder.mCouponsValidityItem.setText(context.getResources().getString(R.string.coupon_ValidityEndTime, endTime));
         }
-        switch (range) {
-            case 1://课程
-                holder.mCouponsRangeItem.setText(context.getResources().getString(R.string.coupon_course));
-                break;
-            case 2://直播
-                holder.mCouponsRangeItem.setText(context.getResources().getString(R.string.coupon_live));
-                break;
-            case 3://全部
-                holder.mCouponsRangeItem.setText(context.getResources().getString(R.string.coupon_all));
-                break;
-            default:
-                break;
+        if (!TextUtils.isEmpty(range)) {
+            int parseInt = Integer.parseInt(range);
+            switch (parseInt) {
+                case 1://课程
+                    holder.mCouponsRangeItem.setText(context.getResources().getString(R.string.coupon_course));
+                    break;
+                case 2://直播
+                    holder.mCouponsRangeItem.setText(context.getResources().getString(R.string.coupon_live));
+                    break;
+                case 3://全部
+                    holder.mCouponsRangeItem.setText(context.getResources().getString(R.string.coupon_all));
+                    break;
+                default:
+                    break;
+            }
         }
+        if (!TextUtils.isEmpty(integralPrice)) {
+            holder.mIntegral.setText(context.getResources().getString(R.string.integral_holder, integralPrice));
+        }
+
     }
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.item_mine_coupons, viewGroup, false);
+        View view = layoutInflater.inflate(R.layout.item_integral_coupon, viewGroup, false);
         return new ViewHolder(view);
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
-
         private TextView mCouponsMoneyItem;
         private TextView mCouponsDesItem;
         private TextView mCouponsValidityItem;
         private RoundTextView mCouponsRangeItem;
         private TextView mRmbText;
-        private TextView mDiscountText;
+        private TextView mDiscountText, mIntegral;
         private LinearLayout mHolderLinear;
 
         public ViewHolder(View view) {
@@ -131,6 +123,7 @@ public class MineCouponsAdapter extends BaseAdapter<MineCouponsBean.DataBean, Mi
             mRmbText = (TextView) itemView.findViewById(R.id.text_rmb);
             mDiscountText = (TextView) itemView.findViewById(R.id.text_discount);
             mHolderLinear = (LinearLayout) itemView.findViewById(R.id.linear_holder);
+            mIntegral = (TextView) itemView.findViewById(R.id.item_integral);
         }
     }
 }

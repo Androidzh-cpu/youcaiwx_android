@@ -154,6 +154,21 @@ public class ApiStores {
     public static final String PAY_GETPAYORDERNUMBER = BASE_URL + "";
 
     //------------------------------------------TODO 积分---------------------------------------------------------------------------------//
-    public static final String INTEGRAL_EARNINTEGREAL = BASE_URL + "";
+    //作任务获取积分
+    public static final String INTEGRAL_EARNINTEGRAL = BASE_URL + "Integral/integralAdd";
+    //查询我的积分
+    public static final String INTEGRAL_MINEINTEGRAL = BASE_URL + "Integral/myIntegral";
+    //积分商城首页
+    public static final String INTEGRAL_HOME = BASE_URL + "Integral/goodsList";
+    //优惠券兑换列表
+    public static final String INTEGRAL_COUPONLIST = BASE_URL + "Integral/goodsList";
+    //商品兑换列表
+    public static final String INTEGRAL_PRODUCTLIST = BASE_URL + "Integral/goodsList";
+    //赚取积分
+    public static final String INTEGRAL_EARNPOINT = BASE_URL + "Integral/earnPoints";
+    //积分兑换记录
+    public static final String INTEGRAL_EXCHANGERECORD = BASE_URL + "Integral/earnPoints";
+    //积分明细
+    public static final String INTEGRAL_DETAIL = BASE_URL + "Integral/earnPoints";
 
 }

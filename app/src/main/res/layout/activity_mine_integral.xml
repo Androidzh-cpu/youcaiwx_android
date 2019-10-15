@@ -39,14 +39,14 @@
                 android:id="@+id/text_remain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10"
+                android:text="0"
                 android:textColor="@color/color_0267FF"
                 android:textSize="@dimen/sp_24" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="分"
+                android:text="@string/integral_mark"
                 android:textColor="@color/color_0267FF"
                 android:textSize="@dimen/sp_14" />
         </LinearLayout>
@@ -80,7 +80,8 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:overScrollMode="never" />
 
     <LinearLayout
         android:layout_width="match_parent"

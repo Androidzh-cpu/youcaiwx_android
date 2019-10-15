@@ -73,6 +73,7 @@
         <!-- TODO 启动页 -->
         <activity
             android:name=".module.main.activity.SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

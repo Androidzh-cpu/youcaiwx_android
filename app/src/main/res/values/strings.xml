@@ -244,10 +244,6 @@
     <string name="orderForm_endtime2">%s天有效</string>
     <string name="orderForm_endtime3">有效期%s天</string>
 
-    <string name="coupon_course">仅限正课使用</string>
-    <string name="coupon_live">仅限直播课使用</string>
-    <string name="coupon_all">全局使用</string>
-    <string name="coupon_discount">折</string>
     <!-- Strings related to 我的订单 end-->
 
 
@@ -506,13 +502,32 @@
 
 
     <!--string related to 积分  start-->
+    <string name="integral_mark">分</string>
     <string name="integral_remainingPoints">剩余积分</string>
     <string name="integral_inviteFriends">邀请好友赢大礼包</string>
     <string name="integral_gainIntegral">赚积分</string>
     <string name="integral_ProductList">商品列表</string>
     <string name="integral_exchange">兑换记录</string>
     <string name="integral_subsidiary">积分明细</string>
+    <string name="integral_daily">日常任务</string>
+    <string name="integral_novice">新手任务</string>
+    <string name="integral_exchangecoupon">优惠券兑换</string>
+    <string name="integral_exchangegoods">商品兑换</string>
+    <string name="integral_checkall">查看全部</string>
+    <string name="integral_holder">%s积分</string>
     <!--string related to 积分  end-->
+
+    <!--string related to 优惠卷  start-->
+    <string name="coupon_course">仅限正课使用</string>
+    <string name="coupon_live">仅限直播课使用</string>
+    <string name="coupon_all">全局使用</string>
+    <string name="coupon_discount">折</string>
+    <string name="coupon_tips_usable">张优惠券可以使用</string>
+    <string name="coupon_tips_usable1">您有</string>
+    <string name="coupon_NoMoreCouponsAvailable">没有更多的可用券</string>
+    <string name="coupon_ViewExpiredCoupons">查看已经失效的券</string>
+    <string name="coupon_ValidityEndTime">有效期至%s</string>
+    <!--string related to 优惠卷  end-->
 
 
     <!--string related to common start-->

@@ -77,6 +77,7 @@ public class MineDisabledCouponsActivity extends BaseActivity implements IMineCo
             supportActionBar.setDisplayShowTitleEnabled(false);
         }
         titlebarMidtitle.setText(getResources().getString(R.string.mine_disabledCoupons));
+        showline.setVisibility(View.GONE);
         titlebarToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,7 +141,7 @@ public class MineDisabledCouponsActivity extends BaseActivity implements IMineCo
 
     private void initAdapter() {
         if (mineCouponsAdapter == null) {
-            mineCouponsAdapter = new MineCouponsAdapter(this, list,2);
+            mineCouponsAdapter = new MineCouponsAdapter(this, list, 2);
         } else {
             mineCouponsAdapter.notifyDataSetChanged();
         }

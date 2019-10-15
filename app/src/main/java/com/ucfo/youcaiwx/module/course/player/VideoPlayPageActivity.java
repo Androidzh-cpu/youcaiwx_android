@@ -428,6 +428,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 if (mWebSocket == null) {
                     return;
                 }
+                if (aliyunVodPlayer == null) {
+                    return;
+                }
                 IAliyunVodPlayer.PlayerState playerState = aliyunVodPlayer.getPlayerState();
                 if (playerState != IAliyunVodPlayer.PlayerState.Started) {
                     return;

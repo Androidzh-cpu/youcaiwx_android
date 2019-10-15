@@ -2,6 +2,7 @@ package com.ucfo.youcaiwx.module.user.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,6 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.adapter.user.MineCouponsAdapter;
 import com.ucfo.youcaiwx.base.BaseActivity;
@@ -56,6 +60,8 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
     TextView btnDisabled;
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
+    @BindView(R.id.refreshLayout)
+    SmartRefreshLayout refreshLayout;
     private MineCouponsPresenter mineCouponsPresenter;
     private MineCouponsActivity context;
     private int user_id;
@@ -138,6 +144,16 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
                 }
             }
         });
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                if (bundle != null) {
+                    mineCouponsPresenter.getAivilableCoupon(user_id, coursePackageId);
+                } else {
+                    mineCouponsPresenter.getMineCouponsData(user_id, 1);
+                }
+            }
+        });
     }
 
     @Override
@@ -155,6 +171,7 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
         } else {
             loadinglayout.showEmpty();
         }
+        refreshLayout.finishRefresh();
     }
 
     private void initAdapter() {
@@ -178,13 +195,11 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
                 }
             }
         });
-
         couponCount.setText(String.valueOf(list.size()));
     }
 
     @Override
     public void showLoading() {
-        loadinglayout.showLoading();
     }
 
     @Override

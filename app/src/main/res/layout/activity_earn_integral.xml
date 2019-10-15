@@ -4,46 +4,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/color_F5F5F5"
     android:orientation="vertical"
     tools:context=".module.integral.EarnIntegralActivity">
 
     <include layout="@layout/titlebar_toolbar" />
 
-    <android.support.design.widget.CoordinatorLayout
+    <com.ucfo.youcaiwx.widget.customview.LoadingLayout
+        android:id="@+id/loadinglayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fitsSystemWindows="true">
+            android:background="@android:color/white"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_300"
-                android:src="@mipmap/icon_default"
-                app:layout_scrollFlags="scroll" />
-            <!--            AppBarLayout里放入的都可以跟着向上滑动滑出布局的的，            添加app:layout_scrollFlags="scroll"属性可以滑出布局            TabLayout没有添加，所以停留在顶部            -->
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tablayout"
+            <TextView
+                style="@style/PaddingStartEnd12"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabIndicatorColor="@color/color_0AAB55"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/color_0AAB55"
-                app:tabTextColor="@color/colorBlack" />
-        </android.support.design.widget.AppBarLayout>
+                android:paddingBottom="@dimen/dp_14"
+                android:paddingTop="@dimen/dp_14"
+                android:text="@string/integral_daily"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_14" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewpager"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_day"
+                style="@style/PaddingStartEnd12"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </RelativeLayout>
-    </android.support.design.widget.CoordinatorLayout>
+                android:layout_height="wrap_content" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_10"
+                android:background="@color/color_F5F5F5" />
+
+            <TextView
+                style="@style/PaddingStartEnd12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/dp_14"
+                android:paddingTop="@dimen/dp_14"
+                android:text="@string/integral_novice"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_14" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_new"
+                style="@style/PaddingStartEnd12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
+
 </LinearLayout>

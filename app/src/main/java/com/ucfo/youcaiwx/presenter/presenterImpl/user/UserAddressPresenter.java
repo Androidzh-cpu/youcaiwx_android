@@ -141,7 +141,6 @@ public class UserAddressPresenter implements IUserAddressPresenter {
         OkGo.<String>post(ApiStores.USER_GETADDRESS_DETAIL)
                 .params(Constant.USER_ID, user_id)
                 .params(Constant.ADDRESS_ID, address_id)
-                .retryCount(1)
                 .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
                 .execute(new StringCallback() {
                     @Override
