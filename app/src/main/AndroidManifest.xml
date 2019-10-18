@@ -415,11 +415,17 @@
             android:name=".module.integral.EarnIntegralActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
-        <!--TODO 商品列表-->
+        <!-- TODO 商品列表 -->
         <activity
             android:name=".module.integral.ProductListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 积分商品兑换 -->
+        <activity
+            android:name=".module.integral.CommodityExchangeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseThemeForActivity" />
+        <activity android:name=".module.integral.IntegralCommitActivity"></activity>
     </application>
 
 </manifest>

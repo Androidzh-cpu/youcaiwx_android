@@ -165,8 +165,11 @@ public class ApiStores {
     //赚取积分
     public static final String INTEGRAL_EARNPOINT = BASE_URL + "Integral/earnPoints";
     //积分兑换记录
-    public static final String INTEGRAL_EXCHANGERECORD = BASE_URL + "";
+    public static final String INTEGRAL_EXCHANGERECORD = BASE_URL + "Integral/exchange";
     //积分明细
     public static final String INTEGRAL_DETAIL = BASE_URL + "Integral/couponDetailed";
-
+    //积分商品详情
+    public static final String INTEGRAL_PRODUCT_DETAIL = BASE_URL + "Integral/goodsExchange";
+    //积分订单详情
+    public static final String INTEGRAL_ADDORDER = BASE_URL + "Integral/ordersAdd";
 }

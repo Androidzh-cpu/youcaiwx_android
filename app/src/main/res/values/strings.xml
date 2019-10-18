@@ -522,6 +522,12 @@
     <string name="integral_gotoupload">去上传</string>
     <string name="integral_gotoUpdate">去修改</string>
     <string name="integral_gotostar">去关注</string>
+
+    <string name="integral_button_gotoExchange">立即兑换</string>
+    <string name="integral_button_integralLack">积分不足</string>
+
+    <string name="integral_exchange_introduce">兑换介绍</string>
+    <string name="integral_pay">积分支付</string>
     <!--string related to 积分  end-->
 
     <!--string related to 优惠卷  start-->

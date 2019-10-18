@@ -20,10 +20,12 @@ import com.ucfo.youcaiwx.adapter.integral.IntegralHomeGoodsAdapter;
 import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.integral.IntegralShopHomeBean;
+import com.ucfo.youcaiwx.module.integral.CommodityExchangeActivity;
 import com.ucfo.youcaiwx.module.integral.MineIntegralActivity;
 import com.ucfo.youcaiwx.module.integral.ProductListActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.integral.IntegralPresenter;
 import com.ucfo.youcaiwx.presenter.view.integral.IIntegralHomeView;
+import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -161,6 +163,16 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
             integralHomeCouponAdapter.notifyDataSetChanged();
         }
         recyclerviewCoupon.setAdapter(integralHomeCouponAdapter);
+        integralHomeCouponAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                IntegralShopHomeBean.DataBean.CouponBean couponBean = couponBeanList.get(position);
+                int couponBeanId = couponBean.getId();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.PRODUCT_ID, String.valueOf(couponBeanId));
+                startActivity(CommodityExchangeActivity.class, bundle);
+            }
+        });
 
         if (integralHomeGoodsAdapter == null) {
             integralHomeGoodsAdapter = new IntegralHomeGoodsAdapter(getActivity(), shopBeanList);
@@ -168,6 +180,16 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
             integralHomeGoodsAdapter.notifyDataSetChanged();
         }
         recyclerviewGoods.setAdapter(integralHomeGoodsAdapter);
+        integralHomeGoodsAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                IntegralShopHomeBean.DataBean.ShopBean shopBean = shopBeanList.get(position);
+                String id = shopBean.getId();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.PRODUCT_ID, id);
+                startActivity(CommodityExchangeActivity.class, bundle);
+            }
+        });
     }
 
     @Override

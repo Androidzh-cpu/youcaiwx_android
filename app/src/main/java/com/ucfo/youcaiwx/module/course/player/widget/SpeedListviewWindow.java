@@ -47,6 +47,7 @@ public class SpeedListviewWindow {
         mSpeedItems = new ArrayList<>();
         mSpeedItems.add(0.5f);
         mSpeedItems.add(1.0f);
+        mSpeedItems.add(1.2f);
         mSpeedItems.add(1.5f);
         mSpeedItems.add(2.0f);
 

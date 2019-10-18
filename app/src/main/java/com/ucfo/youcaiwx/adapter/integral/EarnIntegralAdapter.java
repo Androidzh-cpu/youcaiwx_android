@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.integral.EarnIntegralBean;
+import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
 
 import java.util.List;
 
@@ -29,6 +30,11 @@ public class EarnIntegralAdapter extends RecyclerView.Adapter<EarnIntegralAdapte
     private Context context;
     private List<EarnIntegralBean.DataBean.DailyBean> dailyBeanList;
     private List<EarnIntegralBean.DataBean.NoviceBean> noviceBeanList;
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
     public EarnIntegralAdapter(int type, Context context, List<EarnIntegralBean.DataBean.DailyBean> dailyBeanList, List<EarnIntegralBean.DataBean.NoviceBean> noviceBeanList) {
         this.type = type;
@@ -123,6 +129,12 @@ public class EarnIntegralAdapter extends RecyclerView.Adapter<EarnIntegralAdapte
                     break;
             }
 
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onItemClick(v, position);
+                }
+            });
         }
     }
 

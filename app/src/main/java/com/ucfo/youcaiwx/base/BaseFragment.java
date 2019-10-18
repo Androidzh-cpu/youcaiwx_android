@@ -171,6 +171,13 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 跳转activity
      */
+    protected void startActivity(Class<?> cls) {
+        startActivity(cls, null);
+    }
+
+    /**
+     * 跳转activity
+     */
     protected void startActivity(Class<?> cls, Bundle bundle) {
         Intent intent = new Intent(getActivity(), cls);
         if (bundle != null) {

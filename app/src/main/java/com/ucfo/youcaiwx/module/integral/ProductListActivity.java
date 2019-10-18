@@ -2,6 +2,7 @@ package com.ucfo.youcaiwx.module.integral;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,7 +23,10 @@ import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.integral.IntegralProductListBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.integral.IntegralPresenter;
 import com.ucfo.youcaiwx.presenter.view.integral.IIntegralGoodsListView;
+import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
+import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -166,6 +170,9 @@ public class ProductListActivity extends BaseActivity implements IIntegralGoodsL
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerview.setLayoutManager(linearLayoutManager);
+            int topbottom = DensityUtil.dp2px(0.5F);
+            int leftRight = DensityUtil.dp2px(12);
+            recyclerview.addItemDecoration(new SpacesItemDecoration(leftRight, topbottom, ContextCompat.getColor(this, R.color.color_E6E6E6)));
         }
     }
 
@@ -198,6 +205,16 @@ public class ProductListActivity extends BaseActivity implements IIntegralGoodsL
                 integralProductAdapter.notifyDataSetChanged();
             }
             recyclerview.setAdapter(integralProductAdapter);
+            integralProductAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    IntegralProductListBean.DataBean bean = list.get(position);
+                    int id = bean.getId();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constant.PRODUCT_ID, String.valueOf(id));
+                    startActivity(CommodityExchangeActivity.class, bundle);
+                }
+            });
         } else if (TextUtils.equals(type, Constant.INTEGRAL_TYPE_COUPON)) {
             if (integralCouponAdapter == null) {
                 integralCouponAdapter = new IntegralCouponAdapter(this, list);
@@ -205,6 +222,16 @@ public class ProductListActivity extends BaseActivity implements IIntegralGoodsL
                 integralCouponAdapter.notifyDataSetChanged();
             }
             recyclerview.setAdapter(integralCouponAdapter);
+            integralCouponAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    IntegralProductListBean.DataBean bean = list.get(position);
+                    int id = bean.getId();
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constant.PRODUCT_ID, String.valueOf(id));
+                    startActivity(CommodityExchangeActivity.class, bundle);
+                }
+            });
         }
     }
 

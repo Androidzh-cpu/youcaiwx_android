@@ -75,6 +75,7 @@ public class Constant {
     //H5标题
     public static final String WEB_TITLE = "web_title";
     public static final String DATA = "data";
+    public static final String MESSAGE = "msg";
 
     public static final String UTF_8 = "UTF-8";
     public static final String CODE = "code";
@@ -240,6 +241,7 @@ public class Constant {
 
     //---------------------------------------------积分-----------------------------------------------//
     public static final String INTEGRAL = "integral";
+    public static final String PRODUCT_ID = "good_id";
     //App下载页分享
     public static final int INTEGRAL_SHARE = 3;
     //App日签分享

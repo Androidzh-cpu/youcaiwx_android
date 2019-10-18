@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".module.integral.IntegralCommitActivity">
+
+    <!--积分支付-->
+    <Button
+        android:id="@+id/btn_next"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:background="@mipmap/icon_btnbackprimary"
+        android:layout_height="@dimen/dp_43"
+        android:stateListAnimator="@drawable/shape_selector_elevation"
+        android:textColor="@color/colorWhite"
+        android:text="@string/integral_pay"
+        android:textSize="@dimen/sp_14" />
+
+</LinearLayout>

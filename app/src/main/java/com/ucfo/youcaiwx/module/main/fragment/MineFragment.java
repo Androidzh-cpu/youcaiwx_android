@@ -305,11 +305,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
             UserInfoBean.DataBean data = bean.getData();
             if (data != null) {
                 updateLoginUi(data);
-            } else {
-                updateUnLoginUi();
             }
-        } else {
-            updateUnLoginUi();
         }
     }
 

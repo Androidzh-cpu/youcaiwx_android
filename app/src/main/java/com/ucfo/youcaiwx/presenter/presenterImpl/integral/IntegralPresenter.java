@@ -14,7 +14,7 @@ import com.ucfo.youcaiwx.entity.integral.IntegralProductListBean;
 import com.ucfo.youcaiwx.entity.integral.IntegralShopHomeBean;
 import com.ucfo.youcaiwx.presenter.view.integral.IIntegralDetaillView;
 import com.ucfo.youcaiwx.presenter.view.integral.IIntegralEarnView;
-import com.ucfo.youcaiwx.presenter.view.integral.IIntegralExchangeView;
+import com.ucfo.youcaiwx.presenter.view.integral.IIntegralExchangeRecordView;
 import com.ucfo.youcaiwx.presenter.view.integral.IIntegralGoodsListView;
 import com.ucfo.youcaiwx.presenter.view.integral.IIntegralHomeView;
 
@@ -36,12 +36,12 @@ public class IntegralPresenter implements IIntegralPresenter {
     //赚取积分
     private IIntegralEarnView integralEarnView;
     //积分兑换记录
-    private IIntegralExchangeView iIntegralExchangeView;
+    private IIntegralExchangeRecordView iIntegralExchangeRecordView;
     //积分明细
     private IIntegralDetaillView integralDetaillView;
 
-    public IntegralPresenter(IIntegralExchangeView iIntegralExchangeView) {
-        this.iIntegralExchangeView = iIntegralExchangeView;
+    public IntegralPresenter(IIntegralExchangeRecordView iIntegralExchangeRecordView) {
+        this.iIntegralExchangeRecordView = iIntegralExchangeRecordView;
     }
 
     public IntegralPresenter(IIntegralDetaillView integralDetaillView) {
@@ -216,19 +216,19 @@ public class IntegralPresenter implements IIntegralPresenter {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        iIntegralExchangeView.showError();
+                        iIntegralExchangeRecordView.showError();
                     }
 
                     @Override
                     public void onFinish() {
                         super.onFinish();
-                        iIntegralExchangeView.showLoadingFinish();
+                        iIntegralExchangeRecordView.showLoadingFinish();
                     }
 
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
                         super.onStart(request);
-                        iIntegralExchangeView.showLoading();
+                        iIntegralExchangeRecordView.showLoading();
                     }
 
                     @Override
@@ -241,12 +241,12 @@ public class IntegralPresenter implements IIntegralPresenter {
                             if (code == 200) {
                                 if (jsonObject.has(Constant.DATA)) {
                                     IntegralExchangeRecordBean listBean = new Gson().fromJson(body, IntegralExchangeRecordBean.class);
-                                    iIntegralExchangeView.integralExchangeRecord(listBean);
+                                    iIntegralExchangeRecordView.integralExchangeRecord(listBean);
                                 } else {
-                                    iIntegralExchangeView.integralExchangeRecord(null);
+                                    iIntegralExchangeRecordView.integralExchangeRecord(null);
                                 }
                             } else {
-                                iIntegralExchangeView.integralExchangeRecord(null);
+                                iIntegralExchangeRecordView.integralExchangeRecord(null);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,8 +15,10 @@ import com.ucfo.youcaiwx.adapter.integral.EarnIntegralAdapter;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.integral.EarnIntegralBean;
+import com.ucfo.youcaiwx.module.user.activity.PersonnelSettingActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.integral.IntegralPresenter;
 import com.ucfo.youcaiwx.presenter.view.integral.IIntegralEarnView;
+import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
@@ -163,44 +166,35 @@ public class EarnIntegralActivity extends BaseActivity implements IIntegralEarnV
             noviceAdapter.notifyDataSetChanged();
         }
         recyclerviewNew.setAdapter(noviceAdapter);
-
-        /**
-         *             switch (id) {
-         case 5:
-         //编辑昵称
-         if (TextUtils.equals(count, number)) {
-         holder.mNoviceStateItem.setTextColor(ContextCompat.getColor(context, R.color.color_999999));
-         holder.mNoviceStateItem.setText(context.getResources().getString(R.string.integral_gotocompleted));
-         } else {
-         holder.mNoviceStateItem.setTextColor(ContextCompat.getColor(context, R.color.color_0267FF));
-         holder.mNoviceStateItem.setText(context.getResources().getString(R.string.integral_gotoUpdate));
-         }
-         break;
-         case 6:
-         //编辑头像
-         if (TextUtils.equals(count, number)) {
-         holder.mNoviceStateItem.setTextColor(ContextCompat.getColor(context, R.color.color_999999));
-         holder.mNoviceStateItem.setText(context.getResources().getString(R.string.integral_gotocompleted));
-         } else {
-         holder.mNoviceStateItem.setTextColor(ContextCompat.getColor(context, R.color.color_0267FF));
-         holder.mNoviceStateItem.setText(context.getResources().getString(R.string.integral_gotoupload));
-         }
-         break;
-         case 7:
-         //关注公众号
-         if (TextUtils.equals(count, number)) {
-         holder.mNoviceStateItem.setTextColor(ContextCompat.getColor(context, R.color.color_999999));
-         holder.mNoviceStateItem.setText(context.getResources().getString(R.string.integral_gotocompleted));
-         } else {
-         holder.mNoviceStateItem.setTextColor(ContextCompat.getColor(context, R.color.color_0267FF));
-         holder.mNoviceStateItem.setText(context.getResources().getString(R.string.integral_gotostar));
-         }
-         break;
-         default:
-         break;
-         }
-
-         */
+        noviceAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                EarnIntegralBean.DataBean.NoviceBean bean = noviceBeanList.get(position);
+                String count = bean.getCount();
+                String number = bean.getNumber();
+                switch (bean.getId()) {
+                    case 5:
+                        //编辑昵称
+                        if (!TextUtils.equals(count, number)) {
+                            startActivity(PersonnelSettingActivity.class, null);
+                        }
+                        break;
+                    case 6:
+                        //编辑头像
+                        if (!TextUtils.equals(count, number)) {
+                            startActivity(PersonnelSettingActivity.class, null);
+                        }
+                        break;
+                    case 7:
+                        //关注公众号
+                        if (!TextUtils.equals(count, number)) {
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
 
     @Override

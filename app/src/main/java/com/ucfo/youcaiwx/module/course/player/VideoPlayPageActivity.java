@@ -2347,6 +2347,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                                 String desc = getResources().getString(R.string.youcaiWXShareDescribe);
                                 String iamgeurl = ApiStores.LOGO;
                                 ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneSession);
+                                //设置签到积分
+                                EarnIntegralPresenter.getInstance().setIntegralType(Constant.INTEGRAL_SHARE);
                             }
                         })
                         .setCircleToFriendButton(new View.OnClickListener() {
@@ -2357,6 +2359,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                                 String desc = getResources().getString(R.string.youcaiWXShareDescribe);
                                 String iamgeurl = ApiStores.LOGO;
                                 ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneTimeline);
+                                //设置签到积分
+                                EarnIntegralPresenter.getInstance().setIntegralType(Constant.INTEGRAL_SHARE);
                             }
                         })
                         .show();
