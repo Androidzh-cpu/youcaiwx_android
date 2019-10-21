@@ -215,7 +215,7 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
     //初始化适配器
     private void initAdapter() {
         if (questionOnRecordAdapter == null) {
-            questionOnRecordAdapter = new QuestionOnRecordAdapter(context, list);
+            questionOnRecordAdapter = new QuestionOnRecordAdapter(this, list);
         } else {
             questionOnRecordAdapter.notifyDataSetChanged();
         }

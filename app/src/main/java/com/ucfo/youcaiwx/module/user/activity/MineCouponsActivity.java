@@ -190,7 +190,7 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
                     intent.putExtra(Constant.TYPE, bean.getIs_type());
                     intent.putExtra(Constant.PAY_COUPONPRICE, bean.getCoupon_price());
                     intent.putExtra(Constant.PAY_COUPONID, bean.getCoupon_id());
-                    setResult(10001, intent);
+                    setResult(Constant.REQUEST_COUPON, intent);
                     finish();
                 }
             }

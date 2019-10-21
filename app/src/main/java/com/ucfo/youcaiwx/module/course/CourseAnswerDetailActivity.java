@@ -10,12 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.AbsoluteSizeSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,6 +30,8 @@ import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.answer.AnswerDetailBean;
 import com.ucfo.youcaiwx.entity.answer.AnswerListDataBean;
+import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
+import com.ucfo.youcaiwx.module.course.player.utils.TimeFormater;
 import com.ucfo.youcaiwx.presenter.presenterImpl.answer.CourseCourseAnswerListPresenter;
 import com.ucfo.youcaiwx.presenter.view.answer.ICourseAnswerListView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
@@ -42,11 +39,12 @@ import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.module.course.player.utils.TimeFormater;
+import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -95,6 +93,8 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
     TextView answerVideoname;
     @BindView(R.id.top_linear)
     LinearLayout topLinear;
+    @BindView(R.id.showline)
+    View showline;
     private Context context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private int user_id;
@@ -104,6 +104,7 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
     private CourseCourseAnswerListPresenter courseAnswerListPresenter;
     private LinearLayoutManager layoutManager, layoutManager2;
     private Transferee transferee;
+    private AnswerDetailBean answerDetailBean;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -148,12 +149,12 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
 
         bundle = getIntent().getExtras();
         if (bundle != null) {
-            type = bundle.getString(Constant.TYPE, Constant.MINE_ANSWER);
+            type = bundle.getString(Constant.TYPE, Constant.MESSAGE_ANSWER);
             answer_id = bundle.getInt(Constant.ANSWER_ID, 0);//获取传递的问答ID
             answer_replystatus = bundle.getInt(Constant.STATUS, 0);//获取传递的问答状态
 
             //根据传递的问答ID获取问答详情
-            courseAnswerListPresenter.getAnswerDetail(answer_id);
+            courseAnswerListPresenter.getAnswerDetail(answer_id, user_id);
 
             switch (answer_replystatus) {
                 case 1://1回复
@@ -162,8 +163,10 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
                 default:
                     break;
             }
-            if (TextUtils.equals(type, Constant.MINE_ANSWER)) {
+            if (TextUtils.equals(type, Constant.MESSAGE_ANSWER)) {
                 topLinear.setVisibility(View.GONE);
+            } else {
+                topLinear.setVisibility(View.VISIBLE);
             }
         } else {
             loadinglayout.showEmpty();
@@ -171,7 +174,7 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                courseAnswerListPresenter.getAnswerDetail(answer_id);
+                courseAnswerListPresenter.getAnswerDetail(answer_id, user_id);
             }
         });
     }
@@ -208,7 +211,19 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
     @Override
     public void getAnswerDetailData(AnswerDetailBean dataBean) {
         if (dataBean != null) {
+            this.answerDetailBean = dataBean;
             AnswerDetailBean.DataBeanX data = dataBean.getData();
+            AnswerDetailBean.DataBeanX.TitleBean titleBean = data.getTitleBean();
+            if (titleBean != null) {
+                String title = titleBean.getTitle();
+                String videoTime = titleBean.getVideo_time();
+                String formatMs = "";
+                if (!TextUtils.isEmpty(videoTime)) {
+                    formatMs = TimeFormater.formatSeconds(Integer.parseInt(videoTime));
+                }
+                String finalString = String.valueOf(title + "  " + formatMs);
+                answerVideoname.setText(finalString);
+            }
             AnswerDetailBean.DataBeanX.DataBean userData = data.getData();
             //TODO 学员问题逻辑处理
             if (userData != null) {
@@ -216,20 +231,15 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
                 String quiz = userData.getQuiz();//学员问题
                 String sectionName = userData.getSection_name();//问题所属章节
                 String username = userData.getUsername();//学员昵称
-                String videoTime = userData.getVideo_time();
-                String formatMs = "";
-                if (!TextUtils.isEmpty(videoTime)) {
-                    formatMs = TimeFormater.formatMs(Integer.parseInt(videoTime));
-                }
                 if (TextUtils.isEmpty(userData.getHead())) {
                     RequestOptions requestOptions = new RequestOptions()
-                            .placeholder(R.mipmap.icon_headdefault)
+                            .placeholder(R.mipmap.icon_default)
                             .error(R.mipmap.image_loaderror)
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
                     GlideUtils.load(context, userData.getHead(), answerUsericon, requestOptions);
                 } else {
                     RequestOptions requestOptions = new RequestOptions()
-                            .placeholder(R.mipmap.icon_headdefault)
+                            .placeholder(R.mipmap.icon_default)
                             .error(R.mipmap.image_loaderror)
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
                     GlideUtils.load(context, userData.getHead(), answerUsericon, requestOptions);
@@ -249,14 +259,13 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
                 }
 
                 //TODO 设置顶部章节名称
-                String topVdeioTitle = sectionName + "  " + formatMs;
+                /*String topVdeioTitle = sectionName + "  " + formatMs;
                 SpannableString spannableString = new SpannableString(topVdeioTitle);
                 ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#999999"));
                 AbsoluteSizeSpan ab = new AbsoluteSizeSpan(13, true);
                 spannableString.setSpan(ab, topVdeioTitle.length() - formatMs.length(), topVdeioTitle.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 spannableString.setSpan(colorSpan, topVdeioTitle.length() - formatMs.length(), topVdeioTitle.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-                answerVideoname.setText(spannableString);
-
+                answerVideoname.setText(spannableString);*/
                 if (!TextUtils.isEmpty(username)) {
                     answerUsernickname.setText(username);
                 }
@@ -304,7 +313,7 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
                 } else {
                     //TODO 老师头像
                     RequestOptions requestOptions = new RequestOptions()
-                            .placeholder(R.mipmap.icon_headdefault)
+                            .placeholder(R.mipmap.icon_default)
                             .error(R.mipmap.image_loaderror)
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
                     GlideUtils.load(context, dataReply.getHead_img(), answerTeachericon, requestOptions);
@@ -382,5 +391,32 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
     @Override
     public void getAnswerListData(AnswerListDataBean dataBean) {
         //TODO nothing
+    }
+
+    @OnClick(R.id.top_linear)
+    public void onViewClicked() {
+        //查看视频
+        AnswerDetailBean.DataBeanX data = answerDetailBean.getData();
+        AnswerDetailBean.DataBeanX.TitleBean bean = data.getTitleBean();
+
+        String packageId = bean.getPackage_id();
+        String sectionId = bean.getSection_id();
+        String videoId = bean.getVideo_id();
+        String courseId = bean.getCourse_id();
+        if (TextUtils.isEmpty(packageId) || TextUtils.isEmpty(sectionId) || TextUtils.isEmpty(videoId) || TextUtils.isEmpty(courseId)) {
+            ToastUtil.showBottomShortText(this, getResources().getString(R.string.miss_params));
+            return;
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.COURSE_PACKAGE_ID, Integer.parseInt(packageId));//包
+        bundle.putInt(Constant.COURSE_BUY_STATE, bean.getIs_purchase());//购买状态
+        bundle.putString(Constant.COURSE_SOURCE, Constant.WATCH_ANSWERDETAILED);//播放源
+        bundle.putInt(Constant.COURSE_UN_CON, 1);
+        bundle.putInt(Constant.SECTION_ID, Integer.parseInt(sectionId));//章
+        bundle.putString(Constant.COURSE_VIDEOID, bean.getVideoId());//阿里VID
+        bundle.putInt(Constant.VIDEO_ID, Integer.parseInt(videoId));//小节ID
+        bundle.putInt(Constant.COURSE_ID, Integer.parseInt(courseId));//课ID
+        startActivity(VideoPlayPageActivity.class, bundle);
     }
 }

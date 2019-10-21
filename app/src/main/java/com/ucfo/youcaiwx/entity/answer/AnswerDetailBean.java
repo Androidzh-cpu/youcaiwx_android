@@ -7,10 +7,9 @@ import java.util.List;
  * Time: 2019-4-17.  下午 3:14
  * Email:2911743255@qq.com
  * ClassName: AnswerDetailBean
- * Description:TODO 问答详情
+ * Description:TODO 课程问答详情
  */
 public class AnswerDetailBean {
-
 
     /**
      * code : 200
@@ -54,6 +53,7 @@ public class AnswerDetailBean {
 
         private DataBean data;
         private ReplyBean reply;
+        private TitleBean Title;
 
         public DataBean getData() {
             return data;
@@ -69,6 +69,98 @@ public class AnswerDetailBean {
 
         public void setReply(ReplyBean reply) {
             this.reply = reply;
+        }
+
+        public TitleBean getTitleBean() {
+            return Title;
+        }
+
+        public void setTitleBean(TitleBean titleBean) {
+            this.Title = titleBean;
+        }
+
+        public static class TitleBean {
+            private String title;
+            private String video_time;
+            private String VideoId;
+            private String user_id;
+            private String package_id;
+            private String course_id;
+            private String section_id;
+            private String video_id;
+            private int is_purchase;
+
+            public String getTitle() {
+                return title == null ? "" : title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getVideo_time() {
+                return video_time == null ? "" : video_time;
+            }
+
+            public void setVideo_time(String video_time) {
+                this.video_time = video_time;
+            }
+
+            public String getVideoId() {
+                return VideoId == null ? "" : VideoId;
+            }
+
+            public void setVideoId(String videoId) {
+                VideoId = videoId;
+            }
+
+            public String getUser_id() {
+                return user_id == null ? "" : user_id;
+            }
+
+            public void setUser_id(String user_id) {
+                this.user_id = user_id;
+            }
+
+            public String getPackage_id() {
+                return package_id == null ? "" : package_id;
+            }
+
+            public void setPackage_id(String package_id) {
+                this.package_id = package_id;
+            }
+
+            public String getCourse_id() {
+                return course_id == null ? "" : course_id;
+            }
+
+            public void setCourse_id(String course_id) {
+                this.course_id = course_id;
+            }
+
+            public String getSection_id() {
+                return section_id == null ? "" : section_id;
+            }
+
+            public void setSection_id(String section_id) {
+                this.section_id = section_id;
+            }
+
+            public String getVideo_id() {
+                return video_id == null ? "" : video_id;
+            }
+
+            public void setVideo_id(String video_id) {
+                this.video_id = video_id;
+            }
+
+            public int getIs_purchase() {
+                return is_purchase;
+            }
+
+            public void setIs_purchase(int is_purchase) {
+                this.is_purchase = is_purchase;
+            }
         }
 
         public static class DataBean {

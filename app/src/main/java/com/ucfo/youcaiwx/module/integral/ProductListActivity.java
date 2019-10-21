@@ -43,7 +43,7 @@ import butterknife.ButterKnife;
  * ORG: www.youcaiwx.com
  * Description:TODO 商品列表
  */
-public class ProductListActivity extends BaseActivity implements IIntegralGoodsListView {
+public class  ProductListActivity extends BaseActivity implements IIntegralGoodsListView {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
     @BindView(R.id.loadinglayout)
@@ -172,7 +172,7 @@ public class ProductListActivity extends BaseActivity implements IIntegralGoodsL
             recyclerview.setLayoutManager(linearLayoutManager);
             int topbottom = DensityUtil.dp2px(0.5F);
             int leftRight = DensityUtil.dp2px(12);
-            recyclerview.addItemDecoration(new SpacesItemDecoration(leftRight, topbottom, ContextCompat.getColor(this, R.color.color_E6E6E6)));
+            recyclerview.addItemDecoration(new SpacesItemDecoration(0, topbottom, ContextCompat.getColor(this, R.color.color_E6E6E6)));
         }
     }
 

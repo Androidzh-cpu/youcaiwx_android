@@ -112,6 +112,7 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
 
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
@@ -190,7 +191,7 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
                 //TODO 添加地址
                 bundle.putBoolean(Constant.PAY_EDIT, true);
                 addressIntent.putExtras(bundle);
-                startActivityForResult(addressIntent, 10000);
+                startActivityForResult(addressIntent, Constant.REQUEST_ADDRESS);
                 break;
             case R.id.btn_coupons:
                 Intent couponIntent = new Intent(this, MineCouponsActivity.class);
@@ -198,7 +199,7 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
                 bundle.putBoolean(Constant.PAY_EDIT, true);
                 bundle.putInt(Constant.COURSE_PACKAGE_ID, courserPackageId);
                 couponIntent.putExtras(bundle);
-                startActivityForResult(couponIntent, 10001);
+                startActivityForResult(couponIntent, Constant.REQUEST_COUPON);
                 break;
             case R.id.btn_invoice:
                 //TODO 发票
@@ -256,9 +257,9 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case 10000:
+            case Constant.REQUEST_ADDRESS:
                 //TODO 选取地址
-                if (resultCode == 10000) {
+                if (resultCode == Constant.REQUEST_ADDRESS) {
                     if (data.getExtras() != null) {
                         Bundle bundle = data.getExtras();
                         String consignee = bundle.getString(Constant.ADDRESS_NAME);
@@ -275,9 +276,9 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
                     }
                 }
                 break;
-            case 10001:
+            case Constant.REQUEST_COUPON:
                 //TODO 选取优惠券
-                if (resultCode == 10001) {
+                if (resultCode == Constant.REQUEST_COUPON) {
                     if (data.getExtras() != null) {
                         Bundle bundle = data.getExtras();
                         initCoupon(bundle);

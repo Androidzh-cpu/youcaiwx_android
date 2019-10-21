@@ -1,5 +1,6 @@
 package com.ucfo.youcaiwx.presenter.presenterImpl.questionbank;
 
+import android.content.Context;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -7,6 +8,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.questionbank.DoProblemsAnswerBean;
@@ -35,6 +37,11 @@ import java.util.ArrayList;
 public class QuestionBankExercisePresenter implements IQuestionBankExercisePresenter {
     private IQuestionBankDoExerciseView view;
     private String EXERCISE_TYPE;
+    private Context context;
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     public void setEXERCISE_TYPE(String EXERCISE_TYPE) {
         this.EXERCISE_TYPE = EXERCISE_TYPE;
@@ -1551,6 +1558,65 @@ public class QuestionBankExercisePresenter implements IQuestionBankExercisePrese
                                 if (code == 200) {
                                     DoProblemsBean doProblemsBean = new Gson().fromJson(body, DoProblemsBean.class);
                                     view.getProblemsList(doProblemsBean);
+                                } else {
+                                    view.getProblemsList(null);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            view.getProblemsList(null);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 我的答疑(查看试题)
+     */
+    @Override
+    public void getQuestionDetailed(int user_id, String question_id) {
+        OkGo.<String>post(ApiStores.QUESTION_QUESTIONDETAILED)
+                .params(Constant.USER_ID, user_id)
+                .params(Constant.QUESTION_ID, question_id)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        view.showLoading();
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        view.showError();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        view.showLoadingFinish();
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String body = response.body();
+                        if (!body.equals("")) {
+                            JSONObject jsonObject = null;
+                            try {
+                                jsonObject = new JSONObject(body);
+                                int code = jsonObject.optInt(Constant.CODE);
+                                if (code == 200) {
+                                    if (jsonObject.has(Constant.DATA)) {
+                                        DoProblemsBean doProblemsBean = new Gson().fromJson(body, DoProblemsBean.class);
+                                        DoProblemsBean.DataBean data = doProblemsBean.getData();
+                                        if (context != null) {
+                                            data.setTitle(context.getResources().getString(R.string.question_title_analysis));
+                                        }
+                                        view.getProblemsList(doProblemsBean);
+                                    } else {
+                                        view.getProblemsList(null);
+                                    }
                                 } else {
                                     view.getProblemsList(null);
                                 }

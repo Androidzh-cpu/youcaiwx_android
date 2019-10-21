@@ -292,6 +292,8 @@
     <string name="question_title_errorAnalysis">错题解析</string>
     <string name="question_title_allAnalysis">全部解析</string>
     <string name="question_title_ResultsStatistical">成绩统计</string>
+    <string name="question_title_details">试题详情</string>
+    <string name="question_title_analysis">试题解析</string>
     <!-- Strings related to 题库首页 end-->
 
 
@@ -515,7 +517,8 @@
     <string name="integral_exchangegoods">商品兑换</string>
     <string name="integral_checkall">查看全部</string>
     <string name="integral_holder">%s积分</string>
-    <string name="integral_point">+%s</string>
+    <string name="integral_pointAdd">+%s</string>
+    <string name="integral_pointMinus">-%s</string>
     <string name="integral_point2">+%s积分</string>
     <string name="integral_surplus">剩余积分:</string>
     <string name="integral_gotocompleted">已完成</string>
@@ -528,6 +531,9 @@
 
     <string name="integral_exchange_introduce">兑换介绍</string>
     <string name="integral_pay">积分支付</string>
+    <string name="integral_commit">提交订单</string>
+    <string name="integral_paysuccess">支付成功</string>
+    <string name="integral_payFailed">支付失败</string>
     <!--string related to 积分  end-->
 
     <!--string related to 优惠卷  start-->
@@ -575,6 +581,7 @@
     <string name="operation_Error">操作失败</string>
     <string name="operation_Success">操作成功</string>
     <string name="data_error">数据错误</string>
+    <string name="miss_params">参数错误</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
     <string name="explication">提示</string>

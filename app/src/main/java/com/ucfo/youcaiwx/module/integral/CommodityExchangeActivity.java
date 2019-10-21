@@ -17,6 +17,7 @@ import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.integral.IntegralAddOrderNumBean;
+import com.ucfo.youcaiwx.entity.integral.IntegralOrderExchangeResultBean;
 import com.ucfo.youcaiwx.entity.integral.IntegralProductDetailBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.integral.IntegralExchangePresenter;
 import com.ucfo.youcaiwx.presenter.view.integral.IIntegralExchangeDetailView;
@@ -307,6 +308,7 @@ public class CommodityExchangeActivity extends BaseActivity implements IIntegral
     @Override
     public void showLoadingFinish() {
         dismissPorcess();
+        btnNext.setEnabled(true);
     }
 
     @Override
@@ -316,15 +318,24 @@ public class CommodityExchangeActivity extends BaseActivity implements IIntegral
 
     @OnClick(R.id.btn_next)
     public void onViewClicked() {
+        //添加积分订单
         integralExchangePresenter.integralAddOrderNumber(user_id, productId);
+        btnNext.setEnabled(false);
     }
 
     @Override
-    public void integralAddOrderNumber(IntegralAddOrderNumBean dataBean, String desc) {
+    public void integralAddOrderForm(IntegralAddOrderNumBean dataBean, String desc) {
         if (dataBean != null) {
-            ToastUtil.showBottomShortText(this, desc);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constant.INTEGRAL_ADDORDERDETAIAL, dataBean);
+            startActivity(IntegralCommitActivity.class, bundle);
         } else {
             ToastUtil.showBottomShortText(this, desc);
         }
+    }
+
+    @Override
+    public void integralOrderFormExchange(IntegralOrderExchangeResultBean data) {
+        //TODO nothing
     }
 }

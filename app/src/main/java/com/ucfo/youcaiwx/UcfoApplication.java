@@ -270,12 +270,14 @@ public class UcfoApplication extends Application {
                             bundle.putString(Constant.TYPE, Constant.MINE_ANSWER);
                             bundle.putInt(Constant.ANSWER_ID, Integer.parseInt(id));
                             bundle.putInt(Constant.STATUS, 1);
+                            bundle.putString(Constant.TYPE, Constant.MESSAGE_ANSWER);
                         } else if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_QUESTIONANSWER)) {
                             //TODO 题库答疑
                             intent.setClass(mContext, QuestionAnswerDetailActivity.class);
                             String id = extra.get(Constant.VALUE);
                             bundle.putInt(Constant.ID, Integer.parseInt(id));
                             bundle.putInt(Constant.STATUS, 1);
+                            bundle.putString(Constant.TYPE, Constant.MESSAGE_ANSWER);
                         }
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtras(bundle);

@@ -1,5 +1,7 @@
 package com.ucfo.youcaiwx.entity.integral;
 
+import java.io.Serializable;
+
 /**
  * Author: AND
  * Time: 2019-10-17.  下午 4:38
@@ -7,8 +9,7 @@ package com.ucfo.youcaiwx.entity.integral;
  * FileName: IntegralAddOrderNumBean
  * Description:TODO 添加订单
  */
-public class IntegralAddOrderNumBean {
-
+public class IntegralAddOrderNumBean implements Serializable {
     /**
      * code : 200
      * msg : 操作成功
@@ -43,7 +44,7 @@ public class IntegralAddOrderNumBean {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * address : {"address_id":6,"consignee":"阿迪达斯","telephone":"15695426961","address":"北京市朝阳区"}
          * goods : {"id":10,"image":"http://youcai2020.oss-cn-beijing.aliyuncs.com/style/images/20191014/fddd96a1316f9972f0aaf5c722145187.jpeg","type":3,"name":"满15000减2000","end_time":"2019-10-15 00:00:00","integral_price":2000,"range":3,"type_id":17,"number":10,"coupon_id":17,"coupon_price":"2000","amount_price":"15000.00","is_type":1}
@@ -68,7 +69,7 @@ public class IntegralAddOrderNumBean {
             this.goods = goods;
         }
 
-        public static class AddressBean {
+        public static class AddressBean implements Serializable {
             /**
              * address_id : 6
              * consignee : 阿迪达斯
@@ -114,7 +115,7 @@ public class IntegralAddOrderNumBean {
             }
         }
 
-        public static class GoodsBean {
+        public static class GoodsBean implements Serializable {
             /**
              * id : 10
              * image : http://youcai2020.oss-cn-beijing.aliyuncs.com/style/images/20191014/fddd96a1316f9972f0aaf5c722145187.jpeg

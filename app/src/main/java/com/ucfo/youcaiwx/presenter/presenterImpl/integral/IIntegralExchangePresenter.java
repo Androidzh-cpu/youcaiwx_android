@@ -15,8 +15,12 @@ public interface IIntegralExchangePresenter {
     void inquireProductDetail(int user_id, String goods_id);
 
     /**
-     * 商品订单详情
+     * 添加积分商品订单
      */
     void integralAddOrderNumber(int user_id, String good_id);
 
+    /**
+     * 订单支付
+     */
+    void integralExchangePay(int user_id, int address_id, String good_id);
 }

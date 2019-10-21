@@ -28,11 +28,13 @@ import com.ucfo.youcaiwx.entity.answer.QuestionAnswerDetailBean;
 import com.ucfo.youcaiwx.entity.answer.QuestionAnswerListBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.answer.QuestionAnswerPresenter;
 import com.ucfo.youcaiwx.presenter.view.answer.IQuestionAnswerView;
+import com.ucfo.youcaiwx.utils.ActivityUtil;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
+import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.flowlayout.FlowLayout;
 import com.ucfo.youcaiwx.widget.flowlayout.TagAdapter;
@@ -42,6 +44,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -100,6 +103,7 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
     private QuestionAnswerDetailActivity context;
     private Transferee transferee;
     private String type;
+    private QuestionAnswerDetailBean questionAnswerDetailBean;
 
 
     @Override
@@ -166,13 +170,15 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
         if (bundle != null) {
             answer_id = bundle.getInt(Constant.ID, 0);//题目ID
             reply_status = bundle.getInt(Constant.STATUS, 0);//回复状态
-            type = bundle.getString(Constant.TYPE, Constant.MINE_ANSWER);
+            type = bundle.getString(Constant.TYPE, Constant.MESSAGE_ANSWER);//消息中心不显示顶部入口
 
             questionAnswerPresenter.getQuestionAnswerDetail(user_id, answer_id);
 
 
-            if (TextUtils.equals(type, Constant.MINE_ANSWER)) {
+            if (TextUtils.equals(type, Constant.MESSAGE_ANSWER)) {
                 topLinear.setVisibility(View.GONE);
+            } else {
+                topLinear.setVisibility(View.VISIBLE);
             }
         } else {
             loadinglayout.showEmpty();
@@ -207,13 +213,16 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
 
     //TODO 设置答疑详情
     private void setDetailInfo(QuestionAnswerDetailBean bean) {
+        this.questionAnswerDetailBean = bean;
+
         QuestionAnswerDetailBean.DataBeanX dataBeanX = bean.getData();
 
-        String question_keyword = dataBeanX.getQuestion_keyword();
+        //String question_keyword = dataBeanX.getQuestion_keyword();
+        QuestionAnswerDetailBean.DataBeanX.TopicsBean topics = dataBeanX.getTopics();
         QuestionAnswerDetailBean.DataBeanX.DataBean data = dataBeanX.getData();
         QuestionAnswerDetailBean.DataBeanX.ReplyBean reply = dataBeanX.getReply();
-        if (!TextUtils.isEmpty(question_keyword)) {//TODO 标题
-            answerVideoname.setText(question_keyword);
+        if (!TextUtils.isEmpty(topics.getTopic())) {//TODO 标题
+            answerVideoname.setText(topics.getTopic());
         }
         if (data != null) {//提问信息
             switch (reply_status) {//TODO 回复状态
@@ -236,7 +245,7 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
                 answerUsericon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_headdefault));
             } else {
                 RequestOptions requestOptions = new RequestOptions()
-                        .placeholder(R.mipmap.icon_headdefault)
+                        .placeholder(R.mipmap.icon_default)
                         .error(R.mipmap.image_loaderror)
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
                 GlideUtils.load(context, head, answerUsericon, requestOptions);
@@ -331,7 +340,7 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
                     answerTeachericon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_headdefault));
                 } else {
                     RequestOptions requestOptions = new RequestOptions()
-                            .placeholder(R.mipmap.icon_headdefault)
+                            .placeholder(R.mipmap.icon_default)
                             .error(R.mipmap.image_loaderror)
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
                     GlideUtils.load(context, replyHeadImg, answerTeachericon, requestOptions);
@@ -404,5 +413,26 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
     @Override
     public void showError() {
         loadinglayout.showEmpty();
+    }
+
+    @OnClick(R.id.top_linear)
+    public void onViewClicked() {
+        if (TextUtils.equals(type, Constant.QUESTION_ANSWER)) {
+            //TODO 题库答疑直接返回试题解析页
+            ActivityUtil.getInstance().finishActivity(QuestionAnswerActivity.class);
+            finish();
+        } else {
+            //查看试题
+            String questionId = questionAnswerDetailBean.getData().getTopics().getQuestion_id();
+            if (TextUtils.isEmpty(questionId)) {
+                ToastUtil.showBottomShortText(this, getResources().getString(R.string.miss_params));
+                return;
+            }
+
+            bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_A);
+            bundle.putInt(Constant.PLATE_ID, Constant.PLATE_16);
+            bundle.putString(Constant.QUESTION_ID, questionId);
+            startActivity(TESTMODEActivity.class, bundle);
+        }
     }
 }

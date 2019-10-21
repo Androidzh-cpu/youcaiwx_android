@@ -216,7 +216,7 @@ public class UserAddressActivity extends BaseActivity implements IUserAddressVie
                     intent.putExtra(Constant.ADDRESS_ID, bean.getAddress_id());
                     intent.putExtra(Constant.ADDRESS, bean.getAddress());
                     intent.putExtra(Constant.TELEPHONE, bean.getTelephone());
-                    setResult(10000, intent);
+                    setResult(Constant.REQUEST_ADDRESS, intent);
                     finish();
                 }
             }

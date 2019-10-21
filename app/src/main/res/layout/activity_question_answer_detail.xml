@@ -31,6 +31,8 @@
                     android:id="@+id/top_linear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 

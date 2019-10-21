@@ -96,6 +96,7 @@ public class ApiStores {
     public static final String QUESTION_ERRORCENTER_GETRESULTREPORT = BASE_URL + "Question/errorStati";//错题中心成绩统计
     public static final String QUESTION_ERRORCENTER_ANALYSIS = BASE_URL + "Question/errorParsing";//错题中心(错题解析和全部解析)
     public static final String QUESTION_ERRORCENTER_DELETE = BASE_URL + "Question/delmisquestion";//错题中心:查看解析删除错题
+    public static final String QUESTION_QUESTIONDETAILED = BASE_URL + "Question/lastQuestion";//我的问题查看试题
     //-----------------------------------------TODO 题库答疑------------------------------------------------------------------------------//
     public static final String ANSWERQUESTION_ANSWER_LIST = BASE_URL + "Question/questionallAnswer";//题库答疑列表
     public static final String ANSWERQUESTION_ANSWER_DETAIL = BASE_URL + "Question/questionDetails";//题库答疑详情
@@ -172,4 +173,6 @@ public class ApiStores {
     public static final String INTEGRAL_PRODUCT_DETAIL = BASE_URL + "Integral/goodsExchange";
     //积分订单详情
     public static final String INTEGRAL_ADDORDER = BASE_URL + "Integral/ordersAdd";
+    //订单兑换
+    public static final String INTEGRAL_ORDEREXCHANGE = BASE_URL + "Integral/ordersExchange";
 }

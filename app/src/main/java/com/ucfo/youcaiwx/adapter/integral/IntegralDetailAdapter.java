@@ -2,6 +2,7 @@ package com.ucfo.youcaiwx.adapter.integral;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -42,12 +43,19 @@ public class IntegralDetailAdapter extends BaseAdapter<IntegralDetailBean.DataBe
         String detailed = bean.getDetailed();
         String name = bean.getName();
         String uptime = bean.getUptime();
+        int type = bean.getType();
 
         if (!TextUtils.isEmpty(name)) {
             holder.mDetailTitleItem.setText(name);
         }
         if (!TextUtils.isEmpty(detailed)) {
-            holder.mDetailPointItem.setText(context.getResources().getString(R.string.integral_point, detailed));
+            if (type == 1) {
+                holder.mDetailPointItem.setText(context.getResources().getString(R.string.integral_pointAdd, detailed));
+                holder.mDetailPointItem.setTextColor(ContextCompat.getColor(context, R.color.color_E84342));
+            } else {
+                holder.mDetailPointItem.setText(context.getResources().getString(R.string.integral_pointMinus, detailed));
+                holder.mDetailPointItem.setTextColor(ContextCompat.getColor(context, R.color.color_0267FF));
+            }
         }
         if (!TextUtils.isEmpty(uptime)) {
             holder.mDetailTimeItem.setText(uptime);

@@ -349,10 +349,11 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         int isRead = dataBean.getIs_read();
         int integral = dataBean.getIntegral();
         if (TextUtils.isEmpty(head)) {
-            userIcon.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_headdefault));
+            userIcon.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_default));
         } else {
             RequestOptions requestOptions = new RequestOptions()
-                    .placeholder(R.mipmap.icon_headdefault)
+                    .centerCrop()
+                    .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
             GlideUtils.load(context, head, userIcon, requestOptions);
@@ -372,21 +373,16 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
 
         switch (sex) {
             case 1://man
-                //userSex.setVisibility(userSex.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-                //userSex.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_sex_man));
                 Drawable drawableMan = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.mipmap.icon_sex_man);
                 drawableMan.setBounds(0, 0, Objects.requireNonNull(drawableMan).getMinimumWidth(), drawableMan.getMinimumHeight());
                 userNickname.setCompoundDrawables(null, null, drawableMan, null);
                 break;
             case 2://woman
-                //userSex.setVisibility(userSex.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-                //userSex.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_sex_woman));
                 Drawable drawableWoman = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.mipmap.icon_sex_woman);
                 drawableWoman.setBounds(0, 0, Objects.requireNonNull(drawableWoman).getMinimumWidth(), drawableWoman.getMinimumHeight());
                 userNickname.setCompoundDrawables(null, null, drawableWoman, null);
                 break;
             default://default
-                //userSex.setVisibility(userSex.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
                 userNickname.setCompoundDrawables(null, null, null, null);
                 break;
         }

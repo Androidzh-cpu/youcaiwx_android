@@ -54,6 +54,15 @@ public class QuestionAnswerDetailBean {
         private String question_keyword;
         private DataBean data;
         private ReplyBean reply;
+        private TopicsBean topics;
+
+        public TopicsBean getTopics() {
+            return topics;
+        }
+
+        public void setTopics(TopicsBean topics) {
+            this.topics = topics;
+        }
 
         public String getQuestion_keyword() {
             return question_keyword == null ? "" : question_keyword;
@@ -217,6 +226,27 @@ public class QuestionAnswerDetailBean {
 
             public void setReply_image(List<String> reply_image) {
                 this.reply_image = reply_image;
+            }
+        }
+
+        public static class TopicsBean {
+            private String topic;
+            private String question_id;
+
+            public String getTopic() {
+                return topic == null ? "" : topic;
+            }
+
+            public void setTopic(String topic) {
+                this.topic = topic;
+            }
+
+            public String getQuestion_id() {
+                return question_id == null ? "" : question_id;
+            }
+
+            public void setQuestion_id(String question_id) {
+                this.question_id = question_id;
             }
         }
     }

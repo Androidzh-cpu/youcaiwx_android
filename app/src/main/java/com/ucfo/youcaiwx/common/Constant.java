@@ -165,6 +165,7 @@ public class Constant {
     public static final String COLLECTION = "collection";//收藏
     public static final String WATCH_RECORD = "watch_record";//观看记录
     public static final String WATCH_LEARNPLAN = "watch_learnPlan";//学习计划
+    public static final String WATCH_ANSWERDETAILED = "watch_answerDetailed";//课程答疑查看视频
     //WIFI观看处理
     public static final String DOWNLOAD_WIFI = "download_wifi";
     public static final String LOOK_WIFI = "download_look";
@@ -209,7 +210,7 @@ public class Constant {
     //这些板块用于区分庞杂的题库模块
     public static final int PLATE_0 = 0;//TODO 0: 0元体验课
     public static final int PLATE_7 = 7;//TODO 7: 错题中心   或者查看解析
-    public static final int PLATE_8 = 8;//TODO 8: 错题中心的重新做题
+    public static final int PLATE_8 = 8;//TODO 8: 错题中心重新做题
     public static final int PLATE_9 = 9;//TODO 9: 6大板块错题解析
     public static final int PLATE_10 = 10;//TODO 10: 错题中心错题解析
     public static final int PLATE_11 = 11;//TODO 11: 6大板块继续做题
@@ -217,6 +218,7 @@ public class Constant {
     public static final int PLATE_13 = 13;//TODO 13: 我的收藏查看试题,有论述也有选择
     public static final int PLATE_14 = 14;//TODO 14:学习计划获取题目
     public static final int PLATE_15 = 15;//TODO 15:学习计划解析
+    public static final int PLATE_16 = 16;//TODO 16:试题详情
 
 
     //---------------------------------------------个人中心-----------------------------------------------//
@@ -228,7 +230,10 @@ public class Constant {
     public static final String ADDRESS_ID = "address_id";
     public static final String ORDER_NUM = "order_num";
     public static final String TEACHER_NAME = "teacher_name";
-    public static final String MINE_ANSWER = "mine_answer";
+    public static final String MINE_ANSWER = "mine_answer";//我的答疑
+    public static final String MESSAGE_ANSWER = "message_answer";//消息中心
+    public static final String QUESTION_ANSWER = "question_answer";//题库答疑列表
+
     public static final String DOWNLOADVID_LIST = "downloadvidList";//下载的vid列表
     public static final String DOWNLOADINFO_LIST = "downloadinfoList";//下载的列表
     public static final String LOCAL_STAIRLIST = "local_list";//本地视频一级存储列表
@@ -236,6 +241,11 @@ public class Constant {
     public static final String PAY_EDIT = "pay_edit";
     public static final String PAY_COUPONPRICE = "pay_couponPrice";
     public static final String PAY_COUPONID = "pay_couponId";
+    //地址选择请求码
+    public static final int REQUEST_ADDRESS = 10000;
+    //优惠券选择请求码
+    public static final int REQUEST_COUPON = 10001;
+
     //---------------------------------------------消息中心-----------------------------------------------//
     public static final String MESSAGE_ID = "message_id";
 
@@ -252,6 +262,8 @@ public class Constant {
     public static final String INTEGRAL_TYPE_PRODUCT = "product";
     //优惠券列表
     public static final String INTEGRAL_TYPE_COUPON = "coupon";
+    //积分订单下单完成数据
+    public static final String INTEGRAL_ADDORDERDETAIAL = "integral_orderDetail";
 
 
 }

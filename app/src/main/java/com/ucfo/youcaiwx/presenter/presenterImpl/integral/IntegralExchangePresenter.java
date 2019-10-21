@@ -8,6 +8,7 @@ import com.lzy.okgo.request.base.Request;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.integral.IntegralAddOrderNumBean;
+import com.ucfo.youcaiwx.entity.integral.IntegralOrderExchangeResultBean;
 import com.ucfo.youcaiwx.entity.integral.IntegralProductDetailBean;
 import com.ucfo.youcaiwx.presenter.view.integral.IIntegralExchangeDetailView;
 import com.ucfo.youcaiwx.presenter.view.integral.IIntegralExchangeView;
@@ -47,18 +48,6 @@ public class IntegralExchangePresenter implements IIntegralExchangePresenter {
                     public void onError(Response<String> response) {
                         super.onError(response);
                         integralExchangeDetailView.showError();
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        integralExchangeDetailView.showLoadingFinish();
-                    }
-
-                    @Override
-                    public void onStart(Request<String, ? extends Request> request) {
-                        super.onStart(request);
-                        integralExchangeDetailView.showLoading();
                     }
 
                     @Override
@@ -117,12 +106,64 @@ public class IntegralExchangePresenter implements IIntegralExchangePresenter {
                             if (code == 200) {
                                 if (jsonObject.has(Constant.DATA)) {
                                     IntegralAddOrderNumBean integralAddOrderNumBean = new Gson().fromJson(body, IntegralAddOrderNumBean.class);
-                                    integralExchangeView.integralAddOrderNumber(integralAddOrderNumBean, message);
+                                    integralExchangeView.integralAddOrderForm(integralAddOrderNumBean, message);
                                 } else {
-                                    integralExchangeView.integralAddOrderNumber(null, message);
+                                    integralExchangeView.integralAddOrderForm(null, message);
                                 }
                             } else {
-                                integralExchangeView.integralAddOrderNumber(null, message);
+                                integralExchangeView.integralAddOrderForm(null, message);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 订单支付
+     */
+    @Override
+    public void integralExchangePay(int user_id, int address_id, String good_id) {
+        OkGo.<String>post(ApiStores.INTEGRAL_ORDEREXCHANGE)
+                .params(Constant.USER_ID, user_id)
+                .params(Constant.ADDRESS_ID, address_id)
+                .params("goods_id", good_id)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        integralExchangeView.showLoadingFinish();
+                    }
+
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        integralExchangeView.showLoading();
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        integralExchangeView.integralOrderFormExchange(null);
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String body = response.body();
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(body);
+                            int code = jsonObject.optInt(Constant.CODE);
+                            if (code == 200) {
+                                if (jsonObject.has(Constant.DATA)) {
+                                    IntegralOrderExchangeResultBean resultBean = new Gson().fromJson(body, IntegralOrderExchangeResultBean.class);
+                                    integralExchangeView.integralOrderFormExchange(resultBean);
+                                } else {
+                                    integralExchangeView.integralOrderFormExchange(null);
+                                }
+                            } else {
+                                integralExchangeView.integralOrderFormExchange(null);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

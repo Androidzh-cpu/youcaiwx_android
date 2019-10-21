@@ -425,7 +425,16 @@
             android:name=".module.integral.CommodityExchangeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
-        <activity android:name=".module.integral.IntegralCommitActivity"></activity>
+        <!-- TODO 积分订单提交 -->
+        <activity
+            android:name=".module.integral.IntegralCommitActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseThemeForActivity" />
+        <!--TODO 积分最终支付结果-->
+        <activity
+            android:name=".module.integral.IntegralPayResultActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseThemeForActivity" />
     </application>
 
 </manifest>

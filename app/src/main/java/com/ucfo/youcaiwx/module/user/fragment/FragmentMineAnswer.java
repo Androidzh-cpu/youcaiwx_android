@@ -201,6 +201,7 @@ public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView 
                         Bundle bundle = new Bundle();
                         bundle.putInt(Constant.ID, list.get(position).getId());
                         bundle.putInt(Constant.STATUS, list.get(position).getReply_status());
+                        bundle.putString(Constant.TYPE,Constant.MINE_ANSWER );
                         startActivity(QuestionAnswerDetailActivity.class, bundle);
                     }
                 }

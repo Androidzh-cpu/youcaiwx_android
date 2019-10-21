@@ -211,6 +211,7 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
                             Bundle bundle = new Bundle();
                             bundle.putInt(Constant.ANSWER_ID, data.get(position).getId());
                             bundle.putInt(Constant.STATUS, data.get(position).getReply_status());
+                            bundle.putString(Constant.TYPE, Constant.MINE_ANSWER);
                             startActivity(CourseAnswerDetailActivity.class, bundle);
                         }
                     } else {

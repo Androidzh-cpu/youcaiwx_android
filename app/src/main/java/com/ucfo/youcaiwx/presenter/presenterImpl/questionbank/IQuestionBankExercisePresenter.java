@@ -21,10 +21,10 @@ public interface IQuestionBankExercisePresenter {
     void getKnowledgePractice(int course_id, int user_id, int plate_id, int paper_type, int section_id, int knob_id, String know_id, int num);
 
     //TODO 系统高频错题
-    void getQuestionHightErrors(int course_id, int user_id, int plate_id, int paper_type, int section_id, String know_id,String knob_id);
+    void getQuestionHightErrors(int course_id, int user_id, int plate_id, int paper_type, int section_id, String know_id, String knob_id);
 
     //TODO 自助练习
-    void getSelfHelpPractice(int course_id, int user_id, int plate_id, int paper_type, int section_id, String know_id,String knob_id, int num);
+    void getSelfHelpPractice(int course_id, int user_id, int plate_id, int paper_type, int section_id, String know_id, String knob_id, int num);
 
     //TODO 论述题自测
     void getDissCussData(int course_id, int user_id, int plate_id, int paper_type, int paper_id);
@@ -33,7 +33,7 @@ public interface IQuestionBankExercisePresenter {
     void getErrorCenterCheckAnalysis(int course_id, int user_id, int section_id, String know_id);
 
     //TODO 错题中心 重新做题
-    void getErrorCenterReform(int course_id, int user_id, int section_id,String knob_id, String know_id);
+    void getErrorCenterReform(int course_id, int user_id, int section_id, String knob_id, String know_id);
 
     //TODO 获取错题解析
     void getErrorAnalysis(int paper_id, int user_id, int type);
@@ -79,5 +79,8 @@ public interface IQuestionBankExercisePresenter {
 
     //TODO 学习中心获取全部解析
     void getLearnPlanExerciseAnalysis(int user_id, int paper_id);
+
+    //TODO 试题解析,查看试题
+    void getQuestionDetailed(int user_id, String question_id);
 
 }

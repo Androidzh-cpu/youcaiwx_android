@@ -2,6 +2,7 @@ package com.ucfo.youcaiwx.presenter.view.integral;
 
 import com.ucfo.youcaiwx.base.BaseView;
 import com.ucfo.youcaiwx.entity.integral.IntegralAddOrderNumBean;
+import com.ucfo.youcaiwx.entity.integral.IntegralOrderExchangeResultBean;
 
 /**
  * Author: AND
@@ -12,6 +13,14 @@ import com.ucfo.youcaiwx.entity.integral.IntegralAddOrderNumBean;
  */
 public interface IIntegralExchangeView extends BaseView {
 
-    void integralAddOrderNumber(IntegralAddOrderNumBean dataBean, String desc);
+    /**
+     * 添加积分商品订单
+     */
+    void integralAddOrderForm(IntegralAddOrderNumBean dataBean, String desc);
+
+    /**
+     * 积分订单兑换
+     */
+    void integralOrderFormExchange(IntegralOrderExchangeResultBean data);
 
 }

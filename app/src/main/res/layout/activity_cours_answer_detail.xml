@@ -37,6 +37,8 @@
                         android:id="@+id/top_linear"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
                         android:orientation="vertical">
 
                         <TextView
@@ -51,7 +53,7 @@
                             android:paddingStart="@dimen/dp_12"
                             android:paddingTop="@dimen/dp_12"
                             android:textColor="@color/color_666666"
-                            android:textSize="@dimen/sp_15"
+                            android:textSize="@dimen/sp_13"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="来自：课程-1-2运营能力分析资本结构分析经营风险财务风险。" />

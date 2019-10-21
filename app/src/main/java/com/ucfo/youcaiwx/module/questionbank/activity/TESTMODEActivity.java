@@ -138,7 +138,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     private QuestionAnswerSheetAdapter answerSheetAdapter;
     private String loadingTips = null;
     private QuestionItemAdapter questionItemAdapter;
-    private String know_id;
+    private String know_id, question_id;
     /**
      * 传输做题翻页事件
      */
@@ -237,6 +237,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             id = bundle.getInt(Constant.ID, 0);//TODO 试卷ID,交卷完毕之后会生成一个paper_id用于查询成绩和错题解析使用
             know_id = bundle.getString(Constant.KNOW_ID, "0");//TODO 知识点ID,多个知识点ID的字符串数组
             videoName = bundle.getString(Constant.VIDEO_NAME, getResources().getString(R.string.default_title));//视频名
+            question_id = bundle.getString(Constant.QUESTION_ID, "0");//TODO 题目ID
 
             num = bundle.getInt(Constant.NUM, 0);//TODO 知识点做题数
             knob_id = bundle.getInt(Constant.KNOB_ID, 0);//TODO 节ID
@@ -247,6 +248,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             LogUtils.e("Bundle------: " + bundle);
             //TODO 设置做题类型
             questionBankExercisePresenter.setEXERCISE_TYPE(EXERCISE_TYPE);
+            questionBankExercisePresenter.setContext(this);
         } else {
             loadinglayout.showEmpty();
             return;
@@ -339,6 +341,10 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             case Constant.PLATE_15://TODO 学习中心试题解析
                 questionBankExercisePresenter.getLearnPlanExerciseAnalysis(user_id, paper_id);
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_allAnalysis));
+                break;
+            case Constant.PLATE_16://TODO 查看试题
+                questionBankExercisePresenter.getQuestionDetailed(user_id, question_id);
+                titlebarMidtitle.setText(getResources().getString(R.string.question_title_details));
                 break;
             default:
                 break;
@@ -617,7 +623,9 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             finish();//解析模式直接返回上一级
             return;
         }
-        if (plate_id == Constant.PLATE_8 || plate_id == Constant.PLATE_0 || plate_id == Constant.PLATE_14) {//todo 错题中心的做题模式和0元体验直接退出
+        if (plate_id == Constant.PLATE_8 || plate_id == Constant.PLATE_0
+                || plate_id == Constant.PLATE_14 || plate_id == Constant.PLATE_16) {
+            //todo 错题中心的做题模式,0元体验,学习计划,试题查看 直接退出
             finish();//返回上一级
             return;
         }
@@ -1070,7 +1078,9 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
      */
     private void setAnalyesStyle() {
         if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A)) {//TODO 解析模式
-            if (plate_id == Constant.PLATE_7 || plate_id == Constant.PLATE_0 || plate_id == Constant.PLATE_13) {//错题中心查看错题,0元体验,查看收藏直接隐藏底部功能区
+            if (plate_id == Constant.PLATE_7 || plate_id == Constant.PLATE_0 ||
+                    plate_id == Constant.PLATE_13 || plate_id == Constant.PLATE_16) {
+                //错题中心查看错题,0元体验,查看收藏,试题详情直接隐藏底部功能区
                 linearBottomFunction.setVisibility(btnQuery.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
             } else {//普通解析模式
                 btnQuery.setVisibility(btnQuery.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//答疑显示
@@ -1154,6 +1164,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 break;
             case R.id.btn_submit://TODO 交卷
                 submitPaper();
+                break;
+            default:
                 break;
         }
     }

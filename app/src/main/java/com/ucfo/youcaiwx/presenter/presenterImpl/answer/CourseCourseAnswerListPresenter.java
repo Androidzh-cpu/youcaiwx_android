@@ -79,9 +79,10 @@ public class CourseCourseAnswerListPresenter implements ICourseAnswerListPresent
 
     //问答详情
     @Override
-    public void getAnswerDetail(int answer_id) {
+    public void getAnswerDetail(int answer_id,int user_id) {
         OkGo.<String>post(ApiStores.ANSWER_GETANSWERDETAIL)
                 .params(Constant.ANSWER_ID, answer_id)
+                .params(Constant.USER_ID, user_id)
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {

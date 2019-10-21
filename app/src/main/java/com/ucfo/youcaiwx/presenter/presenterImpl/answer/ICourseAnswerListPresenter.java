@@ -20,7 +20,7 @@ public interface ICourseAnswerListPresenter {
      * Time:2019-4-17   下午 3:15
      * Detail: TODO 获取问答详情
      */
-    void getAnswerDetail(int answer_id);
+    void getAnswerDetail(int answer_id,int user_id);
 
 
 }
