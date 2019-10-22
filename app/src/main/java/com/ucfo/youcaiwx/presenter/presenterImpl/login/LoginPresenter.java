@@ -33,7 +33,7 @@ public class LoginPresenter implements ILoginPresenter {
 
     //TODO 账号密码登录
     @Override
-    public void commonLogin(String phone, String password, String andoridid,String deviceToken) {
+    public void commonLogin(String phone, String password, String andoridid, String deviceToken) {
         AESUtils aesEncrypt = new AESUtils();
         String encrypt = aesEncrypt.encrypt(phone, Constant.AES_KEY, Constant.AES_IV);
         String iphone = "";
@@ -60,7 +60,6 @@ public class LoginPresenter implements ILoginPresenter {
                     public void onSuccess(Response<String> response) {
                         String body = response.body();
                         if (body != null && !body.equals("")) {
-                            //String message = "{\"code\":405,\"msg\":\"password长度不能小于 6\",\"data\":{}}";
                             Gson gson = new Gson();
                             LoginBean loginBean = gson.fromJson(body, LoginBean.class);
                             loginView.loginResult(loginBean);

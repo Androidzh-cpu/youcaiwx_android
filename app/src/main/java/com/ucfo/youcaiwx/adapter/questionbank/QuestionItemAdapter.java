@@ -33,7 +33,8 @@ public class QuestionItemAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (plate_id == Constant.PLATE_13) {//收藏下可能有论述和选择共同出现的情况
+        if (plate_id == Constant.PLATE_13 || plate_id == Constant.PLATE_16) {
+            //我的收藏下可能有论述和选择共同出现的情况
             String topicType = list.get(position).getTopicType();
             if (TextUtils.equals(topicType, String.valueOf(1))) {
                 return new QuestionChoiceItemFragment(position, EXERCISE_TYPE, list.size(), plate_id);

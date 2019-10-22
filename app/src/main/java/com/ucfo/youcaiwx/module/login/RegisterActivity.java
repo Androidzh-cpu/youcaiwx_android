@@ -43,7 +43,6 @@ import butterknife.OnClick;
  * Detail:TODO 注册
  */
 public class RegisterActivity extends BaseActivity implements IRegisterView {
-
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -318,6 +317,8 @@ public class RegisterActivity extends BaseActivity implements IRegisterView {
                 bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.register_tiptext3));
                 intent.putExtras(bundle);
                 startActivity(intent);
+                break;
+            default:
                 break;
         }
     }

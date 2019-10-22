@@ -416,6 +416,6 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
 
     @Override
     public void showError() {
-
+        //
     }
 }

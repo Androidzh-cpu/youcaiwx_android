@@ -175,7 +175,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.titlebar_righttitle://TODO 注册
-                Intent intent = new Intent(context, RegisterActivity.class);
+                Intent intent = new Intent(this, RegisterActivity.class);
                 startActivity(intent);
                 break;
             case R.id.login_btn://TODO 登录
@@ -202,13 +202,13 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                 loginPresenter.commonLogin(mobile, password, androidid, registrationId);
                 break;
             case R.id.tv_forgetpass://TODO 忘记密码
-                startActivity(new Intent(context, CompleteAndForgetActivity.class));
+                startActivity(new Intent(this, CompleteAndForgetActivity.class));
                 break;
             case R.id.wx_login://TODO 微信登录
                 wxLoginPresenter.wxLogin();
                 break;
             case R.id.sms_login://TODO 短信登录
-                startActivity(new Intent(context, SMSLoginActivity.class));
+                startActivity(new Intent(this, SMSLoginActivity.class));
                 break;
             default:
                 break;
@@ -252,7 +252,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 
 
     public void toastInfo(String info) {
-        ToastUtil.showCenterShortText(context, info);
+        ToastUtil.showCenterShortText(this, info);
     }
 
     @Override
