@@ -257,7 +257,7 @@
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 我的地址 -->
         <activity
-            android:name=".module.user.activity.UserAddressActivity"
+            android:name=".module.user.activity.MineAddressActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
         <!-- TODO 地址编辑 -->

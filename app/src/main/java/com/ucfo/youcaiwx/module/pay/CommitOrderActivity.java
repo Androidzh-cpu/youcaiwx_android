@@ -26,6 +26,7 @@ import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.pay.CommitOrderFormBean;
 import com.ucfo.youcaiwx.entity.pay.InvoiceInfoBean;
 import com.ucfo.youcaiwx.entity.pay.OrderFormDetailBean;
+import com.ucfo.youcaiwx.module.user.activity.MineAddressActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.pay.PayPresenter;
 import com.ucfo.youcaiwx.presenter.view.pay.IPayView;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
@@ -34,7 +35,6 @@ import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineCouponsActivity;
-import com.ucfo.youcaiwx.module.user.activity.UserAddressActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.dialog.InvoiceActiveDialog;
 
@@ -187,7 +187,7 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
         Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.btn_address:
-                Intent addressIntent = new Intent(this, UserAddressActivity.class);
+                Intent addressIntent = new Intent(this, MineAddressActivity.class);
                 //TODO 添加地址
                 bundle.putBoolean(Constant.PAY_EDIT, true);
                 addressIntent.putExtras(bundle);

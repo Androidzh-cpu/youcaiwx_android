@@ -28,6 +28,8 @@ import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,13 +39,11 @@ import butterknife.OnClick;
 /**
  * Author: AND
  * Time: 2019-6-13 下午 1:59
- * FileName: UserAddressActivity
+ * FileName: MineAddressActivity
  * ORG: www.youcaiwx.com
  * Description:TODO 我的地址
  */
-
-public class UserAddressActivity extends BaseActivity implements IUserAddressView {
-
+public class MineAddressActivity extends BaseActivity implements IUserAddressView {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -56,11 +56,11 @@ public class UserAddressActivity extends BaseActivity implements IUserAddressVie
     LoadingLayout loadinglayout;
     @BindView(R.id.refreshlayout)
     SmartRefreshLayout refreshlayout;
-    private UserAddressActivity context;
+    private MineAddressActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private int user_id;
     private boolean loginstatus;
-    private ArrayList<AddressListBean.DataBean> list;
+    private List<AddressListBean.DataBean> list;
     private UserAddressPresenter userAddressPresenter;
     private UserAddressListAdapter listAdapter;
     private boolean payCheckAddress;
@@ -115,7 +115,6 @@ public class UserAddressActivity extends BaseActivity implements IUserAddressVie
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        layoutManager.setReverseLayout(false);
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setNestedScrollingEnabled(false);
     }
@@ -172,6 +171,18 @@ public class UserAddressActivity extends BaseActivity implements IUserAddressVie
         if (databean != null) {
             if (databean.getData().size() > 0 && databean.getData() != null) {
                 List<AddressListBean.DataBean> beanList = databean.getData();
+                Collections.sort(beanList, new Comparator<AddressListBean.DataBean>() {
+                    @Override
+                    public int compare(AddressListBean.DataBean o1, AddressListBean.DataBean o2) {
+                        if (o1.getIs_default() > o2.getIs_default()) {
+                            return 1;
+                        }
+                        if (o1.getIs_default() == o2.getIs_default()) {
+                            return 0;
+                        }
+                        return -1;
+                    }
+                });
                 list.clear();
                 list.addAll(beanList);
 
@@ -192,7 +203,7 @@ public class UserAddressActivity extends BaseActivity implements IUserAddressVie
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         } else {
-            listAdapter = new UserAddressListAdapter(list, context);
+            listAdapter = new UserAddressListAdapter(list, this);
         }
         recyclerview.setAdapter(listAdapter);
         //跳转编辑页

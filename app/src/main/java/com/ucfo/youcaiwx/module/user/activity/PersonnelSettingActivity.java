@@ -202,7 +202,7 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
                 startActivity(ModifyNameActivity.class, bundle);
                 break;
             case R.id.btn_userAddress://TODO 我的地址
-                startActivity(UserAddressActivity.class, null);
+                startActivity(MineAddressActivity.class, null);
                 break;
             case R.id.radiobtn_man://todo 男
                 type = 3;

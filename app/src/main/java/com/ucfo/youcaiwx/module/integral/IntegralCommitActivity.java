@@ -23,7 +23,7 @@ import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.integral.IntegralAddOrderNumBean;
 import com.ucfo.youcaiwx.entity.integral.IntegralOrderExchangeResultBean;
 import com.ucfo.youcaiwx.module.main.activity.WebActivity;
-import com.ucfo.youcaiwx.module.user.activity.UserAddressActivity;
+import com.ucfo.youcaiwx.module.user.activity.MineAddressActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.integral.IntegralExchangePresenter;
 import com.ucfo.youcaiwx.presenter.view.integral.IIntegralExchangeView;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
@@ -275,7 +275,7 @@ public class IntegralCommitActivity extends BaseActivity implements IIntegralExc
         switch (view.getId()) {
             case R.id.btn_address:
                 //TODO 添加地址
-                Intent addressIntent = new Intent(this, UserAddressActivity.class);
+                Intent addressIntent = new Intent(this, MineAddressActivity.class);
                 bundle.putBoolean(Constant.PAY_EDIT, true);
                 addressIntent.putExtras(bundle);
                 startActivityForResult(addressIntent, Constant.REQUEST_ADDRESS);
