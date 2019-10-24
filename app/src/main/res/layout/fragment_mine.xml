@@ -16,9 +16,14 @@
 
     <include layout="@layout/titlebar_mine" />
 
-    <android.support.v4.widget.NestedScrollView
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:srlEnableLoadMore="false"
+        app:srlEnableNestedScrolling="true"
+        app:srlEnableOverScrollBounce="true"
+        app:srlEnableOverScrollDrag="true"
+        app:srlEnableRefresh="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -521,10 +526,12 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
+                android:layout_height="@dimen/dp_0_5"
                 android:layout_marginEnd="@dimen/dp_12"
                 android:layout_marginStart="@dimen/dp_12"
-                android:background="@color/color_F5F5F5" />
+                android:background="@color/color_E6E6E6" />
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 </LinearLayout>

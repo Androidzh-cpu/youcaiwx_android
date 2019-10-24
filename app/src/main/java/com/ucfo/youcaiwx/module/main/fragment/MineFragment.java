@@ -355,7 +355,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                     .centerCrop()
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+                    .diskCacheStrategy(DiskCacheStrategy.ALL);
             GlideUtils.load(context, head, userIcon, requestOptions);
         }
         if (!TextUtils.isEmpty(username)) {//todo 昵称

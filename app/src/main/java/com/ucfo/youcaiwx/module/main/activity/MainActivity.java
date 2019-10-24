@@ -239,12 +239,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             int intExtrai = intent.getIntExtra(Constant.INDEX, 0);
             initSelectTab(intExtrai);
         }
-/*      跳转至指定页面代码
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(Constant.INDEX, 1);
-        startActivity(intent);
-*/
+        /*      跳转至指定页面代码
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(Constant.INDEX, 1);
+                startActivity(intent);
+        */
     }
 
     /**
@@ -384,8 +384,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if (index < 0 || index > 3) {
             index = 0;
         }
-        fragmentTransaction = supportFragmentManager.beginTransaction();
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        if (supportFragmentManager != null) {
+            fragmentTransaction = supportFragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        }
 
         hideAllFragment(fragmentTransaction);
         bottomNavigation.getMenu().getItem(index).setChecked(true);

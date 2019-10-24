@@ -481,7 +481,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     public void jumpToNextPage() {
         int currentItem = viewPager.getCurrentItem();
         currentItem = currentItem + 1;
-        viewPager.setCurrentItem(currentItem);
+        jumpToAppointPage(currentItem);
     }
 
     // TODO 跳转至指定页
@@ -492,7 +492,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     /**
      * Description:TESTMODEActivity
      * Time:2019-5-21 上午 10:28
-     * Detail:TODO 交卷事件处理
+     * Detail:TODO 交卷事件
      */
     public void submitPaper() {
         loadingTips = getResources().getString(R.string.question_tips_submitting);//进度框提示文字
@@ -1025,6 +1025,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 jumpToAppointPage(currentIndex);
                 break;
             case Constant.PLATE_12:
+            case Constant.PLATE_16:
                 //TODO 直接打开解析模式
                 discussAnalysis();
                 break;
@@ -1092,7 +1093,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 btnCollection.setVisibility(btnCollection.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//收藏按钮挂掉
                 btnQuery.setVisibility(btnQuery.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//答疑按钮挂掉
                 btnSubmitLinear.setVisibility(btnSubmitLinear.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//交卷按钮显示
-            } else {//普通考试模式
+            } else {//TODO 普通考试模式
                 btnQuery.setVisibility(btnQuery.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//答疑按钮挂掉
                 btnSubmitLinear.setVisibility(btnSubmitLinear.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//交卷按钮显示
             }

@@ -97,6 +97,7 @@ public class RegexUtil {
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkEmail(String email) {
+        String reges2 = "([a-z0-9_.]+)@([\\da-z.-]+).([a-z.]{2,6})";
         String regex = "\\w+@\\w+\\.[a-z]+(\\.[a-z]+)?";
         return Pattern.matches(regex, email);
     }
