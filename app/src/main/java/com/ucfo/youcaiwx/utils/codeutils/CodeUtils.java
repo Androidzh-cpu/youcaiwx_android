@@ -13,14 +13,14 @@ import java.util.Random;
  * Email:2911743255@qq.com
  * ClassName: CodeUtils
  * Description:TODO 图形验证码的工具类
- * Detail:      //TODO 步骤
-                CodeUtils codeUtils = CodeUtils.getInstance();
-                //为图片首次添加验证码
-                Bitmap bitmap = codeUtils.createBitmap();
-                //imageview设置图片验证码图像
-                verifCodeImage.setImageBitmap(bitmap);
-
-                codeUtils.getcode();
+ * Detail:TODO 步骤
+ * CodeUtils codeUtils = CodeUtils.getInstance();
+ * //为图片首次添加验证码
+ * Bitmap bitmap = codeUtils.createBitmap();
+ * //imageview设置图片验证码图像
+ * verifCodeImage.setImageBitmap(bitmap);
+ * <p>
+ * codeUtils.getcode();
  */
 public class CodeUtils {
 

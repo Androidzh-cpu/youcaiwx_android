@@ -10,6 +10,7 @@ import com.ucfo.youcaiwx.BuildConfig;
  * Description:恒量
  */
 public class Constant {
+
     private Constant() {
     }
 
@@ -90,15 +91,16 @@ public class Constant {
     public static final String APP_KEY = "AppKey";
 
     /*******************************************************TODO 再丑也要注意的分割线*******************************************************/
-    //压缩图片地址
-    public static final String LUBAN_PATH = "/youcai/image/";
-    //离线缓存地址        TODO 地址莫篡改,统一都在跟目录的youcai文件夹下处理本应用的数据
-    public static final String CACHE_PATH = "/youcai/Download/";
-    //pdf文件存放地址
-    public static final String PDF_PATH = "/youcai/pdf/";
-    //加密文件存放地址
+    public static final String ROOT_DIR = "/youcai/";
+    //压缩图片存储地址
+    public static final String LUBAN_PATH = ROOT_DIR + "image/";
+    //离线缓存地址
+    public static final String CACHE_PATH = ROOT_DIR + "Download/";
+    //pdf文件存放地址(API19以下存储位置)
+    public static final String PDF_PATH = ROOT_DIR + "pdf/";
+    //阿里加密文件存放地址
     public static final String ENCRYPTED_PATH = "/aliyun/encryptedApp.dat";
-    //fileprovider路径
+    //fileprovider
     public static final String AUTHORITY = "PhotoProvider";
     /*******************************************************TODO 再丑也要注意的分割线*******************************************************/
 

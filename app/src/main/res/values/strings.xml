@@ -131,7 +131,7 @@
     <string name="mine_feedback">意见反馈</string>
     <string name="mine_about">关于优财</string>
     <string name="mine_didnotopen">未开启</string>
-    <string name="mine_tologin">点击登录</string>
+    <string name="mine_tologin">请登录</string>
     <string name="mine_sendTenintegral">送10积分</string>
     <string name="mine_personnelsetting">个人设置</string>
     <string name="mine_updatePWD">修改密码</string>
@@ -192,7 +192,7 @@
 
 
     <!-- Strings related to 学习中心 start-->
-    <string name="learncenter_login">请点击登录</string>
+    <string name="learncenter_login">请登录</string>
     <string name="learncenter_gotostudy">开始学习之旅</string>
     <string name="learncenter_gotostudy2">前往学习</string>
     <string name="learncenter_gotostudy3">去学习</string>

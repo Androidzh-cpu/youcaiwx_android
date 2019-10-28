@@ -10,6 +10,9 @@ package com.ucfo.youcaiwx.common;
  */
 public class ApiStores {
 
+    private ApiStores() {
+    }
+
     public static final String BASE_URL = "http://ycapi.youcaiwx.com/apps/";  //开发内网测试环境
     public static final String SOCKET = "ws://ycapi.youcaiwx.com:2346";//socket地址
     public static final String FILE_UPLOAD = "http://ycapi.youcaiwx.com/upload/Index/uploadImage";//上传文件
