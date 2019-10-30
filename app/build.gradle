@@ -29,6 +29,8 @@ android {
         multiDexKeepProguard file('multiDexKeep.pro') // keep specific classes
         testInstrumentationRunner rootProject.ext.android.testInstrumentationRunner
 
+        resConfigs "zh", "zh-rCN"
+
         javaCompileOptions {
             annotationProcessorOptions {
                 includeCompileClasspath = true

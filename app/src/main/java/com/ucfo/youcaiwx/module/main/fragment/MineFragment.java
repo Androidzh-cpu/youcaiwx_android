@@ -160,11 +160,6 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
 
     @Override
     protected void initData() {
-        if (BuildConfig.DEBUG) {
-            btnUserBalance.setVisibility(View.VISIBLE);
-        } else {
-            btnUserBalance.setVisibility(View.GONE);
-        }
     }
 
     @Override

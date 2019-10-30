@@ -110,6 +110,7 @@
     <string name="course_videoLoading">视频加载中</string>
     <string name="course_courseDuration">课程时长</string>
     <string name="course_freeWatchCompleted">试看结束,请购买相关课程</string>
+    <string name="course_speed">%sX</string>
     <!-- Strings related to 课程 end-->
 
     <!-- Strings related to 个人中心 start-->

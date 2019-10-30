@@ -206,7 +206,7 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
             @Override
             public void OnItemClick(View view, int position) {
                 if (loginstatus) {//TODO 已登录
-                    if (courseBuyState == 1) {//TODO 已购买
+                    if (courseBuyState == Constant.HAVED_BUY) {//TODO 已购买
                         if (!fastClick(1000)) {
                             Bundle bundle = new Bundle();
                             bundle.putInt(Constant.ANSWER_ID, data.get(position).getId());

@@ -16,6 +16,7 @@ public class Constant {
 
     //App测试模式控制字段
     public static final boolean ISTEST_ENVIRONMENT = BuildConfig.DEBUG;
+    public static final boolean LOG_DEBUG = BuildConfig.LOG_DEBUG;
 
     //客服电话
     public static final String SERVICE_NUM = "4006665318";
@@ -135,6 +136,12 @@ public class Constant {
     public static final int DELAY_TIME = 5 * 1000;
     //累计学习指定时间领取积分(单位: 秒)
     public static final int INTEGRAL_TIME = 30 * 60;
+
+    //课程已购买状态码
+    public static final int HAVED_BUY = 1;
+    //课程是否是正课状态码
+    public static final int COURSE_UNCON = 1;
+
     //当日看课累计时间字段
     public static final String INTEGRAL_COUNTER = "integral_counter";
 

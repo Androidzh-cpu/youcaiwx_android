@@ -1,1 +1,2 @@
-include ':app', ':okgo', ':FlycoRoundView',':dialogtest',':Transferee'
+include ':app'
+include ':okgo', ':FlycoRoundView',':dialogtest',':Transferee'

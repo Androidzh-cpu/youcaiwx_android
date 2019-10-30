@@ -953,7 +953,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      * 试听时间设置
      */
     private void freeWatch() {
-        if (getCourseBuyState() == 1 || TextUtils.equals(course_Source, Constant.LOCAL_CACHE)
+        if (getCourseBuyState() == Constant.HAVED_BUY || TextUtils.equals(course_Source, Constant.LOCAL_CACHE)
                 || TextUtils.equals(course_Source, Constant.WATCH_LEARNPLAN) || TextUtils.equals(course_Source, Constant.WATCH_ANSWERDETAILED)) {
             //已购买
         } else {
@@ -1010,11 +1010,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
         mHideHandler.removeMessages(WHAT_HIDE);
 
-        if (isDisplay) {//延迟消失
+        if (isDisplay) {
+            //延迟消失
             hideDelayed();
         }
 
-        if (flag) {//显示控制栏
+        if (flag) {
+            //显示控制栏
             if (playerBottomliner.getVisibility() != View.VISIBLE) {
                 playerBottomliner.setVisibility(View.VISIBLE);
                 playerBottomliner.bringToFront();
@@ -1051,8 +1053,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     /**
      * 创建顶部菜单和底部菜单的隐藏与消失动画
      */
-    private TranslateAnimation getTranslateAnimation(float fromX, float toX, float fromY,
-                                                     float toY, boolean isFillAfter) {
+    private TranslateAnimation getTranslateAnimation(float fromX, float toX, float fromY, float toY, boolean isFillAfter) {
         TranslateAnimation animation = new TranslateAnimation(fromX, toX, fromY, toY);
         animation.setFillAfter(isFillAfter);
         animation.setDuration(200);
@@ -1282,7 +1283,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             playerShare.setVisibility(playerShare.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);//TODO 分享按钮控制
 
             playerToprightlinear.setVisibility(playerToprightlinear.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//TODO 横屏时的提问按钮
-            if (getCourseUnCon() == 1) {//TODO 正课
+            if (getCourseUnCon() == Constant.HAVED_BUY) {//TODO 正课
                 playerAskQuestion.setVisibility(playerAskQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
             } else {
                 playerAskQuestion.setVisibility(playerAskQuestion.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
@@ -1551,7 +1552,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
     /**
      * Description:VideoPlayPageActivity
-     * Time:2019-4-11   下午 5:26
+     * Time:2019-4-11   下午 5:26Z
      * Detail: TODO 倍速选择
      */
     private void initSpeedView() {
@@ -1562,7 +1563,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 currentSpeed = speed;
                 aliyunVodPlayer.setPlaySpeed(currentSpeed);//切换倍速
 
-                playerSpeed.setText(String.valueOf(speed + "X"));
+                //playerSpeed.setText(String.valueOf(speed + "X"));
+                playerSpeed.setText(getResources().getString(R.string.course_speed, String.valueOf(speed)));
+
+                setLayoutVisibility(false, true);
             }
         });
     }
@@ -1790,7 +1794,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         playerTopliner.setPadding(DensityUtil.dp2px(15), statusBarHeight, DensityUtil.dp2px(15), DensityUtil.dp2px(2));
 
         //当前倍速设置文字
-        playerSpeed.setText(String.valueOf(currentSpeed + "X"));
+        //playerSpeed.setText(String.valueOf(currentSpeed + "X"));
+        playerSpeed.setText(getResources().getString(R.string.course_speed, String.valueOf(currentSpeed)));
 
         //TODO 保持屏幕常亮
         surfaceview.setKeepScreenOn(true);
@@ -2006,7 +2011,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
     //TODO 讲义切换按钮操作
     private void switchPdfHandouts() {
-        if (getCourseBuyState() != 1) {//todo 未购买
+        if (getCourseBuyState() != Constant.HAVED_BUY) {//todo 未购买
             toastInfo(getResources().getString(R.string.course_bugCourse));
         } else {//todo 已购买
             if (pdfExists) {//TODO 讲义存在
@@ -2050,7 +2055,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
     //TODO 设置购买按钮
     public void updateBuyUI() {
-        if (getCourseBuyState() == 1) {
+        if (getCourseBuyState() == Constant.HAVED_BUY) {
             if (linearPayCourse.getVisibility() == View.VISIBLE) {
                 linearPayCourse.setVisibility(View.GONE);
             }
@@ -2066,8 +2071,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      */
     private void askCourseQuestion() {
         if (login_status) {
-            if (getCourseBuyState() == 1) {//todo 已购买
-                if (getCourseUnCon() == 1) {//todo 正课
+            if (getCourseBuyState() == Constant.HAVED_BUY) {//todo 已购买
+                if (getCourseUnCon() == Constant.COURSE_UNCON) {//todo 正课
                     if (getScreenMode() == AliyunScreenMode.Full) {
                         AliyunScreenMode targetMode2;
                         if (mCurrentScreenMode == AliyunScreenMode.Small) {
@@ -2117,7 +2122,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (currentVideoCollectState == 1) {//取消收藏操作
             coursePlayPresenter.getVideoCollect(coursePackageId, currentCourseID, currentSectionID, currentVideoID, userId, currentVideoCollectState);
         } else {//收藏视频条件
-            if (getCourseBuyState() != 1) {//未购买
+            if (getCourseBuyState() != Constant.HAVED_BUY) {//未购买
                 toastInfo(getResources().getString(R.string.course_bugCourse));
             } else {//已购买
                 coursePlayPresenter.getVideoCollect(coursePackageId, currentCourseID, currentSectionID, currentVideoID, userId, currentVideoCollectState);
@@ -2202,7 +2207,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 String playAuth = data.getData().getPlayAuth();
                 //获取视频时间
                 int time = data.getData().getWatch_time();
-                if (getCourseBuyState() == 1) {
+                if (getCourseBuyState() == Constant.HAVED_BUY) {
                     watch_time = time * 1000;
                 }
                 //当前播放视频收藏状态
@@ -2456,6 +2461,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             case R.id.player_speed://TODO 倍速播放切换
                 speedListviewWindow.setCurrentSpeed(currentSpeed);//当前倍速播放
                 speedListviewWindow.showAsDropDown(playerSpeed);
+                setLayoutVisibility(true, false);
                 break;
             case R.id.player_handouts://讲义
                 switchPdfHandouts();
