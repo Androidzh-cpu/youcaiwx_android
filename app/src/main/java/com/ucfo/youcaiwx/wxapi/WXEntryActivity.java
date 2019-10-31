@@ -49,6 +49,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
     private static final int RETURN_MSG_TYPE_LOGIN = 1;
     //分享操作
     private static final int RETURN_MSG_TYPE_SHARE = 2;
+    private WxUserInfoEvent wxUserInfoEvent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +67,10 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
     protected void onDestroy() {
         super.onDestroy();
         ActivityUtil.getInstance().removeActivity(this);
+    }
+
+    public void setWxUserInfoEvent(WxUserInfoEvent wxUserInfoEvent) {
+        this.wxUserInfoEvent = wxUserInfoEvent;
     }
 
     @Override
@@ -196,9 +201,15 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                             WxUserInfoEvent wxUserInfo = new WxUserInfoEvent();
                             String unionid = object.optString("unionid");
                             String nickname = object.optString("nickname");
+                            int sex = object.optInt("sex");
+                            String head = object.optString("headimgurl");
                             wxUserInfo.setUnionid(unionid);
                             wxUserInfo.setNickname(nickname);
-                            wxLogin(unionid, openId, nickname);
+                            wxUserInfo.setHeadimgurl(head);
+                            wxUserInfo.setSex(sex);
+                            setWxUserInfoEvent(wxUserInfo);
+
+                            wxLogin(unionid, openId);
 
                             LogUtils.e("getUserInfo()---------获取微信用户信息" + object.toString());
                         } catch (JSONException e) {
@@ -218,7 +229,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
     /**
      * 请求后台开始登录
      */
-    private void wxLogin(String unionid, String openId, String nickname) {
+    private void wxLogin(String unionid, String openId) {
         String registrationId = PushAgent.getInstance(this).getRegistrationId();
         String appIMEI = AppUtils.getAppIMEI(this);
         OkGo.<String>post(ApiStores.LOGIN_WECHEATLOGIN)
@@ -239,7 +250,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                             Gson gson = new Gson();
                             WXLoginBean wxLoginBean = gson.fromJson(response.body(), WXLoginBean.class);
                             //后台登录成功
-                            setUserInfo(wxLoginBean, unionid, openId, nickname);
+                            setUserInfo(wxLoginBean, unionid, openId);
                             LogUtils.e("wecheat loginresult: " + response.body());
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -253,7 +264,8 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
      * Time:2019-3-29   下午 1:58
      * Detail:根据后台返回结果判断下一步操作
      */
-    public void setUserInfo(WXLoginBean userInfo, String unionid, String openId, String nickname) {
+    public void setUserInfo(WXLoginBean userInfo, String unionid, String openId) {
+
         int code = userInfo.getCode();
         if (code == 200) {
             WXLoginBean.DataBean data = userInfo.getData();
@@ -263,12 +275,14 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                 case 1:
                     //1未绑定手机号
                     LogUtils.e("wecheat setUserInfo:1未绑定手机号");
-                    Intent conpletedIntent = new Intent(WXEntryActivity.this, CompleteAndForgetActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString(Constant.TYPE, Constant.TYPE_COMPLET);//完善信息
                     bundle.putString(Constant.UNIONID, unionid);
                     bundle.putString(Constant.OPENID, openId);
-                    bundle.putString(Constant.USER_NAME, nickname);
+                    bundle.putString(Constant.USER_NAME, wxUserInfoEvent.getNickname());
+                    bundle.putInt(Constant.SEX, wxUserInfoEvent.getSex());
+                    bundle.putString(Constant.HEAD, wxUserInfoEvent.getHeadimgurl());
+                    Intent conpletedIntent = new Intent(WXEntryActivity.this, CompleteAndForgetActivity.class);
                     conpletedIntent.putExtras(bundle);
                     startActivity(conpletedIntent);
                     WXEntryActivity.this.finish();

@@ -41,8 +41,11 @@ ext {
             minSdkVersion            : versions.minSdkVersion,
             //目标sdk版本，充分测试过的版本（建议版本）Android 8.0
             targetSdkVersion         : versions.SdkVersion,
-            applicationId            : "com.ucfo.youcaiwx",//应用程序唯一标识
+            //应用程序唯一标识
+            applicationId            : "com.ucfo.youcaiwx",
+            //版本号
             versionCode              : versions.versionCode,
+            //版本名
             versionName              : "$versions.versionName",
             testInstrumentationRunner: "android.support.test.runner.AndroidJUnitRunner",
             defaultPublishConfig     : "debug",

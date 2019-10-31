@@ -29,6 +29,7 @@ import com.ucfo.youcaiwx.presenter.view.register.IForgetPwdView;
 import com.ucfo.youcaiwx.utils.AsteriskPasswordTransformationMethod;
 import com.ucfo.youcaiwx.utils.RegexUtil;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
+import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.time.SMSCountDownTimer;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 
@@ -72,6 +73,9 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
     private ForgetPwdPresenter forgetPwdPresenter;
     private WXLoginPresenter wxLoginPresenter;
     private String unioid, openid, userName;
+    private String headImageUrl;
+    private int sex;
+    private String androidid;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -122,6 +126,9 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
             openid = bundle.getString(Constant.OPENID, "");
             unioid = bundle.getString(Constant.UNIONID, "");
             userName = bundle.getString(Constant.USER_NAME, "");
+            headImageUrl = bundle.getString(Constant.HEAD, "");
+            sex = bundle.getInt(Constant.SEX, 0);
+
             type = bundle.getString(Constant.TYPE, Constant.TYPE_FORGET);//TODO 默认此页面处理忘记密码类型
         }
         if (type.equals(Constant.TYPE_FORGET)) {//忘记密码
@@ -283,7 +290,9 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
             //开始重置密码
             forgetPwdPresenter.resetPassWord(mobile, mobileCode, password);
         } else {//完善信息
-            wxLoginPresenter.wxLoginCompletedInfo(mobile, mobileCode, password, unioid, openid,userName);
+            androidid = AppUtils.getAppIMEI(this);
+
+            wxLoginPresenter.wxLoginCompletedInfo(mobile, mobileCode, password, unioid, openid, userName, androidid, sex, headImageUrl);
         }
     }
 
