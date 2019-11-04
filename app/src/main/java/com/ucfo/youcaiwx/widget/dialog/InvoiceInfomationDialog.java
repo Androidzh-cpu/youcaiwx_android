@@ -15,6 +15,7 @@ import com.ucfo.youcaiwx.R;
  * Author: AND
  * Time: 2019-8-2.  上午 11:35
  * FileName: InvoiceInfomationDialog
+ * detail:todo 发票须知
  */
 public class InvoiceInfomationDialog {
 

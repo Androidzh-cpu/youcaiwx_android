@@ -161,11 +161,18 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
         }
         recyclerview.setAdapter(mineOrderFormListAdapter);
 
-        //支付,取消,联系客服操作
+        //TODO 支付,取消,联系客服操作
         mineOrderFormListAdapter.setOthersClick(new MineOrderFormListAdapter.IOrderCallback() {
             @Override
             public void clickPay(int position) {
                 //TODO 去支付
+                int payStatus = list.get(position).getPay_status();
+                if (payStatus != 3) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constant.ORDER_NUM, list.get(position).getOrder_num());
+                    bundle.putInt(Constant.STATUS, payStatus);
+                    startActivity(MineOrderFormDetailActivity.class, bundle);
+                }
             }
 
             @Override

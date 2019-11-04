@@ -28,8 +28,6 @@ import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -171,18 +169,6 @@ public class MineAddressActivity extends BaseActivity implements IUserAddressVie
         if (databean != null) {
             if (databean.getData().size() > 0 && databean.getData() != null) {
                 List<AddressListBean.DataBean> beanList = databean.getData();
-                Collections.sort(beanList, new Comparator<AddressListBean.DataBean>() {
-                    @Override
-                    public int compare(AddressListBean.DataBean o1, AddressListBean.DataBean o2) {
-                        if (o1.getIs_default() > o2.getIs_default()) {
-                            return 1;
-                        }
-                        if (o1.getIs_default() == o2.getIs_default()) {
-                            return 0;
-                        }
-                        return -1;
-                    }
-                });
                 list.clear();
                 list.addAll(beanList);
 

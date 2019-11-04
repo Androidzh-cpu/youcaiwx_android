@@ -315,13 +315,13 @@
                         android:layout_height="@dimen/dp_0_5"
                         android:background="@color/color_E6E6E6" />
 
+                    <!--底部操作框-->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|end"
                         android:orientation="horizontal"
                         android:paddingBottom="@dimen/dp_14"
-                        android:paddingEnd="@dimen/dp_12"
                         android:paddingTop="@dimen/dp_14">
 
                         <TextView
@@ -357,7 +357,6 @@
                             android:id="@+id/order_success"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/dp_14"
                             android:text="@string/successfulDeal"
                             android:textColor="@color/color_0267FF"
                             android:textSize="@dimen/sp_13"

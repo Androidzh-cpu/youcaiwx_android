@@ -16,4 +16,6 @@ public interface PayStateCallback2 {
 
     //支付失败
     void onPayFailed(String describe);
+
+    void onPayCancel();
 }

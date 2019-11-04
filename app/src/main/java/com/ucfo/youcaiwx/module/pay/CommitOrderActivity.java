@@ -18,25 +18,38 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
+import com.ucfo.youcaiwx.entity.address.AddressListBean;
 import com.ucfo.youcaiwx.entity.pay.CommitOrderFormBean;
 import com.ucfo.youcaiwx.entity.pay.InvoiceInfoBean;
 import com.ucfo.youcaiwx.entity.pay.OrderFormDetailBean;
+import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineAddressActivity;
+import com.ucfo.youcaiwx.module.user.activity.MineCouponsActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.pay.PayPresenter;
 import com.ucfo.youcaiwx.presenter.view.pay.IPayView;
+import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.module.main.activity.WebActivity;
-import com.ucfo.youcaiwx.module.user.activity.MineCouponsActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.dialog.InvoiceActiveDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -272,8 +285,12 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
                         addressName.setText(consignee);
                         finalAddressId = addressId;
 
+                        //添加地址隐藏
                         textAddAddress.setVisibility(View.GONE);
                     }
+                } else {
+                    LogUtils.e("提交订单", "initMineAddress");
+                    initMineAddress();
                 }
                 break;
             case Constant.REQUEST_COUPON:
@@ -288,6 +305,58 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
             default:
                 break;
         }
+    }
+
+    //地址重置
+    private void addressClear() {
+        addressContent.setText("");
+        addressPhone.setText("");
+        addressName.setText("");
+        finalAddressId = 0;
+        textAddAddress.setVisibility(View.VISIBLE);
+    }
+
+    //查询是否有可用地址
+    private void initMineAddress() {
+        OkGo.<String>post(ApiStores.USER_ADDRESS_LIST)
+                .params(Constant.USER_ID, userId)
+                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        showLoading();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        dismissPorcess();
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String body = response.body();
+                        if (!body.equals("")) {
+                            JSONObject jsonObject = null;
+                            try {
+                                jsonObject = new JSONObject(body);
+                                int code = jsonObject.optInt(Constant.CODE);
+                                if (code == 200) {
+                                    Gson gson = new Gson();
+                                    AddressListBean addressListBean = gson.fromJson(body, AddressListBean.class);
+                                    List<AddressListBean.DataBean> data = addressListBean.getData();
+                                    if (data != null && data.size() > 0) {
+                                    } else {
+                                        addressClear();
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
     }
 
     /**

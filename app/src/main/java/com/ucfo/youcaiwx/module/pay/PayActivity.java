@@ -152,7 +152,7 @@ public class PayActivity extends BaseActivity implements IPayMentView {
      * Detail:TODO 微信支付
      */
     private void wechatPayMethod() {
-        PaymentHelper2.getInstance(this, payStateCallback).startWeChatPay(null);
+        payMentPresenter.initWeCheatOrderForm();
     }
 
     /**
@@ -161,13 +161,15 @@ public class PayActivity extends BaseActivity implements IPayMentView {
      * Detail:TODO 支付宝支付
      */
     private void alipayMethod() {
-        PaymentHelper2.getInstance(this, payStateCallback).startAliPay(null);
+        payMentPresenter.initAlipayOrderForm();
     }
 
+    /**
+     * 支付平台支付回调
+     */
     private PayStateCallback2 payStateCallback = new PayStateCallback2() {
         @Override
         public void onPaySuccess(String describe) {
-            //支付成功的处理
             ToastUtil.showBottomShortText(context, "支付成功");
         }
 
@@ -178,21 +180,31 @@ public class PayActivity extends BaseActivity implements IPayMentView {
 
         @Override
         public void onPayFailed(String describe) {
-            //支付失败的处理
             ToastUtil.showBottomShortText(context, "支付失败");
+        }
+
+        @Override
+        public void onPayCancel() {
+
         }
     };
 
+    /**
+     * 根据提交订单得到的订单号通过服务端获取到支付平台下发的订单,然后调用支付平台
+     */
     @Override
     public void initWeCheatOrderFormDetail(PayWeChatResponseBean data) {
-
+        PaymentHelper2.getInstance(this, payStateCallback).startWeChatPay(null);
     }
 
     @Override
     public void initAlipayOrderFormDetail(PayAliPayResponseBean data) {
-
+        PaymentHelper2.getInstance(this, payStateCallback).startAliPay(null);
     }
 
+    /**
+     * 待支付平台支付成功后再请求一次服务端以确认结果
+     */
     @Override
     public void checkPayResult(FinalPayResultBean data) {
 
@@ -200,16 +212,16 @@ public class PayActivity extends BaseActivity implements IPayMentView {
 
     @Override
     public void showLoading() {
-
+        setProcessLoading(null, true);
     }
 
     @Override
     public void showLoadingFinish() {
-
+        dismissPorcess();
     }
 
     @Override
     public void showError() {
-
+        loadinglayout.showError();
     }
 }

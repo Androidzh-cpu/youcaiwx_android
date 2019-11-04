@@ -88,14 +88,15 @@ public class PayPresenter implements IPayPresenter {
      */
     @Override
     public void commitOrderForm(int userId, int packageId, int isLive, int addressId, int user_coupon_id, InvoiceInfoBean invoiceInfoBean) {
-        int haveCoupon, invoiceType = 0, userOrcompany = 0;
+        //TODO 是否添加发票,发票类型(增值税/普通),发票类型(个人,单位)
+        int haveInvoice, invoiceType = 0, userOrcompany = 0;
         String companyName = "", taxpayerNumber = "", companAddress = "", companTel = "", companOpenBank = "", companBankNum = "";
         if (invoiceInfoBean == null) {
             //不添加发票
-            haveCoupon = 2;
+            haveInvoice = 2;
         } else {
             //添加发票
-            haveCoupon = 1;
+            haveInvoice = 1;
             //普通发票和增值税发票
             invoiceType = invoiceInfoBean.getInvoiceType();
             userOrcompany = invoiceInfoBean.getInvoiceForm();
@@ -123,7 +124,7 @@ public class PayPresenter implements IPayPresenter {
                 .params(Constant.IS_LIVE, isLive)
                 .params(Constant.ADDRESS_ID, addressId)
                 .params("user_coupon_id", user_coupon_id)
-                .params("haveCoupon", haveCoupon)
+                .params("haveCoupon", haveInvoice)
                 .params("couponType", invoiceType)
                 .params("userOrcompany", userOrcompany)
                 .params("companyName", companyName)

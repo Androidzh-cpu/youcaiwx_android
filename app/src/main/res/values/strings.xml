@@ -103,8 +103,8 @@
     <string name="holder_courseTime">课时: </string>
     <string name="first_login">请先登录</string>
     <string name="course_baoming">立即报名</string>
-    <string name="course_bugBank">您还未购买题库</string>
-    <string name="course_bugCourse">您还未购买课程</string>
+    <string name="course_bugBank">您还未拥有题库</string>
+    <string name="course_bugCourse">您还未拥有课程</string>
     <string name="course_notAsk">该课程无法提问</string>
     <string name="course_completed">播放完毕</string>
     <string name="course_videoLoading">视频加载中</string>
@@ -611,5 +611,6 @@
     <string name="permission_sdcard">如果你拒绝了权限，你将无法使用视频服务，请点击授予权限</string>
     <string name="permission_sdcard2">如果你拒绝了权限，你将无法使用相册服务，请点击授予权限</string>
     <string name="permission_explication">授权失败,请手动去设置页打开权限，或者重试授权权限</string>
+    <string name="pay_confirm_pay">确认付款</string>
     <!--string related to common end-->
 </resources>

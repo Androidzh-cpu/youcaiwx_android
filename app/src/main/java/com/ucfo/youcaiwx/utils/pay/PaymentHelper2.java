@@ -41,7 +41,7 @@ public class PaymentHelper2 {
             instance = new PaymentHelper2();
         }
         instance.setActivity(activity);
-        instance.setPayStateCallback2(payStateCallback2);
+        instance.setPayStateCallback(payStateCallback2);
         return instance;
     }
 
@@ -49,10 +49,24 @@ public class PaymentHelper2 {
         this.activity = activity;
     }
 
-    private void setPayStateCallback2(PayStateCallback2 payStateCallback2) {
+    private void setPayStateCallback(PayStateCallback2 payStateCallback2) {
         this.payStateCallback2 = payStateCallback2;
     }
 
+    public static PaymentHelper2 getInstance() {
+        if (instance == null) {
+            instance = new PaymentHelper2();
+        }
+        return instance;
+    }
+
+    public PayStateCallback2 getPayStateCallback() {
+        return payStateCallback2;
+    }
+
+    /**
+     * 根据服务端返回的订单号,调用支付宝支付
+     */
     public void startAliPay(PayAliPayResponseBean aliPayResponseBean) {
         if (activity == null || aliPayResponseBean == null) {
             return;

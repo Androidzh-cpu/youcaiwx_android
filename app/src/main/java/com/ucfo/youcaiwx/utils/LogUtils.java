@@ -59,7 +59,12 @@ public class LogUtils {
     public static void e(String log) {
         if (sIsDebug) {
             Logger.e(log);
-            save2Sd(log);
+        }
+    }
+
+    public static void e(String tag, String log) {
+        if (sIsDebug) {
+            Logger.t(tag).e(log);
         }
     }
 
