@@ -290,7 +290,7 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
             //开始重置密码
             forgetPwdPresenter.resetPassWord(mobile, mobileCode, password);
         } else {//完善信息
-            androidid = AppUtils.getAppIMEI(this);
+            androidid = AppUtils.getAndroidID(this);
 
             wxLoginPresenter.wxLoginCompletedInfo(mobile, mobileCode, password, unioid, openid, userName, androidid, sex, headImageUrl);
         }

@@ -231,7 +231,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
      */
     private void wxLogin(String unionid, String openId) {
         String registrationId = PushAgent.getInstance(this).getRegistrationId();
-        String appIMEI = AppUtils.getAppIMEI(this);
+        String appIMEI = AppUtils.getAndroidID(this);
         OkGo.<String>post(ApiStores.LOGIN_WECHEATLOGIN)
                 .params(Constant.UNIONID, unionid)
                 .params(Constant.DEVICES, appIMEI)

@@ -208,12 +208,10 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
                 payDialogFragment.setOnPayClickListener(new PayDialogFragment.PayClickListener() {
                     @Override
                     public void aliPay() {
-                        ToastUtil.showBottomShortText(context, "aliPay");
                     }
 
                     @Override
                     public void wechatPay() {
-                        ToastUtil.showBottomShortText(context, "wechatPay");
                     }
                 });
                 break;

@@ -73,7 +73,7 @@ public class Constant {
     public static final String UMENG_MESSAGE_FORCE = "freezeMessage";
 
     //H5链接
-    public static final String WEB_URL = "defaultUrl";
+    public static final String WEB_URL = "web_link";
     //H5标题
     public static final String WEB_TITLE = "web_title";
     public static final String DATA = "data";

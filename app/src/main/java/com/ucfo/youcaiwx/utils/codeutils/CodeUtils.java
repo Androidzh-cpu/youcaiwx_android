@@ -84,8 +84,8 @@ public class CodeUtils {
             drawLine(canvas, paint);
         }
 
-        canvas.save(Canvas.ALL_SAVE_FLAG);//保存
-        //canvas.save();
+        //canvas.save(Canvas.ALL_SAVE_FLAG);//保存
+        canvas.save();
         canvas.restore();
         return bitmap;
     }

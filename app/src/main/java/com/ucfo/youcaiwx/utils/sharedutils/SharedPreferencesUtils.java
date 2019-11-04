@@ -125,6 +125,9 @@ public class SharedPreferencesUtils {
 
     public int getInt(final String key, final int defaultValue) {
         return sp.getInt(key, defaultValue);
+        /*String string = sp.getString(key, "0");
+        int parseInt = Integer.parseInt(string);
+        return parseInt;*/
     }
 
     public void putInt(final String key, final int value) {

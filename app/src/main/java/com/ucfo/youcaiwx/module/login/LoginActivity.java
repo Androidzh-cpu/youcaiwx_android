@@ -118,7 +118,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     @Override
     protected void initData() {
         super.initData();
-        androidid = AppUtils.getAppIMEI(this);
+        androidid = AppUtils.getAndroidID(this);
 
         etconfig();
 

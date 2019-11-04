@@ -41,7 +41,10 @@ import com.ucfo.youcaiwx.module.main.fragment.MineFragment;
 import com.ucfo.youcaiwx.module.main.fragment.QuestionBankFragment;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
 import com.ucfo.youcaiwx.utils.CallUtils;
+import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
+import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DeviceIdUtil;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.utils.update.UpdateCustomParser;
@@ -91,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         initView();
         checkPermission();
         updateApp();
+        LogUtils.e("设备唯一标识:" + DeviceIdUtil.getDeviceId(this));//feac466120da141f
+        LogUtils.e("设备唯一标识2:" + AppUtils.getAndroidID(this));//feac466120da141f
     }
 
     @Override

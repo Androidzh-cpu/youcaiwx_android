@@ -135,11 +135,11 @@ public class PayActivity extends BaseActivity implements IPayMentView {
         switch (view.getId()) {
             case R.id.btn_WechatPay:
                 //TODO 微信支付
-                wechatPayMethod();
+                //wechatPayMethod();
                 break;
             case R.id.pay_Alipay:
                 //TODO 支付宝支付
-                alipayMethod();
+                //alipayMethod();
                 break;
             default:
                 break;
