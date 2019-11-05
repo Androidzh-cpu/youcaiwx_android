@@ -14,6 +14,7 @@ public class Constant {
     private Constant() {
     }
 
+    //---------------------------------------------TODO common  start-----------------------------------------------//
     //App测试模式控制字段
     public static final boolean ISTEST_ENVIRONMENT = BuildConfig.DEBUG;
     public static final boolean LOG_DEBUG = BuildConfig.LOG_DEBUG;
@@ -91,6 +92,11 @@ public class Constant {
     public static final String versioncode = "versioncode";
     public static final String APP_KEY = "AppKey";
 
+    //提问问题最大图片选择数量
+    public static final int MAX_IMAGECOUNT = 3;
+    //---------------------------------------------TODO common  start-----------------------------------------------//
+
+
     /*******************************************************TODO 再丑也要注意的分割线*******************************************************/
     public static final String ROOT_DIR = "/youcai/";
     //压缩图片存储地址
@@ -105,7 +111,7 @@ public class Constant {
     public static final String AUTHORITY = "PhotoProvider";
     /*******************************************************TODO 再丑也要注意的分割线*******************************************************/
 
-    //---------------------------------------------登录-----------------------------------------------//
+    //---------------------------------------------TODO 登录注册  start-----------------------------------------------//
     public static final String FIRST_LOGIN = "first_login";//第一次登陆
     public static final String LOGIN_STATUS = "is_login";//用户是否登录
     public static final String STATE = "state";
@@ -128,8 +134,10 @@ public class Constant {
     public static final String PASSWORD_CONFIRM = "pass";//确认密码
     public static final String SMS_CODE = "mobilecode";//短信验证码
     public static final String SMS_STATE = "state";//短信验证码  	TODO 1注册2登陆
+    //---------------------------------------------TODO 登录注册  end-----------------------------------------------//
 
-    //---------------------------------------------TODO 课程-----------------------------------------------//
+
+    //---------------------------------------------TODO 课程  start-----------------------------------------------//
     //免费试看时间(单位: 秒)
     public static final int FREE_TIME = 3 * 60;
     //socket间隔时间(单位: 毫秒)
@@ -180,7 +188,10 @@ public class Constant {
     //WIFI观看处理
     public static final String DOWNLOAD_WIFI = "download_wifi";
     public static final String LOOK_WIFI = "download_look";
-    //--------------------------------------------------------题库----------------------------------------------------------//
+    //---------------------------------------------TODO 课程  start-----------------------------------------------//
+
+
+    //--------------------------------------------------------TODO 题库  start----------------------------------------------------------//
     public static final String SUBJECT_ID = "subject_id";//选中题库的ID
     public static final String PAGE = "page";//分页加载
     public static final String LIMIT = "limit";//分页加载
@@ -201,38 +212,68 @@ public class Constant {
     public static final String ANSEWR_ID = "answer_id";//题目ID
     public static final String BroadcastReceiver_TONEXT = "com.leyikao.jumptonext";//广播跳转下一页
     public static final String BroadcastReceiver_TOPAGE = "com.leyikao.jumptopage";//广播跳转指定页面
+    //--------------------------------------------------------TODO 题库  end----------------------------------------------------------//
 
-    //---------------------------------------------TODO int related to questionbank----------------------------------------//
-    public static final String PAPER_TYPE = "paper_type";//TODO 题库类型,1单选2论述题
-    public static final String EXERCISE_TYPE = "exercise_type";//TODO 做题模式
-    public static final String EXERCISE_E = "exam";//TODO E:正常考试模式
-    public static final String EXERCISE_P = "practice";//TODO P:知识点练习模式
-    public static final String EXERCISE_A = "analysis";//TODO A:解析模式(严格来说,弄混了,这个其实是选择题的解析模式)
-    public static final String EXERCISE_D = "discuss";//TODO D:论述题模式 (论述题模式的话就是diss_analysis)
-    public static final String CONTINUE_PLATE = "continue_plate";//TODO 继续做题(创造101)
-    public static final String PLATE_ID = "plate_id";//6大板块id  TODO 1知识点练习,2阶段测试,3论述题自测,4错题智能练习,5自主练习,6组卷模考
+
+    //---------------------------------------------TODO int related to questionbank start----------------------------------------//
+    //TODO 题库类型,1单选2论述题
+    public static final String PAPER_TYPE = "paper_type";
+    //TODO 做题模式
+    public static final String EXERCISE_TYPE = "exercise_type";
+    //TODO E:正常考试模式
+    public static final String EXERCISE_E = "exam";
+    //TODO P:知识点练习模式
+    public static final String EXERCISE_P = "practice";
+    //TODO A:解析模式(严格来说,弄混了,这个其实是选择题的解析模式)
+    public static final String EXERCISE_A = "analysis";
+    //TODO D:论述题模式 (论述题模式的话就是diss_analysis)
+    public static final String EXERCISE_D = "discuss";
+    //TODO 继续做题(创造101)
+    public static final String CONTINUE_PLATE = "continue_plate";
+
+    //6大板块id  TODO 1知识点练习,2阶段测试,3论述题自测,4错题智能练习,5自主练习,6组卷模考
+    public static final String PLATE_ID = "plate_id";
     //板块1-6为后台规定
-    public static final int PLATE_1 = 1;//TODO 1: 知识点练习
-    public static final int PLATE_2 = 2;//TODO 2: 阶段测试
-    public static final int PLATE_3 = 3;//TODO 3: 论述题自测
-    public static final int PLATE_4 = 4;//TODO 4: 错题智能练习,高频错题
-    public static final int PLATE_5 = 5;//TODO 5: 自助练习
-    public static final int PLATE_6 = 6;//TODO 6: 组卷模考
-    //这些板块用于区分庞杂的题库模块
-    public static final int PLATE_0 = 0;//TODO 0: 0元体验课
-    public static final int PLATE_7 = 7;//TODO 7: 错题中心   或者查看解析
-    public static final int PLATE_8 = 8;//TODO 8: 错题中心重新做题
-    public static final int PLATE_9 = 9;//TODO 9: 6大板块错题解析
-    public static final int PLATE_10 = 10;//TODO 10: 错题中心错题解析
-    public static final int PLATE_11 = 11;//TODO 11: 6大板块继续做题
-    public static final int PLATE_12 = 12;//TODO 12: 答题记录查看论述题解析
-    public static final int PLATE_13 = 13;//TODO 13: 我的收藏查看试题,有论述也有选择
-    public static final int PLATE_14 = 14;//TODO 14:学习计划获取题目
-    public static final int PLATE_15 = 15;//TODO 15:学习计划解析
-    public static final int PLATE_16 = 16;//TODO 16:试题详情
+    //TODO 1: 知识点练习
+    public static final int PLATE_1 = 1;
+    //TODO 2: 阶段测试
+    public static final int PLATE_2 = 2;
+    //TODO 3: 论述题自测
+    public static final int PLATE_3 = 3;
+    //TODO 4: 错题智能练习,高频错题
+    public static final int PLATE_4 = 4;
+    //TODO 5: 自助练习
+    public static final int PLATE_5 = 5;
+    //TODO 6: 组卷模考
+    public static final int PLATE_6 = 6;
+
+    //custom
+    //TODO 0: 0元体验课
+    public static final int PLATE_0 = 0;
+    //TODO 7: 错题中心   或者查看解析
+    public static final int PLATE_7 = 7;
+    //TODO 8: 错题中心重新做题
+    public static final int PLATE_8 = 8;
+    //TODO 9: 6大板块错题解析
+    public static final int PLATE_9 = 9;
+    //TODO 10: 错题中心错题解析
+    public static final int PLATE_10 = 10;
+    //TODO 11: 6大板块继续做题
+    public static final int PLATE_11 = 11;
+    //TODO 12: 答题记录查看论述题解析
+    public static final int PLATE_12 = 12;
+    //TODO 13: 我的收藏查看试题,有论述也有选择
+    public static final int PLATE_13 = 13;
+    //TODO 14:学习计划获取题目
+    public static final int PLATE_14 = 14;
+    //TODO 15:学习计划解析
+    public static final int PLATE_15 = 15;
+    //TODO 16:试题详情
+    public static final int PLATE_16 = 16;
+    //---------------------------------------------TODO int related to questionbank  end----------------------------------------//
 
 
-    //---------------------------------------------个人中心-----------------------------------------------//
+    //---------------------------------------------TODO 个人中心 start-----------------------------------------------//
     public static final String NICKNAME = "nickname";
     public static final String IS_DEFAULT = "is_default";
     public static final String TELEPHONE = "telephone";
@@ -248,7 +289,10 @@ public class Constant {
     public static final String DOWNLOADVID_LIST = "downloadvidList";//下载的vid列表
     public static final String DOWNLOADINFO_LIST = "downloadinfoList";//下载的列表
     public static final String LOCAL_STAIRLIST = "local_list";//本地视频一级存储列表
-    //---------------------------------------------支付-----------------------------------------------//
+    //---------------------------------------------TODO 个人中心 end-----------------------------------------------//
+
+
+    //---------------------------------------------TODO 支付 start-----------------------------------------------//
     public static final String PAY_EDIT = "pay_edit";
     public static final String PAY_COUPONPRICE = "pay_couponPrice";
     public static final String PAY_COUPONID = "pay_couponId";
@@ -256,11 +300,15 @@ public class Constant {
     public static final int REQUEST_ADDRESS = 10000;
     //优惠券选择请求码
     public static final int REQUEST_COUPON = 10001;
+    //---------------------------------------------TODO 支付 end-----------------------------------------------//
 
-    //---------------------------------------------消息中心-----------------------------------------------//
+
+    //---------------------------------------------TODO 消息中心 start-----------------------------------------------//
     public static final String MESSAGE_ID = "message_id";
+    //---------------------------------------------TODO 消息中心 end-----------------------------------------------//
 
-    //---------------------------------------------积分-----------------------------------------------//
+
+    //---------------------------------------------TODO 积分 start-----------------------------------------------//
     public static final String INTEGRAL = "integral";
     public static final String PRODUCT_ID = "good_id";
     //App下载页分享
@@ -275,6 +323,5 @@ public class Constant {
     public static final String INTEGRAL_TYPE_COUPON = "coupon";
     //积分订单下单完成数据
     public static final String INTEGRAL_ADDORDERDETAIAL = "integral_orderDetail";
-
-
+    //---------------------------------------------TODO 积分 end -----------------------------------------------//
 }

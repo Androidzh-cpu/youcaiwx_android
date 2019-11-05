@@ -6,6 +6,7 @@ import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.pay.FinalPayResultBean;
 import com.ucfo.youcaiwx.entity.pay.PayAliPayResponseBean;
@@ -35,9 +36,10 @@ public class PayMentPresenter implements IPayMentPresenter {
      * Detail:TODO 获取微信订单信息
      */
     @Override
-    public void initWeCheatOrderForm() {
-        OkGo.<String>post("")
-                .retryCount(1)
+    public void initWeCheatOrderForm(String orderForm, String userID) {
+        OkGo.<String>post(ApiStores.PAY_GET_WECHAT_PARAMAS)
+                .params(Constant.ORDER_NUM, orderForm)
+                .params(Constant.USER_ID, userID)
                 .cacheMode(CacheMode.NO_CACHE)
                 .execute(new StringCallback() {
                     @Override
@@ -66,9 +68,14 @@ public class PayMentPresenter implements IPayMentPresenter {
                             jsonObject = new JSONObject(body);
                             int code = jsonObject.optInt(Constant.CODE);
                             if (code == 200) {
-                                Gson gson = new Gson();
-                                PayWeChatResponseBean payWeChatResponseBean = gson.fromJson(body, PayWeChatResponseBean.class);
-                                view.initWeCheatOrderFormDetail(payWeChatResponseBean);
+                                Object opt = jsonObject.get(Constant.DATA);
+                                if (opt != null && opt instanceof JSONObject) {
+                                    Gson gson = new Gson();
+                                    PayWeChatResponseBean payWeChatResponseBean = gson.fromJson(body, PayWeChatResponseBean.class);
+                                    view.initWeCheatOrderFormDetail(payWeChatResponseBean);
+                                } else {
+                                    view.initWeCheatOrderFormDetail(null);
+                                }
                             } else {
                                 view.initWeCheatOrderFormDetail(null);
                             }

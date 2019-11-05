@@ -95,7 +95,7 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
     private QuestionAskQuestionActivity context;
     private ArrayList<String> imageList, resultImageList;
     public static final int REQUEST_CODE_CHOOSE = 100;
-    private int MAX_IMAGECOUNT = 3;
+    private int MAX_IMAGECOUNT = Constant.MAX_IMAGECOUNT;
     private ImagePickerAdapter imagePickerAdapter;
     private AnswerAskPresenter answerAskPresenter;
     private Bundle bundle;
@@ -334,7 +334,7 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
 
     //TODO 鲁班压缩
     private void luban(File file, int index) {
-        Luban.with(this).load(file).ignoreBy(100).setTargetDir(getPath())
+        Luban.with(this).load(file).ignoreBy(100).setFocusAlpha(true).setTargetDir(getPath())
                 .filter(new CompressionPredicate() {
                     @Override
                     public boolean apply(String path) {

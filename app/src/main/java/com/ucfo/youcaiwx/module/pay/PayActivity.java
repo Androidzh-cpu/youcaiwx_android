@@ -50,14 +50,14 @@ public class PayActivity extends BaseActivity implements IPayMentView {
     @BindView(R.id.btn_WechatPay)
     TextView btnWechatPay;
     @BindView(R.id.pay_Alipay)
-    TextView payAlipay;
+    TextView btnAlipay;
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
     private PayActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private int userId;
     private Bundle bundle;
-    private String orderNum;
+    private String orderFormNum;
     private float price;
     private PayMentPresenter payMentPresenter;
 
@@ -112,30 +112,39 @@ public class PayActivity extends BaseActivity implements IPayMentView {
         super.initData();
         bundle = getIntent().getExtras();
         if (bundle != null) {
-            orderNum = bundle.getString(Constant.ORDER_NUM, "");
+            orderFormNum = bundle.getString(Constant.ORDER_NUM, "");
             price = bundle.getFloat(Constant.COURSE_PRICE, 0);
 
             //订单编号
-            textOrdernum.setText(String.valueOf(orderNum));
+            textOrdernum.setText(String.valueOf(orderFormNum));
             //订单价格
             textPrice.setText(String.valueOf(price));
         }
 
-        if (TextUtils.isEmpty(orderNum)) {
+        if (TextUtils.isEmpty(orderFormNum)) {
             loadinglayout.showEmpty();
         } else {
             payMentPresenter = new PayMentPresenter(this);
             loadinglayout.showContent();
         }
+    }
 
+    /**
+     * 是否允许点击
+     */
+    private void setPayButtonEnable(boolean flag) {
+        btnWechatPay.setEnabled(flag);
+        btnAlipay.setEnabled(flag);
     }
 
     @OnClick({R.id.btn_WechatPay, R.id.pay_Alipay})
     public void onViewClicked(View view) {
+        setPayButtonEnable(false);
         switch (view.getId()) {
             case R.id.btn_WechatPay:
                 //TODO 微信支付
-                //wechatPayMethod();
+                wechatPayMethod();
+                //PaymentHelper2.getInstance(PayActivity.this, payStateCallback).startWeChatPay(new PayWeChatResponseBean());
                 break;
             case R.id.pay_Alipay:
                 //TODO 支付宝支付
@@ -144,6 +153,7 @@ public class PayActivity extends BaseActivity implements IPayMentView {
             default:
                 break;
         }
+        setPayButtonEnable(true);
     }
 
     /**
@@ -152,7 +162,7 @@ public class PayActivity extends BaseActivity implements IPayMentView {
      * Detail:TODO 微信支付
      */
     private void wechatPayMethod() {
-        payMentPresenter.initWeCheatOrderForm();
+        payMentPresenter.initWeCheatOrderForm(orderFormNum, String.valueOf(userId));
     }
 
     /**
@@ -167,25 +177,25 @@ public class PayActivity extends BaseActivity implements IPayMentView {
     /**
      * 支付平台支付回调
      */
-    private PayStateCallback2 payStateCallback = new PayStateCallback2() {
+    public PayStateCallback2 payStateCallback = new PayStateCallback2() {
         @Override
         public void onPaySuccess(String describe) {
-            ToastUtil.showBottomShortText(context, "支付成功");
+            toastInfo(describe);
         }
 
         @Override
         public void onPayWatting(String describe) {
-            ToastUtil.showBottomShortText(context, "正再支付");
+            toastInfo(describe);
         }
 
         @Override
         public void onPayFailed(String describe) {
-            ToastUtil.showBottomShortText(context, "支付失败");
+            toastInfo(describe);
         }
 
         @Override
-        public void onPayCancel() {
-
+        public void onPayCancel(String describe) {
+            toastInfo(describe);
         }
     };
 
@@ -194,12 +204,16 @@ public class PayActivity extends BaseActivity implements IPayMentView {
      */
     @Override
     public void initWeCheatOrderFormDetail(PayWeChatResponseBean data) {
-        PaymentHelper2.getInstance(this, payStateCallback).startWeChatPay(null);
+        if (data != null) {
+            PaymentHelper2.getInstance(PayActivity.this, payStateCallback).startWeChatPay(data);
+        } else {
+            toastInfo(getResources().getString(R.string.operation_Error));
+        }
     }
 
     @Override
     public void initAlipayOrderFormDetail(PayAliPayResponseBean data) {
-        PaymentHelper2.getInstance(this, payStateCallback).startAliPay(null);
+        //PaymentHelper2.getInstance(PayActivity.this, payStateCallback).startAliPay(data);
     }
 
     /**
@@ -222,6 +236,12 @@ public class PayActivity extends BaseActivity implements IPayMentView {
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        //loadinglayout.showError();
+    }
+
+    private void toastInfo(String s) {
+        if (s != null) {
+            ToastUtil.showBottomShortText(this, s);
+        }
     }
 }

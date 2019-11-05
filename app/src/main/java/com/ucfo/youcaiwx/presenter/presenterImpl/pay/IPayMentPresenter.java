@@ -9,7 +9,10 @@ package com.ucfo.youcaiwx.presenter.presenterImpl.pay;
  */
 public interface IPayMentPresenter {
 
-    void initWeCheatOrderForm();
+    /**
+     * 获取微信支付参数
+     */
+    void initWeCheatOrderForm(String orderForm,String userID);
 
     void initAlipayOrderForm();
 

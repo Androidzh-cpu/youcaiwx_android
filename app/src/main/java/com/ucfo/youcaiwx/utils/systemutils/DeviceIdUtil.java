@@ -26,7 +26,7 @@ public class DeviceIdUtil {
      */
     public static String getDeviceId(Context context) {
         StringBuilder sbDeviceId = new StringBuilder();
-        //获得设备默认IMEI（>=6.0 需要ReadPhoneState权限）
+        //获得设备默认IMEI（SDK>=6.0 需要ReadPhoneState权限）
         String imei = getIMEI(context);
         //获得AndroidId（无需权限）
         String androidid = getAndroidId(context);

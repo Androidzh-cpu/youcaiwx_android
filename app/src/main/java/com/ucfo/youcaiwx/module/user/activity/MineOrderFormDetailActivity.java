@@ -21,6 +21,7 @@ import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.address.StateStatusBean;
 import com.ucfo.youcaiwx.entity.user.MineOrderFormDetailBean;
 import com.ucfo.youcaiwx.entity.user.MineOrderListBean;
+import com.ucfo.youcaiwx.module.pay.PayActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineOrderFormPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineOrderFromView;
 import com.ucfo.youcaiwx.utils.CallUtils;
@@ -30,7 +31,6 @@ import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.customview.NiceImageView;
 import com.ucfo.youcaiwx.widget.dialog.InvoiceActiveDialog;
-import com.ucfo.youcaiwx.widget.dialog.PayDialogFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -198,10 +198,10 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
                 });
                 break;
             case R.id.order_pay://去支付
-                /*bundle.putString(Constant.ORDER_NUM, order_number);
+                bundle.putString(Constant.ORDER_NUM, order_number);
                 bundle.putFloat(Constant.COURSE_PRICE, Float.parseFloat(payPrice));
-                startActivity(PayActivity.class, bundle);*/
-                FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
+                startActivity(PayActivity.class, bundle);
+                /*FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
                 fragmentTransaction2.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 PayDialogFragment payDialogFragment = new PayDialogFragment();
                 payDialogFragment.show(fragmentTransaction2, "pay");
@@ -213,7 +213,7 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
                     @Override
                     public void wechatPay() {
                     }
-                });
+                });*/
                 break;
             case R.id.order_edit://编辑地址
                 bundle.putInt(Constant.TYPE, 0);

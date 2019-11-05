@@ -40,10 +40,11 @@ public class PaymentHelper {
      */
     public void startWeChatPay(AppCompatActivity activity, PayWeChatResponseBean payWeChatResponseBean) {
         this.appCompatActivity = activity;
-        if (activity == null || payWeChatResponseBean == null) {
+        PayWeChatResponseBean.DataBean data = payWeChatResponseBean.getData();
+        if (activity == null || data == null) {
             return;
         }
-        if (!TextUtils.equals(Constant.WEIXIN_KEY, payWeChatResponseBean.getAppid())) {
+        if (!TextUtils.equals(Constant.WEIXIN_KEY, data.getAppid())) {
             return;
         }
         IWXAPI wxapi = WXAPIFactory.createWXAPI(activity, Constant.WEIXIN_KEY, true);
@@ -55,13 +56,13 @@ public class PaymentHelper {
         }
         //我们把请求到的参数全部给微信,调起微信APP的对象
         PayReq req = new PayReq();
-        req.appId = payWeChatResponseBean.getAppid();
-        req.partnerId = payWeChatResponseBean.getPartnerid();
-        req.prepayId = payWeChatResponseBean.getPrepayid();
-        req.nonceStr = payWeChatResponseBean.getNoncestr();
-        req.timeStamp = payWeChatResponseBean.getTimestamp();
-        req.packageValue = payWeChatResponseBean.getPackageX();
-        req.sign = payWeChatResponseBean.getSign();
+        req.appId = data.getAppid();
+        req.partnerId = data.getPartnerid();
+        req.prepayId = data.getPrepayid();
+        req.nonceStr = data.getNoncestr();
+        req.timeStamp = data.getTimestamp();
+        req.packageValue = data.getPackage();
+        req.sign = data.getSign();
         //发送调起微信的请求
         wxapi.sendReq(req);
     }

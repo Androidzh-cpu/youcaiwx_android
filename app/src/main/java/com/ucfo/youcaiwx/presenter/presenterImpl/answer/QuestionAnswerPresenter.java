@@ -112,8 +112,8 @@ public class QuestionAnswerPresenter implements IQuestionAnswerPresenter {
                                 jsonObject = new JSONObject(body);
                                 int code = jsonObject.optInt(Constant.CODE);
                                 if (code == 200) {
-                                    JSONObject optjsonobject = jsonObject.optJSONObject("data");
-                                    if (optjsonobject.has("data")) {
+                                    JSONObject optjsonobject = jsonObject.optJSONObject(Constant.DATA);
+                                    if (optjsonobject.has(Constant.DATA)) {
                                         QuestionAnswerDetailBean bean = new Gson().fromJson(body, QuestionAnswerDetailBean.class);
                                         view.getQuestionAnswerDetail(bean);
                                     } else {

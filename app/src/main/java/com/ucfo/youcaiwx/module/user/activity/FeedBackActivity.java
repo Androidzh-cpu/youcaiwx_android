@@ -88,7 +88,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
     private FeedBackActivity context;
     private ArrayList<String> imageList, resultImageList;
     public static final int REQUEST_CODE_CHOOSE = 100;
-    private int MAX_IMAGECOUNT = 3, fileUploadFlag = 0;
+    private int MAX_IMAGECOUNT = Constant.MAX_IMAGECOUNT, fileUploadFlag = 0;
     private ImagePickerAdapter imagePickerAdapter;
     private UploadFilePresenter uploadFilePresenter;
     private String askContent, askConnect, tipsText;

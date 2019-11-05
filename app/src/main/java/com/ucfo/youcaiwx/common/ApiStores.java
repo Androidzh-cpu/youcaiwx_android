@@ -16,7 +16,10 @@ public class ApiStores {
     //内网测试环境
     //public static final String BASE_URL = "http://ycapi.youcaiwx.com/apps/";
     //线上正式环境
-    public static final String BASE_URL = " https://api.youcaiwx.cn/apps/";
+    //public static final String BASE_URL = "https://api.youcaiwx.cn/apps/";
+    //先下测试环境
+    public static final String BASE_URL = "https://dest.youcaiwx.cn/apps/";
+
     //socket地址
     public static final String SOCKET = "ws://ycapi.youcaiwx.com:2346";
 
@@ -155,8 +158,8 @@ public class ApiStores {
     public static final String PAY_GET_AVAILABLECOUPON = BASE_URL + "Orders/availableCoupon";//可用优惠券
     public static final String PAY_ADDORDERFORM = BASE_URL + "Orders/addOrder";//添加订单
 
-    //支付页获取支付返回的平台订单编号
-    public static final String PAY_GETPAYORDERNUMBER = BASE_URL + "";
+    //根据订单号获取微信支付参数
+    public static final String PAY_GET_WECHAT_PARAMAS = BASE_URL + "Pay/weiOrder";
 
     //------------------------------------------TODO 积分---------------------------------------------------------------------------------//
     //作任务获取积分
