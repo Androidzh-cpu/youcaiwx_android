@@ -85,21 +85,9 @@ public class MineOrderFormPresenter implements IMineOrderFormPresenter {
                 .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
                 .execute(new StringCallback() {
                     @Override
-                    public void onStart(Request<String, ? extends Request> request) {
-                        super.onStart(request);
-                        view.showLoading();
-                    }
-
-                    @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
                         view.cancelOrderForm(null);
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        view.showLoadingFinish();
                     }
 
                     @Override
@@ -149,21 +137,9 @@ public class MineOrderFormPresenter implements IMineOrderFormPresenter {
                 .params(Constant.ORDER_NUM, orderNumber)
                 .execute(new StringCallback() {
                     @Override
-                    public void onStart(Request<String, ? extends Request> request) {
-                        super.onStart(request);
-                        view.showLoading();
-                    }
-
-                    @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
                         view.showError();
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        view.showLoadingFinish();
                     }
 
                     @Override

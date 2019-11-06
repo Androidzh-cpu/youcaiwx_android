@@ -7,7 +7,6 @@ import android.os.Message;
 import android.text.TextUtils;
 
 import com.alipay.sdk.app.PayTask;
-import com.google.gson.Gson;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -145,11 +144,11 @@ public class PaymentHelper2 {
         /*PayWeChatResponseBean.DataBean payWeChatResponseBean = new PayWeChatResponseBean.DataBean();
         payWeChatResponseBean.setAppid("wx55d839e60fb4b35f");
         payWeChatResponseBean.setPartnerid("1317252201");
-        payWeChatResponseBean.setPrepayid("wx051541481897699561eb602f1837498600");
+        payWeChatResponseBean.setPrepayid("wx061033226025771df4f780d91030705600");
         payWeChatResponseBean.setPackage("Sign=WXPay");
-        payWeChatResponseBean.setNoncestr("gCemzgBDleRpyUFf");
-        payWeChatResponseBean.setTimestamp("1572939889");
-        payWeChatResponseBean.setSign("C6DCB543BB8246AC53E392C34ABF42E9");
+        payWeChatResponseBean.setNoncestr("qwcd0z7f1yp91enqbui5s1quwrl9mu5n");
+        payWeChatResponseBean.setTimestamp("1573007783");
+        payWeChatResponseBean.setSign("A6E807D3BA4BFEE1996EC53568E6E397");
         data.setData(payWeChatResponseBean);*/
         PayWeChatResponseBean.DataBean payWeChatResponseBean = data.getData();
         if (activity == null || payWeChatResponseBean == null) {
@@ -176,6 +175,6 @@ public class PaymentHelper2 {
         req.sign = payWeChatResponseBean.getSign();
         //发送调起微信的请求
         wxapi.sendReq(req);
-        LogUtils.e("微信支付请求参数------------------" + new Gson().toJson(payWeChatResponseBean));
+        //LogUtils.e("微信支付请求参数------------------" + new Gson().toJson(payWeChatResponseBean));
     }
 }

@@ -19,18 +19,24 @@ import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.address.StateStatusBean;
+import com.ucfo.youcaiwx.entity.pay.PayAliPayResponseBean;
+import com.ucfo.youcaiwx.entity.pay.PayWeChatResponseBean;
 import com.ucfo.youcaiwx.entity.user.MineOrderFormDetailBean;
 import com.ucfo.youcaiwx.entity.user.MineOrderListBean;
-import com.ucfo.youcaiwx.module.pay.PayActivity;
+import com.ucfo.youcaiwx.presenter.presenterImpl.pay.PayMentPresenter;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineOrderFormPresenter;
+import com.ucfo.youcaiwx.presenter.view.pay.IPayMentView;
 import com.ucfo.youcaiwx.presenter.view.user.IMineOrderFromView;
 import com.ucfo.youcaiwx.utils.CallUtils;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
+import com.ucfo.youcaiwx.utils.pay.PayStateCallback2;
+import com.ucfo.youcaiwx.utils.pay.PaymentHelper2;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.customview.NiceImageView;
 import com.ucfo.youcaiwx.widget.dialog.InvoiceActiveDialog;
+import com.ucfo.youcaiwx.widget.dialog.PayDialogFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +49,7 @@ import butterknife.OnClick;
  * ORG: www.youcaiwx.com
  * Description:TODO 订单详情
  */
-public class MineOrderFormDetailActivity extends BaseActivity implements IMineOrderFromView {
+public class MineOrderFormDetailActivity extends BaseActivity implements IMineOrderFromView, IPayMentView {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -107,6 +113,7 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
     private int address_id;
     private String payPrice;
     private FragmentManager fragmentManager;
+    private PayMentPresenter payMentPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +171,7 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
         context = this;
         user_id = SharedPreferencesUtils.getInstance(context).getInt(Constant.USER_ID, 0);
         mineOrderFormPresenter = new MineOrderFormPresenter(this);
+        payMentPresenter = new PayMentPresenter(this);
 
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
@@ -198,10 +206,7 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
                 });
                 break;
             case R.id.order_pay://去支付
-                bundle.putString(Constant.ORDER_NUM, order_number);
-                bundle.putFloat(Constant.COURSE_PRICE, Float.parseFloat(payPrice));
-                startActivity(PayActivity.class, bundle);
-                /*FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
+                FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
                 fragmentTransaction2.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 PayDialogFragment payDialogFragment = new PayDialogFragment();
                 payDialogFragment.show(fragmentTransaction2, "pay");
@@ -212,8 +217,9 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
 
                     @Override
                     public void wechatPay() {
+                        payMentPresenter.initWeCheatOrderForm(order_number, String.valueOf(user_id));
                     }
-                });*/
+                });
                 break;
             case R.id.order_edit://编辑地址
                 bundle.putInt(Constant.TYPE, 0);
@@ -358,16 +364,70 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
 
     @Override
     public void showLoading() {
-
+        setProcessLoading(null, true);
     }
 
     @Override
     public void showLoadingFinish() {
-
+        dismissPorcess();
     }
 
     @Override
     public void showError() {
         loadinglayout.showError();
+    }
+
+    ////////////////////////////支付////////////////////////
+    @Override
+    public void initWeCheatOrderFormDetail(PayWeChatResponseBean data) {
+        if (data != null) {
+            PaymentHelper2.getInstance(this, payStateCallback).startWeChatPay(data);
+        } else {
+            toastInfo(getResources().getString(R.string.operation_Error));
+        }
+    }
+
+    @Override
+    public void initAlipayOrderFormDetail(PayAliPayResponseBean data) {
+
+    }
+
+    @Override
+    public void checkPayResult(int status) {
+        if (status == 1) {
+            toastInfo(getResources().getString(R.string.pay_result_success));
+        } else {
+            toastInfo(getResources().getString(R.string.pay_result_failed));
+        }
+    }
+    /**
+     * 支付平台支付回调
+     */
+    public PayStateCallback2 payStateCallback = new PayStateCallback2() {
+        @Override
+        public void onPaySuccess(String describe) {
+            payMentPresenter.checkPayResult(order_number);
+        }
+
+        @Override
+        public void onPayWatting(String describe) {
+            toastInfo(describe);
+        }
+
+        @Override
+        public void onPayFailed(String describe) {
+            toastInfo(describe);
+        }
+
+        @Override
+        public void onPayCancel(String describe) {
+            toastInfo(describe);
+        }
+    };
+
+    private void toastInfo(String s) {
+        if (s != null) {
+            ToastUtil.showBottomShortText(this, s);
+        }
     }
 }

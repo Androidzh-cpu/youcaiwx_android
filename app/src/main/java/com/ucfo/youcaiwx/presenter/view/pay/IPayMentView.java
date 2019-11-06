@@ -1,7 +1,6 @@
 package com.ucfo.youcaiwx.presenter.view.pay;
 
 import com.ucfo.youcaiwx.base.BaseView;
-import com.ucfo.youcaiwx.entity.pay.FinalPayResultBean;
 import com.ucfo.youcaiwx.entity.pay.PayAliPayResponseBean;
 import com.ucfo.youcaiwx.entity.pay.PayWeChatResponseBean;
 
@@ -18,6 +17,6 @@ public interface IPayMentView extends BaseView {
 
     void initAlipayOrderFormDetail(PayAliPayResponseBean data);
 
-    void checkPayResult(FinalPayResultBean data);
+    void checkPayResult(int status);
 
 }

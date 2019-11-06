@@ -48,14 +48,15 @@ public class PayWeChatResponseBean {
         //应用id
         private String appid;
         //随机字符串
-        private String noncestr;
+        private String nonce_str;
         //扩展字段
         @SerializedName("package")
         private String packageX;
         //商户号
-        private String partnerid;
+        //private String partnerid;
+        private String mch_id;
         //预支付交易会话ID
-        private String prepayid;
+        private String prepay_id;
         //时间戳
         private String timestamp;
         //签名
@@ -70,11 +71,11 @@ public class PayWeChatResponseBean {
         }
 
         public String getNoncestr() {
-            return noncestr == null ? "" : noncestr;
+            return nonce_str == null ? "" : nonce_str;
         }
 
         public void setNoncestr(String noncestr) {
-            this.noncestr = noncestr;
+            this.nonce_str = noncestr;
         }
 
         public String getPackage() {
@@ -86,19 +87,19 @@ public class PayWeChatResponseBean {
         }
 
         public String getPartnerid() {
-            return partnerid == null ? "" : partnerid;
+            return mch_id == null ? "" : mch_id;
         }
 
         public void setPartnerid(String partnerid) {
-            this.partnerid = partnerid;
+            this.mch_id = partnerid;
         }
 
         public String getPrepayid() {
-            return prepayid == null ? "" : prepayid;
+            return prepay_id == null ? "" : prepay_id;
         }
 
         public void setPrepayid(String prepayid) {
-            this.prepayid = prepayid;
+            this.prepay_id = prepayid;
         }
 
         public String getTimestamp() {

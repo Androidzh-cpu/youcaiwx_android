@@ -11,7 +11,6 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
-import com.ucfo.youcaiwx.entity.pay.FinalPayResultBean;
 import com.ucfo.youcaiwx.entity.pay.PayAliPayResponseBean;
 import com.ucfo.youcaiwx.entity.pay.PayWeChatResponseBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.pay.PayMentPresenter;
@@ -144,7 +143,6 @@ public class PayActivity extends BaseActivity implements IPayMentView {
             case R.id.btn_WechatPay:
                 //TODO 微信支付
                 wechatPayMethod();
-                //PaymentHelper2.getInstance(PayActivity.this, payStateCallback).startWeChatPay(new PayWeChatResponseBean());
                 break;
             case R.id.pay_Alipay:
                 //TODO 支付宝支付
@@ -171,7 +169,7 @@ public class PayActivity extends BaseActivity implements IPayMentView {
      * Detail:TODO 支付宝支付
      */
     private void alipayMethod() {
-        payMentPresenter.initAlipayOrderForm();
+        payMentPresenter.initAlipayOrderForm(orderFormNum, String.valueOf(userId));
     }
 
     /**
@@ -180,7 +178,7 @@ public class PayActivity extends BaseActivity implements IPayMentView {
     public PayStateCallback2 payStateCallback = new PayStateCallback2() {
         @Override
         public void onPaySuccess(String describe) {
-            toastInfo(describe);
+            payMentPresenter.checkPayResult(orderFormNum);
         }
 
         @Override
@@ -220,8 +218,12 @@ public class PayActivity extends BaseActivity implements IPayMentView {
      * 待支付平台支付成功后再请求一次服务端以确认结果
      */
     @Override
-    public void checkPayResult(FinalPayResultBean data) {
-
+    public void checkPayResult(int status) {
+        if (status == 1) {
+            toastInfo(getResources().getString(R.string.pay_result_success));
+        } else {
+            toastInfo(getResources().getString(R.string.pay_result_failed));
+        }
     }
 
     @Override

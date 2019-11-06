@@ -14,8 +14,8 @@ public interface IPayMentPresenter {
      */
     void initWeCheatOrderForm(String orderForm,String userID);
 
-    void initAlipayOrderForm();
+    void initAlipayOrderForm(String orderForm,String userID);
 
-    void checkPayResult();
+    void checkPayResult(String orderFormNum);
 
 }

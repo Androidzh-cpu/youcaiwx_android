@@ -1,5 +1,7 @@
 package com.ucfo.youcaiwx.presenter.presenterImpl.pay;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
@@ -8,7 +10,6 @@ import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
-import com.ucfo.youcaiwx.entity.pay.FinalPayResultBean;
 import com.ucfo.youcaiwx.entity.pay.PayAliPayResponseBean;
 import com.ucfo.youcaiwx.entity.pay.PayWeChatResponseBean;
 import com.ucfo.youcaiwx.presenter.view.pay.IPayMentView;
@@ -92,7 +93,7 @@ public class PayMentPresenter implements IPayMentPresenter {
      * Detail:TODO 获取支付宝订单
      */
     @Override
-    public void initAlipayOrderForm() {
+    public void initAlipayOrderForm(String orderForm, String userID) {
         OkGo.<String>post("")
                 .retryCount(1)
                 .cacheMode(CacheMode.NO_CACHE)
@@ -147,9 +148,9 @@ public class PayMentPresenter implements IPayMentPresenter {
      * Detail:TODO 从服务端检查最终支付结果
      */
     @Override
-    public void checkPayResult() {
-        OkGo.<String>post("")
-                .retryCount(1)
+    public void checkPayResult(String orderFormNum) {
+        OkGo.<String>post(ApiStores.PAY_CHECK_PAY_RESULT)
+                .params(Constant.ORDER_NUM, orderFormNum)
                 .cacheMode(CacheMode.NO_CACHE)
                 .execute(new StringCallback() {
                     @Override
@@ -179,17 +180,26 @@ public class PayMentPresenter implements IPayMentPresenter {
                                 jsonObject = new JSONObject(body);
                                 int code = jsonObject.optInt(Constant.CODE);
                                 if (code == 200) {
-                                    Gson gson = new Gson();
-                                    FinalPayResultBean finalPayResultBean = gson.fromJson(body, FinalPayResultBean.class);
-                                    view.checkPayResult(finalPayResultBean);
+                                    if (jsonObject.has(Constant.DATA)) {
+                                        JSONObject objectData = jsonObject.optJSONObject(Constant.DATA);
+                                        String string = objectData.optString(Constant.STATUS);
+                                        if (TextUtils.isEmpty(string)) {
+                                            view.checkPayResult(2);
+                                        } else {
+                                            int parseInt = Integer.parseInt(string);
+                                            view.checkPayResult(parseInt);
+                                        }
+                                    } else {
+                                        view.checkPayResult(2);
+                                    }
                                 } else {
-                                    view.checkPayResult(null);
+                                    view.checkPayResult(2);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            view.checkPayResult(null);
+                            view.checkPayResult(2);
                         }
                     }
                 });
