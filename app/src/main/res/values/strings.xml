@@ -244,7 +244,6 @@
     <string name="orderForm_endtime">购买后%s天有效</string>
     <string name="orderForm_endtime2">%s天有效</string>
     <string name="orderForm_endtime3">有效期%s天</string>
-
     <!-- Strings related to 我的订单 end-->
 
 
@@ -276,6 +275,12 @@
     <string name="the_next">下一步</string>
     <string name="question_start_exercise">开始练习</string>
     <!-- Strings related to 我的答疑 end-->
+
+
+    <!-- Strings related to 投诉 start-->
+    <string name="complain_title">我要投诉</string>
+    <string name="complain_confirm">确定投诉</string>
+    <!-- Strings related to 投诉 end-->
 
 
     <!-- Strings related to 题库首页 start-->

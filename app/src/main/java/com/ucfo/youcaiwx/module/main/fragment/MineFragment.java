@@ -27,6 +27,7 @@ import com.ucfo.youcaiwx.module.integral.MineIntegralActivity;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.module.main.activity.MainActivity;
 import com.ucfo.youcaiwx.module.main.activity.WebActivity;
+import com.ucfo.youcaiwx.module.questionbank.activity.ComplainActivity;
 import com.ucfo.youcaiwx.module.user.activity.FeedBackActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineAnswerQuestionActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineCollectionActivity;
@@ -235,7 +236,8 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                     //TODO 学习提醒
                     /*String certificateSHA1Fingerprint = SHA1Utils.getCertificateSHA1Fingerprint(getActivity());
                     LogUtils.e("设备唯一标识----------------:" + certificateSHA1Fingerprint);*/
-                    noDev();
+                    //noDev();
+                    startActivity(ComplainActivity.class);
                     break;
                 case R.id.btn_recommendfriend:
                     //TODO 推荐给好友

@@ -22,7 +22,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.hitomi.tilibrary.style.index.NumberIndexIndicator;
 import com.hitomi.tilibrary.style.progress.ProgressPieIndicator;
@@ -371,9 +370,8 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
                     RequestOptions requestOptions = new RequestOptions()
                             .centerCrop()
                             .placeholder(R.mipmap.icon_default)
-                            .error(R.mipmap.image_loaderror)
-                            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-                    GlideUtils.load(context, head, userIcon, requestOptions);
+                            .error(R.mipmap.image_loaderror);
+                    GlideUtils.load(this, head, userIcon, requestOptions);
 
                     TransferConfig headConfig = TransferConfig.build()
                             .setMissPlaceHolder(R.mipmap.icon_default)

@@ -49,6 +49,7 @@ import com.ucfo.youcaiwx.widget.dialog.InvoiceActiveDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -364,20 +365,35 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
      */
     private void initCoupon(Bundle bundle) {
         int type = bundle.getInt(Constant.TYPE);
+        //优惠券满减金额
         String couponPrice = bundle.getString(Constant.PAY_COUPONPRICE);
         finalCouponId = bundle.getInt(Constant.PAY_COUPONID);
         if (type == 1) {
             //满减优惠券
             float floatCouponPrice = Float.parseFloat(couponPrice);
             int intCouponPrice = Math.round(floatCouponPrice);
-
-            discountsprice = intCouponPrice;
+            //优惠价格
+            //discountsprice = intCouponPrice;
+            discountsprice = floatCouponPrice;
+            //最终支付价格
             finalPayPrice = originalPayPace - discountsprice;
-
-            couponCount.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + intCouponPrice));
+            DecimalFormat decimalFormat = new DecimalFormat("0.00");//构造方法的字符格式这里如果小数不足2位,会以0补足.
+            String distanceString = decimalFormat.format(finalPayPrice);//format 返回的是字符串
+            LogUtils.e("使用优惠券----------最终支付金额=   originalPayPace:" + originalPayPace
+                    + "  discountsprice:" + discountsprice + "   finalPayPrice:" + finalPayPrice + " distanceString:" + distanceString);
+            //优惠券显示金额
+            //couponCount.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + intCouponPrice));
+            //couponCount.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + floatCouponPrice));
+            couponCount.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + decimalFormat.format(floatCouponPrice)));
             couponDes.setVisibility(View.GONE);
-            textDiscountsprice.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + intCouponPrice));
-            textFinalprice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(Math.round(finalPayPrice))));
+            //优惠金额
+            //textDiscountsprice.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + intCouponPrice));
+            //textDiscountsprice.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + floatCouponPrice));
+            textDiscountsprice.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + decimalFormat.format(floatCouponPrice)));
+            //最终支付金额
+            //textFinalprice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(Math.round(finalPayPrice))));
+            //textFinalprice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(finalPayPrice)));
+            textFinalprice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(distanceString)));
         } else {
             //打折优惠券
             float floatCouponPrice = Float.parseFloat(couponPrice) / 10;
@@ -503,6 +519,7 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
         float floatPrice = Float.parseFloat(price);
         originalPayPace = floatPrice;
         finalPayPrice = floatPrice;
+        //原价
         textPrice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(Math.round(originalPayPace))));
         //最终支付价格
         textFinalprice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(Math.round(floatPrice))));

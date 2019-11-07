@@ -62,9 +62,9 @@ public class MineOrderListBean {
          */
 
         private String order_num;
-        private int is_live;
-        private int package_id;
-        private int pay_status;
+        private String is_live;
+        private String package_id;
+        private String pay_status;
         private String pay_price;
         private String package_name;
         private String price;
@@ -78,27 +78,27 @@ public class MineOrderListBean {
             this.order_num = order_num;
         }
 
-        public int getIs_live() {
-            return is_live;
+        public String getIs_live() {
+            return is_live == null ? "" : is_live;
         }
 
-        public void setIs_live(int is_live) {
+        public void setIs_live(String is_live) {
             this.is_live = is_live;
         }
 
-        public int getPackage_id() {
-            return package_id;
+        public String getPackage_id() {
+            return package_id == null ? "" : package_id;
         }
 
-        public void setPackage_id(int package_id) {
+        public void setPackage_id(String package_id) {
             this.package_id = package_id;
         }
 
-        public int getPay_status() {
-            return pay_status;
+        public String getPay_status() {
+            return pay_status == null ? "" : pay_status;
         }
 
-        public void setPay_status(int pay_status) {
+        public void setPay_status(String pay_status) {
             this.pay_status = pay_status;
         }
 

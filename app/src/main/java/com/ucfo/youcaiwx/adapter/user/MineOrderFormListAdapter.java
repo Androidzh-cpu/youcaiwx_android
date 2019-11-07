@@ -15,10 +15,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.flyco.roundview.RoundTextView;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.user.MineOrderListBean;
+import com.ucfo.youcaiwx.module.user.activity.MineOrderFormActivity;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.module.user.activity.MineOrderFormActivity;
 import com.ucfo.youcaiwx.widget.customview.NiceImageView;
 
 import java.util.ArrayList;
@@ -60,8 +60,8 @@ public class MineOrderFormListAdapter extends BaseAdapter<MineOrderListBean.Data
 
         String appImg = bean.getApp_img();//封面
         String orderNum = bean.getOrder_num();//订单号
-        int payStatus = bean.getPay_status();//支付状态1表示已经付款2未付款3订单取消
-        String payPrice = bean.getPrice();//实付价格
+        String payStatus = bean.getPay_status();//支付状态1表示已经付款2未付款3订单取消
+        String payPrice = bean.getPay_price();//实付价格
         String packageName = bean.getPackage_name();//课程名
         //TODO 封面图
         RequestOptions requestOptions = new RequestOptions()
@@ -86,27 +86,30 @@ public class MineOrderFormListAdapter extends BaseAdapter<MineOrderListBean.Data
         //TODO 课程价格
         holder.mPriceOrder.setText(String.valueOf(RMB + payPrice));
         //TODO 订单状态
-        switch (payStatus) {
-            case 1://已付款
-                holder.mStatusOrder.setText(context.getString(R.string.successfulDeal));
-                holder.mStatusOrder.setTextColor(ContextCompat.getColor(context, R.color.color_333333));
-                break;
-            case 2://未付款
-                holder.mStatusOrder.setText(context.getString(R.string.ForthePayment));
-                holder.mStatusOrder.setTextColor(ContextCompat.getColor(context, R.color.color_F99111));
-                break;
-            case 3://订单已取消
-            default:
-                holder.mStatusOrder.setText(context.getString(R.string.HasBeenCancelled));
-                holder.mStatusOrder.setTextColor(ContextCompat.getColor(context, R.color.color_333333));
-                break;
-        }
-        if (payStatus == 2) {
-            holder.mPayOrder.setVisibility(holder.mPayOrder.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-            holder.mCancelOrder.setVisibility(holder.mCancelOrder.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-        } else {
-            holder.mPayOrder.setVisibility(holder.mPayOrder.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
-            holder.mCancelOrder.setVisibility(holder.mCancelOrder.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+        if (!TextUtils.isEmpty(payStatus)) {
+            int parseInt = Integer.parseInt(payStatus);
+            switch (parseInt) {
+                case 1://已付款
+                    holder.mStatusOrder.setText(context.getString(R.string.successfulDeal));
+                    holder.mStatusOrder.setTextColor(ContextCompat.getColor(context, R.color.color_333333));
+                    break;
+                case 2://未付款
+                    holder.mStatusOrder.setText(context.getString(R.string.ForthePayment));
+                    holder.mStatusOrder.setTextColor(ContextCompat.getColor(context, R.color.color_F99111));
+                    break;
+                case 3://订单已取消
+                default:
+                    holder.mStatusOrder.setText(context.getString(R.string.HasBeenCancelled));
+                    holder.mStatusOrder.setTextColor(ContextCompat.getColor(context, R.color.color_333333));
+                    break;
+            }
+            if (TextUtils.equals(String.valueOf("2"), payStatus)) {
+                holder.mPayOrder.setVisibility(holder.mPayOrder.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+                holder.mCancelOrder.setVisibility(holder.mCancelOrder.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+            } else {
+                holder.mPayOrder.setVisibility(holder.mPayOrder.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+                holder.mCancelOrder.setVisibility(holder.mCancelOrder.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+            }
         }
 
         holder.mPayOrder.setOnClickListener(new View.OnClickListener() {

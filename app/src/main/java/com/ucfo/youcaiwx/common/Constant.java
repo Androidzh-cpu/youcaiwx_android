@@ -94,6 +94,9 @@ public class Constant {
 
     //提问问题最大图片选择数量
     public static final int MAX_IMAGECOUNT = 3;
+    public static final int QUESTION_MAXCOUNT = 5;
+    public static final int QUESTION_MAX_EDITTEXT = 200;
+    public static final int COMPLAIN_MAX_COOUNT = 250;
     //---------------------------------------------TODO common  start-----------------------------------------------//
 
 

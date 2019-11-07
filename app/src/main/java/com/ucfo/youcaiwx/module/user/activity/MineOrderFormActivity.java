@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -166,11 +167,12 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
             @Override
             public void clickPay(int position) {
                 //TODO 去支付
-                int payStatus = list.get(position).getPay_status();
-                if (payStatus != 3) {
+                String payStatus = list.get(position).getPay_status();
+                boolean equals = TextUtils.equals(payStatus, String.valueOf("3"));
+                if (!equals) {
                     Bundle bundle = new Bundle();
                     bundle.putString(Constant.ORDER_NUM, list.get(position).getOrder_num());
-                    bundle.putInt(Constant.STATUS, payStatus);
+                    bundle.putInt(Constant.STATUS, Integer.parseInt(payStatus));
                     startActivity(MineOrderFormDetailActivity.class, bundle);
                 }
             }
@@ -190,11 +192,12 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
         mineOrderFormListAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                int payStatus = list.get(position).getPay_status();
-                if (payStatus != 3) {
+                String payStatus = list.get(position).getPay_status();
+                boolean equals = TextUtils.equals(payStatus, String.valueOf("3"));
+                if (!equals) {
                     Bundle bundle = new Bundle();
                     bundle.putString(Constant.ORDER_NUM, list.get(position).getOrder_num());
-                    bundle.putInt(Constant.STATUS, payStatus);
+                    bundle.putInt(Constant.STATUS, Integer.parseInt(payStatus));
                     startActivity(MineOrderFormDetailActivity.class, bundle);
                 }
             }

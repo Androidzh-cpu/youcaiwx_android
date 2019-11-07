@@ -400,6 +400,7 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
             toastInfo(getResources().getString(R.string.pay_result_failed));
         }
     }
+
     /**
      * 支付平台支付回调
      */

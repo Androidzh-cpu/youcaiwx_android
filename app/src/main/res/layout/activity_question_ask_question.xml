@@ -21,21 +21,21 @@
             <!--标题栏-->
             <include layout="@layout/titlebar_toolbar" />
             <!--文字输入区域-->
+
+
             <EditText
                 android:id="@+id/ask_edittext_content"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_100"
-                android:background="@color/colorWhite"
-                android:gravity="top"
+                android:layout_height="@dimen/dp_105"
+                android:background="@android:color/white"
+                android:gravity="top|start"
                 android:hint="@string/answer_editHinttext"
                 android:inputType="textMultiLine"
-                android:maxLength="500"
-                android:maxLines="200"
-                android:minLines="5"
                 android:overScrollMode="ifContentScrolls"
-                android:paddingEnd="@dimen/dp_14"
-                android:paddingStart="@dimen/dp_14"
-                android:paddingTop="@dimen/dp_14"
+                android:paddingEnd="@dimen/dp_12"
+                android:paddingStart="@dimen/dp_12"
+                android:paddingTop="@dimen/dp_12"
+                android:scrollbarStyle="insideInset"
                 android:scrollbars="vertical"
                 android:textColor="@color/color_666666"
                 android:textColorHint="@color/color_C7C7C7"
@@ -66,7 +66,6 @@
                     android:overScrollMode="never" />
 
             </LinearLayout>
-
             <!--视频节点提示区域-->
             <LinearLayout
                 android:layout_width="match_parent"

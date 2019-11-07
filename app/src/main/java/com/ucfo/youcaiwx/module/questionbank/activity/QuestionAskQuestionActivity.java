@@ -19,6 +19,7 @@ import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -152,6 +153,7 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
         uploadFilePresenter = new UploadFilePresenter(this);//上传文件
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initData() {
         super.initData();
@@ -205,7 +207,20 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
         }
         //输入字数限制
         askEdittextContent.addTextChangedListener(textWatcher);
-        askEdittextContent.setFilters(new InputFilter[]{new InputFilter.LengthFilter(200)});
+        askEdittextContent.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Constant.QUESTION_MAX_EDITTEXT)});
+        //Edittext通知父控件自己处理自己的滑动事件
+        askEdittextContent.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (v.getId() == R.id.ask_edittext_content && canVerticalScroll(askEdittextContent)) {
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -280,7 +295,7 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
                         ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_hinttext));
                         return;
                     }
-                    if (askContent.length() < 5) {//长度不够
+                    if (askContent.length() < Constant.QUESTION_MAXCOUNT) {//长度不够
                         ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_hinttext2));
                         return;
                     }
@@ -464,7 +479,6 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
 
     @Override
     public void showError() {
-
     }
 
     @Override
@@ -475,9 +489,31 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
     public void errorUploadFile() {
     }
 
+    /**
+     * EditText竖直方向是否可以滚动
+     *
+     * @param //editText需要判断的EditText
+     * @return true：可以滚动   false：不可以滚动
+     */
+    private boolean canVerticalScroll(EditText contentEt) {
+        //滚动的距离
+        int scrollY = contentEt.getScrollY();
+        //控件内容的总高度
+        int scrollRange = contentEt.getLayout().getHeight();
+        //控件实际显示的高度
+        int scrollExtent = contentEt.getHeight() - contentEt.getCompoundPaddingTop() - contentEt.getCompoundPaddingBottom();
+        //控件内容总高度与实际显示高度的差值
+        int scrollDifference = scrollRange - scrollExtent;
+
+        if (scrollDifference == 0) {
+            return false;
+        }
+        return (scrollY > 0) || (scrollY < scrollDifference - 1);
+    }
+
     //TODO 输入文字监听
     private TextWatcher textWatcher = new TextWatcher() {
-        private int maxLen = 200; // 最大输入字符
+        private int maxLen = Constant.QUESTION_MAX_EDITTEXT; // 最大输入字符
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {

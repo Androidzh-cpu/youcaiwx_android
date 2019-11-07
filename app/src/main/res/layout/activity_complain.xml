@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F5F5F5"
+    android:orientation="vertical"
+    tools:context=".module.questionbank.activity.ComplainActivity">
+
+    <include layout="@layout/titlebar_toolbar" />
+
+    <EditText
+        android:id="@+id/ask_edittext_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_180"
+        android:background="@android:color/white"
+        android:gravity="top|start"
+        android:hint="@string/answer_editHinttext"
+        android:inputType="textMultiLine"
+        android:overScrollMode="ifContentScrolls"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_12"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical"
+        android:textColor="@color/color_666666"
+        android:textColorHint="@color/color_C7C7C7"
+        android:textSize="@dimen/sp_14" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_14"
+        android:paddingEnd="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_12">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/color_999999"
+            android:textSize="@dimen/sp_12"
+            tools:text="10:33" />
+
+
+        <TextView
+            android:id="@+id/text_contentnumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="0/250"
+            android:textColor="@color/color_C7C7C7"
+            android:textSize="@dimen/sp_12" />
+    </LinearLayout>
+
+    <!--问题所属章节-->
+    <com.ucfo.youcaiwx.widget.flowlayout.TagFlowLayout
+        android:id="@+id/flowlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_20"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:max_select="1" />
+
+    <Button
+        android:id="@+id/ask_submit"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="@dimen/dp_293"
+        android:layout_height="@dimen/dp_34"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_40"
+        android:background="@mipmap/icon_btnroundgray"
+        android:gravity="center"
+        android:stateListAnimator="@drawable/shape_selector_elevation"
+        android:text="@string/complain_confirm"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_14" />
+
+</LinearLayout>
