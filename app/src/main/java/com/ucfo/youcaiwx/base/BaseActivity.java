@@ -7,7 +7,9 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -130,6 +132,17 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
 
     protected void initToolbar() {
         StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
+    }
+
+    protected void initToolbar(Toolbar toolbar) {
+        StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
+        setSupportActionBar(toolbar);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+            supportActionBar.setDisplayShowTitleEnabled(false);
+        }
+
     }
 
     /**

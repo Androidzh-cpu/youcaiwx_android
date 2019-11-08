@@ -447,6 +447,7 @@
     <string name="pay_agreement">支付协议</string>
     <string name="pay_WeChatPay">微信支付</string>
     <string name="pay_Alipay">支付宝支付</string>
+    <string name="pay_jingdong">京东支付</string>
     <string name="pay_NoCouponsAvailable">暂无可用优惠券</string>
     <string name="pay_addAddress">请添加地址</string>
     <string name="pay_readPayNotice">请同意支付协议</string>

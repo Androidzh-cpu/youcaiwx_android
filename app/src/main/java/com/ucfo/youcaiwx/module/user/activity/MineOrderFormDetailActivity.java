@@ -212,7 +212,7 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
                 payDialogFragment.show(fragmentTransaction2, "pay");
                 payDialogFragment.setOnPayClickListener(new PayDialogFragment.PayClickListener() {
                     @Override
-                    public void aliPay() {
+                    public void jingDongPay() {
                     }
 
                     @Override

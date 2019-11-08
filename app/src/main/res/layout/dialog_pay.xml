@@ -40,23 +40,42 @@
         android:text="@string/pay_checkPayMode"
         android:textColor="@color/color_666666"
         android:textSize="@dimen/sp_13" />
-    <!--支付方式-->
 
-    <TextView
+    <!--支付方式-->
+    <!--TODO 微信支付-->
+    <LinearLayout
         android:id="@+id/btn_WechatPay"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_53"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
-        android:drawableEnd="@mipmap/icon_right_in"
-        android:drawablePadding="@dimen/dp_5"
-        android:drawableStart="@drawable/ic_icon_wechatpay"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingEnd="@dimen/dp_10"
-        android:paddingStart="@dimen/dp_10"
-        android:text="@string/pay_WeChatPay"
-        android:textColor="@color/color_333333"
-        android:textSize="@dimen/sp_14" />
+        android:paddingStart="@dimen/dp_10">
+
+        <ImageView
+            android:layout_width="@dimen/dp_16"
+            android:layout_height="@dimen/dp_16"
+            android:scaleType="fitXY"
+            android:src="@mipmap/icon_wechatpay" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_53"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/pay_WeChatPay"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_14" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_right_in" />
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"
@@ -65,21 +84,40 @@
         android:layout_marginStart="@dimen/dp_12"
         android:background="@color/color_E6E6E6" />
 
-    <TextView
-        android:id="@+id/pay_Alipay"
+    <!--TODO 微信支付-->
+    <LinearLayout
+        android:id="@+id/btn_JingdongPay"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_53"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
-        android:drawableEnd="@mipmap/icon_right_in"
-        android:drawablePadding="@dimen/dp_5"
-        android:drawableStart="@drawable/ic_icon_alipay"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingEnd="@dimen/dp_10"
-        android:paddingStart="@dimen/dp_10"
-        android:text="@string/pay_Alipay"
-        android:textColor="@color/color_333333"
-        android:textSize="@dimen/sp_14" />
+        android:paddingStart="@dimen/dp_10">
+
+        <ImageView
+            android:layout_width="@dimen/dp_16"
+            android:layout_height="@dimen/dp_16"
+            android:scaleType="fitXY"
+            android:src="@mipmap/icon_jingdong" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_53"
+            android:layout_marginStart="@dimen/dp_8"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/pay_jingdong"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_14" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_right_in" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

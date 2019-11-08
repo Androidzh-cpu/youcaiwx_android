@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ucfo.youcaiwx.R;
@@ -31,8 +32,8 @@ import com.ucfo.youcaiwx.module.main.activity.WebActivity;
  */
 public class PayDialogFragment extends DialogFragment implements View.OnClickListener {
     private ImageView mCloseBtn;
-    private TextView mWechatPayBtn;
-    private TextView mAlipayPay;
+    private LinearLayout mWechatPayBtn;
+    private LinearLayout mJingDongPayBtn;
     private TextView mPaynoticeBtn;
 
     @Override
@@ -69,7 +70,7 @@ public class PayDialogFragment extends DialogFragment implements View.OnClickLis
     }
 
     public interface PayClickListener {
-        void aliPay();
+        void jingDongPay();
 
         void wechatPay();
     }
@@ -83,10 +84,10 @@ public class PayDialogFragment extends DialogFragment implements View.OnClickLis
     private void initView(@NonNull final View itemView) {
         mCloseBtn = (ImageView) itemView.findViewById(R.id.btn_close);
         mCloseBtn.setOnClickListener(this);
-        mWechatPayBtn = (TextView) itemView.findViewById(R.id.btn_WechatPay);
+        mWechatPayBtn = (LinearLayout) itemView.findViewById(R.id.btn_WechatPay);
         mWechatPayBtn.setOnClickListener(this);
-        mAlipayPay = (TextView) itemView.findViewById(R.id.pay_Alipay);
-        mAlipayPay.setOnClickListener(this);
+        mJingDongPayBtn = (LinearLayout) itemView.findViewById(R.id.btn_JingdongPay);
+        mJingDongPayBtn.setOnClickListener(this);
         mPaynoticeBtn = (TextView) itemView.findViewById(R.id.btn_paynotice);
         mPaynoticeBtn.setOnClickListener(this);
     }
@@ -105,10 +106,10 @@ public class PayDialogFragment extends DialogFragment implements View.OnClickLis
                 }
                 dismiss();
                 break;
-            case R.id.pay_Alipay:
+            case R.id.btn_JingdongPay:
                 // TODO 19/11/01
                 if (mOnClickListener != null) {
-                    mOnClickListener.aliPay();
+                    mOnClickListener.jingDongPay();
                 }
                 dismiss();
                 break;

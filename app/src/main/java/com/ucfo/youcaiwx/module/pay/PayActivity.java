@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tencent.bugly.crashreport.CrashReport;
@@ -47,9 +48,11 @@ public class PayActivity extends BaseActivity implements IPayMentView {
     @BindView(R.id.text_price)
     TextView textPrice;
     @BindView(R.id.btn_WechatPay)
-    TextView btnWechatPay;
+    LinearLayout btnWechatPay;
     @BindView(R.id.pay_Alipay)
-    TextView btnAlipay;
+    LinearLayout btnAlipay;
+    @BindView(R.id.btn_payJingdong)
+    LinearLayout btnJingDong;
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
     private PayActivity context;
@@ -136,7 +139,7 @@ public class PayActivity extends BaseActivity implements IPayMentView {
         btnAlipay.setEnabled(flag);
     }
 
-    @OnClick({R.id.btn_WechatPay, R.id.pay_Alipay})
+    @OnClick({R.id.btn_WechatPay, R.id.pay_Alipay, R.id.btn_payJingdong})
     public void onViewClicked(View view) {
         setPayButtonEnable(false);
         switch (view.getId()) {
@@ -147,6 +150,9 @@ public class PayActivity extends BaseActivity implements IPayMentView {
             case R.id.pay_Alipay:
                 //TODO 支付宝支付
                 //alipayMethod();
+                break;
+            case R.id.btn_payJingdong:
+                //TODO 京东支付
                 break;
             default:
                 break;
