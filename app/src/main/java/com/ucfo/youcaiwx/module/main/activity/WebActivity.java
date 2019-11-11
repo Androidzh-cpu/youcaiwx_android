@@ -29,6 +29,7 @@ import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
+import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
@@ -141,6 +142,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         } else {
             mLoadinglayout.showEmpty();
         }
+        LogUtils.e("X5webview-----------bundle:" + bundle);
         if (TextUtils.isEmpty(webTitle)) {
             webTitle = getResources().getString(R.string.default_title);
         }
@@ -149,13 +151,19 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         if (TextUtils.isEmpty(webUrl)) {
             mLoadinglayout.showEmpty();
         } else {
+            tencentWebview.loadUrl(webUrl);
             //校验链接
             boolean matches = Patterns.WEB_URL.matcher(webUrl).matches();
             if (matches) {
                 tencentWebview.loadUrl(webUrl);
             } else {
-                ToastUtil.showBottomShortText(this, getResources().getString(R.string.github_qq_browser_urlIllegality));
-                mLoadinglayout.showEmpty();
+                //京东支付链接可能验证无法通过
+                if (webUrl.contains(ApiStores.PAY_JINGDONG)) {
+                    tencentWebview.loadUrl(webUrl);
+                } else {
+                    ToastUtil.showBottomShortText(this, getResources().getString(R.string.github_qq_browser_urlIllegality));
+                    mLoadinglayout.showEmpty();
+                }
             }
         }
         //TODO 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开

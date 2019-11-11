@@ -17,12 +17,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.flyco.roundview.RoundTextView;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
+import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.address.StateStatusBean;
 import com.ucfo.youcaiwx.entity.pay.PayAliPayResponseBean;
 import com.ucfo.youcaiwx.entity.pay.PayWeChatResponseBean;
 import com.ucfo.youcaiwx.entity.user.MineOrderFormDetailBean;
 import com.ucfo.youcaiwx.entity.user.MineOrderListBean;
+import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.pay.PayMentPresenter;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineOrderFormPresenter;
 import com.ucfo.youcaiwx.presenter.view.pay.IPayMentView;
@@ -114,6 +116,7 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
     private String payPrice;
     private FragmentManager fragmentManager;
     private PayMentPresenter payMentPresenter;
+    private String addTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,6 +216,10 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
                 payDialogFragment.setOnPayClickListener(new PayDialogFragment.PayClickListener() {
                     @Override
                     public void jingDongPay() {
+                        String jingDongPay = PaymentHelper2.startJingDongPay(String.valueOf(user_id), payPrice, order_number);
+                        bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.pay_jingdong));
+                        bundle.putString(Constant.WEB_URL, ApiStores.PAY_JINGDONG + jingDongPay);
+                        startActivity(WebActivity.class, bundle);
                     }
 
                     @Override
@@ -296,7 +303,8 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
             }
         }
 
-        String addTime = courseBean.getAdd_time();//下单时间
+        //下单时间
+        addTime = courseBean.getAdd_time();
         String appImg = courseBean.getApp_img();//图片
         String couponPrice = courseBean.getCoupon_price();//优惠价格
         String price = courseBean.getPrice();//价格

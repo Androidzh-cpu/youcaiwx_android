@@ -5,18 +5,23 @@ import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Base64;
 
 import com.alipay.sdk.app.PayTask;
+import com.google.gson.Gson;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.common.Constant;
+import com.ucfo.youcaiwx.entity.pay.JingDongPayBean;
 import com.ucfo.youcaiwx.entity.pay.PayAliPayResponseBean;
 import com.ucfo.youcaiwx.entity.pay.PayWeChatResponseBean;
 import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -176,5 +181,30 @@ public class PaymentHelper2 {
         //发送调起微信的请求
         wxapi.sendReq(req);
         //LogUtils.e("微信支付请求参数------------------" + new Gson().toJson(payWeChatResponseBean));
+    }
+
+    /**
+     * 京东支付
+     */
+    @SuppressLint("SimpleDateFormat")
+    public static String startJingDongPay(String userID, String price, String orderNumber) {
+        float parseFloat = Float.parseFloat(price);
+        float finalPrice = parseFloat * 100;
+        int round = Math.round(finalPrice);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date(System.currentTimeMillis());
+        String timeStamp = simpleDateFormat.format(date);
+
+        JingDongPayBean jingDongPayBean = new JingDongPayBean();
+        jingDongPayBean.setUserId(userID);
+        jingDongPayBean.setTradeNum(orderNumber);
+        jingDongPayBean.setTradeTime(timeStamp);
+        jingDongPayBean.setAmount(String.valueOf(round));
+        Gson gson = new Gson();
+        String s = gson.toJson(jingDongPayBean);
+        LogUtils.e("PayJingDong---Bean:" + s);
+        String encodeToString = Base64.encodeToString(s.getBytes(), Base64.DEFAULT);
+        return encodeToString;
     }
 }

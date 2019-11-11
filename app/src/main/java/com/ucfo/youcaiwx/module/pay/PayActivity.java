@@ -11,9 +11,11 @@ import android.widget.TextView;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
+import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.pay.PayAliPayResponseBean;
 import com.ucfo.youcaiwx.entity.pay.PayWeChatResponseBean;
+import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.pay.PayMentPresenter;
 import com.ucfo.youcaiwx.presenter.view.pay.IPayMentView;
 import com.ucfo.youcaiwx.utils.pay.PayStateCallback2;
@@ -62,11 +64,25 @@ public class PayActivity extends BaseActivity implements IPayMentView {
     private String orderFormNum;
     private float price;
     private PayMentPresenter payMentPresenter;
+    //京东支付表示
+    private boolean isPayBuyJingDong = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isPayBuyJingDong) {
+            if (payMentPresenter != null) {
+                if (!TextUtils.isEmpty(orderFormNum)) {
+                    payMentPresenter.checkPayResult(orderFormNum);
+                }
+            }
+        }
     }
 
     @Override
@@ -153,6 +169,11 @@ public class PayActivity extends BaseActivity implements IPayMentView {
                 break;
             case R.id.btn_payJingdong:
                 //TODO 京东支付
+                String jingDongPay = PaymentHelper2.startJingDongPay(String.valueOf(userId), String.valueOf(price), orderFormNum);
+                bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.pay_jingdong));
+                bundle.putString(Constant.WEB_URL, ApiStores.PAY_JINGDONG + jingDongPay);
+                startActivity(WebActivity.class, bundle);
+                isPayBuyJingDong = true;
                 break;
             default:
                 break;

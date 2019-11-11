@@ -162,6 +162,8 @@ public class ApiStores {
     public static final String PAY_GET_WECHAT_PARAMAS = BASE_URL + "Pay/weiOrder";
     //支付完成后后台查询最终支付状态
     public static final String PAY_CHECK_PAY_RESULT = BASE_URL + "Pay/getGoods";
+    //京东支付
+    public static final String PAY_JINGDONG = "http://ycapi.youcaiwx.com/demo/action/ClientOrder.php?list=";
 
     //------------------------------------------TODO 积分---------------------------------------------------------------------------------//
     //作任务获取积分

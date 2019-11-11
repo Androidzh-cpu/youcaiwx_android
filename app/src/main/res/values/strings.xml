@@ -387,7 +387,7 @@
 
     <!--<string name="github_qq_browser_kernel">The web page is provided by github.com.\nThe QQ browser X5 kernel has been enabled.</string>-->
     <string name="github_qq_browser_kernel">网页由 www.youcaiwx.com 提供\nQQ浏览器X5内核提供技术支持</string>
-    <string name="github_qq_browser_urlIllegality">网页链接不正确</string>
+    <string name="github_qq_browser_urlIllegality">网页链接校验失败</string>
     <string name="title_activity_test_login">Sign in</string>
 
 

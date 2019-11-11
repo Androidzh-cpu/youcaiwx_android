@@ -140,9 +140,9 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
     @Override
     public void getMineCourse(MineCourseBean data) {
         if (data != null) {
-            if (data.getData().size() > 0 && data.getData() != null) {
-                refreshlayout.setVisibility(refreshlayout.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-                linearHolder.setVisibility(linearHolder.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+            if (data.getData() != null && data.getData().size() > 0) {
+                refreshlayout.setVisibility(View.VISIBLE);
+                linearHolder.setVisibility(View.GONE);
 
                 List<MineCourseBean.DataBean> beanList = data.getData();
                 list.clear();
@@ -150,12 +150,12 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
 
                 initAdapter();
             } else {
-                linearHolder.setVisibility(linearHolder.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-                refreshlayout.setVisibility(refreshlayout.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+                linearHolder.setVisibility(View.VISIBLE);
+                refreshlayout.setVisibility(View.GONE);
             }
         } else {
-            linearHolder.setVisibility(linearHolder.getVisibility() == View.GONE ? View.INVISIBLE : View.INVISIBLE);
-            refreshlayout.setVisibility(refreshlayout.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+            linearHolder.setVisibility(View.INVISIBLE);
+            refreshlayout.setVisibility(View.GONE);
         }
         refreshlayout.finishRefresh();
         refreshlayout.finishLoadMore();
@@ -167,10 +167,10 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
     }
 
     private void initAdapter() {
-        if (courseAdapter != null) {
-            courseAdapter.notifyDataSetChanged();
-        } else {
+        if (courseAdapter == null) {
             courseAdapter = new MineCourseAdapter(this, list);
+        } else {
+            courseAdapter.notifyDataSetChanged();
         }
         recyclerview.setAdapter(courseAdapter);
         courseAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
@@ -192,12 +192,12 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
 
     @Override
     public void showLoading() {
-        //setProcessLoading(null, true);
+        setProcessLoading(null, true);
     }
 
     @Override
     public void showLoadingFinish() {
-        //dismissPorcess();
+        dismissPorcess();
     }
 
     @Override
