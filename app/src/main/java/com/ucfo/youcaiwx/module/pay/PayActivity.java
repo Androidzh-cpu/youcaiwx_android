@@ -248,6 +248,7 @@ public class PayActivity extends BaseActivity implements IPayMentView {
     public void checkPayResult(int status) {
         if (status == 1) {
             toastInfo(getResources().getString(R.string.pay_result_success));
+            finish();
         } else {
             toastInfo(getResources().getString(R.string.pay_result_failed));
         }

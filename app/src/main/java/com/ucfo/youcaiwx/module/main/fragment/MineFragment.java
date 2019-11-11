@@ -27,7 +27,6 @@ import com.ucfo.youcaiwx.module.integral.MineIntegralActivity;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.module.main.activity.MainActivity;
 import com.ucfo.youcaiwx.module.main.activity.WebActivity;
-import com.ucfo.youcaiwx.module.pay.PayActivity;
 import com.ucfo.youcaiwx.module.user.activity.FeedBackActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineAnswerQuestionActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineCollectionActivity;
@@ -236,11 +235,8 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                     //TODO 学习提醒
                     /*String certificateSHA1Fingerprint = SHA1Utils.getCertificateSHA1Fingerprint(getActivity());
                     LogUtils.e("设备唯一标识----------------:" + certificateSHA1Fingerprint);*/
-                    //noDev();
+                    noDev();
                     //startActivity(ComplainActivity.class);
-                    bundle.putString(Constant.ORDER_NUM, "测试订单号");
-                    bundle.putFloat(Constant.COURSE_PRICE, 10800.01F);
-                    startActivity(PayActivity.class, bundle);
                     break;
                 case R.id.btn_recommendfriend:
                     //TODO 推荐给好友
@@ -311,7 +307,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
 
     private void noDev() {
         new AlertDialog(getActivity()).builder().setCancelable(false).setCanceledOnTouchOutside(false)
-                .setMsg("功能尚在开发中")
+                .setMsg("敬请期待")
                 .setNegativeButton(null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
