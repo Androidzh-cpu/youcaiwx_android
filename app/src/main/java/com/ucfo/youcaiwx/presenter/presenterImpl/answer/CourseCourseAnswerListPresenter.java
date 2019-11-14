@@ -34,12 +34,13 @@ public class CourseCourseAnswerListPresenter implements ICourseAnswerListPresent
      * Detail:TODO  获取视频播放页问答列表
      */
     @Override
-    public void getAnswerListData(int video_id, int section_id, int course_id, int package_id) {
+    public void getAnswerListData(int video_id, int section_id, int course_id, int package_id, int user_id) {
         OkGo.<String>post(ApiStores.ANSWER_GETANSWERLIST)
                 .params(Constant.PACKAGE_ID, package_id)
                 .params(Constant.COURSE_ID, course_id)
                 .params(Constant.SECTION_ID, section_id)
                 .params(Constant.VIDEO_ID, video_id)
+                .params(Constant.USER_ID, user_id)
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
@@ -79,7 +80,7 @@ public class CourseCourseAnswerListPresenter implements ICourseAnswerListPresent
 
     //问答详情
     @Override
-    public void getAnswerDetail(int answer_id,int user_id) {
+    public void getAnswerDetail(int answer_id, int user_id) {
         OkGo.<String>post(ApiStores.ANSWER_GETANSWERDETAIL)
                 .params(Constant.ANSWER_ID, answer_id)
                 .params(Constant.USER_ID, user_id)

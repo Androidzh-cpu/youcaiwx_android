@@ -121,19 +121,25 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                courseAnswerListPresenter.getAnswerListData(courseVideoid, courseSectionid, courseCourseid, coursePackageId);
+                if (courseAnswerListPresenter != null) {
+                    courseAnswerListPresenter.getAnswerListData(courseVideoid, courseSectionid, courseCourseid, coursePackageId, user_id);
+                }
             }
         });
         refreshlayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-                courseAnswerListPresenter.getAnswerListData(courseVideoid, courseSectionid, courseCourseid, coursePackageId);
+                if (courseAnswerListPresenter != null) {
+                    courseAnswerListPresenter.getAnswerListData(courseVideoid, courseSectionid, courseCourseid, coursePackageId, user_id);
+                }
             }
         });
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                courseAnswerListPresenter.getAnswerListData(courseVideoid, courseSectionid, courseCourseid, coursePackageId);
+                if (courseAnswerListPresenter != null) {
+                    courseAnswerListPresenter.getAnswerListData(courseVideoid, courseSectionid, courseCourseid, coursePackageId, user_id);
+                }
             }
         });
     }
@@ -146,7 +152,9 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     @Override
     protected void onVisibleToUser() {
         super.onVisibleToUser();
-        courseAnswerListPresenter.getAnswerListData(courseVideoid, courseSectionid, courseCourseid, coursePackageId);
+        if (courseAnswerListPresenter != null) {
+            courseAnswerListPresenter.getAnswerListData(courseVideoid, courseSectionid, courseCourseid, coursePackageId, user_id);
+        }
     }
 
     /**
@@ -161,10 +169,10 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
         courseVideoid = video_id;
 
         if (courseAnswerListPresenter != null) {
-            courseAnswerListPresenter.getAnswerListData(video_id, coursesectionid, coursecourseid, coursepackageId);
+            courseAnswerListPresenter.getAnswerListData(video_id, coursesectionid, coursecourseid, coursepackageId, user_id);
         } else {
             courseAnswerListPresenter = new CourseCourseAnswerListPresenter(this);
-            courseAnswerListPresenter.getAnswerListData(video_id, coursesectionid, coursecourseid, coursepackageId);
+            courseAnswerListPresenter.getAnswerListData(video_id, coursesectionid, coursecourseid, coursepackageId, user_id);
         }
     }
 

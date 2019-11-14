@@ -13,14 +13,14 @@ public interface ICourseAnswerListPresenter {
      * Time:2019-4-17   下午 3:13
      * Detail:TODO 获取问答列表
      */
-    void getAnswerListData(int video_id, int section_id, int course_id, int package_id);
+    void getAnswerListData(int video_id, int section_id, int course_id, int package_id, int user_id);
 
     /**
      * Description:ICourseAnswerListPresenter
      * Time:2019-4-17   下午 3:15
      * Detail: TODO 获取问答详情
      */
-    void getAnswerDetail(int answer_id,int user_id);
+    void getAnswerDetail(int answer_id, int user_id);
 
 
 }

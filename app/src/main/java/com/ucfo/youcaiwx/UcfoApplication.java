@@ -41,10 +41,10 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.smtt.sdk.QbSdk;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.module.answer.AnsweringCourseActivity;
+import com.ucfo.youcaiwx.module.answer.AnsweringQuestionActivity;
 import com.ucfo.youcaiwx.module.course.player.download.Common;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.module.main.activity.WebActivity;
-import com.ucfo.youcaiwx.module.questionbank.activity.QuestionAnswerDetailActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineOrderFormDetailActivity;
 import com.ucfo.youcaiwx.utils.JsonUtil;
 import com.ucfo.youcaiwx.utils.LogUtils;
@@ -274,9 +274,10 @@ public class UcfoApplication extends Application {
                             bundle.putString(Constant.TYPE, Constant.MESSAGE_ANSWER);
                         } else if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_QUESTIONANSWER)) {
                             //TODO 题库答疑
-                            intent.setClass(mContext, QuestionAnswerDetailActivity.class);
+                            //intent.setClass(mContext, QuestionAnswerDetailActivity.class);
+                            intent.setClass(mContext, AnsweringQuestionActivity.class);
                             String id = extra.get(Constant.VALUE);
-                            bundle.putInt(Constant.ID, Integer.parseInt(id));
+                            bundle.putInt(Constant.ANSWER_ID, Integer.parseInt(id));
                             bundle.putInt(Constant.STATUS, 1);
                             bundle.putString(Constant.TYPE, Constant.MESSAGE_ANSWER);
                         }
