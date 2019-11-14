@@ -142,6 +142,8 @@ public class Constant {
     public static final String PASSWORD_CONFIRM = "pass";//确认密码
     public static final String SMS_CODE = "mobilecode";//短信验证码
     public static final String SMS_STATE = "state";//短信验证码  	TODO 1注册2登陆
+    //短信倒计时时间
+    public static final int SMS_SECOND = 60 * 1000;
     //---------------------------------------------TODO 登录注册  end-----------------------------------------------//
 
 

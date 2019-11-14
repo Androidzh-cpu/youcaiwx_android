@@ -41,10 +41,7 @@ import com.ucfo.youcaiwx.module.main.fragment.MineFragment;
 import com.ucfo.youcaiwx.module.main.fragment.QuestionBankFragment;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
 import com.ucfo.youcaiwx.utils.CallUtils;
-import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
-import com.ucfo.youcaiwx.utils.systemutils.DeviceIdUtil;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcaiwx.utils.systemutils.StatusbarUI;
 import com.ucfo.youcaiwx.utils.update.UpdateCustomParser;
@@ -91,11 +88,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         ActivityUtil.getInstance().addActivity(this);
         //统计应用启动数据在所有的Activity 的onCreate 方法或在应用的BaseActivity的onCreate方法中添加
         PushAgent.getInstance(this).onAppStart();
-        initView();
         checkPermission();
+        initView();
         updateApp();
-        LogUtils.e("设备唯一标识:" + DeviceIdUtil.getDeviceId(this));//feac466120da141f
-        LogUtils.e("设备唯一标识2:" + AppUtils.getAndroidID(this));//feac466120da141f
     }
 
     @Override
@@ -257,8 +252,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
      */
     private void checkPermission() {
         SoulPermission.getInstance().checkAndRequestPermissions(
-                Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE),
+                Permissions.build(Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 new CheckRequestPermissionsListener() {
                     @Override
                     public void onAllPermissionOk(Permission[] allPermissions) {

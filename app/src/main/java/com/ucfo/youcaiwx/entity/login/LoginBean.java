@@ -61,29 +61,29 @@ public class LoginBean {
          * equipment : 1
          */
 
-        private int id;
+        private String id;
         private String username;
         private String mobile;
-        private int user_status;
+        private String user_status;
         private String head;
-        private int status;
+        private String status;
         private String type;
-        private int sex;
+        private String sex;
         private String balance;
         private String devices;
         private String integral;
-        private int equipment;
+        private String equipment;
 
-        public int getId() {
-            return id;
+        public String getId() {
+            return id == null ? "" : id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 
         public String getUsername() {
-            return username;
+            return username == null ? "" : username;
         }
 
         public void setUsername(String username) {
@@ -91,55 +91,55 @@ public class LoginBean {
         }
 
         public String getMobile() {
-            return mobile;
+            return mobile == null ? "" : mobile;
         }
 
         public void setMobile(String mobile) {
             this.mobile = mobile;
         }
 
-        public int getUser_status() {
-            return user_status;
+        public String getUser_status() {
+            return user_status == null ? "" : user_status;
         }
 
-        public void setUser_status(int user_status) {
+        public void setUser_status(String user_status) {
             this.user_status = user_status;
         }
 
         public String getHead() {
-            return head;
+            return head == null ? "" : head;
         }
 
         public void setHead(String head) {
             this.head = head;
         }
 
-        public int getStatus() {
-            return status;
+        public String getStatus() {
+            return status == null ? "" : status;
         }
 
-        public void setStatus(int status) {
+        public void setStatus(String status) {
             this.status = status;
         }
 
         public String getType() {
-            return type;
+            return type == null ? "" : type;
         }
 
         public void setType(String type) {
             this.type = type;
         }
 
-        public int getSex() {
-            return sex;
+        public String getSex() {
+            return sex == null ? "" : sex;
         }
 
-        public void setSex(int sex) {
+        public void setSex(String sex) {
             this.sex = sex;
         }
 
         public String getBalance() {
-            return balance;
+            return balance == null ? "" : balance;
         }
 
         public void setBalance(String balance) {
@@ -147,7 +147,7 @@ public class LoginBean {
         }
 
         public String getDevices() {
-            return devices;
+            return devices == null ? "" : devices;
         }
 
         public void setDevices(String devices) {
@@ -155,18 +155,18 @@ public class LoginBean {
         }
 
         public String getIntegral() {
-            return integral;
+            return integral == null ? "" : integral;
         }
 
         public void setIntegral(String integral) {
             this.integral = integral;
         }
 
-        public int getEquipment() {
-            return equipment;
+        public String getEquipment() {
+            return equipment == null ? "" : equipment;
         }
 
-        public void setEquipment(int equipment) {
+        public void setEquipment(String equipment) {
             this.equipment = equipment;
         }
     }

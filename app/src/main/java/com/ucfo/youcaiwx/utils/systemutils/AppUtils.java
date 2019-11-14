@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.os.Build;
-import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
@@ -108,8 +107,10 @@ public class AppUtils {
      */
     @SuppressLint("CheckResult")
     public static String getAndroidID(Activity activity) {
-        String androidID = Settings.Secure.getString(activity.getContentResolver(), Settings.Secure.ANDROID_ID);
-        return androidID;
+        //后期发现的比较合适且唯一的设备表示获取方法
+        String deviceId = DeviceIdUtil.getDeviceId(activity);
+        //String androidID = Settings.Secure.getString(activity.getContentResolver(), Settings.Secure.ANDROID_ID);
+        return deviceId;
     }
 
     @SuppressLint("MissingPermission")

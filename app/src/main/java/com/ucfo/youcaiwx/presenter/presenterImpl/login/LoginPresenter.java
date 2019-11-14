@@ -38,8 +38,8 @@ public class LoginPresenter implements ILoginPresenter {
         String encrypt = aesEncrypt.encrypt(phone, Constant.AES_KEY, Constant.AES_IV);
         String iphone = "";
         try {
-            String str = new String(encrypt.getBytes(), "UTF-8");
-            iphone = URLEncoder.encode(str, "UTF-8");
+            String str = new String(encrypt.getBytes(), Constant.UTF_8);
+            iphone = URLEncoder.encode(str, Constant.UTF_8);
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -91,16 +91,16 @@ public class LoginPresenter implements ILoginPresenter {
         String encrypt = aesEncrypt.encrypt(phone, Constant.AES_KEY, Constant.AES_IV);
         String iphone = "";
         try {
-            String str = new String(encrypt.getBytes(), "UTF-8");
-            iphone = URLEncoder.encode(str, "UTF-8");
+            String str = new String(encrypt.getBytes(), Constant.UTF_8);
+            iphone = URLEncoder.encode(str, Constant.UTF_8);
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         OkGo.<String>post(ApiStores.LOGIN_SMSLOGIN)
                 .tag(this)
-                .params(Constant.MOBILE, iphone)//手机号
-                .params(Constant.SMS_CODE, verificationCode)//验证码
+                .params(Constant.MOBILE, iphone)
+                .params(Constant.SMS_CODE, verificationCode)
                 .params(Constant.DEVICES, andoridid)
                 .params(Constant.DEVICES_TOKEN, deviceToken)
                 .execute(new StringCallback() {
@@ -143,8 +143,8 @@ public class LoginPresenter implements ILoginPresenter {
         String encryptMobile = aesEncrypt.encrypt(mobile, Constant.AES_KEY, Constant.AES_IV);
         String resultMobile = "";
         try {
-            String str = new String(encryptMobile.getBytes(), "UTF-8");
-            resultMobile = URLEncoder.encode(str, "UTF-8");
+            String str = new String(encryptMobile.getBytes(), Constant.UTF_8);
+            resultMobile = URLEncoder.encode(str, Constant.UTF_8);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -153,10 +153,6 @@ public class LoginPresenter implements ILoginPresenter {
                 .params(Constant.MOBILE, resultMobile)//手机号
                 .params(Constant.SMS_STATE, state)//1注册2登录
                 .execute(new StringCallback() {
-                    @Override
-                    public void onStart(Request<String, ? extends Request> request) {
-                        super.onStart(request);
-                    }
 
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -178,8 +174,6 @@ public class LoginPresenter implements ILoginPresenter {
                         } else {
                             loginView.sendCodeSuccess(-1, null);
                         }
-
-
                     }
 
                     @Override
@@ -187,13 +181,7 @@ public class LoginPresenter implements ILoginPresenter {
                         super.onError(response);
                         loginView.sendCodeSuccess(-1, null);
                     }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                    }
                 });
-
     }
 
     /**
@@ -207,8 +195,8 @@ public class LoginPresenter implements ILoginPresenter {
         String encryptMobile = aesEncrypt.encrypt(mobile, Constant.AES_KEY, Constant.AES_IV);
         String resultMobile = "";
         try {
-            String str = new String(encryptMobile.getBytes(), "UTF-8");
-            resultMobile = URLEncoder.encode(str, "UTF-8");
+            String str = new String(encryptMobile.getBytes(), Constant.UTF_8);
+            resultMobile = URLEncoder.encode(str, Constant.UTF_8);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -216,10 +204,6 @@ public class LoginPresenter implements ILoginPresenter {
                 .tag(this)
                 .params(Constant.MOBILE, resultMobile)//手机号
                 .execute(new StringCallback() {
-                    @Override
-                    public void onStart(Request<String, ? extends Request> request) {
-                        super.onStart(request);
-                    }
 
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -241,8 +225,6 @@ public class LoginPresenter implements ILoginPresenter {
                         } else {
                             loginView.sendVoiceCodeSuccess(-1, null);
                         }
-
-
                     }
 
                     @Override
@@ -256,8 +238,5 @@ public class LoginPresenter implements ILoginPresenter {
                         super.onFinish();
                     }
                 });
-
-
     }
-
 }

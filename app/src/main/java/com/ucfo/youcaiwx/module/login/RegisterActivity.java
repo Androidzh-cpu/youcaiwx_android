@@ -76,7 +76,6 @@ public class RegisterActivity extends BaseActivity implements IRegisterView {
     private boolean passWrodFlag = false;
     private boolean confirmPassWrodFlag = false;
     private RegisterPresenter registerPresenter;
-    private static int SECOND = 60 * 1000;
     private String mobile;
     private String password;
     private String confirmPassword;
@@ -380,7 +379,7 @@ public class RegisterActivity extends BaseActivity implements IRegisterView {
             toastInfo(getResources().getString(R.string.register_sendcode_error));
         } else if (code == 200) {//发送成功
             toastInfo(getResources().getString(R.string.register_sendcode));
-            SMSCountDownTimer SMSCountDownTimer = new SMSCountDownTimer(SECOND, 1 * 1000, verificationBtn, tvSoundcode);
+            SMSCountDownTimer SMSCountDownTimer = new SMSCountDownTimer(Constant.SMS_SECOND, 1 * 1000, verificationBtn, tvSoundcode);
             SMSCountDownTimer.setVoiceLinear(voiceLinear);
             SMSCountDownTimer.start();
         } else {//提示接口返回信息

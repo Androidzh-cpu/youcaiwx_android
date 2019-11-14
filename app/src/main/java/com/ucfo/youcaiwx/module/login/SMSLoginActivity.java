@@ -204,11 +204,11 @@ public class SMSLoginActivity extends BaseActivity implements ILoginView {
             if (code == 200) {
                 //TODO 登录成功
                 LoginBean.DataBean dataData = data.getData();
-                int id = dataData.getId();
-                int user_status = dataData.getUser_status();
-                sharedPreferencesUtils.putInt(Constant.USER_STATUS, user_status);
-                sharedPreferencesUtils.putInt(Constant.USER_ID, id);
-                sharedPreferencesUtils.putBoolean(Constant.LOGIN_STATUS, true);//用户登录状态
+                String id = dataData.getId();
+                String user_status = dataData.getUser_status();
+                sharedPreferencesUtils.putInt(Constant.USER_STATUS, Integer.parseInt(user_status));
+                sharedPreferencesUtils.putInt(Constant.USER_ID, Integer.parseInt(id));
+                sharedPreferencesUtils.putBoolean(Constant.LOGIN_STATUS, true);
 
                 toastInfo(getResources().getString(R.string.login_success));
 
@@ -246,15 +246,13 @@ public class SMSLoginActivity extends BaseActivity implements ILoginView {
         dismissPorcess();
     }
 
-    private static int SECOND = 60 * 1000;
-
     @Override
     public void sendCodeSuccess(int code, String msg) {
         if (code == -1) {//请求失败,无网络
             toastInfo(getResources().getString(R.string.register_sendcode_error));
         } else if (code == 200) {//发送成功
             toastInfo(getResources().getString(R.string.register_sendcode));
-            SMSCountDownTimer SMSCountDownTimer = new SMSCountDownTimer(SECOND, 1 * 1000, verificationBtn, tvSoundcode);
+            SMSCountDownTimer SMSCountDownTimer = new SMSCountDownTimer(Constant.SMS_SECOND, 1 * 1000, verificationBtn, tvSoundcode);
             SMSCountDownTimer.setVoiceLinear(voiceLinear);
             SMSCountDownTimer.start();
         } else {//提示接口返回信息

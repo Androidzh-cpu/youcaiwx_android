@@ -175,8 +175,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.titlebar_righttitle://TODO 注册
-                Intent intent = new Intent(this, RegisterActivity.class);
-                startActivity(intent);
+                startActivity(RegisterActivity.class);
                 break;
             case R.id.login_btn://TODO 登录
                 String mobile = etLoginPhone.getText().toString().trim();
@@ -202,13 +201,13 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                 loginPresenter.commonLogin(mobile, password, androidid, registrationId);
                 break;
             case R.id.tv_forgetpass://TODO 忘记密码
-                startActivity(new Intent(this, CompleteAndForgetActivity.class));
+                startActivity(CompleteAndForgetActivity.class);
                 break;
             case R.id.wx_login://TODO 微信登录
                 wxLoginPresenter.wxLogin();
                 break;
             case R.id.sms_login://TODO 短信登录
-                startActivity(new Intent(this, SMSLoginActivity.class));
+                startActivity(SMSLoginActivity.class);
                 break;
             default:
                 break;
@@ -217,18 +216,19 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 
 
     @Override
-    public void loginResult(LoginBean data) {//TODO 登录结果
+    public void loginResult(LoginBean data) {
+        //TODO 登录结果
         if (data != null) {
             int code = data.getCode();
             if (code == 200) {
                 //TODO 登录成功
                 LoginBean.DataBean dataData = data.getData();
-                int id = dataData.getId();
-                int userStatus = dataData.getUser_status();
+                String id = dataData.getId();
+                String userStatus = dataData.getUser_status();
 
-                sharedPreferencesUtils.putInt(Constant.USER_ID, id);//用户ID
-                sharedPreferencesUtils.putInt(Constant.USER_STATUS, userStatus);//用户类别信息
-                sharedPreferencesUtils.putBoolean(Constant.LOGIN_STATUS, true);//用户登录状态
+                sharedPreferencesUtils.putInt(Constant.USER_ID, Integer.parseInt(id));
+                sharedPreferencesUtils.putInt(Constant.USER_STATUS, Integer.parseInt(userStatus));
+                sharedPreferencesUtils.putBoolean(Constant.LOGIN_STATUS, true);
 
                 toastInfo(getResources().getString(R.string.login_success));
 
