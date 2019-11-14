@@ -263,8 +263,9 @@
     <string name="answer_editHinttext">在这里填写你的问题</string>
     <string name="answer_loading">提交中</string>
     <string name="answer_request_error">提问失败,请重新尝试</string>
-    <string name="answer_hinttext">请输入提问内容</string>
-    <string name="answer_hinttext2">提问内容不能少于5个字</string>
+    <string name="answer_hinttext">请输入内容</string>
+    <string name="answer_hinttext2">内容不得少于5个字</string>
+    <string name="answer_hinttext3">请选择投诉类型</string>
     <string name="answer_addtag">添加标签</string>
     <string name="answer_videotime">视频节点:</string>
     <string name="submit">确定发表</string>
@@ -277,9 +278,11 @@
     <!-- Strings related to 我的答疑 end-->
 
 
-    <!-- Strings related to 投诉 start-->
+    <!-- Strings related to 追问 投诉 start-->
     <string name="complain_title">我要投诉</string>
     <string name="complain_confirm">确定投诉</string>
+    <string name="complain">投诉</string>
+    <string name="trace">追问</string>
     <!-- Strings related to 投诉 end-->
 
 

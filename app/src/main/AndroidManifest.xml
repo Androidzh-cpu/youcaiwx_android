@@ -435,9 +435,19 @@
             android:name=".module.integral.IntegralPayResultActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
-        <!--TODO 我要投诉-->
+        <!-- TODO 我要投诉 -->
         <activity
             android:name=".module.questionbank.activity.ComplainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 课程答疑详情(追问) -->
+        <activity
+            android:name=".module.answer.AnsweringCourseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseThemeForActivity" />
+        <!-- TODO 题库答疑详情(追问) -->
+        <activity
+            android:name=".module.answer.AnsweringQuestionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
     </application>

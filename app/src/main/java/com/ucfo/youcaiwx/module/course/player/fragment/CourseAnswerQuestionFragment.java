@@ -21,7 +21,7 @@ import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.answer.AnswerDetailBean;
 import com.ucfo.youcaiwx.entity.answer.AnswerListDataBean;
-import com.ucfo.youcaiwx.module.course.CourseAnswerDetailActivity;
+import com.ucfo.youcaiwx.module.answer.AnsweringCourseActivity;
 import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.answer.CourseCourseAnswerListPresenter;
@@ -212,7 +212,8 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
                             bundle.putInt(Constant.ANSWER_ID, data.get(position).getId());
                             bundle.putInt(Constant.STATUS, data.get(position).getReply_status());
                             bundle.putString(Constant.TYPE, Constant.MINE_ANSWER);
-                            startActivity(CourseAnswerDetailActivity.class, bundle);
+                            //startActivity(CourseAnswerDetailActivity.class, bundle);
+                            startActivity(AnsweringCourseActivity.class, bundle);
                         }
                     } else {
                         ToastUtil.showBottomShortText(context, getResources().getString(R.string.course_bugCourse));

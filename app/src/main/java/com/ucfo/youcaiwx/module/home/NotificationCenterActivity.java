@@ -19,15 +19,15 @@ import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.home.MessageCenterHomeBean;
 import com.ucfo.youcaiwx.entity.home.MessageCenterNoticeBean;
+import com.ucfo.youcaiwx.module.answer.AnsweringCourseActivity;
+import com.ucfo.youcaiwx.module.answer.AnsweringQuestionActivity;
+import com.ucfo.youcaiwx.module.main.activity.WebActivity;
+import com.ucfo.youcaiwx.module.user.activity.MineOrderFormDetailActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.home.MessageCenterPresenter;
 import com.ucfo.youcaiwx.presenter.view.home.IMessageCenterView;
 import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.module.course.CourseAnswerDetailActivity;
-import com.ucfo.youcaiwx.module.main.activity.WebActivity;
-import com.ucfo.youcaiwx.module.questionbank.activity.QuestionAnswerDetailActivity;
-import com.ucfo.youcaiwx.module.user.activity.MineOrderFormDetailActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -236,14 +236,16 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
                     bundle.putInt(Constant.ANSWER_ID, bean.getContent_id());
                     bundle.putInt(Constant.STATUS, 1);
                     bundle.putString(Constant.TYPE, Constant.MESSAGE_ANSWER);
-                    startActivity(CourseAnswerDetailActivity.class, bundle);
+                    //startActivity(CourseAnswerDetailActivity.class, bundle);
+                    startActivity(AnsweringCourseActivity.class, bundle);
                 } else if (type == 2) {
                     //TODO 题库答疑
                     Bundle bundle = new Bundle();
-                    bundle.putInt(Constant.ID, list.get(position).getContent_id());
+                    bundle.putInt(Constant.ANSWER_ID, list.get(position).getContent_id());
                     bundle.putInt(Constant.STATUS, 1);
                     bundle.putString(Constant.TYPE, Constant.MESSAGE_ANSWER);
-                    startActivity(QuestionAnswerDetailActivity.class, bundle);
+                    //startActivity(QuestionAnswerDetailActivity.class, bundle);
+                    startActivity(AnsweringQuestionActivity.class, bundle);
                 }
             }
         });

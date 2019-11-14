@@ -218,9 +218,76 @@ public class AnswerAskPresenter {
                         }
                     }
                 });
-
     }
 
+    /**
+     * 答疑追问
+     */
+    public void askTraceQuestion(String answer_type, int user_id, String answer_id, String content, ArrayList<String> imageList) {
+        String questionImage = "";
+        if (imageList != null && imageList.size() > 0) {//有图片切不止一张
+            for (String item : imageList) {
+                // 把列表中的每条数据用逗号分割开来，然后拼接成字符串
+                questionImage += item + ",";
+            }
+            // 去掉最后一个逗号
+            questionImage = questionImage.substring(0, questionImage.length() - 1);
+        }
+        String questionContent = null;
+        try {
+            String str = new String(content.getBytes(), Constant.UTF_8);
+            questionContent = URLEncoder.encode(str, Constant.UTF_8);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        OkGo.<String>post(ApiStores.TRACE_QUESTION)
+                .tag(this)
+                .params(Constant.USER_ID, user_id)
+                .params(Constant.ANSWER_ID, answer_id)
+                .params(Constant.ANSWER_TYPE, answer_type)
+                .params("z_quiz", questionContent)
+                .params("z_quiz_image", questionImage.trim())
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        view.showLoading();
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        view.askQuestionResult(-1);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        view.showLoadingFinish();
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String body = response.body();
+                        if (body != null && !body.equals("")) {
+                            try {
+                                JSONObject object = new JSONObject(body);
+                                int code = object.optInt(Constant.CODE);//状态码
+                                if (code == 200) {
+                                    view.askQuestionResult(code);
+                                } else {
+                                    view.askQuestionResult(-1);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            view.askQuestionResult(-1);
+                        }
+                    }
+                });
+
+    }
 
     /*public static void main(String[] args) {
         ArrayList<String> imageList = new ArrayList<String>();

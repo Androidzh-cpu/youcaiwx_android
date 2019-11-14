@@ -40,7 +40,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.smtt.sdk.QbSdk;
 import com.ucfo.youcaiwx.common.Constant;
-import com.ucfo.youcaiwx.module.course.CourseAnswerDetailActivity;
+import com.ucfo.youcaiwx.module.answer.AnsweringCourseActivity;
 import com.ucfo.youcaiwx.module.course.player.download.Common;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.module.main.activity.WebActivity;
@@ -265,7 +265,8 @@ public class UcfoApplication extends Application {
                             bundle.putInt(Constant.STATUS, 1);
                         } else if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_COURSEANSWER)) {
                             //TODO 课程答疑
-                            intent.setClass(mContext, CourseAnswerDetailActivity.class);
+                            //intent.setClass(mContext, CourseAnswerDetailActivity.class);
+                            intent.setClass(mContext, AnsweringCourseActivity.class);
                             String id = extra.get(Constant.VALUE);
                             bundle.putString(Constant.TYPE, Constant.MINE_ANSWER);
                             bundle.putInt(Constant.ANSWER_ID, Integer.parseInt(id));

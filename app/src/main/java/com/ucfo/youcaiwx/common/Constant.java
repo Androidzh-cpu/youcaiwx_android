@@ -94,9 +94,14 @@ public class Constant {
 
     //提问问题最大图片选择数量
     public static final int MAX_IMAGECOUNT = 3;
-    public static final int QUESTION_MAXCOUNT = 5;
+    //输入框最小输入字数
+    public static final int QUESTION_MINICOUNT = 5;
+    //提问问题最大输入字数
     public static final int QUESTION_MAX_EDITTEXT = 200;
+    //投诉最大字数
     public static final int COMPLAIN_MAX_COOUNT = 250;
+    //投诉类型最大选择数量
+    public static final int COMPLAIN_MAX_SELECT = 1;
     //---------------------------------------------TODO common  start-----------------------------------------------//
 
 
@@ -166,8 +171,15 @@ public class Constant {
     public static final String COURSE_BUY_STATE = "course_buy_state";//课程包用户是否购买
     public static final String COURSE_VIDEOID = "VideoId";//阿里播放视频的vid
     public static final String COURSE_PRICE = "price";//课程包价格
+
     public static final String TYPE_COURSE_ASK = "type_courseask";//课程提问
     public static final String TYPE_QUESTION_ASK = "type_questionask";//题库提问
+    //课程答疑,题库答疑追问
+    public static final String TYPE_TRACE = "type_trace";
+    public static final String ANSWER_TYPE = "answer_type";//追问类型
+    public static final String ANSWER_TYPE_COURSE = "1";//课程追问
+    public static final String ANSWER_TYPE_QUESTION = "2";//题库追问
+
     public static final String TYPE_FEEDBACK = "type_feedback";//意见反馈
     public static final String PACKAGE_ID = "package_id";//课程包ID
     public static final String IS_LIVE = "is_live";//直播

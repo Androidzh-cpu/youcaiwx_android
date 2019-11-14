@@ -104,8 +104,8 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
     private UploadFilePresenter uploadFilePresenter;
     private String askContent, tipsText;
     private int coursePackageId, courseCourseId, courseVideoId, courseSectionId, courseVideoTime;
-    private String type;
-    private String video_title;
+    private String type, video_title;
+    private String answer_id, answer_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +178,9 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
             courseSectionId = bundle.getInt(Constant.SECTION_ID, 0);//TODO 章
             courseVideoTime = bundle.getInt(Constant.VIDEO_TIME, 0);//TODO 视频播放节点
             video_title = bundle.getString(Constant.VIDEO_TITLE, "");//TODO 视频播放标题
+            //TODO 追问
+            answer_id = bundle.getString(Constant.ANSWER_ID, "");//答疑ID
+            answer_type = bundle.getString(Constant.ANSWER_TYPE, "");//追问类型
         } else {
             finish();
         }
@@ -204,6 +207,8 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
             titlebarMidtitle.setText(getResources().getString(R.string.answer_title_askQuestions2));
             tipsText = getResources().getString(R.string.net_loadingtext);
             answerAskPresenter.getKnowList(question_id);
+        } else if (TextUtils.equals(type, Constant.TYPE_TRACE)) {
+            //TODO 追问
         }
         //输入字数限制
         askEdittextContent.addTextChangedListener(textWatcher);
@@ -295,7 +300,7 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
                         ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_hinttext));
                         return;
                     }
-                    if (askContent.length() < Constant.QUESTION_MAXCOUNT) {//长度不够
+                    if (askContent.length() < Constant.QUESTION_MINICOUNT) {//长度不够
                         ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_hinttext2));
                         return;
                     }
@@ -309,11 +314,16 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
                             luban(file, 0);
                         } else {
                             //TODO 没有图片,直接提问
-                            if (TextUtils.equals(type, Constant.TYPE_COURSE_ASK)) {//课程
+                            if (TextUtils.equals(type, Constant.TYPE_COURSE_ASK)) {
+                                //课程提问
                                 answerAskPresenter.userAskQuestion(user_id, courseVideoId, courseSectionId, courseCourseId,
                                         coursePackageId, askContent, courseVideoTime, null);
-                            } else if (TextUtils.equals(type, Constant.TYPE_QUESTION_ASK)) {//题库
+                            } else if (TextUtils.equals(type, Constant.TYPE_QUESTION_ASK)) {
+                                //题库提问
                                 answerAskPresenter.qustionAskQuestion(user_id, course_id, question_id, askContent, null);
+                            } else if (TextUtils.equals(type, Constant.TYPE_TRACE)) {
+                                //答疑追问
+                                answerAskPresenter.askTraceQuestion(answer_type, user_id, answer_id, askContent, null);
                             }
                         }
                     }
@@ -461,10 +471,16 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
             luban(file, position);
         } else {
             tipsText = getResources().getString(R.string.answer_loading);
-            if (TextUtils.equals(type, Constant.TYPE_COURSE_ASK)) {//课程
-                answerAskPresenter.userAskQuestion(user_id, courseVideoId, courseSectionId, courseCourseId, coursePackageId, askContent, courseVideoTime, resultImageList);
-            } else if (TextUtils.equals(type, Constant.TYPE_QUESTION_ASK)) {//题库
+            if (TextUtils.equals(type, Constant.TYPE_COURSE_ASK)) {
+                //课程提问
+                answerAskPresenter.userAskQuestion(user_id, courseVideoId, courseSectionId, courseCourseId, coursePackageId,
+                        askContent, courseVideoTime, resultImageList);
+            } else if (TextUtils.equals(type, Constant.TYPE_QUESTION_ASK)) {
+                //题库提问
                 answerAskPresenter.qustionAskQuestion(user_id, course_id, question_id, askContent, resultImageList);
+            } else if (TextUtils.equals(type, Constant.TYPE_TRACE)) {
+                //答疑追问
+                answerAskPresenter.askTraceQuestion(answer_type, user_id, answer_id, askContent, resultImageList);
             }
         }
     }

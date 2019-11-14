@@ -19,15 +19,15 @@ import com.ucfo.youcaiwx.adapter.answer.CourseAnswerListAdapter;
 import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.answer.AnswerListDataBean;
+import com.ucfo.youcaiwx.module.answer.AnsweringCourseActivity;
+import com.ucfo.youcaiwx.module.answer.AnsweringQuestionActivity;
+import com.ucfo.youcaiwx.module.user.activity.MineAnswerQuestionActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineAnswerPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineAnswerView;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.module.course.CourseAnswerDetailActivity;
-import com.ucfo.youcaiwx.module.questionbank.activity.QuestionAnswerDetailActivity;
-import com.ucfo.youcaiwx.module.user.activity.MineAnswerQuestionActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -196,13 +196,15 @@ public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView 
                         bundle.putInt(Constant.ANSWER_ID, list.get(position).getId());
                         bundle.putInt(Constant.STATUS, list.get(position).getReply_status());
                         bundle.putString(Constant.TYPE, Constant.MINE_ANSWER);
-                        startActivity(CourseAnswerDetailActivity.class, bundle);
+                        //startActivity(CourseAnswerDetailActivity.class, bundle);
+                        startActivity(AnsweringCourseActivity.class, bundle);
                     } else {//题库
                         Bundle bundle = new Bundle();
-                        bundle.putInt(Constant.ID, list.get(position).getId());
+                        bundle.putInt(Constant.ANSWER_ID, list.get(position).getId());
                         bundle.putInt(Constant.STATUS, list.get(position).getReply_status());
-                        bundle.putString(Constant.TYPE,Constant.MINE_ANSWER );
-                        startActivity(QuestionAnswerDetailActivity.class, bundle);
+                        bundle.putString(Constant.TYPE, Constant.MINE_ANSWER);
+                        //startActivity(QuestionAnswerDetailActivity.class, bundle);
+                        startActivity(AnsweringQuestionActivity.class, bundle);
                     }
                 }
             }

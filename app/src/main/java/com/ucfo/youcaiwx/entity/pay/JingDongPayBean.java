@@ -19,7 +19,7 @@ public class JingDongPayBean {
     private String currency = "CNY";
     private String note = "beizhu";
     private String callbackUrl = "http://localhost/jdPay2Demo/com/jdjr/pay/demo/action/CallBack.php";
-    private String notifyUrl = "http://localhost/jdPay2Demo/com/jdjr/pay/demo/action/AsnyNotify.php";
+    private String notifyUrl = "http://ycapi.youcaiwx.com/Jdpay/Asynnotifyaction/execute";
     private String ip = "10.45.251.153";
     private String userType = "";
     private String userId;

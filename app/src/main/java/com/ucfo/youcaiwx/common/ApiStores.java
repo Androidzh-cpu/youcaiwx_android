@@ -17,8 +17,10 @@ public class ApiStores {
     //public static final String BASE_URL = "http://ycapi.youcaiwx.com/apps/";
     //线上正式环境
     //public static final String BASE_URL = "https://api.youcaiwx.cn/apps/";
-    //先下测试环境
+    //线下测试环境
     public static final String BASE_URL = "https://dest.youcaiwx.cn/apps/";
+
+    public static final String BASE_URL2 = "http://ycapi.youcaiwx.com/demo/";
 
     //socket地址
     public static final String SOCKET = "ws://ycapi.youcaiwx.com:2346";
@@ -63,10 +65,22 @@ public class ApiStores {
     public static final String COURSE_GETVIDEO_STS = BASE_URL + "Course/getToken";//获取下载STS
     public static final String COURSE_GETCOURSEDIR = BASE_URL + "Course/courseoutline";//获取视频目录
     public static final String COURSE_VIDEOCOLLECT = BASE_URL + "Course/collection";//视频收藏
-    //-----------------------------------------TODO 课程问答业务------------------------------------------------------------------------------//
+
+
+    //-----------------------------------------TODO 课程问答业务 start------------------------------------------------------------------------------//
     public static final String ANSWER_GETANSWERLIST = BASE_URL + "Course/answerList";//获取问答列表
     public static final String ANSWER_GETANSWERDETAIL = BASE_URL + "Course/answerDetails";//获取问答详情
     public static final String ANSWER_ASKQUESTION = BASE_URL + "Course/answerSub";//提问问题
+    //-----------------------------------------TODO 课程问答业务 end------------------------------------------------------------------------------//
+
+
+    //-----------------------------------------TODO 投诉业务 start------------------------------------------------------------------------------//
+    //投诉类别
+    public static final String COMPLAIN_TYPE = BASE_URL + "Course/complainType";
+    //投诉提交
+    public static final String COMPLAIN_SUBMIT = BASE_URL + "Course/complainSub";
+    //-----------------------------------------TODO 投诉业务 end------------------------------------------------------------------------------//
+
 
     //-----------------------------------------TODO 题库做题考试------------------------------------------------------------------------------//
     public static final String QUESTION_GETPROJECT = BASE_URL + "Question/getProject";//获取题库展示专业
@@ -109,6 +123,7 @@ public class ApiStores {
     public static final String ANSWERQUESTION_ANSWER_DETAIL = BASE_URL + "Question/questionDetails";//题库答疑详情
     public static final String ANSWERQUESTION_ANSWER_KNOWLIST = BASE_URL + "Question/getAnswerknow";//获取提问问题界面知识点列表
     public static final String ANSWERQUESTION_ANSWER_SUBMIT = BASE_URL + "Question/questionSub";//提问页提交问题
+    public static final String TRACE_QUESTION = BASE_URL + "Course/answerClose";//追问
     //-----------------------------------------TODO 个人中心------------------------------------------------------------------------------//
     public static final String USER_ABOUT_YOUCAI = "http://www.youcaiwx.com/html/app/aboutyoucai.html";//关于SB
     public static final String USER_GETUSERINFO = BASE_URL + "Personal/getPersonal";//个人中心基本信息
@@ -163,7 +178,7 @@ public class ApiStores {
     //支付完成后后台查询最终支付状态
     public static final String PAY_CHECK_PAY_RESULT = BASE_URL + "Pay/getGoods";
     //京东支付
-    public static final String PAY_JINGDONG = "http://ycapi.youcaiwx.com/demo/action/ClientOrder.php?list=";
+    public static final String PAY_JINGDONG = BASE_URL2 + "action/ClientOrder.php?list=";
 
     //------------------------------------------TODO 积分---------------------------------------------------------------------------------//
     //作任务获取积分

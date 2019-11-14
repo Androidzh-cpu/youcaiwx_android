@@ -49,8 +49,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogUtils.e("当前位置：" + getClass().getSimpleName());
-
         if (setContentView() != 0) {
             setContentView(setContentView());
             unbinder = ButterKnife.bind(this);    //注解，可以不使用，也可以启用其他

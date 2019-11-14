@@ -19,13 +19,13 @@ import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.answer.QuestionAnswerDetailBean;
 import com.ucfo.youcaiwx.entity.answer.QuestionAnswerListBean;
+import com.ucfo.youcaiwx.module.answer.AnsweringQuestionActivity;
+import com.ucfo.youcaiwx.module.questionbank.activity.QuestionAnswerActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.answer.QuestionAnswerPresenter;
 import com.ucfo.youcaiwx.presenter.view.answer.IQuestionAnswerView;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.module.questionbank.activity.QuestionAnswerActivity;
-import com.ucfo.youcaiwx.module.questionbank.activity.QuestionAnswerDetailActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -163,7 +163,7 @@ public class AllAnswerQuestionFragment extends BaseFragment implements IQuestion
 
     //TODO 设置适配器
     private void initAdapter() {
-        if (questionAnswerListAdapter == null) {
+        if (null == questionAnswerListAdapter) {
             questionAnswerListAdapter = new QuestionAnswerListAdapter(list, getActivity());
         } else {
             questionAnswerListAdapter.notifyDataSetChanged();
@@ -174,10 +174,11 @@ public class AllAnswerQuestionFragment extends BaseFragment implements IQuestion
             @Override
             public void OnItemClick(View view, int position) {
                 Bundle bundle = new Bundle();
-                bundle.putInt(Constant.ID, list.get(position).getId());
+                bundle.putInt(Constant.ANSWER_ID, list.get(position).getId());
                 bundle.putInt(Constant.STATUS, list.get(position).getReply_status());
                 bundle.putString(Constant.TYPE, Constant.QUESTION_ANSWER);
-                startActivity(QuestionAnswerDetailActivity.class, bundle);
+                //startActivity(QuestionAnswerDetailActivity.class, bundle);
+                startActivity(AnsweringQuestionActivity.class, bundle);
             }
         });
     }

@@ -12,27 +12,26 @@
         android:id="@+id/answer_user_linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/dp_12"
         android:paddingStart="@dimen/dp_12"
         android:paddingTop="@dimen/dp_11">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/answer_icon"
+            android:id="@+id/img_userIcon"
             android:layout_width="@dimen/dp_38"
             android:layout_height="@dimen/dp_38"
             android:src="@mipmap/icon_default" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/dp_6"
-            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/answer_nickname"
+                android:id="@+id/txt_nickName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_333333"
@@ -41,7 +40,7 @@
                 tools:text="木糖醇" />
 
             <TextView
-                android:id="@+id/answer_createtime"
+                android:id="@+id/txt_createTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
@@ -49,35 +48,61 @@
                 android:textSize="@dimen/sp_12"
                 tools:text="14分钟前" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/answer_replystatus"
+        <!--老师头衔-->
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/tab_teacher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="@dimen/dp_1"
+            android:paddingEnd="@dimen/dp_5"
+            android:paddingStart="@dimen/dp_5"
+            android:paddingTop="@dimen/dp_1"
+            android:text="@string/question_tips_holder8"
+            android:textColor="@color/color_F99111"
+            android:textSize="@dimen/sp_12"
+            app:rv_backgroundColor="@color/color_FEEEDB"
+            app:rv_isRadiusHalfHeight="true" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_1"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/txt_replyStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:gravity="end"
             android:textColor="@color/color_F99111"
             android:textSize="@dimen/sp_13"
+            android:visibility="gone"
             tools:text="老师已回复" />
 
         <TextView
-            android:id="@+id/answer_complain"
+            android:id="@+id/txt_complain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:gravity="end"
+            android:padding="@dimen/dp_5"
+            android:text="@string/complain"
             android:textColor="@color/color_999999"
             android:textSize="@dimen/sp_12"
-            tools:text="投诉" />
+            android:visibility="gone" />
     </LinearLayout>
     <!--问题-->
     <TextView
-        android:id="@+id/answer_userquestion"
+        android:id="@+id/txt_questionContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/dp_12"
         tools:text="加权平均法把期初转入的成本都计入当期，不会造成成本的重会造成复计算吗？" />
     <!--学员问题图片-->
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/answer_imagelist"
+        android:id="@+id/recyclerview_image"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_48"
         android:layout_marginEnd="@dimen/dp_12"
@@ -85,6 +110,15 @@
         android:minHeight="@dimen/dp_48"
         android:paddingEnd="@dimen/dp_12"
         android:paddingStart="@dimen/dp_12" />
+    <!--问题所属章节-->
+    <com.ucfo.youcaiwx.widget.flowlayout.TagFlowLayout
+        android:id="@+id/flowlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_12"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:max_select="1" />
 
     <View
         android:layout_width="match_parent"
