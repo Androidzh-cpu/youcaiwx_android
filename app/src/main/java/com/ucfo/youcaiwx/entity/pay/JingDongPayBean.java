@@ -1,5 +1,7 @@
 package com.ucfo.youcaiwx.entity.pay;
 
+import com.ucfo.youcaiwx.common.ApiStores;
+
 /**
  * Author: AND
  * Time: 2019-11-8.  下午 5:13
@@ -18,8 +20,10 @@ public class JingDongPayBean {
     private String amount;
     private String currency = "CNY";
     private String note = "beizhu";
-    private String callbackUrl = "http://localhost/jdPay2Demo/com/jdjr/pay/demo/action/CallBack.php";
-    private String notifyUrl = "http://ycapi.youcaiwx.com/Jdpay/Asynnotifyaction/execute";
+    //private String callbackUrl = "http://localhost/jdPay2Demo/com/jdjr/pay/demo/action/CallBack.php";
+    private String callbackUrl = ApiStores.PAY_JINGDONG_CALLBACK;
+    private String notifyUrl = ApiStores.PAY_JINGDONG_NOTIFY;
+    //private String notifyUrl = "http://ycapi.youcaiwx.com/Jdpay/Asynnotifyaction/execute";
     private String ip = "10.45.251.153";
     private String userType = "";
     private String userId;

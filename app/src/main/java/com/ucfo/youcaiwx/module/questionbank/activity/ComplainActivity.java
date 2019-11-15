@@ -172,15 +172,14 @@ public class ComplainActivity extends BaseActivity implements IComplainView {
                 @Override
                 public void unSelected(int position, View view) {
                     super.unSelected(position, view);
-                    view.setBackground(ContextCompat.getDrawable(ComplainActivity.this, R.drawable.shape_rectangle_corners_blue));
+                    view.setBackground(ContextCompat.getDrawable(ComplainActivity.this, R.drawable.shape_rectangle_solid_darkblue));
                 }
 
                 @Override
                 public View getView(FlowLayout parent, int position, ComplainTypeBean.DataBean dataBean) {
                     TextView textView = (TextView) LayoutInflater.from(ComplainActivity.this).inflate(R.layout.item_tagflowlayout_select, flowlayout, false);
                     textView.setText(dataBean.getComplain_name());
-                    textView.setTextColor(ContextCompat.getColor(ComplainActivity.this, R.color.colorWhite));
-                    textView.setBackground(ContextCompat.getDrawable(ComplainActivity.this, R.drawable.shape_rectangle_corners_blue));
+                    textView.setBackground(ContextCompat.getDrawable(ComplainActivity.this, R.drawable.shape_rectangle_solid_darkblue));
                     return textView;
                 }
             };

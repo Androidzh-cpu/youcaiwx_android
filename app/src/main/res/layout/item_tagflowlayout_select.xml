@@ -5,8 +5,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/dp_14"
-    android:layout_marginEnd="@dimen/dp_10"
+    android:layout_marginEnd="@dimen/dp_20"
     android:gravity="center"
+    android:textColor="@drawable/select_flowlayout_tab"
     android:textSize="@dimen/sp_12"
     tools:ignore="RtlCompat"
     tools:text="1-1成本行为与成本对象" />

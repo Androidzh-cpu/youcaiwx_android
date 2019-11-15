@@ -13,14 +13,14 @@ public class ApiStores {
     private ApiStores() {
     }
 
-    //内网测试环境
-    //public static final String BASE_URL = "http://ycapi.youcaiwx.com/apps/";
     //线上正式环境
-    //public static final String BASE_URL = "https://api.youcaiwx.cn/apps/";
+    public static final String ROOT_URL = "https://api.youcaiwx.cn/";
+    //内网测试环境
+    //public static final String ROOT_URL = "http://ycapi.youcaiwx.com/";
     //线下测试环境
-    public static final String BASE_URL = "https://dest.youcaiwx.cn/apps/";
+    //public static final String ROOT_URL = "https://dest.youcaiwx.cn/";
 
-    public static final String BASE_URL2 = "http://ycapi.youcaiwx.com/demo/";
+    public static final String BASE_URL = ROOT_URL + "apps/";
 
     //socket地址
     public static final String SOCKET = "ws://ycapi.youcaiwx.com:2346";
@@ -86,7 +86,8 @@ public class ApiStores {
     public static final String QUESTION_GETPROJECT = BASE_URL + "Question/getProject";//获取题库展示专业
     public static final String QUESTION_GETPROJECTINFO = BASE_URL + "Question/questionIndex";//获取用户对应题库信息
     public static final String QUESTION_GETQUSTIONONRECORD = BASE_URL + "Question/questionRecord";//获取用户答题记录
-    public static final String QUESTION_AbilityTOAssess = "http://ycapi.youcaiwx.com/home/index.html#/capacity-assessment-app";//用户能力评估
+    public static final String QUESTION_AbilityTOAssess = "https://www.youcaiwx.cn/#/capacity-assessment-app";//用户能力评估
+    //public static final String QUESTION_AbilityTOAssess = "http://ycapi.youcaiwx.com/home/index.html#/capacity-assessment-app";//用户能力评估
     //http://ycapi.youcaiwx.com/home/index.html#/capacity-assessment-app?course_id=1&user_id=67
     //public static final String QUESTION_AbilityTOAssess = "http://192.168.3.23:8080/#/capacity-assessment-app";//用户能力评估
     public static final String QUESTION_GETSTAGEOFTESTLIST = BASE_URL + "Question/getCourse";//阶段测试列表
@@ -178,7 +179,11 @@ public class ApiStores {
     //支付完成后后台查询最终支付状态
     public static final String PAY_CHECK_PAY_RESULT = BASE_URL + "Pay/getGoods";
     //京东支付
-    public static final String PAY_JINGDONG = BASE_URL2 + "action/ClientOrder.php?list=";
+    public static final String PAY_JINGDONG = ROOT_URL + "demo/action/ClientOrder.php?list=";
+    //京东支付回调地址
+    public static final String PAY_JINGDONG_NOTIFY = ROOT_URL + "Jdpay/Asynnotifyaction/execute";
+    //京东支付回调地址
+    public static final String PAY_JINGDONG_CALLBACK = ROOT_URL + "demo/action/CallBack.php";
 
     //------------------------------------------TODO 积分---------------------------------------------------------------------------------//
     //作任务获取积分
