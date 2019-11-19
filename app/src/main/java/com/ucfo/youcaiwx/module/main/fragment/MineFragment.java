@@ -168,7 +168,9 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         loginstatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         if (loginstatus) {
-            userInfoPresenter.getUserInfo(user_id);
+            if (userInfoPresenter != null) {
+                userInfoPresenter.getUserInfo(user_id);
+            }
         } else {
             updateUnLoginUi();
         }
@@ -236,7 +238,6 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                     /*String certificateSHA1Fingerprint = SHA1Utils.getCertificateSHA1Fingerprint(getActivity());
                     LogUtils.e("设备唯一标识----------------:" + certificateSHA1Fingerprint);*/
                     noDev();
-                    //startActivity(ComplainActivity.class);
                     break;
                 case R.id.btn_recommendfriend:
                     //TODO 推荐给好友

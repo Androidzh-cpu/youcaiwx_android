@@ -102,7 +102,7 @@ public class Constant {
     public static final int COMPLAIN_MAX_COOUNT = 250;
     //投诉类型最大选择数量
     public static final int COMPLAIN_MAX_SELECT = 1;
-    //---------------------------------------------TODO common  start-----------------------------------------------//
+    //---------------------------------------------TODO common  end-----------------------------------------------//
 
 
     /*******************************************************TODO 再丑也要注意的分割线*******************************************************/
@@ -150,17 +150,19 @@ public class Constant {
     //---------------------------------------------TODO 课程  start-----------------------------------------------//
     //免费试看时间(单位: 秒)
     public static final int FREE_TIME = 3 * 60;
-    //socket间隔时间(单位: 毫秒)
+    //socket消息发送间隔时间(单位: 毫秒)
     public static final int SOCKET_TIME = 30 * 1000;
-    //菜单隐藏时间(单位 : 秒)
+    //播放器菜单隐藏时间(单位 : 毫秒)
     public static final int DELAY_TIME = 5 * 1000;
     //累计学习指定时间领取积分(单位: 秒)
     public static final int INTEGRAL_TIME = 30 * 60;
 
-    //课程已购买状态码
+
+    //课程已购买状态码  1: 已购买 2: 未购买
     public static final int HAVED_BUY = 1;
-    //课程是否是正课状态码
+    //课程是否是正课状态码  1: 正课 2: 非正课
     public static final int COURSE_UNCON = 1;
+
 
     //当日看课累计时间字段
     public static final String INTEGRAL_COUNTER = "integral_counter";

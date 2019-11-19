@@ -206,8 +206,8 @@ public class UcfoApplication extends Application {
     }
 
     private void initUmeng() {
-        UMConfigure.setLogEnabled(Constant.ISTEST_ENVIRONMENT);
         UMConfigure.init(this, Constant.UMENG_APPKEY, Constant.UMENG_CHANNEL, UMConfigure.DEVICE_TYPE_PHONE, Constant.UMENG_MESSAGE_SCRECT);
+        UMConfigure.setLogEnabled(Constant.ISTEST_ENVIRONMENT);
         PushAgent mPushAgent = PushAgent.getInstance(this);
         //Android Studio开发工具是基于gradle的配置方式，资源文件的包和应用程序的包是可以分开的，为了正确的找到资源包名，
         // 为开发者提供了自定义的设置资源包的接口。当资源包名和应用程序包名不一致时，调用设置资源包名的接口
