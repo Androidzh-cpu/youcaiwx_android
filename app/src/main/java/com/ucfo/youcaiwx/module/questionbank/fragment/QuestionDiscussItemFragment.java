@@ -111,7 +111,7 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
             testmodeActivity = (TESTMODEActivity) fragmentActivity;
             questionList = testmodeActivity.getQuestionList();
             optionsAnswerList = testmodeActivity.getOptionsAnswerList();
-            discuss_analysis = testmodeActivity.isDiscuss_analysis();
+            discuss_analysis = testmodeActivity.getDiscussAnalysis();
         }
 
         //TODO 判断移除错题和收藏

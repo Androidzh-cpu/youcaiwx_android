@@ -98,11 +98,11 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     LoadingLayout loadinglayout;
     @BindView(R.id.linear_bottom_function)
     LinearLayout linearBottomFunction;
+    @BindView(R.id.showline)
+    View showline;
 
     public ArrayList<DoProblemsBean.DataBean.TopicsBean> questionList;//TODO 所有题目数据集(从接口获取)
     public ArrayList<DoProblemsAnswerBean> optionsAnswerList;//TODO 所有题目数据集,主要用于答题卡和用户答题操作
-    @BindView(R.id.showline)
-    View showline;
 
     /*****************************************************TODO start 倒计时  **************************/
     private int millisecond = 1000;//TODO 一千毫秒,计时器基本单位
@@ -140,7 +140,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     private QuestionItemAdapter questionItemAdapter;
     private String know_id, question_id;
     /**
-     * 传输做题翻页事件
+     * 做题翻页(别问,问就是广播大法)
      */
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
@@ -407,18 +407,22 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     }
 
     /**
-     * //TODO 初次开始计时
+     * TODO 初次开始计时
      */
     public void startCounter(int type, int startTime) {
         switch (type) {
             case -1://倒计时
                 CountdownTime = startTime * millisecond;
                 initCountDownTimer();
-                countDownTimer.start();
+                if (countDownTimer != null) {
+                    countDownTimer.start();
+                }
                 break;
             case 1://正计时
                 timerSeconds = startTime;
-                timer.postDelayed(runnable, CountDownInterval);
+                if (timer != null) {
+                    timer.postDelayed(runnable, CountDownInterval);
+                }
                 break;
             default:
                 break;
@@ -431,10 +435,14 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     public void stopCounter() {
         switch (timingType) {
             case -1://倒计时
-                countDownTimer.pause();
+                if (countDownTimer != null) {
+                    countDownTimer.pause();
+                }
                 break;
             case 1://正计时
-                timer.removeCallbacks(runnable);
+                if (timer != null) {
+                    timer.removeCallbacks(runnable);
+                }
                 break;
             default:
                 break;
@@ -451,14 +459,20 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             switch (timingType) {
                 case -1:
                     //倒计时
-                    countDownTimer.resume();
+                    if (countDownTimer != null) {
+                        countDownTimer.resume();
+                    }
                     break;
                 case 1:
                     //正计时
-                    timer.postDelayed(runnable, CountDownInterval);
+                    if (timer != null) {
+                        timer.postDelayed(runnable, CountDownInterval);
+                    }
                     break;
                 default:
-                    timer.postDelayed(runnable, CountDownInterval);
+                    if (timer != null) {
+                        timer.postDelayed(runnable, CountDownInterval);
+                    }
                     break;
             }
         }
@@ -492,7 +506,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     /**
      * Description:TESTMODEActivity
      * Time:2019-5-21 上午 10:28
-     * Detail:TODO 交卷事件
+     * Detail:交卷事件(钉~~,交钱成功)
      */
     public void submitPaper() {
         loadingTips = getResources().getString(R.string.question_tips_submitting);//进度框提示文字
@@ -533,9 +547,12 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                     break;
             }
         } else {//TODO 题目未全部作答
-            if (plate_id == Constant.PLATE_6 || continue_plate == Constant.PLATE_6) {//todo 组卷模考不需要提示框
+            /**
+             * 组卷模考模式下直接交卷,不显示交卷弹框
+             */
+            if (plate_id == Constant.PLATE_6 || continue_plate == Constant.PLATE_6) {
                 if (plate_id == Constant.PLATE_11) {
-                    //6大板块继续做题
+                    //6大板块继续做题,需要传递继续做题获取的板块
                     questionBankExercisePresenter.submitPapers(course_id, user_id, continue_plate, submitStatus, section_id,
                             knob_id, know_id, paper_id, mock_id, getTimeMillis(), countDownTimemillis, optionsAnswerList);
                 } else {
@@ -543,6 +560,9 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                             knob_id, know_id, paper_id, mock_id, getTimeMillis(), countDownTimemillis, optionsAnswerList);
                 }
             } else {
+                /**
+                 * 非组卷模考需提示未做完信息
+                 */
                 TestModeIconDialog testModeIconDialog = new TestModeIconDialog(testModeActivity).builder();
                 testModeIconDialog.setIcon(R.mipmap.icon_qb_submit);
                 testModeIconDialog.setCancelable(false);
@@ -619,7 +639,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         loadingTips = getResources().getString(R.string.question_tips_saveing);//进度框提示文字
 
         //TODO step1:判断做题模式和板块
-        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A)) {//todo 解析模式直接退出
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A)) {
+            //todo 解析模式直接退出
             finish();//解析模式直接返回上一级
             return;
         }
@@ -649,7 +670,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
 
         //TODO step4: 判断做题完成状态
         if (isDone) {//做了一部分题目
-            TestModeIconDialog testModeIconDialog = new TestModeIconDialog(testModeActivity).builder();
+            TestModeIconDialog testModeIconDialog = new TestModeIconDialog(this).builder();
             testModeIconDialog.setIcon(R.mipmap.icon_qb_save);
             testModeIconDialog.setCancelable(false);
             testModeIconDialog.setCanceledOnTouchOutside(false);
@@ -664,7 +685,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             testModeIconDialog.setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (plate_id == Constant.PLATE_11) {//todo 答题记录退出保存
+                    if (plate_id == Constant.PLATE_11) {//todo 答题记录机组做题退出保存
                         questionBankExercisePresenter.contimueSubmitPapers(course_id, id, user_id, continue_plate, submitStatus, section_id,
                                 knob_id, know_id, paper_id, mock_id, getTimeMillis(), countDownTimemillis, optionsAnswerList);
                     } else {//todo 6大板块退出保存
@@ -1220,7 +1241,10 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         } else {
             answerSheetAdapter = new QuestionAnswerSheetAdapter(this, optionsAnswerList, EXERCISE_TYPE);
         }
-        switch (optionsAnswerList.size()) {//一切为了UI
+        /**
+         * 一切为了UI
+         */
+        switch (optionsAnswerList.size()) {
             case 1:
                 gridView.setNumColumns(1);
                 break;
@@ -1286,7 +1310,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         this.optionsAnswerList = optionsAnswerList;
     }
 
-    public boolean isDiscuss_analysis() {
+    public boolean getDiscussAnalysis() {
         return discuss_analysis;
     }
 
