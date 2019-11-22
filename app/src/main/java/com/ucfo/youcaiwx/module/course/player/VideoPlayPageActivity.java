@@ -198,16 +198,23 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     TextView playerAskQuestion;
     @BindView(R.id.player_exitPdf)
     ImageView playerExitPdf;
+    @BindView(R.id.player_lockedScreen)
+    ImageView playerLockedScreen;
+
     private ArrayList<String> titlesList;
     private ArrayList<Fragment> fragmentArrayList;
     private Bundle bundle;
-    private int courseUnCon, coursePackageId, courseBuyState, userId;//是否正课  课程包ID  课程购买状态 用户ID
-    private String courseCoverimageUrl, course_PackagePrice, currentVid, course_Source;//课程封面  课程价格 阿里视频video,课程来源
-    private int currentCourseID, currentSectionID, currentVideoID, currentVideoCollectState;//TODO 当前播放视频的信息,供收藏,播放使用
+    //是否正课  课程包ID  课程购买状态 用户ID
+    private int courseUnCon, coursePackageId, courseBuyState, userId;
+    //课程封面  课程价格 阿里视频video,课程来源
+    private String courseCoverimageUrl, course_PackagePrice, currentVid, course_Source;
+    //TODO 当前播放视频的信息,供收藏,播放使用
+    private int currentCourseID, currentSectionID, currentVideoID, currentVideoCollectState;
     private VideoPlayPageActivity videoPlayPageActivity;
     private Context context;
     private SharedPreferencesUtils sharedPreferencesUtils;
-    private boolean login_status, continuousPlay = false, pdfStatus = false;//是否登录, 是否连续播放   PDF状态
+    //是否登录, 是否连续播放   PDF状态
+    private boolean login_status, continuousPlay = false, pdfStatus = false;
     private AliyunVodPlayer aliyunVodPlayer;
     private SurfaceHolder surfaceHolder;
     //视频详细媒体信息
@@ -232,7 +239,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private int mVideoBufferPosition;
     //当前的清晰度
     private String mCurrentQuality;
-    private static final int START = 0;//开始计时消息标志
+    //开始计时消息标志
+    private static final int START = 0;
     //进度更新计时器
     private ProgressUpdateTimer mProgressUpdateTimer = new ProgressUpdateTimer();
     //控制菜单计时器
@@ -244,25 +252,33 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private ErrorInfo currentError = ErrorInfo.Normal;
 
     private static final int WHAT_HIDE = 0;
-    private int currentScreenBrigtness, currentVolume;//当前亮度和音量
-    private double currentScreenSize = 1;//当前画面比例
-    private float currentSpeed = 1.0f;//默认倍速播放
-    private QualityListviewWindow qualityListviewWindow;//清晰度选择
-    private GestureDialogManager mGestureDialogManager;//手势操作框辅助工具
-    private SpeedListviewWindow speedListviewWindow;//倍速播放列表
-    private WindowManager windowManager;//windosmanager
+    //当前亮度和音量
+    private int currentScreenBrigtness, currentVolume;
+    //当前画面比例
+    private double currentScreenSize = 1;
+    //默认倍速播放
+    private float currentSpeed = 1.0f;
+    //清晰度选择
+    private QualityListviewWindow qualityListviewWindow;
+    //手势操作框辅助工具
+    private GestureDialogManager mGestureDialogManager;
+    //倍速播放列表
+    private SpeedListviewWindow speedListviewWindow;
+    private WindowManager windowManager;
     private PlaySettingWindow playSettingWindow;
     private CourseIntroductionFragment courseIntroductionFragment;
     private CourseDirectoryListFragment courseDirectoryListFragment;
     private CourseAnswerQuestionFragment courseAnswerQuestionFragment;
     private CoursePlayPresenter coursePlayPresenter;
     private int watch_time = 0, learnPlanid = 0, learnDays = 0;
-    private String playVideoName;//播放时的视频名称,从课程目录获取
+    //播放时的视频名称,从课程目录获取
+    private String playVideoName;
     private WebSocket mWebSocket = null;
     private Timer mTimer;
     private TimerTask timerTask;
     private int socketPeriodTime = Constant.SOCKET_TIME, freeTime = Constant.FREE_TIME;
-    private static final int DELAY_TIME = Constant.DELAY_TIME; //5秒后隐藏
+    //5秒后隐藏
+    private static final int DELAY_TIME = Constant.DELAY_TIME;
 
     private boolean download_wifi, look_wifi;
     private AliyunPlayAuth currentaAliyunPlayAuth;
@@ -1075,6 +1091,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         animation.setFillAfter(isFillAfter);
         animation.setDuration(200);
         return animation;
+    }
+
+    /**
+     * 锁定屏幕
+     */
+    private void lockScreen(boolean lockScreen) {
+
     }
 
     /**
@@ -2081,7 +2104,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                         /**
                          * 手势,你被宵禁了
                          */
-                            mGestureView.hide(ViewAction.HideType.End);
+                        mGestureView.hide(ViewAction.HideType.End);
 
                         playerAskQuestion.setVisibility(View.GONE);//提问按钮隐藏
                         playerExitPdf.setVisibility(playerExitPdf.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//PDF退出按钮显示
@@ -2466,13 +2489,15 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
     @OnClick({R.id.player_back, R.id.player_share, R.id.player_btn, R.id.player_fullscreen,
             R.id.btn_call, R.id.btn_pay, R.id.player_quality, R.id.player_speed, R.id.player_handouts,
-            R.id.player_setting, R.id.player_collect, R.id.player_askquestion, R.id.player_exitPdf})
+            R.id.player_setting, R.id.player_collect, R.id.player_askquestion, R.id.player_exitPdf, R.id.player_lockedScreen})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.player_back://TODO  顶部返回键
+            case R.id.player_back:
+                //TODO  顶部返回键
                 topButtonBack();
                 break;
-            case R.id.player_share://TODO 顶部分享按键
+            case R.id.player_share:
+                //TODO 顶部分享按键
                 new ShareDialog(this).builder()
                         .setFriendButton(new View.OnClickListener() {
                             @Override
@@ -2500,13 +2525,16 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                         })
                         .show();
                 break;
-            case R.id.player_collect://TODO 顶部收藏按键
+            case R.id.player_collect:
+                //TODO 顶部收藏按键
                 switchCollectionStatus();
                 break;
-            case R.id.player_btn://TODO 播放暂停控制按钮
+            case R.id.player_btn:
+                //TODO 播放暂停控制按钮
                 switchPlayerState();
                 break;
-            case R.id.player_fullscreen://TODO 横竖屏切换
+            case R.id.player_fullscreen:
+                //TODO 横竖屏切换
                 AliyunScreenMode targetMode;
                 if (mCurrentScreenMode == AliyunScreenMode.Small) {
                     targetMode = AliyunScreenMode.Full;
@@ -2515,7 +2543,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 }
                 changeScreenMode(targetMode);//TODO 横竖屏切换
                 break;
-            case R.id.player_quality://TODO 画质切换
+            case R.id.player_quality:
+                //TODO 画质切换
                 if (mAliyunMediaInfo != null) {
                     List<String> qualities = mAliyunMediaInfo.getQualities();//获取清晰度列表
                     if (qualityListviewWindow != null) {
@@ -2524,29 +2553,39 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     }
                 }
                 break;
-            case R.id.player_speed://TODO 倍速播放切换
+            case R.id.player_speed:
+                //TODO 倍速播放切换
                 if (speedListviewWindow != null) {
                     speedListviewWindow.setCurrentSpeed(currentSpeed);//当前倍速播放
                     speedListviewWindow.showAsDropDown(playerSpeed);
                     setLayoutVisibility(true, false);
                 }
                 break;
-            case R.id.player_handouts://讲义
+            case R.id.player_handouts:
+                //TODO 讲义切换
                 switchPdfHandouts();
                 break;
-            case R.id.player_setting://TODO 设置
+            case R.id.player_setting:
+                //TODO 设置
                 initSettingsDialog();//设置弹框弹框
                 break;
-            case R.id.player_askquestion://TODO 提问问题按钮
+            case R.id.player_askquestion:
+                //TODO 提问问题按钮
                 askCourseQuestion();//提问问题
                 break;
-            case R.id.player_exitPdf://TODO 退出PDF
+            case R.id.player_lockedScreen:
+                //TODO 锁屏按钮
+                break;
+            case R.id.player_exitPdf:
+                //TODO 退出PDF
                 switchPdfHandouts();
                 break;
-            case R.id.btn_call://TODO 客服电话
+            case R.id.btn_call:
+                //TODO 客服电话
                 makeCall();
                 break;
-            case R.id.btn_pay://TODO 直接购买课程
+            case R.id.btn_pay:
+                //TODO 直接购买课程
                 Intent intent = new Intent(this, CommitOrderActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt(Constant.COURSE_PACKAGE_ID, getCoursePackageId());
@@ -2557,7 +2596,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 break;
         }
     }
-
 
     public int getCoursePackageId() {
         return coursePackageId;

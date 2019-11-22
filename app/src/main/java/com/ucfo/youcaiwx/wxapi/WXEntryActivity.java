@@ -134,7 +134,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                 //TODO ERR_USER_CANCEL = -2（用户取消）
                 LogUtils.e("onResp: 用户取消授权");
                 if (RETURN_MSG_TYPE_SHARE == baseResp.getType()) {
-                    ToastUtil.showBottomShortText(this, getResources().getString(R.string.sharedError));
+                    //ToastUtil.showBottomShortText(this, getResources().getString(R.string.sharedError));
                     WXEntryActivity.this.finish();
                 } else {
                     ToastUtil.showBottomShortText(this, getResources().getString(R.string.login_error));

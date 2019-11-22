@@ -185,6 +185,9 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     public void getAnswerListData(AnswerListDataBean result) {
         if (result != null && result.getData().size() != 0) {
             List<AnswerListDataBean.DataBean> data = result.getData();
+            if (answerList == null) {
+                answerList = new ArrayList<>();
+            }
             answerList.clear();
             answerList.addAll(data);
             initAdapter(answerList);
@@ -205,16 +208,17 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     private void initAdapter(List<AnswerListDataBean.DataBean> data) {
         if (courseAnswerListAdapter == null) {
             courseAnswerListAdapter = new CourseAnswerListAdapter(data, context, 0);
-        } else {
-            courseAnswerListAdapter.notifyDataSetChanged();
         }
+        courseAnswerListAdapter.notifyDataSetChanged();
         recyclerview.setAdapter(courseAnswerListAdapter);
         //查看详情点击事件
         courseAnswerListAdapter.setItemClick(new CourseAnswerListAdapter.OnItemViewClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
-                if (loginstatus) {//TODO 已登录
-                    if (courseBuyState == Constant.HAVED_BUY) {//TODO 已购买
+                if (loginstatus) {
+                    //TODO 已登录 奢靡啊
+                    if (courseBuyState == Constant.HAVED_BUY) {
+                        //TODO 已购买
                         if (!fastClick(1000)) {
                             Bundle bundle = new Bundle();
                             bundle.putInt(Constant.ANSWER_ID, data.get(position).getId());
@@ -226,7 +230,8 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
                     } else {
                         ToastUtil.showBottomShortText(context, getResources().getString(R.string.course_bugCourse));
                     }
-                } else {//TODO 未登录
+                } else {
+                    //TODO 未登录
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
                 }
@@ -245,7 +250,9 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 
     @Override
