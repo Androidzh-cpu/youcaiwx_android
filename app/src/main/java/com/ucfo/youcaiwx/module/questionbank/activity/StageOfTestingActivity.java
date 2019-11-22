@@ -42,7 +42,6 @@ import butterknife.ButterKnife;
  * Description:TODO 阶段测试,论述题自测使用同一个目录结构和相同数据,组卷模考另起接口,但结构和格式相同
  */
 public class StageOfTestingActivity extends BaseActivity implements IQuestionBankStageView {
-
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -81,15 +80,15 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         context = this;
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
         login_status = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.setReverseLayout(false);
-        int topBottom = DensityUtil.dip2px(context, 1);
-        recyclerview.addItemDecoration(new SpacesItemDecoration(0, topBottom, ContextCompat.getColor(context, R.color.color_E6E6E6)));
+        int topBottom = DensityUtil.dip2px(this, 1);
+        recyclerview.addItemDecoration(new SpacesItemDecoration(0, topBottom, ContextCompat.getColor(this, R.color.color_E6E6E6)));
         recyclerview.setItemAnimator(new DefaultItemAnimator());
         recyclerview.setLayoutManager(layoutManager);
     }
@@ -171,6 +170,9 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
         if (data != null) {
             if (data.getData() != null && data.getData().size() > 0) {
                 List<QuestionStageOfTestBean.DataBean> dataBeanList = data.getData();
+                if (list == null) {
+                    list = new ArrayList<>();
+                }
                 list.clear();
                 list.addAll(dataBeanList);
                 initAdapter();
@@ -188,9 +190,8 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
     private void initAdapter() {
         if (questionStageTestAdapter == null) {
             questionStageTestAdapter = new QuestionStageTestAdapter(this, list, plate_id);
-        } else {
-            questionStageTestAdapter.notifyDataSetChanged();
         }
+        questionStageTestAdapter.notifyDataSetChanged();
         recyclerview.setAdapter(questionStageTestAdapter);
         questionStageTestAdapter.setItemClick(new OnItemClickListener() {
             @Override

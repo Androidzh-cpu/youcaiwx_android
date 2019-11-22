@@ -79,6 +79,9 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * Email:2911743255@qq.com
  * ClassName: UcfoApplication
  * Detail:程序清单
+ * 这个傻逼leader,除了正事,基本上没啥用处
+ * 喜欢画大饼,还特么画的贼难看,画饼都不会画
+ * 空话一堆,还特么听着贼恶心
  */
 public class UcfoApplication extends Application {
     private static UcfoApplication application;

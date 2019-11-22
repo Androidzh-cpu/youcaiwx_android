@@ -2081,18 +2081,18 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                         /**
                          * 手势,你被宵禁了
                          */
-                        mGestureView.hide(ViewAction.HideType.End);
+                            mGestureView.hide(ViewAction.HideType.End);
 
                         playerAskQuestion.setVisibility(View.GONE);//提问按钮隐藏
                         playerExitPdf.setVisibility(playerExitPdf.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//PDF退出按钮显示
 
                         setLayoutVisibility(false, false);
+                        toastInfo(getResources().getString(R.string.course_PDF_changeToPDF));
                     } else {//退出讲义
                         pdfView.setVisibility(View.GONE);
                         playerPDFPage.setVisibility(View.GONE);
                         playerHandouts.setText(getResources().getString(R.string.notes));
                         pdfStatus = !pdfStatus;
-
                         /**
                          * 解放手势操作
                          */
@@ -2103,6 +2103,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                         playerExitPdf.setVisibility(playerExitPdf.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//PDF退出按钮显示
 
                         setLayoutVisibility(true, true);
+                        toastInfo(getResources().getString(R.string.course_PDF_changeToVideo));
                     }
                 }
             } else {//TODO 讲义不存在

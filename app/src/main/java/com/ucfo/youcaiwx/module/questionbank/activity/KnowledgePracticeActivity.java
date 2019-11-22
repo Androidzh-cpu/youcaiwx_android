@@ -73,6 +73,12 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        loadNetData();
+    }
+
+    @Override
     protected int setContentView() {
         return R.layout.activity_knowledge_practice;
     }
@@ -104,7 +110,7 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
             course_id = bundle.getInt(Constant.COURSE_ID, 0);
             plate_id = bundle.getInt(Constant.PLATE_ID, 0);
 
-            questionBankKnowledgePresenter.getKnowledgeListData(course_id, user_id);
+            //loadNetData();
         } else {
             loadinglayout.showEmpty();
         }
@@ -112,7 +118,7 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                questionBankKnowledgePresenter.getKnowledgeListData(course_id, user_id);
+                loadNetData();
             }
         });
         //添加选中试题数量
@@ -129,6 +135,17 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
                 }
             }
         });
+    }
+
+    /**
+     * 客户说想实时刷新这个列表的数据
+     */
+    private void loadNetData() {
+        if (questionBankKnowledgePresenter != null) {
+            questionBankKnowledgePresenter.getKnowledgeListData(course_id, user_id);
+        } else {
+            questionBankKnowledgePresenter = new QuestionBankKnowledgePresenter(this);
+        }
     }
 
     @Override
@@ -161,6 +178,9 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
         if (data != null) {
             if (data.getData() != null && data.getData().size() > 0) {
                 List<QuestionKnowledgeListBean.DataBean> beanList = data.getData();
+                if (list == null) {
+                    list = new ArrayList<>();
+                }
                 list.clear();
                 list.addAll(beanList);
 
@@ -193,14 +213,13 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
     /**
      * Description:KnowledgePracticeActivity
      * Time:2019-5-7 下午 2:25
-     * Detail:TODO 设置适配器
+     * Detail:设置适配器
      */
     private void initAdapter() {
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        } else {
+        if (adapter == null) {
             adapter = new QuestionKnowledgeAdapter(list, this, plate_id);
         }
+        adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override

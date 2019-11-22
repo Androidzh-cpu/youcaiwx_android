@@ -1206,7 +1206,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         if (answerSheetDialog != null) {
             answerSheetDialog.show();
         } else {
-            answerSheetDialog = new BottomSheetDialog(testModeActivity);
+            answerSheetDialog = new BottomSheetDialog(this);
             View inflate = LayoutInflater.from(this).inflate(R.layout.dialog_question_answersheet, null, false);
             answerSheetDialog.setContentView(inflate);
             answerSheetDialog.setCanceledOnTouchOutside(true);
@@ -1214,12 +1214,13 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             answerSheetDialog.show();
             //设置透明背景
             answerSheetDialog.getWindow().findViewById(R.id.design_bottom_sheet).setBackgroundResource(android.R.color.transparent);
-
+            //给你安排的明明白白的
             closeBtn = inflate.findViewById(R.id.answer_closebtn);
             gridView = inflate.findViewById(R.id.listView);
             submitBtn = inflate.findViewById(R.id.answer_submit);
         }
-        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A) || discuss_analysis) {//解析模式挂掉交卷按钮
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A) || discuss_analysis) {
+            //解析模式挂掉交卷按钮
             submitBtn.setVisibility(View.GONE);
         }
         closeBtn.setOnClickListener(new View.OnClickListener() {
@@ -1236,11 +1237,10 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             }
         });
         //设置数据源,更新适配器
-        if (answerSheetAdapter != null) {
-            answerSheetAdapter.notifyDataSetChanged();
-        } else {
+        if (answerSheetAdapter == null) {
             answerSheetAdapter = new QuestionAnswerSheetAdapter(this, optionsAnswerList, EXERCISE_TYPE);
         }
+        answerSheetAdapter.notifyDataSetChanged();
         /**
          * 一切为了UI
          */

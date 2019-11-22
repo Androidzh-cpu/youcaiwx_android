@@ -176,6 +176,8 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                             String refresh_token = object.optString("refresh_token");//用户刷新access_token
                             if (!TextUtils.isEmpty(openId)) {
                                 getUserInfo(accessToken, openId);
+                            } else {
+                                ToastUtil.showBottomShortText(getApplicationContext(), getResources().getString(R.string.login_error));
                             }
                             LogUtils.e("getAccessToken()---------微信通过code获取access_token" + response.body());
                         } catch (JSONException e) {
@@ -282,10 +284,10 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                     bundle.putString(Constant.USER_NAME, wxUserInfoEvent.getNickname());
                     bundle.putInt(Constant.SEX, wxUserInfoEvent.getSex());
                     bundle.putString(Constant.HEAD, wxUserInfoEvent.getHeadimgurl());
-                    Intent conpletedIntent = new Intent(WXEntryActivity.this, CompleteAndForgetActivity.class);
+                    Intent conpletedIntent = new Intent(this, CompleteAndForgetActivity.class);
                     conpletedIntent.putExtras(bundle);
                     startActivity(conpletedIntent);
-                    WXEntryActivity.this.finish();
+                    finish();
                     ActivityUtil.getInstance().finishActivity(LoginActivity.class);
                     ActivityUtil.getInstance().finishActivity(SMSLoginActivity.class);
                     break;
@@ -301,17 +303,17 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                     Intent intent = new Intent(WXEntryActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
-                    WXEntryActivity.this.finish();
+                    finish();
                     break;
                 case 3:
                     //3设备达到上限
                     LogUtils.e("wecheat setUserInfo:3设备达到上限");
                     ToastUtil.showBottomShortText(getApplicationContext(), getResources().getString(R.string.wx_upperlimit));
-                    WXEntryActivity.this.finish();
+                    finish();
                     break;
                 default:
                     ToastUtil.showBottomShortText(getApplicationContext(), getResources().getString(R.string.login_error));
-                    WXEntryActivity.this.finish();
+                    finish();
                     break;
             }
         } else {

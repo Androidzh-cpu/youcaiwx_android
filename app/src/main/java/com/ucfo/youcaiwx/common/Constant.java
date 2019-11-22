@@ -24,7 +24,8 @@ public class Constant {
     //TODO 微信APPID
     public static final String WEIXIN_KEY = "wx55d839e60fb4b35f";
     //TODO 微信secret
-    public static final String WEIXIN_SECRET = "b18dd689f27360c730a2280b3b7132fd";
+    //public static final String WEIXIN_SECRET = "b18dd689f27360c730a2280b3b7132fd";
+    public static final String WEIXIN_SECRET = "c56a1337d1efc66663e377ea0da7e7fe";
     //TODO 微信登录参数
     public static final String WEIXIN_PARAMS1 = "snsapi_userinfo";
     //TODO 微信登录参数

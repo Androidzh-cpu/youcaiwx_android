@@ -48,11 +48,11 @@ public class AlertDialog {
         View view = LayoutInflater.from(context).inflate(R.layout.view_alertdialog, null);
 
         // 获取自定义Dialog布局中的控件
-        lLayout_bg = (RoundLinearLayout) view.findViewById(R.id.lLayout_bg);
-        txt_msg = (TextView) view.findViewById(R.id.txt_msg);
-        btn_neg = (RoundTextView) view.findViewById(R.id.btn_neg);
+        lLayout_bg = view.findViewById(R.id.lLayout_bg);
+        txt_msg = view.findViewById(R.id.txt_msg);
+        btn_neg = view.findViewById(R.id.btn_neg);
         btn_neg.setVisibility(View.GONE);
-        btn_pos = (RoundTextView) view.findViewById(R.id.btn_pos);
+        btn_pos = view.findViewById(R.id.btn_pos);
         btn_pos.setVisibility(View.GONE);
         img_line = (View) view.findViewById(R.id.img_line);
         img_line.setVisibility(View.GONE);
@@ -63,7 +63,6 @@ public class AlertDialog {
 
         // 调整dialog背景大小
         lLayout_bg.setLayoutParams(new FrameLayout.LayoutParams((int) (display.widthPixels * 0.75), LayoutParams.WRAP_CONTENT));
-
         return this;
     }
 

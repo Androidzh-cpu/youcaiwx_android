@@ -36,6 +36,7 @@ import com.ucfo.youcaiwx.entity.questionbank.DoProblemsBean;
 import com.ucfo.youcaiwx.module.questionbank.activity.TESTMODEActivity;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.widget.customview.NestedListView;
+import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,23 +154,23 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         //TODO 选项的点击事件
         if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_E)) {
             //TODO 考试模式
-            mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//关闭解析
+            mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//关闭解析区域
             mOptionsListviewQuestion.setOnItemClickListener(this::onItemClick);
         } else if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A)) {
             //TODO 解析模式
 
-            //设置解析
+            //设置解析内容
             initAnalysis();
 
             //注销点击事件
             mOptionsListviewQuestion.setOnItemClickListener(null);
-            //打开解析
+            //打开解析区域
             mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
 
         } else {
             //TODO 练习模式(作对不显示答案跳转下一页,做错显示解析)
 
-            //设置解析
+            //设置解析内容
             initAnalysis();
             //设置点击事件
             mOptionsListviewQuestion.setOnItemClickListener(this::onItemClick);
@@ -181,6 +182,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
                 initAnalysis();
                 String userAnswer = optionsAnswerList.get(index).getUser_answer();//答题卡用户选项
                 if (!TextUtils.isEmpty(userAnswer)) {
+                    //显示解析区域
                     mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
                 }
             }
@@ -195,26 +197,33 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             String rightAnswer = optionsAnswerList.get(index).getTrue_options();//获取正确答案
             String userAnswer = optionsAnswerList.get(index).getUser_answer();//答题卡用户选项
 
-            if (TextUtils.isEmpty(userAnswer)) {//未答题可以进行答题操作,答完题后不需进行修改答案
+            if (TextUtils.isEmpty(userAnswer)) {
+                //未答题可以进行答题操作,答完题后不需进行修改答案
+
+                //题目刷新user答案
                 adapter.notifyDataChanged(userOption);
-                optionsAnswerList.get(index).setUser_answer(userOption);//重新给答题卡响应题目设置用户答案
-                testmodeActivity.setOptionsAnswerList(optionsAnswerList);//总数据重新复制
+                //重新给答题卡响应题目设置用户答案
+                optionsAnswerList.get(index).setUser_answer(userOption);
+                //总数据重新复制
+                testmodeActivity.setOptionsAnswerList(optionsAnswerList);
 
                 if (userOption.equals(rightAnswer)) {
                     //TODO 做对
-                    mLocalBroadcastManager.sendBroadcast(intent);//发送广播,跳转至下一页
+                    //发送广播,跳转至下一页
+                    mLocalBroadcastManager.sendBroadcast(intent);
                 } else {
-                    //TODO 做错
+                    //TODO 做错了
 
-                    //TODO 设置解析
+                    //TODO 设置解析内容
                     initAnalysis();
-                    //打开解析
+                    //TODO 打开解析view
                     mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
                 }
             }
         } else {
-            //TODO 正常考试模式
-            String userOption = questionList.get(index).getOptions().get(position).getOption();//获取用户的选项
+            //TODO 考试模式
+            //获取用户的选项
+            String userOption = questionList.get(index).getOptions().get(position).getOption();
             adapter.notifyDataChanged(userOption);
 
             optionsAnswerList.get(index).setUser_answer(userOption);//重新给答题卡响应题目设置用户答案
@@ -223,6 +232,37 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             initAnalysis();//重新设置解析答案
 
             mLocalBroadcastManager.sendBroadcast(intent);//发送广播,跳转至下一页
+
+            //交卷提示
+            //hintSubmitPaper();
+        }
+    }
+
+    /**
+     * 是否交卷(艹了,自己做到哪自己不知道吗,还TM给你提示,题目上写的索引是TM干啥的)
+     */
+    private void hintSubmitPaper() {
+        int temporary = questionList.size() - 1;
+        if (index == temporary) {
+            new AlertDialog(testmodeActivity).builder()
+                    .setMsg(getResources().getString(R.string.question_tips_whetherSavePager))
+                    .setCancelable(false)
+                    .setCanceledOnTouchOutside(false)
+                    .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    })
+                    .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (testmodeActivity != null) {
+                                testmodeActivity.submitPaper();
+                            }
+                        }
+                    }).show();
+
         }
     }
 

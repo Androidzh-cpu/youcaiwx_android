@@ -225,7 +225,7 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
                     //TODO  获取sms验证码
                     forgetPwdPresenter.getVerifyCode(mobile);
                 } else {//TODO  完善信息验证码
-                    forgetPwdPresenter.getWXVerifyCode(mobile, 1);
+                    forgetPwdPresenter.getWXVerifyCode(mobile, 2);
                 }
                 break;
             case R.id.tv_soundcode:

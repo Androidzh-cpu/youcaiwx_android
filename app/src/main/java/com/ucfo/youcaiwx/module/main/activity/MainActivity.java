@@ -345,7 +345,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         ActivityUtil.getInstance().finishAllActivity();
                     }
                 }).show();
-
     }
 
     /**
