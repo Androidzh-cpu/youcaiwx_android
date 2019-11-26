@@ -26,7 +26,7 @@ public class ApiStores {
     public static final String SOCKET = "ws://ycapi.youcaiwx.com:2346";
 
     public static final String FILE_UPLOAD = ROOT_URL + "upload/Index/uploadImage";//上传文件
-    public static final String VERSION_UPDATE = ROOT_URL + "Version/upAndroid";//版本更新
+    public static final String VERSION_UPDATE = BASE_URL + "Version/upAndroid";//版本更新
 
     public static final String TEMPORARYLIVE = "http://ycfx.youcaiwx.com/static/Video.html?user_id=888888";//临时直播地址
     public static final String TEMPORARFACE = "http://m.ucfo.com.cn/mskc/";//临时面授地址

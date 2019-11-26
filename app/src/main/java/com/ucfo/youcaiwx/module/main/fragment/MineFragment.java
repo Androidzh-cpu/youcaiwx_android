@@ -192,6 +192,9 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
             }
         } else {
             updateUnLoginUi();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         }
     }
 
