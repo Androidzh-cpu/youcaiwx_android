@@ -82,17 +82,19 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="@dimen/dp_50"
             android:layout_marginStart="@dimen/dp_20"
+            android:contentDescription="TODO"
             android:src="@drawable/icon_pdf_full"
             android:visibility="gone" />
 
         <!--锁屏按钮-->
         <ImageView
-            android:id="@+id/player_lockedScreen"
+            android:id="@+id/playerLockedscreen"
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_30"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/dp_20"
+            android:clickable="true"
             android:src="@drawable/icon_unlocked"
             android:visibility="gone" />
 

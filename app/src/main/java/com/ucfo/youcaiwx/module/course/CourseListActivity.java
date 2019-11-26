@@ -29,6 +29,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * Author: AND
+ * Time: 2019-11-26 上午 9:50
+ * Package: com.ucfo.youcaiwx.module.course
+ * FileName: CourseListActivity
+ * ORG: www.youcaiwx.com
+ * Description:TODO 所有售卖中的课程
+ */
 public class CourseListActivity extends BaseActivity implements ICourseListView {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;

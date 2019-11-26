@@ -107,6 +107,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     View statusbarView;
     @BindView(R.id.view_line)
     View viewLine;
+    Unbinder unbinder1;
     private MainActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private QuestionBankHomePresenter questionBankHomePresenter;
@@ -125,6 +126,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
         if (rootView != null) {
             unbinder = ButterKnife.bind(this, rootView);
         }
+        unbinder1 = ButterKnife.bind(this, rootView);
         return rootView;
     }
 
@@ -279,6 +281,11 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
         }
     }
 
+    /**
+     * 当前选择科目信息
+     *
+     * @param data
+     */
     @Override
     public void getSubjectInfoBean(SubjectInfoBean data) {
         if (data != null) {
@@ -421,5 +428,20 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 });
             }
         }
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void showLoadingFinish() {
+
+    }
+
+    @Override
+    public void showError() {
+
     }
 }

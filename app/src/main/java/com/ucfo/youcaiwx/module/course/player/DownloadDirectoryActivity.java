@@ -19,13 +19,13 @@ import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.course.CourseDirBean;
 import com.ucfo.youcaiwx.entity.download.DataBaseVideoListBean;
 import com.ucfo.youcaiwx.entity.download.PreparedDownloadInfoBean;
+import com.ucfo.youcaiwx.module.course.player.download.DownloadSaveInfoUtil;
+import com.ucfo.youcaiwx.module.user.activity.OfflineCourseActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.course.CourseDirPresenter;
 import com.ucfo.youcaiwx.presenter.view.course.ICourseDirView;
 import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.module.course.player.download.DownloadSaveInfoUtil;
-import com.ucfo.youcaiwx.module.user.activity.OfflineCourseActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import org.litepal.LitePal;
@@ -181,8 +181,10 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
     }
 
     /**
-     * 列表时间处理
+     * 列表事件处理
      */
+    private int resultNum = 0;
+
     private void initItemClick(List<CourseDirBean.DataBean.SectionBean> sectionBeanList, int groupPosition, int childPosition) {
         CourseDirBean.DataBean.SectionBean.VideoBean bean = sectionBeanList.get(groupPosition).getVideo().get(childPosition);
         //TODO 获取item视频的vid
@@ -201,8 +203,24 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
             downloadDirAdapter.notifyDataSetChanged();
         } else {
             //DB没有存贮该视频
-            bean.setChecked(!bean.getChecked());
-            downloadDirAdapter.notifyDataSetChanged();
+            resultNum = 0;
+            for (int i = 0; i < sectionBeanList.size(); i++) {
+                List<CourseDirBean.DataBean.SectionBean.VideoBean> video = sectionBeanList.get(i).getVideo();
+                for (int j = 0; j < video.size(); j++) {
+                    boolean checked = video.get(j).getChecked();
+                    if (checked) {
+                        resultNum++;
+                    }
+                }
+            }
+            if (resultNum >= 10) {
+                bean.setChecked(false);
+                downloadDirAdapter.notifyDataSetChanged();
+                ToastUtil.showBottomShortText(this, getResources().getString(R.string.download_maxDownload));
+            } else {
+                bean.setChecked(!bean.getChecked());
+                downloadDirAdapter.notifyDataSetChanged();
+            }
 
             List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
             for (AliyunDownloadMediaInfo info : alivcDownloadeds) {
@@ -265,7 +283,7 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
             }
         }
         if (resultSize == 0) {
-            ToastUtil.showBottomShortText(context, "请选择需要下载的视频");
+            ToastUtil.showBottomShortText(this, getResources().getString(R.string.download_pleaseCheck));
         } else {
             Bundle bundle = new Bundle();
             bundle.putInt(Constant.PAGE, 1);

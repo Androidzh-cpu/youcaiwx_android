@@ -18,11 +18,11 @@ import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.course.CourseDataListBean;
 import com.ucfo.youcaiwx.entity.course.CourseSubjectsBean;
+import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.course.CourseListPresenter;
 import com.ucfo.youcaiwx.presenter.view.course.ICourseListView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView;
 
@@ -88,6 +88,7 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(linearLayoutManager);
         recyclerview.setNestedScrollingEnabled(false);
+        recyclerview.setItemAnimator(new DefaultItemAnimator());
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
@@ -106,8 +107,13 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
     @Override
     protected void onLazyLoadOnce() {
         super.onLazyLoadOnce();
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
-        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        if (sharedPreferencesUtils != null) {
+            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
+            user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        }
+        if (courseListPresenter == null) {
+            courseListPresenter = new CourseListPresenter(this);
+        }
         courseListPresenter.getCourseDataList(id, user_id);
     }
 
@@ -164,11 +170,9 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
     private void initAdapter(List<CourseDataListBean.DataBean> courseList) {
         if (courseChildListApapter == null) {
             courseChildListApapter = new CourseChildListApapter(courseList, context);
-        } else {
-            courseChildListApapter.notifyDataSetChanged();
         }
+        courseChildListApapter.notifyDataSetChanged();
         recyclerview.setAdapter(courseChildListApapter);
-        recyclerview.setItemAnimator(new DefaultItemAnimator());
         courseChildListApapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -183,7 +187,7 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
      * Detail:跳转至课程播放页
      */
     private void starPlayActivity(List<CourseDataListBean.DataBean> list, int position) {
-        setProcessLoading(null,true);
+        setProcessLoading(null, true);
 
         Bundle bundle = new Bundle();
         CourseDataListBean.DataBean bean = list.get(position);
@@ -196,9 +200,10 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
         bundle.putInt(Constant.COURSE_PACKAGE_ID, coursePackageId);//课程包ID
         bundle.putInt(Constant.COURSE_BUY_STATE, isPurchase);//购买状态
         bundle.putString(Constant.COURSE_PRICE, bean.getPrice());//课程包价格
-        startActivity(VideoPlayPageActivity.class, bundle);
 
         dismissPorcess();
+
+        startActivity(VideoPlayPageActivity.class, bundle);
     }
 
     @Override

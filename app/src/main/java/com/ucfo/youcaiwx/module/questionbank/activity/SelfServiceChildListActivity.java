@@ -97,7 +97,7 @@ public class SelfServiceChildListActivity extends BaseActivity implements IQuest
             knob_id = bundle.getInt(Constant.KNOB_ID, 0);
             plate_id = bundle.getInt(Constant.PLATE_ID, 0);
 
-            questionBankKnowledgePresenter.getKnowledgeChildList(course_id, section_id,knob_id);
+            questionBankKnowledgePresenter.getKnowledgeChildList(course_id, section_id, knob_id);
         } else {
             loadinglayout.showEmpty();
         }
@@ -143,9 +143,8 @@ public class SelfServiceChildListActivity extends BaseActivity implements IQuest
     private void initAdapter() {
         if (listAdapter == null) {
             listAdapter = new QuestionSelfHelpChildListAdapter(list, this);
-        } else {
-            listAdapter.notifyDataSetChanged();
         }
+        listAdapter.notifyDataSetChanged();
         listView.setAdapter(listAdapter);
     }
 

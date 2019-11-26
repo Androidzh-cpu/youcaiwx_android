@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
-import com.ucfo.youcaiwx.BuildConfig;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.ApiStores;
@@ -44,6 +43,7 @@ import com.ucfo.youcaiwx.utils.ShareUtils;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
+import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
 import com.ucfo.youcaiwx.widget.dialog.ShareDialog;
 
@@ -114,6 +114,8 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
     LinearLayout btnAbout;
     @BindView(R.id.statusbar_view)
     View statusbarView;
+    @BindView(R.id.loadinglayout)
+    LoadingLayout loadinglayout;
     Unbinder unbinder;
 
     private int mOffset = 0, mScrollY = 0, user_id;
@@ -160,13 +162,30 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
 
     @Override
     protected void initData() {
+        if (loadinglayout != null) {
+            loadinglayout.setRetryListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loadUserData();
+                }
+            });
+        }
     }
 
     @Override
     protected void onVisibleToUser() {
         super.onVisibleToUser();
-        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-        loginstatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
+        loadUserData();
+    }
+
+    /**
+     * 个人信息
+     */
+    private void loadUserData() {
+        if (sharedPreferencesUtils != null) {
+            user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+            loginstatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
+        }
         if (loginstatus) {
             if (userInfoPresenter != null) {
                 userInfoPresenter.getUserInfo(user_id);
@@ -196,14 +215,11 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                     break;
                 case R.id.btn_user_integral:
                     //TODO 积分
-                    if (BuildConfig.DEBUG) {
-                        startActivity(MineIntegralActivity.class, null);
-                    } else {
-                        noDev();
-                    }
+                    startActivity(MineIntegralActivity.class, null);
                     break;
                 case R.id.btn_user_balance:
                     //TODO 余额
+                    noDev();
                     break;
                 case R.id.btn_user_coupons:
                     //TODO 优惠券
@@ -302,13 +318,14 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
             UserInfoBean.DataBean data = bean.getData();
             if (data != null) {
                 updateLoginUi(data);
+                loadinglayout.showContent();
             }
         }
     }
 
     private void noDev() {
         new AlertDialog(getActivity()).builder().setCancelable(false).setCanceledOnTouchOutside(false)
-                .setMsg("敬请期待")
+                .setMsg("暂未开发")
                 .setNegativeButton(null, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -413,6 +430,8 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
 
     @Override
     public void showError() {
-        //
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

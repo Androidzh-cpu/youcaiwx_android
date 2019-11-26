@@ -47,6 +47,7 @@ public class UserInfoPresenter implements IUserInfoPresenter {
                     public void onError(Response<String> response) {
                         super.onError(response);
                         view.getUserInfo(null);
+                        view.showError();
                     }
 
                     @Override

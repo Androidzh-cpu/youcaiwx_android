@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.questionbank.QuestionMyProjectBean;
@@ -33,6 +34,17 @@ public class QuestionBankHomePresenter {
                 .tag(this)
                 .params(Constant.USER_ID, user_id)
                 .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        view.showLoading();
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        view.showError();
+                    }
 
                     @Override
                     public void onSuccess(Response<String> response) {

@@ -234,35 +234,47 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             mLocalBroadcastManager.sendBroadcast(intent);//发送广播,跳转至下一页
 
             //交卷提示
-            //hintSubmitPaper();
+            hintSubmitPaper();
         }
     }
 
     /**
-     * 是否交卷(艹了,自己做到哪自己不知道吗,还TM给你提示,题目上写的索引是TM干啥的)
+     * 是否交卷(艹了,自己做到哪自己不知道吗,还TM给你提示,题目上写的索引是TM干啥的,super SB)
      */
     private void hintSubmitPaper() {
+        boolean complete = true;
         int temporary = questionList.size() - 1;
         if (index == temporary) {
-            new AlertDialog(testmodeActivity).builder()
-                    .setMsg(getResources().getString(R.string.question_tips_whetherSavePager))
-                    .setCancelable(false)
-                    .setCanceledOnTouchOutside(false)
-                    .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+            if (optionsAnswerList != null) {
+                for (int i = 0; i < optionsAnswerList.size(); i++) {
+                    String userAnswer = optionsAnswerList.get(i).getUser_answer();
+                    if (TextUtils.isEmpty(userAnswer)) {//有一道题答案为空,就标记为未完成状态
+                        complete = false;//显示为未作答状态
+                        break;
+                    }
+                }
+            }
+            if (complete) {
+                new AlertDialog(testmodeActivity).builder()
+                        .setMsg(getResources().getString(R.string.question_tips_whetherSavePager))
+                        .setCancelable(false)
+                        .setCanceledOnTouchOutside(false)
+                        .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 
-                        }
-                    })
-                    .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (testmodeActivity != null) {
-                                testmodeActivity.submitPaper();
                             }
-                        }
-                    }).show();
+                        })
+                        .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (testmodeActivity != null) {
+                                    testmodeActivity.submitPaper();
+                                }
+                            }
+                        }).show();
 
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package com.ucfo.youcaiwx.presenter.view.questionbank;
 
+import com.ucfo.youcaiwx.base.BaseView;
 import com.ucfo.youcaiwx.entity.questionbank.QuestionMyProjectBean;
 import com.ucfo.youcaiwx.entity.questionbank.SubjectInfoBean;
 
@@ -9,9 +10,8 @@ import com.ucfo.youcaiwx.entity.questionbank.SubjectInfoBean;
  * Email:2911743255@qq.com
  * ClassName: IQuestionBankHomeView
  * Description:TODO 题库首页操作
- * Detail:TODO
  */
-public interface IQuestionBankHomeView {
+public interface IQuestionBankHomeView extends BaseView {
     /**
      * Description:IQuestionBankHomeView
      * Time:2019-4-26   上午 10:44

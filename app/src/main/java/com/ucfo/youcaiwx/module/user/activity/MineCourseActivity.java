@@ -104,12 +104,11 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
     protected void initData() {
         super.initData();
         context = this;
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        layoutManager.setReverseLayout(false);
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setNestedScrollingEnabled(false);
 
@@ -141,21 +140,36 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
     public void getMineCourse(MineCourseBean data) {
         if (data != null) {
             if (data.getData() != null && data.getData().size() > 0) {
-                refreshlayout.setVisibility(View.VISIBLE);
-                linearHolder.setVisibility(View.GONE);
+                if (refreshlayout != null) {
+                    refreshlayout.setVisibility(View.VISIBLE);
+                }
+                if (linearHolder != null) {
+                    linearHolder.setVisibility(View.GONE);
+                }
 
                 List<MineCourseBean.DataBean> beanList = data.getData();
+                if (list == null) {
+                    list = new ArrayList<>();
+                }
                 list.clear();
                 list.addAll(beanList);
 
                 initAdapter();
             } else {
-                linearHolder.setVisibility(View.VISIBLE);
-                refreshlayout.setVisibility(View.GONE);
+                if (refreshlayout != null) {
+                    refreshlayout.setVisibility(View.GONE);
+                }
+                if (linearHolder != null) {
+                    linearHolder.setVisibility(View.VISIBLE);
+                }
             }
         } else {
-            linearHolder.setVisibility(View.INVISIBLE);
-            refreshlayout.setVisibility(View.GONE);
+            if (refreshlayout != null) {
+                refreshlayout.setVisibility(View.GONE);
+            }
+            if (linearHolder != null) {
+                linearHolder.setVisibility(View.INVISIBLE);
+            }
         }
         refreshlayout.finishRefresh();
         refreshlayout.finishLoadMore();
@@ -169,9 +183,8 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
     private void initAdapter() {
         if (courseAdapter == null) {
             courseAdapter = new MineCourseAdapter(this, list);
-        } else {
-            courseAdapter.notifyDataSetChanged();
         }
+        courseAdapter.notifyDataSetChanged();
         recyclerview.setAdapter(courseAdapter);
         courseAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
@@ -202,7 +215,11 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
 
     @Override
     public void showError() {
-        linearHolder.setVisibility(linearHolder.getVisibility() == View.GONE ? View.INVISIBLE : View.INVISIBLE);
-        refreshlayout.setVisibility(refreshlayout.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+        if (refreshlayout != null) {
+            refreshlayout.setVisibility(View.GONE);
+        }
+        if (linearHolder != null) {
+            linearHolder.setVisibility(View.INVISIBLE);
+        }
     }
 }

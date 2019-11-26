@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,6 +27,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -198,8 +200,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     TextView playerAskQuestion;
     @BindView(R.id.player_exitPdf)
     ImageView playerExitPdf;
-    @BindView(R.id.player_lockedScreen)
-    ImageView playerLockedScreen;
+    @BindView(R.id.playerLockedscreen)
+    ImageView playerLockedscreen;
 
     private ArrayList<String> titlesList;
     private ArrayList<Fragment> fragmentArrayList;
@@ -279,7 +281,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private int socketPeriodTime = Constant.SOCKET_TIME, freeTime = Constant.FREE_TIME;
     //5秒后隐藏
     private static final int DELAY_TIME = Constant.DELAY_TIME;
-
+    //是否锁定全屏
+    private boolean mIsFullScreenLocked = false;
     private boolean download_wifi, look_wifi;
     private AliyunPlayAuth currentaAliyunPlayAuth;
     private boolean pdfDownloadStatus = false, pdfExists = false;
@@ -309,7 +312,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             }
         }
     };
-/*****************************************************TODO end 正计时  *************************/
+    /*****************************************************TODO end 正计时  *************************/
 
     /**
      * 播放进度更新计时器
@@ -391,6 +394,16 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         super.onResume();
         MobclickAgent.onResume(this);
 
+        //TODO 新增屏幕竖屏锁定
+        if (mIsFullScreenLocked) {
+            int orientation = getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                changeScreenMode(AliyunScreenMode.Small);
+            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                changeScreenMode(AliyunScreenMode.Full);
+            }
+        }
+
         updatePlayerViewMode();
 
         if (mNetWatchdog != null) {
@@ -461,6 +474,21 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             timerTask.cancel();
             timerTask = null;
         }
+    }
+
+    /**
+     * 让home键无效
+     *
+     * @param keyCode 按键
+     * @param event   事件
+     * @return 是否处理。
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (mIsFullScreenLocked && (keyCode != KeyEvent.KEYCODE_HOME)) {
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     /**
@@ -1097,7 +1125,18 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      * 锁定屏幕
      */
     private void lockScreen(boolean lockScreen) {
+        mIsFullScreenLocked = lockScreen;
+        if (mIsFullScreenLocked) {
+            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.icon_locked);
+            playerLockedscreen.setImageDrawable(drawable);
+        } else {
+            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.icon_unlocked);
+            playerLockedscreen.setImageDrawable(drawable);
+        }
 
+        if (mGestureView != null) {
+            mGestureView.setScreenLockStatus(mIsFullScreenLocked);
+        }
     }
 
     /**
@@ -1117,7 +1156,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         String mDestFileName = currentVid;//以视频库的id作为文件名
         String localPath = null;
         File externalFilesDir = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {//API19以上在应用存储空间里存储
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {//API19以上在应用存储空间里存储
             externalFilesDir = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
         } else {
             //低于API19则存储在自定义文件夹下
@@ -1186,7 +1225,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         try {
             File externalFilesDir = null;
             String localPath = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {//API19以上存放在应用内部文件夹
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {//API19以上存放在应用内部文件夹
                 externalFilesDir = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
             } else {//低于API19则删除自定义文件夹下的pdf文件
                 externalFilesDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + Constant.PDF_PATH);
@@ -1277,6 +1316,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      */
     public void changeScreenMode(AliyunScreenMode targetMode) {
         AliyunScreenMode finalScreenMode = targetMode;
+
+        if (mIsFullScreenLocked) {
+            finalScreenMode = AliyunScreenMode.Full;
+        }
+
         //这里可能会对模式做一些修改
         if (targetMode != mCurrentScreenMode) {
             mCurrentScreenMode = finalScreenMode;
@@ -1315,6 +1359,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             playerPDFPage.setVisibility(playerPDFPage.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//TODO PDF页数显示器
             pdfView.setVisibility(pdfView.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//PDF文件隐藏
             playerExitPdf.setVisibility(playerExitPdf.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//PDF退出按钮隐藏
+            playerLockedscreen.setVisibility(playerLockedscreen.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//锁屏按钮干掉
             playerHandouts.setText(getResources().getString(R.string.notes));
 
             //手势恢复
@@ -1324,6 +1369,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //TODO 切换为横屏
             playerQuality.setVisibility(playerQuality.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
             playerSpeed.setVisibility(playerSpeed.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+            playerLockedscreen.setVisibility(View.GONE);//锁屏按钮可见
 
             playerShare.setVisibility(playerShare.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);//TODO 分享按钮控制
 
@@ -1598,7 +1644,16 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
         initGestureView();//TODO 初始化手势控制
 
-        mGestureView.hide(ViewAction.HideType.End);//手势暂时隐藏失效
+    }
+
+    /**
+     * 隐藏手势和控制栏
+     * 隐藏其他的动作,防止点击界面去进行其他操作
+     */
+    private void hideGestureAndControlViews() {
+        if (mGestureView != null) {
+            mGestureView.hide(ViewAction.HideType.End);
+        }
     }
 
     /**
@@ -1664,6 +1719,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         mGestureView.setOnGestureListener(new GestureView.GestureListener() {
             @Override
             public void onHorizontalDistance(float downX, float nowX) {
+                //其他手势如果锁住了就不回调了。
+                if (mIsFullScreenLocked) {
+                    return;
+                }
+
                 if (mCurrentScreenMode != AliyunScreenMode.Small) {
                     //水平滑动调节seek。
                     // seek需要在手势结束时操作。
@@ -1691,6 +1751,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
             @Override
             public void onLeftVerticalDistance(float downY, float nowY) {
+                //其他手势如果锁住了就不回调了。
+                if (mIsFullScreenLocked) {
+                    return;
+                }
+
                 if (mCurrentScreenMode != AliyunScreenMode.Small) {
                     Display disp = getWindowManager().getDefaultDisplay();
                     int height = disp.getHeight();
@@ -1708,6 +1773,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
             @Override
             public void onRightVerticalDistance(float downY, float nowY) {
+                //其他手势如果锁住了就不回调了。
+                if (mIsFullScreenLocked) {
+                    return;
+                }
+
                 if (mCurrentScreenMode != AliyunScreenMode.Small) {
                     //右侧上下滑动调节音量
                     int changePercent = (int) ((nowY - downY) * 100 / playerRelativelayout.getHeight());
@@ -1724,6 +1794,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
             @Override
             public void onGestureEnd() {
+                //其他手势如果锁住了就不回调了。
+                if (mIsFullScreenLocked) {
+                    return;
+                }
+
                 //手势结束。
                 //seek需要在结束时操作。
                 if (mGestureDialogManager != null) {
@@ -1754,10 +1829,18 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
             @Override
             public void onDoubleTap() {
+                //其他手势如果锁住了就不回调了。
+                if (mIsFullScreenLocked) {
+                    return;
+                }
+
                 //双击事件，控制暂停播放
                 switchPlayerState();
             }
         });
+
+        //初始化完毕后暂时隐藏手势操作,避免有些SB乱点然后出现意外操作(比如无法返回)
+        hideGestureAndControlViews();
     }
 
     /**
@@ -2489,7 +2572,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
     @OnClick({R.id.player_back, R.id.player_share, R.id.player_btn, R.id.player_fullscreen,
             R.id.btn_call, R.id.btn_pay, R.id.player_quality, R.id.player_speed, R.id.player_handouts,
-            R.id.player_setting, R.id.player_collect, R.id.player_askquestion, R.id.player_exitPdf, R.id.player_lockedScreen})
+            R.id.player_setting, R.id.player_collect, R.id.player_askquestion, R.id.player_exitPdf, R.id.playerLockedscreen})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.player_back:
@@ -2573,12 +2656,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 //TODO 提问问题按钮
                 askCourseQuestion();//提问问题
                 break;
-            case R.id.player_lockedScreen:
-                //TODO 锁屏按钮
-                break;
             case R.id.player_exitPdf:
                 //TODO 退出PDF
                 switchPdfHandouts();
+                break;
+            case R.id.playerLockedscreen:
+                toastInfo("锁屏");
+                lockScreen(!mIsFullScreenLocked);
                 break;
             case R.id.btn_call:
                 //TODO 客服电话

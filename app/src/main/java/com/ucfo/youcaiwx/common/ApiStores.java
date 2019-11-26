@@ -25,8 +25,9 @@ public class ApiStores {
     //socket地址
     public static final String SOCKET = "ws://ycapi.youcaiwx.com:2346";
 
-    public static final String FILE_UPLOAD = "http://ycapi.youcaiwx.com/upload/Index/uploadImage";//上传文件
-    public static final String VERSION_UPDATE = "http://ycapi.youcaiwx.com/apps/Version/upAndroid";//版本更新
+    public static final String FILE_UPLOAD = ROOT_URL + "upload/Index/uploadImage";//上传文件
+    public static final String VERSION_UPDATE = ROOT_URL + "Version/upAndroid";//版本更新
+
     public static final String TEMPORARYLIVE = "http://ycfx.youcaiwx.com/static/Video.html?user_id=888888";//临时直播地址
     public static final String TEMPORARFACE = "http://m.ucfo.com.cn/mskc/";//临时面授地址
     public static final String TEMPORARACTIVE = "http://m.ucfo.com.cn/yqh-wap/20190921/";//临时活动地址
@@ -126,7 +127,7 @@ public class ApiStores {
     public static final String ANSWERQUESTION_ANSWER_SUBMIT = BASE_URL + "Question/questionSub";//提问页提交问题
     public static final String TRACE_QUESTION = BASE_URL + "Course/answerClose";//追问
     //-----------------------------------------TODO 个人中心------------------------------------------------------------------------------//
-    public static final String USER_ABOUT_YOUCAI = "http://www.youcaiwx.com/html/app/aboutyoucai.html";//关于SB
+    public static final String USER_ABOUT_YOUCAI = "https://www.youcaiwx.cn/About/aboutyoucai.html";//关于SB
     public static final String USER_GETUSERINFO = BASE_URL + "Personal/getPersonal";//个人中心基本信息
     public static final String USER_RETOUCHE_USERINFO = BASE_URL + "Personal/savePersonal";//修改个人基本信息
     public static final String USER_RETOUCHE_PASSWORD = BASE_URL + "Personal/resetPaw";//修改密码

@@ -437,6 +437,9 @@
     <string name="cancelCheckAll">取消全选</string>
     <string name="delete">删除</string>
     <string name="no_delete">没有删除的视频选项</string>
+
+    <string name="download_maxDownload">最多选择10个视频</string>
+    <string name="download_pleaseCheck">请选择下载的视频</string>
     <!-- Strings related to 离线中心 end-->
 
 
