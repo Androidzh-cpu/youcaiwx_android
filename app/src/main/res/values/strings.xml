@@ -524,6 +524,8 @@
     <!--string related to update  start-->
     <string name="WhetherToUpgrade">是否升级到%s版本？</string>
     <string name="ThisIsTheLatestVersion">当前已是最新版本</string>
+    <string name="DownloadProgress">下载进度</string>
+    <string name="NotToUpgrade">暂不升级</string>
     <string name="update">升级</string>
     <!--string related to update  end-->
 

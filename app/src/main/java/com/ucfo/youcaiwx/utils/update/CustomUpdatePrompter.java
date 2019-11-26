@@ -48,7 +48,7 @@ public class CustomUpdatePrompter implements IUpdatePrompter {
                         updateProxy.startDownload(updateEntity, new OnFileDownloadListener() {
                             @Override
                             public void onStart() {
-                                HProgressDialogUtils.showHorizontalProgressDialog(mContext, "下载进度", false);
+                                HProgressDialogUtils.showHorizontalProgressDialog(mContext, mContext.getResources().getString(R.string.DownloadProgress), false);
                             }
 
                             @Override
@@ -69,7 +69,7 @@ public class CustomUpdatePrompter implements IUpdatePrompter {
                         });
                     }
                 })
-                .setNegativeButton("暂不升级", null)
+                .setNegativeButton(mContext.getResources().getString(R.string.NotToUpgrade), null)
                 .setCancelable(false)
                 .create()
                 .show();
