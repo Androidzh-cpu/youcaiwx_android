@@ -28,7 +28,7 @@ versions.zxing = "3.3.3"
 versions.Luban = "1.1.8"
 versions.matisse = "0.5.2-beta4"
 
-versions.versionCode = 2
+versions.versionCode = 3
 versions.versionName = "1.0.1"
 ext {
     //==Android Third party,include Application Layer,SDK Layer==

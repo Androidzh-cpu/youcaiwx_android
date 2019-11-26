@@ -432,16 +432,13 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
 
     @Override
     public void showLoading() {
-
     }
 
     @Override
     public void showLoadingFinish() {
-
     }
 
     @Override
     public void showError() {
-
     }
 }

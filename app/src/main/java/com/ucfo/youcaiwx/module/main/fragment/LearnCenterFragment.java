@@ -310,7 +310,6 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                 case R.id.user_offline:
                     //离线课程
                     startActivity(OfflineCourseActivity.class, null);
-                    //startActivity(UnFinishedPlanActivity.class, null);
                     break;
                 case R.id.btn_continueStudy:
                     //继续学习
@@ -340,8 +339,6 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
 
     @Override
     public void studyClockInResult(StudyClockInBean result) {
-        String string = "{\"code\":200,\"msg\":\"操作成功\",\"data\":{\"num\":2,\"image_url\":\"http://youcai2020.oss-cn-beijing.aliyuncs.com/style/images/20190813/c2fe7ff221c9481b56eb0334802ba858.jpeg\",\"head\":\"http://youcai2020.oss-cn-beijing.aliyuncs.com/style/images/20190703/1e6736c64fa1ab5c89e3a80a1ecdbd8b.jpeg\",\"username\":\"青春遗言\"}}";
-        //result = new Gson().fromJson(string, StudyClockInBean.class);
         if (result != null) {
             if (result.getCode() == 200) {
                 if (result.getData() != null) {
@@ -539,7 +536,9 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 
     @Override

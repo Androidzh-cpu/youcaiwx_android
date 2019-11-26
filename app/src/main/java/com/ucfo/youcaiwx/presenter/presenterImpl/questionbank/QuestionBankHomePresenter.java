@@ -47,6 +47,12 @@ public class QuestionBankHomePresenter {
                     }
 
                     @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        view.showLoadingFinish();
+                    }
+
+                    @Override
                     public void onSuccess(Response<String> response) {
                         String body = response.body();
                         if (!body.equals("")) {
