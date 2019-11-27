@@ -121,7 +121,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         tencentWebview = (TencentWebview) findViewById(R.id.webview);
         findViewById(R.id.showline).setVisibility(View.GONE);
         mLoadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
-        mLoadinglayout.showContent();
     }
 
     @Override
@@ -268,7 +267,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         // 那么这个时候我们的app就需要加载一个本地的错误提示页面，即webview如何加载一个本地的页面
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-            mLoadinglayout.showError();
+            if (mLoadinglayout != null) {
+                mLoadinglayout.showError();
+            }
         }
 
         //webView默认是不处理https请求的，页面显示空白，需要进行如下设置：
@@ -290,7 +291,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         @Override
         public void onPageFinished(WebView webView, String s) {
             super.onPageFinished(webView, s);
-            mLoadinglayout.showContent();
+            if (mLoadinglayout != null) {
+                mLoadinglayout.showContent();
+            }
         }
 
         @Override

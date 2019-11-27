@@ -33,6 +33,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -114,6 +115,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -202,6 +204,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     ImageView playerExitPdf;
     @BindView(R.id.playerLockedscreen)
     ImageView playerLockedscreen;
+    @BindView(R.id.text_danmucontent)
+    TextView danmuTextcontent;
 
     private ArrayList<String> titlesList;
     private ArrayList<Fragment> fragmentArrayList;
@@ -312,6 +316,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             }
         }
     };
+    private Random random;
     /*****************************************************TODO end 正计时  *************************/
 
     /**
@@ -473,6 +478,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (timerTask != null) {
             timerTask.cancel();
             timerTask = null;
+        }
+
+        //傻逼一样的东西,智障,脑残,狗东西,脑袋让自己给踢了
+        if (animation != null) {
+            animation.cancel();
         }
     }
 
@@ -1004,9 +1014,109 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     playerSeekprogress.setProgress(Integer.parseInt(String.valueOf(aliyunVodPlayer.getCurrentPosition())));//进度条设置当前进度
                 }
                 freeWatch();
+
+                //请跟我念,傻逼年年有,今年贼你妈多
+                SBZHXQ();
             }
             //解决bug：在Prepare中开始更新的时候，不会发送更新消息。
             startProgressUpdateTimer();
+        }
+    }
+
+    /**
+     * 傻逼智障,简直无敌了,开启糊弄大法,忽悠呗,接着忽悠
+     */
+    private int danmakuTime = 4 * 60;//TODO 弹幕时长(以秒为单位)
+    final boolean[] danmuTimeFlag = {true};
+    final int[] nextInt = {0, 0};
+    private TranslateAnimation animation = null;
+    private Animation.AnimationListener onAnimEndListener;
+
+    private void SBZHXQ() {
+        if (!TextUtils.equals(course_Source, Constant.LOCAL_CACHE)) {
+            if (getCourseBuyState() == Constant.HAVED_BUY) {
+                //随机弹幕
+                if (aliyunVodPlayer != null) {
+                    int round = Math.round(aliyunVodPlayer.getCurrentPosition());
+                    int rounds = round / 1000;//当前播放秒数
+                    if (rounds != 0) {
+                        if (rounds > 60) {
+                            //23/4=5.j
+                            if (rounds % danmakuTime == 0) {
+                                //4分钟节点
+                                danmuTimeFlag[0] = true;
+                            } else {
+                                //非4分钟的节点
+                                if (danmuTimeFlag[0]) {
+                                    nextInt[0] = random.nextInt(60 * 4 - 1);
+                                    danmuTimeFlag[0] = false;
+                                    nextInt[1] = nextInt[0] + rounds;
+                                }
+                                if (rounds == nextInt[1]) {
+                                    viewTransView();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void viewTransView() {
+        int userID = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        if (userID != 0) {
+            int i = random.nextInt(6);
+            switch (i) {
+                case 0:
+                    animation = new TranslateAnimation(0, playerRelativelayout.getWidth(), 0, playerRelativelayout.getHeight());
+                    break;
+                case 1:
+                    animation = new TranslateAnimation(0, playerRelativelayout.getWidth(), playerRelativelayout.getHeight(), 0);
+                    break;
+                case 2:
+                    animation = new TranslateAnimation(0, playerRelativelayout.getWidth(), DensityUtil.dp2px(40), DensityUtil.dp2px(40));
+                    break;
+                case 3:
+                    animation = new TranslateAnimation(0, playerRelativelayout.getWidth(), playerRelativelayout.getHeight() - DensityUtil.dp2px(40), playerRelativelayout.getHeight() - DensityUtil.dp2px(40));
+                    break;
+                case 4:
+                    animation = new TranslateAnimation(playerRelativelayout.getWidth() / 3, playerRelativelayout.getWidth() / 3, 0, playerRelativelayout.getHeight());
+                    break;
+                case 5:
+                    animation = new TranslateAnimation(2 * playerRelativelayout.getWidth() / 3, 2 * playerRelativelayout.getWidth() / 3, 0, playerRelativelayout.getHeight());
+                    break;
+                default:
+                    animation = new TranslateAnimation(0, playerRelativelayout.getWidth(), 0, playerRelativelayout.getHeight());
+                    break;
+            }
+
+            String s = String.valueOf(System.currentTimeMillis() + userID);
+            danmuTextcontent.setText(s);
+            danmuTextcontent.setVisibility(View.VISIBLE);
+            if (Constant.ISTEST_ENVIRONMENT) {
+                danmuTextcontent.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            }
+            animation.setDuration(3000);
+            animation.setFillAfter(false);
+            danmuTextcontent.startAnimation(animation);
+            onAnimEndListener = new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    danmuTextcontent.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            };
+            animation.setAnimationListener(onAnimEndListener);
         }
     }
 
@@ -1854,6 +1964,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         login_status = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         download_wifi = sharedPreferencesUtils.getBoolean(Constant.DOWNLOAD_WIFI, false);
         look_wifi = sharedPreferencesUtils.getBoolean(Constant.LOOK_WIFI, false);
+
+        random = new Random();
         /**
          * 用于获取视频播放凭证
          */

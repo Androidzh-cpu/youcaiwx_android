@@ -31,7 +31,7 @@ public class ApiStores {
     public static final String TEMPORARYLIVE = "http://ycfx.youcaiwx.com/static/Video.html?user_id=888888";//临时直播地址
     public static final String TEMPORARFACE = "http://m.ucfo.com.cn/mskc/";//临时面授地址
     public static final String TEMPORARACTIVE = "http://m.ucfo.com.cn/yqh-wap/20190921/";//临时活动地址
-    public static final String APP_DOWNLOAD_URL = "http://www.youcaiwx.com/html/activity/activity.html";//App应用商店下载页
+    public static final String APP_DOWNLOAD_URL = "http://www.youcaiwx.com/html/activity/download.html";//App应用商店下载页
     public static final String LOGO = "http://www.youcaiwx.com/Public/Uploads/newtopicpics/2017-12-26/5a41b418a2e32.png";
     public static final String ACTIVEEVENT = "http://ycapi.youcaiwx.com/web/Register/thickness";
 
@@ -87,7 +87,7 @@ public class ApiStores {
     public static final String QUESTION_GETPROJECT = BASE_URL + "Question/getProject";//获取题库展示专业
     public static final String QUESTION_GETPROJECTINFO = BASE_URL + "Question/questionIndex";//获取用户对应题库信息
     public static final String QUESTION_GETQUSTIONONRECORD = BASE_URL + "Question/questionRecord";//获取用户答题记录
-    public static final String QUESTION_AbilityTOAssess = "https://www.youcaiwx.cn/#/capacity-assessment-app";//用户能力评估
+    public static final String QUESTION_AbilityTOAssess = "https://www.youcaiwx.cn/capacity-assessment-app";//用户能力评估
     //public static final String QUESTION_AbilityTOAssess = "http://ycapi.youcaiwx.com/home/index.html#/capacity-assessment-app";//用户能力评估
     //http://ycapi.youcaiwx.com/home/index.html#/capacity-assessment-app?course_id=1&user_id=67
     //public static final String QUESTION_AbilityTOAssess = "http://192.168.3.23:8080/#/capacity-assessment-app";//用户能力评估

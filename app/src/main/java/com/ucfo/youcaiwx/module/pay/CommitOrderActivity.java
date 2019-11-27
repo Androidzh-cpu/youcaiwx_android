@@ -290,7 +290,6 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
                         textAddAddress.setVisibility(View.GONE);
                     }
                 } else {
-                    LogUtils.e("提交订单", "initMineAddress");
                     initMineAddress();
                 }
                 break;
@@ -540,6 +539,8 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }
