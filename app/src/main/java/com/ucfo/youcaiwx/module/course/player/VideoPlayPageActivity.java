@@ -1167,12 +1167,22 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
     }
 
-
     /**
      * @param flag      显示状态
      * @param isDisplay 是否延迟消失
      */
     public void setLayoutVisibility(boolean flag, boolean isDisplay) {
+        if (mIsFullScreenLocked) {
+            if (isDisplay) {
+                hideDelayed();
+            }
+            if (flag) {
+                playerLockedscreen.setVisibility(View.VISIBLE);
+            } else {
+                playerLockedscreen.setVisibility(View.GONE);
+            }
+            return;
+        }
         if (aliyunVodPlayer == null) {
             return;
         }
@@ -1201,6 +1211,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             } else {
                 playerTopliner.setBackgroundColor(Color.parseColor("#99000000"));
             }
+            //全屏模式下才能可见
+            if (mCurrentScreenMode == AliyunScreenMode.Full) {
+                playerLockedscreen.setVisibility(View.VISIBLE);
+            }
         } else {//隐藏控制栏
             if (playerTopliner.getVisibility() != View.GONE) {//可见状态
                 playerTopliner.startAnimation(getTranslateAnimation(0.0f, 0.0f, 0.0f, -1 * playerTopliner.getHeight(), false));
@@ -1210,6 +1224,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 playerBottomliner.startAnimation(getTranslateAnimation(0.0f, 0.0f, 0.0f, playerBottomliner.getHeight(), false));
                 playerBottomliner.setVisibility(View.GONE);
             }
+
+            playerLockedscreen.setVisibility(View.GONE);
 
             //弹出的播放器倍速,画质菜单隐藏
             if (qualityListviewWindow != null) {
@@ -1235,18 +1251,21 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      * 锁定屏幕
      */
     private void lockScreen(boolean lockScreen) {
+        setLayoutVisibility(false, false);
         mIsFullScreenLocked = lockScreen;
         if (mIsFullScreenLocked) {
             Drawable drawable = ContextCompat.getDrawable(this, R.drawable.icon_locked);
             playerLockedscreen.setImageDrawable(drawable);
+            setLayoutVisibility(false, false);
         } else {
             Drawable drawable = ContextCompat.getDrawable(this, R.drawable.icon_unlocked);
             playerLockedscreen.setImageDrawable(drawable);
+            setLayoutVisibility(true, true);
         }
-
         if (mGestureView != null) {
             mGestureView.setScreenLockStatus(mIsFullScreenLocked);
         }
+
     }
 
     /**
@@ -1469,7 +1488,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             playerPDFPage.setVisibility(playerPDFPage.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//TODO PDF页数显示器
             pdfView.setVisibility(pdfView.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//PDF文件隐藏
             playerExitPdf.setVisibility(playerExitPdf.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//PDF退出按钮隐藏
-            playerLockedscreen.setVisibility(playerLockedscreen.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//锁屏按钮干掉
+            playerLockedscreen.setVisibility(View.GONE);//锁屏按钮干掉
             playerHandouts.setText(getResources().getString(R.string.notes));
 
             //手势恢复
@@ -1479,7 +1498,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //TODO 切换为横屏
             playerQuality.setVisibility(playerQuality.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
             playerSpeed.setVisibility(playerSpeed.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-            playerLockedscreen.setVisibility(View.GONE);//锁屏按钮可见
+            playerLockedscreen.setVisibility(View.VISIBLE);//锁屏按钮可见
 
             playerShare.setVisibility(playerShare.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);//TODO 分享按钮控制
 
@@ -1651,6 +1670,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 }
                 //关闭定时器
                 stopProgressUpdateTimer();
+
+                //出错之后解锁屏幕，防止不能做其他操作，比如返回。
+                lockScreen(false);
             }
         });
         //TODO 播放完成监听
@@ -1822,7 +1844,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         int playerBottomlinerHeight = AppUtils.getViewHeight(playerBottomliner);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        params.setMargins(0, playerToplinerHeight, 0, playerBottomlinerHeight);
+        params.setMargins(DensityUtil.dip2px(this, 100), playerToplinerHeight, 0, playerBottomlinerHeight);
         playerRelativelayout.addView(mGestureView, params);//添加到布局中
 
         //设置手势监听
@@ -1929,11 +1951,19 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
             @Override
             public void onSingleTap() {
-                //单击事件，显示控制栏
-                if (playerTopliner.getVisibility() != View.VISIBLE) {
-                    setLayoutVisibility(true, true);
+                if (mIsFullScreenLocked) {
+                    if (playerLockedscreen.getVisibility() != View.VISIBLE) {
+                        setLayoutVisibility(true, true);
+                    } else {
+                        setLayoutVisibility(false, true);
+                    }
                 } else {
-                    setLayoutVisibility(false, true);
+                    //单击事件，显示控制栏
+                    if (playerTopliner.getVisibility() != View.VISIBLE) {
+                        setLayoutVisibility(true, true);
+                    } else {
+                        setLayoutVisibility(false, true);
+                    }
                 }
             }
 
@@ -2773,7 +2803,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 switchPdfHandouts();
                 break;
             case R.id.playerLockedscreen:
-                toastInfo("锁屏");
                 lockScreen(!mIsFullScreenLocked);
                 break;
             case R.id.btn_call:
