@@ -162,10 +162,11 @@
                 <!--收藏按钮-->
                 <ImageView
                     android:id="@+id/player_collect"
-                    android:layout_width="@dimen/dp_24"
-                    android:layout_height="@dimen/dp_24"
+                    android:layout_width="@dimen/dp_28"
+                    android:layout_height="@dimen/dp_28"
                     android:clickable="true"
-                    android:src="@mipmap/icon_playunstar" />
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_icon_playunstar" />
                 <!--倍速播放俺妞妞-->
                 <TextView
                     android:id="@+id/player_speed"

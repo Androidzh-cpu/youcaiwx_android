@@ -2524,9 +2524,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 currentVideoCollectState = data.getData().getCollect();
                 if (currentVideoCollectState == 2) {
                     //2 没有收藏
-                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playunstar));
+                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_icon_playunstar));
                 } else {
-                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playstar));
+                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_icon_playstar));
                 }
                 String handouts = data.getData().getHandouts();
                 if (!TextUtils.isEmpty(handouts)) {
@@ -2567,23 +2567,23 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         switch (data) {
             case 1://收藏接口
                 if (result == 1) {//TODO success
-                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playstar));
+                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_icon_playstar));
                     //设置文字前景色
                     ToastUtil.showBottomLongText(VideoPlayPageActivity.this, getResources().getString(R.string.course_collectionSuccess));
                     currentVideoCollectState = 1;//已收藏
                 } else if (result == 2) {//TODO failed
-                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playunstar));
+                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_icon_playunstar));
                     ToastUtil.showBottomLongText(VideoPlayPageActivity.this, getResources().getString(R.string.operation_Error));
                 }
                 break;
             case 2://取消收藏接口
                 if (result == 1) {
-                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playunstar));
+                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_icon_playunstar));
 
                     ToastUtil.showBottomLongText(VideoPlayPageActivity.this, getResources().getString(R.string.course_collectionCancel));
                     currentVideoCollectState = 2;//已取消收藏  question_tips_collection0
                 } else if (result == 2) {
-                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_playunstar));
+                    playerCollect.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_icon_playunstar));
                     ToastUtil.showBottomLongText(VideoPlayPageActivity.this, getResources().getString(R.string.operation_Error));
                 }
                 break;
