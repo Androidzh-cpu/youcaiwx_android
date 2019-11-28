@@ -154,7 +154,8 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         //TODO 选项的点击事件
         if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_E)) {
             //TODO 考试模式
-            mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//关闭解析区域
+
+            mAnalysisAreaQuestion.setVisibility(View.GONE);//关闭解析区域
             mOptionsListviewQuestion.setOnItemClickListener(this::onItemClick);
         } else if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A)) {
             //TODO 解析模式
@@ -164,14 +165,29 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
 
             //注销点击事件
             mOptionsListviewQuestion.setOnItemClickListener(null);
+
             //打开解析区域
-            mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+            mAnalysisAreaQuestion.setVisibility(View.VISIBLE);
 
         } else {
             //TODO 练习模式(作对不显示答案跳转下一页,做错显示解析)
 
             //设置解析内容
             initAnalysis();
+
+            //由于viewpager至能缓存三个fragment,所以要判断一下是否填写过答案然后再对解析内容进行显示
+            if (optionsAnswerList != null) {
+                String userAnswer = optionsAnswerList.get(index).getUser_answer();//答题卡用户选项
+                String rightAnswer = optionsAnswerList.get(index).getTrue_options();//获取正确答案
+                if (!TextUtils.isEmpty(userAnswer)) {
+                    if (TextUtils.equals(userAnswer, rightAnswer)) {
+                        mAnalysisAreaQuestion.setVisibility(View.GONE);
+                    } else {
+                        mAnalysisAreaQuestion.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
             //设置点击事件
             mOptionsListviewQuestion.setOnItemClickListener(this::onItemClick);
         }
@@ -207,7 +223,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
                 //总数据重新复制
                 testmodeActivity.setOptionsAnswerList(optionsAnswerList);
 
-                if (userOption.equals(rightAnswer)) {
+                if (TextUtils.equals(userOption, rightAnswer)) {
                     //TODO 做对
                     //发送广播,跳转至下一页
                     mLocalBroadcastManager.sendBroadcast(intent);

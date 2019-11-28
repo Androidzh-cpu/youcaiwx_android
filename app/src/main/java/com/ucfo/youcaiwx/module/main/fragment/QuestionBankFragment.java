@@ -282,9 +282,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     }
 
     /**
-     * 当前选择科目信息
-     *
-     * @param data
+     * 当前选择题库信息
      */
     @Override
     public void getSubjectInfoBean(SubjectInfoBean data) {
@@ -432,10 +430,12 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
 
     @Override
     public void showLoading() {
+        setProcessLoading(null, true);
     }
 
     @Override
     public void showLoadingFinish() {
+        dismissPorcess();
     }
 
     @Override

@@ -63,6 +63,12 @@ public class ErrorCenterActivity extends BaseActivity implements IQuestionBankKo
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        loadNetData();
+    }
+
+    @Override
     protected int setContentView() {
         return R.layout.activity_error_center;
     }
@@ -105,17 +111,22 @@ public class ErrorCenterActivity extends BaseActivity implements IQuestionBankKo
         bundle = getIntent().getExtras();
         if (bundle != null) {
             course_id = bundle.getInt(Constant.COURSE_ID, 0);
-
-            presenter.getErrorCenterSectionList(course_id, user_id);
         } else {
             loadinglayout.showEmpty();
         }
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.getErrorCenterSectionList(course_id, user_id);
+                loadNetData();
             }
         });
+    }
+
+    private void loadNetData() {
+        if (presenter == null) {
+            presenter = new QuestionBankKnowledgePresenter(this);
+        }
+        presenter.getErrorCenterSectionList(course_id, user_id);
     }
 
     @Override
@@ -164,11 +175,11 @@ public class ErrorCenterActivity extends BaseActivity implements IQuestionBankKo
      * Detail:TODO 设置适配器
      */
     private void initAdapter() {
-        if (questionErrorCenterAdapter != null) {
-            questionErrorCenterAdapter.notifyDataSetChanged();
-        } else {
+        if (questionErrorCenterAdapter == null) {
             questionErrorCenterAdapter = new QuestionErrorCenterAdapter(list, context, Constant.PLATE_7);
         }
+        questionErrorCenterAdapter.notifyDataSetChanged();
+
         listView.setAdapter(questionErrorCenterAdapter);
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -198,6 +209,8 @@ public class ErrorCenterActivity extends BaseActivity implements IQuestionBankKo
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

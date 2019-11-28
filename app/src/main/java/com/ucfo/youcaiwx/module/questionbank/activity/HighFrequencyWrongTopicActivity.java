@@ -64,6 +64,15 @@ public class HighFrequencyWrongTopicActivity extends BaseActivity implements IQu
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (questionBankKnowledgePresenter == null) {
+            questionBankKnowledgePresenter = new QuestionBankKnowledgePresenter(this);
+        }
+        questionBankKnowledgePresenter.getHighFrequencyWrongTopic(course_id);
+    }
+
+    @Override
     protected int setContentView() {
         return R.layout.activity_high_frequency_wrong_topic;
     }
@@ -101,7 +110,6 @@ public class HighFrequencyWrongTopicActivity extends BaseActivity implements IQu
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         if (!loginStaus) {
             loadinglayout.showEmpty();
-            return;
         }
     }
 
@@ -115,8 +123,6 @@ public class HighFrequencyWrongTopicActivity extends BaseActivity implements IQu
         if (bundle != null) {
             course_id = bundle.getInt(Constant.COURSE_ID, 0);
             plate_id = bundle.getInt(Constant.PLATE_ID, 0);
-
-            questionBankKnowledgePresenter.getHighFrequencyWrongTopic(course_id);
         } else {
             loadinglayout.showEmpty();
         }
@@ -131,7 +137,7 @@ public class HighFrequencyWrongTopicActivity extends BaseActivity implements IQu
 
     @Override
     public void getKnowledgeList(QuestionKnowledgeListBean data) {
-//TODO NOTHING
+        //TODO NOTHING
     }
 
     @Override
@@ -144,6 +150,9 @@ public class HighFrequencyWrongTopicActivity extends BaseActivity implements IQu
         if (questionBankHightErrorBean != null) {
             if (questionBankHightErrorBean.getData() != null && questionBankHightErrorBean.getData().size() > 0) {
                 List<QuestionBankHightErrorBean.DataBean> data = questionBankHightErrorBean.getData();
+                if (list == null) {
+                    list = new ArrayList<>();
+                }
                 list.clear();
                 list.addAll(data);
 
@@ -165,11 +174,10 @@ public class HighFrequencyWrongTopicActivity extends BaseActivity implements IQu
     }
 
     private void initAdapter() {
-        if (questionHightWrongAdapter != null) {
-            questionHightWrongAdapter.notifyDataSetChanged();
-        } else {
+        if (questionHightWrongAdapter == null) {
             questionHightWrongAdapter = new QuestionHightWrongAdapter(list, context, plate_id);
         }
+        questionHightWrongAdapter.notifyDataSetChanged();
         listView.setAdapter(questionHightWrongAdapter);
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -199,6 +207,8 @@ public class HighFrequencyWrongTopicActivity extends BaseActivity implements IQu
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

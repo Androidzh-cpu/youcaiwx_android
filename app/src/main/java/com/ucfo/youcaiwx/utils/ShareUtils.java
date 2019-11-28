@@ -215,38 +215,24 @@ public class ShareUtils {
      * @param desc           描述
      * @param wxSceneSession 类型
      */
-    public void shareUrlToWx(String url, String title, String desc, final String iconUrl, final int wxSceneSession) {
+    public void shareUrlToWx(String url, String title, String desc, final int wxSceneSession) {
         if (!isWeiXinAppInstall()) {
             return;
         }
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = url;
+
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = title;
-
         msg.description = desc;
-        Bitmap bmp = BitmapFactory.decodeResource(UcfoApplication.getInstance().getResources(), R.mipmap.app_icon);
-        Bitmap[] thumbBmp = {Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true)};
-        bmp.recycle();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    InputStream imageStream = getImageStream(iconUrl);
-                    Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
-                    thumbBmp[0] = Bitmap.createScaledBitmap(bitmap, THUMB_SIZE, THUMB_SIZE, true);
-                    bitmap.recycle();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                msg.thumbData = bmpToByteArray(thumbBmp[0], true);
-                SendMessageToWX.Req req = new SendMessageToWX.Req();
-                req.transaction = buildTransaction("webpage");
-                req.message = msg;
-                req.scene = wxSceneSession;
-                UcfoApplication.api.sendReq(req);
-            }
-        }).start();
+        Bitmap thumb = BitmapFactory.decodeResource(UcfoApplication.getInstance().getResources(), R.mipmap.app_icon);
+        msg.thumbData = bmpToByteArray(thumb, true);
+
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = buildTransaction("webpage");
+        req.message = msg;
+        req.scene = wxSceneSession;
+        UcfoApplication.api.sendReq(req);
     }
 
 

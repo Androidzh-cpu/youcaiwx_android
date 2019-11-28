@@ -270,15 +270,12 @@
                         android:orientation="vertical"
                         android:visibility="gone">
                         <!--TODO 登录后需要添加的学习计划列表-->
-                        <com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView
+                        <android.support.v7.widget.RecyclerView
                             android:id="@+id/listview_plan"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@android:color/white"
-                            android:nestedScrollingEnabled="false"
-                            app:shimmer_demo_child_count="2"
-                            app:shimmer_demo_layout_manager_type="linear_vertical"
-                            tools:ignore="UnusedAttribute" />
+                            android:nestedScrollingEnabled="false" />
                     </LinearLayout>
                     <!--TODO 已登录,并已添加学习计划-->
                     <LinearLayout

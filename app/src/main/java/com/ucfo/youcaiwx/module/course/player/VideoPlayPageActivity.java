@@ -2731,8 +2731,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                                 String url = ApiStores.APP_DOWNLOAD_URL;
                                 String title = getResources().getString(R.string.app_nameWX);
                                 String desc = getResources().getString(R.string.youcaiWXShareDescribe);
-                                String iamgeurl = ApiStores.LOGO;
-                                ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneSession);
+                                ShareUtils.getInstance().shareUrlToWx(url, title, desc, SendMessageToWX.Req.WXSceneSession);
                                 //设置签到积分
                                 EarnIntegralPresenter.getInstance().setIntegralType(Constant.INTEGRAL_SHARE);
                             }
@@ -2743,8 +2742,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                                 String url = ApiStores.APP_DOWNLOAD_URL;
                                 String title = getResources().getString(R.string.app_nameWX);
                                 String desc = getResources().getString(R.string.youcaiWXShareDescribe);
-                                String iamgeurl = ApiStores.LOGO;
-                                ShareUtils.getInstance().shareUrlToWx(url, title, desc, iamgeurl, SendMessageToWX.Req.WXSceneTimeline);
+                                ShareUtils.getInstance().shareUrlToWx(url, title, desc, SendMessageToWX.Req.WXSceneTimeline);
                                 //设置签到积分
                                 EarnIntegralPresenter.getInstance().setIntegralType(Constant.INTEGRAL_SHARE);
                             }

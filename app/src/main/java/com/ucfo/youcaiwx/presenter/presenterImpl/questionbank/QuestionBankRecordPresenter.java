@@ -65,7 +65,7 @@ public class QuestionBankRecordPresenter {
                             JSONObject jsonObject = null;
                             try {
                                 jsonObject = new JSONObject(body);
-                                int code = jsonObject.optInt("code");
+                                int code = jsonObject.optInt(Constant.CODE);
                                 if (code == 200) {
                                     QuestionOnRecordBean questionOnRecordBean = new Gson().fromJson(body, QuestionOnRecordBean.class);
                                     view.getQuestionRecordData(questionOnRecordBean);
@@ -80,7 +80,5 @@ public class QuestionBankRecordPresenter {
                         }
                     }
                 });
-
-
     }
 }

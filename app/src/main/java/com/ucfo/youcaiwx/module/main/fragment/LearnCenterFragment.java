@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,7 +104,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     @BindView(R.id.linear_continueStudy)
     LinearLayout linearContinueStudy;
     @BindView(R.id.listview_plan)
-    ShimmerRecyclerView listviewPlan;
+    RecyclerView listviewPlan;
     @BindView(R.id.btn_addlearnplan)
     TextView btnAddlearnplan;
     @BindView(R.id.listview_plandetail)
@@ -267,8 +268,12 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     public void updateDataInfo() {
         loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-        learncenterHomePresenter.learncenterHome(userId);
+        //刷新学习中心首页数据
+        if (learncenterHomePresenter != null) {
+            learncenterHomePresenter.learncenterHome(userId);
+        }
         currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
+        //刷新已购买课程数据
         if (currentSubjectId == 0) {
             questionBankHomePresenter.getMyProejctList(userId);
         }
@@ -332,7 +337,9 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
         if (result != null) {
             initLearnCenter(result);
         } else {
-            loadinglayout.showError();
+            if (loadinglayout != null) {
+                loadinglayout.showError();
+            }
             userInfoClear();
         }
     }

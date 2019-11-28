@@ -27,29 +27,28 @@ public class QuestionBankHomePresenter {
     /**
      * Description:QuestionBankHomePresenter
      * Time:2019-4-26   上午 10:46
-     * Detail: 获取我的题库
+     * Detail: TODO 获取已购买的可以用的题库
      */
     public void getMyProejctList(int user_id) {
         OkGo.<String>post(ApiStores.QUESTION_GETPROJECT)
-                .tag(this)
                 .params(Constant.USER_ID, user_id)
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
                         super.onStart(request);
-                        view.showLoading();
+                        //view.showLoading();
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        view.showError();
+                        //view.showError();
                     }
 
                     @Override
                     public void onFinish() {
                         super.onFinish();
-                        view.showLoadingFinish();
+                        //view.showLoadingFinish();
                     }
 
                     @Override
@@ -75,8 +74,20 @@ public class QuestionBankHomePresenter {
         OkGo.<String>post(ApiStores.QUESTION_GETPROJECTINFO)
                 .tag(this)
                 .params(Constant.USER_ID, user_id)
-                .params("course_id", major_id)
+                .params(Constant.COURSE_ID, major_id)
                 .execute(new StringCallback() {
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        //view.showLoadingFinish();
+                    }
+
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        //view.showLoading();
+                    }
+
                     @Override
                     public void onSuccess(Response<String> response) {
                         String body = response.body();

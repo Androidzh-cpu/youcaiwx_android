@@ -44,6 +44,7 @@ public class LearncenterHomePresenter {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
                         super.onStart(request);
+                        //view.showLoading();
                     }
 
                     @Override
@@ -55,7 +56,7 @@ public class LearncenterHomePresenter {
                     @Override
                     public void onFinish() {
                         super.onFinish();
-                        view.showLoadingFinish();
+                        //view.showLoadingFinish();
                     }
 
                     @Override

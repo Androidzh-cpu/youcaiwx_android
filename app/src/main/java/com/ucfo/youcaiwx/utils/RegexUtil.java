@@ -71,7 +71,8 @@ public class RegexUtil {
     public static boolean checkMobile(String mobile) {
         String regex = "^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$";
         String regex2 = "^[1]([3-9])[0-9]{9}$";
-        return Pattern.matches(regex2, mobile);
+        String regex3 = "^[1]([0-9])[0-9]{9}$";
+        return Pattern.matches(regex3, mobile);
     }
 
     /**

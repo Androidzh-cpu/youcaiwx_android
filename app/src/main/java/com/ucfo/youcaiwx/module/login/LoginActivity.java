@@ -110,7 +110,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         //注册网络
         loginPresenter = new LoginPresenter(this);
-
+        //微信注册扥路
         wxLoginPresenter = new WXLoginPresenter(this);
 
     }
@@ -121,7 +121,6 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         androidid = AppUtils.getAndroidID(this);
 
         etconfig();
-
     }
 
     @SuppressLint("ClickableViewAccessibility")
