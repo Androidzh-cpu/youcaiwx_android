@@ -99,6 +99,7 @@
     <string name="course_PDFnotExits">讲义不存在</string>
     <string name="course_PDF_changeToPDF">已切换为讲义</string>
     <string name="course_PDF_changeToVideo">已切换为视频</string>
+    <string name="course_lockedScreen">屏幕已锁定</string>
     <string name="course_NumOfLearning">%s人学习过</string>
     <string name="video">视频</string>
     <string name="notes">讲义</string>
