@@ -13,6 +13,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.flyco.roundview.RoundTextView;
+import com.hitomi.tilibrary.style.index.NumberIndexIndicator;
+import com.hitomi.tilibrary.style.progress.ProgressPieIndicator;
+import com.hitomi.tilibrary.transfer.TransferConfig;
+import com.hitomi.tilibrary.transfer.Transferee;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
@@ -82,6 +86,7 @@ public class CommodityExchangeActivity extends BaseActivity implements IIntegral
     private int user_id;
     private Bundle bundle;
     private String productId;
+    private Transferee transferee;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +144,8 @@ public class CommodityExchangeActivity extends BaseActivity implements IIntegral
         if (bundle != null) {
             productId = bundle.getString(Constant.PRODUCT_ID);
         }
+
+        transferee = Transferee.getDefault(this);
 
         integralExchangePresenter = new IntegralExchangePresenter();
         integralExchangePresenter.setIntegralExchangeDetailView(this);
@@ -202,6 +209,22 @@ public class CommodityExchangeActivity extends BaseActivity implements IIntegral
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror);
             GlideUtils.load(this, image, imageProduct, requestOptions);
+            if (!TextUtils.isEmpty(image)) {
+                TransferConfig config = TransferConfig.build()
+                        .setMissPlaceHolder(R.mipmap.icon_default)
+                        .setErrorPlaceHolder(R.mipmap.icon_default)
+                        .setProgressIndicator(new ProgressPieIndicator())
+                        .setIndexIndicator(new NumberIndexIndicator())
+                        .setJustLoadHitImage(true)
+                        .bindImageView(imageProduct, image);
+                imageProduct.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        transferee.apply(config).show();
+                    }
+                });
+            }
+
         } else if (TextUtils.equals(type, String.valueOf(2))) {
             linearCoupon.setVisibility(GONE);
             //TODO 课程
@@ -224,6 +247,22 @@ public class CommodityExchangeActivity extends BaseActivity implements IIntegral
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror);
             GlideUtils.load(this, image, imageProduct, requestOptions);
+            if (!TextUtils.isEmpty(image)) {
+                TransferConfig config = TransferConfig.build()
+                        .setMissPlaceHolder(R.mipmap.icon_default)
+                        .setErrorPlaceHolder(R.mipmap.icon_default)
+                        .setProgressIndicator(new ProgressPieIndicator())
+                        .setIndexIndicator(new NumberIndexIndicator())
+                        .setJustLoadHitImage(true)
+                        .bindImageView(imageProduct, image);
+                imageProduct.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        transferee.apply(config).show();
+                    }
+                });
+            }
+
         } else if (TextUtils.equals(type, String.valueOf(3))) {
             imageProduct.setVisibility(GONE);
             linearCoupon.setVisibility(VISIBLE);
@@ -313,7 +352,9 @@ public class CommodityExchangeActivity extends BaseActivity implements IIntegral
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 
     @OnClick(R.id.btn_next)
