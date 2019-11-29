@@ -2,6 +2,7 @@ package com.ucfo.youcaiwx.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.BitmapCallback;
@@ -16,6 +17,7 @@ import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.UcfoApplication;
+import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 
@@ -32,9 +34,9 @@ import java.net.URL;
  */
 public class ShareUtils {
     public static String defaultTitle = String.valueOf(UcfoApplication.getInstance().getResources().getString(R.string.app_nameWX));
-    public static String desc = String.valueOf(UcfoApplication.getInstance().getResources().getString(R.string.youcaiWXShareDescribe));
+    public static String defaultdesc = String.valueOf(UcfoApplication.getInstance().getResources().getString(R.string.youcaiWXShareDescribe));
     public static String defaultIcon = "http://www.youcaiwx.com/Public/Uploads/newtopicpics/2017-12-26/5a41b418a2e32.png";
-    public static String defaultUrl = "http://www.youcaiwx.com/html/activity/activity.html";
+    public static String defaultUrl = ApiStores.APP_DOWNLOAD_URL;
 
     private static ShareUtils instance;
     private Bitmap shareBitmap;
@@ -219,6 +221,16 @@ public class ShareUtils {
         if (!isWeiXinAppInstall()) {
             return;
         }
+        if (TextUtils.isEmpty(title)) {
+            title = defaultTitle;
+        }
+        if (TextUtils.isEmpty(desc)) {
+            desc = defaultdesc;
+        }
+        if (TextUtils.isEmpty(url)) {
+            url = defaultUrl;
+        }
+
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = url;
 

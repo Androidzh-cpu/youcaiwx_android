@@ -27,6 +27,7 @@ import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
+import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -212,10 +213,31 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
                         startToActivity(bundle, TESTMODEActivity.class);
                         break;
                     case Constant.PLATE_6://TODO 组卷模考
-                        bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_E);
+                        new AlertDialog(StageOfTestingActivity.this).builder()
+                                .setTitle(getResources().getString(R.string.explication))
+                                .setMsg(getResources().getString(R.string.question_examtips))
+                                .setCancelable(false)
+                                .setCanceledOnTouchOutside(false)
+                                .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+
+                                    }
+                                })
+                                .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_E);
+                                        bundle.putInt(Constant.PLATE_ID, Constant.PLATE_6);
+                                        bundle.putInt(Constant.MOCK_ID, list.get(position).getMock_id());
+                                        startToActivity(bundle, TESTMODEActivity.class);
+                                    }
+                                }).show();
+
+                        /*bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_E);
                         bundle.putInt(Constant.PLATE_ID, Constant.PLATE_6);
                         bundle.putInt(Constant.MOCK_ID, list.get(position).getMock_id());
-                        startToActivity(bundle, TESTMODEActivity.class);
+                        startToActivity(bundle, TESTMODEActivity.class);*/
                         break;
                     default:
                         break;

@@ -349,6 +349,7 @@
     <string name="question_tips_rightAnswer">正确答案</string>
     <string name="question_tips_unfinished">您还有题未做完，确定交卷嘛？</string>
     <string name="question_tips_savepager">是否保存本次练习进度并退出？</string>
+    <string name="question_examtips">您已进入模拟考试模式，中途离开请退出保存当前进度，恢复请从“答题记录”点击“继续做题”完成测试。</string>
     <string name="question_tips_whetherSavePager">是否交卷？</string>
     <string name="question_tips_Itstimeto">时间到！</string>
     <string name="question_tips_submitting">交卷中</string>

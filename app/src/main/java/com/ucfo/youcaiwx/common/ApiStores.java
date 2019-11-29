@@ -47,6 +47,7 @@ public class ApiStores {
 
     //App应用商店下载页
     public static final String APP_DOWNLOAD_URL = "http://www.youcaiwx.com/html/activity/download.html";
+    public static final String COURSER_SHARE = "https://www.youcaiwx.cn/Video/index.html";
     //App logo(旧版本分享使用的logo,现已废弃,改为Applogo)
     public static final String LOGO = "http://www.youcaiwx.com/Public/Uploads/newtopicpics/2017-12-26/5a41b418a2e32.png";
 

@@ -27,6 +27,7 @@ public class AlertDialog {
     private Dialog dialog;
     private RoundLinearLayout lLayout_bg;
     private TextView txt_msg;
+    private TextView txt_title;
     private RoundTextView btn_neg;
     private RoundTextView btn_pos;
     private View img_line;
@@ -50,6 +51,7 @@ public class AlertDialog {
         // 获取自定义Dialog布局中的控件
         lLayout_bg = view.findViewById(R.id.lLayout_bg);
         txt_msg = view.findViewById(R.id.txt_msg);
+        txt_title = view.findViewById(R.id.txt_title);
         btn_neg = view.findViewById(R.id.btn_neg);
         btn_neg.setVisibility(View.GONE);
         btn_pos = view.findViewById(R.id.btn_pos);
@@ -69,20 +71,41 @@ public class AlertDialog {
 
     public AlertDialog setMsg(String msg) {
         if (TextUtils.isEmpty(msg)) {
-            txt_msg.setText("内容");
+            txt_msg.setText("Message");
         } else {
             txt_msg.setText(msg);
         }
         return this;
     }
 
+    //路西法
+    public AlertDialog setTitle(String title) {
+        if (TextUtils.isEmpty(title)) {
+            String string = null;
+            if (context != null) {
+                string = context.getResources().getString(R.string.explication);
+            } else {
+                string = "Hint";
+            }
+            txt_title.setText(string);
+            txt_title.setVisibility(View.GONE);
+        } else {
+            txt_title.setText(title);
+            txt_title.setVisibility(View.VISIBLE);
+        }
+        return this;
+    }
 
+
+    //自从听了这首歌，玩LOL有了操作，真的，那天在中路遇到feke的劫，说实话他的劫挺厉害的，我的奶妈都有点打不过他，
+    // 但在我要第八次在塔下强杀他的时候，他们的辅助突然出来给我虚弱，就在这时候我把脚放了下去，开始用手玩，就这样拿了双杀，突然他们打野也过来，
+    // 我急忙的睁开了眼睛，拿了三杀。ADC又从草丛里出来，
+    // 我又快速的打开显示器，就这样拿了四杀。上单又不知道什么时候传送到了我后面，我急忙的推开了我身边的女人，就这样五杀了。团灭了SKT
     public AlertDialog setCancelable(boolean cancel) {
         dialog.setCancelable(cancel);
         return this;
     }
 
-    //按空白处不能取消
     public AlertDialog setCanceledOnTouchOutside(boolean cancel) {
         dialog.setCanceledOnTouchOutside(cancel);
         return this;
@@ -92,7 +115,7 @@ public class AlertDialog {
                                          final OnClickListener listener) {
         showPosBtn = true;
         if (TextUtils.isEmpty(text)) {
-            btn_pos.setText("确定");
+            btn_pos.setText("Confirm");
         } else {
             btn_pos.setText(text);
         }
@@ -109,7 +132,7 @@ public class AlertDialog {
     public AlertDialog setNegativeButton(String text, final OnClickListener listener) {
         showNegBtn = true;
         if (TextUtils.isEmpty(text)) {
-            btn_neg.setText("取消");
+            btn_neg.setText("Cancel");
         } else {
             btn_neg.setText(text);
         }
@@ -125,7 +148,7 @@ public class AlertDialog {
 
     private void setLayout() {
         if (!showPosBtn && !showNegBtn) {
-            btn_pos.setText("确定");
+            btn_pos.setText("Confirm");
             btn_pos.setVisibility(View.VISIBLE);
             btn_pos.setOnClickListener(new OnClickListener() {
                 @Override

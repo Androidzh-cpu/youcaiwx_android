@@ -2728,7 +2728,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                         .setFriendButton(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String url = ApiStores.APP_DOWNLOAD_URL;
+                                //String url = ApiStores.APP_DOWNLOAD_URL;
+                                String url = ApiStores.COURSER_SHARE + "?package_id=" + coursePackageId + "&VideoId=" + currentVid;
                                 String title = getResources().getString(R.string.app_nameWX);
                                 String desc = getResources().getString(R.string.youcaiWXShareDescribe);
                                 ShareUtils.getInstance().shareUrlToWx(url, title, desc, SendMessageToWX.Req.WXSceneSession);
@@ -2739,7 +2740,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                         .setCircleToFriendButton(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String url = ApiStores.APP_DOWNLOAD_URL;
+                                //String url = ApiStores.APP_DOWNLOAD_URL;
+                                String url = ApiStores.COURSER_SHARE + "?package_id=" + coursePackageId + "&VideoId=" + currentVid;
                                 String title = getResources().getString(R.string.app_nameWX);
                                 String desc = getResources().getString(R.string.youcaiWXShareDescribe);
                                 ShareUtils.getInstance().shareUrlToWx(url, title, desc, SendMessageToWX.Req.WXSceneTimeline);
