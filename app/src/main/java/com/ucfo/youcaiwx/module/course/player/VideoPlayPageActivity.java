@@ -1254,12 +1254,14 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         setLayoutVisibility(false, false);
         mIsFullScreenLocked = lockScreen;
         if (mIsFullScreenLocked) {
-            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_icon_locked);
+            //Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_icon_locked);
+            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_icon_locked2);
             playerLockedscreen.setImageDrawable(drawable);
             setLayoutVisibility(false, false);
             ToastUtil.showBottomShortText(this, getResources().getString(R.string.course_lockedScreen));
         } else {
-            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_icon_unlocked);
+            //Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_icon_unlocked);
+            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_icon_unlocked2);
             playerLockedscreen.setImageDrawable(drawable);
             setLayoutVisibility(true, true);
         }
@@ -1845,7 +1847,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         int playerBottomlinerHeight = AppUtils.getViewHeight(playerBottomliner);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        params.setMargins(DensityUtil.dip2px(this, 80), playerToplinerHeight, 0, playerBottomlinerHeight);
+        params.setMargins(DensityUtil.dip2px(this, 83), playerToplinerHeight, 0, playerBottomlinerHeight);
         playerRelativelayout.addView(mGestureView, params);//添加到布局中
 
         //设置手势监听

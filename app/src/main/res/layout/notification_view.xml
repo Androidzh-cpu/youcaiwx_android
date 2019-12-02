@@ -8,7 +8,7 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/app_icon" />
+        android:src="@mipmap/ic_launcher2" />
 
     <TextView
         android:id="@+id/notification_title"
@@ -50,6 +50,6 @@
         android:layout_marginBottom="5dp"
         android:layout_marginRight="5dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/app_icon" />
+        android:src="@mipmap/ic_launcher2" />
 
 </RelativeLayout>

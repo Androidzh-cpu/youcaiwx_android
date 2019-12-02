@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             CrashReport.setUserId(String.valueOf(anInt));
         }
         //有希望情况下可能不会显示指定的标签
-        //initSelectTab(indexTab);
+        initSelectTab(indexTab);
     }
 
     @Override

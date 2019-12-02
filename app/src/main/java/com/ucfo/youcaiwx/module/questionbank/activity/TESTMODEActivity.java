@@ -66,9 +66,8 @@ import butterknife.OnClick;
  * FileName: TESTMODEActivity
  * ORG: www.youcaiwx.com
  * Description:TODO 工程模式,做题主界面
- * Detail:=_=都已经乱了,就酱吧
+ * Detail:=_=都已经乱套了,就酱紫吧
  */
-
 public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExerciseView {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
@@ -249,11 +248,30 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             //TODO 设置做题类型
             questionBankExercisePresenter.setEXERCISE_TYPE(EXERCISE_TYPE);
             questionBankExercisePresenter.setContext(this);
+
+            //获取试题开始作答
+            loadNetData();
         } else {
             loadinglayout.showEmpty();
-            return;
         }
+        //重试事件监听
+        loadinglayout.setRetryListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadNetData();
+            }
+        });
+    }
 
+    /**
+     * 正儿八经的数据依赖后
+     */
+    private void loadNetData() {
+        if (questionBankExercisePresenter == null) {
+            questionBankExercisePresenter = new QuestionBankExercisePresenter(this);
+            questionBankExercisePresenter.setEXERCISE_TYPE(EXERCISE_TYPE);
+            questionBankExercisePresenter.setContext(this);
+        }
         //TODO 获取相应版块的试卷
         switch (plate_id) {
             case Constant.PLATE_0://TODO 0元体验
@@ -515,7 +533,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         submitStatus = 1;//1:交卷  2:退出保存
 
         //TODO step2:遍历做的题目集合，是否存在未做的题目，是 ：跳出循环
-        for (int i = 0; i < optionsAnswerList.size(); i++) {
+        int size = optionsAnswerList.size();
+        for (int i = 0; i < size; i++) {
             String userAnswer = optionsAnswerList.get(i).getUser_answer();
             if (TextUtils.isEmpty(userAnswer)) {//有一道题答案为空,就标记为未完成状态
                 complete = false;//显示为未作答状态
@@ -609,7 +628,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
      */
     private void freeExpercienceSubmit() {
         ArrayList<ErrorCenterSubmitAnswerBean> answerList = new ArrayList<>();
-        for (int i = 0; i < optionsAnswerList.size(); i++) {
+        int size = optionsAnswerList.size();
+        for (int i = 0; i < size; i++) {
             DoProblemsAnswerBean bean = optionsAnswerList.get(i);
             String questionId = bean.getQuestion_id();
             String trueOptions = bean.getTrue_options();
@@ -650,7 +670,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             finish();//返回上一级
             return;
         }
-        if (discuss_analysis) {//todo 论述题解析模式直接退出
+        if (getDiscussAnalysis()) {//todo 论述题解析模式直接退出
             finish();
             return;
         }
@@ -658,7 +678,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         submitStatus = 2;//1:交卷  2:退出保存
 
         //TODO step2:遍历做的题目集合，是否存在未做的题目,全部答案为空则直接退出做题页,有的话就显示提示框
-        for (int i = 0; i < optionsAnswerList.size(); i++) {
+        int size = optionsAnswerList.size();
+        for (int i = 0; i < size; i++) {
             String userAnswer = optionsAnswerList.get(i).getUser_answer();
             if (!TextUtils.isEmpty(userAnswer)) {//用户已作答
                 isDone = true;//是否做完题用于退出保存判断
@@ -853,7 +874,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 break;
             case 1://交卷成功
                 ArrayList<ErrorCenterSubmitAnswerBean> answerList = new ArrayList<>();
-                for (int i = 0; i < optionsAnswerList.size(); i++) {
+                int size = optionsAnswerList.size();
+                for (int i = 0; i < size; i++) {
                     DoProblemsAnswerBean bean = optionsAnswerList.get(i);
                     String question_id = bean.getQuestion_id();
                     String true_options = bean.getTrue_options();
@@ -938,6 +960,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         discuss_analysis = true;
 
         stopCounter();
+
         tvTime.setText("");
 
         btnQuery.setVisibility(btnQuery.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//答疑显示
@@ -1036,10 +1059,11 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             case Constant.PLATE_11:
                 //todo 答题记录继续做题跳转至最后一道做过的题目位置
                 int currentIndex = 0;
-                for (int i = 0; i < optionsAnswerList.size(); i++) {
+                int size = optionsAnswerList.size();
+                for (int i = 0; i < size; i++) {
                     String userAnswer = optionsAnswerList.get(i).getUser_answer();
                     if (!TextUtils.isEmpty(userAnswer)) {
-                        //如果为空，
+                        //如果为空，那就跳
                         currentIndex = i;
                     }
                 }
@@ -1066,28 +1090,50 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
      * Detail:TODO 创建答题卡
      */
     private void initAnswerSheet() {
-        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_D)) {//论述题答题卡
-            for (int i = 0; i < questionList.size(); i++) {
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_D)) {
+            //论述题答题卡
+
+            int size = questionList.size();
+            for (int i = 0; i < size; i++) {
                 DoProblemsBean.DataBean.TopicsBean bean = questionList.get(i);
-                String id = bean.getID();//题目ID
-                String right = bean.getOptions().get(0).getRight();//正确答案
+                //题目ID
+                String id = bean.getID();
+                //正确答案
+                String right = bean.getOptions().get(0).getRight();
+                String discussUseranswer = questionList.get(i).getDiscuss_useranswer();
+
                 DoProblemsAnswerBean doProblemsAnswerBean = new DoProblemsAnswerBean();
-                doProblemsAnswerBean.setQuestion_id(id);//题目ID
-                doProblemsAnswerBean.setPosition(i);//题目索引
-                doProblemsAnswerBean.setTrue_options(right);//正确答案
-                doProblemsAnswerBean.setUser_answer(questionList.get(i).getDiscuss_useranswer());//用户答案
+                //题目ID
+                doProblemsAnswerBean.setQuestion_id(id);
+                //题目索引
+                doProblemsAnswerBean.setPosition(i);
+                //正确答案
+                doProblemsAnswerBean.setTrue_options(right);
+                //用户答案
+                doProblemsAnswerBean.setUser_answer(discussUseranswer);
                 optionsAnswerList.add(doProblemsAnswerBean);
             }
-        } else {//选择题答题卡
-            for (int i = 0; i < questionList.size(); i++) {
+        } else {
+            //选择题答题卡
+
+            int size = questionList.size();
+            for (int i = 0; i < size; i++) {
                 DoProblemsBean.DataBean.TopicsBean bean = questionList.get(i);
-                String id = bean.getID();//题目ID
-                String right = bean.getOptions().get(0).getRight();//正确答案
+                //题目ID
+                String id = bean.getID();
+                //TODO 正确答案(正确答案放在了四个选项里,所以随便取一个吧),用户答案也一样的(老的数据结构是放在选项外层的)
+                String right = bean.getOptions().get(0).getRight();
+                String userOption = bean.getOptions().get(0).getUserOption();
+
                 DoProblemsAnswerBean doProblemsAnswerBean = new DoProblemsAnswerBean();
-                doProblemsAnswerBean.setQuestion_id(id);//题目ID
-                doProblemsAnswerBean.setPosition(i);//题目索引
-                doProblemsAnswerBean.setTrue_options(right);//正确答案
-                doProblemsAnswerBean.setUser_answer(bean.getOptions().get(0).getUserOption());//用户答案
+                //题目ID
+                doProblemsAnswerBean.setQuestion_id(id);
+                //题目索引
+                doProblemsAnswerBean.setPosition(i);
+                //正确答案
+                doProblemsAnswerBean.setTrue_options(right);
+                //用户答案
+                doProblemsAnswerBean.setUser_answer(userOption);
                 optionsAnswerList.add(doProblemsAnswerBean);
             }
         }
@@ -1099,7 +1145,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
      * Detail:TODO 设置底部功能区
      */
     private void setAnalyesStyle() {
-        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A)) {//TODO 解析模式
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A)) {
+            //TODO 解析模式
             if (plate_id == Constant.PLATE_7 || plate_id == Constant.PLATE_0 ||
                     plate_id == Constant.PLATE_13 || plate_id == Constant.PLATE_16) {
                 //错题中心查看错题,0元体验,查看收藏,试题详情直接隐藏底部功能区
@@ -1109,8 +1156,10 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 btnSubmitLinear.setVisibility(btnSubmitLinear.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//交卷按钮挂掉
                 btnPause.setVisibility(btnPause.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//暂停按钮挂掉
             }
-        } else {//TODO 非解析模式
-            if (plate_id == Constant.PLATE_0) {//0元体验模式
+        } else {
+            //TODO 非解析模式
+            if (plate_id == Constant.PLATE_0) {
+                //0元体验模式
                 btnCollection.setVisibility(btnCollection.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//收藏按钮挂掉
                 btnQuery.setVisibility(btnQuery.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//答疑按钮挂掉
                 btnSubmitLinear.setVisibility(btnSubmitLinear.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//交卷按钮显示
@@ -1159,13 +1208,16 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     @OnClick({R.id.btn_collection, R.id.btn_answersheet, R.id.btn_pause, R.id.btn_query, R.id.btn_submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.btn_collection://TODO 收藏
+            case R.id.btn_collection:
+                //TODO 收藏
                 funcionCollection();
                 break;
-            case R.id.btn_answersheet://TODO 答题卡
+            case R.id.btn_answersheet:
+                //TODO 答题卡
                 answerSheetDialog();
                 break;
-            case R.id.btn_pause://TODO 暂停
+            case R.id.btn_pause:
+                //TODO 暂停
                 stopCounter();
                 new PauseExamDialog(testModeActivity).builder()
                         .setCancelable(false)
@@ -1177,14 +1229,18 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                             }
                         }).show();
                 break;
-            case R.id.btn_query://TODO 答疑
+            case R.id.btn_query:
+                //TODO 答疑
                 Bundle bundle = new Bundle();
                 String question_id = optionsAnswerList.get(viewPager.getCurrentItem()).getQuestion_id();
-                bundle.putInt(Constant.QUESTION_ID, Integer.parseInt(question_id));
-                bundle.putInt(Constant.COURSE_ID, course_id);
-                startActivity(QuestionAnswerActivity.class, bundle);
+                if (!TextUtils.isEmpty(question_id)) {
+                    bundle.putInt(Constant.QUESTION_ID, Integer.parseInt(question_id));
+                    bundle.putInt(Constant.COURSE_ID, course_id);
+                    startActivity(QuestionAnswerActivity.class, bundle);
+                }
                 break;
-            case R.id.btn_submit://TODO 交卷
+            case R.id.btn_submit:
+                //TODO 交卷
                 submitPaper();
                 break;
             default:
@@ -1219,7 +1275,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             gridView = inflate.findViewById(R.id.listView);
             submitBtn = inflate.findViewById(R.id.answer_submit);
         }
-        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A) || discuss_analysis) {
+        if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A) || getDiscussAnalysis()) {
             //解析模式挂掉交卷按钮
             submitBtn.setVisibility(View.GONE);
         }
@@ -1266,7 +1322,9 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 jumpToAppointPage(optionsAnswerList.get(position).getPosition());
-                answerSheetDialog.dismiss();
+                if (answerSheetDialog != null) {
+                    answerSheetDialog.dismiss();
+                }
             }
         });
     }

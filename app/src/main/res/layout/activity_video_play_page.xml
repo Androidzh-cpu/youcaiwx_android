@@ -100,10 +100,10 @@
             android:layout_height="@dimen/dp_30"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dp_18"
+            android:layout_marginStart="@dimen/dp_21"
             android:clickable="true"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_icon_unlocked"
+            android:src="@drawable/ic_icon_unlocked2"
             android:visibility="gone" />
 
         <!--播放器顶部菜单栏-->

@@ -275,7 +275,7 @@ public class HorizontalProgressBar extends View {
         mPaint.setAntiAlias(true);
         canvas.save();
         //获取图片
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_round);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         //设置圆形bitmap
         Bitmap CircleBitmap = createCircleBitmap(bitmap);
 

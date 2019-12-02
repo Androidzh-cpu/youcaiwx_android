@@ -67,7 +67,7 @@ public class ExitPlanDialog {
 
     public ExitPlanDialog setIcon(int resId) {
         if (resId == 0) {
-            image_Icon.setImageResource(R.mipmap.app_icon);
+            image_Icon.setImageResource(R.mipmap.ic_launcher2);
         } else {
             image_Icon.setImageResource(resId);
         }

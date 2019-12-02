@@ -99,7 +99,7 @@ public class ShareUtils {
                     @Override
                     public void onError(Response<Bitmap> response) {
                         super.onError(response);
-                        Bitmap thumb = BitmapFactory.decodeResource(UcfoApplication.getInstance().getResources(), R.mipmap.app_icon);
+                        Bitmap thumb = BitmapFactory.decodeResource(UcfoApplication.getInstance().getResources(), R.mipmap.ic_launcher2);
                         shareImageToWx2(thumb, imageTitle, imageDes, wxSceneSession);
                     }
                 });
@@ -146,7 +146,7 @@ public class ShareUtils {
         msg.title = title;
         msg.description = desc;
 
-        Bitmap bmp = BitmapFactory.decodeResource(UcfoApplication.getInstance().getResources(), R.mipmap.app_icon);
+        Bitmap bmp = BitmapFactory.decodeResource(UcfoApplication.getInstance().getResources(), R.mipmap.ic_launcher2);
         final Bitmap[] thumbBmp = {Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true)};
         bmp.recycle();
         new Thread(new Runnable() {
@@ -184,7 +184,7 @@ public class ShareUtils {
         final WXMediaMessage msg = new WXMediaMessage(video);
         msg.title = title;
         msg.description = desc;
-        Bitmap bmp = BitmapFactory.decodeResource(UcfoApplication.getInstance().getResources(), R.mipmap.app_icon);
+        Bitmap bmp = BitmapFactory.decodeResource(UcfoApplication.getInstance().getResources(), R.mipmap.ic_launcher2);
         final Bitmap[] thumbBmp = {Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true)};
         bmp.recycle();
         new Thread(new Runnable() {
@@ -237,7 +237,8 @@ public class ShareUtils {
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = title;
         msg.description = desc;
-        Bitmap thumb = BitmapFactory.decodeResource(UcfoApplication.getInstance().getResources(), R.mipmap.app_icon);
+        //Bitmap thumb = BitmapFactory.decodeResource(UcfoApplication.getInstance().getResources(), R.mipmap.app_icon);
+        Bitmap thumb = BitmapFactory.decodeResource(UcfoApplication.getInstance().getResources(), R.mipmap.ic_launcher2);
         msg.thumbData = bmpToByteArray(thumb, true);
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
@@ -323,7 +324,7 @@ public class ShareUtils {
                     @Override
                     public void onError(Response<Bitmap> response) {
                         super.onError(response);
-                        Bitmap thumb = BitmapFactory.decodeResource(UcfoApplication.getInstance().getResources(), R.mipmap.app_icon);
+                        Bitmap thumb = BitmapFactory.decodeResource(UcfoApplication.getInstance().getResources(), R.mipmap.ic_launcher2);
                         shareBitmap = thumb;
                     }
                 });

@@ -56,7 +56,7 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
         //设置条目的点击事件
         String item = list.get(position);
         if (getItemCount() == 0) {//适配器数据为空,默认显示添加图片按钮
-            holder.iv_img.setImageResource(R.mipmap.app_icon);
+            holder.iv_img.setImageResource(R.mipmap.ic_launcher2);
             holder.iv_delete.setVisibility(View.GONE);
         } else {
             holder.iv_delete.setVisibility(View.VISIBLE);

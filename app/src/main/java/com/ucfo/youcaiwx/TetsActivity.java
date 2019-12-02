@@ -6,13 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 
-import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
-
+/**
+ * Author: AND
+ * Time: 2019-12-2 下午 2:02
+ * Package: com.ucfo.youcaiwx
+ * FileName: TetsActivity
+ * ORG: www.youcaiwx.com
+ * Description:我也不知道为啥我会弄出这个页面,闹着玩?
+ */
 public class TetsActivity extends AppCompatActivity {
-    CircleImageView ivUserPhoto;
-    private static ArrayList<String> list;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

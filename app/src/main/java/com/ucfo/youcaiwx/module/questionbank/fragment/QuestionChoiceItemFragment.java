@@ -151,7 +151,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         mOptionsListviewQuestion.setAdapter(adapter);
 
         /************************************************************** TODO 巨丑无比的分割线 **************************************************************************/
-        //TODO 选项的点击事件
+        //TODO 选项的点击事件处理,不同模式不同处理
         if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_E)) {
             //TODO 考试模式
 
@@ -175,33 +175,32 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             //设置解析内容
             initAnalysis();
 
+            //一个调皮的吐司
+            //ToastUtil.showBottomShortText(testmodeActivity,"不好意思,就算是继续做题,你还是得走练习模式" );
+
             //由于viewpager至能缓存三个fragment,所以要判断一下是否填写过答案然后再对解析内容进行显示
             if (optionsAnswerList != null) {
+
                 String userAnswer = optionsAnswerList.get(index).getUser_answer();//答题卡用户选项
                 String rightAnswer = optionsAnswerList.get(index).getTrue_options();//获取正确答案
                 if (!TextUtils.isEmpty(userAnswer)) {
+                    //TODO 用户已作答
                     if (TextUtils.equals(userAnswer, rightAnswer)) {
+                        //牛皮,就这智商还能作对
                         mAnalysisAreaQuestion.setVisibility(View.GONE);
                     } else {
+                        //诶对了,这才是正常水平
                         mAnalysisAreaQuestion.setVisibility(View.VISIBLE);
                     }
+                } else {
+                    //TODO 用户未作答
+                    mAnalysisAreaQuestion.setVisibility(View.GONE);
                 }
+
             }
 
             //设置点击事件
             mOptionsListviewQuestion.setOnItemClickListener(this::onItemClick);
-        }
-        //TODO 继续做题模式下的练习模式处理
-        if (plate_id == Constant.PLATE_11) {
-            if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_P)) {
-                //设置解析内容
-                initAnalysis();
-                String userAnswer = optionsAnswerList.get(index).getUser_answer();//答题卡用户选项
-                if (!TextUtils.isEmpty(userAnswer)) {
-                    //显示解析区域
-                    mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-                }
-            }
         }
     }
 

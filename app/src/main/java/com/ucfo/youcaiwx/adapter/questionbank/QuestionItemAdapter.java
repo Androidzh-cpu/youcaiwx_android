@@ -19,11 +19,14 @@ import java.util.ArrayList;
  * Description:TODO  viewpager创建多个做题页fragment
  */
 public class QuestionItemAdapter extends FragmentStatePagerAdapter {
-    public ArrayList<DoProblemsBean.DataBean.TopicsBean> list;//TODO 所有题目数据集(从接口获取)
+    //TODO 所有题目数据集(从接口获取)
+    public ArrayList<DoProblemsBean.DataBean.TopicsBean> list;
+    //TODO 做题模式
     private String EXERCISE_TYPE;
+    //todo 做题板块
     private int plate_id;
 
-    //TODO fragment管理器,type等同于做题界面的testmodle,标题
+    //TODO fragment管理器,type等同于做题界面的testmodle,板块
     public QuestionItemAdapter(FragmentManager fm, String exercise_type, ArrayList<DoProblemsBean.DataBean.TopicsBean> questionList, int plate_id) {
         super(fm);
         this.EXERCISE_TYPE = exercise_type;
@@ -34,17 +37,20 @@ public class QuestionItemAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (plate_id == Constant.PLATE_13 || plate_id == Constant.PLATE_16) {
-            //我的收藏下可能有论述和选择共同出现的情况
+            //TODO 我的收藏板块下 可能有论述和选择共同出现的情况
             String topicType = list.get(position).getTopicType();
             if (TextUtils.equals(topicType, String.valueOf(1))) {
                 return new QuestionChoiceItemFragment(position, EXERCISE_TYPE, list.size(), plate_id);
             } else {
                 return new QuestionDiscussItemFragment(position, EXERCISE_TYPE, list.size(), plate_id);
             }
-        } else {//非收藏
-            if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_D)) {//TODO 论述题模式
+        } else {
+            //TODO 非收藏
+            if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_D)) {
+                //TODO 论述题
                 return new QuestionDiscussItemFragment(position, EXERCISE_TYPE, list.size(), plate_id);
-            } else {//TODO 选择题模式
+            } else {
+                //TODO 选择题
                 return new QuestionChoiceItemFragment(position, EXERCISE_TYPE, list.size(), plate_id);
             }
         }
