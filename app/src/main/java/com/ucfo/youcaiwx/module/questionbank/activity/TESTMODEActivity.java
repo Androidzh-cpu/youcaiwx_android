@@ -751,7 +751,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     public void getProblemsList(DoProblemsBean bean) {
         if (bean != null) {
             if (bean.getData() != null) {
-                if (bean.getData().getTopics() != null && bean.getData().getTopics().size() > 0) {
+                DoProblemsBean.DataBean beanData = bean.getData();
+                if (beanData.getTopics() != null && beanData.getTopics().size() > 0) {
                     DoProblemsBean.DataBean data = bean.getData();
 
                     doExerciseFunction(data);//TODO 做题逻辑处理
@@ -1341,7 +1342,9 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
 
     @Override
     public void showError() {
-        loadinglayout.showEmpty();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 
     //TODO********************************************** 供外部调用数据

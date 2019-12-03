@@ -378,7 +378,8 @@
     <string name="holder_nomessage">暂无消息</string>
     <string name="holder_notmake">未作答</string>
     <string name="holder_usedtime">用时:  </string>
-    <string name="holder_analysis">解析:  </string>
+    <!--<string name="holder_analysis">解析:\u0020</string>-->
+    <string name="holder_analysis">解析:\u0020\u0020</string>
     <string name="holder_difficulty">难度:  </string>
     <string name="question_tips_resultreport_rightnum">做对试题</string>
     <string name="question_tips_resultreport_notmakenum">未做试题</string>

@@ -18,12 +18,10 @@ public class ApiStores {
     //域名
     private static final String DOMAIN_NAME = "api.youcaiwx.cn/";
     //线上正式环境
-    private static final String ROOT_URL = "https://api.youcaiwx.cn/";
+    //private static final String ROOT_URL = "https://api.youcaiwx.cn/";
     //private static final String ROOT_URL = NETWORKING_PROTOCOL + DOMAIN_NAME;
-    //内网测试环境
-    //public static final String ROOT_URL = "http://ycapi.youcaiwx.com/";
     //线下测试环境
-    //public static final String ROOT_URL = "https://dest.youcaiwx.cn/";
+    public static final String ROOT_URL = "https://dest.youcaiwx.cn/";
 
     private static final String BASE_URL = ROOT_URL + "apps/";
 

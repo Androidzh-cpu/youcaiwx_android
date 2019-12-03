@@ -32,8 +32,8 @@ import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.questionbank.DoProblemsAnswerBean;
 import com.ucfo.youcaiwx.entity.questionbank.DoProblemsBean;
-import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.module.questionbank.activity.TESTMODEActivity;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +63,8 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
     private String userInputString;
     private boolean discuss_analysis;
     private ImageView mCollectionBtn;
+    private TextView mAnalysisContent2Question;
+    private ImageView mAnalysisImage2Question;
 
     public QuestionDiscussItemFragment() {
     }
@@ -84,17 +86,31 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
         nestedScrollView = (NestedScrollView) itemView.findViewById(R.id.nestedscrollview);
         mCurrentIndexQuestion = (TextView) itemView.findViewById(R.id.question_current_index);
         mCountIndexQuestion = (TextView) itemView.findViewById(R.id.question_count_index);
+
+        //题干
         mContent1Question = (TextView) itemView.findViewById(R.id.question_content1);
         mImage1Question = (ImageView) itemView.findViewById(R.id.question_image1);
         mContent2Question = (TextView) itemView.findViewById(R.id.question_content2);
         mImage2Question = (ImageView) itemView.findViewById(R.id.question_image2);
         mContent3Question = (TextView) itemView.findViewById(R.id.question_content3);
+
+        //做大区域
         mElaborationEt = (EditText) itemView.findViewById(R.id.et_elaboration);
+
+        //查看解析按钮
         mCheckAnalysisQuestion = (RoundTextView) itemView.findViewById(R.id.question_check_analysis);
         mCheckAnalysisQuestion.setOnClickListener(this);
+
+        //解析内容
         mAnalysisContentQuestion = (TextView) itemView.findViewById(R.id.question_analysis_content);
         mAnalysisImageQuestion = (ImageView) itemView.findViewById(R.id.question_analysis_image);
+        mAnalysisContent2Question = (TextView) itemView.findViewById(R.id.question_analysis_content2);
+        mAnalysisImage2Question = (ImageView) itemView.findViewById(R.id.question_analysis_image2);
+
+        //解析区域
         mAnalysisAreaQuestion = (LinearLayout) itemView.findViewById(R.id.question_analysis_area);
+
+        //收藏按钮
         mCollectionBtn = (ImageView) itemView.findViewById(R.id.btn_collection);
         mCollectionBtn.setOnClickListener(this);
     }
@@ -175,9 +191,15 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
 
     //TODO 设置解析
     private void initAnalysis() {
-        String analysisPic = questionList.get(index).getAnalysisPic();//解析图片
-        String analysis = questionList.get(index).getAnalysis();//解析文字
-        if (!TextUtils.isEmpty(analysis)) {//解析题干
+        //解析图片
+        String analysisPic = questionList.get(index).getAnalysisPic();
+        String analysisPic2 = questionList.get(index).getAnalysiscPic_One();
+        //解析文字
+        String analysis = questionList.get(index).getAnalysis();
+        String analysis2 = questionList.get(index).getAnalysisc_One();
+
+        //TODO 文字描述一
+        if (!TextUtils.isEmpty(analysis)) {
             String holder = getResources().getString(R.string.holder_analysis);
             String text = String.valueOf(holder + analysis);
             SpannableString spannableString = new SpannableString(text);
@@ -191,7 +213,9 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
         } else {
             mAnalysisContentQuestion.setVisibility(View.GONE);
         }
-        if (!TextUtils.isEmpty(analysisPic)) {//解析图片
+
+        //TODO 图片描述一
+        if (!TextUtils.isEmpty(analysisPic)) {
             RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
                     .placeholder(R.mipmap.icon_default)
@@ -217,6 +241,40 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
             }
         });
 
+      //TODO 1.0.2增加多解析
+
+        //TODO 文字描述二
+        if (!TextUtils.isEmpty(analysis2)) {
+            mAnalysisContent2Question.setText(analysis2);
+        } else {
+            mAnalysisContent2Question.setVisibility(View.GONE);
+        }
+
+        //TODO 图片描述二
+        if (!TextUtils.isEmpty(analysisPic2)) {
+            RequestOptions requestOptions = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.mipmap.icon_default)
+                    .error(R.mipmap.image_loaderror)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+            GlideUtils.load(testmodeActivity, analysisPic2, mAnalysisImage2Question, requestOptions);
+        } else {
+            mAnalysisImage2Question.setVisibility(View.GONE);
+        }
+        TransferConfig config2 = TransferConfig.build()
+                .setMissPlaceHolder(R.mipmap.icon_default)
+                .setErrorPlaceHolder(R.mipmap.icon_default)
+                .setProgressIndicator(new ProgressPieIndicator())
+                .setIndexIndicator(new NumberIndexIndicator())
+                .setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite))
+                .setJustLoadHitImage(true)
+                .bindImageView(mAnalysisImage2Question, analysisPic2);
+        mAnalysisImage2Question.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                transferee.apply(config2).show();
+            }
+        });
     }
 
     /**

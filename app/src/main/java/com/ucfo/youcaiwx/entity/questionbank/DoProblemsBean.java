@@ -129,7 +129,9 @@ public class DoProblemsBean {
 
             private String topicType;
             private String analysis;
+            private String analysis_one;
             private String analysisPic;
+            private String analysis_img_one;
             private String questionNumber;
             private String discuss_useranswer;
             private String collection;
@@ -161,6 +163,25 @@ public class DoProblemsBean {
             public void setAnalysisPic(String analysisPic) {
                 this.analysisPic = analysisPic;
             }
+
+            /***************TODO 新增加的解析字段 start ***************/
+            public String getAnalysisc_One() {
+                return analysis_one == null ? "" : analysis_one;
+            }
+
+            public void setAnalysisc_one(String analysis_one) {
+                this.analysis_one = analysis_one;
+            }
+
+            public String getAnalysiscPic_One() {
+                return analysis_img_one == null ? "" : analysis_img_one;
+            }
+
+            public void setAnalysiscPic_One(String analysis_img_one) {
+                this.analysis_img_one = analysis_img_one;
+            }
+
+            /**************TODO 新增加的解析字段 end ****************/
 
             public String getQuestionNumber() {
                 return questionNumber == null ? "" : questionNumber;

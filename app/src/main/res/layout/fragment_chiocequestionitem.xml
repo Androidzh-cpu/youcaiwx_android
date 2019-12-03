@@ -26,7 +26,6 @@
             android:orientation="vertical"
             android:paddingEnd="@dimen/dp_14"
             android:paddingStart="@dimen/dp_14">
-
             <!--顶部标题部分,此处显示当前题目索引,题目局总数-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -159,10 +158,9 @@
                 android:focusableInTouchMode="false"
                 android:nestedScrollingEnabled="false"
                 tools:listitem="@layout/item_questionbank_options" />
-
         </LinearLayout>
 
-        <!--题目的解析部分-->
+        <!--TODO 题目的解析部分-->
         <LinearLayout
             android:id="@+id/question_analysis_area"
             android:layout_width="match_parent"
@@ -175,6 +173,7 @@
             android:paddingTop="@dimen/dp_19"
             android:visibility="gone">
 
+            <!--正确答案和我的答案-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -213,6 +212,7 @@
                     tools:text="D" />
             </LinearLayout>
 
+            <!--该题目错误率-->
             <TextView
                 android:id="@+id/question_analysis_errorRate"
                 android:layout_width="wrap_content"
@@ -222,20 +222,34 @@
                 android:textSize="@dimen/sp_14"
                 tools:text="易错答案 A 错误率50%" />
 
-            <!--解析题干-->
+            <!--解析题干1-->
             <TextView
                 android:id="@+id/question_analysis_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp_10"
                 android:layout_marginTop="@dimen/dp_14"
                 android:lineSpacingExtra="@dimen/dp_5"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/sp_12"
                 tools:text="解析：使用现金流量表来评价一个公司的持续偿债能力时，要重点考虑哪部分现金流，使用现金流量表来评价一个公司的持续偿债能力时，要重点考虑哪部分现金流" />
-
+            <!--解析图片1-->
             <ImageView
                 android:id="@+id/question_analysis_image"
+                android:layout_width="@dimen/dp_217"
+                android:layout_height="@dimen/dp_122" />
+
+            <!--TODO 1.0.2开始增加 解析题干2-->
+            <TextView
+                android:id="@+id/question_analysis_content2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="@dimen/dp_5"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_12"
+                tools:text="解析：使用现金流量表来评价一个公司的持续偿债能力时，要重点考虑哪部分现金流，使用现金流量表来评价一个公司的持续偿债能力时，要重点考虑哪部分现金流" />
+            <!--解析图片2-->
+            <ImageView
+                android:id="@+id/question_analysis_image2"
                 android:layout_width="@dimen/dp_217"
                 android:layout_height="@dimen/dp_122"
                 android:layout_marginBottom="@dimen/dp_10" />

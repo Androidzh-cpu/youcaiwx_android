@@ -783,10 +783,15 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      * 初始化网络监听
      */
     private void initNetWatchdog() {
-        Context context = VideoPlayPageActivity.this;
-        mNetWatchdog = new NetWatchdog(context);
-        mNetWatchdog.setNetChangeListener(new MyNetChangeListener(this));
-        mNetWatchdog.setNetConnectedListener(new MyNetConnectedListener());
+        if (!TextUtils.equals(course_Source, Constant.LOCAL_CACHE)) {
+            //ToastUtil.showBottomShortText(this,"非本地视频" );
+            Context context = VideoPlayPageActivity.this;
+            mNetWatchdog = new NetWatchdog(context);
+            mNetWatchdog.setNetChangeListener(new MyNetChangeListener(this));
+            mNetWatchdog.setNetConnectedListener(new MyNetConnectedListener());
+        }else {
+            //ToastUtil.showBottomShortText(this,"本地视频" );
+        }
     }
 
     /**

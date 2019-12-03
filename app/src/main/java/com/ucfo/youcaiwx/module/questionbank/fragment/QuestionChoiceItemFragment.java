@@ -69,6 +69,8 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
     private TextView mRemovequestionQuestion;
     private TextView mAnalysisErrorRateQuestion;
     private ImageView mCollectionBtn;
+    private TextView mAnalysisContent2Question;
+    private ImageView mAnalysisImage2Question;
 
     @Override
     protected int setContentView() {
@@ -90,29 +92,47 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
     protected void initView(View view) {
         mCurrentIndexQuestion = (TextView) view.findViewById(R.id.question_current_index);
         mCountIndexQuestion = (TextView) view.findViewById(R.id.question_count_index);
+
+        //题干部分
         mContent1Question = (TextView) view.findViewById(R.id.question_content1);
         mImage1Question = (ImageView) view.findViewById(R.id.question_image1);
         mContent2Question = (TextView) view.findViewById(R.id.question_content2);
         mImage2Question = (ImageView) view.findViewById(R.id.question_image2);
         mContent3Question = (TextView) view.findViewById(R.id.question_content3);
+
+        //题目选项
         mOptionsListviewQuestion = (NestedListView) view.findViewById(R.id.question_optionsListview);
+
+        //正确错误答案
         mAnalysisTureQuestion = (TextView) view.findViewById(R.id.question_analysis_ture);
         mAnalysisFalseQuestion = (TextView) view.findViewById(R.id.question_analysis_false);
+
+        //解析-----> 文字,图片,文字,图片
         mAnalysisContentQuestion = (TextView) view.findViewById(R.id.question_analysis_content);
         mAnalysisImageQuestion = (ImageView) view.findViewById(R.id.question_analysis_image);
+        mAnalysisContent2Question = (TextView) view.findViewById(R.id.question_analysis_content2);
+        mAnalysisImage2Question = (ImageView) view.findViewById(R.id.question_analysis_image2);
+
+        //解析区域
         mAnalysisAreaQuestion = (LinearLayout) view.findViewById(R.id.question_analysis_area);
+
+        //移除当前题目按钮
         mRemovequestionQuestion = (TextView) view.findViewById(R.id.question_removequestion);
         mRemovequestionQuestion.setOnClickListener(this);
+
+        //改题目错误率
         mAnalysisErrorRateQuestion = (TextView) view.findViewById(R.id.question_analysis_errorRate);
+
+        //取消收藏按钮
         mCollectionBtn = (ImageView) view.findViewById(R.id.btn_collection);
         mCollectionBtn.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
-
+        //广播意图 答案正确自动跳转到下一页
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
-        intent = new Intent(Constant.BroadcastReceiver_TONEXT);//广播意图 答案正确自动跳转到下一页
+        intent = new Intent(Constant.BroadcastReceiver_TONEXT);
 
         FragmentActivity fragmentActivity = getActivity();
         if (fragmentActivity instanceof TESTMODEActivity) {
@@ -299,51 +319,40 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
      * Detail:TODO 设置解析
      */
     private void initAnalysis() {
-        String analysisPic = questionList.get(index).getAnalysisPic();//解析图片
-        String analysis = questionList.get(index).getAnalysis();//解析文字
-        String eprone = questionList.get(index).getEprone();//错误率提示
-        String rightAnswer = optionsAnswerList.get(index).getTrue_options();//正确答案
-        String userOption = optionsAnswerList.get(index).getUser_answer();//用户答案
+        //解析图片1
+        String analysisPic = questionList.get(index).getAnalysisPic();
+        //解析图片2
+        String analysisPic2 = questionList.get(index).getAnalysiscPic_One();
+        //解析文字1
+        String analysis = questionList.get(index).getAnalysis();
+        //解析文字2
+        String analysis2 = questionList.get(index).getAnalysisc_One();
 
-        if (!TextUtils.isEmpty(eprone)) {//错误率提示
+        //错误率提示
+        String eprone = questionList.get(index).getEprone();
+        //正确答案
+        String rightAnswer = optionsAnswerList.get(index).getTrue_options();
+        //用户答案
+        String userOption = optionsAnswerList.get(index).getUser_answer();
+
+        //TODO 错误率提示
+        if (!TextUtils.isEmpty(eprone)) {
             mAnalysisErrorRateQuestion.setText(eprone);
             mAnalysisErrorRateQuestion.setVisibility(mAnalysisErrorRateQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
         } else {
             mAnalysisErrorRateQuestion.setVisibility(mAnalysisErrorRateQuestion.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
         }
 
-        if (!TextUtils.isEmpty(analysis)) {//解析题干
-            String holder = getResources().getString(R.string.holder_analysis);
-
-            String text = String.valueOf(holder + analysis);
-            SpannableString spannableString = new SpannableString(text);
-            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#FF333333"));
-            /*AbsoluteSizeSpan ab = new AbsoluteSizeSpan(12, true);
-            spannableString.setSpan(ab, 0, holder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);*/
-            spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, holder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); //粗体
-            spannableString.setSpan(colorSpan, 0, holder.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
-            mAnalysisContentQuestion.setText(spannableString);
-
-        } else {
-            mAnalysisContentQuestion.setVisibility(View.GONE);
-        }
-        if (!TextUtils.isEmpty(analysisPic)) {//解析图片
-            RequestOptions requestOptions = new RequestOptions()
-                    .centerCrop()
-                    .placeholder(R.mipmap.icon_default)
-                    .error(R.mipmap.image_loaderror)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            GlideUtils.load(testmodeActivity, analysisPic, mAnalysisImageQuestion, requestOptions);
-
-        } else {
-            mAnalysisImageQuestion.setVisibility(View.GONE);
-        }
-        if (!TextUtils.isEmpty(rightAnswer)) {//正确答案
+        //TODO 正确答案
+        if (!TextUtils.isEmpty(rightAnswer)) {
+            //正确答案
             mAnalysisTureQuestion.setText(rightAnswer);
         } else {
             mAnalysisTureQuestion.setText(getResources().getString(R.string.holder_nodata));
         }
-        if (!TextUtils.isEmpty(userOption)) {//正确答案
+        //TODO 用户答案
+        if (!TextUtils.isEmpty(userOption)) {
+            //用户答案
             mAnalysisFalseQuestion.setText(userOption);
             if (rightAnswer.equals(userOption)) {//做对了
                 mAnalysisFalseQuestion.setTextColor(ContextCompat.getColor(testmodeActivity, R.color.color_F99111));
@@ -355,6 +364,33 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             mAnalysisFalseQuestion.setTextColor(ContextCompat.getColor(testmodeActivity, R.color.color_F99111));
         }
 
+        //TODO 解析文字描述一
+        if (!TextUtils.isEmpty(analysis)) {
+            //解析题干
+            String holder = getResources().getString(R.string.holder_analysis);
+
+            String text = String.valueOf(holder + analysis);
+            SpannableString spannableString = new SpannableString(text);
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#FF333333"));
+            /*AbsoluteSizeSpan ab = new AbsoluteSizeSpan(12, true);
+            spannableString.setSpan(ab, 0, holder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);*/
+            spannableString.setSpan(new StyleSpan(Typeface.BOLD), 0, holder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); //粗体
+            spannableString.setSpan(colorSpan, 0, holder.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+            mAnalysisContentQuestion.setText(spannableString);
+        } else {
+            mAnalysisContentQuestion.setVisibility(View.GONE);
+        }
+        //TODO 解析图片描述一
+        if (!TextUtils.isEmpty(analysisPic)) {
+            RequestOptions requestOptions = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.mipmap.icon_default)
+                    .error(R.mipmap.image_loaderror)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+            GlideUtils.load(testmodeActivity, analysisPic, mAnalysisImageQuestion, requestOptions);
+        } else {
+            mAnalysisImageQuestion.setVisibility(View.GONE);
+        }
         TransferConfig config = TransferConfig.build()
                 .setMissPlaceHolder(R.mipmap.icon_default)
                 .setErrorPlaceHolder(R.mipmap.icon_default)
@@ -366,6 +402,39 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             @Override
             public void onClick(View v) {
                 transferee.apply(config).show();
+            }
+        });
+
+
+        //TODO 解析文字描述二
+        if (!TextUtils.isEmpty(analysis2)) {
+            //解析题干
+            mAnalysisContent2Question.setText(analysis2);
+        } else {
+            mAnalysisContent2Question.setVisibility(View.GONE);
+        }
+        //TODO 解析图片描述二
+        if (!TextUtils.isEmpty(analysisPic2)) {
+            RequestOptions requestOptions = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.mipmap.icon_default)
+                    .error(R.mipmap.image_loaderror)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+            GlideUtils.load(testmodeActivity, analysisPic2, mAnalysisImage2Question, requestOptions);
+        } else {
+            mAnalysisImage2Question.setVisibility(View.GONE);
+        }
+        TransferConfig config2 = TransferConfig.build()
+                .setMissPlaceHolder(R.mipmap.icon_default)
+                .setErrorPlaceHolder(R.mipmap.icon_default)
+                .setProgressIndicator(new ProgressPieIndicator())
+                .setIndexIndicator(new NumberIndexIndicator())
+                .setJustLoadHitImage(true)
+                .bindImageView(mAnalysisImage2Question, analysisPic2);
+        mAnalysisImage2Question.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                transferee.apply(config2).show();
             }
         });
 
