@@ -184,7 +184,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/question_tips_rightAnswer"
                     android:textColor="@color/color_333333"
-                    android:textSize="@dimen/sp_14" />
+                    android:textSize="@dimen/sp_14"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/question_analysis_ture"
@@ -193,6 +194,7 @@
                     android:layout_marginStart="@dimen/dp_10"
                     android:textColor="@color/color_0AAB55"
                     android:textSize="@dimen/sp_14"
+                    android:textStyle="bold"
                     tools:text="D" />
 
                 <TextView
@@ -209,6 +211,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_10"
                     android:textSize="@dimen/sp_14"
+                    android:textStyle="bold"
                     tools:text="D" />
             </LinearLayout>
 

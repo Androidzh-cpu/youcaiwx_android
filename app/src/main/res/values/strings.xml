@@ -32,7 +32,7 @@
     <string name="login_register">注册</string>
     <string name="login_minecenter">完善资料</string>
     <string name="login_forgetpass">忘记密码?</string>
-    <string name="login_text">—     其他登录方式     —</string>
+    <string name="login_text">—\u3000其他登录方式\u3000—</string>
     <string name="login_login">登录</string>
     <string name="login_confirm">确认</string>
     <string name="login_register_success">恭喜您注册成功</string>
@@ -80,7 +80,7 @@
     <!-- Strings related to 课程 start-->
     <string name="course_consumeFlow">播放将消耗流量,是否继续?</string>
     <string name="course_free">免费试听</string>
-    <string name="course_joincount">参加人数: </string>
+    <string name="course_joincount">参加人数:\u0020</string>
     <string name="course_call">咨询客服</string>
     <string name="course_pay">立即报名</string>
     <string name="course_introduce">课程介绍</string>
@@ -104,8 +104,8 @@
     <string name="video">视频</string>
     <string name="notes">讲义</string>
     <string name="exercises">习题</string>
-    <string name="holder_teacher">讲师: </string>
-    <string name="holder_courseTime">课时: </string>
+    <string name="holder_teacher">讲师:\u0020</string>
+    <string name="holder_courseTime">课时:\u3000</string>
     <string name="first_login">请先登录</string>
     <string name="course_baoming">立即报名</string>
     <string name="course_bugBank">您还未拥有题库</string>
@@ -232,10 +232,10 @@
 
     <!-- Strings related to 我的订单 start-->
     <string name="orderForm_info">订单信息</string>
-    <string name="orderForm_number">订单编号: </string>
-    <string name="orderForm_money">订单金额: </string>
-    <string name="orderForm_time">下单时间: </string>
-    <string name="orderForm_Price">应付总额: </string>
+    <string name="orderForm_number">订单编号:\u3000</string>
+    <string name="orderForm_money">订单金额:\u3000</string>
+    <string name="orderForm_time">下单时间:\u3000</string>
+    <string name="orderForm_Price">应付总额:\u3000</string>
     <string name="ForthePayment">待付款</string>
     <string name="successfulDeal">交易成功</string>
     <string name="HasBeenCancelled">已取消</string>
@@ -243,7 +243,7 @@
     <string name="ToPayFor">去支付</string>
     <string name="ToApplyForTheInvoice">申请发票</string>
     <string name="orderForm_CoursePrice">课程价格</string>
-    <string name="orderForm_CourseName">课程名称:</string>
+    <string name="orderForm_CourseName">课程名称:\u3000</string>
     <string name="orderForm_DiscountAmount">优惠金额</string>
     <string name="orderForm_RealPayment">实付款</string>
     <string name="orderForm_endtime">购买后%s天有效</string>
@@ -372,15 +372,15 @@
     <string name="question_tab_commit">交卷</string>
     <!-- Strings related to 做题页导航栏 end-->
 
+    <!--TODO "\u3000":全角空格   "\u0020": 半角空格-->
 
     <!-- Strings related to 成绩统计 start-->
     <string name="holder_nodata">暂无数据</string>
     <string name="holder_nomessage">暂无消息</string>
     <string name="holder_notmake">未作答</string>
-    <string name="holder_usedtime">用时:  </string>
-    <!--<string name="holder_analysis">解析:\u0020</string>-->
-    <string name="holder_analysis">解析:\u0020\u0020</string>
-    <string name="holder_difficulty">难度:  </string>
+    <string name="holder_usedtime">用时:\u3000</string>
+    <string name="holder_analysis">解析:\u3000</string>
+    <string name="holder_difficulty">难度:\u0020\u0020</string>
     <string name="question_tips_resultreport_rightnum">做对试题</string>
     <string name="question_tips_resultreport_notmakenum">未做试题</string>
     <string name="question_tips_resultreport_wrongnum">做错试题</string>
@@ -391,7 +391,7 @@
     <string name="question_tips_holder4">准确率</string>
     <string name="question_tips_holder6">继续做题</string>
     <string name="question_tips_holder7">查看试题</string>
-    <string name="question_tips_holder5">%    已做</string>
+    <string name="question_tips_holder5">%\u3000已做</string>
     <string name="question_tips_holder8">老师</string>
     <!-- Strings related to 成绩统计 end-->
 
@@ -451,8 +451,8 @@
     <string name="pay_commitOrder">提交订单</string>
     <string name="pay_notice">《用户支付须知》</string>
     <string name="pay_havereaded">我已阅读</string>
-    <string name="pay_orderFormNumber">订单号: </string>
-    <string name="pay_orderFormPrice">订单金额: </string>
+    <string name="pay_orderFormNumber">订单号:\u0020</string>
+    <string name="pay_orderFormPrice">订单金额:\u0020</string>
     <string name="pay_finalPay">需支付</string>
     <string name="pay_discounts">优惠</string>
     <string name="pay_originalCost">原价</string>
@@ -518,7 +518,7 @@
     <string name="message_notification">系统通知</string>
     <string name="message_check">进入查看</string>
     <string name="message_checkCourse">进入课程</string>
-    <string name="message_form">来自: </string>
+    <string name="message_form">来自:\u0020</string>
     <string name="message_answerHolder">有人回复了您的问题</string>
     <string name="message_courseHolder">上课提醒通知</string>
     <!--string related to 消息中心 end-->

@@ -215,7 +215,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/question_title_question_hight_errors"
                 android:textColor="@color/color_333333"
-                android:textSize="@dimen/sp_14" />
+                android:textSize="@dimen/sp_14"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -262,7 +263,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/question_title_group_exam"
                 android:textColor="@color/color_333333"
-                android:textSize="@dimen/sp_12" />
+                android:textSize="@dimen/sp_12"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -290,7 +292,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/question_title_writes_really"
                 android:textColor="@color/color_333333"
-                android:textSize="@dimen/sp_12" />
+                android:textSize="@dimen/sp_12"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"

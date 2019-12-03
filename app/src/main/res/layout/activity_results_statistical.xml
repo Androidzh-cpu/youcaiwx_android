@@ -46,6 +46,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/color_151515"
                             android:textSize="@dimen/sp_16"
+                            android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="this is a title" />
