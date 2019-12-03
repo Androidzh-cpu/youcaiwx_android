@@ -192,13 +192,14 @@
                 android:text="解析: 使用现金流量表来评价一个公司的持续偿债能力时，要重点考虑哪部分现金流，使用现金流量表来评价一个公司的持续偿债能力时，要重点考虑哪部分现金流"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/sp_12" />
+
             <!--解析图片描述一-->
             <ImageView
                 android:id="@+id/question_analysis_image"
                 android:layout_width="@dimen/dp_217"
                 android:layout_height="@dimen/dp_122"
-                android:src="@mipmap/title_image" />
-
+                android:layout_marginBottom="@dimen/dp_2"
+                android:layout_marginTop="@dimen/dp_2" />
 
             <!--TODO 解析文字描述二-->
             <TextView
@@ -209,12 +210,14 @@
                 android:text="使用现金流量表来评价一个公司的持续偿债能力时，要重点考虑哪部分现金流，使用现金流量表来评价一个公司的持续偿债能力时，要重点考虑哪部分现金流"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/sp_12" />
+
             <!--TODO 解析图片描述二-->
             <ImageView
                 android:id="@+id/question_analysis_image2"
                 android:layout_width="@dimen/dp_217"
                 android:layout_height="@dimen/dp_122"
-                android:src="@mipmap/title_image" />
+                android:layout_marginBottom="@dimen/dp_5"
+                android:layout_marginTop="@dimen/dp_2" />
         </LinearLayout>
 
     </LinearLayout>

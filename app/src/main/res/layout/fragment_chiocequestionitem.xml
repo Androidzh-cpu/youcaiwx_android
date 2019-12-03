@@ -236,7 +236,9 @@
             <ImageView
                 android:id="@+id/question_analysis_image"
                 android:layout_width="@dimen/dp_217"
-                android:layout_height="@dimen/dp_122" />
+                android:layout_height="@dimen/dp_122"
+                android:layout_marginBottom="@dimen/dp_2"
+                android:layout_marginTop="@dimen/dp_2" />
 
             <!--TODO 1.0.2开始增加 解析题干2-->
             <TextView
@@ -252,7 +254,8 @@
                 android:id="@+id/question_analysis_image2"
                 android:layout_width="@dimen/dp_217"
                 android:layout_height="@dimen/dp_122"
-                android:layout_marginBottom="@dimen/dp_10" />
+                android:layout_marginBottom="@dimen/dp_5"
+                android:layout_marginTop="@dimen/dp_2" />
 
         </LinearLayout>
 
