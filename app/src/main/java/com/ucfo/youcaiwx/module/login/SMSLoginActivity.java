@@ -144,6 +144,7 @@ public class SMSLoginActivity extends BaseActivity implements ILoginView {
                     return;
                 }
                 //TODO  获取sms验证码
+                setProcessLoading(null, true);
                 loginPresenter.getVerifyCode(mobile, 2);
                 break;
             case R.id.tv_soundcode://TODO 获取语音验证码
@@ -156,7 +157,9 @@ public class SMSLoginActivity extends BaseActivity implements ILoginView {
                     toastInfo(getResources().getString(R.string.login_mobile_iserror));
                     return;
                 }
-                //TODO  获取sms验证码
+                //TODO  获取语音验证码
+                setProcessLoading(null, true);
+
                 loginPresenter.getVoiceCode(mobile);
                 break;
             case R.id.login_btn://TODO 登录
@@ -180,7 +183,7 @@ public class SMSLoginActivity extends BaseActivity implements ILoginView {
 
                 break;
             case R.id.tv_forgetpass://TODO 忘记密码
-                startActivity(new Intent(context, CompleteAndForgetActivity.class));
+                startActivity(new Intent(this, CompleteAndForgetActivity.class));
                 break;
             case R.id.wx_login:// TODO 微信登录
                 wxLoginPresenter.wxLogin();
@@ -194,7 +197,7 @@ public class SMSLoginActivity extends BaseActivity implements ILoginView {
     }
 
     public void toastInfo(String info) {
-        ToastUtil.showCenterShortText(context, info);
+        ToastUtil.showCenterShortText(this, info);
     }
 
     @Override
@@ -243,7 +246,6 @@ public class SMSLoginActivity extends BaseActivity implements ILoginView {
 
     @Override
     public void showError() {
-        dismissPorcess();
     }
 
     @Override

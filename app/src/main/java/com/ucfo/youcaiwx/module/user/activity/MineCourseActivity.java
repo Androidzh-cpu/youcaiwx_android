@@ -189,7 +189,6 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
         courseAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                setProcessLoading(null, true);
                 Bundle bundle = new Bundle();
                 MineCourseBean.DataBean bean = list.get(position);
                 String courseIamge = bean.getApp_img();//TODO 课程封面
@@ -198,7 +197,6 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
                 bundle.putInt(Constant.COURSE_PACKAGE_ID, coursePackageId);//课程包ID
                 bundle.putInt(Constant.COURSE_BUY_STATE, 1);//课程是否购买
                 startActivity(VideoPlayPageActivity.class, bundle);
-                dismissPorcess();
             }
         });
     }

@@ -181,6 +181,12 @@ public class LoginPresenter implements ILoginPresenter {
                         super.onError(response);
                         loginView.sendCodeSuccess(-1, null);
                     }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        loginView.showLoadingFinish();
+                    }
                 });
     }
 
@@ -204,7 +210,6 @@ public class LoginPresenter implements ILoginPresenter {
                 .tag(this)
                 .params(Constant.MOBILE, resultMobile)//手机号
                 .execute(new StringCallback() {
-
                     @Override
                     public void onSuccess(Response<String> response) {
                         String body = response.body();
@@ -236,6 +241,7 @@ public class LoginPresenter implements ILoginPresenter {
                     @Override
                     public void onFinish() {
                         super.onFinish();
+                        loginView.showLoadingFinish();
                     }
                 });
     }

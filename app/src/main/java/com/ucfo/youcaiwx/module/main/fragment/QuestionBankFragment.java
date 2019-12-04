@@ -44,6 +44,7 @@ import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.CirclePercentBar;
+import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -107,7 +108,8 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     View statusbarView;
     @BindView(R.id.view_line)
     View viewLine;
-    Unbinder unbinder1;
+    @BindView(R.id.loadinglayout)
+    LoadingLayout loadinglayout;
     private MainActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private QuestionBankHomePresenter questionBankHomePresenter;
@@ -118,6 +120,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     private ArrayList<QuestionMyProjectBean.DataBean> projectList;//已购买题库
     private PopupWindow popupWindow;//题库选择弹框
     private SubjectAdapter subjectAdapter;
+    private boolean isShowLoading = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -126,25 +129,15 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
         if (rootView != null) {
             unbinder = ButterKnife.bind(this, rootView);
         }
-        unbinder1 = ButterKnife.bind(this, rootView);
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);//用户登录状态
-        userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-        currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
-        if (loginStatus) {//TODO 用户已登录
-            questionBankHomePresenter.getMyProejctList(userId);
-        } else {//TODO 未登录
-            questionbankUnloginhome.setVisibility(View.VISIBLE);//零元体验题库
-            questionbankLoginhome.setVisibility(View.GONE);//真正题库隐藏
-            titlebarMidtitle.setText(getResources().getString(R.string.question_default));//设置零元体验标题
-            titlebarMidimage.setVisibility(View.GONE);//下拉箭头隐藏
-            sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
-        }
+        isShowLoading = false;
+
+        loadNetData();
     }
 
     @Override
@@ -162,6 +155,29 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
         super.onDestroyView();
         unbinder.unbind();
     }
+
+    private void loadNetData() {
+        if (sharedPreferencesUtils == null) {
+            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getActivity());
+        }
+        loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);//用户登录状态
+        userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
+        if (loginStatus) {//TODO 用户已登录
+            questionBankHomePresenter.getMyProejctList(userId);
+        } else {//TODO 未登录
+            questionbankUnloginhome.setVisibility(View.VISIBLE);//零元体验题库
+            questionbankLoginhome.setVisibility(View.GONE);//真正题库隐藏
+            titlebarMidtitle.setText(getResources().getString(R.string.question_default));//设置零元体验标题
+            titlebarMidimage.setVisibility(View.GONE);//下拉箭头隐藏
+            sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
+
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
+        }
+    }
+
 
     @Override
     protected int setContentView() {
@@ -187,6 +203,15 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
         projectList = new ArrayList<>();
         //注册网络
         questionBankHomePresenter = new QuestionBankHomePresenter(this);
+
+        if (loadinglayout != null) {
+            loadinglayout.setRetryListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loadNetData();
+                }
+            });
+        }
     }
 
     public void refreshBankData() {
@@ -278,7 +303,17 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
 
             projectList.clear();
             sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
+
+
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         }
+
+
+        /*if (loadinglayout != null) {
+            loadinglayout.showContent();
+        }*/
     }
 
     /**
@@ -303,6 +338,10 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             questionAveragePercent.setPercentData(0, "", false, new DecelerateInterpolator());
             questionRankingPercent.setPercentData(0, "", false, new DecelerateInterpolator());
             questionDoexercisecount.setText(String.valueOf(0));
+        }
+
+        if (loadinglayout != null) {
+            loadinglayout.showContent();
         }
     }
 
@@ -366,7 +405,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                         break;
                 }
             } else {//未登录,去登录页
-                startActivity(new Intent(context, LoginActivity.class));
+                startActivity(LoginActivity.class);
             }
         }
     }
@@ -406,9 +445,12 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     currentSubjectId = projectList.get(position).getId();//当前选中的科目ID
                     sharedPreferencesUtils.putInt(Constant.SUBJECT_ID, currentSubjectId);//存放当前的科目ID
+
+                    isShowLoading = true;
                     questionBankHomePresenter.getSubjectInfo(userId, projectList.get(position).getId());
 
                     titlebarMidtitle.setText(projectList.get(position).getName());//设置选中的标题
+
                     if (popupWindow != null) {
                         popupWindow.dismiss();
                     }
@@ -430,7 +472,13 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
 
     @Override
     public void showLoading() {
-        setProcessLoading(null, true);
+        if (isShowLoading) {
+            /*if (loadinglayout != null) {
+                loadinglayout.showLoading();
+            }*/
+            setProcessLoading(null, true);
+        }
+
     }
 
     @Override
@@ -440,5 +488,8 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
 
     @Override
     public void showError() {
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

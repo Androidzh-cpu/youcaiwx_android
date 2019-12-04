@@ -121,7 +121,8 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
         Intent intent = getIntent();
         bundle = intent.getExtras();
         if (bundle == null) {
-            type = Constant.TYPE_FORGET;//TODO 默认此页面处理忘记密码类型
+            //TODO 默认此页面处理忘记密码类型
+            type = Constant.TYPE_FORGET;
         } else {
             openid = bundle.getString(Constant.OPENID, "");
             unioid = bundle.getString(Constant.UNIONID, "");
@@ -131,7 +132,7 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
 
             type = bundle.getString(Constant.TYPE, Constant.TYPE_FORGET);//TODO 默认此页面处理忘记密码类型
         }
-        if (type.equals(Constant.TYPE_FORGET)) {//忘记密码
+        if (TextUtils.equals(type, Constant.TYPE_FORGET)) {//忘记密码
             SpannableString s = new SpannableString(getResources().getString(R.string.new_password));//这里输入自己想要的提示文字
             etPassword.setHint(s);
         } else {//完善信息
@@ -221,10 +222,14 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
                     toastInfo(getResources().getString(R.string.register_password_error));
                     return;
                 }
-                if (type.equals(Constant.TYPE_FORGET)) {//忘记密码
+                if (TextUtils.equals(type, Constant.TYPE_FORGET)) {
+                    //忘记密码
                     //TODO  获取sms验证码
+                    setProcessLoading(null, true);
                     forgetPwdPresenter.getVerifyCode(mobile);
-                } else {//TODO  完善信息验证码
+                } else {
+                    //TODO  完善信息验证码
+                    setProcessLoading(null, true);
                     forgetPwdPresenter.getWXVerifyCode(mobile, 2);
                 }
                 break;
@@ -249,6 +254,7 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
                     return;
                 }
                 //TODO  获取语音验证码
+                setProcessLoading(null, true);
                 forgetPwdPresenter.getVoiceCode(mobile);
                 break;
             case R.id.btn_confirm:
@@ -285,7 +291,7 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
     }
 
     private void confirmBtnEventClick(String mobile, String mobileCode, String password) {
-        if (type.equals(Constant.TYPE_FORGET)) {
+        if (TextUtils.equals(type, Constant.TYPE_FORGET)) {
             //忘记密码
             //开始重置密码
             forgetPwdPresenter.resetPassWord(mobile, mobileCode, password);

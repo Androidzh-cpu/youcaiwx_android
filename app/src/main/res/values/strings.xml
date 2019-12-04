@@ -48,7 +48,7 @@
     <string name="register_tiptext1">我已阅读并同意</string>
     <string name="register_tiptext2">《用户注册协议》</string>
     <string name="register_tiptext3">用户注册协议</string>
-    <string name="tipsound1">收不到短信,  试试</string>
+    <string name="tipsound1">收不到短信,\u0020试试</string>
     <string name="tipsound2">语音验证码</string>
     <string name="login_mobile_isempty">手机号不能为空</string>
     <string name="login_password_isempty">密码不能为空</string>
@@ -171,11 +171,11 @@
     <string name="mine_addressTips_Phone">您的手机号格式不正确</string>
     <string name="mine_addressTips_Delete">地址已删除</string>
     <string name="mine_Course_nodata">您还没有购买课程哦～</string>
+    <string name="mine_collection_coursenodata">您还没有收藏课程哦～</string>
     <string name="mine_Course_Look">查看课程</string>
     <string name="mine_Course_holder2">小时</string>
     <string name="mine_collection_course">课程收藏</string>
     <string name="mine_collection_question">题库收藏</string>
-    <string name="mine_collection_coursenodata">您还没有收藏课程哦～</string>
     <string name="mine_questionanswer">题库答疑</string>
     <string name="mine_downloadwithwifi">仅在Wi-Fi下下载</string>
     <string name="mine_lookwithwifi">仅在Wi-Fi下观看视频</string>
@@ -236,6 +236,7 @@
     <string name="orderForm_money">订单金额:\u3000</string>
     <string name="orderForm_time">下单时间:\u3000</string>
     <string name="orderForm_Price">应付总额:\u3000</string>
+    <string name="orderForm_CourseName">课程名称:\u3000</string>
     <string name="ForthePayment">待付款</string>
     <string name="successfulDeal">交易成功</string>
     <string name="HasBeenCancelled">已取消</string>
@@ -243,7 +244,6 @@
     <string name="ToPayFor">去支付</string>
     <string name="ToApplyForTheInvoice">申请发票</string>
     <string name="orderForm_CoursePrice">课程价格</string>
-    <string name="orderForm_CourseName">课程名称:\u3000</string>
     <string name="orderForm_DiscountAmount">优惠金额</string>
     <string name="orderForm_RealPayment">实付款</string>
     <string name="orderForm_endtime">购买后%s天有效</string>
@@ -389,9 +389,9 @@
     <string name="question_tips_holder2">未掌握</string>
     <string name="question_tips_holder3">未做题</string>
     <string name="question_tips_holder4">准确率</string>
+    <string name="question_tips_holder5">%\u3000已做</string>
     <string name="question_tips_holder6">继续做题</string>
     <string name="question_tips_holder7">查看试题</string>
-    <string name="question_tips_holder5">%\u3000已做</string>
     <string name="question_tips_holder8">老师</string>
     <!-- Strings related to 成绩统计 end-->
 
@@ -643,4 +643,5 @@
     <string name="permission_explication">授权失败,请手动去设置页打开权限，或者重试授权权限</string>
     <string name="pay_confirm_pay">确认付款</string>
     <!--string related to common end-->
+
 </resources>

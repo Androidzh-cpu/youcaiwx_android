@@ -144,6 +144,7 @@ public class ForgetPwdPresenter implements IForgetPwdPresenter {
                     @Override
                     public void onFinish() {
                         super.onFinish();
+                        view.showLoadingFinish();
                     }
                 });
 
@@ -202,6 +203,7 @@ public class ForgetPwdPresenter implements IForgetPwdPresenter {
                     @Override
                     public void onFinish() {
                         super.onFinish();
+                        view.showLoadingFinish();
                     }
                 });
     }
@@ -258,6 +260,7 @@ public class ForgetPwdPresenter implements IForgetPwdPresenter {
                     @Override
                     public void onFinish() {
                         super.onFinish();
+                        view.showLoadingFinish();
                     }
                 });
 

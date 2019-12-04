@@ -42,13 +42,13 @@ public class QuestionBankHomePresenter {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        //view.showError();
+                        view.showError();
                     }
 
                     @Override
                     public void onFinish() {
                         super.onFinish();
-                        //view.showLoadingFinish();
+                        view.showLoadingFinish();
                     }
 
                     @Override
@@ -79,13 +79,19 @@ public class QuestionBankHomePresenter {
                     @Override
                     public void onFinish() {
                         super.onFinish();
-                        //view.showLoadingFinish();
+                        view.showLoadingFinish();
                     }
 
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
                         super.onStart(request);
-                        //view.showLoading();
+                        view.showLoading();
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        view.showError();
                     }
 
                     @Override
