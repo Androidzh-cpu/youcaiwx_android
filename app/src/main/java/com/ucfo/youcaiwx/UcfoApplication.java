@@ -82,6 +82,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * 这个傻逼leader,除了正事,基本上没啥用处
  * 喜欢画大饼,还特么画的贼难看,画饼都不会画
  * 空话一堆,还特么听着贼恶心
+ * 一个SB说做了10年连个App都做不好,那不废话吗,就这条件做好才出奇迹呢
  */
 public class UcfoApplication extends Application {
     private static UcfoApplication application;

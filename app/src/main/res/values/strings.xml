@@ -626,6 +626,10 @@
     <string name="askQuestions">提问</string>
     <string name="setting">设置</string>
     <string name="exit_tips">再按一次退出程序</string>
+    <string name="WarmPrompt">温馨提示</string>
+    <string name="agreementTitle">欢迎使用优财CMA网校,本应用非常重视您的隐私和个人信息保护。在您使用前，请您认真阅读</string>
+    <string name="agreementTitle2">《用户协议和隐私政策》</string>
+    <string name="agreementTitle3">您同意接收全部条款后方可使用。</string>
     <string name="exit_confirm">确认退出?</string>
     <string name="thinkAgain">再想想</string>
     <string name="exit">退出</string>

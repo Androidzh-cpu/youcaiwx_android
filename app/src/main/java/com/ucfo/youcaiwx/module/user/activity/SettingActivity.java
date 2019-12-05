@@ -162,7 +162,14 @@ public class SettingActivity extends BaseActivity {
     //版本
     private void initVersion() {
         String appVersionName = AppUtils.getAppVersionName(context);
-        textVersion.setText(appVersionName);
+        int appVersion = AppUtils.getAppVersion(this);
+        String text = "";
+        if (Constant.ISTEST_ENVIRONMENT) {
+            text = String.valueOf(appVersionName + "\u3000" + appVersion);
+        } else {
+            text = appVersionName;
+        }
+        textVersion.setText(text);
     }
 
     //缓存状态

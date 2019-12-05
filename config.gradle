@@ -28,6 +28,7 @@ versions.zxing = "3.3.3"
 versions.Luban = "1.1.8"
 versions.matisse = "0.5.2-beta4"
 
+//应用版本号,每次发布加一
 versions.versionCode = 4
 versions.versionName = "1.0.2"
 ext {

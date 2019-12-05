@@ -13,13 +13,8 @@ public class ApiStores {
     private ApiStores() {
     }
 
-    //网络协议
-    private static final String NETWORKING_PROTOCOL = "https://";
-    //域名
-    private static final String DOMAIN_NAME = "api.youcaiwx.cn/";
     //线上正式环境
     private static final String ROOT_URL = "https://api.youcaiwx.cn/";
-    //private static final String ROOT_URL = NETWORKING_PROTOCOL + DOMAIN_NAME;
     //线下测试环境
     //public static final String ROOT_URL = "https://dest.youcaiwx.cn/";
 

@@ -121,8 +121,12 @@ public class Constant {
     /*******************************************************TODO 再丑也要注意的分割线*******************************************************/
 
     //---------------------------------------------TODO 登录注册  start-----------------------------------------------//
-    public static final String FIRST_LOGIN = "first_login";//第一次登陆
-    public static final String LOGIN_STATUS = "is_login";//用户是否登录
+    //第一次登陆
+    public static final String FIRST_LOGIN = "first_login";
+    //是否阅读用户协议
+    public static final String WHETHER_READ_AGREEMENT = "ReadAgreement";
+    //用户是否登录
+    public static final String LOGIN_STATUS = "is_login";
     public static final String STATE = "state";
     public static final String HOME_CACHE = "home_cache";//首页底部导航栏标签
     public static final String TYPE_FORGET = "type_forget";//忘记密码
