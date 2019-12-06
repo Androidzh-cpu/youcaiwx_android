@@ -116,6 +116,8 @@ public class Constant {
     public static final String PDF_PATH = ROOT_DIR + "pdf/";
     //阿里加密文件存放地址
     public static final String ENCRYPTED_PATH = "/aliyun/encryptedApp.dat";
+    //阿里播放器边下边缓存地址
+    public static final String PLAYER_CACHE_PATH = ROOT_DIR + "aliyunVodPlayer_cache";
     //fileprovider
     public static final String AUTHORITY = "PhotoProvider";
     /*******************************************************TODO 再丑也要注意的分割线*******************************************************/

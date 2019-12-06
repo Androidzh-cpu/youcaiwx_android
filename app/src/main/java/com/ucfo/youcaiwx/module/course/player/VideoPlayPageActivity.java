@@ -101,7 +101,6 @@ import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.ShareUtils;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
@@ -206,6 +205,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     ImageView playerLockedscreen;
     @BindView(R.id.text_danmucontent)
     TextView danmuTextcontent;
+    @BindView(R.id.corse_placeholder)
+    LinearLayout corsePlaceholder;
 
     private ArrayList<String> titlesList;
     private ArrayList<Fragment> fragmentArrayList;
@@ -789,7 +790,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             mNetWatchdog = new NetWatchdog(context);
             mNetWatchdog.setNetChangeListener(new MyNetChangeListener(this));
             mNetWatchdog.setNetConnectedListener(new MyNetConnectedListener());
-        }else {
+        } else {
             //ToastUtil.showBottomShortText(this,"本地视频" );
         }
     }
@@ -1262,12 +1263,14 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_icon_locked);
             Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_icon_locked2);
             playerLockedscreen.setImageDrawable(drawable);
+
             setLayoutVisibility(false, false);
             ToastUtil.showBottomShortText(this, getResources().getString(R.string.course_lockedScreen));
         } else {
             //Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_icon_unlocked);
             Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_icon_unlocked2);
             playerLockedscreen.setImageDrawable(drawable);
+
             setLayoutVisibility(true, true);
         }
         if (mGestureView != null) {
@@ -1577,6 +1580,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //正式模式干掉日志
             disableNativeLog();
         }
+
+        //设置播放缓存
+        String sdDir = Environment.getExternalStorageDirectory().getAbsolutePath() + Constant.PLAYER_CACHE_PATH;
+        setPlayingCache(true, sdDir, 60 * 60 /*时长, s */, 300 /*大小，MB*/);
+
         //TODO 播放器加载进度监听
         aliyunVodPlayer.setOnLoadingListener(new IAliyunVodPlayer.OnLoadingListener() {
             @Override
@@ -1787,6 +1795,20 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     }
 
     /**
+     * 设置边播边存
+     *
+     * @param enable      是否开启。开启之后会根据maxDuration和maxSize决定有无缓存。
+     * @param saveDir     保存目录
+     * @param maxDuration 单个文件最大时长 秒
+     * @param maxSize     所有文件最大大小 MB
+     */
+    public void setPlayingCache(boolean enable, String saveDir, int maxDuration, long maxSize) {
+        if (aliyunVodPlayer != null) {
+            aliyunVodPlayer.setPlayingCache(enable, saveDir, maxDuration, maxSize);
+        }
+    }
+
+    /**
      * 隐藏手势和控制栏
      * 隐藏其他的动作,防止点击界面去进行其他操作
      */
@@ -1848,12 +1870,17 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private void initGestureView() {
         mGestureDialogManager = new GestureDialogManager(this);
         mGestureView = new GestureView(this);
-        int playerToplinerHeight = AppUtils.getViewHeight(playerTopliner);
+
+        /*int playerToplinerHeight = AppUtils.getViewHeight(playerTopliner);
         int playerBottomlinerHeight = AppUtils.getViewHeight(playerBottomliner);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        params.setMargins(DensityUtil.dip2px(this, 83), playerToplinerHeight, 0, playerBottomlinerHeight);
-        playerRelativelayout.addView(mGestureView, params);//添加到布局中
+        params.setMargins(DensityUtil.dip2px(this, 90), playerToplinerHeight, 0, playerBottomlinerHeight);
+        playerRelativelayout.addView(mGestureView, params);//添加到布局中*/
+
+        RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        params2.setMargins(DensityUtil.dip2px(this, 90), 0, 0, 0);
+        playerRelativelayout.addView(mGestureView, params2);//添加到布局中
 
         //设置手势监听
         mGestureView.setOnGestureListener(new GestureView.GestureListener() {
@@ -2095,6 +2122,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         surfaceview.setKeepScreenOn(true);
         surfaceHolder = surfaceview.getHolder();
         surfaceHolder.addCallback(this);
+
+        //
+        playerLockedscreen.bringToFront();
 
         //seekbar的滑动监听
         SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
