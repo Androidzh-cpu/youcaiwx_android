@@ -117,6 +117,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
     Unbinder unbinder;
+    Unbinder unbinder1;
 
     private int mOffset = 0, mScrollY = 0, user_id;
     private MainActivity context;
@@ -131,6 +132,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         if (rootView != null) {
             unbinder = ButterKnife.bind(this, rootView);
         }
+        unbinder1 = ButterKnife.bind(this, rootView);
         return rootView;
     }
 
@@ -203,15 +205,23 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         return R.layout.fragment_mine;
     }
 
-    @OnClick({R.id.titlebar_setting, R.id.btn_userInfo, R.id.btn_user_integral, R.id.btn_user_balance, R.id.btn_user_coupons, R.id.user_course, R.id.user_collection, R.id.user_offline, R.id.user_order, R.id.user_answer, R.id.user_record, R.id.btn_wxRemind, R.id.btn_recommendfriend, R.id.btn_call, R.id.btn_feedback, R.id.btn_about})
+    @OnClick(R.id.titlebar_setting)
+    public void onViewClicked() {
+        startActivity(SettingActivity.class, null);
+    }
+
+    @OnClick({R.id.btn_userInfo, R.id.btn_user_integral, R.id.btn_user_balance,
+            R.id.btn_user_coupons, R.id.user_course, R.id.user_collection, R.id.user_offline,
+            R.id.user_order, R.id.user_answer, R.id.user_record, R.id.btn_wxRemind,
+            R.id.btn_recommendfriend, R.id.btn_call, R.id.btn_feedback, R.id.btn_about})
     public void onViewClicked(View view) {
         if (sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false)) {
             Bundle bundle = new Bundle();
             switch (view.getId()) {
-                case R.id.titlebar_setting:
+                /*case R.id.titlebar_setting:
                     //TODO 设置
                     startActivity(SettingActivity.class, null);
-                    break;
+                    break;*/
                 case R.id.btn_userInfo:
                     //TODO 个人设置中心
                     startActivity(PersonnelSettingActivity.class, null);

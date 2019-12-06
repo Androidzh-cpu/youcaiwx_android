@@ -2,7 +2,6 @@ package com.ucfo.youcaiwx.widget.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +26,7 @@ public class AgreementDialog {
     private Dialog dialog;
     private RoundLinearLayout lLayout_bg;
     private TextView txtAgreement;
+    private TextView txtPrivacyagreement;
     private RoundTextView btn_neg;
     private RoundTextView btn_pos;
     private View img_line;
@@ -50,6 +50,7 @@ public class AgreementDialog {
         // 获取自定义Dialog布局中的控件
         lLayout_bg = view.findViewById(R.id.lLayout_bg);
         txtAgreement = view.findViewById(R.id.txt_agreement);
+        txtPrivacyagreement = view.findViewById(R.id.txt_Privacyagreement);
         btn_neg = view.findViewById(R.id.btn_neg);
         btn_neg.setVisibility(View.GONE);
         btn_pos = view.findViewById(R.id.btn_pos);
@@ -108,13 +109,19 @@ public class AgreementDialog {
         return this;
     }
 
-    public AgreementDialog setPositiveButton(String text, final View.OnClickListener listener) {
+    public AgreementDialog setPrivacyagreementClickListener(final View.OnClickListener listener) {
+        txtPrivacyagreement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onClick(v);
+                dialog.dismiss();
+            }
+        });
+        return this;
+    }
+
+    public AgreementDialog setPositiveButton(final View.OnClickListener listener) {
         showPosBtn = true;
-        if (TextUtils.isEmpty(text)) {
-            btn_pos.setText("Confirm");
-        } else {
-            btn_pos.setText(text);
-        }
         btn_pos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,13 +132,8 @@ public class AgreementDialog {
         return this;
     }
 
-    public AgreementDialog setNegativeButton(String text, final View.OnClickListener listener) {
+    public AgreementDialog setNegativeButton(final View.OnClickListener listener) {
         showNegBtn = true;
-        if (TextUtils.isEmpty(text)) {
-            btn_neg.setText("Cancel");
-        } else {
-            btn_neg.setText(text);
-        }
         btn_neg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

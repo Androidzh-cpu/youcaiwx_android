@@ -55,6 +55,7 @@ public class SplashActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         //WHETHER_READ_AGREEMENT
+        //boolean whether = false;
         boolean whether = SharedPreferencesUtils.getInstance(SplashActivity.this).getBoolean(Constant.WHETHER_READ_AGREEMENT, false);
         if (whether) {
             countdown();
@@ -71,13 +72,22 @@ public class SplashActivity extends BaseActivity {
                     startActivity(WebActivity.class, bundle);
                 }
             });
-            dialog.setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
+            dialog.setPrivacyagreementClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constant.WEB_URL, ApiStores.PRIVACY_AGREEMENT);
+                    bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.mine_PrivacyAgreement));
+                    startActivity(WebActivity.class, bundle);
+                }
+            });
+            dialog.setNegativeButton(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     finish();
                 }
             });
-            dialog.setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
+            dialog.setPositiveButton(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     SharedPreferencesUtils.getInstance(SplashActivity.this).putBoolean(Constant.WHETHER_READ_AGREEMENT, true);

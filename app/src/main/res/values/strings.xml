@@ -136,6 +136,7 @@
     <string name="mine_connectOurs">联系我们</string>
     <string name="mine_feedback">意见反馈</string>
     <string name="mine_about">关于优财</string>
+    <string name="mine_agreement">用户协议</string>
     <string name="mine_didnotopen">未开启</string>
     <string name="mine_tologin">请登录</string>
     <string name="mine_sendTenintegral">送10积分</string>
@@ -182,6 +183,7 @@
     <string name="mine_currentVersion">当前版本</string>
     <string name="mine_cleanCache">清除缓存</string>
     <string name="mine_userAgreement">用户协议</string>
+    <string name="mine_PrivacyAgreement">隐私协议</string>
     <string name="ming_ExitLogin">退出登录</string>
     <string name="mine_cleanCacheConfirm">确定要清除缓存?</string>
     <string name="mine_oldPassword">原密码</string>
@@ -580,6 +582,16 @@
     <!--string related to 优惠卷  end-->
 
 
+    <string name="WarmPrompt">服务协议和隐私政策</string>
+    <string name="agreementTitle">欢迎使用优财CMA网校,本应用非常重视您的隐私和个人信息保护。在您使用前，请您认真阅读</string>
+    <string name="agreementTitle2">《用户协议》</string>
+    <string name="agreementTitle3">和</string>
+    <string name="agreementTitle4">《隐私政策》</string>
+    <string name="agreementTitle5">您同意接收全部条款后方可使用。</string>
+    <string name="agreement_cancel">暂不使用</string>
+    <string name="agreement_confirm">同意</string>
+
+
     <!--string related to common start-->
     <string name="image_size_to_small">大小不超过 %1$sM。</string>
     <string name="error_size_to_small">长宽不小于 %1$dpx，且大小不超过 %2$sM。</string>
@@ -626,10 +638,6 @@
     <string name="askQuestions">提问</string>
     <string name="setting">设置</string>
     <string name="exit_tips">再按一次退出程序</string>
-    <string name="WarmPrompt">温馨提示</string>
-    <string name="agreementTitle">欢迎使用优财CMA网校,本应用非常重视您的隐私和个人信息保护。在您使用前，请您认真阅读</string>
-    <string name="agreementTitle2">《用户协议和隐私政策》</string>
-    <string name="agreementTitle3">您同意接收全部条款后方可使用。</string>
     <string name="exit_confirm">确认退出?</string>
     <string name="thinkAgain">再想想</string>
     <string name="exit">退出</string>

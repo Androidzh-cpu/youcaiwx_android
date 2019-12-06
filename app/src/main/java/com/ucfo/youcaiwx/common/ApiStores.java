@@ -14,9 +14,9 @@ public class ApiStores {
     }
 
     //线上正式环境
-    //private static final String ROOT_URL = "https://api.youcaiwx.cn/";
+    private static final String ROOT_URL = "https://api.youcaiwx.cn/";
     //线下测试环境
-    public static final String ROOT_URL = "https://dest.youcaiwx.cn/";
+    //public static final String ROOT_URL = "https://dest.youcaiwx.cn/";
 
     private static final String BASE_URL = ROOT_URL + "apps/";
 
@@ -40,18 +40,21 @@ public class ApiStores {
 
     //-----------------------------------------TODO 协议和地址 start--------------------------------------------------------------//
     //App应用商店下载页
-    public static final String APP_DOWNLOAD_URL = "http://www.youcaiwx.com/html/activity/download.html";
+    public static final String APP_DOWNLOAD_URL = "https://www.youcaiwx.cn/Activity/download.html";
+    //课程分享页
     public static final String COURSER_SHARE = "https://www.youcaiwx.cn/Video/index.html";
-    //App logo(旧版本分享使用的logo,现已废弃,改为Applogo)
-    public static final String LOGO = "http://www.youcaiwx.com/Public/Uploads/newtopicpics/2017-12-26/5a41b418a2e32.png";
+    //App logo
+    public static final String LOGO = "https://api.youcaiwx.cn/logo/ycwx.png";
 
 
     //注册协议==用户协议
-    public static final String USER_REGISTER_ARGUMENT = "http://www.youcaiwx.com/html/app/register.html";
+    public static final String USER_REGISTER_ARGUMENT = "https://www.youcaiwx.cn/Agreement/register.html";
+    //隐私协议
+    public static final String PRIVACY_AGREEMENT = "https://www.youcaiwx.cn/Agreement/privacy.html";
+    //支付协议
+    public static final String PAY_AGREEMENT = "https://www.youcaiwx.cn/Agreement/buy.html";
     //关于SB
     public static final String USER_ABOUT_YOUCAI = "https://www.youcaiwx.cn/About/aboutyoucai.html";
-    //支付协议
-    public static final String PAY_AGREEMENT = "http://www.youcaiwx.com/html/app/buy.html";
     //-----------------------------------------TODO 协议 end--------------------------------------------------------------//
 
 
@@ -138,6 +141,7 @@ public class ApiStores {
     //获取用户答题记录
     public static final String QUESTION_GETQUSTIONONRECORD = BASE_URL + "Question/questionRecord";
     //用户能力评估
+    //public static final String QUESTION_AbilityTOAssess = "https://www.youcaiwx.cn/capacity-assessment-app?course_id=1&user_id=2";
     public static final String QUESTION_AbilityTOAssess = "https://www.youcaiwx.cn/#/capacity-assessment-app";
     //阶段测试列表
     public static final String QUESTION_GETSTAGEOFTESTLIST = BASE_URL + "Question/getCourse";

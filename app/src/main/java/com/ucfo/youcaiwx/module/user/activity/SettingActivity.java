@@ -19,6 +19,8 @@ import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
+import com.ucfo.youcaiwx.module.main.activity.MainActivity;
+import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
 import com.ucfo.youcaiwx.utils.DataCleanManager;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
@@ -26,8 +28,6 @@ import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.utils.update.CustomUpdatePrompter;
 import com.ucfo.youcaiwx.utils.update.UpdateCustomParser;
-import com.ucfo.youcaiwx.module.main.activity.MainActivity;
-import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.widget.customview.SwitchView;
 import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
 import com.xuexiang.xupdate.XUpdate;
@@ -71,6 +71,8 @@ public class SettingActivity extends BaseActivity {
     LinearLayout btnClearCache;
     @BindView(R.id.btn_userArgeement)
     LinearLayout btnUserArgeement;
+    @BindView(R.id.btn_privacy)
+    LinearLayout btnPrivacy;
     @BindView(R.id.btn_exit)
     Button btnExit;
     private SettingActivity context;
@@ -81,6 +83,22 @@ public class SettingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (sharedPreferencesUtils == null) {
+            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
+        }
+        boolean loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
+        if (loginStatus) {
+            btnExit.setVisibility(View.VISIBLE);
+            btnUpdatePassword.setVisibility(View.VISIBLE);
+        } else {
+            btnExit.setVisibility(View.GONE);
+            btnUpdatePassword.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -159,9 +177,11 @@ public class SettingActivity extends BaseActivity {
         });
     }
 
-    //版本
+    /**
+     * 版本号
+     */
     private void initVersion() {
-        String appVersionName = AppUtils.getAppVersionName(context);
+        String appVersionName = AppUtils.getAppVersionName(this);
         int appVersion = AppUtils.getAppVersion(this);
         String text = "";
         if (Constant.ISTEST_ENVIRONMENT) {
@@ -172,7 +192,9 @@ public class SettingActivity extends BaseActivity {
         textVersion.setText(text);
     }
 
-    //缓存状态
+    /**
+     * 缓存状态
+     */
     private void initCatchState() {
         try {
             totalCacheSize = DataCleanManager.getTotalCacheSize(context);
@@ -182,7 +204,12 @@ public class SettingActivity extends BaseActivity {
         textCache.setText(totalCacheSize);
     }
 
-    @OnClick({R.id.btn_updatePassword, R.id.btn_currentVersion, R.id.btn_clearCache, R.id.btn_userArgeement, R.id.btn_exit})
+    /**
+     * 点击事件
+     *
+     * @param view
+     */
+    @OnClick({R.id.btn_updatePassword, R.id.btn_currentVersion, R.id.btn_clearCache, R.id.btn_userArgeement, R.id.btn_exit, R.id.btn_privacy})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_updatePassword://TODO 修改密码
@@ -235,6 +262,13 @@ public class SettingActivity extends BaseActivity {
                 bundle.putString(Constant.WEB_URL, ApiStores.USER_REGISTER_ARGUMENT);
                 bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.mine_userAgreement));
                 startActivity(WebActivity.class, bundle);
+                break;
+            case R.id.btn_privacy:
+                //TODO 隐私协议
+                Bundle bundle2 = new Bundle();
+                bundle2.putString(Constant.WEB_URL, ApiStores.PRIVACY_AGREEMENT);
+                bundle2.putString(Constant.WEB_TITLE, getResources().getString(R.string.mine_PrivacyAgreement));
+                startActivity(WebActivity.class, bundle2);
                 break;
             case R.id.btn_exit://TODO 退出登录
                 exitLogin();
