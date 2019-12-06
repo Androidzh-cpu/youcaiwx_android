@@ -354,20 +354,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_home:
-                indexTab = 0;
-                initSelectTab(indexTab);
+                initSelectTab(0);
                 return true;
             case R.id.action_learncenter:
-                indexTab = 1;
-                initSelectTab(indexTab);
+                initSelectTab(1);
                 return true;
             case R.id.action_questionbank:
-                indexTab = 2;
-                initSelectTab(indexTab);
+                initSelectTab(2);
                 return true;
             case R.id.action_mine:
-                indexTab = 3;
-                initSelectTab(indexTab);
+                initSelectTab(3);
                 return true;
             default:
                 break;
@@ -382,9 +378,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if (index < 0 || index > 3) {
             index = 0;
         }
+
         if (supportFragmentManager != null) {
             fragmentTransaction = supportFragmentManager.beginTransaction();
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            if (index != indexTab) {
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            }
         }
 
         hideAllFragment(fragmentTransaction);

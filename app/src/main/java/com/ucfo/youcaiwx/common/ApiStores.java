@@ -14,9 +14,9 @@ public class ApiStores {
     }
 
     //线上正式环境
-    private static final String ROOT_URL = "https://api.youcaiwx.cn/";
+    //private static final String ROOT_URL = "https://api.youcaiwx.cn/";
     //线下测试环境
-    //public static final String ROOT_URL = "https://dest.youcaiwx.cn/";
+    public static final String ROOT_URL = "https://dest.youcaiwx.cn/";
 
     private static final String BASE_URL = ROOT_URL + "apps/";
 
@@ -31,13 +31,14 @@ public class ApiStores {
     //app版本更新
     public static final String VERSION_UPDATE = BASE_URL + "Version/upAndroid";
 
-    //TODO 各种临时地址
+    //TODO 首页各种临时地址
     public static final String TEMPORARYLIVE = "http://ycfx.youcaiwx.com/static/Video.html?user_id=888888";//临时直播地址
     public static final String TEMPORARFACE = "http://m.ucfo.com.cn/mskc/";//临时面授地址
     public static final String TEMPORARACTIVE = "http://m.ucfo.com.cn/yqh-wap/20190921/";//临时活动地址
     public static final String DOUBAN_API = "https://api.douban.com/v2/movie/top250";//豆瓣TOP250好评
 
 
+    //-----------------------------------------TODO 协议和地址 start--------------------------------------------------------------//
     //App应用商店下载页
     public static final String APP_DOWNLOAD_URL = "http://www.youcaiwx.com/html/activity/download.html";
     public static final String COURSER_SHARE = "https://www.youcaiwx.cn/Video/index.html";
@@ -45,7 +46,6 @@ public class ApiStores {
     public static final String LOGO = "http://www.youcaiwx.com/Public/Uploads/newtopicpics/2017-12-26/5a41b418a2e32.png";
 
 
-    //-----------------------------------------TODO 协议 start--------------------------------------------------------------//
     //注册协议==用户协议
     public static final String USER_REGISTER_ARGUMENT = "http://www.youcaiwx.com/html/app/register.html";
     //关于SB

@@ -75,6 +75,15 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     @Override
     public void onResume() {
         super.onResume();
+        if (videoPlayPageActivity == null) {
+            FragmentActivity fragmentActivity = getActivity();
+            if (fragmentActivity instanceof VideoPlayPageActivity) {
+                videoPlayPageActivity = (VideoPlayPageActivity) fragmentActivity;
+            }
+        }
+        if (sharedPreferencesUtils == null) {
+            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(videoPlayPageActivity);
+        }
         loginstatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         //用户课程购买状态

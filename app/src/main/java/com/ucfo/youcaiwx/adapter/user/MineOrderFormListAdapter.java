@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.flyco.roundview.RoundTextView;
@@ -65,10 +66,9 @@ public class MineOrderFormListAdapter extends BaseAdapter<MineOrderListBean.Data
         String packageName = bean.getPackage_name();//课程名
         //TODO 封面图
         RequestOptions requestOptions = new RequestOptions()
-                .centerCrop()
                 .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
-                .transform(new RoundedCorners(DensityUtil.dp2px(5)))
+                .transform(new CenterCrop(), new RoundedCorners(DensityUtil.dp2px(5)))
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         GlideUtils.load(context, appImg, holder.mImageOrder, requestOptions);
 

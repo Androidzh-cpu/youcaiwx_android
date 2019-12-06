@@ -13,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.flyco.roundview.RoundTextView;
 import com.ucfo.youcaiwx.R;
@@ -34,6 +36,7 @@ import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.pay.PayStateCallback2;
 import com.ucfo.youcaiwx.utils.pay.PaymentHelper2;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.customview.NiceImageView;
@@ -331,6 +334,7 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
         RequestOptions requestOptions = new RequestOptions()
                 .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
+                .transform(new CenterCrop(), new RoundedCorners(DensityUtil.dp2px(5)))
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         GlideUtils.load(context, appImg, itemCourseImage, requestOptions);
         orderCoursePrice.setText(String.valueOf(getResources().getString(R.string.RMB) + price));

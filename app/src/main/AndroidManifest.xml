@@ -166,7 +166,7 @@
             android:name=".module.course.player.VideoPlayPageActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".TetsActivity"
             android:screenOrientation="portrait"
