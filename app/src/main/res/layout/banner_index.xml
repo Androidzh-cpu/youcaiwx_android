@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/dp_22"
-        android:layout_marginRight="@dimen/dp_22"
+        android:layout_marginEnd="@dimen/dp_22"
+        android:layout_marginStart="@dimen/dp_22"
         android:clipChildren="false" />
 
     <RelativeLayout

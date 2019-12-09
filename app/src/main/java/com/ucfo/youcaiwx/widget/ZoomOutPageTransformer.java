@@ -9,8 +9,7 @@ import com.youth.banner.transformer.ABaseTransformer;
  * Time: 2019-3-12.  下午 6:53
  * Email:2911743255@qq.com
  * ClassName: ZoomOutPageTransformer
- * Description:
- * Detail:
+ * Description: 首页banner自定义图片
  */
 public class ZoomOutPageTransformer extends ABaseTransformer {
 

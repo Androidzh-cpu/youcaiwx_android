@@ -395,7 +395,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
             banner.setImages(listpic);//图片地址
             //设置viewpager的自定义动画
             banner.setPageTransformer(true, new ZoomOutPageTransformer());
-            banner.setOffscreenPageLimit(2);
+            banner.setOffscreenPageLimit(listpic.size());
             banner.setImageLoader(new ImageLoader() {
                 @Override
                 public void displayImage(Context context, Object path, ImageView imageView) {
