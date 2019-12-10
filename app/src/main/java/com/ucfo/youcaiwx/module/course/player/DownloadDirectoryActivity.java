@@ -23,7 +23,6 @@ import com.ucfo.youcaiwx.module.course.player.download.DownloadSaveInfoUtil;
 import com.ucfo.youcaiwx.module.user.activity.OfflineCourseActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.course.CourseDirPresenter;
 import com.ucfo.youcaiwx.presenter.view.course.ICourseDirView;
-import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
@@ -141,20 +140,29 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
             }
         });
         downloadSaveInfoUtil = new DownloadSaveInfoUtil(UcfoApplication.downloadManager.getSaveDir());
-        List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
-        LogUtils.e("下载列表--------------" + new Gson().toJson(alivcDownloadeds));
+        /*List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
+        LogUtils.e("下载列表--------------" + new Gson().toJson(alivcDownloadeds));*/
     }
 
     @Override
     public void getCourseDirData(CourseDirBean courseDirBean) {
         if (courseDirBean.getData() != null && courseDirBean.getData().size() != 0) {
             List<CourseDirBean.DataBean> data = courseDirBean.getData();
+            if (list == null) {
+                list = new ArrayList<>();
+            }
             list.clear();
             list.addAll(data);
+
             initAdapter();
-            loadinglayout.showContent();
+
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -164,10 +172,12 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
         if (downloadDirAdapter == null) {
             downloadDirAdapter = new DownloadDirAdapter(this, sectionBeanList);
         }
-        downloadDirAdapter.notifyDataSetChanged();
-        listView.setAdapter(downloadDirAdapter);
-        for (int i = 0; i < downloadDirAdapter.getGroupCount(); i++) {
-            listView.expandGroup(i);
+        if (downloadDirAdapter != null) {
+            downloadDirAdapter.notifyDataSetChanged();
+            listView.setAdapter(downloadDirAdapter);
+            for (int i = 0; i < downloadDirAdapter.getGroupCount(); i++) {
+                listView.expandGroup(i);
+            }
         }
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -198,7 +208,9 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
                 ToastUtil.showBottomShortText(context, getResources().getString(R.string.alivc_video_download_finish_haved));
             }
             bean.setChecked(false);
-            downloadDirAdapter.notifyDataSetChanged();
+            if (downloadDirAdapter != null) {
+                downloadDirAdapter.notifyDataSetChanged();
+            }
         } else {
             //DB没有存贮该视频
             resultNum = 0;
@@ -217,22 +229,28 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
                 ToastUtil.showBottomShortText(this, getResources().getString(R.string.download_maxDownload));
             } else {
                 bean.setChecked(!bean.getChecked());
-                downloadDirAdapter.notifyDataSetChanged();
+                if (downloadDirAdapter != null) {
+                    downloadDirAdapter.notifyDataSetChanged();
+                }
             }
 
-            List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
-            for (AliyunDownloadMediaInfo info : alivcDownloadeds) {
-                String vid2 = info.getVid();
-                if (TextUtils.equals(vid, vid2)) {
-                    String savePath = info.getSavePath();
-                    if (!TextUtils.isEmpty(savePath)) {
-                        File file = new File(savePath);
-                        if (file.exists()) {
-                            file.delete();
+            if (downloadSaveInfoUtil != null) {
+                List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
+                if (alivcDownloadeds != null && alivcDownloadeds.size() > 0) {
+                    for (AliyunDownloadMediaInfo info : alivcDownloadeds) {
+                        String vid2 = info.getVid();
+                        if (TextUtils.equals(vid, vid2)) {
+                            String savePath = info.getSavePath();
+                            if (!TextUtils.isEmpty(savePath)) {
+                                File file = new File(savePath);
+                                if (file.exists()) {
+                                    file.delete();
+                                }
+                            }
+                            downloadSaveInfoUtil.deleteInfo(info);
+                            break;
                         }
                     }
-                    downloadSaveInfoUtil.deleteInfo(info);
-                    break;
                 }
             }
         }
@@ -250,7 +268,9 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 
     @OnClick(R.id.btn_exit)

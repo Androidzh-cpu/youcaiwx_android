@@ -326,6 +326,8 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                     startActivity(LoginActivity.class, null);
                 } else {
                     if (courseBuyState == 1) {
+                        videoPlayPageActivity.pause();
+
                         Bundle bundle = new Bundle();
                         String teacherName = dataBean.getTeacher_name();
                         String name = dataBean.getName();

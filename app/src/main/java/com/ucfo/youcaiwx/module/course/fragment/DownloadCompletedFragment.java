@@ -141,6 +141,7 @@ public class DownloadCompletedFragment extends BaseFragment {
             for (int i = 0; i < list.size(); i++) {
                 //遍历该课程下的视频
                 DataBaseCourseListBean courseListBean = list.get(i);
+
                 String courseId = courseListBean.getCourseId();
                 List<DataBaseVideoListBean> videoListBeans = LitePal.where("courseId = ? and status = ?", courseId, "1").find(DataBaseVideoListBean.class);
                 List<DataBaseVideoListBean> videoNoCompltedBeans = LitePal.where("courseId = ? and status = ?", courseId, "0").find(DataBaseVideoListBean.class);

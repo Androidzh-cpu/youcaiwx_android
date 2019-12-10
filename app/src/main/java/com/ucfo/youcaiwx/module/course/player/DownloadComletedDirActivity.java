@@ -138,7 +138,6 @@ public class DownloadComletedDirActivity extends BaseActivity {
         } else {
             adapter.notifyDataSetChanged();
         }
-        listView.setGroupIndicator(null);
         listView.setAdapter(adapter);
         for (int i = 0; i < adapter.getGroupCount(); i++) {
             listView.expandGroup(i);

@@ -926,13 +926,17 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
         if (mPlayerState == IAliyunVodPlayer.PlayerState.Paused) {
             pause();
+            LogUtils.e("resumePlayerState-------------pause()");
         } else if (mPlayerState == IAliyunVodPlayer.PlayerState.Started) {
             if (course_Source.equals(Constant.LOCAL_CACHE)) {
                 reTry();
+                LogUtils.e("resumePlayerState-------------reTry()");
             } else {
                 start();
+                LogUtils.e("resumePlayerState-------------start()");
             }
         }
+        LogUtils.e("resumePlayerState-------------:" + mPlayerState);
     }
 
     /**
@@ -977,7 +981,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         IAliyunVodPlayer.PlayerState playerState = aliyunVodPlayer.getPlayerState();
         if (playerState == IAliyunVodPlayer.PlayerState.Paused || playerState == IAliyunVodPlayer.PlayerState.Prepared || aliyunVodPlayer.isPlaying()) {
             aliyunVodPlayer.start();
+            LogUtils.e("resumePlayerState-------------aliyunVodPlayer.start()");
         }
+        mGestureView.setHideType(ViewAction.HideType.Normal);
         mGestureView.show();
     }
 
@@ -2773,19 +2779,20 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
 
         @Override
-        public void onWifiTo4G() {//TODO  WiFi转到4G
-            //wifi变成4G，先暂停播放
+        public void onWifiTo4G() {//TODO  WiFi转到4G(当前是数据网络)
             pause();
+            LogUtils.e("onWifiTo4G()------------------" + look_wifi);
 
             //隐藏其他的动作,防止点击界面去进行其他操作
-            mGestureView.hide(Normal);
-            //LogUtils.e("网络状态--------------------onWifiTo4G");
+            mGestureView.hide(ViewAction.HideType.Normal);
 
-            if (look_wifi) {//允许4G下观看视频
-                //TODO nothing
-            } else {//不允许4G下播放
-                if (!flowFlag) {//已经在本次播放允许4G
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.WhiteDialogStyle);
+            if (look_wifi) {
+                //TODO 仅在WIFI下观看视频,4G无法播放,播放需要同意
+                if (flowFlag) {
+                    //已经在本次播放允许4G
+                    start();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(VideoPlayPageActivity.this, R.style.WhiteDialogStyle);
                     builder.setTitle(context.getResources().getString(R.string.explication));
                     builder.setMessage(context.getResources().getString(R.string.course_consumeFlow));
                     builder.setPositiveButton(context.getResources().getString(R.string.continue_play), new DialogInterface.OnClickListener() {
@@ -2805,6 +2812,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     builder.create();
                     builder.show();
                 }
+            } else {
+                //TODO 用户已在设置中心允许4g播放
+                start();
             }
         }
 
