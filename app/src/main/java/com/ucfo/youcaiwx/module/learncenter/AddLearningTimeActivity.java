@@ -184,7 +184,7 @@ public class AddLearningTimeActivity extends BaseActivity implements IAddlearnPl
 
     private void noBuy() {
         new AlertDialog(this).builder()
-                .setMsg(getResources().getString(R.string.course_bugCourse))
+                .setMsg(getResources().getString(R.string.course_buyCourse))
                 .setCancelable(false)
                 .setCanceledOnTouchOutside(false)
                 .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {

@@ -156,10 +156,9 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
 
     private void initAdapter() {
         if (mineOrderFormListAdapter == null) {
-            mineOrderFormListAdapter = new MineOrderFormListAdapter(context, list);
-        } else {
-            mineOrderFormListAdapter.notifyDataSetChanged();
+            mineOrderFormListAdapter = new MineOrderFormListAdapter(this, list);
         }
+        mineOrderFormListAdapter.notifyDataSetChanged();
         recyclerview.setAdapter(mineOrderFormListAdapter);
 
         //TODO 支付,取消,联系客服操作

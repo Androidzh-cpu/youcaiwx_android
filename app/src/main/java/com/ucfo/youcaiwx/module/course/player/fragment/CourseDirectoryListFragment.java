@@ -29,6 +29,9 @@ import com.ucfo.youcaiwx.adapter.course.CoursePackageListAdapter;
 import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.course.CourseDirBean;
+import com.ucfo.youcaiwx.module.course.player.DownloadDirectoryActivity;
+import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
+import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.course.CourseDirPresenter;
 import com.ucfo.youcaiwx.presenter.view.course.ICourseDirView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
@@ -36,9 +39,6 @@ import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.module.course.player.DownloadDirectoryActivity;
-import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
-import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -62,9 +62,9 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     RecyclerView recyclerview;
     @BindView(R.id.refreshlayout)
     SmartRefreshLayout refreshlayout;
-    Unbinder unbinder;
     @BindView(R.id.layout_main)
     ConstraintLayout layoutMain;
+    Unbinder unbinder;
     LoadingLayout loadinglayout;
 
     private VideoPlayPageActivity videoPlayPageActivity;
@@ -176,6 +176,9 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     protected void onLazyLoadOnce() {
         super.onLazyLoadOnce();
         //获取课程目录
+        if (courseDirPresenter == null) {
+            courseDirPresenter = new CourseDirPresenter(this);
+        }
         courseDirPresenter.getCourseDirData(coursePackageId, userId);
     }
 
@@ -226,9 +229,8 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     private void initAdapter(List<CourseDirBean.DataBean> coursePackageLists) {
         if (coursePackageListAdapter == null) {
             coursePackageListAdapter = new CoursePackageListAdapter(coursePackageLists, getActivity());
-        } else {
-            coursePackageListAdapter.notifyDataSetChanged();
         }
+        coursePackageListAdapter.notifyDataSetChanged();
         recyclerview.setAdapter(coursePackageListAdapter);
         coursePackageListAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
@@ -236,9 +238,10 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                 List<CourseDirBean.DataBean.SectionBean> section = coursePackageLists.get(position).getSection();
                 String isZhengke = coursePackageLists.get(position).getIs_zhengke();
                 int parseInt = Integer.parseInt(isZhengke);
-                CourseDirBean.DataBean dataBean = coursePackageLists.get(position);//当前课程信息
-
-                currentClickCourseIndex = position;//当前课程点击位置
+                //当前课程信息
+                CourseDirBean.DataBean dataBean = coursePackageLists.get(position);
+                //当前课程点击位置
+                currentClickCourseIndex = position;
 
                 showCourseDirWindow(dataBean, section, parseInt);
             }
@@ -298,10 +301,8 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         courseTeacherName.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + dataBean.getTeacher_name()));//讲师名称
         if (courseDirWindowAdapter == null) {
             courseDirWindowAdapter = new CourseDirWindowAdapter(getActivity(), sectionList);
-        } else {
-            courseDirWindowAdapter.notifyDataSetChanged();
         }
-        courseTree.setGroupIndicator(null);//去掉系统默认的一级列表指示器
+        courseDirWindowAdapter.notifyDataSetChanged();
         courseTree.setAdapter(courseDirWindowAdapter);//添加适配器
         courseDirWindowAdapter.setSelectPosition(currentPlayCourseIndex, currentClickCourseIndex);
         //如果当前点击的套餐列表的索引值==当前播放的课程套餐的索引,可以展开对应的一级目录和二级目录
@@ -318,6 +319,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                 courseDirWindow.dismiss();
             }
         });
+        //TODO 下载操作
         courseDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -325,7 +327,6 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                     startActivity(LoginActivity.class, null);
                 } else {
                     if (courseBuyState == 1) {
-                        videoPlayPageActivity.pause();
                         Bundle bundle = new Bundle();
                         String teacherName = dataBean.getTeacher_name();
                         String name = dataBean.getName();
@@ -335,7 +336,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                         bundle.putInt(Constant.PAGE, currentClickCourseIndex);
                         startActivity(DownloadDirectoryActivity.class, bundle);
                     } else {
-                        ToastUtil.showBottomShortText(videoPlayPageActivity, getResources().getString(R.string.course_bugCourse));
+                        ToastUtil.showBottomShortText(videoPlayPageActivity, getResources().getString(R.string.course_buyCourse));
                     }
                 }
             }
@@ -351,7 +352,6 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                     int videoId = sectionList.get(groupPosition).getVideo().get(childPosition).getId();
                     int courseId = sectionList.get(groupPosition).getVideo().get(childPosition).getCourse_id();
                     int sectionId = sectionList.get(groupPosition).getVideo().get(childPosition).getSection_id();
-                    String videoName = sectionList.get(groupPosition).getVideo().get(childPosition).getVideo_name();
 
                     videoPlayPageActivity.changePlayVidSource(vid, videoId, courseId, sectionId);//TODO 调用播放器,切换视频
                     //是否是正课标识

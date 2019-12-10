@@ -112,7 +112,9 @@ import com.umeng.analytics.MobclickAgent;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Timer;
@@ -182,7 +184,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     RelativeLayout playerRelativelayout;
     @BindView(R.id.player_quality)
     TextView playerQuality;
-    GestureView mGestureView;
     @BindView(R.id.player_speed)
     TextView playerSpeed;
     @BindView(R.id.player_handouts)
@@ -207,6 +208,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     TextView danmuTextcontent;
     @BindView(R.id.corse_placeholder)
     LinearLayout corsePlaceholder;
+    //TODO 测试版 @BindView(R.id.gestureview)
+    @BindView(R.id.gestureview)
+    GestureView mGestureView;
 
     private ArrayList<String> titlesList;
     private ArrayList<Fragment> fragmentArrayList;
@@ -246,12 +250,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private int mVideoBufferPosition;
     //当前的清晰度
     private String mCurrentQuality;
-    //开始计时消息标志
-    private static final int START = 0;
-    //进度更新计时器
-    private ProgressUpdateTimer mProgressUpdateTimer = new ProgressUpdateTimer();
-    //控制菜单计时器
-    private HideHandler mHideHandler = new HideHandler();
     //网络状态监听
     private NetWatchdog mNetWatchdog;
     //目前支持的几种播放方式
@@ -293,6 +291,20 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private boolean pdfDownloadStatus = false, pdfExists = false;
     private String freeWatchTips;
 
+    //开始计时消息标志
+    private static final int START = 0;
+    //进度更新计时器
+    private ProgressUpdateTimer mProgressUpdateTimer = new ProgressUpdateTimer();
+    //控制菜单计时器
+    private HideHandler mHideHandler = new HideHandler();
+    //TODO 解决bug,进入播放界面快速切换到其他界面,播放器仍然播放视频问题
+    private VodPlayerLoadEndHandler vodPlayerLoadEndHandler = new VodPlayerLoadEndHandler(this);
+
+    /**
+     * 判断VodePlayer 是否加载完成
+     */
+    private Map<AliyunMediaInfo, Boolean> hasLoadEnd = new HashMap<>();
+
     /*****************************************************TODO start 正计时  **************************/
     private long CountDownInterval = 1 * 1000;//TODO 倒计时时间间隔(默认1秒 单位:seconds )
     private Handler grandTotalTimer = new Handler();//grand total
@@ -333,7 +345,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     }
 
     /**
-     * 隐藏类
+     * 隐藏菜单计时器
      */
     @SuppressLint("HandlerLeak")
     private class HideHandler extends Handler {
@@ -343,6 +355,38 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             super.handleMessage(msg);
         }
     }
+
+    /**
+     * 当VodPlayer 没有加载完成的时候,调用onStop 去暂停视频,
+     * 会出现暂停失败的问题。
+     */
+    private static class VodPlayerLoadEndHandler extends Handler {
+
+        private WeakReference<VideoPlayPageActivity> weakReference;
+
+        private boolean intentPause;
+
+        public VodPlayerLoadEndHandler(VideoPlayPageActivity videoPlayPageActivity) {
+            weakReference = new WeakReference<>(videoPlayPageActivity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            LogUtils.e("msg.what: " + msg.what);
+            if (msg.what == 0) {
+                intentPause = true;
+            }
+            if (msg.what == 1) {
+                VideoPlayPageActivity videoPlayPageActivity = weakReference.get();
+                if (videoPlayPageActivity != null && intentPause) {
+                    videoPlayPageActivity.onStop();
+                    intentPause = false;
+                }
+            }
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -431,6 +475,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     @Override
     protected void onStop() {
         super.onStop();
+        if (!(hasLoadEnd != null && hasLoadEnd.size() > 0)) {
+            vodPlayerLoadEndHandler.sendEmptyMessage(0);
+            return;
+        }
         if (mNetWatchdog != null) {
             mNetWatchdog.stopWatch();
         }
@@ -449,6 +497,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         stopProgressUpdateTimer();
         mProgressUpdateTimer.removeCallbacksAndMessages(null);
         mProgressUpdateTimer = null;
+        vodPlayerLoadEndHandler.removeCallbacksAndMessages(null);
+        vodPlayerLoadEndHandler = null;
 
         if (mNetWatchdog != null) {
             mNetWatchdog.stopWatch();
@@ -465,6 +515,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         super.onDestroy();
 
         deletePdfFile();
+
+        if (hasLoadEnd != null) {
+            hasLoadEnd.clear();
+        }
 
         if (mWebSocket != null) {
             mWebSocket.close(1001, "客户端主动关闭连接");
@@ -813,6 +867,16 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     }
 
     /**
+     * 获取底层的一些debug信息
+     */
+    public void getAllDebugInfo() {
+        if (aliyunVodPlayer != null) {
+            Map<String, String> debugInfo = aliyunVodPlayer.getAllDebugInfo();
+            LogUtils.e("getAllDebugInfo--------" + new Gson().toJson(debugInfo));
+        }
+    }
+
+    /**
      * 关闭底层日志
      */
     public void disableNativeLog() {
@@ -874,11 +938,31 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     /**
      * 停止播放
      */
-    private void stop() {
+    public void stop() {
+/*
         if (aliyunVodPlayer != null) {
             aliyunVodPlayer.stop();
         }
-        updatePlayStateBtn(PlayState.NotPlaying);//更新播放按钮状态
+        //更新播放按钮状态
+        updatePlayStateBtn(PlayState.NotPlaying);
+*/
+
+        //分割线
+        Boolean hasLoadedEnd = null;
+        AliyunMediaInfo mediaInfo = null;
+        if (aliyunVodPlayer != null && hasLoadEnd != null) {
+            mediaInfo = aliyunVodPlayer.getMediaInfo();
+            hasLoadedEnd = hasLoadEnd.get(mediaInfo);
+        }
+
+        if (aliyunVodPlayer != null && hasLoadedEnd != null) {
+            aliyunVodPlayer.stop();
+            //更新播放按钮状态
+            updatePlayStateBtn(PlayState.NotPlaying);
+        }
+        if (hasLoadEnd != null) {
+            hasLoadEnd.remove(mediaInfo);
+        }
     }
 
     /**
@@ -935,12 +1019,25 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (aliyunVodPlayer == null) {
             return;
         }
-        updatePlayStateBtn(PlayState.NotPlaying);//更新播放按钮状态
 
+        //更新播放按钮状态
+        updatePlayStateBtn(PlayState.NotPlaying);
+
+        //更新播放状态
         IAliyunVodPlayer.PlayerState playerState = aliyunVodPlayer.getPlayerState();
         if (playerState == IAliyunVodPlayer.PlayerState.Started || aliyunVodPlayer.isPlaying()) {
             aliyunVodPlayer.pause();
         }
+    }
+
+    /**
+     * 获取视频播放状态
+     */
+    public IAliyunVodPlayer.PlayerState getAliyunPlayerState() {
+        if (aliyunVodPlayer == null) {
+            return null;
+        }
+        return aliyunVodPlayer.getPlayerState();
     }
 
     /**
@@ -1019,6 +1116,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     playerSeekprogress.setSecondaryProgress(aliyunVodPlayer.getBufferingPosition());//进度条设置缓存吗进度
                     playerSeekprogress.setProgress(Integer.parseInt(String.valueOf(aliyunVodPlayer.getCurrentPosition())));//进度条设置当前进度
                 }
+                //免费试看
                 freeWatch();
 
                 //请跟我念,傻逼年年有,今年贼你妈多
@@ -1599,10 +1697,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             @Override
             public void onLoadEnd() {
                 /**
-                 * 诱导性加载菊花 _(:3」∠❀)_菊花碎了一地
+                 * 诱导性加载菊花 _(:3」∠❀)_菊花都碎了一地
                  */
                 playerLoadingview.setVisibility(View.GONE);
                 playerTipsview.setVisibility(View.GONE);
+
+                hasLoadEnd.put(mAliyunMediaInfo, true);
+                vodPlayerLoadEndHandler.sendEmptyMessage(1);
             }
 
             @Override
@@ -1658,6 +1759,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 LogUtils.e("首帧显示触发");
                 //视频封面隐藏掉
                 //courseCoverimage.setVisibility(courseCoverimage.getVisibility() == View.VISIBLE ? View.GONE : View.INVISIBLE);
+
+                //获取所有日志信息
+                getAllDebugInfo();
 
                 //开始启动更新进度的定时器
                 startProgressUpdateTimer();
@@ -1869,18 +1973,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      */
     private void initGestureView() {
         mGestureDialogManager = new GestureDialogManager(this);
+        /*
+        //这个方法没有嵌入到布局里,出现了一些BUG,朕只解决了一部分,最终还是干掉吧(1.0.2之后就不再使用这个方法了)
         mGestureView = new GestureView(this);
-
-        /*int playerToplinerHeight = AppUtils.getViewHeight(playerTopliner);
-        int playerBottomlinerHeight = AppUtils.getViewHeight(playerBottomliner);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        params.setMargins(DensityUtil.dip2px(this, 90), playerToplinerHeight, 0, playerBottomlinerHeight);
-        playerRelativelayout.addView(mGestureView, params);//添加到布局中*/
-
         RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         params2.setMargins(DensityUtil.dip2px(this, 90), 0, 0, 0);
-        playerRelativelayout.addView(mGestureView, params2);//添加到布局中
+        //添加到布局中
+        playerRelativelayout.addView(mGestureView, params2);*/
 
         //设置手势监听
         mGestureView.setOnGestureListener(new GestureView.GestureListener() {
@@ -2351,7 +2450,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     //TODO 讲义切换按钮操作
     private void switchPdfHandouts() {
         if (getCourseBuyState() != Constant.HAVED_BUY) {//todo 未购买
-            toastInfo(getResources().getString(R.string.course_bugCourse));
+            toastInfo(getResources().getString(R.string.course_buyCourse));
         } else {//todo 已购买
             if (pdfExists) {//TODO 讲义存在
                 if (pdfDownloadStatus) {//TODO PDF文件下载中
@@ -2444,7 +2543,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     toastInfo(getResources().getString(R.string.course_notAsk));
                 }
             } else {
-                toastInfo(getResources().getString(R.string.course_bugCourse));
+                toastInfo(getResources().getString(R.string.course_buyCourse));
             }
         } else {
             goToLogin();
@@ -2472,7 +2571,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //收藏视频需要的条件
             if (getCourseBuyState() != Constant.HAVED_BUY) {
                 //未购买
-                toastInfo(getResources().getString(R.string.course_bugCourse));
+                toastInfo(getResources().getString(R.string.course_buyCourse));
             } else {
                 //已购买
                 coursePlayPresenter.getVideoCollect(coursePackageId, currentCourseID, currentSectionID, currentVideoID, userId, currentVideoCollectState);
@@ -2804,7 +2903,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 } else {
                     targetMode = AliyunScreenMode.Small;
                 }
-                changeScreenMode(targetMode);//TODO 横竖屏切换
+                changeScreenMode(targetMode);
                 break;
             case R.id.player_quality:
                 //TODO 画质切换
@@ -2841,6 +2940,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 switchPdfHandouts();
                 break;
             case R.id.playerLockedscreen:
+                //TODO 锁屏操作
                 lockScreen(!mIsFullScreenLocked);
                 break;
             case R.id.btn_call:

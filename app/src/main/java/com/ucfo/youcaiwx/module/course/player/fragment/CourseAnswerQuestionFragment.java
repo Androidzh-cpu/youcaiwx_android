@@ -237,7 +237,7 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
                             startActivity(AnsweringCourseActivity.class, bundle);
                         }
                     } else {
-                        ToastUtil.showBottomShortText(context, getResources().getString(R.string.course_bugCourse));
+                        ToastUtil.showBottomShortText(context, getResources().getString(R.string.course_buyCourse));
                     }
                 } else {
                     //TODO 未登录

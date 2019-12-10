@@ -76,6 +76,7 @@
             android:divider="@null"
             android:dividerHeight="@dimen/dp_1"
             android:gravity="center"
+            android:groupIndicator="@null"
             android:overScrollMode="never"
             android:scrollbarSize="1dp"
             android:scrollbarStyle="insideInset"

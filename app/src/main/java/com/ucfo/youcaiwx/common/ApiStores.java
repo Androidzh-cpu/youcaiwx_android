@@ -14,11 +14,11 @@ public class ApiStores {
     }
 
     //线上正式环境
-    private static final String ROOT_URL = "https://api.youcaiwx.cn/";
+    public static final String ROOT_URL = "https://api.youcaiwx.cn/";
     //线下测试环境
     //public static final String ROOT_URL = "https://dest.youcaiwx.cn/";
 
-    private static final String BASE_URL = ROOT_URL + "apps/";
+    public static final String BASE_URL = ROOT_URL + "apps/";
 
     //socket地址
     //public static final String SOCKET = "ws://ycapi.youcaiwx.com:2346";

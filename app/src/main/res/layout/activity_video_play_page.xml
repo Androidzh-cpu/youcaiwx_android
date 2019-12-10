@@ -8,18 +8,26 @@
     android:orientation="vertical"
     tools:context=".module.course.player.VideoPlayPageActivity"
     tools:ignore="RtlCompat">
-    <!--播放器界面-->
+
+    <!--播放器主界面-->
     <RelativeLayout
         android:id="@+id/player_relativelayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_203"
         android:background="#000000">
-        <!--surface-->
+
+        <!--surface,你懂得-->
         <SurfaceView
             android:id="@+id/surfaceview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true" />
+
+        <!--手势操作-->
+        <com.ucfo.youcaiwx.module.course.player.widget.GestureView
+            android:id="@+id/gestureview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <!--封面-->
         <ImageView
@@ -104,7 +112,7 @@
             android:layout_height="@dimen/dp_30"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginStart="@dimen/dp_24"
             android:animateLayoutChanges="true"
             android:clickable="true"
             android:scaleType="fitXY"

@@ -109,7 +109,7 @@
     <string name="first_login">请先登录</string>
     <string name="course_baoming">立即报名</string>
     <string name="course_bugBank">您还未拥有题库</string>
-    <string name="course_bugCourse">您还未拥有课程</string>
+    <string name="course_buyCourse">您还未拥有课程</string>
     <string name="course_notAsk">该课程无法提问</string>
     <string name="course_completed">播放完毕</string>
     <string name="course_videoLoading">视频加载中</string>
@@ -193,7 +193,7 @@
     <string name="mine_inputNewPasswordConfirm">请确认新密码</string>
     <string name="mine_inputNewPasswordAgain">请再次输入新密码</string>
     <string name="mine_feedbackTips">请留下QQ、邮箱或手机，方便答疑解惑</string>
-    <string name="mine_feedbackTips2">请输入您的问题</string>
+    <string name="mine_feedbackTips2">请详细描述您遇到的问题(建议附上操作步骤)</string>
     <string name="mine_feedbackToast1">请输入反馈内容</string>
     <string name="mine_feedbackToast2">请输入联系方式</string>
     <!-- Strings related to 个人中心 end-->

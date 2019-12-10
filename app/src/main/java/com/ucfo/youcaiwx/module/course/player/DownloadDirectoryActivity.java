@@ -163,10 +163,8 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
         courseId = list.get(currentClickCourseIndex).getCourse_id();
         if (downloadDirAdapter == null) {
             downloadDirAdapter = new DownloadDirAdapter(this, sectionBeanList);
-        } else {
-            downloadDirAdapter.notifyDataSetChanged();
         }
-        listView.setGroupIndicator(null);
+        downloadDirAdapter.notifyDataSetChanged();
         listView.setAdapter(downloadDirAdapter);
         for (int i = 0; i < downloadDirAdapter.getGroupCount(); i++) {
             listView.expandGroup(i);
