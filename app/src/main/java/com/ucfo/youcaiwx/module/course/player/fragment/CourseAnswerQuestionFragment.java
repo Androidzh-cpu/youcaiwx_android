@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.module.course.player.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,7 +26,6 @@ import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.answer.CourseCourseAnswerListPresenter;
 import com.ucfo.youcaiwx.presenter.view.answer.ICourseAnswerListView;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
@@ -53,7 +51,7 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     @BindView(R.id.refreshlayout)
     SmartRefreshLayout refreshlayout;
     Unbinder unbinder;
-    private Context context;
+
     private SharedPreferencesUtils sharedPreferencesUtils;
     private int user_id;
     private CourseCourseAnswerListPresenter courseAnswerListPresenter;
@@ -68,7 +66,9 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
+        if (rootView != null) {
+            unbinder = ButterKnife.bind(this, rootView);
+        }
         return rootView;
     }
 
@@ -102,17 +102,13 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
         if (fragmentActivity instanceof VideoPlayPageActivity) {
             videoPlayPageActivity = (VideoPlayPageActivity) fragmentActivity;
         }
-        context = getActivity();
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(videoPlayPageActivity);
         loginstatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
 
         LinearLayoutManager layoutManager3 = new LinearLayoutManager(getActivity());
         layoutManager3.setOrientation(LinearLayoutManager.VERTICAL);
-        layoutManager3.setReverseLayout(false);
         recyclerview.setLayoutManager(layoutManager3);
-        int topBottom = DensityUtil.dip2px(getActivity(), 6);
-        //recyclerview.addItemDecoration(new SpacesItemDecoration(0, 0, Color.TRANSPARENT));
         recyclerview.setNestedScrollingEnabled(false);
     }
 
@@ -192,17 +188,21 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
      */
     @Override
     public void getAnswerListData(AnswerListDataBean result) {
-        if (result != null && result.getData().size() != 0) {
+        if (result != null && result.getData().size() > 0) {
             List<AnswerListDataBean.DataBean> data = result.getData();
             if (answerList == null) {
                 answerList = new ArrayList<>();
             }
             answerList.clear();
             answerList.addAll(data);
-            initAdapter(answerList);
-            loadinglayout.showContent();
+            initAdapter();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         refreshlayout.finishRefresh();
         refreshlayout.finishLoadMore();
@@ -214,9 +214,9 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
      * Time:2019-4-16   下午 6:41
      * Detail: 问答列表
      */
-    private void initAdapter(List<AnswerListDataBean.DataBean> data) {
+    private void initAdapter() {
         if (courseAnswerListAdapter == null) {
-            courseAnswerListAdapter = new CourseAnswerListAdapter(data, context, 0);
+            courseAnswerListAdapter = new CourseAnswerListAdapter(answerList, videoPlayPageActivity, 0);
         }
         courseAnswerListAdapter.notifyDataSetChanged();
         recyclerview.setAdapter(courseAnswerListAdapter);
@@ -230,10 +230,9 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
                         //TODO 已购买
                         if (!fastClick(1000)) {
                             Bundle bundle = new Bundle();
-                            bundle.putInt(Constant.ANSWER_ID, data.get(position).getId());
-                            bundle.putInt(Constant.STATUS, data.get(position).getReply_status());
+                            bundle.putInt(Constant.ANSWER_ID, answerList.get(position).getId());
+                            bundle.putInt(Constant.STATUS, answerList.get(position).getReply_status());
                             bundle.putString(Constant.TYPE, Constant.MINE_ANSWER);
-                            //startActivity(CourseAnswerDetailActivity.class, bundle);
                             startActivity(AnsweringCourseActivity.class, bundle);
                         }
                     } else {
