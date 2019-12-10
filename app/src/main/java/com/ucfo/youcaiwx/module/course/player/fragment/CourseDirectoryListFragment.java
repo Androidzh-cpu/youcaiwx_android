@@ -159,14 +159,18 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                courseDirPresenter.getCourseDirData(coursePackageId, userId);
+                if (courseDirPresenter != null) {
+                    courseDirPresenter.getCourseDirData(coursePackageId, userId);
+                }
             }
         });
 
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                courseDirPresenter.getCourseDirData(coursePackageId, userId);
+                if (courseDirPresenter != null) {
+                    courseDirPresenter.getCourseDirData(coursePackageId, userId);
+                }
             }
         });
 
@@ -261,12 +265,8 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
 
         View contentView = LayoutInflater.from(context).inflate(R.layout.dialog_coursedir_window, null);
         courseDirWindow = new PopupWindow(contentView);
-        courseDirWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);//TODO 设置宽高
-        /*if (courseBuyState == 1) {
-            courseDirWindow.setHeight(layoutMain.getMeasuredHeight());
-        } else {
-            courseDirWindow.setHeight(layoutMain.getMeasuredHeight() + DensityUtil.dp2px(40));
-        }*/
+        //TODO 设置宽高
+        courseDirWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         courseDirWindow.setHeight(layoutMain.getMeasuredHeight());
         courseDirWindow.setFocusable(false);//区域外点击不消失
         courseDirWindow.setOutsideTouchable(false);////区域外点击不消失
@@ -282,7 +282,6 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         } else {
             initDirView(contentView, dataBean, sectionBeanList, course_un_con);
         }
-
     }
 
     /**
