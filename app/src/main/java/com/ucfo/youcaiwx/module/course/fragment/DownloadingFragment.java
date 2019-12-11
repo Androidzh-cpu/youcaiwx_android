@@ -1,6 +1,8 @@
 package com.ucfo.youcaiwx.module.course.fragment;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
@@ -24,6 +26,10 @@ import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.qw.soul.permission.SoulPermission;
+import com.qw.soul.permission.bean.Permission;
+import com.qw.soul.permission.bean.Permissions;
+import com.qw.soul.permission.callbcak.CheckRequestPermissionsListener;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.UcfoApplication;
 import com.ucfo.youcaiwx.adapter.download.DownloadingAdapter;
@@ -36,14 +42,14 @@ import com.ucfo.youcaiwx.entity.download.DataBaseSectioinListBean;
 import com.ucfo.youcaiwx.entity.download.DataBaseVideoListBean;
 import com.ucfo.youcaiwx.entity.download.GetVideoStsBean;
 import com.ucfo.youcaiwx.entity.download.PreparedDownloadInfoBean;
-import com.ucfo.youcaiwx.utils.LogUtils;
-import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.module.course.player.download.DownloadDataProvider;
 import com.ucfo.youcaiwx.module.course.player.download.StorageQueryUtil;
 import com.ucfo.youcaiwx.module.course.player.utils.ErrorInfo;
 import com.ucfo.youcaiwx.module.course.player.utils.NetWatchdog;
 import com.ucfo.youcaiwx.module.user.activity.OfflineCourseActivity;
+import com.ucfo.youcaiwx.utils.LogUtils;
+import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
+import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
 
@@ -166,13 +172,38 @@ public class DownloadingFragment extends BaseFragment {
     @Override
     protected void onLazyLoadOnce() {
         super.onLazyLoadOnce();
+        SoulPermission.getInstance().checkAndRequestPermissions(
+                Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                new CheckRequestPermissionsListener() {
+                    @Override
+                    public void onAllPermissionOk(Permission[] allPermissions) {
+                    }
+
+                    @Override
+                    public void onPermissionDenied(Permission[] refusedPermissions) {
+                        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity(), R.style.WhiteDialogStyle);
+                        builder.setTitle(getActivity().getResources().getString(R.string.explication));
+                        builder.setMessage(getActivity().getResources().getString(R.string.permission_sdcard));
+                        builder.setCancelable(false);
+                        builder.setPositiveButton(getActivity().getResources().getString(R.string.donner),
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        SoulPermission.getInstance().goApplicationSettings();
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
+                    }
+                });
+
+
         initDownloadConfig();
 
         if (offlineCourseActivityParcelableArrayList != null && offlineCourseActivityParcelableArrayList.size() > 0) {
             String vid = offlineCourseActivityParcelableArrayList.get(0).getVid();
             loadSTSData(vid, 0);
         }
-
         initDownloadingAdapter();
     }
 
@@ -267,11 +298,12 @@ public class DownloadingFragment extends BaseFragment {
             }
         }
         if (downloadingAdapter == null) {
-            downloadingAdapter = new DownloadingAdapter(alivcDownloadingMediaInfos, offlineCourseActivity);
-        } else {
-            downloadingAdapter.notifyDataSetChanged();
+            downloadingAdapter = new DownloadingAdapter(alivcDownloadingMediaInfos, getActivity());
         }
-        listView.setAdapter(downloadingAdapter);
+        downloadingAdapter.notifyDataSetChanged();
+        if (downloadingAdapter != null) {
+            listView.setAdapter(downloadingAdapter);
+        }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -489,13 +521,15 @@ public class DownloadingFragment extends BaseFragment {
      * 判断是否已经存在
      */
     private boolean hasAdded(AliyunDownloadMediaInfo info) {
-        for (AlivcDownloadMediaInfo downloadMediaInfo : alivcDownloadingMediaInfos) {
-            if (info.getFormat().equals(downloadMediaInfo.getAliyunDownloadMediaInfo().getFormat()) &&
-                    info.getQuality().equals(downloadMediaInfo.getAliyunDownloadMediaInfo().getQuality()) &&
-                    info.getVid().equals(downloadMediaInfo.getAliyunDownloadMediaInfo().getVid()) &&
-                    info.isEncripted() == downloadMediaInfo.getAliyunDownloadMediaInfo().isEncripted()) {
-                ToastUtil.showBottomShortText(getActivity(), context.getResources().getString(R.string.alivc_video_downloading_tips));
-                return true;
+        if (alivcDownloadingMediaInfos != null) {
+            for (AlivcDownloadMediaInfo downloadMediaInfo : alivcDownloadingMediaInfos) {
+                if (info.getFormat().equals(downloadMediaInfo.getAliyunDownloadMediaInfo().getFormat()) &&
+                        info.getQuality().equals(downloadMediaInfo.getAliyunDownloadMediaInfo().getQuality()) &&
+                        info.getVid().equals(downloadMediaInfo.getAliyunDownloadMediaInfo().getVid()) &&
+                        info.isEncripted() == downloadMediaInfo.getAliyunDownloadMediaInfo().isEncripted()) {
+                    ToastUtil.showBottomShortText(getActivity(), context.getResources().getString(R.string.alivc_video_downloading_tips));
+                    return true;
+                }
             }
         }
         return false;

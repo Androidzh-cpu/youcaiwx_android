@@ -11,7 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidkun.xtablayout.XTabLayout;
 import com.qw.soul.permission.SoulPermission;
@@ -22,7 +21,6 @@ import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.download.PreparedDownloadInfoBean;
-import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.module.course.fragment.DownloadCompletedFragment;
 import com.ucfo.youcaiwx.module.course.fragment.DownloadingFragment;
 import com.ucfo.youcaiwx.module.course.player.adapter.CommonTabAdapter;
@@ -101,10 +99,9 @@ public class OfflineCourseActivity extends BaseActivity {
         if (bundle != null) {
             page = bundle.getInt(Constant.PAGE, 0);
             parcelableArrayList = bundle.getParcelableArrayList(Constant.DOWNLOADINFO_LIST);
-            LogUtils.e("准备下载视频列表------------parcelableArrayList:" + parcelableArrayList.toString());
         }
         SoulPermission.getInstance().checkAndRequestPermissions(
-                Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE),
+                Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 new CheckRequestPermissionsListener() {
                     @Override
                     public void onAllPermissionOk(Permission[] allPermissions) {
@@ -112,24 +109,25 @@ public class OfflineCourseActivity extends BaseActivity {
 
                     @Override
                     public void onPermissionDenied(Permission[] refusedPermissions) {
-                        Permission permission = refusedPermissions[0];
-                        Permission permission1 = refusedPermissions[1];
-                        if (permission.shouldRationale() || permission1.shouldRationale()) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.WhiteDialogStyle);
-                            builder.setTitle(context.getResources().getString(R.string.explication));
-                            builder.setMessage(context.getResources().getString(R.string.permission_sdcard));
-                            builder.setCancelable(false);
-                            builder.setPositiveButton(context.getResources().getString(R.string.donner), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    SoulPermission.getInstance().goApplicationSettings();
-                                }
-                            });
-                            builder.create();
-                            builder.show();
+                        //Permission permission = refusedPermissions[0];
+                        //Permission permission1 = refusedPermissions[1];
+                        /*if (permission.shouldRationale() || permission1.shouldRationale()) {
                         } else {
                             Toast.makeText(context, context.getResources().getString(R.string.permission_explication), Toast.LENGTH_SHORT).show();
-                        }
+                        }*/
+                        AlertDialog.Builder builder = new AlertDialog.Builder(OfflineCourseActivity.this, R.style.WhiteDialogStyle);
+                        builder.setTitle(OfflineCourseActivity.this.getResources().getString(R.string.explication));
+                        builder.setMessage(OfflineCourseActivity.this.getResources().getString(R.string.permission_sdcard));
+                        builder.setCancelable(false);
+                        builder.setPositiveButton(OfflineCourseActivity.this.getResources().getString(R.string.donner),
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        SoulPermission.getInstance().goApplicationSettings();
+                                    }
+                                });
+                        builder.create();
+                        builder.show();
                     }
                 });
         initTablayout();
