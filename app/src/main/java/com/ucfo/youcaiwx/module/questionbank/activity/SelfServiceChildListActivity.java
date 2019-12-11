@@ -99,7 +99,9 @@ public class SelfServiceChildListActivity extends BaseActivity implements IQuest
 
             questionBankKnowledgePresenter.getKnowledgeChildList(course_id, section_id, knob_id);
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -131,12 +133,18 @@ public class SelfServiceChildListActivity extends BaseActivity implements IQuest
                 list.addAll(beanList);
                 initAdapter();
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -176,7 +184,9 @@ public class SelfServiceChildListActivity extends BaseActivity implements IQuest
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 
     @OnClick(R.id.btn_next)

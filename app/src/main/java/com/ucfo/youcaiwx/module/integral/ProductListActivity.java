@@ -43,7 +43,7 @@ import butterknife.ButterKnife;
  * ORG: www.youcaiwx.com
  * Description:TODO 商品列表
  */
-public class  ProductListActivity extends BaseActivity implements IIntegralGoodsListView {
+public class ProductListActivity extends BaseActivity implements IIntegralGoodsListView {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
     @BindView(R.id.loadinglayout)
@@ -186,12 +186,18 @@ public class  ProductListActivity extends BaseActivity implements IIntegralGoods
 
                 initAdapter();
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
 
         refreshlayout.finishRefresh();
@@ -247,6 +253,8 @@ public class  ProductListActivity extends BaseActivity implements IIntegralGoods
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

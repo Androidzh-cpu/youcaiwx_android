@@ -139,7 +139,9 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
                 topTitle.setVisibility(View.VISIBLE);
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
@@ -207,12 +209,18 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
                 initTopTitle(topicsBean);
                 initAdapter();
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -276,6 +284,8 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

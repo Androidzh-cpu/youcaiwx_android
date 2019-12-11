@@ -122,7 +122,9 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
             //获取章节列表
             questionBankStageOfTestPresenter.getStageOfTestData(course_id, plate_id);
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         //设置重新加载事件
         loadinglayout.setRetryListener(new View.OnClickListener() {
@@ -178,12 +180,18 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
                 list.addAll(dataBeanList);
                 initAdapter();
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         refreshlayout.finishRefresh();
     }
@@ -269,6 +277,8 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

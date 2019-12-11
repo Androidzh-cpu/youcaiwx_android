@@ -148,25 +148,33 @@ public class InformationActivity extends BaseActivity implements IInformationVie
                     }
                 }
                 initAdapter();
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {//TODO 加载的数据为0的情况
                 if (pageIndex == 1) {//初次加载或刷新
                     if (list != null && list.size() > 0) {
                         informationAdapter.notifyDataSetChanged();
                     } else {
-                        loadinglayout.showEmpty();
+                        if (loadinglayout != null) {
+                            loadinglayout.showEmpty();
+                        }
                     }
                 } else {//架子啊更多
                     if (list != null && list.size() > 0) {
                         informationAdapter.notifyDataSetChanged();
                         ToastUtil.showBottomShortText(this, getResources().getString(R.string.noMoreData));
                     } else {
-                        loadinglayout.showEmpty();
+                        if (loadinglayout != null) {
+                            loadinglayout.showEmpty();
+                        }
                     }
                 }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         refreshlayout.finishRefresh();
         refreshlayout.finishLoadMore();
@@ -204,6 +212,8 @@ public class InformationActivity extends BaseActivity implements IInformationVie
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

@@ -112,7 +112,9 @@ public class ErrorCenterActivity extends BaseActivity implements IQuestionBankKo
         if (bundle != null) {
             course_id = bundle.getInt(Constant.COURSE_ID, 0);
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
@@ -160,12 +162,18 @@ public class ErrorCenterActivity extends BaseActivity implements IQuestionBankKo
 
                 initAdapter();
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 

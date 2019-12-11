@@ -385,7 +385,9 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
 
     //TODO 初始化学习中心页面
     private void initLearnCenter(LearncenterHomeBean data) {
-        loadinglayout.showContent();
+        if (loadinglayout != null) {
+            loadinglayout.showContent();
+        }
         LearncenterHomeBean.DataBean dataData = data.getData();
         if (!loginStatus) {//未登录
             linearContinueStudy.setVisibility(linearContinueStudy.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//继续学习
@@ -544,7 +546,9 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     @Override
     public void showError() {
         if (loadinglayout != null) {
-            loadinglayout.showError();
+            if (loadinglayout != null) {
+                loadinglayout.showError();
+            }
         }
     }
 

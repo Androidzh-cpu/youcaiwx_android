@@ -173,7 +173,9 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
                     }
                 }
                 initAdapter();
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {//TODO 加载的数据为0的情况
                 if (pageIndex == 1) {//初次加载或刷新
                     if (list != null && list.size() > 0) {
@@ -181,7 +183,9 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
                             messageNotificationAdapter.notifyDataSetChanged();
                         }
                     } else {
-                        loadinglayout.showEmpty();
+                        if (loadinglayout != null) {
+                            loadinglayout.showEmpty();
+                        }
                     }
                 } else {//架子啊更多
                     if (list != null && list.size() > 0) {
@@ -190,12 +194,16 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
                         }
                         ToastUtil.showBottomShortText(context, getResources().getString(R.string.noMoreData));
                     } else {
-                        loadinglayout.showEmpty();
+                        if (loadinglayout != null) {
+                            loadinglayout.showEmpty();
+                        }
                     }
                 }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
 
         refreshlayout.finishRefresh();
@@ -263,6 +271,8 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

@@ -149,9 +149,13 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
             shopBeanList.clear();
             shopBeanList.addAll(shop);
             initAdapter();
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         refreshlayout.finishRefresh();
     }
@@ -204,7 +208,9 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 
     @OnClick({R.id.btn_coupon_checkall, R.id.btn_goods_checkall})

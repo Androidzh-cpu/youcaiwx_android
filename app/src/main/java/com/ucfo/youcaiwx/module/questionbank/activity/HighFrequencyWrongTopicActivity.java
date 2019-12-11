@@ -109,7 +109,9 @@ public class HighFrequencyWrongTopicActivity extends BaseActivity implements IQu
         loginStaus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         if (!loginStaus) {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -124,7 +126,9 @@ public class HighFrequencyWrongTopicActivity extends BaseActivity implements IQu
             course_id = bundle.getInt(Constant.COURSE_ID, 0);
             plate_id = bundle.getInt(Constant.PLATE_ID, 0);
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         //重新加载
         loadinglayout.setRetryListener(new View.OnClickListener() {
@@ -158,13 +162,19 @@ public class HighFrequencyWrongTopicActivity extends BaseActivity implements IQu
 
                 initAdapter();
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
 
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 

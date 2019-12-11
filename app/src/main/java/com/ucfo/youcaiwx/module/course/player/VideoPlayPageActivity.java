@@ -366,14 +366,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
         private boolean intentPause;
 
-        public VodPlayerLoadEndHandler(VideoPlayPageActivity videoPlayPageActivity) {
+        VodPlayerLoadEndHandler(VideoPlayPageActivity videoPlayPageActivity) {
             weakReference = new WeakReference<>(videoPlayPageActivity);
         }
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            LogUtils.e("msg.what: " + msg.what);
             if (msg.what == 0) {
                 intentPause = true;
             }
@@ -669,7 +668,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             } else {
                 targetMode = AliyunScreenMode.Small;
             }
-            changeScreenMode(targetMode);//TODO 横竖屏切换
+            changeScreenMode(targetMode);
         } else if (TextUtils.equals(course_Source, Constant.LOCAL_CACHE)) {
             //TODO 本地缓存视频(横屏播放,不能收藏,不能提问,不能切换清晰度)
             String string = bundle.getString(Constant.LOCAL_PLAYURL, "");
@@ -687,7 +686,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             } else {
                 targetMode = AliyunScreenMode.Small;
             }
-            changeScreenMode(targetMode);//TODO 横竖屏切换
+            changeScreenMode(targetMode);
         } else if (TextUtils.equals(course_Source, Constant.WATCH_LEARNPLAN)) {
             //TODO 学习中心计划观课(横屏播放,可以提问)
             int section_id = bundle.getInt(Constant.SECTION_ID, 0);//章
@@ -850,14 +849,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     }
 
     /**
-     * 延时隐藏控制栏
-     */
-    private void hideDelayed() {
-        mHideHandler.removeMessages(WHAT_HIDE);
-        mHideHandler.sendEmptyMessageDelayed(WHAT_HIDE, DELAY_TIME);
-    }
-
-    /**
      * 开启底层日志
      */
     public void enableNativeLog() {
@@ -926,17 +917,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
         if (mPlayerState == IAliyunVodPlayer.PlayerState.Paused) {
             pause();
-            LogUtils.e("resumePlayerState-------------pause()");
         } else if (mPlayerState == IAliyunVodPlayer.PlayerState.Started) {
             if (course_Source.equals(Constant.LOCAL_CACHE)) {
                 reTry();
-                LogUtils.e("resumePlayerState-------------reTry()");
             } else {
                 start();
-                LogUtils.e("resumePlayerState-------------start()");
             }
         }
-        LogUtils.e("resumePlayerState-------------:" + mPlayerState);
     }
 
     /**
@@ -981,7 +968,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         IAliyunVodPlayer.PlayerState playerState = aliyunVodPlayer.getPlayerState();
         if (playerState == IAliyunVodPlayer.PlayerState.Paused || playerState == IAliyunVodPlayer.PlayerState.Prepared || aliyunVodPlayer.isPlaying()) {
             aliyunVodPlayer.start();
-            LogUtils.e("resumePlayerState-------------aliyunVodPlayer.start()");
         }
         mGestureView.setHideType(ViewAction.HideType.Normal);
         mGestureView.show();
@@ -1239,14 +1225,18 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //已购买
         } else {
             //未购买,试看指定时间
-            int millis = Integer.parseInt(String.valueOf(aliyunVodPlayer.getCurrentPosition() / 1000));//总的剩余时间
+
+            //总的剩余时间
+            int millis = Integer.parseInt(String.valueOf(aliyunVodPlayer.getCurrentPosition() / 1000));
             if (millis >= freeTime) {
                 playerTipsview.setVisibility(playerTipsview.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
                 playerTipsview.setText(freeWatchTips);
                 stop();
                 stopProgressUpdateTimer();
-                courseCoverimage.setColorFilter(Color.BLACK);//背景设置为黑色的
-                courseCoverimage.setVisibility(View.VISIBLE);//背景图可见
+                //背景设置为黑色的
+                courseCoverimage.setColorFilter(Color.BLACK);
+                //背景图可见
+                courseCoverimage.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -1278,6 +1268,16 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     }
 
     /**
+     * 延时隐藏控制栏
+     */
+    private void hideDelayed() {
+        if (mHideHandler != null) {
+            mHideHandler.removeMessages(WHAT_HIDE);
+            mHideHandler.sendEmptyMessageDelayed(WHAT_HIDE, DELAY_TIME);
+        }
+    }
+
+    /**
      * @param flag      显示状态
      * @param isDisplay 是否延迟消失
      */
@@ -1293,6 +1293,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             }
             return;
         }
+
         if (aliyunVodPlayer == null) {
             return;
         }
@@ -1310,13 +1311,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //显示控制栏
             if (playerBottomliner.getVisibility() != View.VISIBLE) {
                 playerBottomliner.setVisibility(View.VISIBLE);
-                playerBottomliner.bringToFront();
                 playerBottomliner.startAnimation(getTranslateAnimation(0.0f, 0.0f, playerBottomliner.getHeight(), 0.0f, true));
             }
             if (playerTopliner.getVisibility() != View.VISIBLE) {
                 playerTopliner.setBackgroundColor(Color.parseColor("#99000000"));
                 playerTopliner.setVisibility(View.VISIBLE);
-                playerTopliner.bringToFront();
                 playerTopliner.startAnimation(getTranslateAnimation(0.0f, 0.0f, -1 * playerTopliner.getHeight(), 0.0f, true));
             } else {
                 playerTopliner.setBackgroundColor(Color.parseColor("#99000000"));
@@ -1325,12 +1324,15 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             if (mCurrentScreenMode == AliyunScreenMode.Full) {
                 playerLockedscreen.setVisibility(View.VISIBLE);
             }
-        } else {//隐藏控制栏
-            if (playerTopliner.getVisibility() != View.GONE) {//可见状态
+        } else {
+            //隐藏控制栏
+            if (playerTopliner.getVisibility() != View.GONE) {
+                //可见状态
                 playerTopliner.startAnimation(getTranslateAnimation(0.0f, 0.0f, 0.0f, -1 * playerTopliner.getHeight(), false));
                 playerTopliner.setVisibility(View.GONE);
             }
-            if (playerBottomliner.getVisibility() != View.GONE) {//可见状态
+            if (playerBottomliner.getVisibility() != View.GONE) {
+                //可见状态
                 playerBottomliner.startAnimation(getTranslateAnimation(0.0f, 0.0f, 0.0f, playerBottomliner.getHeight(), false));
                 playerBottomliner.setVisibility(View.GONE);
             }
@@ -1364,14 +1366,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         setLayoutVisibility(false, false);
         mIsFullScreenLocked = lockScreen;
         if (mIsFullScreenLocked) {
-            //Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_icon_locked);
             Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_icon_locked2);
             playerLockedscreen.setImageDrawable(drawable);
 
             setLayoutVisibility(false, false);
             ToastUtil.showBottomShortText(this, getResources().getString(R.string.course_lockedScreen));
         } else {
-            //Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_icon_unlocked);
             Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_icon_unlocked2);
             playerLockedscreen.setImageDrawable(drawable);
 
@@ -1380,7 +1380,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (mGestureView != null) {
             mGestureView.setScreenLockStatus(mIsFullScreenLocked);
         }
-
     }
 
     /**
@@ -1763,13 +1762,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             @Override
             public void onFirstFrameStart() {
                 LogUtils.e("首帧显示触发");
-                //视频封面隐藏掉
-                //courseCoverimage.setVisibility(courseCoverimage.getVisibility() == View.VISIBLE ? View.GONE : View.INVISIBLE);
 
                 //获取所有日志信息
                 getAllDebugInfo();
 
-                //开始启动更新进度的定时器
+                /**
+                 * 开始启动更新进度的定时器
+                 */
                 startProgressUpdateTimer();
 
                 /**
@@ -2228,9 +2227,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         surfaceHolder = surfaceview.getHolder();
         surfaceHolder.addCallback(this);
 
-        //
-        playerLockedscreen.bringToFront();
-
         //seekbar的滑动监听
         SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
             int progress = 0;
@@ -2465,7 +2461,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     if (!pdfStatus) {//查看讲义
                         pdfView.setVisibility(View.VISIBLE);
                         playerPDFPage.setVisibility(View.VISIBLE);
-                        playerPDFPage.bringToFront();
                         playerHandouts.setText(getResources().getString(R.string.video));
                         pdfStatus = !pdfStatus;
 
@@ -2474,8 +2469,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                          */
                         mGestureView.hide(ViewAction.HideType.End);
 
-                        playerAskQuestion.setVisibility(View.GONE);//提问按钮隐藏
-                        playerExitPdf.setVisibility(playerExitPdf.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//PDF退出按钮显示
+                        //提问按钮隐藏
+                        playerAskQuestion.setVisibility(View.GONE);
+                        //PDF退出按钮显示
+                        playerExitPdf.setVisibility(View.VISIBLE);
 
                         setLayoutVisibility(false, false);
                         toastInfo(getResources().getString(R.string.course_PDF_changeToPDF));
@@ -2491,7 +2488,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                         mGestureView.show();
 
                         playerAskQuestion.setVisibility(View.VISIBLE);//提问按钮
-                        playerExitPdf.setVisibility(playerExitPdf.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//PDF退出按钮显示
+                        playerExitPdf.setVisibility(View.GONE);//PDF退出按钮显示
 
                         setLayoutVisibility(true, true);
                         toastInfo(getResources().getString(R.string.course_PDF_changeToVideo));
@@ -2781,10 +2778,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         @Override
         public void onWifiTo4G() {//TODO  WiFi转到4G(当前是数据网络)
             pause();
-            LogUtils.e("onWifiTo4G()------------------" + look_wifi);
+            //LogUtils.e("onWifiTo4G()------------------" + look_wifi);
 
             //隐藏其他的动作,防止点击界面去进行其他操作
-            mGestureView.hide(ViewAction.HideType.Normal);
+            if (mGestureView != null) {
+                mGestureView.hide(ViewAction.HideType.Normal);
+            }
 
             if (look_wifi) {
                 //TODO 仅在WIFI下观看视频,4G无法播放,播放需要同意
@@ -2819,12 +2818,14 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
 
         @Override
-        public void on4GToWifi() {//TODO  4G转到WiFi
+        public void on4GToWifi() {
+            //TODO  4G转到WiFi
             //LogUtils.e("网络状态--------------------on4GToWifi");
         }
 
         @Override
-        public void onNetDisconnected() {//TODO //网络断开。由于安卓这块网络切换的时候，有时候也会先报断开。所以这个回调是不准确的。
+        public void onNetDisconnected() {
+            //TODO //网络断开。由于安卓这块网络切换的时候，有时候也会先报断开。所以这个回调是不准确的。
             //LogUtils.e("网络状态--------------------onNetDisconnected");
         }
     }

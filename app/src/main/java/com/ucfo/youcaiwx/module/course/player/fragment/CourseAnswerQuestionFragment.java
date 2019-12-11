@@ -219,7 +219,9 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
             courseAnswerListAdapter = new CourseAnswerListAdapter(answerList, videoPlayPageActivity, 0);
         }
         courseAnswerListAdapter.notifyDataSetChanged();
-        recyclerview.setAdapter(courseAnswerListAdapter);
+        if (courseAnswerListAdapter != null) {
+            recyclerview.setAdapter(courseAnswerListAdapter);
+        }
         //查看详情点击事件
         courseAnswerListAdapter.setItemClick(new CourseAnswerListAdapter.OnItemViewClickListener() {
             @Override

@@ -144,9 +144,13 @@ public class CourseListActivity extends BaseActivity implements ICourseListView 
         if (result != null) {
             List<CourseSubjectsBean.DataBean> data = result.getData();
             initTablayout(data);
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -167,6 +171,8 @@ public class CourseListActivity extends BaseActivity implements ICourseListView 
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

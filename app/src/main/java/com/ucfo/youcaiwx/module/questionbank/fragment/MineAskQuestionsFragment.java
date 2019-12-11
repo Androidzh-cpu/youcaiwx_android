@@ -137,12 +137,18 @@ public class MineAskQuestionsFragment extends BaseFragment implements IQuestionA
 
                 initAdapter();
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         refreshlayout.finishRefresh();
         refreshlayout.finishLoadMore();
@@ -187,6 +193,8 @@ public class MineAskQuestionsFragment extends BaseFragment implements IQuestionA
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

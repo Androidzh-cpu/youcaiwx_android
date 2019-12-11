@@ -165,9 +165,13 @@ public class DownloadCompletesFragment extends BaseFragment {
             }
         }
         if (alivcDownloadMediaInfos.size() > 0) {
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
 
         if (downloadingAdapter == null) {
@@ -259,9 +263,13 @@ public class DownloadCompletesFragment extends BaseFragment {
             downloadingAdapter.notifyDataSetChanged();
         }
         if (alivcDownloadMediaInfos.size() > 0) {
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -270,9 +278,13 @@ public class DownloadCompletesFragment extends BaseFragment {
      */
     public void showDownloadContentView() {
         if (alivcDownloadMediaInfos.size() > 0) {
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 

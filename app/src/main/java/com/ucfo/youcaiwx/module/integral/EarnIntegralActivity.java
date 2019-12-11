@@ -147,9 +147,13 @@ public class EarnIntegralActivity extends BaseActivity implements IIntegralEarnV
             noviceBeanList.addAll(novice);
 
             initAdapter();
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -208,6 +212,8 @@ public class EarnIntegralActivity extends BaseActivity implements IIntegralEarnV
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

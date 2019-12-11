@@ -181,7 +181,9 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
                 topLinear.setVisibility(View.VISIBLE);
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
@@ -202,12 +204,18 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
         if (bean != null) {
             if (bean.getData() != null) {
                 setDetailInfo(bean);
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -412,7 +420,9 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
 
     @Override
     public void showError() {
-        loadinglayout.showEmpty();
+        if (loadinglayout != null) {
+            loadinglayout.showEmpty();
+        }
     }
 
     @OnClick(R.id.top_linear)

@@ -171,7 +171,9 @@ public class ResultsStatisticalActivity extends BaseActivity implements IQuestio
                     break;
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         LogUtils.e("成绩统计页------bundle: " + bundle);
         loadinglayout.setRetryListener(new View.OnClickListener() {
@@ -259,12 +261,18 @@ public class ResultsStatisticalActivity extends BaseActivity implements IQuestio
 
                 initInfo(bean);
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -343,6 +351,8 @@ public class ResultsStatisticalActivity extends BaseActivity implements IQuestio
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

@@ -133,7 +133,9 @@ public class MineAddressActivity extends BaseActivity implements IUserAddressVie
         userAddressPresenter = new UserAddressPresenter(this);
 
         if (!loginstatus) {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
 
         loadinglayout.setRetryListener(new View.OnClickListener() {
@@ -174,12 +176,18 @@ public class MineAddressActivity extends BaseActivity implements IUserAddressVie
 
                 initAdapter();
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         refreshlayout.finishRefresh();
         refreshlayout.finishLoadMore();
@@ -247,6 +255,8 @@ public class MineAddressActivity extends BaseActivity implements IUserAddressVie
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

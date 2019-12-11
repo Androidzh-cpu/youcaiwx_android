@@ -145,12 +145,18 @@ public class WatchTheRecordActivity extends BaseActivity implements IMineCourseV
                 list.addAll(beanList);
                 initadapter();
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         refreshlayout.finishRefresh();
         refreshlayout.finishLoadMore();
@@ -159,10 +165,11 @@ public class WatchTheRecordActivity extends BaseActivity implements IMineCourseV
     private void initadapter() {
         if (mineWatchRecordAdapter == null) {
             mineWatchRecordAdapter = new MineWatchRecordAdapter(list, this);
-        } else {
-            mineWatchRecordAdapter.notifyDataSetChanged();
         }
-        recyclerview.setAdapter(mineWatchRecordAdapter);
+        mineWatchRecordAdapter.notifyDataSetChanged();
+        if (mineWatchRecordAdapter != null) {
+            recyclerview.setAdapter(mineWatchRecordAdapter);
+        }
         mineWatchRecordAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -195,6 +202,8 @@ public class WatchTheRecordActivity extends BaseActivity implements IMineCourseV
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

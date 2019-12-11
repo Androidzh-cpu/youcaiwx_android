@@ -105,12 +105,18 @@ public class FragmentQuestionCollection extends BaseFragment implements IMineCol
         if (data != null) {
             if (data.getData().size() > 0 && data.getData() != null) {
                 initTablayout(data.getData());
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -164,6 +170,8 @@ public class FragmentQuestionCollection extends BaseFragment implements IMineCol
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

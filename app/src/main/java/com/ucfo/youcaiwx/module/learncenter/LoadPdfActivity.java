@@ -101,7 +101,9 @@ public class LoadPdfActivity extends BaseActivity {
                 titlebarMidtitle.setText(getResources().getString(R.string.default_title));
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
@@ -153,7 +155,9 @@ public class LoadPdfActivity extends BaseActivity {
                                         .pageFling(false) // make a fling change only a single page like ViewPager
                                         .nightMode(false)// toggle night mode夜间模式
                                         .load();
-                                loadinglayout.showContent();
+                                if (loadinglayout != null) {
+                                    loadinglayout.showContent();
+                                }
                             }
                         }
                     }
@@ -161,7 +165,9 @@ public class LoadPdfActivity extends BaseActivity {
                     @Override
                     public void onError(com.lzy.okgo.model.Response<File> response) {
                         super.onError(response);
-                        loadinglayout.showError();
+                        if (loadinglayout != null) {
+                            loadinglayout.showError();
+                        }
                     }
 
                     @Override

@@ -140,10 +140,14 @@ public class PayActivity extends BaseActivity implements IPayMentView {
         }
 
         if (TextUtils.isEmpty(orderFormNum)) {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         } else {
             payMentPresenter = new PayMentPresenter(this);
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         }
     }
 
@@ -266,7 +270,7 @@ public class PayActivity extends BaseActivity implements IPayMentView {
 
     @Override
     public void showError() {
-        //loadinglayout.showError();
+        //if (loadinglayout != null) {loadinglayout.showError();}
     }
 
     private void toastInfo(String s) {

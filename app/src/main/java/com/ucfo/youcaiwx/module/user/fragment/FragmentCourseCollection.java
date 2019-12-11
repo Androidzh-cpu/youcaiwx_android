@@ -152,7 +152,9 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
                     }
                 }
                 initAdapter();
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {//TODO 加载的数据为0的情况
                 if (pageIndex == 1) {//初次加载或刷新
                     if (list != null && list.size() > 0) {
@@ -160,7 +162,9 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
                             mineCourseAdapter.notifyDataSetChanged();
                         }
                     } else {
-                        loadinglayout.showEmpty();
+                        if (loadinglayout != null) {
+                            loadinglayout.showEmpty();
+                        }
                     }
                 } else {//架子啊更多
                     if (list != null && list.size() > 0) {
@@ -169,12 +173,16 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
                         }
                         ToastUtil.showBottomShortText(context, getResources().getString(R.string.noMoreData));
                     } else {
-                        loadinglayout.showEmpty();
+                        if (loadinglayout != null) {
+                            loadinglayout.showEmpty();
+                        }
                     }
                 }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         refreshlayout.finishRefresh();
         refreshlayout.finishLoadMore();
@@ -227,6 +235,8 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

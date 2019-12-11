@@ -139,7 +139,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
             webUrl = bundle.getString(Constant.WEB_URL);//defaultUrl
             webTitle = bundle.getString(Constant.WEB_TITLE);//标题
         } else {
-            mLoadinglayout.showEmpty();
+            if(mLoadinglayout != null) {
+                mLoadinglayout.showEmpty();
+            }
         }
         LogUtils.e("X5webview-----------bundle:" + bundle);
         if (TextUtils.isEmpty(webTitle)) {
@@ -148,7 +150,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         mMidtitleTitlebar.setText(webTitle);
 
         if (TextUtils.isEmpty(webUrl)) {
-            mLoadinglayout.showEmpty();
+            if(mLoadinglayout != null) {
+                mLoadinglayout.showEmpty();
+            }
         } else {
             tencentWebview.loadUrl(webUrl);
             //校验链接
@@ -161,7 +165,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
                     tencentWebview.loadUrl(webUrl);
                 } else {
                     ToastUtil.showBottomShortText(this, getResources().getString(R.string.github_qq_browser_urlIllegality));
-                    mLoadinglayout.showEmpty();
+                    if(mLoadinglayout != null) {
+                        mLoadinglayout.showEmpty();
+                    }
                 }
             }
         }

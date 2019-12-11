@@ -132,7 +132,9 @@ public class CommodityExchangeActivity extends BaseActivity implements IIntegral
     @Override
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
-        loadinglayout.showContent();
+        if (loadinglayout != null) {
+            loadinglayout.showContent();
+        }
     }
 
     @Override
@@ -173,9 +175,13 @@ public class CommodityExchangeActivity extends BaseActivity implements IIntegral
 
             initProductDetail(data);
 
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 

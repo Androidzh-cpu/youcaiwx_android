@@ -77,7 +77,9 @@ public class CourseCollectionChildActivity extends BaseActivity implements IMine
         if (bundle != null) {
             mineCollectionPresenter.getMineCourseCollectionList(user_id, packege_id);
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -119,7 +121,9 @@ public class CourseCollectionChildActivity extends BaseActivity implements IMine
         if (bundle != null) {
             packege_id = bundle.getInt(Constant.PACKAGE_ID, 0);
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -176,12 +180,18 @@ public class CourseCollectionChildActivity extends BaseActivity implements IMine
 
                 initAdapter();
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         refreshlayout.finishRefresh();
     }
@@ -228,6 +238,8 @@ public class CourseCollectionChildActivity extends BaseActivity implements IMine
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

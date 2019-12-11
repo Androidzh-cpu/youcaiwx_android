@@ -202,7 +202,9 @@ public class CourseIntroductionFragment extends BaseFragment {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        loadinglayout.showError();
+                        if (loadinglayout != null) {
+                            loadinglayout.showError();
+                        }
                     }
 
                     @Override
@@ -224,13 +226,17 @@ public class CourseIntroductionFragment extends BaseFragment {
                                     CourseIntroductionBean courseIntroductionBean = gson.fromJson(response.body(), CourseIntroductionBean.class);
                                     getCourseInfo(courseIntroductionBean);
                                 } else {
-                                    loadinglayout.showEmpty();
+                                    if (loadinglayout != null) {
+                                        loadinglayout.showEmpty();
+                                    }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            loadinglayout.showEmpty();
+                            if (loadinglayout != null) {
+                                loadinglayout.showEmpty();
+                            }
                         }
                     }
                 });
@@ -298,9 +304,13 @@ public class CourseIntroductionFragment extends BaseFragment {
             }
             courseCount.setText(getResources().getString(R.string.people, joinNum));
             courseTime.setText(String.valueOf(String.valueOf(getResources().getString(R.string.orderForm_endtime2, studyDays))));
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 

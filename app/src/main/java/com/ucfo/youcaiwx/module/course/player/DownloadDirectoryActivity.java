@@ -131,7 +131,9 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
             //获取对应课程视频列表
             courseDirPresenter.getCourseDirData(package_id, user_id);
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override

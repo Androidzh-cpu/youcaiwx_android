@@ -309,11 +309,6 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 loadinglayout.showContent();
             }
         }
-
-
-        /*if (loadinglayout != null) {
-            loadinglayout.showContent();
-        }*/
     }
 
     /**

@@ -252,7 +252,9 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             //获取试题开始作答
             loadNetData();
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         //重试事件监听
         loadinglayout.setRetryListener(new View.OnClickListener() {
@@ -757,15 +759,23 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
 
                     doExerciseFunction(data);//TODO 做题逻辑处理
 
-                    loadinglayout.showContent();
+                    if (loadinglayout != null) {
+                        loadinglayout.showContent();
+                    }
                 } else {
-                    loadinglayout.showEmpty();
+                    if (loadinglayout != null) {
+                        loadinglayout.showEmpty();
+                    }
                 }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 

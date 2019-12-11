@@ -178,7 +178,9 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
         if (bundle != null) {
             courserPackageId = bundle.getInt(Constant.COURSE_PACKAGE_ID, 0);
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         payPresenter = new PayPresenter(this);
 
@@ -417,12 +419,18 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
 
                 initOrderFormData(dataBean);
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 

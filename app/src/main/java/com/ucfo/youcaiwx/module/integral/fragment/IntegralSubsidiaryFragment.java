@@ -120,12 +120,18 @@ public class IntegralSubsidiaryFragment extends BaseFragment implements IIntegra
                 list.clear();
                 list.addAll(dataBeanList);
                 initAdapter();
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         refreshlayout.finishRefresh();
     }
@@ -151,7 +157,9 @@ public class IntegralSubsidiaryFragment extends BaseFragment implements IIntegra
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 
 }

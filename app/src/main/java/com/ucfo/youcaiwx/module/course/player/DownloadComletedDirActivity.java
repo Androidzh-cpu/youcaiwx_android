@@ -114,9 +114,13 @@ public class DownloadComletedDirActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             courseid = bundle.getString(Constant.COURSE_ID, "0");
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         list = new ArrayList<>();
 
@@ -178,9 +182,13 @@ public class DownloadComletedDirActivity extends BaseActivity {
             adapter.notifyDataSetChanged();
         }
         if (list != null && list.size() > 0) {
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 

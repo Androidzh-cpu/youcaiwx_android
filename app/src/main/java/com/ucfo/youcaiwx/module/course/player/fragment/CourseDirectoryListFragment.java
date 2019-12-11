@@ -216,9 +216,13 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
 
             initAdapter(coursePackageList);//设置课程套餐适配器
 
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
 
         refreshlayout.finishLoadMore();//结束加载动画
@@ -433,6 +437,8 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

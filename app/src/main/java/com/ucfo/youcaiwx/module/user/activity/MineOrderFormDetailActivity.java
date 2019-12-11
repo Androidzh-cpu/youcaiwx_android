@@ -172,7 +172,9 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
             order_number = bundle.getString(Constant.ORDER_NUM, "");
             order_status = bundle.getInt(Constant.STATUS, 0);
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         context = this;
         user_id = SharedPreferencesUtils.getInstance(context).getInt(Constant.USER_ID, 0);
@@ -270,12 +272,18 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
         if (result != null) {
             if (result.getData() != null) {
                 initOrderFormDetail(result.getData());
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -386,7 +394,9 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 
     ////////////////////////////支付////////////////////////

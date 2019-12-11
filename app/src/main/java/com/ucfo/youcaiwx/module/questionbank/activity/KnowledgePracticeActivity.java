@@ -95,7 +95,9 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
         loginStaus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         if (!loginStaus) {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -112,7 +114,9 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
 
             //loadNetData();
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         //重新加载
         loadinglayout.setRetryListener(new View.OnClickListener() {
@@ -186,12 +190,18 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
 
                 initAdapter();
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -261,6 +271,8 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

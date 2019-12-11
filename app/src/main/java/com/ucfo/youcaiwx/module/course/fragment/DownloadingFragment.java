@@ -258,9 +258,13 @@ public class DownloadingFragment extends BaseFragment {
      */
     private void initDownloadingAdapter() {
         if (alivcDownloadingMediaInfos.size() > 0) {
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         if (downloadingAdapter == null) {
             downloadingAdapter = new DownloadingAdapter(alivcDownloadingMediaInfos, offlineCourseActivity);
@@ -640,7 +644,9 @@ public class DownloadingFragment extends BaseFragment {
     public void showDownloadContentView() {
         if (alivcDownloadingMediaInfos != null && alivcDownloadingMediaInfos.size() > 0) {
             if (loadinglayout != null) {
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             }
         } else {
             if (loadinglayout != null) {

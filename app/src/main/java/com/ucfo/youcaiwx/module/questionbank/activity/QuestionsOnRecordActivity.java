@@ -119,12 +119,16 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
         if (bundle != null) {
             course_id = bundle.getInt(Constant.COURSE_ID, 0);
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         //注册网络
         questionBankRecordPresenter = new QuestionBankRecordPresenter(this);
         if (!login_status) {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         //设置重新加载事件
         loadinglayout.setRetryListener(new View.OnClickListener() {
@@ -183,7 +187,9 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
                     }
                 }
                 initAdapter();
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {//TODO 加载的数据为0的情况
                 if (pageIndex == 1) {//初次加载或刷新
                     if (list != null && list.size() > 0) {
@@ -191,7 +197,9 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
                             questionOnRecordAdapter.notifyDataSetChanged();
                         }
                     } else {
-                        loadinglayout.showEmpty();
+                        if (loadinglayout != null) {
+                            loadinglayout.showEmpty();
+                        }
                     }
                 } else {//架子啊更多
                     if (list != null && list.size() > 0) {
@@ -200,12 +208,16 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
                         }
                         ToastUtil.showBottomShortText(context, getResources().getString(R.string.noMoreData));
                     } else {
-                        loadinglayout.showEmpty();
+                        if (loadinglayout != null) {
+                            loadinglayout.showEmpty();
+                        }
                     }
                 }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
 
         refreshlayout.finishRefresh();
@@ -285,6 +297,8 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

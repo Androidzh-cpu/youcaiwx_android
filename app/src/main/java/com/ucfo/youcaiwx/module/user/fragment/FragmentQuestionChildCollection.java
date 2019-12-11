@@ -120,12 +120,18 @@ public class FragmentQuestionChildCollection extends BaseFragment implements IMi
                 list.clear();
                 list.addAll(dataData);
                 ininAdapter();
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -176,7 +182,9 @@ public class FragmentQuestionChildCollection extends BaseFragment implements IMi
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 
 }

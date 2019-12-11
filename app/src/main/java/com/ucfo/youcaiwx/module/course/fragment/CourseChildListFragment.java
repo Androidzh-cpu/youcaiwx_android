@@ -158,9 +158,13 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
 
             initAdapter(courseList);
 
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
 
         refreshlayout.finishLoadMore();
@@ -216,6 +220,8 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

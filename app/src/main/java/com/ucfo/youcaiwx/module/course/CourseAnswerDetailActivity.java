@@ -169,7 +169,9 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
                 topLinear.setVisibility(View.VISIBLE);
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
@@ -367,9 +369,13 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
             } else {//未回复
                 answerTeacherLinear.setVisibility(View.GONE);
             }
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -385,7 +391,9 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 
     @Override

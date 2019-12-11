@@ -144,12 +144,18 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
                 list.addAll(dataBeanList);
 
                 initAdapter();
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         refreshlayout.finishRefresh();
     }
@@ -242,6 +248,8 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

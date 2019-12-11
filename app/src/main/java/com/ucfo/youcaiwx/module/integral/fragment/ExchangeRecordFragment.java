@@ -124,12 +124,18 @@ public class ExchangeRecordFragment extends BaseFragment implements IIntegralExc
                 list.clear();
                 list.addAll(beanList);
                 initAdapter();
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
 
         refreshlayout.finishRefresh();
@@ -167,7 +173,9 @@ public class ExchangeRecordFragment extends BaseFragment implements IIntegralExc
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 
 }

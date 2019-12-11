@@ -177,7 +177,9 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
 
             planDetailPresenter.getLearnPlanDetailList(user_id, course_id, plan_id, type);
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
@@ -276,7 +278,9 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                     //TODO 获取计划详情  1工作日,2休息日
                     planDetailPresenter.getLearnPlanDetailVideoList(user_id, course_id, plan_id, type, bean.getSameday(), currentDay);
                 } else {
-                    loadinglayout.showEmpty();
+                    if (loadinglayout != null) {
+                        loadinglayout.showEmpty();
+                    }
                 }
             }
         });
@@ -301,7 +305,9 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                     //TODO 获取计划详情
                     planDetailPresenter.getLearnPlanDetailVideoList(user_id, course_id, plan_id, type, bean.getSameday(), currentDay);
                 } else {
-                    loadinglayout.showEmpty();
+                    if (loadinglayout != null) {
+                        loadinglayout.showEmpty();
+                    }
                 }
 
                 flag = false;
@@ -327,13 +333,19 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                     videoList.addAll(video);
                     initVideoAdapter();
                 } else {
-                    loadinglayout.showEmpty();
+                    if (loadinglayout != null) {
+                        loadinglayout.showEmpty();
+                    }
                 }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -394,9 +406,13 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                     }
                 }
             });
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -412,6 +428,8 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

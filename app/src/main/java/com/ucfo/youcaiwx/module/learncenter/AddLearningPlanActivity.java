@@ -152,12 +152,18 @@ public class AddLearningPlanActivity extends BaseActivity implements IAddlearnPl
                 list.clear();
                 list.addAll(beanList);
                 initAdapter();
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -198,6 +204,8 @@ public class AddLearningPlanActivity extends BaseActivity implements IAddlearnPl
 
     @Override
     public void showError() {
-        loadinglayout.showEmpty();
+        if (loadinglayout != null) {
+            loadinglayout.showEmpty();
+        }
     }
 }

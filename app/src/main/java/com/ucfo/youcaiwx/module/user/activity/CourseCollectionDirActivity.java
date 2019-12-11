@@ -116,7 +116,9 @@ public class CourseCollectionDirActivity extends BaseActivity implements IMineCo
             courseName.setText(course_title);
             courseTeacherName.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + "  " + course_teachername));
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
             return;
         }
 
@@ -161,9 +163,13 @@ public class CourseCollectionDirActivity extends BaseActivity implements IMineCo
 
             initAdapter();
 
-            loadinglayout.showContent();
+            if (loadinglayout != null) {
+                loadinglayout.showContent();
+            }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -206,6 +212,8 @@ public class CourseCollectionDirActivity extends BaseActivity implements IMineCo
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

@@ -142,12 +142,18 @@ public class IntegralCommitActivity extends BaseActivity implements IIntegralExc
             if (serializable != null) {
                 IntegralAddOrderNumBean integralAddOrderNumBean = (IntegralAddOrderNumBean) serializable;
                 initIntegralOrderDetail(integralAddOrderNumBean);
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);

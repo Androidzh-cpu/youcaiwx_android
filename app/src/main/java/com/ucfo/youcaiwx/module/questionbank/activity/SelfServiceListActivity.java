@@ -93,7 +93,9 @@ public class SelfServiceListActivity extends BaseActivity implements IQuestionBa
 
             questionBankKnowledgePresenter.getKnowledgeListData(course_id, user_id);
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
 
     }
@@ -128,12 +130,18 @@ public class SelfServiceListActivity extends BaseActivity implements IQuestionBa
 
                 initAdapter();
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -195,6 +203,8 @@ public class SelfServiceListActivity extends BaseActivity implements IQuestionBa
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

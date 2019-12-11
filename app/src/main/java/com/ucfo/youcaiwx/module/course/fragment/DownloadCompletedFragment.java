@@ -275,7 +275,9 @@ public class DownloadCompletedFragment extends BaseFragment {
         List<DataBaseCourseListBean> dataBaseCourseListBeans = LitePal.findAll(DataBaseCourseListBean.class);
         if (dataBaseCourseListBeans != null && dataBaseCourseListBeans.size() > 0) {
             if (loadinglayout != null) {
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             }
         } else {
             if (loadinglayout != null) {

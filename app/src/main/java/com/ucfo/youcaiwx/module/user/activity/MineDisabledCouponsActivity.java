@@ -130,12 +130,18 @@ public class MineDisabledCouponsActivity extends BaseActivity implements IMineCo
                 list.clear();
                 list.addAll(beanList);
                 initAdapter();
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -159,6 +165,8 @@ public class MineDisabledCouponsActivity extends BaseActivity implements IMineCo
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

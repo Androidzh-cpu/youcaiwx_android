@@ -121,7 +121,9 @@ public class AddLearningTimeActivity extends BaseActivity implements IAddlearnPl
 
             addLearnPlanPresenter.checkCourseExamTime(user_id, course_id, type);
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
@@ -170,13 +172,19 @@ public class AddLearningTimeActivity extends BaseActivity implements IAddlearnPl
                 list.clear();
                 list.addAll(data);
                 initAdapter();
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
                 noBuy();
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
             noBuy();
         }
 
@@ -239,6 +247,8 @@ public class AddLearningTimeActivity extends BaseActivity implements IAddlearnPl
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 }

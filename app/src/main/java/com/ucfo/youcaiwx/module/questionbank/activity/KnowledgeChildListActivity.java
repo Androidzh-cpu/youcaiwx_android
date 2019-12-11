@@ -101,7 +101,9 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
 
             loadNetData();
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
 
         loadinglayout.setRetryListener(new View.OnClickListener() {
@@ -121,7 +123,7 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
                 questionBankKnowledgePresenter.getHighFrequencyWrongChildList(course_id, section_id, knob_id);
                 break;
             case Constant.PLATE_7://错题中心知识点
-                questionBankKnowledgePresenter.getErrorCenterKnowList(course_id,user_id,section_id,knob_id);
+                questionBankKnowledgePresenter.getErrorCenterKnowList(course_id, user_id, section_id, knob_id);
                 break;
             default://知识点联系
                 questionBankKnowledgePresenter.getKnowledgeChildList(course_id, section_id, knob_id);
@@ -163,12 +165,18 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
 
                 initAdapter();
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -272,7 +280,9 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 
     @OnClick({R.id.btn_look_analysis, R.id.btn_exercise})

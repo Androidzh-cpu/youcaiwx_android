@@ -150,7 +150,9 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
                 topTitle.setVisibility(View.VISIBLE);
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
@@ -180,12 +182,18 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
                 initTopTitle(titleBean);
                 initAdapter();
 
-                loadinglayout.showContent();
+                if (loadinglayout != null) {
+                    loadinglayout.showContent();
+                }
             } else {
-                loadinglayout.showEmpty();
+                if (loadinglayout != null) {
+                    loadinglayout.showEmpty();
+                }
             }
         } else {
-            loadinglayout.showEmpty();
+            if (loadinglayout != null) {
+                loadinglayout.showEmpty();
+            }
         }
     }
 
@@ -261,7 +269,9 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
 
     @Override
     public void showError() {
-        loadinglayout.showError();
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 
     @OnClick({R.id.top_Title, R.id.btn_next})
