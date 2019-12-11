@@ -139,12 +139,13 @@ public class DownloadComletedDirActivity extends BaseActivity {
     private void initAdapter() {
         if (adapter == null) {
             adapter = new DownloadComletedDirAdapter(list, this);
-        } else {
-            adapter.notifyDataSetChanged();
         }
-        listView.setAdapter(adapter);
-        for (int i = 0; i < adapter.getGroupCount(); i++) {
-            listView.expandGroup(i);
+        adapter.notifyDataSetChanged();
+        if (adapter != null) {
+            listView.setAdapter(adapter);
+            for (int i = 0; i < adapter.getGroupCount(); i++) {
+                listView.expandGroup(i);
+            }
         }
 
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -194,6 +195,9 @@ public class DownloadComletedDirActivity extends BaseActivity {
 
     //查询本地数据库信息
     private void findDataFromDatabase() {
+        if (list == null) {
+            list = new ArrayList<>();
+        }
         list.clear();
 
         DownloadCompletedDirBean downloadCompletedDirBean = new DownloadCompletedDirBean();
@@ -212,7 +216,7 @@ public class DownloadComletedDirActivity extends BaseActivity {
                 String courseId = dataBaseSectioinListBean.getCourseId();
                 //TODO 查询该section集合下的所有已完成的视频数据
                 List<DataBaseVideoListBean> videoListBeanList = LitePal.where("sectionId = ? and status = ?", sectionId, "1").find(DataBaseVideoListBean.class);
-                if (videoListBeanList.size() > 0) {//TODO 判断该章下的已完成的视频数量
+                if (videoListBeanList != null && videoListBeanList.size() > 0) {//TODO 判断该章下的已完成的视频数量
                     int videoSize = videoListBeanList.size();
                     List<DownloadCompletedDirBean.DataBean.SonBean> sonBeanList = new ArrayList<>();
                     for (int j = 0; j < videoSize; j++) {//循环该章下属视频列表,添加至List中
@@ -241,7 +245,7 @@ public class DownloadComletedDirActivity extends BaseActivity {
                     beanList.add(dataBean);
                 } else {//TODO 章属下没有已完成的视频
                     List<DataBaseVideoListBean> videoListBeans = LitePal.where("sectionId = ? and status = ?", sectionId, "0").find(DataBaseVideoListBean.class);
-                    if (videoListBeans.size() > 0) {//有未完成的视频
+                    if (videoListBeans != null && videoListBeans.size() > 0) {//有未完成的视频
 
                     } else {//完成的和未完成的视频都没有,删除该章节
                         LitePal.deleteAll(DataBaseSectioinListBean.class, "courseId = ? and sectionId = ?", courseid, sectionId);
@@ -255,7 +259,7 @@ public class DownloadComletedDirActivity extends BaseActivity {
     }
 
     private void outputLog(String text) {
-        LogUtils.e("DB 操作: " + text);
+        LogUtils.e("DB : " + text);
     }
 
     private boolean isCheckAll = false;
@@ -329,28 +333,31 @@ public class DownloadComletedDirActivity extends BaseActivity {
                             List<DownloadCompletedDirBean.DataBean.SonBean> sonBeanList = dataBean.getSon();
                             for (DownloadCompletedDirBean.DataBean.SonBean sonBean : sonBeanList) {
                                 boolean checked = sonBean.isChecked();
-                                if (checked) {//TODO 获取选中的视频
+                                if (checked) {
+                                    //TODO 获取选中的视频
                                     String vid = sonBean.getVid();
                                     vidList.add(vid);
                                 }
                             }
                         }
-                        int size = vidList.size();
-                        if (size > 0) {//TODO 选中视频的VID
+                        if (vidList != null && vidList.size() > 0) {
+                            //TODO 选中视频的VID
                             for (int j = 0; j < vidList.size(); j++) {
                                 String vid = vidList.get(j);
                                 List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
-                                for (AliyunDownloadMediaInfo info : alivcDownloadeds) {
-                                    String vid2 = info.getVid();
-                                    if (vid.equals(vid2)) {
-                                        downloadManager.addDownloadMedia(info);
-                                        downloadManager.removeDownloadMedia(info);
-                                        downloadSaveInfoUtil.deleteInfo(info);
-                                        break;
+                                if (alivcDownloadeds != null) {
+                                    for (AliyunDownloadMediaInfo info : alivcDownloadeds) {
+                                        String vid2 = info.getVid();
+                                        if (vid.equals(vid2)) {
+                                            downloadManager.addDownloadMedia(info);
+                                            downloadManager.removeDownloadMedia(info);
+                                            downloadSaveInfoUtil.deleteInfo(info);
+                                            break;
+                                        }
                                     }
+                                    //删除数据库文件
+                                    LitePal.deleteAll(DataBaseVideoListBean.class, "courseId = ? and vid = ?", courseid, vid);
                                 }
-                                //删除数据库文件
-                                LitePal.deleteAll(DataBaseVideoListBean.class, "courseId = ? and vid = ?", courseid, vid);
                             }
                             findDataFromDatabase();
                             notifyDataSetChanged();

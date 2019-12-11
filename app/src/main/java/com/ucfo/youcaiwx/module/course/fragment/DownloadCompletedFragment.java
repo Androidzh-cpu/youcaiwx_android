@@ -117,7 +117,9 @@ public class DownloadCompletedFragment extends BaseFragment {
         dataBaseVideoListBeanList = new ArrayList<>();
 
         downloadManager = UcfoApplication.downloadManager;
-        downloadSaveInfoUtil = new DownloadSaveInfoUtil(downloadManager.getSaveDir());
+        if (downloadManager != null) {
+            downloadSaveInfoUtil = new DownloadSaveInfoUtil(downloadManager.getSaveDir());
+        }
         gson = new Gson();
     }
 

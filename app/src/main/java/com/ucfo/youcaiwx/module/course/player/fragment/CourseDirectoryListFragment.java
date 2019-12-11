@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.module.course.player.fragment;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -10,6 +9,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,7 +68,6 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     LoadingLayout loadinglayout;
 
     private VideoPlayPageActivity videoPlayPageActivity;
-    private Context context;
     private int coursePackageId;
     private int userId;
     private CourseDirPresenter courseDirPresenter;
@@ -127,7 +126,6 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
 
     @Override
     protected void initView(View view) {
-        context = getActivity();
         loadinglayout = view.findViewById(R.id.loadinglayout);
 
         userId = SharedPreferencesUtils.getInstance(getActivity()).getInt(Constant.USER_ID, 0);
@@ -148,13 +146,11 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     protected void initData() {
         courseDirPresenter = new CourseDirPresenter(this);
 
-        LinearLayoutManager layoutManager3 = new LinearLayoutManager(getActivity());
-        layoutManager3.setOrientation(LinearLayoutManager.VERTICAL);
-        layoutManager3.setReverseLayout(false);
-        recyclerview.setLayoutManager(layoutManager3);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerview.setLayoutManager(layoutManager);
 
         int topBottom = DensityUtil.dip2px(getActivity(), 2);
-        int leftRight = DensityUtil.dip2px(getActivity(), 12);
         recyclerview.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -211,6 +207,9 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         if (courseDirBean.getData() != null && courseDirBean.getData().size() != 0) {
 
             List<CourseDirBean.DataBean> data = courseDirBean.getData();
+            if (coursePackageList == null) {
+                coursePackageList = new ArrayList<>();
+            }
             coursePackageList.clear();
             coursePackageList.addAll(data);
 
@@ -225,7 +224,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
             }
         }
 
-        refreshlayout.finishLoadMore();//结束加载动画
+        refreshlayout.finishLoadMore();
         refreshlayout.finishRefresh();
     }
 
@@ -239,12 +238,17 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
             coursePackageListAdapter = new CoursePackageListAdapter(coursePackageLists, getActivity());
         }
         coursePackageListAdapter.notifyDataSetChanged();
-        recyclerview.setAdapter(coursePackageListAdapter);
+        if (coursePackageListAdapter != null) {
+            recyclerview.setAdapter(coursePackageListAdapter);
+        }
         coursePackageListAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 List<CourseDirBean.DataBean.SectionBean> section = coursePackageLists.get(position).getSection();
                 String isZhengke = coursePackageLists.get(position).getIs_zhengke();
+                if (TextUtils.isEmpty(isZhengke)) {
+                    return;
+                }
                 int parseInt = Integer.parseInt(isZhengke);
                 //当前课程信息
                 CourseDirBean.DataBean dataBean = coursePackageLists.get(position);
@@ -262,27 +266,36 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
      * Detail:TODO 点击课程包,弹出对应课程播放列表
      */
     private void showCourseDirWindow(CourseDirBean.DataBean dataBean, List<CourseDirBean.DataBean.SectionBean> beanList, int course_un_con) {
+        if (sectionBeanList == null) {
+            sectionBeanList = new ArrayList<>();
+        }
         sectionBeanList.clear();
         sectionBeanList.addAll(beanList);
 
-        courseBuyState = videoPlayPageActivity.getCourseBuyState();
+        if (videoPlayPageActivity != null) {
+            courseBuyState = videoPlayPageActivity.getCourseBuyState();
+        }
 
-        View contentView = LayoutInflater.from(context).inflate(R.layout.dialog_coursedir_window, null);
+        View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_coursedir_window, null);
         courseDirWindow = new PopupWindow(contentView);
         //TODO 设置宽高
         courseDirWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        courseDirWindow.setHeight(layoutMain.getMeasuredHeight());
+        int measuredHeight = layoutMain.getMeasuredHeight();
+        if (measuredHeight == 0) {
+            measuredHeight = DensityUtil.dip2px(getActivity(), 80);
+        }
+        courseDirWindow.setHeight(measuredHeight);
         courseDirWindow.setFocusable(false);//区域外点击不消失
         courseDirWindow.setOutsideTouchable(false);////区域外点击不消失
-        courseDirWindow.setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));//设置背景
+        courseDirWindow.setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
         courseDirWindow.setSplitTouchEnabled(true);//多点触控
         //courseDirWindow.setAnimationStyle(R.style.MaterialDialogSheetAnimation);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             courseDirWindow.setAttachedInDecor(true);//NavigationBar重叠
         }
         courseDirWindow.setClippingEnabled(true);
-        if (courseDirWindow.isShowing()) {//判断是否显示中
-            courseDirWindow.dismiss();//消失
+        if (courseDirWindow.isShowing()) {
+            courseDirWindow.dismiss();
         } else {
             initDirView(contentView, dataBean, sectionBeanList, course_un_con);
         }
@@ -306,8 +319,10 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
             courseDirWindowAdapter = new CourseDirWindowAdapter(getActivity(), sectionList);
         }
         courseDirWindowAdapter.notifyDataSetChanged();
-        courseTree.setAdapter(courseDirWindowAdapter);//添加适配器
-        courseDirWindowAdapter.setSelectPosition(currentPlayCourseIndex, currentClickCourseIndex);
+        if (courseDirWindowAdapter != null) {
+            courseTree.setAdapter(courseDirWindowAdapter);
+            courseDirWindowAdapter.setSelectPosition(currentPlayCourseIndex, currentClickCourseIndex);
+        }
         //如果当前点击的套餐列表的索引值==当前播放的课程套餐的索引,可以展开对应的一级目录和二级目录
         if (currentPlayCourseIndex == currentClickCourseIndex) {
             courseTree.expandGroup(groupIndex);
@@ -415,14 +430,19 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
             int courseId = videoBean.getCourse_id();
             int sectionId = videoBean.getSection_id();
 
-            videoPlayPageActivity.changePlayVidSource(vid, videoId, courseId, sectionId);//TODO 调用播放器,切换视频
+            if (videoPlayPageActivity != null) {
+                //TODO 调用播放器,切换视频
+                videoPlayPageActivity.changePlayVidSource(vid, videoId, courseId, sectionId);
+            }
 
             if (courseDirWindowAdapter != null) {
                 //设置选中的位置
                 courseDirWindowAdapter.setSelectPosition(groupIndex, sonIndex, currentPlayCourseIndex, currentClickCourseIndex);
                 courseDirWindowAdapter.notifyDataSetChanged();
             }
-            coursePackageListAdapter.notifyDataSetChanged();
+            if (coursePackageListAdapter != null) {
+                coursePackageListAdapter.notifyDataSetChanged();
+            }
         }
     }
 

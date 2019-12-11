@@ -227,7 +227,9 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
             }
             if (resultNum >= 10) {
                 bean.setChecked(false);
-                downloadDirAdapter.notifyDataSetChanged();
+                if (downloadDirAdapter != null) {
+                    downloadDirAdapter.notifyDataSetChanged();
+                }
                 ToastUtil.showBottomShortText(this, getResources().getString(R.string.download_maxDownload));
             } else {
                 bean.setChecked(!bean.getChecked());
