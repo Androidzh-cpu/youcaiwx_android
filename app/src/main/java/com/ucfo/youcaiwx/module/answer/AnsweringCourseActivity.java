@@ -42,7 +42,7 @@ import butterknife.OnClick;
  * ORG: www.youcaiwx.com
  * Description:TODO 课程答疑(追问版)
  */
-public class AnsweringCourseActivity extends BaseActivity implements IAnsweringCloselyDetailView {
+public class AnsweringCourseActivity extends BaseActivity implements IAnsweringCloselyDetailView, View.OnClickListener {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -55,8 +55,6 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
     TextView txtTitle;
     @BindView(R.id.top_Title)
     LinearLayout topTitle;
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
     @BindView(R.id.btn_next)
@@ -69,13 +67,7 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
     private List<AnsweringCourseDetailsBean.DataBean.ReplyBean> list;
     private AnsweringCourseDetailsBean.DataBean.TitleBean titleBean;
     private AnsweringCourseDetailAdapter courseDetailAdapter;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+    private RecyclerView recyclerview;
 
     @Override
     protected void onResume() {
@@ -122,7 +114,9 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
+        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(linearLayoutManager);
@@ -218,12 +212,13 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
      * 适配器
      */
     private void initAdapter() {
-        if (null == courseDetailAdapter) {
+        if (courseDetailAdapter == null) {
             courseDetailAdapter = new AnsweringCourseDetailAdapter(list, this);
-        } else {
-            courseDetailAdapter.notifyDataSetChanged();
         }
-        recyclerview.setAdapter(courseDetailAdapter);
+        if (courseDetailAdapter != null) {
+            courseDetailAdapter.notifyDataSetChanged();
+            recyclerview.setAdapter(courseDetailAdapter);
+        }
 
         //投诉
         courseDetailAdapter.setComplainClick(new AnsweringCourseDetailAdapter.OnItemViewClickListener() {
@@ -304,6 +299,20 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
                 bundle.putString(Constant.ANSWER_ID, String.valueOf(answer_id));
                 bundle.putString(Constant.ANSWER_TYPE, Constant.ANSWER_TYPE_COURSE);
                 startActivity(QuestionAskQuestionActivity.class, bundle);
+                break;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.top_Title:
+                // TODO 19/12/11
+                break;
+            case R.id.btn_next:
+                // TODO 19/12/11
+                break;
+            default:
                 break;
         }
     }

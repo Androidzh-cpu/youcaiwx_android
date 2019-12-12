@@ -60,13 +60,6 @@ public class EarnIntegralActivity extends BaseActivity implements IIntegralEarnV
     private EarnIntegralAdapter dailyAdapter, noviceAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         integralPresenter.earnIntegral(user_id);
@@ -101,7 +94,8 @@ public class EarnIntegralActivity extends BaseActivity implements IIntegralEarnV
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         int topBottom = DensityUtil.dp2px(0.5F);
         int leftRight = DensityUtil.dp2px(12);
         recyclerviewNew.addItemDecoration(new SpacesItemDecoration(leftRight, topBottom, ContextCompat.getColor(this, R.color.color_E6E6E6)));

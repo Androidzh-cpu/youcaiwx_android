@@ -65,19 +65,18 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
     private int user_id;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_knowledge_child_list;
     }
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
 
     }
 

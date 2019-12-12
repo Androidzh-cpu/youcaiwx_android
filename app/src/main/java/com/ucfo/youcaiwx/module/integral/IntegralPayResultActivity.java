@@ -40,13 +40,6 @@ public class IntegralPayResultActivity extends BaseActivity {
     private String price;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_integral_pay_result;
     }
@@ -67,6 +60,12 @@ public class IntegralPayResultActivity extends BaseActivity {
                 BackPressListener();
             }
         });
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
+
     }
 
     /**

@@ -65,12 +65,6 @@ public class AnnouncementCenterActivity extends BaseActivity implements IMessage
     private int pageIndex = 1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         messageCenterPresenter.getNoticeList(userId, pageIndex, 1);
@@ -107,7 +101,8 @@ public class AnnouncementCenterActivity extends BaseActivity implements IMessage
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);

@@ -36,13 +36,6 @@ public class MineAnswerQuestionActivity extends BaseActivity {
     ViewPager viewpager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void initToolbar() {
         super.initToolbar();
         setSupportActionBar(titlebarToolbar);
@@ -67,6 +60,11 @@ public class MineAnswerQuestionActivity extends BaseActivity {
     @Override
     protected void processLogic(Bundle savedInstanceState) {
 
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
     }
 
     @Override

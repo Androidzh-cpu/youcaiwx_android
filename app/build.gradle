@@ -215,6 +215,7 @@ dependencies {
     implementation rootProject.ext.dependencies.bugly
 
     implementation rootProject.ext.butterknife.butterknife
+    implementation rootProject.ext.butterknife.butterknifeAnnotations
     annotationProcessor rootProject.ext.butterknife.annotationProcessor
 
     implementation rootProject.ext.glide.glide

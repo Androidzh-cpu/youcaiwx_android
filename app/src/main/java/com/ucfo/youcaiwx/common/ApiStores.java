@@ -112,6 +112,8 @@ public class ApiStores {
     public static final String COURSE_GETCOURSEDIR = BASE_URL + "Course/courseoutline";
     //视频收藏
     public static final String COURSE_VIDEOCOLLECT = BASE_URL + "Course/collection";
+    //视频观看记录记录
+    public static final String COURSE_SOCKET = BASE_URL + "Course/firstSocket";
     //-----------------------------------------TODO 课程 end------------------------------------------------------------------------------//
 
 

@@ -1,11 +1,9 @@
 package com.ucfo.youcaiwx.module.main.activity;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
@@ -43,19 +41,9 @@ public class SplashActivity extends BaseActivity {
     private Timer timer = null;
     private AgreementDialog dialog;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        //WHETHER_READ_AGREEMENT
-        //boolean whether = false;
         boolean whether = SharedPreferencesUtils.getInstance(SplashActivity.this).getBoolean(Constant.WHETHER_READ_AGREEMENT, false);
         if (whether) {
             countdown();
@@ -125,6 +113,11 @@ public class SplashActivity extends BaseActivity {
             timer = null;
         }
         handler = null;
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
     }
 
     @Override

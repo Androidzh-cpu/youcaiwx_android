@@ -72,13 +72,6 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
     private AnsweringQuestionDetailAdapter answeringQuestionDetailAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         loadNetDetail();
@@ -113,7 +106,8 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(linearLayoutManager);

@@ -89,13 +89,6 @@ public class CommodityExchangeActivity extends BaseActivity implements IIntegral
     private Transferee transferee;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         inquryProductDetailed();
@@ -131,7 +124,8 @@ public class CommodityExchangeActivity extends BaseActivity implements IIntegral
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         if (loadinglayout != null) {
             loadinglayout.showContent();
         }

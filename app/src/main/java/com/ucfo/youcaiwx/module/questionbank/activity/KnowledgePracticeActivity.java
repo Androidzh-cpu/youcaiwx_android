@@ -66,13 +66,6 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
     private QuestionKnowledgeAdapter adapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         loadNetData();
@@ -90,6 +83,8 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
+
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         loginStaus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);

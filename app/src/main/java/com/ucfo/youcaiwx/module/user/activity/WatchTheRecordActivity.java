@@ -59,13 +59,6 @@ public class WatchTheRecordActivity extends BaseActivity implements IMineCourseV
     private MineWatchRecordAdapter mineWatchRecordAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         mineCoursePresenter.getMineWatcheRecordList(user_id);
@@ -100,7 +93,8 @@ public class WatchTheRecordActivity extends BaseActivity implements IMineCourseV
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         user_id = SharedPreferencesUtils.getInstance(context).getInt(Constant.USER_ID, 0);
 

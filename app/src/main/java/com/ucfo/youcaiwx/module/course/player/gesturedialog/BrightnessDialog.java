@@ -34,15 +34,18 @@ public class BrightnessDialog extends BaseGestureDialog {
 
     /**
      * 更新对话框上的亮度百分比
-     * @param percent  亮度百分比
+     *
+     * @param percent 亮度百分比
      */
     public void updateBrightness(int percent) {
-        mTextView.setText(percent + "%");
+        String text = String.valueOf(percent + "%");
+        mTextView.setText(text);
     }
 
 
     /**
      * 获取当前亮度百分比
+     *
      * @param activity 活动
      * @return 当前亮度百分比
      */
@@ -66,6 +69,7 @@ public class BrightnessDialog extends BaseGestureDialog {
 
     /**
      * 计算最终的亮度百分比
+     *
      * @param changePercent 变化的百分比
      * @return 最终的亮度百分比
      */

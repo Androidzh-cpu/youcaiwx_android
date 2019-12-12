@@ -157,13 +157,6 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     private String videoName;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onRestart() {
         super.onRestart();
         //TODO 由停止状态变为运行状态之前调用，也就是Activity被重新启动了
@@ -192,7 +185,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         ActivityUtil.getInstance().addActivity(this);
 
         testModeActivity = TESTMODEActivity.this;

@@ -16,11 +16,11 @@ import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.learncenter.LearncenterHomeBean;
 import com.ucfo.youcaiwx.entity.learncenter.StudyClockInBean;
 import com.ucfo.youcaiwx.entity.learncenter.UnFinishPlanBean;
+import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.learncenter.LearncenterHomePresenter;
 import com.ucfo.youcaiwx.presenter.view.learncenter.ILearncenterHomeView;
 import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -57,12 +57,6 @@ public class UnFinishedPlanActivity extends BaseActivity implements ILearncenter
     private UnFinishLearnPlan2Adapter learnPlan2Adapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         learncenterHomePresenter.getUnFinishPlanList(user_id);
@@ -90,6 +84,11 @@ public class UnFinishedPlanActivity extends BaseActivity implements ILearncenter
             }
         });
         showline.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
     }
 
     @Override

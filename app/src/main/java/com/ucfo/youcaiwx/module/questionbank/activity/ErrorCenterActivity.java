@@ -56,13 +56,6 @@ public class ErrorCenterActivity extends BaseActivity implements IQuestionBankKo
     private QuestionErrorCenterAdapter questionErrorCenterAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         loadNetData();
@@ -94,6 +87,12 @@ public class ErrorCenterActivity extends BaseActivity implements IQuestionBankKo
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
 
     }
 

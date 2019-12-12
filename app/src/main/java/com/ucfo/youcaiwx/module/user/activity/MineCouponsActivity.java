@@ -72,12 +72,6 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
     private Bundle bundle;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_mine_coupons;
     }
@@ -108,7 +102,7 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
         context = this;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

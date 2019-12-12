@@ -59,13 +59,6 @@ public class SelfServiceChildListActivity extends BaseActivity implements IQuest
     private QuestionSelfHelpChildListAdapter listAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_self_service_child_list;
     }
@@ -77,7 +70,8 @@ public class SelfServiceChildListActivity extends BaseActivity implements IQuest
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
     }
 

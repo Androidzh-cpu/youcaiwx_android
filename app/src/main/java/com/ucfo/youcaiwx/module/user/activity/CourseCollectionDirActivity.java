@@ -16,10 +16,10 @@ import com.ucfo.youcaiwx.entity.user.MineCourseChildListBean;
 import com.ucfo.youcaiwx.entity.user.MineCourseCollectionDirBean;
 import com.ucfo.youcaiwx.entity.user.MineQuestionCollectionListBean;
 import com.ucfo.youcaiwx.entity.user.ProjectListBean;
+import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineCollectionPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineCollectionView;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -61,13 +61,6 @@ public class CourseCollectionDirActivity extends BaseActivity implements IMineCo
     private String course_title, course_teachername;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         mineCollectionPresenter.getCollectionDirList(user_id, package_id, course_id);
@@ -99,6 +92,12 @@ public class CourseCollectionDirActivity extends BaseActivity implements IMineCo
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
 
     }
 

@@ -62,12 +62,6 @@ public class InformationActivity extends BaseActivity implements IInformationVie
     private InformationAdapter informationAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_information;
     }
@@ -97,7 +91,8 @@ public class InformationActivity extends BaseActivity implements IInformationVie
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(layoutManager);

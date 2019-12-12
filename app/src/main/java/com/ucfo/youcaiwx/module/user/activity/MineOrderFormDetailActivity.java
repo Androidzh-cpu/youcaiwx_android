@@ -122,10 +122,9 @@ public class MineOrderFormDetailActivity extends BaseActivity implements IMineOr
     private String addTime;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
+    protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
+
     }
 
     @Override

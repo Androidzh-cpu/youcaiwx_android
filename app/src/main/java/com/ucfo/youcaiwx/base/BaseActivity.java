@@ -30,9 +30,6 @@ import com.ucfo.youcaiwx.widget.customview.NetLoadingProgress;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Author:AND
  * Time: 2019/1/7.  18:39
@@ -41,7 +38,6 @@ import butterknife.Unbinder;
  * Detail:
  */
 public abstract class BaseActivity extends AppCompatActivity implements NetTypeCallBack {
-    public Unbinder unbinder;
     private long lastClick = 0;
     private NetLoadingProgress netLoadingProgress;
     private NetworkReceiver mNetworkReceiver;
@@ -50,8 +46,9 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (setContentView() != 0) {
+
             setContentView(setContentView());
-            unbinder = ButterKnife.bind(this);    //注解，可以不使用，也可以启用其他
+
             StatusBarUtil.immersive(this);
 
             ActivityUtil.getInstance().addActivity(this);
@@ -61,6 +58,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
 
             initView(savedInstanceState);
 
+            //绑定view之后设置标题栏
             initToolbar();
 
             initData();
@@ -113,17 +111,17 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
 
     @Override
     protected void onDestroy() {
-        unbinder.unbind();
+        super.onDestroy();
         // 移除Activity
         ActivityUtil.getInstance().removeActivity(this);
-        super.onDestroy();
     }
 
     protected abstract int setContentView();
 
     // 抽象 - 初始化方法，可以对数据进行初始化
-    protected void initView(Bundle savedInstanceState) {
-    }
+    /*protected void initView(Bundle savedInstanceState) {
+    }*/
+    protected abstract void initView(Bundle savedInstanceState);
 
     protected void initData() {
     }

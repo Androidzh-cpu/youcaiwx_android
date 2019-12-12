@@ -49,13 +49,6 @@ public class ScanActivity extends BaseActivity implements QRCodeView.Delegate {
     private ScanActivity context;
     private boolean lightFlag = false;
 
-    @SuppressLint("NewApi")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -131,7 +124,8 @@ public class ScanActivity extends BaseActivity implements QRCodeView.Delegate {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
     }
 

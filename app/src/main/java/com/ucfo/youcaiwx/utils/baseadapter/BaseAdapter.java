@@ -1,7 +1,8 @@
 package com.ucfo.youcaiwx.utils.baseadapter;
 
-import android.support.v7.widget.RecyclerView.Adapter;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,8 +15,9 @@ import java.util.List;
  * recycleview的base类、
  */
 
-public abstract class BaseAdapter<T, V extends ViewHolder> extends Adapter<V> {
+public abstract class BaseAdapter<T, V extends ViewHolder> extends RecyclerView.Adapter<V> {
     private List<T> mData;
+    private SparseArray<Integer> layoutResIds;
 
     // 点击监听
     private ItemClickHelper.OnItemClickListener mOnItemClickListener;

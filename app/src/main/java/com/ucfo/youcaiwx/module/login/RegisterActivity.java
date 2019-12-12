@@ -1,10 +1,8 @@
 package com.ucfo.youcaiwx.module.login;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -24,6 +22,7 @@ import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.login.RegisterBean;
+import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.register.RegisterPresenter;
 import com.ucfo.youcaiwx.presenter.view.register.IRegisterView;
 import com.ucfo.youcaiwx.utils.AsteriskPasswordTransformationMethod;
@@ -31,7 +30,6 @@ import com.ucfo.youcaiwx.utils.RegexUtil;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.time.SMSCountDownTimer;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,19 +78,10 @@ public class RegisterActivity extends BaseActivity implements IRegisterView {
     private String password;
     private String confirmPassword;
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
     @Override
     protected int setContentView() {
         return R.layout.activity_register;
     }
-
 
     @Override
     protected void initData() {
@@ -205,7 +194,8 @@ public class RegisterActivity extends BaseActivity implements IRegisterView {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
 

@@ -94,13 +94,6 @@ public class IntegralCommitActivity extends BaseActivity implements IIntegralExc
     private SharedPreferencesUtils sharedPreferencesUtils;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_integral_commit;
     }
@@ -130,7 +123,8 @@ public class IntegralCommitActivity extends BaseActivity implements IIntegralExc
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
     }
 
     @Override

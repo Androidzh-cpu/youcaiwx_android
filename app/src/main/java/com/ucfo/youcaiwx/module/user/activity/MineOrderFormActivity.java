@@ -48,12 +48,13 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
     TextView titlebarRighttitle;
     @BindView(R.id.titlebar_toolbar)
     Toolbar titlebarToolbar;
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
     @BindView(R.id.refreshlayout)
     SmartRefreshLayout refreshlayout;
+    @BindView(R.id.recyclerview)
+     RecyclerView recyclerview;
+
     private MineOrderFormActivity context;
     private int user_id;
     private MineOrderFormPresenter mineOrderFormPresenter;
@@ -61,17 +62,12 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
     private int pageIndex = 1;
     private MineOrderFormListAdapter mineOrderFormListAdapter;
     private String tiptext;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
+        if (mineOrderFormPresenter == null) {
+            mineOrderFormPresenter = new MineOrderFormPresenter(this);
+        }
         mineOrderFormPresenter.getMineOrderFromList(user_id);
     }
 
@@ -101,6 +97,11 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
     }
 
     @Override
@@ -162,10 +163,10 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
 
     private void initAdapter() {
         if (mineOrderFormListAdapter == null) {
-            mineOrderFormListAdapter = new MineOrderFormListAdapter(this, list);
+            mineOrderFormListAdapter = new MineOrderFormListAdapter(MineOrderFormActivity.this, list);
         }
-        mineOrderFormListAdapter.notifyDataSetChanged();
         if (mineOrderFormListAdapter != null) {
+            mineOrderFormListAdapter.notifyDataSetChanged();
             recyclerview.setAdapter(mineOrderFormListAdapter);
         }
 

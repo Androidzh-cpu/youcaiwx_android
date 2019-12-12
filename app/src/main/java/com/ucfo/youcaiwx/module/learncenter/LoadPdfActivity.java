@@ -47,13 +47,6 @@ public class LoadPdfActivity extends BaseActivity {
     private String title;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         deletePdfFile();
@@ -84,6 +77,11 @@ public class LoadPdfActivity extends BaseActivity {
     @Override
     protected void processLogic(Bundle savedInstanceState) {
 
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
     }
 
     @Override

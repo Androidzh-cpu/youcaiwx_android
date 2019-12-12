@@ -1,8 +1,6 @@
 package com.ucfo.youcaiwx.module.login;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +15,7 @@ import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.login.LoginBean;
+import com.ucfo.youcaiwx.module.main.activity.MainActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.login.LoginPresenter;
 import com.ucfo.youcaiwx.presenter.presenterImpl.login.WXLoginPresenter;
 import com.ucfo.youcaiwx.presenter.view.login.ILoginView;
@@ -26,7 +25,6 @@ import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.time.SMSCountDownTimer;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.module.main.activity.MainActivity;
 import com.umeng.message.PushAgent;
 
 import butterknife.BindView;
@@ -73,14 +71,6 @@ public class SMSLoginActivity extends BaseActivity implements ILoginView {
     private String androidid;
     private WXLoginPresenter wxLoginPresenter;
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
     @Override
     protected int setContentView() {
         return R.layout.activity_smslogin;
@@ -113,7 +103,8 @@ public class SMSLoginActivity extends BaseActivity implements ILoginView {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
 

@@ -66,13 +66,6 @@ public class AddLearningTimeActivity extends BaseActivity implements IAddlearnPl
     private AddLearnPlanTimeAdapter timeAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_add_learning_time;
     }
@@ -102,7 +95,8 @@ public class AddLearningTimeActivity extends BaseActivity implements IAddlearnPl
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);

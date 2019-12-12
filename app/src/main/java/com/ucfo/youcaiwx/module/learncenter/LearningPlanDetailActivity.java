@@ -22,6 +22,8 @@ import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.learncenter.LearnPlanDetailBean;
 import com.ucfo.youcaiwx.entity.learncenter.LearnPlanDetailVideoBean;
+import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
+import com.ucfo.youcaiwx.module.questionbank.activity.TESTMODEActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.learncenter.LearnPlanDetailPresenter;
 import com.ucfo.youcaiwx.presenter.view.learncenter.ILearnPlanDetailView;
 import com.ucfo.youcaiwx.utils.baseadapter.CenterLayoutManager;
@@ -30,13 +32,13 @@ import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
-import com.ucfo.youcaiwx.module.questionbank.activity.TESTMODEActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.dialog.ExitPlanDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.ButterKnife;
 
 /**
  * Author: AND
@@ -132,7 +134,8 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         titlebarMidtitle = (TextView) findViewById(R.id.titlebar_midtitle);
         titlebarRighttitle = (TextView) findViewById(R.id.titlebar_righttitle);
         titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
@@ -418,7 +421,9 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
 
     @Override
     public void showLoading() {
-        loadinglayout.showLoading();
+        if (loadinglayout != null) {
+            loadinglayout.showLoading();
+        }
     }
 
     @Override

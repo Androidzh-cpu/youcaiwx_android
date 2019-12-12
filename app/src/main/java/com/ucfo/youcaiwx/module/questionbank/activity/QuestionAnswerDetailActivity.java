@@ -105,14 +105,6 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
     private String type;
     private QuestionAnswerDetailBean questionAnswerDetailBean;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
     @Override
     protected int setContentView() {
         return R.layout.activity_question_answer_detail;
@@ -143,7 +135,8 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         transferee = Transferee.getDefault(context);
 

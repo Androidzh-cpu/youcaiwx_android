@@ -51,13 +51,6 @@ public class QuestionAnswerActivity extends BaseActivity {
     private int question_id, course_id;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_question_answer;
     }
@@ -87,7 +80,8 @@ public class QuestionAnswerActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         bundle = getIntent().getExtras();
         if (bundle != null) {
             question_id = bundle.getInt(Constant.QUESTION_ID, 0);

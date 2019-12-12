@@ -113,13 +113,6 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
     private UploadFilePresenter uploadFilePresenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
@@ -152,6 +145,12 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
 
     }
 

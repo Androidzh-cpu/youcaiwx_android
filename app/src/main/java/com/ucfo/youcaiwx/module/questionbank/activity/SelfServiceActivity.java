@@ -48,19 +48,18 @@ public class SelfServiceActivity extends BaseActivity {
     private QuestionSelfHelpCheckAdapter adapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_self_service;
     }
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
 
     }
 

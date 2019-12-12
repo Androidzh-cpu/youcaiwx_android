@@ -73,12 +73,6 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
     private DownloadSaveInfoUtil downloadSaveInfoUtil;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_download_directory;
     }
@@ -108,7 +102,8 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         user_id = SharedPreferencesUtils.getInstance(context).getInt(Constant.USER_ID, 0);
         list = new ArrayList<>();
@@ -174,8 +169,8 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
         if (downloadDirAdapter == null) {
             downloadDirAdapter = new DownloadDirAdapter(this, sectionBeanList);
         }
+        downloadDirAdapter.notifyDataSetChanged();
         if (downloadDirAdapter != null) {
-            downloadDirAdapter.notifyDataSetChanged();
             listView.setAdapter(downloadDirAdapter);
             for (int i = 0; i < downloadDirAdapter.getGroupCount(); i++) {
                 listView.expandGroup(i);
@@ -225,7 +220,7 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
                     }
                 }
             }
-            if (resultNum >= 10) {
+            if (resultNum >= 3) {
                 bean.setChecked(false);
                 if (downloadDirAdapter != null) {
                     downloadDirAdapter.notifyDataSetChanged();

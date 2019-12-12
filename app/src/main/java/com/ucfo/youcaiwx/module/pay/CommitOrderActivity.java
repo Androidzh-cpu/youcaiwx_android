@@ -124,14 +124,6 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
     private float discountsprice = 0, finalPayPrice = 0, originalPayPace = 0;
     private InvoiceInfoBean invoiceInfoBean;
 
-
-    @Override
-
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
     @Override
     protected int setContentView() {
         return R.layout.activity_commit_order;
@@ -162,7 +154,8 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);

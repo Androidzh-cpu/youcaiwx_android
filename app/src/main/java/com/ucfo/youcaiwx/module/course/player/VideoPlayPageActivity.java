@@ -453,8 +453,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             }
         }
 
+        //横竖屏切换
         updatePlayerViewMode();
-
+        //开始监听
         if (mNetWatchdog != null) {
             mNetWatchdog.startWatch();
         }
@@ -1775,6 +1776,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                  * 首帧显示,控制栏消失
                  */
                 setLayoutVisibility(true, true);
+
+                /**
+                 * 防止NB的服务器记不住信息,主动发送一条数据记录一下
+                 *
+                 */
+                sendSocketMessageByPort();
             }
         });
         //TODO 播放器播放错误处理
@@ -1978,13 +1985,14 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      */
     private void initGestureView() {
         mGestureDialogManager = new GestureDialogManager(this);
-        /*
+/*
         //这个方法没有嵌入到布局里,出现了一些BUG,朕只解决了一部分,最终还是干掉吧(1.0.2之后就不再使用这个方法了)
         mGestureView = new GestureView(this);
         RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         params2.setMargins(DensityUtil.dip2px(this, 90), 0, 0, 0);
         //添加到布局中
-        playerRelativelayout.addView(mGestureView, params2);*/
+        playerRelativelayout.addView(mGestureView, params2);
+*/
 
         //设置手势监听
         mGestureView.setOnGestureListener(new GestureView.GestureListener() {
@@ -2077,8 +2085,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     mGestureDialogManager.dismissVolumeDialog();
 
                     int seekPosition = mGestureDialogManager.dismissSeekDialog();
-                    if (seekPosition >= aliyunVodPlayer.getDuration()) {
-                        seekPosition = (int) (aliyunVodPlayer.getDuration() - 1000);
+                    long duration = aliyunVodPlayer.getDuration();
+                    if (seekPosition >= duration) {
+                        int i = Long.valueOf(duration).intValue() - 1000;
+                        seekPosition = i;
                     }
 
                     if (seekPosition >= 0) {
@@ -2335,7 +2345,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         LogUtils.e("Socket---" + text);
     }
 
-    //主动向服务端发送消息
+    /**
+     * 向服务端发送消息
+     */
     private void sendSocketMessage() {
         int seconds = 0;
         if (aliyunVodPlayer != null) {
@@ -2375,6 +2387,36 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             if (mWebSocket != null) {
                 mWebSocket.send(message);
             }*/
+        }
+    }
+
+    private void sendSocketMessageByPort() {
+        int seconds = 0;
+        if (aliyunVodPlayer != null) {
+            seconds = Integer.parseInt(String.valueOf(aliyunVodPlayer.getCurrentPosition() / 1000));
+        }
+        if (currentCourseID != 0 && currentSectionID != 0 && currentVideoID != 0) {
+            CourseSocketBean courseSocketBean = new CourseSocketBean();
+            courseSocketBean.setUser_id(userId);//用户id
+            courseSocketBean.setPackage_id(coursePackageId);//	课程包id
+            courseSocketBean.setCourse_id(currentCourseID);//	专业课id
+            courseSocketBean.setSection_id(currentSectionID);//章节id
+            courseSocketBean.setVideo_id(currentVideoID);//视频id
+            courseSocketBean.setWatch_time(seconds);//	观看截止时间点
+            courseSocketBean.setVideo_type(1);//	播放类型1课程视频播放
+            if (TextUtils.equals(Constant.WATCH_LEARNPLAN, course_Source)) {
+                //学习中心socket信息
+                courseSocketBean.setStatus(2);
+                courseSocketBean.setPlan_id(learnPlanid);
+                courseSocketBean.setDays(learnDays);
+            } else {
+                //	视频类型1课程视频播放
+                courseSocketBean.setStatus(1);
+            }
+
+            if (coursePlayPresenter != null) {
+                coursePlayPresenter.sendFirstSocket(courseSocketBean);
+            }
         }
     }
 

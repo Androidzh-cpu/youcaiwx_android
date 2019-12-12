@@ -57,13 +57,6 @@ public class HighFrequencyWrongTopicActivity extends BaseActivity implements IQu
     private QuestionHightWrongAdapter questionHightWrongAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         if (questionBankKnowledgePresenter == null) {
@@ -103,7 +96,8 @@ public class HighFrequencyWrongTopicActivity extends BaseActivity implements IQu
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         loginStaus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);

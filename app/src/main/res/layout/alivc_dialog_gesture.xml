@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
-    app:rv_backgroundColor="#E6FFFFFF"
+    app:rv_backgroundColor="#D9FFFFFF"
     app:rv_cornerRadius="@dimen/dp_8">
 
     <ImageView

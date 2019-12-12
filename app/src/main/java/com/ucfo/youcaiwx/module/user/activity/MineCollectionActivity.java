@@ -36,12 +36,6 @@ public class MineCollectionActivity extends BaseActivity {
     @BindView(R.id.viewpager)
     ViewPager viewpager;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 
     @Override
     protected int setContentView() {
@@ -68,6 +62,11 @@ public class MineCollectionActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
     }
 
     @Override

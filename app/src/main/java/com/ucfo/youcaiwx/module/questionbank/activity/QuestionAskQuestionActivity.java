@@ -108,12 +108,6 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
     private String answer_id, answer_type;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_question_ask_question;
     }
@@ -143,7 +137,8 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
     @SuppressLint("CheckResult")
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = QuestionAskQuestionActivity.this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);//用户ID

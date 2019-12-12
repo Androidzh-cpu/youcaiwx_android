@@ -69,13 +69,6 @@ public class ProductListActivity extends BaseActivity implements IIntegralGoodsL
     private IntegralCouponAdapter integralCouponAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void initToolbar() {
         super.initToolbar();
         setSupportActionBar(titlebarToolbar);
@@ -104,7 +97,8 @@ public class ProductListActivity extends BaseActivity implements IIntegralGoodsL
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
 
     }

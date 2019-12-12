@@ -277,9 +277,7 @@ public class DownloadCompletedFragment extends BaseFragment {
         List<DataBaseCourseListBean> dataBaseCourseListBeans = LitePal.findAll(DataBaseCourseListBean.class);
         if (dataBaseCourseListBeans != null && dataBaseCourseListBeans.size() > 0) {
             if (loadinglayout != null) {
-                if (loadinglayout != null) {
-                    loadinglayout.showContent();
-                }
+                loadinglayout.showContent();
             }
         } else {
             if (loadinglayout != null) {
@@ -322,7 +320,7 @@ public class DownloadCompletedFragment extends BaseFragment {
         //删除方法
         ArrayList<String> arrayList = new ArrayList<>();
         if (courseListAdapter != null) {
-            if (list.size() > 0) {
+            if (list != null && list.size() > 0) {
                 for (int i = 0; i < list.size(); i++) {
                     boolean checked = list.get(i).isChecked();
                     if (checked) {
@@ -331,11 +329,12 @@ public class DownloadCompletedFragment extends BaseFragment {
                 }
             }
         }
-        new AlertDialog(offlineCourseActivity).builder()
+        new AlertDialog(getActivity()).builder()
                 .setMsg(getResources().getString(R.string.download_deleteComfirm, arrayList.size()))
                 .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        setProcessLoading(null, false);
                         if (arrayList != null && arrayList.size() > 0) {
                             for (int i = 0; i < arrayList.size(); i++) {
                                 //TODO 遍历选中的课
@@ -360,11 +359,13 @@ public class DownloadCompletedFragment extends BaseFragment {
                                 }
                                 LitePal.deleteAll(DataBaseVideoListBean.class, "courseId = ? and status = ?", courseId, "1");//删除已下载视频
                             }
-                            updateDataBase();//更新数据
+                            //更新数据
+                            updateDataBase();
                             showContentnView();
                         } else {
                             ToastUtil.showBottomShortText(context, getResources().getString(R.string.no_delete));
                         }
+                        dismissPorcess();
                     }
                 })
                 .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {

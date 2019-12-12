@@ -63,14 +63,6 @@ public class MineAddressActivity extends BaseActivity implements IUserAddressVie
     private UserAddressListAdapter listAdapter;
     private boolean payCheckAddress;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -108,7 +100,7 @@ public class MineAddressActivity extends BaseActivity implements IUserAddressVie
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
         context = this;
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);

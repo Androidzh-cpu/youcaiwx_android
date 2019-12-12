@@ -63,12 +63,6 @@ public class AddLearningPlanActivity extends BaseActivity implements IAddlearnPl
     private AddLearnPlanCourseAdapter addLearnPlanCourseAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_add_learning_plan;
     }
@@ -98,7 +92,8 @@ public class AddLearningPlanActivity extends BaseActivity implements IAddlearnPl
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

@@ -68,12 +68,6 @@ public class PayActivity extends BaseActivity implements IPayMentView {
     private boolean isPayBuyJingDong = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         if (isPayBuyJingDong) {
@@ -116,7 +110,8 @@ public class PayActivity extends BaseActivity implements IPayMentView {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);

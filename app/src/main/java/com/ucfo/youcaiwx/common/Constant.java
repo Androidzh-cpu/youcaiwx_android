@@ -41,6 +41,8 @@ public class Constant {
     public static final int BUGLY_TAG_ORDER = 127220;
     //TODO bugly标签_订单支付标签
     public static final int BUGLY_TAG_PAY = 127221;
+    //TODO bugly标签_离线瞎子啊标签
+    public static final int BUGLY_TAG_CACHE = 137850;
 
     //TODO 阿里云视频安全下载所需安全文件的离线解密私钥
     public static final String ALIYUN_DECRYPT = "CMAyoucai2020999999";

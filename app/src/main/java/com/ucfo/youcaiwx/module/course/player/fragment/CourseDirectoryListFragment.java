@@ -345,6 +345,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                     startActivity(LoginActivity.class, null);
                 } else {
                     if (courseBuyState == 1) {
+
                         videoPlayPageActivity.pause();
 
                         Bundle bundle = new Bundle();

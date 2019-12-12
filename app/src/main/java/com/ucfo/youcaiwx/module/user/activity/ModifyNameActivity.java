@@ -48,14 +48,14 @@ public class ModifyNameActivity extends BaseActivity implements IUserInfoView {
     private int user_id;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
+    protected int setContentView() {
+        return R.layout.activity_modify_name;
     }
 
     @Override
-    protected int setContentView() {
-        return R.layout.activity_modify_name;
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
+
     }
 
     @Override

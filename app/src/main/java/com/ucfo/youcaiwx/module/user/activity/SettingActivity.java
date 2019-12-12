@@ -80,12 +80,6 @@ public class SettingActivity extends BaseActivity {
     private String totalCacheSize;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         if (sharedPreferencesUtils == null) {
@@ -128,6 +122,12 @@ public class SettingActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
+
     }
 
     @Override

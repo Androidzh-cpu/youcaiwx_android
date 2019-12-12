@@ -69,12 +69,6 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
     private MessageNotificationAdapter messageNotificationAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         messageCenterPresenter.getNoticeList(userId, pageIndex, 2);
@@ -102,6 +96,11 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
     }
 
     @Override

@@ -1,9 +1,7 @@
 package com.ucfo.youcaiwx.module.course;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -18,9 +16,9 @@ import com.ucfo.youcaiwx.adapter.course.CourseListPagerAdapter;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.entity.course.CourseDataListBean;
 import com.ucfo.youcaiwx.entity.course.CourseSubjectsBean;
+import com.ucfo.youcaiwx.module.course.fragment.CourseChildListFragment;
 import com.ucfo.youcaiwx.presenter.presenterImpl.course.CourseListPresenter;
 import com.ucfo.youcaiwx.presenter.view.course.ICourseListView;
-import com.ucfo.youcaiwx.module.course.fragment.CourseChildListFragment;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -56,13 +54,6 @@ public class CourseListActivity extends BaseActivity implements ICourseListView 
     private CourseListPresenter courseListPresenter;
     private Context context;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 
     @Override
     protected int setContentView() {
@@ -90,7 +81,8 @@ public class CourseListActivity extends BaseActivity implements ICourseListView 
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         //注册网络
         courseListPresenter = new CourseListPresenter(this);

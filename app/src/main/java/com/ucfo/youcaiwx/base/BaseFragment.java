@@ -76,7 +76,6 @@ public abstract class BaseFragment extends Fragment {
         if (parent != null) {
             parent.removeView(rootView);
         }
-
         return rootView;
     }
 
@@ -84,7 +83,6 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 初始化方法
         initView(view);
 
         initData();

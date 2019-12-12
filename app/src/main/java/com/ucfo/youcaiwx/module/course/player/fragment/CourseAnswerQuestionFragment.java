@@ -44,7 +44,6 @@ import butterknife.Unbinder;
  * Description:TODO 课程答疑列表
  */
 public class CourseAnswerQuestionFragment extends BaseFragment implements ICourseAnswerListView {
-    @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
@@ -98,6 +97,8 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
 
     @Override
     protected void initView(View view) {
+        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
+
         FragmentActivity fragmentActivity = getActivity();
         if (fragmentActivity instanceof VideoPlayPageActivity) {
             videoPlayPageActivity = (VideoPlayPageActivity) fragmentActivity;
@@ -218,8 +219,8 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
         if (courseAnswerListAdapter == null) {
             courseAnswerListAdapter = new CourseAnswerListAdapter(answerList, videoPlayPageActivity, 0);
         }
-        courseAnswerListAdapter.notifyDataSetChanged();
         if (courseAnswerListAdapter != null) {
+            courseAnswerListAdapter.notifyDataSetChanged();
             recyclerview.setAdapter(courseAnswerListAdapter);
         }
         //查看详情点击事件

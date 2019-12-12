@@ -56,12 +56,6 @@ public class MessageCenterActivity extends BaseActivity implements IMessageCente
     private MessageCenterPresenter messageCenterPresenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         messageCenterPresenter.getMessageHome(userId);
@@ -97,7 +91,8 @@ public class MessageCenterActivity extends BaseActivity implements IMessageCente
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);

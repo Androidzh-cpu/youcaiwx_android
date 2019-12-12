@@ -173,8 +173,7 @@ public class DownloadingFragment extends BaseFragment {
     protected void onLazyLoadOnce() {
         super.onLazyLoadOnce();
         SoulPermission.getInstance().checkAndRequestPermissions(
-                Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                new CheckRequestPermissionsListener() {
+                Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), new CheckRequestPermissionsListener() {
                     @Override
                     public void onAllPermissionOk(Permission[] allPermissions) {
                     }

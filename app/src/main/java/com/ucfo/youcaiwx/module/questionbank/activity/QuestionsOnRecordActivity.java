@@ -63,13 +63,6 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
     private Bundle bundle;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         questionBankRecordPresenter.getQestionBankRecordData(user_id, course_id, pageIndex);
@@ -95,7 +88,8 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         login_status = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);

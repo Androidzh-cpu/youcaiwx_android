@@ -7,6 +7,7 @@ import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
+import com.ucfo.youcaiwx.entity.course.CourseSocketBean;
 import com.ucfo.youcaiwx.entity.course.GetVideoPlayAuthBean;
 import com.ucfo.youcaiwx.presenter.view.course.ICoursePlayerView;
 
@@ -123,4 +124,29 @@ public class CoursePlayPresenter {
                 });
     }
 
+    /**
+     * 所谓的专业网校的服务器要是能升级一下,还会弄出这骚操作吗,真特莫服了
+     */
+    public void sendFirstSocket(CourseSocketBean bean) {
+        if (bean == null) {
+            return;
+        }
+        OkGo.<String>post(ApiStores.COURSE_SOCKET)
+                .params(Constant.USER_ID, bean.getUser_id())//用户ID
+                .params(Constant.PACKAGE_ID, bean.getPackage_id())//课程包ID
+                .params(Constant.COURSE_ID, bean.getCourse_id())//课程id
+                .params(Constant.SECTION_ID, bean.getSection_id())//章节ID
+                .params(Constant.VIDEO_ID, bean.getVideo_id())//小节视频ID
+                .params("watch_time", bean.getWatch_time())
+                .params("video_type", bean.getVideo_type())
+                .params("status", bean.getStatus())
+                .params("days", bean.getDays())
+                .params("plan_id", bean.getPlan_id())
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                    }
+                });
+
+    }
 }

@@ -93,14 +93,6 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
     private UploadFilePresenter uploadFilePresenter;
     private String askContent, askConnect, tipsText;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
     @Override
     protected void initToolbar() {
         super.initToolbar();
@@ -126,7 +118,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
         editConnect.setInputType(InputType.TYPE_CLASS_PHONE);//电话
         editConnect.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);//邮件
     }

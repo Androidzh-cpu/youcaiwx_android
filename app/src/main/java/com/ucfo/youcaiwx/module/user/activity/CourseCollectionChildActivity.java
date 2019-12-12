@@ -65,13 +65,6 @@ public class CourseCollectionChildActivity extends BaseActivity implements IMine
     private MineCourseCollectionChildAdapter mineCourseCollectionChildAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         if (bundle != null) {
@@ -110,6 +103,12 @@ public class CourseCollectionChildActivity extends BaseActivity implements IMine
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
+
     }
 
     @Override

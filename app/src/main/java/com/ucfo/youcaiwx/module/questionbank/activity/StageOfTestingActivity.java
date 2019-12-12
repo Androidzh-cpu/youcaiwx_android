@@ -66,20 +66,14 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
     private int plate_id;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_stage_of_testing;
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
         login_status = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);

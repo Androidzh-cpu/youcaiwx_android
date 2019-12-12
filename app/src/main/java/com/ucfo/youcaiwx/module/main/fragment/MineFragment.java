@@ -318,9 +318,12 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                     break;
 
             }
-        } else {//未登录,去登录页
+        } else
+
+        {//未登录,去登录页
             startActivity(new Intent(context, LoginActivity.class));
         }
+
     }
 
     @Override

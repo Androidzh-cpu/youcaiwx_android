@@ -2,9 +2,7 @@ package com.ucfo.youcaiwx.module.course;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -106,14 +104,6 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
     private Transferee transferee;
     private AnswerDetailBean answerDetailBean;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
     @Override
     protected int setContentView() {
         return R.layout.activity_cours_answer_detail;
@@ -121,7 +111,8 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = CourseAnswerDetailActivity.this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         transferee = Transferee.getDefault(CourseAnswerDetailActivity.this);

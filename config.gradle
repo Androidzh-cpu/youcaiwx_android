@@ -107,6 +107,7 @@ ext {
 
     butterknife = [
             "butterknife"        : "com.jakewharton:butterknife:$versions.butterknife",
+            "butterknifeAnnotations"        : "com.jakewharton:butterknife-annotations:$versions.butterknife",
             "annotationProcessor": "com.jakewharton:butterknife-compiler:$versions.butterknife"
     ]
 

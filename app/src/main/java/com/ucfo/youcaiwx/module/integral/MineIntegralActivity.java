@@ -67,13 +67,6 @@ public class MineIntegralActivity extends BaseActivity implements IIntegralHomeV
     private String integral;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         integralPresenter.inquireIntegral(userId);
@@ -104,6 +97,12 @@ public class MineIntegralActivity extends BaseActivity implements IIntegralHomeV
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
+
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
 
     }
 

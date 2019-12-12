@@ -106,10 +106,8 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
             }
         });
     }
-
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         context = WebActivity.this;

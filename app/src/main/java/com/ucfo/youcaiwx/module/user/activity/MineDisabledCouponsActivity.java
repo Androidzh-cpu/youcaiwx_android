@@ -56,13 +56,6 @@ public class MineDisabledCouponsActivity extends BaseActivity implements IMineCo
     private int user_id;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_mine_disabled_coupons;
     }
@@ -88,7 +81,7 @@ public class MineDisabledCouponsActivity extends BaseActivity implements IMineCo
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
         context = this;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

@@ -1,9 +1,7 @@
 package com.ucfo.youcaiwx.module.main.activity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,9 +9,9 @@ import android.widget.TextView;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
+import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.widget.banner.BGABanner;
 import com.ucfo.youcaiwx.widget.banner.BGALocalImageSize;
-import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,13 +34,6 @@ public class GuideActivity extends BaseActivity {
     @BindView(R.id.btn_guide_enter)
     Button btnGuideEnter;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -53,6 +44,11 @@ public class GuideActivity extends BaseActivity {
     @Override
     protected int setContentView() {
         return R.layout.activity_guide;
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
     }
 
     @Override

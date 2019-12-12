@@ -21,9 +21,9 @@ import com.ucfo.youcaiwx.entity.download.DataBaseCourseListBean;
 import com.ucfo.youcaiwx.entity.download.DataBaseSectioinListBean;
 import com.ucfo.youcaiwx.entity.download.DataBaseVideoListBean;
 import com.ucfo.youcaiwx.entity.download.DownloadCompletedDirBean;
+import com.ucfo.youcaiwx.module.course.player.download.DownloadSaveInfoUtil;
 import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.module.course.player.download.DownloadSaveInfoUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
 
@@ -74,12 +74,6 @@ public class DownloadComletedDirActivity extends BaseActivity {
     private DownloadComletedDirActivity context;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_download_comleted_dir;
     }
@@ -105,6 +99,11 @@ public class DownloadComletedDirActivity extends BaseActivity {
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
     }
 
     @Override
@@ -193,8 +192,11 @@ public class DownloadComletedDirActivity extends BaseActivity {
         }
     }
 
-    //查询本地数据库信息
+    /**
+     * 查询本地数据库存储的视频文件
+     */
     private void findDataFromDatabase() {
+        setProcessLoading(null, false);
         if (list == null) {
             list = new ArrayList<>();
         }
@@ -256,6 +258,7 @@ public class DownloadComletedDirActivity extends BaseActivity {
         }
         list.addAll(beanList);
         outputLog("list :" + list.toString());
+        dismissPorcess();
     }
 
     private void outputLog(String text) {

@@ -17,6 +17,7 @@ import com.qw.soul.permission.SoulPermission;
 import com.qw.soul.permission.bean.Permission;
 import com.qw.soul.permission.bean.Permissions;
 import com.qw.soul.permission.callbcak.CheckRequestPermissionsListener;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
@@ -57,10 +58,9 @@ public class OfflineCourseActivity extends BaseActivity {
     private DownloadCompletedFragment downloadCompletedFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
+    protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
+
     }
 
     @Override
@@ -109,12 +109,18 @@ public class OfflineCourseActivity extends BaseActivity {
 
                     @Override
                     public void onPermissionDenied(Permission[] refusedPermissions) {
-                        //Permission permission = refusedPermissions[0];
-                        //Permission permission1 = refusedPermissions[1];
-                        /*if (permission.shouldRationale() || permission1.shouldRationale()) {
-                        } else {
-                            Toast.makeText(context, context.getResources().getString(R.string.permission_explication), Toast.LENGTH_SHORT).show();
-                        }*/
+/*
+                        if (refusedPermissions != null && refusedPermissions.length > 0) {
+                            if (refusedPermissions[0] != null || refusedPermissions[1] != null) {
+                                Permission permission = refusedPermissions[0];
+                                Permission permission1 = refusedPermissions[1];
+                                if (permission.shouldRationale() || permission1.shouldRationale()) {
+                                } else {
+                                    Toast.makeText(context, context.getResources().getString(R.string.permission_explication), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+*/
                         AlertDialog.Builder builder = new AlertDialog.Builder(OfflineCourseActivity.this, R.style.WhiteDialogStyle);
                         builder.setTitle(OfflineCourseActivity.this.getResources().getString(R.string.explication));
                         builder.setMessage(OfflineCourseActivity.this.getResources().getString(R.string.permission_sdcard));
@@ -131,6 +137,9 @@ public class OfflineCourseActivity extends BaseActivity {
                     }
                 });
         initTablayout();
+
+        // 上报后的Crash会显示该标签
+        CrashReport.setUserSceneTag(this, Constant.BUGLY_TAG_CACHE);
     }
 
     private void initTablayout() {

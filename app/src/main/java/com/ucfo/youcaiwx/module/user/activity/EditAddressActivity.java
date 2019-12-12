@@ -62,13 +62,6 @@ public class EditAddressActivity extends BaseActivity implements IUserAddressVie
     private UserAddressPresenter userAddressPresenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_edit_address;
     }
@@ -99,7 +92,8 @@ public class EditAddressActivity extends BaseActivity implements IUserAddressVie
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);

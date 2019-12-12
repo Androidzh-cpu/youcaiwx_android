@@ -87,13 +87,6 @@ public class ResultsStatisticalActivity extends BaseActivity implements IQuestio
     private String question_content, know_id;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_results_statistical;
     }
@@ -124,7 +117,8 @@ public class ResultsStatisticalActivity extends BaseActivity implements IQuestio
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        super.initView(savedInstanceState);
+        ButterKnife.bind(this);
+
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);

@@ -67,13 +67,6 @@ public class ComplainActivity extends BaseActivity implements IComplainView {
     private String complainID;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected void initToolbar() {
         super.initToolbar();
         setSupportActionBar(titlebarToolbar);
@@ -94,6 +87,12 @@ public class ComplainActivity extends BaseActivity implements IComplainView {
     @Override
     protected int setContentView() {
         return R.layout.activity_complain;
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
+
     }
 
     @SuppressLint("ClickableViewAccessibility")

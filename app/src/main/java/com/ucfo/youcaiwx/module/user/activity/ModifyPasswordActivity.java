@@ -53,13 +53,6 @@ public class ModifyPasswordActivity extends BaseActivity implements IUserInfoVie
     private int user_id;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.activity_modify_password;
     }
@@ -86,6 +79,12 @@ public class ModifyPasswordActivity extends BaseActivity implements IUserInfoVie
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
+
     }
 
     @Override
