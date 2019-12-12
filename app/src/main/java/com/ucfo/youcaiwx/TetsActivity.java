@@ -73,6 +73,7 @@ public class TetsActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
+        //之前的绑定方式太坑了
     }
 
     @Override
