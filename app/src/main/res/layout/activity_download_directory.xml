@@ -54,7 +54,7 @@
                 android:background="@color/color_E6E6E6" />
 
             <ExpandableListView
-                android:id="@+id/listView"
+                android:id="@+id/expandablelistview"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -63,8 +63,7 @@
                 android:gravity="center"
                 android:groupIndicator="@null"
                 android:listSelector="@android:color/transparent"
-                android:overScrollMode="never"
-                android:scrollbars="none" />
+                android:overScrollMode="never" />
 
             <Button
                 android:id="@+id/btn_exit"

@@ -127,8 +127,10 @@ public class DownloadComletedDirActivity extends BaseActivity {
         courseName.setText(courseListBeans.get(0).getCourseTitle());
         courseTeacherName.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + "  " + courseListBeans.get(0).getTeacherName()));
 
-        downloadManager = UcfoApplication.downloadManager;
-        downloadSaveInfoUtil = new DownloadSaveInfoUtil(downloadManager.getSaveDir());
+        if (UcfoApplication.downloadManager != null) {
+            downloadManager = UcfoApplication.downloadManager;
+            downloadSaveInfoUtil = new DownloadSaveInfoUtil(downloadManager.getSaveDir());
+        }
 
         findDataFromDatabase();
 
@@ -347,21 +349,30 @@ public class DownloadComletedDirActivity extends BaseActivity {
                             //TODO 选中视频的VID
                             for (int j = 0; j < vidList.size(); j++) {
                                 String vid = vidList.get(j);
-                                List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
-                                if (alivcDownloadeds != null) {
-                                    for (AliyunDownloadMediaInfo info : alivcDownloadeds) {
-                                        String vid2 = info.getVid();
-                                        if (vid.equals(vid2)) {
+                                if (downloadSaveInfoUtil != null) {
+                                    List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
+                                    if (alivcDownloadeds != null) {
+                                        for (AliyunDownloadMediaInfo info : alivcDownloadeds) {
+                                            String vid2 = info.getVid();
+                                            if (vid.equals(vid2)) {
+/*
+                                            //就是这个骚操作让我遇到了不少BUG
                                             downloadManager.addDownloadMedia(info);
                                             downloadManager.removeDownloadMedia(info);
-                                            downloadSaveInfoUtil.deleteInfo(info);
-                                            break;
+*/
+                                                downloadSaveInfoUtil.deleteInfo(info);
+                                                downloadSaveInfoUtil.deleteFile(info);
+                                                break;
+                                            }
                                         }
+                                        //删除数据库文件
+                                        LitePal.deleteAll(DataBaseVideoListBean.class, "courseId = ? and vid = ?", courseid, vid);
                                     }
-                                    //删除数据库文件
-                                    LitePal.deleteAll(DataBaseVideoListBean.class, "courseId = ? and vid = ?", courseid, vid);
                                 }
                             }
+                            /**
+                             * 重新查询数据和更新视图
+                             */
                             findDataFromDatabase();
                             notifyDataSetChanged();
                         } else {//TODO 没有选中的视频 nothing

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.aliyun.vodplayer.downloader.AliyunDownloadManager;
 import com.aliyun.vodplayer.downloader.AliyunDownloadMediaInfo;
 import com.google.gson.Gson;
 import com.ucfo.youcaiwx.R;
@@ -29,7 +30,6 @@ import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import org.litepal.LitePal;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +55,7 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
     TextView courseName;
     @BindView(R.id.course_teacher_name)
     TextView courseTeacherName;
-    @BindView(R.id.listView)
+    @BindView(R.id.expandablelistview)
     ExpandableListView listView;
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
@@ -71,6 +71,7 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
     private Gson gson;
     private String courseId;
     private DownloadSaveInfoUtil downloadSaveInfoUtil;
+    private AliyunDownloadManager downloadManager;
 
     @Override
     protected int setContentView() {
@@ -136,7 +137,8 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
                 courseDirPresenter.getCourseDirData(package_id, user_id);
             }
         });
-        downloadSaveInfoUtil = new DownloadSaveInfoUtil(UcfoApplication.downloadManager.getSaveDir());
+        downloadManager = UcfoApplication.downloadManager;
+        downloadSaveInfoUtil = new DownloadSaveInfoUtil(downloadManager.getSaveDir());
         /*List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
         LogUtils.e("下载列表--------------" + new Gson().toJson(alivcDownloadeds));*/
     }
@@ -171,9 +173,11 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
         }
         downloadDirAdapter.notifyDataSetChanged();
         if (downloadDirAdapter != null) {
-            listView.setAdapter(downloadDirAdapter);
-            for (int i = 0; i < downloadDirAdapter.getGroupCount(); i++) {
-                listView.expandGroup(i);
+            if (listView != null) {
+                listView.setAdapter(downloadDirAdapter);
+                for (int i = 0; i < downloadDirAdapter.getGroupCount(); i++) {
+                    listView.expandGroup(i);
+                }
             }
         }
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -200,9 +204,9 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
             DataBaseVideoListBean videoListBean = baseVideoListBeans.get(0);
             int status = videoListBean.getStatus();
             if (status == 1) {
-                ToastUtil.showBottomShortText(context, getResources().getString(R.string.alivc_video_download_finish_tips));
+                ToastUtil.showBottomShortText(this, getResources().getString(R.string.alivc_video_download_finish_tips));
             } else {
-                ToastUtil.showBottomShortText(context, getResources().getString(R.string.alivc_video_download_finish_haved));
+                ToastUtil.showBottomShortText(this, getResources().getString(R.string.alivc_video_download_finish_haved));
             }
             bean.setChecked(false);
             if (downloadDirAdapter != null) {
@@ -239,14 +243,8 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
                     for (AliyunDownloadMediaInfo info : alivcDownloadeds) {
                         String vid2 = info.getVid();
                         if (TextUtils.equals(vid, vid2)) {
-                            String savePath = info.getSavePath();
-                            if (!TextUtils.isEmpty(savePath)) {
-                                File file = new File(savePath);
-                                if (file.exists()) {
-                                    file.delete();
-                                }
-                            }
                             downloadSaveInfoUtil.deleteInfo(info);
+                            downloadSaveInfoUtil.deleteFile(info);
                             break;
                         }
                     }

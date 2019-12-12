@@ -35,7 +35,7 @@ import com.umeng.message.PushAgent;
  * Time: 2019/1/7.  18:39
  * Email:2911743255@qq.com
  * Description:BaseActivity是所有Activity的基类，把一些公共的方法放到里面
- * Detail:
+ * Detail:其实吧,就是为了偷懒
  */
 public abstract class BaseActivity extends AppCompatActivity implements NetTypeCallBack {
     private long lastClick = 0;
@@ -45,6 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (setContentView() != 0) {
 
             setContentView(setContentView());
@@ -61,6 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
             //绑定view之后设置标题栏
             initToolbar();
 
+            //标题栏设置之后可以进行数据操作
             initData();
 
             setListener();
@@ -88,6 +90,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
+
         Resources resources = this.getResources();
         Configuration configuration = resources.getConfiguration();
         configuration.fontScale = 1;
@@ -112,24 +115,41 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // 移除Activity
+        // Activity管理器中移除当前页面
         ActivityUtil.getInstance().removeActivity(this);
     }
 
+    /**
+     * 设置activity布局
+     */
     protected abstract int setContentView();
 
-    // 抽象 - 初始化方法，可以对数据进行初始化
-    /*protected void initView(Bundle savedInstanceState) {
-    }*/
+    /**
+     * 抽象 - 初始化方法，可以对页面进行初始化
+     */
     protected abstract void initView(Bundle savedInstanceState);
 
+    /**
+     * 抽象 - 初始化方法，可以对数据进行处理
+     */
     protected void initData() {
     }
 
+    /**
+     * 处理业务逻辑，状态恢复等操作
+     */
+    protected abstract void processLogic(Bundle savedInstanceState);
+
+    /**
+     * 使用toolbar的页面进行白底黑字处理
+     */
     protected void initToolbar() {
         StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
     }
 
+    /**
+     * 使用toolbar的页面进行白底黑字处理2
+     */
     protected void initToolbar(Toolbar toolbar) {
         StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
         setSupportActionBar(toolbar);
@@ -138,27 +158,16 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
             supportActionBar.setDisplayHomeAsUpEnabled(true);
             supportActionBar.setDisplayShowTitleEnabled(false);
         }
-
     }
 
     /**
-     * add Listener
+     * 处理点击事件
      */
     protected void setListener() {
-
     }
-
-    /**
-     * 处理业务逻辑，状态恢复等操作
-     *
-     * @param savedInstanceState
-     */
-    protected abstract void processLogic(Bundle savedInstanceState);
 
     /**
      * 跳转activity 无传参
-     *
-     * @param cls 跳转activity
      */
     protected void startActivity(Class<?> cls) {
         startActivity(cls, null);
@@ -226,9 +235,27 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
         return true;
     }
 
+    public  boolean isFastClick(int time) {
+        boolean flag = true;
+        long currentClickTime = System.currentTimeMillis();
+        if ((currentClickTime - lastClick) >= time) {
+            flag = false;
+        }
+        lastClick = currentClickTime;
+        return flag;
+    }
+
+    /**
+     * 耗时操作提示框
+     *
+     * @param text
+     * @param showText
+     */
     public void setProcessLoading(String text, boolean showText) {
         if (netLoadingProgress == null) {
-            NetLoadingProgress.Builder builder = new NetLoadingProgress.Builder(this).setMessage(text).setShowMessage(showText);
+            NetLoadingProgress.Builder builder = new NetLoadingProgress.Builder(this)
+                    .setMessage(text)
+                    .setShowMessage(showText);
             netLoadingProgress = builder.create();
             netLoadingProgress.show();
         }
@@ -245,13 +272,16 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
     public void onNetChange(NetworkUtils.NetworkType type) {
         switch (type) {
             case NETWORK_NO:
+                //TODO 网络断了
                 if (!NetworkUtils.getMobileDataEnabled()) {
                     ToastUtil.showBottomLongText(this, getResources().getString(R.string.net_loading_no));
                 }
                 break;
             case NETWORK_WIFI:
+                //TODO 已连接至无线网络
                 break;
-            default://2G,3G,4G以及未知网络
+            default:
+                //TODO 2G,3G,4G以及未知网络
                 break;
         }
     }

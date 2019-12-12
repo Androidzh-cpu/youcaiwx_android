@@ -63,7 +63,9 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
+        if (rootView != null) {
+            unbinder = ButterKnife.bind(this, rootView);
+        }
         return rootView;
     }
 
@@ -173,10 +175,12 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
 
     private void initAdapter(List<CourseDataListBean.DataBean> courseList) {
         if (courseChildListApapter == null) {
-            courseChildListApapter = new CourseChildListApapter(courseList, context);
+            courseChildListApapter = new CourseChildListApapter(courseList, getActivity());
         }
         courseChildListApapter.notifyDataSetChanged();
-        recyclerview.setAdapter(courseChildListApapter);
+        if (recyclerview != null) {
+            recyclerview.setAdapter(courseChildListApapter);
+        }
         courseChildListApapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

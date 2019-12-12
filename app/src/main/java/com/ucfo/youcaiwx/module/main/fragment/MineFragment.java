@@ -117,7 +117,6 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
     Unbinder unbinder;
-    Unbinder unbinder1;
 
     private int mOffset = 0, mScrollY = 0, user_id;
     private MainActivity context;
@@ -132,7 +131,6 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         if (rootView != null) {
             unbinder = ButterKnife.bind(this, rootView);
         }
-        unbinder1 = ButterKnife.bind(this, rootView);
         return rootView;
     }
 

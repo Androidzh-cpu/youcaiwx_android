@@ -111,11 +111,16 @@ public class AlertDialog {
         return this;
     }
 
-    public AlertDialog setPositiveButton(String text,
-                                         final OnClickListener listener) {
+    public AlertDialog setPositiveButton(String text, final OnClickListener listener) {
         showPosBtn = true;
+        String string = null;
         if (TextUtils.isEmpty(text)) {
-            btn_pos.setText("Confirm");
+            if (context != null) {
+                string = context.getResources().getString(R.string.confirm);
+            } else {
+                string = "Confirm";
+            }
+            btn_pos.setText(string);
         } else {
             btn_pos.setText(text);
         }
@@ -132,7 +137,13 @@ public class AlertDialog {
     public AlertDialog setNegativeButton(String text, final OnClickListener listener) {
         showNegBtn = true;
         if (TextUtils.isEmpty(text)) {
-            btn_neg.setText("Cancel");
+            String string = null;
+            if (context != null) {
+                string = context.getResources().getString(R.string.cancel);
+            } else {
+                string = "Cancel";
+            }
+            btn_neg.setText(string);
         } else {
             btn_neg.setText(text);
         }

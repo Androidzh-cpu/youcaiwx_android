@@ -68,6 +68,7 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
     private AnsweringCourseDetailsBean.DataBean.TitleBean titleBean;
     private AnsweringCourseDetailAdapter courseDetailAdapter;
     private RecyclerView recyclerview;
+    private SharedPreferencesUtils sharedPreferencesUtils;
 
     @Override
     protected void onResume() {
@@ -125,7 +126,8 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
     @Override
     protected void initData() {
         super.initData();
-        user_id = SharedPreferencesUtils.getInstance(this).getInt(Constant.USER_ID, 0);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
+        user_id = Integer.parseInt(sharedPreferencesUtils.getString(Constant.USER_ID, "0"));
         //注册网络
         answeringCloselyDetailPresenter = new AnsweringCloselyDetailPresenter();
         answeringCloselyDetailPresenter.setAnsweringCloselyDetailView(this);

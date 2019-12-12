@@ -259,7 +259,9 @@ public class CourseIntroductionFragment extends BaseFragment {
             } else {
                 courseTeacherAdapter.notifyDataSetChanged();
             }
-            recyclerviewTeacher.setAdapter(courseTeacherAdapter);
+            if (recyclerviewTeacher != null) {
+                recyclerviewTeacher.setAdapter(courseTeacherAdapter);
+            }
             courseTeacherAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {

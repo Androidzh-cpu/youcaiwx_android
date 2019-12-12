@@ -133,6 +133,21 @@ public class DownloadSaveInfoUtil {
         deleteInfo(info, this.mSaveDir);
     }
 
+    /**
+     * TODO 根据info删除本地存储文件
+     */
+    public void deleteFile(AliyunDownloadMediaInfo info) {
+        if (info != null) {
+            String savePath = info.getSavePath();
+            if (!TextUtils.isEmpty(savePath)) {
+                File file = new File(savePath);
+                if (file.exists() && !file.isDirectory()) {
+                    file.delete();
+                }
+            }
+        }
+    }
+
     public void deleteAllInfo(ArrayList<AliyunDownloadMediaInfo> infos) {
         for (AliyunDownloadMediaInfo info : infos) {
             deleteInfo(info, this.mSaveDir);

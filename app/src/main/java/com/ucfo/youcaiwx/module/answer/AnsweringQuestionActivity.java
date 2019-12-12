@@ -116,7 +116,7 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
     @Override
     protected void initData() {
         super.initData();
-        user_id = SharedPreferencesUtils.getInstance(this).getInt(Constant.USER_ID, 0);
+        user_id = Integer.parseInt(SharedPreferencesUtils.getInstance(this).getString(Constant.USER_ID, "0"));
         answeringCloselyDetailPresenter = new AnsweringCloselyDetailPresenter();
         answeringCloselyDetailPresenter.setAnsweringCloselyDetailView(this);
         list = new ArrayList<>();

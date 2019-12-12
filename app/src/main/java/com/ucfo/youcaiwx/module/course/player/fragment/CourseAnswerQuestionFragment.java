@@ -84,7 +84,7 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
             sharedPreferencesUtils = SharedPreferencesUtils.getInstance(videoPlayPageActivity);
         }
         loginstatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
-        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        user_id = Integer.parseInt(sharedPreferencesUtils.getString(Constant.USER_ID, "0"));
         //用户课程购买状态
         courseBuyState = videoPlayPageActivity.getCourseBuyState();
     }

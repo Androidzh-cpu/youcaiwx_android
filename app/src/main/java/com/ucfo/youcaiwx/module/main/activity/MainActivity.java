@@ -97,7 +97,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        int anInt = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        if (sharedPreferencesUtils == null) {
+            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
+        }
+        String string = sharedPreferencesUtils.getString(Constant.USER_ID, "0");
+        int anInt = Integer.parseInt(string);
         if (anInt != 0) {
             //该用户本次启动后的异常日志用户ID
             CrashReport.setUserId(String.valueOf(anInt));

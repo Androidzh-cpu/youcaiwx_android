@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import com.ucfo.youcaiwx.module.course.player.DownloadComletedDirActivity;
 import com.ucfo.youcaiwx.module.course.player.download.DownloadSaveInfoUtil;
 import com.ucfo.youcaiwx.module.course.player.download.StorageQueryUtil;
 import com.ucfo.youcaiwx.module.user.activity.OfflineCourseActivity;
+import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
@@ -77,6 +79,7 @@ public class DownloadCompletedFragment extends BaseFragment {
     private AliyunDownloadManager downloadManager;
     private DownloadSaveInfoUtil downloadSaveInfoUtil;
     private Gson gson;
+    private String downloadSaveDir;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,18 +118,26 @@ public class DownloadCompletedFragment extends BaseFragment {
     protected void initData() {
         list = new ArrayList<>();
         dataBaseVideoListBeanList = new ArrayList<>();
-
-        downloadManager = UcfoApplication.downloadManager;
-        if (downloadManager != null) {
-            downloadSaveInfoUtil = new DownloadSaveInfoUtil(downloadManager.getSaveDir());
-        }
         gson = new Gson();
+
+        if (UcfoApplication.downloadManager != null) {
+            downloadManager = UcfoApplication.downloadManager;
+            downloadSaveDir = downloadManager.getSaveDir();
+            outputLog("downloadSaveDir" + downloadSaveDir);
+            if (!TextUtils.isEmpty(downloadSaveDir)) {
+                downloadSaveInfoUtil = new DownloadSaveInfoUtil(downloadSaveDir);
+            }
+        }
     }
 
     @Override
     protected void onVisibleToUser() {
         super.onVisibleToUser();
         updateDataBase();
+    }
+
+    public void outputLog(String log) {
+        LogUtils.e("DownloadCompletedFragment", log);
     }
 
     /**
@@ -344,16 +355,24 @@ public class DownloadCompletedFragment extends BaseFragment {
                                 for (int j = 0; j < courseList.size(); j++) {
                                     //TODO 遍历选中视频
 
-                                    //获取vid
                                     String vid = courseList.get(j).getVid();
-                                    List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
-                                    for (AliyunDownloadMediaInfo info : alivcDownloadeds) {
-                                        String vid2 = info.getVid();
-                                        if (vid.equals(vid2)) {
-                                            downloadManager.addDownloadMedia(info);
-                                            downloadManager.removeDownloadMedia(info);
-                                            downloadSaveInfoUtil.deleteInfo(info);
-                                            break;
+                                    if (downloadSaveInfoUtil != null) {
+                                        List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
+                                        if (alivcDownloadeds != null) {
+                                            for (AliyunDownloadMediaInfo info : alivcDownloadeds) {
+                                                String vid2 = info.getVid();
+                                                if (vid.equals(vid2)) {
+                                                    downloadSaveInfoUtil.deleteInfo(info);
+                                                    downloadSaveInfoUtil.deleteFile(info);
+                                                    /*
+                                                     * │ info.getSavePath:/storage/emulated/0/youcai/Download/d99b26ddea1948e486736cb5a8c0bc83_LD_mp4.mp4
+                                                     │  file.getName: d99b26ddea1948e486736cb5a8c0bc83_LD_mp4.mp4
+                                                     │  saveInfoName:.d99b26ddea1948e486736cb5a8c0bc83_LD_mp4.mp4.info
+                                                     │  infoFile :.d99b26ddea1948e486736cb5a8c0bc83_LD_mp4.mp4.info
+                                                     */
+                                                    break;
+                                                }
+                                            }
                                         }
                                     }
                                 }

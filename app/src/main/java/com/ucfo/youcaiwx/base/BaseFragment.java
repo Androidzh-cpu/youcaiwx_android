@@ -15,9 +15,6 @@ import android.view.ViewGroup;
 
 import com.ucfo.youcaiwx.widget.customview.NetLoadingProgress;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Author:AND
  * Time: 2019/1/7.  19:12
@@ -29,7 +26,7 @@ public abstract class BaseFragment extends Fragment {
     protected Context context = null;
     protected View rootView;
     protected boolean mIsLoadedData = false;
-    private Unbinder unbinder;
+    //private Unbinder unbinder;
     private NetLoadingProgress netLoadingProgress;
     private long lastClick = 0;
 
@@ -70,7 +67,7 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(setContentView(), container, false);
-            unbinder = ButterKnife.bind(this, rootView);
+            //unbinder = ButterKnife.bind(this, rootView);
         }
         ViewGroup parent = (ViewGroup) rootView.getParent();
         if (parent != null) {
@@ -108,7 +105,7 @@ public abstract class BaseFragment extends Fragment {
 
     public void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
+        //unbinder.unbind();
     }
 
     @Override

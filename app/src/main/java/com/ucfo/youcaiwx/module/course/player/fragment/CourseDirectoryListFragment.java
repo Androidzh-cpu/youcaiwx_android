@@ -64,8 +64,9 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     SmartRefreshLayout refreshlayout;
     @BindView(R.id.layout_main)
     ConstraintLayout layoutMain;
-    Unbinder unbinder;
     LoadingLayout loadinglayout;
+
+    Unbinder unbinder;
 
     private VideoPlayPageActivity videoPlayPageActivity;
     private int coursePackageId;
@@ -84,7 +85,9 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
+        if (rootView != null) {
+            unbinder = ButterKnife.bind(this, rootView);
+        }
         return rootView;
     }
 
@@ -237,9 +240,11 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         if (coursePackageListAdapter == null) {
             coursePackageListAdapter = new CoursePackageListAdapter(coursePackageLists, getActivity());
         }
-        coursePackageListAdapter.notifyDataSetChanged();
         if (coursePackageListAdapter != null) {
-            recyclerview.setAdapter(coursePackageListAdapter);
+            coursePackageListAdapter.notifyDataSetChanged();
+            if (recyclerview != null) {
+                recyclerview.setAdapter(coursePackageListAdapter);
+            }
         }
         coursePackageListAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
