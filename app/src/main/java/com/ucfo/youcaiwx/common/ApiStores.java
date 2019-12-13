@@ -144,7 +144,8 @@ public class ApiStores {
     public static final String QUESTION_GETQUSTIONONRECORD = BASE_URL + "Question/questionRecord";
     //用户能力评估
     //public static final String QUESTION_AbilityTOAssess = "https://www.youcaiwx.cn/capacity-assessment-app?course_id=1&user_id=2";
-    public static final String QUESTION_AbilityTOAssess = "https://www.youcaiwx.cn/#/capacity-assessment-app";
+    //public static final String QUESTION_AbilityTOAssess = "https://www.youcaiwx.cn/#/capacity-assessment-app";
+    public static final String QUESTION_AbilityTOAssess = "https://www.youcaiwx.cn/capacity-assessment-app";
     //阶段测试列表
     public static final String QUESTION_GETSTAGEOFTESTLIST = BASE_URL + "Question/getCourse";
     //组卷模考列表
