@@ -383,7 +383,6 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         //TODO 解析图片描述一
         if (!TextUtils.isEmpty(analysisPic)) {
             RequestOptions requestOptions = new RequestOptions()
-                    .centerCrop()
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
@@ -416,7 +415,6 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         //TODO 解析图片描述二
         if (!TextUtils.isEmpty(analysisPic2)) {
             RequestOptions requestOptions = new RequestOptions()
-                    .centerCrop()
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
@@ -494,7 +492,6 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         mImage1Question.setVisibility(View.VISIBLE);
         if (!TextUtils.isEmpty(topicImage1)) {
             RequestOptions requestOptions = new RequestOptions()
-                    .centerCrop()
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
@@ -530,7 +527,6 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         mImage2Question.setVisibility(View.VISIBLE);
         if (!TextUtils.isEmpty(topicImage2)) {
             RequestOptions requestOptions = new RequestOptions()
-                    .centerCrop()
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);

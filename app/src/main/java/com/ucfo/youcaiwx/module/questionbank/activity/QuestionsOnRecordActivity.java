@@ -222,10 +222,10 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
     private void initAdapter() {
         if (questionOnRecordAdapter == null) {
             questionOnRecordAdapter = new QuestionOnRecordAdapter(this, list);
+            recyclerview.setAdapter(questionOnRecordAdapter);
         } else {
-            questionOnRecordAdapter.notifyDataSetChanged();
+            questionOnRecordAdapter.notifyChange(list);
         }
-        recyclerview.setAdapter(questionOnRecordAdapter);
         //状态按钮的点击事件
         questionOnRecordAdapter.setItemClick(new QuestionOnRecordAdapter.OnItemClickListener() {
             @Override

@@ -201,12 +201,12 @@ public class CourseCollectionChildActivity extends BaseActivity implements IMine
     }
 
     private void initAdapter() {
-        if (mineCourseCollectionChildAdapter != null) {
-            mineCourseCollectionChildAdapter.notifyDataSetChanged();
+        if (mineCourseCollectionChildAdapter == null) {
+            mineCourseCollectionChildAdapter = new MineCourseCollectionChildAdapter(this, list);
+            recyclerview.setAdapter(mineCourseCollectionChildAdapter);
         } else {
-            mineCourseCollectionChildAdapter = new MineCourseCollectionChildAdapter(context, list);
+            mineCourseCollectionChildAdapter.notifyChange(list);
         }
-        recyclerview.setAdapter(mineCourseCollectionChildAdapter);
         mineCourseCollectionChildAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

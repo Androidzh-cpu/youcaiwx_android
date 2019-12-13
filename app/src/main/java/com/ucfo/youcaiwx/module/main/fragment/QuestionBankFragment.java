@@ -136,8 +136,6 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     public void onResume() {
         super.onResume();
         isShowLoading = false;
-
-        loadNetData();
     }
 
     @Override
@@ -156,9 +154,15 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
         unbinder.unbind();
     }
 
+    /**
+     * 刷新数据
+     */
     private void loadNetData() {
         if (sharedPreferencesUtils == null) {
             sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getActivity());
+        }
+        if (questionBankHomePresenter == null) {
+            questionBankHomePresenter = new QuestionBankHomePresenter(this);
         }
         loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);//用户登录状态
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
@@ -199,10 +203,20 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            loadNetData();
+        }
+    }
+
+    @Override
     protected void initData() {
         projectList = new ArrayList<>();
         //注册网络
         questionBankHomePresenter = new QuestionBankHomePresenter(this);
+
+        loadNetData();
 
         if (loadinglayout != null) {
             loadinglayout.setRetryListener(new View.OnClickListener() {
@@ -212,11 +226,6 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 }
             });
         }
-    }
-
-    public void refreshBankData() {
-        userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-        questionBankHomePresenter.getMyProejctList(userId);
     }
 
     /**

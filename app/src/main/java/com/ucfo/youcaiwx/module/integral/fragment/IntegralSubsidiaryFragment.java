@@ -141,10 +141,10 @@ public class IntegralSubsidiaryFragment extends BaseFragment implements IIntegra
     private void initAdapter() {
         if (integralDetailAdapter == null) {
             integralDetailAdapter = new IntegralDetailAdapter(list, getActivity());
+            recyclerview.setAdapter(integralDetailAdapter);
         } else {
-            integralDetailAdapter.notifyDataSetChanged();
+            integralDetailAdapter.notifyChange(list);
         }
-        recyclerview.setAdapter(integralDetailAdapter);
     }
 
     @Override

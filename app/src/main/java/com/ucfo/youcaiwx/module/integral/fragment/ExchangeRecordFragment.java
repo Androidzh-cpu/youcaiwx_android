@@ -146,10 +146,10 @@ public class ExchangeRecordFragment extends BaseFragment implements IIntegralExc
     private void initAdapter() {
         if (integralExchangeRecordAdapter == null) {
             integralExchangeRecordAdapter = new IntegralExchangeRecordAdapter(list, getActivity());
+            recyclerview.setAdapter(integralExchangeRecordAdapter);
         } else {
-            integralExchangeRecordAdapter.notifyDataSetChanged();
+            integralExchangeRecordAdapter.notifyChange(list);
         }
-        recyclerview.setAdapter(integralExchangeRecordAdapter);
 
         integralExchangeRecordAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override

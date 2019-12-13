@@ -235,11 +235,11 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
                     MAX_IMAGECOUNT = MAX_IMAGECOUNT - list.size();
                 }
                 if (imagePickerAdapter == null) {
-                    imagePickerAdapter = new ImagePickerAdapter(context, imageList);
+                    imagePickerAdapter = new ImagePickerAdapter(this, imageList);
+                    askImagelist.setAdapter(imagePickerAdapter);
                 } else {
-                    imagePickerAdapter.notifyDataSetChanged();
+                    imagePickerAdapter.notifyChange(imageList);
                 }
-                askImagelist.setAdapter(imagePickerAdapter);
                 imagePickerAdapter.setOnItemClickListener(new ImagePickerAdapter.OnRecyclerViewItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {

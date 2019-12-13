@@ -40,6 +40,12 @@ public class LearncenterPlanAdapter extends BaseAdapter<LearncenterHomeBean.Data
         this.context = context;
     }
 
+    public void notifyChange(List<LearncenterHomeBean.DataBean.PlanBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();
@@ -63,13 +69,13 @@ public class LearncenterPlanAdapter extends BaseAdapter<LearncenterHomeBean.Data
         int i = position % 3;
         switch (i) {
             case 0://余数为0
-                holder.mBackgroundItem.setBackground(ContextCompat.getDrawable(context,R.color.color_FFF8F2));
+                holder.mBackgroundItem.setBackground(ContextCompat.getDrawable(context, R.color.color_FFF8F2));
                 break;
             case 1://余数为1
-                holder.mBackgroundItem.setBackground(ContextCompat.getDrawable(context,R.color.color_F9F6FF));
+                holder.mBackgroundItem.setBackground(ContextCompat.getDrawable(context, R.color.color_F9F6FF));
                 break;
             case 2://余数为2
-                holder.mBackgroundItem.setBackground(ContextCompat.getDrawable(context,R.color.color_EEFFFD));
+                holder.mBackgroundItem.setBackground(ContextCompat.getDrawable(context, R.color.color_EEFFFD));
                 break;
             default:
                 break;

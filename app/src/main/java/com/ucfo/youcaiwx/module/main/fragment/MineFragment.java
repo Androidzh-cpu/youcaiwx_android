@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ import com.ucfo.youcaiwx.module.user.activity.WatchTheRecordActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.integral.EarnIntegralPresenter;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.UserInfoPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IUserInfoView;
+import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.ShareUtils;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
@@ -119,7 +121,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
     Unbinder unbinder;
 
     private int mOffset = 0, mScrollY = 0, user_id;
-    private MainActivity context;
+    private MainActivity activity;
     private UserInfoPresenter userInfoPresenter;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private boolean loginstatus;
@@ -151,9 +153,6 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
 
     @Override
     protected void initView(View view) {
-        context = (MainActivity) getActivity();
-        userInfoPresenter = new UserInfoPresenter(this);
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) statusbarView.getLayoutParams();
         layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
         layoutParams.height = StatusBarUtil.getStatusBarHeight(getActivity());
@@ -162,6 +161,15 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
 
     @Override
     protected void initData() {
+        FragmentActivity fragmentActivity = getActivity();
+        if (fragmentActivity instanceof MainActivity) {
+            activity = (MainActivity) fragmentActivity;
+        }
+        userInfoPresenter = new UserInfoPresenter(this);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this.activity);
+
+        loadUserData();
+
         if (loadinglayout != null) {
             loadinglayout.setRetryListener(new View.OnClickListener() {
                 @Override
@@ -170,12 +178,6 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                 }
             });
         }
-    }
-
-    @Override
-    protected void onVisibleToUser() {
-        super.onVisibleToUser();
-        loadUserData();
     }
 
     /**
@@ -201,6 +203,15 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
     @Override
     protected int setContentView() {
         return R.layout.fragment_mine;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        LogUtils.e("MineFragment", "hidden: " + hidden);
+        if (!hidden) {
+            loadUserData();
+        }
     }
 
     @OnClick(R.id.titlebar_setting)
@@ -319,7 +330,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         } else
 
         {//未登录,去登录页
-            startActivity(new Intent(context, LoginActivity.class));
+            startActivity(new Intent(activity, LoginActivity.class));
         }
 
     }
@@ -364,7 +375,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         userNickname.setCompoundDrawables(null, null, null, null);
         userSex.setVisibility(userSex.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
         userCouponsMsg.setVisibility(userCouponsMsg.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
-        userIcon.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_headdefault));
+        userIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.mipmap.icon_headdefault));
     }
 
     //TODO 设置登录个人信息
@@ -377,14 +388,14 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         int isRead = dataBean.getIs_read();
         int integral = dataBean.getIntegral();
         if (TextUtils.isEmpty(head)) {
-            userIcon.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_default));
+            userIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.mipmap.icon_default));
         } else {
             RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.ALL);
-            GlideUtils.load(context, head, userIcon, requestOptions);
+            GlideUtils.load(activity, head, userIcon, requestOptions);
         }
         if (!TextUtils.isEmpty(username)) {//todo 昵称
             userNickname.setText(username);
@@ -434,12 +445,12 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
 
     @Override
     public void showLoading() {
-
+        //TODO nothing
     }
 
     @Override
     public void showLoadingFinish() {
-
+        //TODO nothing
     }
 
     @Override

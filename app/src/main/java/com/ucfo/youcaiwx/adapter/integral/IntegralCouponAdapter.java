@@ -33,6 +33,12 @@ public class IntegralCouponAdapter extends BaseAdapter<IntegralProductListBean.D
         this.list = list;
     }
 
+    public void notifyChange(List<IntegralProductListBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list.size();

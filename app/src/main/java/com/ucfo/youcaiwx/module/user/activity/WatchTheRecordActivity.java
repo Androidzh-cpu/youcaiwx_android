@@ -159,10 +159,9 @@ public class WatchTheRecordActivity extends BaseActivity implements IMineCourseV
     private void initadapter() {
         if (mineWatchRecordAdapter == null) {
             mineWatchRecordAdapter = new MineWatchRecordAdapter(list, this);
-        }
-        mineWatchRecordAdapter.notifyDataSetChanged();
-        if (mineWatchRecordAdapter != null) {
             recyclerview.setAdapter(mineWatchRecordAdapter);
+        } else {
+            mineWatchRecordAdapter.notifyChange(list);
         }
         mineWatchRecordAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override

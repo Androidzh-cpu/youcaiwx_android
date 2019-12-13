@@ -148,12 +148,12 @@ public class FragmentQuestionChildCollection extends BaseFragment implements IMi
     }
 
     private void ininAdapter() {
-        if (listAdapter != null) {
-            listAdapter.notifyDataSetChanged();
-        } else {
+        if (listAdapter == null) {
             listAdapter = new MineQuestionCollectionListAdapter(list, context);
+            listView.setAdapter(listAdapter);
+        } else {
+            listAdapter.notifyChange(list);
         }
-        listView.setAdapter(listAdapter);
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {

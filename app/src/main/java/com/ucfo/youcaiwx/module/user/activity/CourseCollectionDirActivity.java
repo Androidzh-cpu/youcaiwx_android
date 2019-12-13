@@ -173,12 +173,12 @@ public class CourseCollectionDirActivity extends BaseActivity implements IMineCo
     }
 
     private void initAdapter() {
-        if (collectionDirAdapter != null) {
-            collectionDirAdapter.notifyDataSetChanged();
+        if (collectionDirAdapter == null) {
+            collectionDirAdapter = new MineCourseCollectionDirAdapter(this, list);
+            listView.setAdapter(collectionDirAdapter);
         } else {
-            collectionDirAdapter = new MineCourseCollectionDirAdapter(CourseCollectionDirActivity.this, list);
+            collectionDirAdapter.notifyChange(list);
         }
-        listView.setAdapter(collectionDirAdapter);
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {

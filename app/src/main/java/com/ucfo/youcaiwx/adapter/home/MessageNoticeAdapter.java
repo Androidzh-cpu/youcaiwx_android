@@ -31,6 +31,12 @@ public class MessageNoticeAdapter extends BaseAdapter<MessageCenterNoticeBean.Da
         this.context = context;
     }
 
+    public void notifyChange(List<MessageCenterNoticeBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list.size();

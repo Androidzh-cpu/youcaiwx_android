@@ -217,7 +217,6 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
         //TODO 图片描述一
         if (!TextUtils.isEmpty(analysisPic)) {
             RequestOptions requestOptions = new RequestOptions()
-                    .centerCrop()
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
@@ -241,7 +240,7 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
             }
         });
 
-      //TODO 1.0.2增加多解析
+        //TODO 1.0.2增加多解析
 
         //TODO 文字描述二
         if (!TextUtils.isEmpty(analysis2)) {
@@ -253,7 +252,6 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
         //TODO 图片描述二
         if (!TextUtils.isEmpty(analysisPic2)) {
             RequestOptions requestOptions = new RequestOptions()
-                    .centerCrop()
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
@@ -331,7 +329,6 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
         mImage1Question.setVisibility(View.VISIBLE);
         if (!TextUtils.isEmpty(topicImage1)) {
             RequestOptions requestOptions = new RequestOptions()
-                    .centerCrop()
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
@@ -368,7 +365,6 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
         mImage2Question.setVisibility(View.VISIBLE);
         if (!TextUtils.isEmpty(topicImage2)) {
             RequestOptions requestOptions = new RequestOptions()
-                    .centerCrop()
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);

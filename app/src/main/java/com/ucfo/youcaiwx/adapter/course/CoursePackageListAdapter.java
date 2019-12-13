@@ -30,6 +30,11 @@ public class CoursePackageListAdapter extends BaseAdapter<CourseDirBean.DataBean
         this.context = context;
     }
 
+    public void notifyChange(List<CourseDirBean.DataBean> dataBeans) {
+        this.list = dataBeans;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();

@@ -46,6 +46,12 @@ public class IntegralExchangeRecordAdapter extends BaseAdapter<IntegralExchangeR
         return list.size();
     }
 
+    public void notifyChange(List<IntegralExchangeRecordBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         IntegralExchangeRecordBean.DataBean bean = list.get(position);

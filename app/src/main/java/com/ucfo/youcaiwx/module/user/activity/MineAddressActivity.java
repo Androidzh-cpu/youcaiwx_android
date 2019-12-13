@@ -186,12 +186,14 @@ public class MineAddressActivity extends BaseActivity implements IUserAddressVie
     }
 
     private void initAdapter() {
-        if (listAdapter != null) {
-            listAdapter.notifyDataSetChanged();
-        } else {
+        if (listAdapter == null) {
             listAdapter = new UserAddressListAdapter(list, this);
+            recyclerview.setAdapter(listAdapter);
         }
-        recyclerview.setAdapter(listAdapter);
+        if (listAdapter != null) {
+            listAdapter.notifyChange(list);
+        }
+
         //跳转编辑页
         listAdapter.setItemClick(new OnItemClickListener() {
             @Override

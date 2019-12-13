@@ -32,6 +32,12 @@ public class IntegralDetailAdapter extends BaseAdapter<IntegralDetailBean.DataBe
         this.context = context;
     }
 
+    public void notifyChange(List<IntegralDetailBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list.size();

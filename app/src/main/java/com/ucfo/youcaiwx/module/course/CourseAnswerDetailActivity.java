@@ -1,7 +1,6 @@
 package com.ucfo.youcaiwx.module.course;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -33,10 +32,8 @@ import com.ucfo.youcaiwx.module.course.player.utils.TimeFormater;
 import com.ucfo.youcaiwx.presenter.presenterImpl.answer.CourseCourseAnswerListPresenter;
 import com.ucfo.youcaiwx.presenter.view.answer.ICourseAnswerListView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
-import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
@@ -120,13 +117,11 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
         layoutManager = new LinearLayoutManager(context);
         answerUserimagelist.setLayoutManager(layoutManager);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        int topBottom = DensityUtil.dip2px(context, 4);
-        answerUserimagelist.addItemDecoration(new SpacesItemDecoration(topBottom, 0, Color.TRANSPARENT));
+
         layoutManager2 = new LinearLayoutManager(context);
         answerTeacherimagelist.setLayoutManager(layoutManager2);
         layoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
-        int topBottom2 = DensityUtil.dip2px(context, 4);
-        answerTeacherimagelist.addItemDecoration(new SpacesItemDecoration(topBottom2, 0, Color.TRANSPARENT));
+
         answerTeacherimagelist.setNestedScrollingEnabled(false);
         answerUserimagelist.setNestedScrollingEnabled(false);
     }

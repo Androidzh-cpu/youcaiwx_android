@@ -38,6 +38,12 @@ public class IntegralProductAdapter extends BaseAdapter<IntegralProductListBean.
         this.context = context;
     }
 
+    public void notifyChange(List<IntegralProductListBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list.size();

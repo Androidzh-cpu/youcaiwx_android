@@ -1,7 +1,6 @@
 package com.ucfo.youcaiwx.adapter.answer;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,9 +23,7 @@ import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.answer.QuestionAnswerListBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
-import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
-import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.widget.flowlayout.FlowLayout;
 import com.ucfo.youcaiwx.widget.flowlayout.TagAdapter;
 import com.ucfo.youcaiwx.widget.flowlayout.TagFlowLayout;
@@ -78,8 +75,6 @@ public class QuestionAnswerListAdapter extends BaseAdapter<QuestionAnswerListBea
             PictureAdapter pictureAdapter = new PictureAdapter(quiz_image, context);//创建图片列表适配器
             layoutManager = new LinearLayoutManager(context);
             layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            int leftright = DensityUtil.dip2px(context, 4);
-            holder.mAnswerImagelistItem.addItemDecoration(new SpacesItemDecoration(leftright, 0, Color.TRANSPARENT));
             holder.mAnswerImagelistItem.setLayoutManager(layoutManager);
             holder.mAnswerImagelistItem.setAdapter(pictureAdapter);
             TransferConfig config = TransferConfig.build()//图片预览先关配置

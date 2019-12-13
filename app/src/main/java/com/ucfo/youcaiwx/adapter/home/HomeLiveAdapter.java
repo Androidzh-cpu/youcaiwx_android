@@ -38,6 +38,12 @@ public class HomeLiveAdapter extends BaseAdapter<HomeBean.DataBean.BroadcastBean
         this.list = list;
     }
 
+    public void notifyChange(List<HomeBean.DataBean.BroadcastBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();

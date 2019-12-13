@@ -179,10 +179,9 @@ public class InformationActivity extends BaseActivity implements IInformationVie
     private void initAdapter() {
         if (informationAdapter == null) {
             informationAdapter = new InformationAdapter(list, this);
-        }
-        informationAdapter.notifyDataSetChanged();
-        if (informationAdapter != null) {
             recyclerview.setAdapter(informationAdapter);
+        } else {
+            informationAdapter.notifyChange(list);
         }
         informationAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override

@@ -37,6 +37,11 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //防止Fragment重叠
@@ -67,7 +72,6 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (rootView == null) {
             rootView = inflater.inflate(setContentView(), container, false);
-            //unbinder = ButterKnife.bind(this, rootView);
         }
         ViewGroup parent = (ViewGroup) rootView.getParent();
         if (parent != null) {
@@ -99,13 +103,6 @@ public abstract class BaseFragment extends Fragment {
         if (getUserVisibleHint()) {
             handleOnVisibilityChangedToUser(false);
         }
-    }
-
-    @Override
-
-    public void onDestroy() {
-        super.onDestroy();
-        //unbinder.unbind();
     }
 
     @Override
@@ -207,5 +204,15 @@ public abstract class BaseFragment extends Fragment {
             return false;
         }
         return true;
+    }
+
+    public boolean isFastClick(int time) {
+        boolean flag = true;
+        long currentClickTime = System.currentTimeMillis();
+        if ((currentClickTime - lastClick) >= time) {
+            flag = false;
+        }
+        lastClick = currentClickTime;
+        return flag;
     }
 }

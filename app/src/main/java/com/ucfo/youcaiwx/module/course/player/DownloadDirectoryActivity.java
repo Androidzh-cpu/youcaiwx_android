@@ -171,8 +171,8 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
         if (downloadDirAdapter == null) {
             downloadDirAdapter = new DownloadDirAdapter(this, sectionBeanList);
         }
-        downloadDirAdapter.notifyDataSetChanged();
         if (downloadDirAdapter != null) {
+            downloadDirAdapter.notifyDataSetChanged();
             if (listView != null) {
                 listView.setAdapter(downloadDirAdapter);
                 for (int i = 0; i < downloadDirAdapter.getGroupCount(); i++) {
@@ -272,6 +272,8 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
 
     @OnClick(R.id.btn_exit)
     public void onViewClicked() {
+        btnExit.setEnabled(false);
+
         int resultSize = 0;
         ArrayList<PreparedDownloadInfoBean> preparedDownloadInfoBeanArrayList = new ArrayList<>();
 
@@ -306,6 +308,8 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
             startActivity(OfflineCourseActivity.class, bundle);
             finish();
         }
+
+        btnExit.setEnabled(true);
     }
 
 }

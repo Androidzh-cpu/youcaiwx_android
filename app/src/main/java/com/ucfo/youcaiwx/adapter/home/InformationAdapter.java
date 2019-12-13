@@ -19,7 +19,7 @@ import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: AND
@@ -29,12 +29,18 @@ import java.util.ArrayList;
  * Description:资讯列表
  */
 public class InformationAdapter extends BaseAdapter<InformationListBean.DataBean, InformationAdapter.ViewHolder> {
-    private ArrayList<InformationListBean.DataBean> list;
+    private List<InformationListBean.DataBean> list;
     private Context context;
 
-    public InformationAdapter(ArrayList<InformationListBean.DataBean> list, Context context) {
+    public InformationAdapter(List<InformationListBean.DataBean> list, Context context) {
         this.list = list;
         this.context = context;
+    }
+
+    public void notifyChange(List<InformationListBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
     }
 
     @Override

@@ -177,10 +177,10 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
     private void initAdapter() {
         if (mineCouponsAdapter == null) {
             mineCouponsAdapter = new MineCouponsAdapter(this, list, 1);
+            recyclerview.setAdapter(mineCouponsAdapter);
         } else {
-            mineCouponsAdapter.notifyDataSetChanged();
+            mineCouponsAdapter.notifyChange(list);
         }
-        recyclerview.setAdapter(mineCouponsAdapter);
         mineCouponsAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

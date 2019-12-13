@@ -19,7 +19,7 @@ import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: AND
@@ -29,11 +29,17 @@ import java.util.ArrayList;
  */
 public class MineCourseAdapter extends BaseAdapter<MineCourseBean.DataBean, MineCourseAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<MineCourseBean.DataBean> list;
+    private List<MineCourseBean.DataBean> list;
 
-    public MineCourseAdapter(Context context, ArrayList<MineCourseBean.DataBean> list) {
+    public MineCourseAdapter(Context context, List<MineCourseBean.DataBean> list) {
         this.context = context;
         this.list = list;
+    }
+
+    public void notifyChange(List<MineCourseBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
     }
 
     @Override
@@ -62,7 +68,7 @@ public class MineCourseAdapter extends BaseAdapter<MineCourseBean.DataBean, Mine
         if (!TextUtils.isEmpty(name)) {
             holder.mCourseTitleItem.setText(name);
         }
-        holder.mCourseCountItem.setText(context.getResources().getString(R.string.course_NumOfLearning,String.valueOf(joinNum)));
+        holder.mCourseCountItem.setText(context.getResources().getString(R.string.course_NumOfLearning, String.valueOf(joinNum)));
         holder.mCourseTimeItem.setText(String.valueOf(context.getResources().getString(R.string.orderForm_endtime2, String.valueOf(studyDays))));
     }
 

@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.module.questionbank.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -30,10 +29,8 @@ import com.ucfo.youcaiwx.presenter.presenterImpl.answer.QuestionAnswerPresenter;
 import com.ucfo.youcaiwx.presenter.view.answer.IQuestionAnswerView;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
-import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.flowlayout.FlowLayout;
@@ -144,9 +141,6 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(context);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         layoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
-        int leftright = DensityUtil.dip2px(context, 4);
-        answerUserimagelist.addItemDecoration(new SpacesItemDecoration(leftright, 0, Color.TRANSPARENT));
-        answerTeacherimagelist.addItemDecoration(new SpacesItemDecoration(leftright, 0, Color.TRANSPARENT));
         answerUserimagelist.setLayoutManager(layoutManager);
         answerTeacherimagelist.setLayoutManager(layoutManager2);
     }

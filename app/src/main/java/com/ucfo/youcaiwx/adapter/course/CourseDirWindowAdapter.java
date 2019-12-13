@@ -33,6 +33,12 @@ public class CourseDirWindowAdapter extends BaseExpandableListAdapter {
         this.list = list;
     }
 
+    public void notifyChange(List<CourseDirBean.DataBean.SectionBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getGroupCount() {
         return list == null ? 0 : list.size();

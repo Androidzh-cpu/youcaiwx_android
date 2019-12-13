@@ -53,7 +53,7 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
     @BindView(R.id.refreshlayout)
     SmartRefreshLayout refreshlayout;
     @BindView(R.id.recyclerview)
-     RecyclerView recyclerview;
+    RecyclerView recyclerview;
 
     private MineOrderFormActivity context;
     private int user_id;
@@ -62,6 +62,7 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
     private int pageIndex = 1;
     private MineOrderFormListAdapter mineOrderFormListAdapter;
     private String tiptext;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -164,12 +165,11 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
     private void initAdapter() {
         if (mineOrderFormListAdapter == null) {
             mineOrderFormListAdapter = new MineOrderFormListAdapter(MineOrderFormActivity.this, list);
-        }
-        if (mineOrderFormListAdapter != null) {
-            mineOrderFormListAdapter.notifyDataSetChanged();
             recyclerview.setAdapter(mineOrderFormListAdapter);
         }
-
+        if (mineOrderFormListAdapter != null) {
+            mineOrderFormListAdapter.notifyChange(list);
+        }
         //TODO 支付,取消,联系客服操作
         mineOrderFormListAdapter.setOthersClick(new MineOrderFormListAdapter.IOrderCallback() {
             @Override

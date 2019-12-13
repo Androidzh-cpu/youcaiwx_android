@@ -239,13 +239,12 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     private void initAdapter(List<CourseDirBean.DataBean> coursePackageLists) {
         if (coursePackageListAdapter == null) {
             coursePackageListAdapter = new CoursePackageListAdapter(coursePackageLists, getActivity());
+            recyclerview.setAdapter(coursePackageListAdapter);
         }
         if (coursePackageListAdapter != null) {
-            coursePackageListAdapter.notifyDataSetChanged();
-            if (recyclerview != null) {
-                recyclerview.setAdapter(coursePackageListAdapter);
-            }
+            coursePackageListAdapter.notifyChange(coursePackageLists);
         }
+
         coursePackageListAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

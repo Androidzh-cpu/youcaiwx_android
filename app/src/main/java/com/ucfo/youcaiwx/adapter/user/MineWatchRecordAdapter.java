@@ -14,10 +14,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.user.MineWatchRecordBean;
+import com.ucfo.youcaiwx.module.course.player.utils.TimeFormater;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.module.course.player.utils.TimeFormater;
 
 import java.util.List;
 
@@ -38,6 +38,12 @@ public class MineWatchRecordAdapter extends BaseAdapter<MineWatchRecordBean.Data
         this.context = context;
     }
 
+    public void notifyChange(List<MineWatchRecordBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();
@@ -52,7 +58,7 @@ public class MineWatchRecordAdapter extends BaseAdapter<MineWatchRecordBean.Data
         int watch_time = bean.getWatch_time();
 
         RequestOptions requestOptions = new RequestOptions()
-                .transform(new RoundedCornersTransformation(DensityUtil.dp2px(5),0))
+                .transform(new RoundedCornersTransformation(DensityUtil.dp2px(5), 0))
                 .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);

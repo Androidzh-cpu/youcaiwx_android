@@ -75,10 +75,10 @@ public class DownloadCompletedFragment extends BaseFragment {
     private OfflineCourseActivity offlineCourseActivity;
     private DownloadCompletedCourseListAdapter courseListAdapter;
     private List<DataBaseCourseListBean> list;
+    private List<DataBaseCourseListBean> finalList;
     private List<DataBaseVideoListBean> dataBaseVideoListBeanList;
     private AliyunDownloadManager downloadManager;
     private DownloadSaveInfoUtil downloadSaveInfoUtil;
-    private Gson gson;
     private String downloadSaveDir;
 
     @Override
@@ -117,13 +117,12 @@ public class DownloadCompletedFragment extends BaseFragment {
     @Override
     protected void initData() {
         list = new ArrayList<>();
+        finalList = new ArrayList<>();
         dataBaseVideoListBeanList = new ArrayList<>();
-        gson = new Gson();
 
         if (UcfoApplication.downloadManager != null) {
             downloadManager = UcfoApplication.downloadManager;
             downloadSaveDir = downloadManager.getSaveDir();
-            outputLog("downloadSaveDir" + downloadSaveDir);
             if (!TextUtils.isEmpty(downloadSaveDir)) {
                 downloadSaveInfoUtil = new DownloadSaveInfoUtil(downloadSaveDir);
             }
@@ -136,10 +135,6 @@ public class DownloadCompletedFragment extends BaseFragment {
         updateDataBase();
     }
 
-    public void outputLog(String log) {
-        LogUtils.e("DownloadCompletedFragment", log);
-    }
-
     /**
      * 本地实时更新数据库
      */
@@ -147,22 +142,25 @@ public class DownloadCompletedFragment extends BaseFragment {
         if (list == null) {
             list = new ArrayList<>();
         }
+        if (finalList == null) {
+            finalList = new ArrayList<>();
+        }
         list.clear();
+        finalList.clear();
         list.addAll(LitePal.findAll(DataBaseCourseListBean.class));
 
-        if (list != null && list.size() > 0) {
-            for (int i = 0; i < list.size(); i++) {
-                //遍历该课程下的视频
-                DataBaseCourseListBean courseListBean = list.get(i);
+        LogUtils.e("updateDataBase  befor", "list: " + new Gson().toJson(list));
 
+        if (list != null && list.size() > 0) {
+            for (DataBaseCourseListBean courseListBean : list) {
+                //遍历该课程下的视频
                 String courseId = courseListBean.getCourseId();
+
                 List<DataBaseVideoListBean> videoListBeans = LitePal.where("courseId = ? and status = ?", courseId, "1").find(DataBaseVideoListBean.class);
                 List<DataBaseVideoListBean> videoNoCompltedBeans = LitePal.where("courseId = ? and status = ?", courseId, "0").find(DataBaseVideoListBean.class);
+
                 if (videoListBeans != null && videoListBeans.size() > 0) {
-                    //已下载的数据
-                    if (dataBaseVideoListBeanList == null) {
-                        dataBaseVideoListBeanList = new ArrayList<>();
-                    }
+                    //TODO 数据仓库查询到已下载的视频
                     dataBaseVideoListBeanList.clear();
                     for (int j = 0; j < videoListBeans.size(); j++) {
                         String saveDir = videoListBeans.get(j).getSaveDir();
@@ -174,16 +172,16 @@ public class DownloadCompletedFragment extends BaseFragment {
                         }
                     }
                     courseListBean.setCourseDownloadNum(dataBaseVideoListBeanList.size());
+
+                    finalList.add(courseListBean);
                 } else {
-                    //已下载为0
+                    //TODO 未查询到已下载的视频
                     if (videoNoCompltedBeans != null && videoNoCompltedBeans.size() > 0) {
-                        //还存在未下载的数据
-                        list.remove(courseListBean);
+                        //todo 还存在未下载的数据,那就把
                     } else {
                         LitePal.deleteAll(DataBaseCourseListBean.class, "courseId = ?", courseId);//删除课
                         LitePal.deleteAll(DataBaseSectioinListBean.class, "courseId = ?", courseId);//删除所有章
                         LitePal.deleteAll(DataBaseVideoListBean.class, "courseId = ?", courseId);//删除所有视频
-                        list.remove(courseListBean);
                     }
                 }
             }
@@ -191,13 +189,12 @@ public class DownloadCompletedFragment extends BaseFragment {
             /**
              * 设置适配器
              */
-            if (list != null && list.size() > 0) {
+            if (finalList != null && finalList.size() > 0) {
                 if (courseListAdapter == null) {
-                    courseListAdapter = new DownloadCompletedCourseListAdapter(list, getActivity());
-                }
-                courseListAdapter.notifyDataSetChanged();
-                if (listView != null) {
+                    courseListAdapter = new DownloadCompletedCourseListAdapter(finalList, getActivity());
                     listView.setAdapter(courseListAdapter);
+                } else {
+                    courseListAdapter.notifyChange(finalList);
                 }
                 courseListAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
                     @Override
@@ -216,6 +213,7 @@ public class DownloadCompletedFragment extends BaseFragment {
                         }
                     }
                 });
+
                 if (loadinglayout != null) {
                     loadinglayout.showContent();
                 }
@@ -229,6 +227,8 @@ public class DownloadCompletedFragment extends BaseFragment {
                 loadinglayout.showEmpty();
             }
         }
+
+        LogUtils.e("updateDataBase  after", "list: " + new Gson().toJson(list));
     }
 
     private void checkAndUnChecked(List<DataBaseCourseListBean> beans) {
@@ -345,7 +345,6 @@ public class DownloadCompletedFragment extends BaseFragment {
                 .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        setProcessLoading(null, false);
                         if (arrayList != null && arrayList.size() > 0) {
                             for (int i = 0; i < arrayList.size(); i++) {
                                 //TODO 遍历选中的课
@@ -354,23 +353,15 @@ public class DownloadCompletedFragment extends BaseFragment {
                                 List<DataBaseVideoListBean> courseList = LitePal.where("courseId = ? and status = ?", courseId, "1").find(DataBaseVideoListBean.class);
                                 for (int j = 0; j < courseList.size(); j++) {
                                     //TODO 遍历选中视频
-
                                     String vid = courseList.get(j).getVid();
                                     if (downloadSaveInfoUtil != null) {
                                         List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
                                         if (alivcDownloadeds != null) {
                                             for (AliyunDownloadMediaInfo info : alivcDownloadeds) {
                                                 String vid2 = info.getVid();
-                                                if (vid.equals(vid2)) {
+                                                if (TextUtils.equals(vid, vid2)) {
                                                     downloadSaveInfoUtil.deleteInfo(info);
                                                     downloadSaveInfoUtil.deleteFile(info);
-                                                    /*
-                                                     * │ info.getSavePath:/storage/emulated/0/youcai/Download/d99b26ddea1948e486736cb5a8c0bc83_LD_mp4.mp4
-                                                     │  file.getName: d99b26ddea1948e486736cb5a8c0bc83_LD_mp4.mp4
-                                                     │  saveInfoName:.d99b26ddea1948e486736cb5a8c0bc83_LD_mp4.mp4.info
-                                                     │  infoFile :.d99b26ddea1948e486736cb5a8c0bc83_LD_mp4.mp4.info
-                                                     */
-                                                    break;
                                                 }
                                             }
                                         }
@@ -378,13 +369,14 @@ public class DownloadCompletedFragment extends BaseFragment {
                                 }
                                 LitePal.deleteAll(DataBaseVideoListBean.class, "courseId = ? and status = ?", courseId, "1");//删除已下载视频
                             }
-                            //更新数据
+                            /**
+                             * 刷新数据
+                             */
                             updateDataBase();
                             showContentnView();
                         } else {
                             ToastUtil.showBottomShortText(context, getResources().getString(R.string.no_delete));
                         }
-                        dismissPorcess();
                     }
                 })
                 .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {

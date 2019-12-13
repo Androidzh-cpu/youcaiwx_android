@@ -300,11 +300,11 @@ public class DownloadingFragment extends BaseFragment {
         }
         if (downloadingAdapter == null) {
             downloadingAdapter = new DownloadingAdapter(alivcDownloadingMediaInfos, getActivity());
-        }
-        downloadingAdapter.notifyDataSetChanged();
-        if (downloadingAdapter != null) {
             listView.setAdapter(downloadingAdapter);
+        } else {
+            downloadingAdapter.setData(alivcDownloadingMediaInfos);
         }
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -317,10 +317,14 @@ public class DownloadingFragment extends BaseFragment {
                     AliyunDownloadMediaInfo info = alivcDownloadingMediaInfos.get(position).getAliyunDownloadMediaInfo();
                     AliyunDownloadMediaInfo.Status status = info.getStatus();
                     if (status == AliyunDownloadMediaInfo.Status.Start) {//staring
-                        downloadManager.stopDownloadMedia(info);
+                        if (downloadManager != null) {
+                            downloadManager.stopDownloadMedia(info);
+                        }
                         info.setStatus(AliyunDownloadMediaInfo.Status.Stop);
                     } else if (status == AliyunDownloadMediaInfo.Status.Error || status == AliyunDownloadMediaInfo.Status.Wait || status == AliyunDownloadMediaInfo.Status.Stop) {//waitting
-                        downloadManager.startDownloadMedia(info);
+                        if (downloadManager != null) {
+                            downloadManager.startDownloadMedia(info);
+                        }
                         info.setStatus(AliyunDownloadMediaInfo.Status.Start);
                     }
                     notifyDataSetChanged();
@@ -392,7 +396,9 @@ public class DownloadingFragment extends BaseFragment {
             mVidSts.setAcId(data.getData().getAccessKeyId());
             mVidSts.setAkSceret(data.getData().getKeySecret());
             mVidSts.setSecurityToken(data.getData().getSecurityToken());
-            downloadManager.prepareDownloadMedia(mVidSts);
+            if (downloadManager != null) {
+                downloadManager.prepareDownloadMedia(mVidSts);
+            }
         }
         position++;//0 and 1  size=2
         if (position < offlineCourseActivityParcelableArrayList.size()) {
@@ -432,7 +438,7 @@ public class DownloadingFragment extends BaseFragment {
         DataBaseVideoListBean dataBaseVideoListBean = new DataBaseVideoListBean();
 
         String vid = info.getVid();
-        if (offlineCourseActivityParcelableArrayList.size() > 0) {
+        if (offlineCourseActivityParcelableArrayList != null && offlineCourseActivityParcelableArrayList.size() > 0) {
             int size = offlineCourseActivityParcelableArrayList.size();
             for (int i = 0; i < size; i++) {
                 PreparedDownloadInfoBean bean = offlineCourseActivityParcelableArrayList.get(i);
@@ -653,12 +659,14 @@ public class DownloadingFragment extends BaseFragment {
     //更新item的值
     public void updateInfo(AliyunDownloadMediaInfo aliyunDownloadMediaInfo) {
         AlivcDownloadMediaInfo tmpInfo = null;
-        for (AlivcDownloadMediaInfo info : alivcDownloadingMediaInfos) {
-            if (info.getAliyunDownloadMediaInfo().getVid().equals(aliyunDownloadMediaInfo.getVid()) &&
-                    info.getAliyunDownloadMediaInfo().getQuality().equals(aliyunDownloadMediaInfo.getQuality()) &&
-                    info.getAliyunDownloadMediaInfo().getFormat().equals(aliyunDownloadMediaInfo.getFormat())) {
-                tmpInfo = info;
-                break;
+        if (alivcDownloadingMediaInfos != null) {
+            for (AlivcDownloadMediaInfo info : alivcDownloadingMediaInfos) {
+                if (info.getAliyunDownloadMediaInfo().getVid().equals(aliyunDownloadMediaInfo.getVid()) &&
+                        info.getAliyunDownloadMediaInfo().getQuality().equals(aliyunDownloadMediaInfo.getQuality()) &&
+                        info.getAliyunDownloadMediaInfo().getFormat().equals(aliyunDownloadMediaInfo.getFormat())) {
+                    tmpInfo = info;
+                    break;
+                }
             }
         }
         if (tmpInfo != null) {
@@ -679,9 +687,7 @@ public class DownloadingFragment extends BaseFragment {
     public void showDownloadContentView() {
         if (alivcDownloadingMediaInfos != null && alivcDownloadingMediaInfos.size() > 0) {
             if (loadinglayout != null) {
-                if (loadinglayout != null) {
-                    loadinglayout.showContent();
-                }
+                loadinglayout.showContent();
             }
         } else {
             if (loadinglayout != null) {
@@ -705,8 +711,10 @@ public class DownloadingFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.btn_checkAll://全选
                 isCheckAll = !isCheckAll;
-                for (AlivcDownloadMediaInfo alivcDownloadMediaInfo : alivcDownloadingMediaInfos) {
-                    alivcDownloadMediaInfo.setCheckedState(isCheckAll);
+                if (alivcDownloadingMediaInfos != null) {
+                    for (AlivcDownloadMediaInfo alivcDownloadMediaInfo : alivcDownloadingMediaInfos) {
+                        alivcDownloadMediaInfo.setCheckedState(isCheckAll);
+                    }
                 }
                 notifyDataSetChanged();
                 if (isCheckAll) {//全选
@@ -719,12 +727,14 @@ public class DownloadingFragment extends BaseFragment {
                 break;
             case R.id.btn_delete://删除
                 ArrayList<AlivcDownloadMediaInfo> alivcDownloadMediaInfos = new ArrayList<>();
-                for (AlivcDownloadMediaInfo alivcDownloadMediaInfo : alivcDownloadingMediaInfos) {
-                    if (alivcDownloadMediaInfo.isCheckedState()) {
-                        alivcDownloadMediaInfos.add(alivcDownloadMediaInfo);
+                if (alivcDownloadingMediaInfos != null) {
+                    for (AlivcDownloadMediaInfo alivcDownloadMediaInfo : alivcDownloadingMediaInfos) {
+                        if (alivcDownloadMediaInfo.isCheckedState()) {
+                            alivcDownloadMediaInfos.add(alivcDownloadMediaInfo);
+                        }
                     }
                 }
-                new AlertDialog(offlineCourseActivity).builder()
+                new AlertDialog(getActivity()).builder()
                         .setMsg(getResources().getString(R.string.download_deleteComfirm, alivcDownloadMediaInfos.size()))
                         .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
                             @Override

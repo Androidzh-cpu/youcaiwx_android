@@ -53,8 +53,7 @@ public class CourseListActivity extends BaseActivity implements ICourseListView 
     private int currentPosition;
     private CourseListPresenter courseListPresenter;
     private Context context;
-
-
+    
     @Override
     protected int setContentView() {
         return R.layout.activity_course_list;

@@ -1,7 +1,6 @@
 package com.ucfo.youcaiwx.adapter.answer;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,9 +24,7 @@ import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.answer.AnsweringCourseDetailsBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
-import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
-import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.widget.flowlayout.FlowLayout;
 import com.ucfo.youcaiwx.widget.flowlayout.TagAdapter;
 import com.ucfo.youcaiwx.widget.flowlayout.TagFlowLayout;
@@ -55,7 +52,11 @@ public class AnsweringCourseDetailAdapter extends BaseAdapter<AnsweringCourseDet
         this.context = context;
         transferee = Transferee.getDefault(context);
     }
+    public void notifyChange(List<AnsweringCourseDetailsBean.DataBean.ReplyBean> dataBeanList) {
+        this.list = dataBeanList;
 
+        notifyDataSetChanged();
+    }
     public interface OnItemViewClickListener {
         void OnItemClick(View view, int position);
     }
@@ -129,8 +130,6 @@ public class AnsweringCourseDetailAdapter extends BaseAdapter<AnsweringCourseDet
             holder.mImageRecyclerview.setVisibility(View.VISIBLE);
             LinearLayoutManager layoutManager = new LinearLayoutManager(context);
             layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            int topBottom = DensityUtil.dip2px(context, 4);
-            holder.mImageRecyclerview.addItemDecoration(new SpacesItemDecoration(topBottom, 0, Color.TRANSPARENT));
             holder.mImageRecyclerview.setLayoutManager(layoutManager);
 
             PictureAdapter pictureAdapter = new PictureAdapter(beanQuizImage, context);//创建图片列表适配器

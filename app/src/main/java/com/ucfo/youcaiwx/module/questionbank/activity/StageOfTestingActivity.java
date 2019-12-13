@@ -193,9 +193,11 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
     private void initAdapter() {
         if (questionStageTestAdapter == null) {
             questionStageTestAdapter = new QuestionStageTestAdapter(this, list, plate_id);
+            recyclerview.setAdapter(questionStageTestAdapter);
+        } else {
+            questionStageTestAdapter.notifyChange(list);
         }
-        questionStageTestAdapter.notifyDataSetChanged();
-        recyclerview.setAdapter(questionStageTestAdapter);
+
         questionStageTestAdapter.setItemClick(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

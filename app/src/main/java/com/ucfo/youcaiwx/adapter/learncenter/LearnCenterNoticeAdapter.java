@@ -36,6 +36,12 @@ public class LearnCenterNoticeAdapter extends BaseAdapter<LearncenterHomeBean.Da
         this.context = context;
     }
 
+    public void notifyChange(List<LearncenterHomeBean.DataBean.NewsBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();

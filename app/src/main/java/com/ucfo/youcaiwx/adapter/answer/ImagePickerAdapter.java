@@ -43,7 +43,11 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
         this.context = context;
         this.list = data;
     }
+    public void notifyChange(List<String> dataBeanList) {
+        this.list = dataBeanList;
 
+        notifyDataSetChanged();
+    }
     @Override
     public SelectedPicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(context).inflate(R.layout.item_imageselectr, parent, false);

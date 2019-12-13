@@ -33,6 +33,12 @@ public class QuestionOnRecordAdapter extends BaseAdapter<QuestionOnRecordBean.Da
         this.list = list;
     }
 
+    public void notifyChange(List<QuestionOnRecordBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         QuestionOnRecordBean.DataBean dataBean = list.get(position);
@@ -46,7 +52,7 @@ public class QuestionOnRecordAdapter extends BaseAdapter<QuestionOnRecordBean.Da
         if (!TextUtils.isEmpty(paper_name)) {
             holder.mQuestionrecordTitleItem.setText(paper_name);
         }
-        if (!TextUtils.isEmpty(state)){
+        if (!TextUtils.isEmpty(state)) {
             int parseInt = Integer.parseInt(state);
             switch (parseInt) {
                 case 1://TODO  1成绩统计

@@ -9,10 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.flyco.roundview.RoundTextView;import com.ucfo.youcaiwx.entity.address.AddressListBean;
+import com.flyco.roundview.RoundTextView;
+import com.ucfo.youcaiwx.R;
+import com.ucfo.youcaiwx.entity.address.AddressListBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
-import com.ucfo.youcaiwx.R;
 
 import java.util.List;
 
@@ -30,6 +31,12 @@ public class UserAddressListAdapter extends BaseAdapter<AddressListBean.DataBean
     public UserAddressListAdapter(List<AddressListBean.DataBean> list, Context context) {
         this.list = list;
         this.context = context;
+    }
+
+    public void notifyChange(List<AddressListBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
     }
 
     @Override

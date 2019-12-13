@@ -30,6 +30,12 @@ public class MineQuestionCollectionListAdapter extends BaseExpandableListAdapter
         this.context = context;
     }
 
+    public void notifyChange(ArrayList<MineQuestionCollectionListBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getGroupCount() {
         return list == null ? 0 : list.size();

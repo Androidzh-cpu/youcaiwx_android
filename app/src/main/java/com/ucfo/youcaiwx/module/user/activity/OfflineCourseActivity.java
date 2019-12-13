@@ -109,18 +109,6 @@ public class OfflineCourseActivity extends BaseActivity {
 
                     @Override
                     public void onPermissionDenied(Permission[] refusedPermissions) {
-/*
-                        if (refusedPermissions != null && refusedPermissions.length > 0) {
-                            if (refusedPermissions[0] != null || refusedPermissions[1] != null) {
-                                Permission permission = refusedPermissions[0];
-                                Permission permission1 = refusedPermissions[1];
-                                if (permission.shouldRationale() || permission1.shouldRationale()) {
-                                } else {
-                                    Toast.makeText(context, context.getResources().getString(R.string.permission_explication), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }
-*/
                         AlertDialog.Builder builder = new AlertDialog.Builder(OfflineCourseActivity.this, R.style.WhiteDialogStyle);
                         builder.setTitle(OfflineCourseActivity.this.getResources().getString(R.string.explication));
                         builder.setMessage(OfflineCourseActivity.this.getResources().getString(R.string.permission_sdcard));

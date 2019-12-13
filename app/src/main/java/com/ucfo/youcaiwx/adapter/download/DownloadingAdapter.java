@@ -36,6 +36,7 @@ public class DownloadingAdapter extends BaseAdapter {
 
     public void setData(ArrayList<AlivcDownloadMediaInfo> arrayList) {
         this.list = arrayList;
+
         notifyDataSetChanged();
     }
 
@@ -112,23 +113,23 @@ public class DownloadingAdapter extends BaseAdapter {
                 holder.downloadProgressBar.setVisibility(View.GONE);
                 break;
             case Error:
-                holder.downloadBtn.setImageDrawable(ContextCompat.getDrawable(context,R.mipmap.icon_down_start));
+                holder.downloadBtn.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_down_start));
                 holder.downloadStatus.setText(context.getResources().getString(R.string.download_downloadError));
                 break;
             case Stop:
-                holder.downloadBtn.setImageDrawable(ContextCompat.getDrawable(context,R.mipmap.icon_down_start));
+                holder.downloadBtn.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_down_start));
                 holder.downloadStatus.setText(context.getResources().getString(R.string.download_downloadStop));
                 break;
             case Wait:
-                holder.downloadBtn.setImageDrawable(ContextCompat.getDrawable(context,R.mipmap.icon_down_start));
+                holder.downloadBtn.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_down_start));
                 holder.downloadStatus.setText(context.getResources().getString(R.string.download_downloadWait));
                 break;
             case Prepare:
-                holder.downloadBtn.setImageDrawable(ContextCompat.getDrawable(context,R.mipmap.icon_down_start));
+                holder.downloadBtn.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_down_start));
                 holder.downloadStatus.setText(context.getResources().getString(R.string.download_downloadPrepared));
                 break;
             case Start:
-                holder.downloadBtn.setImageDrawable(ContextCompat.getDrawable(context,R.mipmap.icon_down_pause));
+                holder.downloadBtn.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_down_pause));
                 holder.downloadStatus.setText(context.getResources().getString(R.string.download_downloading));
                 break;
             default:

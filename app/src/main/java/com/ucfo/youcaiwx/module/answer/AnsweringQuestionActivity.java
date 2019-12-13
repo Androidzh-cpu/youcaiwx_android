@@ -201,6 +201,7 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
                 list.clear();
                 list.addAll(replyBeanList);
                 initTopTitle(topicsBean);
+
                 initAdapter();
 
                 if (loadinglayout != null) {
@@ -219,12 +220,12 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
     }
 
     private void initAdapter() {
-        if (null == answeringQuestionDetailAdapter) {
+        if (answeringQuestionDetailAdapter == null) {
             answeringQuestionDetailAdapter = new AnsweringQuestionDetailAdapter(list, this);
+            recyclerview.setAdapter(answeringQuestionDetailAdapter);
         } else {
-            answeringQuestionDetailAdapter.notifyDataSetChanged();
+            answeringQuestionDetailAdapter.notifyChange(list);
         }
-        recyclerview.setAdapter(answeringQuestionDetailAdapter);
 
         //投诉
         answeringQuestionDetailAdapter.setComplainClick(new AnsweringQuestionDetailAdapter.OnItemViewClickListener() {

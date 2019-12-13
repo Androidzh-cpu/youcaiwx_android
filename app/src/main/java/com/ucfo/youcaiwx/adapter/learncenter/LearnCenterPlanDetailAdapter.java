@@ -93,6 +93,12 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         }
     }
 
+    public void notifyChange(List<LearncenterHomeBean.DataBean.LearnListBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();

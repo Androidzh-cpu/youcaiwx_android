@@ -38,6 +38,12 @@ public class HomeNewsAdapter extends BaseAdapter<HomeBean.DataBean.CurriculumBea
         this.context = context;
     }
 
+    public void notifyChange(List<HomeBean.DataBean.InformationBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();

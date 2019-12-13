@@ -22,7 +22,7 @@ import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.widget.customview.NiceImageView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: AND
@@ -32,11 +32,11 @@ import java.util.ArrayList;
  */
 public class MineOrderFormListAdapter extends BaseAdapter<MineOrderListBean.DataBean, MineOrderFormListAdapter.ViewHolder> {
     private MineOrderFormActivity context;
-    private ArrayList<MineOrderListBean.DataBean> list;
+    private List<MineOrderListBean.DataBean> list;
     private final String RMB;
     private IOrderCallback callback;
 
-    public MineOrderFormListAdapter(MineOrderFormActivity context, ArrayList<MineOrderListBean.DataBean> list) {
+    public MineOrderFormListAdapter(MineOrderFormActivity context, List<MineOrderListBean.DataBean> list) {
         this.context = context;
         this.list = list;
         RMB = context.getResources().getString(R.string.RMB);
@@ -44,6 +44,11 @@ public class MineOrderFormListAdapter extends BaseAdapter<MineOrderListBean.Data
 
     public void setOthersClick(IOrderCallback iOrderCallback) {
         this.callback = iOrderCallback;
+    }
+
+    public void notifyChange(List<MineOrderListBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+        notifyDataSetChanged();
     }
 
     public interface IOrderCallback {

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.user.MineCourseCollectionDirBean;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: AND
@@ -23,12 +23,18 @@ import java.util.ArrayList;
  */
 public class MineCourseCollectionDirAdapter extends BaseExpandableListAdapter {
     private Context context;
-    private ArrayList<MineCourseCollectionDirBean.DataBean.SectionBean> list;
+    private List<MineCourseCollectionDirBean.DataBean.SectionBean> list;
     private int groupIndex = -1, sonIndex = -1;
 
-    public MineCourseCollectionDirAdapter(Context context, ArrayList<MineCourseCollectionDirBean.DataBean.SectionBean> list) {
+    public MineCourseCollectionDirAdapter(Context context, List<MineCourseCollectionDirBean.DataBean.SectionBean> list) {
         this.context = context;
         this.list = list;
+    }
+
+    public void notifyChange(List<MineCourseCollectionDirBean.DataBean.SectionBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
     }
 
     @Override
@@ -122,11 +128,11 @@ public class MineCourseCollectionDirAdapter extends BaseExpandableListAdapter {
                     childholder.course_titme.setText(videoBean.getVideo_time());
                 }
                 if (groupIndex == groupPosition && sonIndex == childPosition) {
-                    childholder.course_sectionname.setTextColor(ContextCompat.getColor(context,R.color.color_0267FF));
-                    childholder.course_titme.setTextColor(ContextCompat.getColor(context,R.color.color_0267FF));
+                    childholder.course_sectionname.setTextColor(ContextCompat.getColor(context, R.color.color_0267FF));
+                    childholder.course_titme.setTextColor(ContextCompat.getColor(context, R.color.color_0267FF));
                 } else {
-                    childholder.course_sectionname.setTextColor(ContextCompat.getColor(context,R.color.color_666666));
-                    childholder.course_titme.setTextColor(ContextCompat.getColor(context,R.color.color_999999));
+                    childholder.course_sectionname.setTextColor(ContextCompat.getColor(context, R.color.color_666666));
+                    childholder.course_titme.setTextColor(ContextCompat.getColor(context, R.color.color_999999));
                 }
             }
         }

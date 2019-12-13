@@ -40,6 +40,11 @@ public class HomeCourseRecommendAdapter extends BaseAdapter<HomeBean.DataBean.Cu
         this.list = list;
     }
 
+    public void notifyChange(List<HomeBean.DataBean.CurriculumBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
 
     public int getItemCount() {
         return list == null ? 0 : list.size();
@@ -59,7 +64,7 @@ public class HomeCourseRecommendAdapter extends BaseAdapter<HomeBean.DataBean.Cu
             RequestOptions requestOptions = new RequestOptions()
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
-                    .transform(new CenterCrop(),new RoundedCorners(DensityUtil.dp2px(5)))
+                    .transform(new CenterCrop(), new RoundedCorners(DensityUtil.dp2px(5)))
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
             GlideUtils.load(context, app_img, holder.mCourseImageItem, requestOptions);
         }

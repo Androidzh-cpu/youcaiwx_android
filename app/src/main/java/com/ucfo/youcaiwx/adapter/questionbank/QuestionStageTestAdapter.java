@@ -37,6 +37,12 @@ public class QuestionStageTestAdapter extends BaseAdapter<QuestionStageOfTestBea
         this.plate_id = plate_id;
     }
 
+    public void notifyChange(ArrayList<QuestionStageOfTestBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();

@@ -181,9 +181,11 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
     private void initAdapter() {
         if (courseAdapter == null) {
             courseAdapter = new MineCourseAdapter(this, list);
+            recyclerview.setAdapter(courseAdapter);
+        } else {
+            courseAdapter.notifyChange(list);
         }
-        courseAdapter.notifyDataSetChanged();
-        recyclerview.setAdapter(courseAdapter);
+
         courseAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

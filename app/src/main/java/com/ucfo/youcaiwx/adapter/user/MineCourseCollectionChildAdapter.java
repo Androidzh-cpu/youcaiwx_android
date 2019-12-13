@@ -13,7 +13,7 @@ import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.user.MineCourseChildListBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: AND
@@ -23,11 +23,17 @@ import java.util.ArrayList;
  */
 public class MineCourseCollectionChildAdapter extends BaseAdapter<MineCourseChildListBean.DataBean, MineCourseCollectionChildAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<MineCourseChildListBean.DataBean> list;
+    private List<MineCourseChildListBean.DataBean> list;
 
-    public MineCourseCollectionChildAdapter(Context context, ArrayList<MineCourseChildListBean.DataBean> list) {
+    public MineCourseCollectionChildAdapter(Context context, List<MineCourseChildListBean.DataBean> list) {
         this.context = context;
         this.list = list;
+    }
+
+    public void notifyChange(List<MineCourseChildListBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
     }
 
     @Override

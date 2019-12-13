@@ -216,10 +216,10 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
     private void initAdapter() {
         if (courseDetailAdapter == null) {
             courseDetailAdapter = new AnsweringCourseDetailAdapter(list, this);
+            recyclerview.setAdapter(courseDetailAdapter);
         }
         if (courseDetailAdapter != null) {
-            courseDetailAdapter.notifyDataSetChanged();
-            recyclerview.setAdapter(courseDetailAdapter);
+            courseDetailAdapter.notifyChange(list);
         }
 
         //投诉

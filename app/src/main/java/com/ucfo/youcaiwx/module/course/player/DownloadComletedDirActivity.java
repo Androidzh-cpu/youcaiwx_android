@@ -22,7 +22,6 @@ import com.ucfo.youcaiwx.entity.download.DataBaseSectioinListBean;
 import com.ucfo.youcaiwx.entity.download.DataBaseVideoListBean;
 import com.ucfo.youcaiwx.entity.download.DownloadCompletedDirBean;
 import com.ucfo.youcaiwx.module.course.player.download.DownloadSaveInfoUtil;
-import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
@@ -124,16 +123,23 @@ public class DownloadComletedDirActivity extends BaseActivity {
         list = new ArrayList<>();
 
         List<DataBaseCourseListBean> courseListBeans = LitePal.where("courseId = ?", courseid).find(DataBaseCourseListBean.class);
-        courseName.setText(courseListBeans.get(0).getCourseTitle());
-        courseTeacherName.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + "  " + courseListBeans.get(0).getTeacherName()));
+        if (courseListBeans != null && courseListBeans.size() > 0) {
+            courseName.setText(courseListBeans.get(0).getCourseTitle());
+            courseTeacherName.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + "  " + courseListBeans.get(0).getTeacherName()));
+        }
 
         if (UcfoApplication.downloadManager != null) {
             downloadManager = UcfoApplication.downloadManager;
             downloadSaveInfoUtil = new DownloadSaveInfoUtil(downloadManager.getSaveDir());
         }
 
+        /**
+         * 查询数据库
+         */
         findDataFromDatabase();
-
+        /**
+         * 更新适配器
+         */
         initAdapter();
     }
 
@@ -198,7 +204,6 @@ public class DownloadComletedDirActivity extends BaseActivity {
      * 查询本地数据库存储的视频文件
      */
     private void findDataFromDatabase() {
-        setProcessLoading(null, false);
         if (list == null) {
             list = new ArrayList<>();
         }
@@ -209,21 +214,31 @@ public class DownloadComletedDirActivity extends BaseActivity {
 
         //TODO 查询该课程下所有的section
         List<DataBaseSectioinListBean> sectioinListBeanList = LitePal.where("courseId = ?", courseid).find(DataBaseSectioinListBean.class);
-        if (sectioinListBeanList != null && sectioinListBeanList.size() > 0) {//TODO 有章节
+        if (sectioinListBeanList != null && sectioinListBeanList.size() > 0) {
+            //TODO 有章节
+
             int sectionSize = sectioinListBeanList.size();
-            for (int i = 0; i < sectionSize; i++) {//TODO 循环章节查找视频
-                DownloadCompletedDirBean.DataBean dataBean = new DownloadCompletedDirBean.DataBean();//TODO 创建章
+            for (int i = 0; i < sectionSize; i++) {
+                //TODO 循环章节查找视频
+
+                //TODO 创建章
+                DownloadCompletedDirBean.DataBean dataBean = new DownloadCompletedDirBean.DataBean();
 
                 DataBaseSectioinListBean dataBaseSectioinListBean = sectioinListBeanList.get(i);
                 String sectionId = dataBaseSectioinListBean.getSectionId();
                 String sectionName = dataBaseSectioinListBean.getSectionName();
                 String courseId = dataBaseSectioinListBean.getCourseId();
+
                 //TODO 查询该section集合下的所有已完成的视频数据
                 List<DataBaseVideoListBean> videoListBeanList = LitePal.where("sectionId = ? and status = ?", sectionId, "1").find(DataBaseVideoListBean.class);
-                if (videoListBeanList != null && videoListBeanList.size() > 0) {//TODO 判断该章下的已完成的视频数量
+                if (videoListBeanList != null && videoListBeanList.size() > 0) {
+                    //TODO 判断该章下的已完成的视频数量
+
                     int videoSize = videoListBeanList.size();
                     List<DownloadCompletedDirBean.DataBean.SonBean> sonBeanList = new ArrayList<>();
-                    for (int j = 0; j < videoSize; j++) {//循环该章下属视频列表,添加至List中
+                    for (int j = 0; j < videoSize; j++) {
+                        //循环该章下属视频列表,添加至List中
+
                         DataBaseVideoListBean bean = videoListBeanList.get(j);
                         String beanCourseId = bean.getCourseId();
                         String beanSectionId = bean.getSectionId();
@@ -241,17 +256,23 @@ public class DownloadComletedDirActivity extends BaseActivity {
                         }
                     }
                     //TODO 添加视频列表至张目录下
-                    dataBean.setCourseId(courseId);//todo 设置数据源
+
+                    //todo 设置数据源
+                    dataBean.setCourseId(courseId);
                     dataBean.setSectionName(sectionName);
                     dataBean.setSectionId(sectionId);
                     dataBean.setSon(sonBeanList);
 
                     beanList.add(dataBean);
-                } else {//TODO 章属下没有已完成的视频
-                    List<DataBaseVideoListBean> videoListBeans = LitePal.where("sectionId = ? and status = ?", sectionId, "0").find(DataBaseVideoListBean.class);
-                    if (videoListBeans != null && videoListBeans.size() > 0) {//有未完成的视频
+                } else {
+                    //TODO 章属下没有已完成的视频
 
-                    } else {//完成的和未完成的视频都没有,删除该章节
+                    List<DataBaseVideoListBean> videoListBeans = LitePal.where("sectionId = ? and status = ?", sectionId, "0").find(DataBaseVideoListBean.class);
+                    if (videoListBeans != null && videoListBeans.size() > 0) {
+                        //有未完成的视频
+
+                    } else {
+                        //完成的和未完成的视频都没有,删除该章节
                         LitePal.deleteAll(DataBaseSectioinListBean.class, "courseId = ? and sectionId = ?", courseid, sectionId);
                     }
                 }
@@ -259,12 +280,6 @@ public class DownloadComletedDirActivity extends BaseActivity {
 
         }
         list.addAll(beanList);
-        outputLog("list :" + list.toString());
-        dismissPorcess();
-    }
-
-    private void outputLog(String text) {
-        LogUtils.e("DB : " + text);
     }
 
     private boolean isCheckAll = false;
@@ -308,7 +323,8 @@ public class DownloadComletedDirActivity extends BaseActivity {
                     btnCheckAll.setText(getResources().getString(R.string.checkAll));
                 }
                 break;
-            case R.id.btn_delete://TODO 删除
+            case R.id.btn_delete:
+                //TODO 删除
                 deleteVideoFromDatabase();
                 break;
             default:
@@ -328,7 +344,7 @@ public class DownloadComletedDirActivity extends BaseActivity {
                 }
             }
         }
-        new AlertDialog(context).builder()
+        new AlertDialog(this).builder()
                 .setMsg(getResources().getString(R.string.download_deleteComfirm, String.valueOf(i)))
                 .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
                     @Override
@@ -345,7 +361,7 @@ public class DownloadComletedDirActivity extends BaseActivity {
                                 }
                             }
                         }
-                        if (vidList != null && vidList.size() > 0) {
+                        if (vidList.size() > 0) {
                             //TODO 选中视频的VID
                             for (int j = 0; j < vidList.size(); j++) {
                                 String vid = vidList.get(j);
@@ -375,7 +391,8 @@ public class DownloadComletedDirActivity extends BaseActivity {
                              */
                             findDataFromDatabase();
                             notifyDataSetChanged();
-                        } else {//TODO 没有选中的视频 nothing
+                        } else {
+                            //TODO 没有选中的视频 nothing
                             ToastUtil.showBottomShortText(context, getResources().getString(R.string.no_delete));
                         }
                     }

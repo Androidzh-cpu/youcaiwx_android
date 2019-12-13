@@ -457,12 +457,12 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
      */
     private void initLiveAdapter(List<HomeBean.DataBean.BroadcastBean> liveList) {
         if (homeLiveAdapter == null) {
-            homeLiveAdapter = new HomeLiveAdapter(liveList, context);
+            homeLiveAdapter = new HomeLiveAdapter(liveList, getActivity());
+            recyclerviewLive.setAdapter(homeLiveAdapter);
         } else {
-            homeLiveAdapter.notifyDataSetChanged();
+            homeLiveAdapter.notifyChange(liveList);
         }
         recyclerviewLive.setItemAnimator(new DefaultItemAnimator());
-        recyclerviewLive.setAdapter(homeLiveAdapter);
         homeLiveAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -482,12 +482,12 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     private void initCourseAdapter(List<HomeBean.DataBean.CurriculumBean> courseList) {
         //设置适配器
         if (homeCourseRecommendAdapter == null) {
-            homeCourseRecommendAdapter = new HomeCourseRecommendAdapter(courseList, context);
+            homeCourseRecommendAdapter = new HomeCourseRecommendAdapter(courseList, getActivity());
+            recyclerviewCourse.setAdapter(homeCourseRecommendAdapter);
         } else {
-            homeCourseRecommendAdapter.notifyDataSetChanged();
+            homeCourseRecommendAdapter.notifyChange(courseList);
         }
         recyclerviewCourse.setItemAnimator(new DefaultItemAnimator());
-        recyclerviewCourse.setAdapter(homeCourseRecommendAdapter);
         homeCourseRecommendAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -517,7 +517,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         layoutManager3.setReverseLayout(false);
         recyclerviewLive.setLayoutManager(layoutManager3);
 
-        int topBottom = DensityUtil.dip2px(context, 10);
+        int topBottom = DensityUtil.dip2px(getActivity(), 10);
         //recyclerviewNews.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
         recyclerviewCourse.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
 
@@ -541,12 +541,12 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         //设置适配器
         if (homeNewsAdapter == null) {
             homeNewsAdapter = new HomeNewsAdapter(newLists, context);
+            recyclerviewNews.setAdapter(homeNewsAdapter);
         } else {
-            homeNewsAdapter.notifyDataSetChanged();
+            homeNewsAdapter.notifyChange(newLists);
         }
 
         recyclerviewNews.setItemAnimator(new DefaultItemAnimator());
-        recyclerviewNews.setAdapter(homeNewsAdapter);
         homeNewsAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

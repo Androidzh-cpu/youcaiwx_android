@@ -176,10 +176,9 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
     private void initAdapter(List<CourseDataListBean.DataBean> courseList) {
         if (courseChildListApapter == null) {
             courseChildListApapter = new CourseChildListApapter(courseList, getActivity());
-        }
-        courseChildListApapter.notifyDataSetChanged();
-        if (recyclerview != null) {
             recyclerview.setAdapter(courseChildListApapter);
+        } else {
+            courseChildListApapter.notifyChange(courseList);
         }
         courseChildListApapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override

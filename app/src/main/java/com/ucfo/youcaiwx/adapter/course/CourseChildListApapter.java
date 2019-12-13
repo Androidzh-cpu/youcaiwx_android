@@ -39,6 +39,12 @@ public class CourseChildListApapter extends BaseAdapter<CourseDataListBean.DataB
         this.context = context;
     }
 
+    public void notifyChange(List<CourseDataListBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();

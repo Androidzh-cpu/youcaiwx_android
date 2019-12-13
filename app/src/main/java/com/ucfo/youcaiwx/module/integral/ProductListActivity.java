@@ -201,10 +201,10 @@ public class ProductListActivity extends BaseActivity implements IIntegralGoodsL
         if (TextUtils.equals(type, Constant.INTEGRAL_TYPE_PRODUCT)) {
             if (integralProductAdapter == null) {
                 integralProductAdapter = new IntegralProductAdapter(list, this);
+                recyclerview.setAdapter(integralProductAdapter);
             } else {
-                integralProductAdapter.notifyDataSetChanged();
+                integralProductAdapter.notifyChange(list);
             }
-            recyclerview.setAdapter(integralProductAdapter);
             integralProductAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
@@ -218,10 +218,10 @@ public class ProductListActivity extends BaseActivity implements IIntegralGoodsL
         } else if (TextUtils.equals(type, Constant.INTEGRAL_TYPE_COUPON)) {
             if (integralCouponAdapter == null) {
                 integralCouponAdapter = new IntegralCouponAdapter(this, list);
+                recyclerview.setAdapter(integralCouponAdapter);
             } else {
-                integralCouponAdapter.notifyDataSetChanged();
+                integralCouponAdapter.notifyChange(list);
             }
-            recyclerview.setAdapter(integralCouponAdapter);
             integralCouponAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {

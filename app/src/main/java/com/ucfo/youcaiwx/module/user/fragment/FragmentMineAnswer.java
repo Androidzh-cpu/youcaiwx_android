@@ -190,11 +190,11 @@ public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView 
 
     private void initAdapter() {
         if (courseAnswerListAdapter == null) {
-            courseAnswerListAdapter = new CourseAnswerListAdapter(list, context, type);
+            courseAnswerListAdapter = new CourseAnswerListAdapter(list, getActivity(), type);
+            recyclerview.setAdapter(courseAnswerListAdapter);
         } else {
-            courseAnswerListAdapter.notifyDataSetChanged();
+            courseAnswerListAdapter.notifyChange(list);
         }
-        recyclerview.setAdapter(courseAnswerListAdapter);
         courseAnswerListAdapter.setItemClick(new CourseAnswerListAdapter.OnItemViewClickListener() {
             @Override
             public void OnItemClick(View view, int position) {

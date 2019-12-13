@@ -204,11 +204,10 @@ public class AnnouncementCenterActivity extends BaseActivity implements IMessage
     private void initAdapter() {
         if (messageNoticeAdapter == null) {
             messageNoticeAdapter = new MessageNoticeAdapter(list, context);
+            recyclerview.setAdapter(messageNoticeAdapter);
         } else {
-            messageNoticeAdapter.notifyDataSetChanged();
+            messageNoticeAdapter.notifyChange(list);
         }
-        recyclerview.setAdapter(messageNoticeAdapter);
-
         messageNoticeAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

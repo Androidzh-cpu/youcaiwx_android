@@ -147,15 +147,17 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        updateDataInfo();
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            updateDataInfo();
+        }
     }
 
     @Override
@@ -209,6 +211,13 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
             }
         });
 
+        /**
+         * 刷新用户数据
+         */
+        updateDataInfo();
+        /**
+         * 获取活动
+         */
         initActive();
     }
 
@@ -216,6 +225,9 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
      * 活动弹窗
      */
     private void initActive() {
+        if (sharedPreferencesUtils == null) {
+            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
+        }
         boolean loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         if (!loginStatus) {
             OkGo.<String>post(ApiStores.ACTIVEEVENT)
@@ -266,6 +278,9 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
 
     //获取学习中心首页数据
     public void updateDataInfo() {
+        if (sharedPreferencesUtils == null) {
+            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getActivity());
+        }
         loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         //刷新学习中心首页数据
@@ -400,9 +415,13 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                 initPlanAdapter();
             }
             userInfoClear();
-        } else {//已登录
-            int state = dataData.getState();//TODO 是否有未完成的学习计划    1有未读2已读
-            int addlearn = dataData.getAddlearn();//TODO 是否拥有学习计划     1有2没有
+        } else {
+            //已登录
+
+            //TODO 是否有未完成的学习计划    1有未读2已读
+            int state = dataData.getState();
+            //TODO 是否拥有学习计划     1有2没有
+            int addlearn = dataData.getAddlearn();
             if (dataData.getUser() != null) {
                 LearncenterHomeBean.DataBean.UserBean userBean = dataData.getUser();
                 int card = userBean.getCard();//打卡天数
@@ -423,13 +442,16 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                 userInfoClear();
             }
             ///////////////////////////////TODO 再丑也要看的分割线///////////////////////////////////////////////
-            switch (addlearn) {//TODO 学习计划
-                case 1://todo 有学习计划
+            switch (addlearn) {
+                //TODO 学习计划
+                case 1:
+                    //todo 有学习计划
                     linearPlan.setVisibility(linearPlan.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//学习计划列表
                     linearPlandetail.setVisibility(linearPlandetail.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//学习计划详情
                     linearNotice.setVisibility(linearNotice.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//学习公告
                     break;
-                case 2://todo 没有学习计划
+                case 2:
+                    //todo 没有学习计划
                     linearPlan.setVisibility(linearPlan.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//学习计划列表
                     linearPlandetail.setVisibility(linearPlandetail.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//学习计划详情
                     linearNotice.setVisibility(linearNotice.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//学习公告
@@ -467,14 +489,16 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
         }
     }
 
-    //学习公告
+    /**
+     * 学习公告
+     */
     private void initNoticeAdapter() {
         if (learnCenterNoticeAdapter == null) {
             learnCenterNoticeAdapter = new LearnCenterNoticeAdapter(newsBeanList, context);
+            listviewNotice.setAdapter(learnCenterNoticeAdapter);
         } else {
-            learnCenterNoticeAdapter.notifyDataSetChanged();
+            learnCenterNoticeAdapter.notifyChange(newsBeanList);
         }
-        listviewNotice.setAdapter(learnCenterNoticeAdapter);
         learnCenterNoticeAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -486,14 +510,17 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
         });
     }
 
-    //学习计划
+    /**
+     * 可以参加的学习计划
+     */
     private void initPlanAdapter() {
         if (learncenterPlanAdapter == null) {
             learncenterPlanAdapter = new LearncenterPlanAdapter(planBeanList, context);
+            listviewPlan.setAdapter(learncenterPlanAdapter);
         } else {
-            learncenterPlanAdapter.notifyDataSetChanged();
+            learncenterPlanAdapter.notifyChange(planBeanList);
         }
-        listviewPlan.setAdapter(learncenterPlanAdapter);
+
         learncenterPlanAdapter.setItemClick(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -509,15 +536,19 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
         });
     }
 
-    //学习计划详情
+    /**
+     * 已参加的学习计划详情
+     */
     private void initPlanDetailAdapter() {
         if (learnCenterPlanDetailAdapter == null) {
             learnCenterPlanDetailAdapter = new LearnCenterPlanDetailAdapter(learnList, context);
+            listviewPlandetail.setAdapter(learnCenterPlanDetailAdapter);
         } else {
-            learnCenterPlanDetailAdapter.notifyDataSetChanged();
+            learnCenterPlanDetailAdapter.notifyChange(learnList);
         }
+        //设置用户头像
         learnCenterPlanDetailAdapter.setUserBeanHead(userBeanHead);
-        listviewPlandetail.setAdapter(learnCenterPlanDetailAdapter);
+
         learnCenterPlanDetailAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -546,9 +577,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     @Override
     public void showError() {
         if (loadinglayout != null) {
-            if (loadinglayout != null) {
-                loadinglayout.showError();
-            }
+            loadinglayout.showError();
         }
     }
 

@@ -17,7 +17,7 @@ import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.user.MineCouponsBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: AND
@@ -27,16 +27,22 @@ import java.util.ArrayList;
  */
 public class MineCouponsAdapter extends BaseAdapter<MineCouponsBean.DataBean, MineCouponsAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<MineCouponsBean.DataBean> list;
+    private List<MineCouponsBean.DataBean> list;
     private int type;
     private final Drawable usableCoupon, unusedCoupon;
 
-    public MineCouponsAdapter(Context context, ArrayList<MineCouponsBean.DataBean> list, int type) {
+    public MineCouponsAdapter(Context context, List<MineCouponsBean.DataBean> list, int type) {
         this.context = context;
         this.list = list;
         this.type = type;
         usableCoupon = ContextCompat.getDrawable(context, R.mipmap.icon_usable_coupon);
         unusedCoupon = ContextCompat.getDrawable(context, R.mipmap.icon_unused_coupon);
+    }
+
+    public void notifyChange(List<MineCouponsBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
     }
 
     @Override

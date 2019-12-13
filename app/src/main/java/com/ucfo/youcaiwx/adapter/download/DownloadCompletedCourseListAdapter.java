@@ -38,6 +38,12 @@ public class DownloadCompletedCourseListAdapter extends BaseAdapter<DataBaseCour
         notifyDataSetChanged();
     }
 
+    public void notifyChange(List<DataBaseCourseListBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();
