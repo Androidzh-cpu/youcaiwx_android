@@ -253,10 +253,10 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
     private void initAdapter() {
         if (dateAdapter == null) {
             dateAdapter = new LearnPlanDetailDateAdapter(context, list);
+            calendarListview.setAdapter(dateAdapter);
         } else {
-            dateAdapter.notifyDataSetChanged();
+            dateAdapter.notifyChange(list);
         }
-        calendarListview.setAdapter(dateAdapter);
         dateAdapter.setItemClick(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -296,7 +296,9 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                 //是否是当天计划
                 gridLayoutManager.smoothScrollToPosition(calendarListview, new RecyclerView.State(), i);
                 list.get(i).setChecked(true);
-                dateAdapter.notifyDataSetChanged();
+                if (dateAdapter != null) {
+                    dateAdapter.notifyDataSetChanged();
+                }
                 //设置日期
                 LearnPlanDetailBean.DataBean.DateBean bean = list.get(i);
                 englishMonth.setText(bean.getYmonth());
@@ -318,11 +320,15 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
             }
         }
         if (flag) {
-            list.get(0).setChecked(true);
-            dateAdapter.notifyDataSetChanged();
-            int sameday = list.get(0).getSameday();
-            currentDay = list.get(0).getDays();
-            planDetailPresenter.getLearnPlanDetailVideoList(user_id, course_id, plan_id, type, sameday, currentDay);
+            if (list.size() > 0) {
+                list.get(0).setChecked(true);
+                if (dateAdapter != null) {
+                    dateAdapter.notifyDataSetChanged();
+                }
+                int sameday = list.get(0).getSameday();
+                currentDay = list.get(0).getDays();
+                planDetailPresenter.getLearnPlanDetailVideoList(user_id, course_id, plan_id, type, sameday, currentDay);
+            }
         }
     }
 
@@ -357,10 +363,10 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
         if (videoList.size() > 0) {
             if (learnPlanDetailCourseAdapter == null) {
                 learnPlanDetailCourseAdapter = new LearnPlanDetailCourseAdapter(context, videoList);
+                listView.setAdapter(learnPlanDetailCourseAdapter);
             } else {
-                learnPlanDetailCourseAdapter.notifyDataSetChanged();
+                learnPlanDetailCourseAdapter.notifyChange(videoList);
             }
-            listView.setAdapter(learnPlanDetailCourseAdapter);
             learnPlanDetailCourseAdapter.setItemClick(new LearnPlanDetailCourseAdapter.OnItemClickListener() {
                 @Override
                 public void setOnNoteClick(int position) {

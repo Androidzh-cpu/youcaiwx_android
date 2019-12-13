@@ -209,10 +209,9 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
     private void initAdapter() {
         if (mineCourseAdapter == null) {
             mineCourseAdapter = new MineCourseAdapter(getActivity(), list);
-        }
-        if (mineCourseAdapter != null) {
-            mineCourseAdapter.notifyDataSetChanged();
             recyclerview.setAdapter(mineCourseAdapter);
+        } else {
+            mineCourseAdapter.notifyChange(list);
         }
         mineCourseAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override

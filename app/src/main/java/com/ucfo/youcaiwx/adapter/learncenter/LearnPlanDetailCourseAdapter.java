@@ -39,6 +39,12 @@ public class LearnPlanDetailCourseAdapter extends BaseAdapter<LearnPlanDetailVid
         this.list = list;
     }
 
+    public void notifyChange(List<LearnPlanDetailVideoBean.DataBean.VideoBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     private OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener {

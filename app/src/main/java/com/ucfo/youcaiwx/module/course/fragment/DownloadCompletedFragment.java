@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.aliyun.vodplayer.downloader.AliyunDownloadManager;
 import com.aliyun.vodplayer.downloader.AliyunDownloadMediaInfo;
-import com.google.gson.Gson;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.UcfoApplication;
 import com.ucfo.youcaiwx.adapter.download.DownloadCompletedCourseListAdapter;
@@ -30,7 +29,6 @@ import com.ucfo.youcaiwx.module.course.player.DownloadComletedDirActivity;
 import com.ucfo.youcaiwx.module.course.player.download.DownloadSaveInfoUtil;
 import com.ucfo.youcaiwx.module.course.player.download.StorageQueryUtil;
 import com.ucfo.youcaiwx.module.user.activity.OfflineCourseActivity;
-import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
@@ -149,8 +147,6 @@ public class DownloadCompletedFragment extends BaseFragment {
         finalList.clear();
         list.addAll(LitePal.findAll(DataBaseCourseListBean.class));
 
-        LogUtils.e("updateDataBase  befor", "list: " + new Gson().toJson(list));
-
         if (list != null && list.size() > 0) {
             for (DataBaseCourseListBean courseListBean : list) {
                 //遍历该课程下的视频
@@ -227,8 +223,6 @@ public class DownloadCompletedFragment extends BaseFragment {
                 loadinglayout.showEmpty();
             }
         }
-
-        LogUtils.e("updateDataBase  after", "list: " + new Gson().toJson(list));
     }
 
     private void checkAndUnChecked(List<DataBaseCourseListBean> beans) {

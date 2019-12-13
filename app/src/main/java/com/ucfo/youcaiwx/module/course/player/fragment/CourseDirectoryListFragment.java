@@ -44,10 +44,6 @@ import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Author:29117
  * Time: 2019-4-3.  上午 10:02
@@ -58,15 +54,10 @@ import butterknife.Unbinder;
  */
 public class CourseDirectoryListFragment extends BaseFragment implements ICourseDirView {
 
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
-    @BindView(R.id.refreshlayout)
-    SmartRefreshLayout refreshlayout;
-    @BindView(R.id.layout_main)
-    ConstraintLayout layoutMain;
-    LoadingLayout loadinglayout;
-
-    Unbinder unbinder;
+    private RecyclerView recyclerview;
+    private SmartRefreshLayout refreshlayout;
+    private ConstraintLayout layoutMain;
+    private LoadingLayout loadinglayout;
 
     private VideoPlayPageActivity videoPlayPageActivity;
     private int coursePackageId;
@@ -80,22 +71,6 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     private int currentPlayCourseIndex = -1, currentClickCourseIndex = -1;//当前播放的课程所属套餐索引值;  当前点击的课程所属套餐索引值
     private int groupIndex = -1, sonIndex = -1, courseBuyState;
     private boolean loginStatus;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView != null) {
-            unbinder = ButterKnife.bind(this, rootView);
-        }
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     /**
      * Description:CourseDirectoryListFragment
@@ -130,6 +105,9 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     @Override
     protected void initView(View view) {
         loadinglayout = view.findViewById(R.id.loadinglayout);
+        recyclerview = view.findViewById(R.id.recyclerview);
+        refreshlayout = view.findViewById(R.id.refreshlayout);
+        layoutMain = view.findViewById(R.id.layout_main);
 
         userId = SharedPreferencesUtils.getInstance(getActivity()).getInt(Constant.USER_ID, 0);
         loginStatus = SharedPreferencesUtils.getInstance(getActivity()).getBoolean(Constant.LOGIN_STATUS, false);

@@ -47,6 +47,7 @@ public class PictureAdapter extends BaseAdapter<String, PictureAdapter.ViewHolde
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         String imageUrl = list.get(position);
         RequestOptions requestOptions = new RequestOptions()
+                .centerCrop()
                 .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);

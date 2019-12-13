@@ -53,6 +53,12 @@ public class LearnPlanDetailDateAdapter extends RecyclerView.Adapter<LearnPlanDe
         solidBlue = ContextCompat.getDrawable(context, R.drawable.shape_cricle_solid_blue);
     }
 
+    public void notifyChange(List<LearnPlanDetailBean.DataBean.DateBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();
