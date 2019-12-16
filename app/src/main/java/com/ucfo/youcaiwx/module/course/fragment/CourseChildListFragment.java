@@ -130,9 +130,6 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
     public void getCourseDataList(CourseDataListBean result) {
         if (result.getData() != null && result.getData().size() != 0) {
             List<CourseDataListBean.DataBean> data = result.getData();
-            if (courseList == null) {
-                courseList = new ArrayList<>();
-            }
             courseList.clear();
             courseList.addAll(data);
 
