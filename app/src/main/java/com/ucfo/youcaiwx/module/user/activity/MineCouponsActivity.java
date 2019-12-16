@@ -31,8 +31,6 @@ import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.OnClick;
-
 /**
  * Author: AND
  * Time: 2019-7-29 上午 10:11
@@ -40,7 +38,7 @@ import butterknife.OnClick;
  * ORG: www.youcaiwx.com
  * Description:TODO 我的可用优惠券
  */
-public class MineCouponsActivity extends BaseActivity implements IMineCourponsView {
+public class MineCouponsActivity extends BaseActivity implements IMineCourponsView, View.OnClickListener {
 
     private TextView titlebarMidtitle;
     private TextView titlebarRighttitle;
@@ -99,6 +97,7 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
         couponCount = (TextView) findViewById(R.id.coupon_count);
         recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         btnDisabled = (TextView) findViewById(R.id.btn_disabled);
+        btnDisabled.setOnClickListener(this);
         loadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
         refreshLayout = (SmartRefreshLayout) findViewById(R.id.refreshLayout);
 
@@ -212,8 +211,14 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
         loadinglayout.showError();
     }
 
-    @OnClick(R.id.btn_disabled)
-    public void onViewClicked() {
-        startActivity(MineDisabledCouponsActivity.class, null);
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_disabled:
+                startActivity(MineDisabledCouponsActivity.class, null);
+                break;
+            default:
+                break;
+        }
     }
 }

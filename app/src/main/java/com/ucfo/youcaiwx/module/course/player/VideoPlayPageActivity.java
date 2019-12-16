@@ -26,6 +26,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
@@ -864,7 +865,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     public void getAllDebugInfo() {
         if (aliyunVodPlayer != null) {
             Map<String, String> debugInfo = aliyunVodPlayer.getAllDebugInfo();
-            LogUtils.e("getAllDebugInfo--------" + new Gson().toJson(debugInfo));
+            logger("getAllDebugInfo--------" + new Gson().toJson(debugInfo));
         }
     }
 
@@ -1675,7 +1676,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private void initAliyunVideoPlayer() {
         //TODO 播放器初始化  在需要使用播放器SDK的activity里面引入添加如下初始化方法：
         aliyunVodPlayer = new AliyunVodPlayer(this);
-        aliyunVodPlayer.setVideoScalingMode(IAliyunVodPlayer.VideoScalingMode.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
+        aliyunVodPlayer.setVideoScalingMode(IAliyunVodPlayer.VideoScalingMode.VIDEO_SCALING_MODE_SCALE_TO_FIT);
         setCirclePlay(false);//设置循环播放 default false
         if (Constant.ISTEST_ENVIRONMENT) {
             //打印底层日日志
@@ -1750,7 +1751,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
                 isPrepared = true;
 
-                LogUtils.e("准备完成触发");
+                logger("准备完成触发");
 
                 /**
                  * 切换到后台监听的上次退出时的播放位置
@@ -1762,7 +1763,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         aliyunVodPlayer.setOnFirstFrameStartListener(new IAliyunVodPlayer.OnFirstFrameStartListener() {
             @Override
             public void onFirstFrameStart() {
-                LogUtils.e("首帧显示触发");
+                logger("首帧显示触发");
 
                 //获取所有日志信息
                 getAllDebugInfo();
@@ -1788,7 +1789,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         aliyunVodPlayer.setOnErrorListener(new IAliyunVodPlayer.OnErrorListener() {
             @Override
             public void onError(int errorCode, int arg1, String errorMsg) {
-                LogUtils.e("出错时处理:  " + errorMsg + "      errorCode: " + errorCode + "    arg1: " + arg1);
+                logger("出错时处理:  " + errorMsg + "      errorCode: " + errorCode + "    arg1: " + arg1);
                 playerTipsview.setVisibility(View.VISIBLE);
                 playerTipsview.setText(String.valueOf(errorMsg + ":" + errorCode));
                 if (errorCode == AliyunErrorCode.ALIVC_ERR_INVALID_INPUTFILE.getCode()) {
@@ -1798,7 +1799,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     if (storagePermissionRet != PackageManager.PERMISSION_GRANTED) {
                         errorMsg = AliyunErrorCode.ALIVC_ERR_NO_STORAGE_PERMISSION.getDescription(getApplicationContext());
                     }
-                    LogUtils.e("errorMsg:  " + errorMsg);
+                    logger("errorMsg:  " + errorMsg);
                 }
                 //关闭定时器
                 stopProgressUpdateTimer();
@@ -2345,6 +2346,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         LogUtils.e("Socket---" + text);
     }
 
+    private void logger(String text) {
+        LogUtils.e("VideoPlay", text);
+    }
+
     /**
      * 向服务端发送消息
      */
@@ -2657,23 +2662,35 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      * 这个函数,讲真的,布吉岛
      */
     private RelativeLayout.LayoutParams getScreenSizeParams(double screenSize) {
-        int width = 600;
-        int height = 400;
+/*
+        int videoWidth = aliyunVodPlayer.getVideoWidth();
+        int videoHeight = aliyunVodPlayer.getVideoHeight();
+        BigDecimal videoWidthB = new BigDecimal(Double.toString(videoWidth));
+        BigDecimal videoHeightB = new BigDecimal(Double.toString(videoHeight));
+        double doubleValue = videoWidthB.divide(videoHeightB, 2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        logger("getScreenSizeParams     videoWidth:" + videoWidth + "       videoHeight" + videoHeight + "    proportion:" + doubleValue);
+*/
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+
+        int deviceWidth = displayMetrics.widthPixels;
+        int deviceHeight = displayMetrics.heightPixels;
+
+        int finalWidth = 600;
+        int finalHeight = 400;
         if (mCurrentScreenMode == AliyunScreenMode.Small) {
-            width = windowManager.getDefaultDisplay().getWidth();
-            height = playerRelativelayout.getLayoutParams().height;
-            int width2 = (int) (width * screenSize);
-            int height2 = (int) (height * screenSize);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width2, height2);
-            return params;
+            int relativeLayoutHeight = playerRelativelayout.getLayoutParams().height;
+
+            finalWidth = (int) (deviceWidth * screenSize);
+            finalHeight = (int) (relativeLayoutHeight * screenSize);
+            return new RelativeLayout.LayoutParams(finalWidth, finalHeight);
         } else if (mCurrentScreenMode == AliyunScreenMode.Full) {
-            width = windowManager.getDefaultDisplay().getWidth();
-            height = windowManager.getDefaultDisplay().getHeight();
-            width = (int) (width * screenSize);
-            height = (int) (height * screenSize);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
-            return params;
+            finalWidth = (int) (deviceWidth * screenSize);
+            finalHeight = (int) (deviceHeight * screenSize);
+            return new RelativeLayout.LayoutParams(finalWidth, finalHeight);
         }
+
         return null;
     }
 
@@ -2787,22 +2804,25 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     //TODO surfaceview创建
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        //LogUtils.e(" surfaceCreated = surfaceHolder = " + surfaceHolder);
-        aliyunVodPlayer.setDisplay(holder);
+        if (aliyunVodPlayer != null) {
+            aliyunVodPlayer.setDisplay(holder);
+        }
     }
 
     //TODO surfaceview变更
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         holder.setFixedSize(width, height);
-        aliyunVodPlayer.surfaceChanged();
-        LogUtils.e(" surfaceChanged surfaceHolder = " + surfaceHolder + " ,  width = " + width + " , height = " + height);
+        if (aliyunVodPlayer != null) {
+            aliyunVodPlayer.surfaceChanged();
+        }
+        logger(" surfaceChanged surfaceHolder = " + surfaceHolder + " ,  width = " + width + " , height = " + height);
     }
 
     //TODO surfaceview销毁
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        LogUtils.e(" surfaceDestroyed = surfaceHolder = " + surfaceHolder);
+        logger(" surfaceDestroyed       " + surfaceHolder);
     }
 
     /**
@@ -2822,7 +2842,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         @Override
         public void onWifiTo4G() {//TODO  WiFi转到4G(当前是数据网络)
             pause();
-            //LogUtils.e("onWifiTo4G()------------------" + look_wifi);
 
             //隐藏其他的动作,防止点击界面去进行其他操作
             if (mGestureView != null) {
@@ -2864,13 +2883,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         @Override
         public void on4GToWifi() {
             //TODO  4G转到WiFi
-            //LogUtils.e("网络状态--------------------on4GToWifi");
         }
 
         @Override
         public void onNetDisconnected() {
             //TODO //网络断开。由于安卓这块网络切换的时候，有时候也会先报断开。所以这个回调是不准确的。
-            //LogUtils.e("网络状态--------------------onNetDisconnected");
         }
     }
 
@@ -2880,7 +2897,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private class MyNetConnectedListener implements NetWatchdog.NetConnectedListener {
         @Override
         public void onReNetConnected(boolean isReconnect) {//重新连接
-            //LogUtils.e("网络状态---------MyNetConnectedListener---------------onReNetConnected" + isReconnect);
             currentError = ErrorInfo.Normal;
             if (isReconnect) {
                 toastInfo(getResources().getString(R.string.NetworkConnected));//管他准不准,先给个提示再说
@@ -2889,7 +2905,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
         @Override
         public void onNetUnConnected() {//网络未连接
-            //LogUtils.e("网络状态---------MyNetConnectedListener----------------onNetUnConnected");
             currentError = ErrorInfo.UnConnectInternet;
 
             toastInfo(getResources().getString(R.string.NetworkDisconnected));//管他准不准,先给个提示再说

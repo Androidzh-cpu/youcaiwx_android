@@ -52,10 +52,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.litepal.LitePal;
 
-import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Author: AND
@@ -183,13 +185,14 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
 
         //初始化下载配置
         initDownloadConfig();
-        //获取下载信息
+        //从离线中心获取下载信息
         if (offlineCourseActivityParcelableArrayList != null && offlineCourseActivityParcelableArrayList.size() > 0) {
             String vid = offlineCourseActivityParcelableArrayList.get(0).getVid();
             loadSTSData(vid, 0);
+        } else {
+            //设置下载列表
+            initDownloadingAdapter();
         }
-        //设置下载列表
-        initDownloadingAdapter();
     }
 
     /**
@@ -276,7 +279,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
      * 设置下载中适配器
      */
     private void initDownloadingAdapter() {
-        if (alivcDownloadingMediaInfos.size() > 0) {
+        if (alivcDownloadingMediaInfos != null && alivcDownloadingMediaInfos.size() > 0) {
             if (loadinglayout != null) {
                 loadinglayout.showContent();
             }
@@ -291,7 +294,6 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
         } else {
             downloadingAdapter.setData(alivcDownloadingMediaInfos);
         }
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -392,6 +394,13 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
             String vid = offlineCourseActivityParcelableArrayList.get(position).getVid();
             loadSTSData(vid, position);
         }
+        //最后一个视频了在刷新页面显示列
+        if (offlineCourseActivityParcelableArrayList != null) {
+            if (position == offlineCourseActivityParcelableArrayList.size()) {
+                //设置下载列表
+                initDownloadingAdapter();
+            }
+        }
     }
 
     /**
@@ -418,7 +427,9 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
         saveInfoToDB(info);//保存到数据库
     }
 
-    //保存下载的数据到数据库
+    /**
+     * 保存下载的数据到数据库
+     */
     private void saveInfoToDB(AliyunDownloadMediaInfo info) {
         DataBaseCourseListBean dataBaseCourseListBean = new DataBaseCourseListBean();
         DataBaseSectioinListBean dataBaseSectioinListBean = new DataBaseSectioinListBean();
@@ -529,7 +540,9 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
         return false;
     }
 
-    //视频下载的回调  注意在不需要的时候，调用remove，移除监听。
+    /**
+     * 视频下载的回调  注意在不需要的时候，调用remove，移除监听。
+     */
     public class MyDownloadInfoListener implements AliyunDownloadInfoListener {
         @Override
         public void onPrepared(List<AliyunDownloadMediaInfo> infos) {//TODO 当调用downloadManager.prepareDownloadMedia(vidSts);后该方法起作用
@@ -541,10 +554,6 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
                 }
             }
             outputLog("onPrepared----" + gson.toJson(info));
-            File downloadFile = new File(info.getSavePath());
-            if (downloadFile.exists()) {
-                /*ToastUtil.showBottomShortText(context, getString(R.string.demo_downloaded, infos.get(0).getTitle()));return;*/
-            }
             //添加至下载队列
             addNewInfo(info);
         }
@@ -573,7 +582,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
 
         @Override
         public void onCompletion(AliyunDownloadMediaInfo info) {//TODO 下载完成时回调
-            outputLog("onCompletion---Title:" + info.getTitle() + "   status:" + info.getStatus() + "  vid:" + info.getVid());
+            outputLog("onCompletion---info:" + gson.toJson(info));
             //修改数据库保存信息
             updateInfoToDB(info);
             if (info.getStatus() == AliyunDownloadMediaInfo.Status.Complete) {
@@ -609,7 +618,9 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
         }
     }
 
-    //设置vids 过期的回调，目的是当vids过期之后能够重新请求vids的信息，防止下载失败，
+    /***
+     * 设置vids 过期的回调，目的是当vids过期之后能够重新请求vids的信息，防止下载失败，
+     */
     private class MyRefreshStsCallback implements AliyunRefreshStsCallback {
         @Override
         public AliyunVidSts refreshSts(String vid, String quality, String format, String title, boolean encript) {
@@ -643,7 +654,9 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
         }
     }
 
-    //更新item的值
+    /**
+     * 更新item的值
+     */
     public void updateInfo(AliyunDownloadMediaInfo aliyunDownloadMediaInfo) {
         AlivcDownloadMediaInfo tmpInfo = null;
         if (alivcDownloadingMediaInfos != null) {
@@ -665,7 +678,12 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
 
     //log日志
     public void outputLog(String log) {
-        LogUtils.e("SafeDownload--" + log);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS", Locale.CHINA);
+        //获取当前时间
+        Date date = new Date();
+        String format = simpleDateFormat.format(date);
+
+        LogUtils.e("SafeDownload--" + log + "       " + format);
     }
 
     /**
