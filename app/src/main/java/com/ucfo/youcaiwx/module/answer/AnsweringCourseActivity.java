@@ -203,7 +203,7 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
             String videoTime = bean.getVideo_time();
             String formatMs = "";
             if (!TextUtils.isEmpty(videoTime)) {
-                formatMs = TimeFormater.formatMs(Integer.parseInt(videoTime));
+                formatMs = TimeFormater.formatSeconds(Integer.parseInt(videoTime));
             }
             String finalString = String.valueOf(title + "  " + formatMs);
             txtTitle.setText(finalString);

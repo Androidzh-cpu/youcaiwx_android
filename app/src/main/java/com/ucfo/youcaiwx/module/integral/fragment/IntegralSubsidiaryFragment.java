@@ -1,13 +1,10 @@
 package com.ucfo.youcaiwx.module.integral.fragment;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -27,10 +24,6 @@ import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Author: AND
  * Time: 2019-9-19.  上午 10:31
@@ -39,36 +32,22 @@ import butterknife.Unbinder;
  * Description:TODO 积分 - 积分明细
  */
 public class IntegralSubsidiaryFragment extends BaseFragment implements IIntegralDetaillView {
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.refreshlayout)
-    SmartRefreshLayout refreshlayout;
-    Unbinder unbinder;
+    private RecyclerView recyclerview;
+    private LoadingLayout loadinglayout;
+    private SmartRefreshLayout refreshlayout;
+
+
     private IntegralPresenter integralPresenter;
     private int user_id;
     private List<IntegralDetailBean.DataBean> list;
     private IntegralDetailAdapter integralDetailAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView != null) {
-            unbinder = ButterKnife.bind(this, rootView);
-        }
-        return rootView;
-    }
+    protected void initView(View itemView) {
+        recyclerview = (RecyclerView) itemView.findViewById(R.id.recyclerview);
+        loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
+        refreshlayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
-    protected void initView(View view) {
         initLayoutManager();
     }
 

@@ -2,7 +2,6 @@ package com.ucfo.youcaiwx.module.main.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -10,9 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,17 +33,6 @@ import com.ucfo.youcaiwx.entity.learncenter.StudyClockInBean;
 import com.ucfo.youcaiwx.entity.learncenter.UnFinishPlanBean;
 import com.ucfo.youcaiwx.entity.questionbank.QuestionMyProjectBean;
 import com.ucfo.youcaiwx.entity.questionbank.SubjectInfoBean;
-import com.ucfo.youcaiwx.presenter.presenterImpl.learncenter.LearncenterHomePresenter;
-import com.ucfo.youcaiwx.presenter.presenterImpl.questionbank.QuestionBankHomePresenter;
-import com.ucfo.youcaiwx.presenter.view.learncenter.ILearncenterHomeView;
-import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankHomeView;
-import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
-import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
-import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
-import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
-import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.module.learncenter.AddLearningPlanActivity;
 import com.ucfo.youcaiwx.module.learncenter.AddLearningTimeActivity;
 import com.ucfo.youcaiwx.module.learncenter.LearningPlanDetailActivity;
@@ -59,6 +45,17 @@ import com.ucfo.youcaiwx.module.questionbank.activity.ErrorCenterActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineCourseActivity;
 import com.ucfo.youcaiwx.module.user.activity.OfflineCourseActivity;
 import com.ucfo.youcaiwx.module.user.activity.PersonnelSettingActivity;
+import com.ucfo.youcaiwx.presenter.presenterImpl.learncenter.LearncenterHomePresenter;
+import com.ucfo.youcaiwx.presenter.presenterImpl.questionbank.QuestionBankHomePresenter;
+import com.ucfo.youcaiwx.presenter.view.learncenter.ILearncenterHomeView;
+import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankHomeView;
+import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
+import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
+import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
+import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
+import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
+import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.dialog.ActiveEventDialog;
 import com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView;
@@ -70,10 +67,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -83,48 +76,33 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * ClassName: LearnCenterFragment
  * Description:TODO 首页 - 学习中心
  */
-public class LearnCenterFragment extends BaseFragment implements ILearncenterHomeView, IQuestionBankHomeView {
+public class LearnCenterFragment extends BaseFragment implements ILearncenterHomeView, IQuestionBankHomeView, View.OnClickListener {
     public static final String TAG = "LearnCenterFragment";
-    @BindView(R.id.user_icon)
-    CircleImageView userIcon;
-    @BindView(R.id.user_nickname)
-    TextView userNickname;
-    @BindView(R.id.user_clockinDay)
-    TextView userClockinDay;
-    @BindView(R.id.btn_clockin)
-    RoundTextView btnClockin;
-    @BindView(R.id.user_course)
-    TextView userCourse;
-    @BindView(R.id.user_errorcenter)
-    TextView userErrorcenter;
-    @BindView(R.id.user_offline)
-    TextView userOffline;
-    @BindView(R.id.btn_continueStudy)
-    RoundTextView btnContinueStudy;
-    @BindView(R.id.linear_continueStudy)
-    LinearLayout linearContinueStudy;
-    @BindView(R.id.listview_plan)
-    RecyclerView listviewPlan;
-    @BindView(R.id.btn_addlearnplan)
-    TextView btnAddlearnplan;
-    @BindView(R.id.listview_plandetail)
-    ShimmerRecyclerView listviewPlandetail;
-    @BindView(R.id.linear_plandetail)
-    LinearLayout linearPlandetail;
-    @BindView(R.id.listview_notice)
-    ShimmerRecyclerView listviewNotice;
-    @BindView(R.id.linear_notice)
-    LinearLayout linearNotice;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.linear_plan)
-    LinearLayout linearPlan;
-    Unbinder unbinder;
+    private CircleImageView userIcon;
+    private TextView userNickname;
+    private TextView userClockinDay;
+    private RoundTextView btnClockin;
+    private TextView userCourse;
+    private TextView userErrorcenter;
+    private TextView userOffline;
+    private RoundTextView btnContinueStudy;
+    private LinearLayout linearContinueStudy;
+    private RecyclerView listviewPlan;
+    private TextView btnAddlearnplan;
+    private ShimmerRecyclerView listviewPlandetail;
+    private LinearLayout linearPlandetail;
+    private ShimmerRecyclerView listviewNotice;
+    private LinearLayout linearNotice;
+    private LoadingLayout loadinglayout;
+    private LinearLayout linearPlan;
+
     private MainActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private boolean loginStatus;
     private int userId;
+
     private LearncenterHomePresenter learncenterHomePresenter;
+    private QuestionBankHomePresenter questionBankHomePresenter;
 
     private List<LearncenterHomeBean.DataBean.PlanBean> planBeanList;
     private List<LearncenterHomeBean.DataBean.LearnListBean> learnList;
@@ -132,25 +110,10 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     private LearncenterPlanAdapter learncenterPlanAdapter;
     private LearnCenterPlanDetailAdapter learnCenterPlanDetailAdapter;
     private LearnCenterNoticeAdapter learnCenterNoticeAdapter;
+
     private String userBeanHead;
-    private QuestionBankHomePresenter questionBankHomePresenter;
     private int currentSubjectId;
     private List<QuestionMyProjectBean.DataBean> projectList;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView != null) {
-            unbinder = ButterKnife.bind(this, rootView);
-        }
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -166,7 +129,33 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView(View itemView) {
+        userIcon = (CircleImageView) itemView.findViewById(R.id.user_icon);
+        userIcon.setOnClickListener(this);
+        userNickname = (TextView) itemView.findViewById(R.id.user_nickname);
+        userNickname.setOnClickListener(this);
+        userClockinDay = (TextView) itemView.findViewById(R.id.user_clockinDay);
+        btnClockin = (RoundTextView) itemView.findViewById(R.id.btn_clockin);
+        btnClockin.setOnClickListener(this);
+        userCourse = (TextView) itemView.findViewById(R.id.user_course);
+        userCourse.setOnClickListener(this);
+        userErrorcenter = (TextView) itemView.findViewById(R.id.user_errorcenter);
+        userErrorcenter.setOnClickListener(this);
+        userOffline = (TextView) itemView.findViewById(R.id.user_offline);
+        userOffline.setOnClickListener(this);
+        btnContinueStudy = (RoundTextView) itemView.findViewById(R.id.btn_continueStudy);
+        btnContinueStudy.setOnClickListener(this);
+        linearContinueStudy = (LinearLayout) itemView.findViewById(R.id.linear_continueStudy);
+        listviewPlan = (RecyclerView) itemView.findViewById(R.id.listview_plan);
+        linearPlan = (LinearLayout) itemView.findViewById(R.id.linear_plan);
+        btnAddlearnplan = (TextView) itemView.findViewById(R.id.btn_addlearnplan);
+        btnAddlearnplan.setOnClickListener(this);
+        listviewPlandetail = (ShimmerRecyclerView) itemView.findViewById(R.id.listview_plandetail);
+        linearPlandetail = (LinearLayout) itemView.findViewById(R.id.linear_plandetail);
+        listviewNotice = (ShimmerRecyclerView) itemView.findViewById(R.id.listview_notice);
+        linearNotice = (LinearLayout) itemView.findViewById(R.id.linear_notice);
+        loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
+
         FragmentActivity activity = getActivity();
         if (activity instanceof MainActivity) {
             context = (MainActivity) activity;
@@ -291,59 +280,6 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
         //刷新已购买课程数据
         if (currentSubjectId == 0) {
             questionBankHomePresenter.getMyProejctList(userId);
-        }
-    }
-
-    @OnClick({R.id.user_icon, R.id.user_nickname, R.id.btn_clockin, R.id.user_course, R.id.user_errorcenter, R.id.user_offline, R.id.btn_continueStudy, R.id.btn_addlearnplan})
-    public void onViewClicked(View view) {
-        if (loginStatus) {
-            Bundle bundle = new Bundle();
-            switch (view.getId()) {
-                case R.id.user_icon://defaultIcon
-                case R.id.user_nickname://昵称
-                    startActivity(PersonnelSettingActivity.class, null);
-                    break;
-                case R.id.btn_clockin:
-                    //学习打卡
-                    learncenterHomePresenter.signDayCard(userId);
-                    break;
-                case R.id.user_course:
-                    //我的课程
-                    startActivity(MineCourseActivity.class, null);
-                    break;
-                case R.id.user_errorcenter:
-                    //错题中心
-                    if (currentSubjectId != 0) {
-                        int currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
-                        bundle.putInt(Constant.COURSE_ID, currentSubjectId);
-                        startActivity(ErrorCenterActivity.class, bundle);
-                    } else {
-                        if (projectList != null && projectList.size() > 0) {
-                            int currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
-                            bundle.putInt(Constant.COURSE_ID, currentSubjectId);
-                            startActivity(ErrorCenterActivity.class, bundle);
-                        } else {
-                            ToastUtil.showBottomShortText(getActivity(), getResources().getString(R.string.course_bugBank));
-                        }
-                    }
-                    break;
-                case R.id.user_offline:
-                    //离线课程
-                    startActivity(OfflineCourseActivity.class, null);
-                    break;
-                case R.id.btn_continueStudy:
-                    //继续学习
-                    startActivity(UnFinishedPlanActivity.class, null);
-                    break;
-                case R.id.btn_addlearnplan:
-                    //添加学习计划
-                    startActivity(AddLearningPlanActivity.class, null);
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            startActivity(LoginActivity.class, null);
         }
     }
 
@@ -615,5 +551,76 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     @Override
     public void getSubjectInfoBean(SubjectInfoBean data) {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (loginStatus) {
+            Bundle bundle = new Bundle();
+            switch (view.getId()) {
+                case R.id.user_icon://defaultIcon
+                case R.id.user_nickname://昵称
+                    startActivity(PersonnelSettingActivity.class, null);
+                    break;
+                case R.id.btn_clockin:
+                    //学习打卡
+                    learncenterHomePresenter.signDayCard(userId);
+                    break;
+                case R.id.user_course:
+                    //我的课程
+                    startActivity(MineCourseActivity.class, null);
+                    break;
+                case R.id.user_errorcenter:
+                    //错题中心
+                    if (currentSubjectId != 0) {
+                        int currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
+                        bundle.putInt(Constant.COURSE_ID, currentSubjectId);
+                        startActivity(ErrorCenterActivity.class, bundle);
+                    } else {
+                        if (projectList != null && projectList.size() > 0) {
+                            int currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
+                            bundle.putInt(Constant.COURSE_ID, currentSubjectId);
+                            startActivity(ErrorCenterActivity.class, bundle);
+                        } else {
+                            ToastUtil.showBottomShortText(getActivity(), getResources().getString(R.string.course_bugBank));
+                        }
+                    }
+                    break;
+                case R.id.user_offline:
+                    //离线课程
+                    startActivity(OfflineCourseActivity.class, null);
+                    break;
+                case R.id.btn_continueStudy:
+                    //继续学习
+                    startActivity(UnFinishedPlanActivity.class, null);
+                    break;
+                case R.id.btn_addlearnplan:
+                    //添加学习计划
+                    startActivity(AddLearningPlanActivity.class, null);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            startActivity(LoginActivity.class, null);
+        }
+
+        /////////////////
+        switch (view.getId()) {
+            case R.id.user_course:
+                // TODO 19/12/16
+                break;
+            case R.id.user_errorcenter:
+                // TODO 19/12/16
+                break;
+            case R.id.user_offline:
+                // TODO 19/12/16
+                break;
+            case R.id.btn_addlearnplan:
+                // TODO 19/12/16
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -183,7 +183,7 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
         if (TextUtils.equals(type, Constant.TYPE_COURSE_ASK)) {//课程
             titlebarMidtitle.setText(getResources().getString(R.string.answer_ask));
 
-            askVideotime.setText(TimeFormater.formatMs(courseVideoTime));
+            askVideotime.setText(TimeFormater.formatSeconds(courseVideoTime));
             List<String> dataData = new ArrayList<>();
             dataData.add(video_title);
             TagAdapter<String> tagAdapter = new TagAdapter<String>(dataData) {

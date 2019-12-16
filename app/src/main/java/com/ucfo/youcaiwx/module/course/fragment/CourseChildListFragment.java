@@ -2,12 +2,9 @@ package com.ucfo.youcaiwx.module.course.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -29,10 +26,6 @@ import com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Author:29117
  * Time: 2019-3-29.  下午 4:41
@@ -41,13 +34,10 @@ import butterknife.Unbinder;
  * Description:TODO 课程分类子页面
  */
 public class CourseChildListFragment extends BaseFragment implements ICourseListView {
-    @BindView(R.id.recyclerview)
-    ShimmerRecyclerView recyclerview;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.refreshlayout)
-    SmartRefreshLayout refreshlayout;
-    Unbinder unbinder;
+    private ShimmerRecyclerView recyclerview;
+    private LoadingLayout loadinglayout;
+    private SmartRefreshLayout refreshlayout;
+
     //当前页面页面索引
     private int position;
     //索引id
@@ -61,23 +51,16 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
     private int user_id;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView != null) {
-            unbinder = ButterKnife.bind(this, rootView);
-        }
-        return rootView;
+    protected int setContentView() {
+        return R.layout.fragment_courselist;
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
-    protected void initView(View view) {
+    protected void initView(View itemView) {
         context = getActivity();
+        recyclerview = (ShimmerRecyclerView) itemView.findViewById(R.id.recyclerview);
+        refreshlayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
+        loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
     }
 
     @Override
@@ -131,11 +114,6 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
      */
     public void setId(int id) {
         this.id = id;
-    }
-
-    @Override
-    protected int setContentView() {
-        return R.layout.fragment_courselist;
     }
 
     @Override

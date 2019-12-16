@@ -3,7 +3,6 @@ package com.ucfo.youcaiwx.module.main.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -50,11 +49,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
-
 /**
  * Author:AND
  * Time: 2019-3-12.  上午 10:18
@@ -63,53 +57,33 @@ import butterknife.Unbinder;
  * Description:TODO 首页 - 题库
  * Detail:TODO plate_id代表板块 1知识点练习,2阶段测试,3论述题自测,4错题智能练习,5自主练习,6组卷模考
  */
-public class QuestionBankFragment extends BaseFragment implements IQuestionBankHomeView {
+public class QuestionBankFragment extends BaseFragment implements IQuestionBankHomeView, View.OnClickListener {
     public static final String TAG = "QuestionBankFragment";
-    @BindView(R.id.titlebar_midtitle)
-    TextView titlebarMidtitle;
-    @BindView(R.id.titlebar_toolbar)
-    Toolbar titlebarToolbar;
-    Unbinder unbinder;
-    @BindView(R.id.question_doexercisecount)
-    RoundTextView questionDoexercisecount;
-    @BindView(R.id.question_accuracy_percent)
-    CirclePercentBar questionAccuracyPercent;
-    @BindView(R.id.question_average_percent)
-    CirclePercentBar questionAveragePercent;
-    @BindView(R.id.question_ranking_percent)
-    CirclePercentBar questionRankingPercent;
-    @BindView(R.id.question_assessment)
-    TextView questionAssessment;
-    @BindView(R.id.question_errorscenter)
-    TextView questionErrorscenter;
-    @BindView(R.id.question_record)
-    TextView questionRecord;
-    @BindView(R.id.question_atonceExp)
-    RoundTextView questionAtonceExp;
-    @BindView(R.id.question_Knowledge_exercise)
-    LinearLayout questionKnowledgeExercise;
-    @BindView(R.id.question_stage_test)
-    LinearLayout questionStageTest;
-    @BindView(R.id.question_elaboration_test)
-    LinearLayout questionElaborationTest;
-    @BindView(R.id.question_hight_errors)
-    RoundTextView questionHightErrors;
-    @BindView(R.id.question_group_exam)
-    LinearLayout questionGroupExam;
-    @BindView(R.id.question_writes_really)
-    LinearLayout questionWritesReally;
-    @BindView(R.id.questionbank_unloginhome)
-    LinearLayout questionbankUnloginhome;
-    @BindView(R.id.questionbank_loginhome)
-    LinearLayout questionbankLoginhome;
-    @BindView(R.id.titlebar_midimage)
-    ImageView titlebarMidimage;
-    @BindView(R.id.statusbar_view)
-    View statusbarView;
-    @BindView(R.id.view_line)
-    View viewLine;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
+
+    private TextView titlebarMidtitle;
+    private Toolbar titlebarToolbar;
+    private RoundTextView questionDoexercisecount;
+    private CirclePercentBar questionAccuracyPercent;
+    private CirclePercentBar questionAveragePercent;
+    private CirclePercentBar questionRankingPercent;
+    private TextView questionAssessment;
+    private TextView questionErrorscenter;
+    private TextView questionRecord;
+    private RoundTextView questionAtonceExp;
+    private LinearLayout questionKnowledgeExercise;
+    private LinearLayout questionStageTest;
+    private LinearLayout questionElaborationTest;
+    private RoundTextView questionHightErrors;
+    private LinearLayout questionGroupExam;
+    private LinearLayout questionWritesReally;
+    private LinearLayout questionbankUnloginhome;
+    private LinearLayout questionbankLoginhome;
+    private ImageView titlebarMidimage;
+    private View statusbarView;
+    private View viewLine;
+    private LoadingLayout loadinglayout;
+
+
     private MainActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private QuestionBankHomePresenter questionBankHomePresenter;
@@ -121,16 +95,6 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     private PopupWindow popupWindow;//题库选择弹框
     private SubjectAdapter subjectAdapter;
     private boolean isShowLoading = false;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView != null) {
-            unbinder = ButterKnife.bind(this, rootView);
-        }
-        return rootView;
-    }
 
     @Override
     public void onResume() {
@@ -146,12 +110,6 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 popupWindow.dismiss();
             }
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 
     /**
@@ -189,7 +147,43 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView(View itemView) {
+        statusbarView = (View) itemView.findViewById(R.id.statusbar_view);
+        titlebarMidtitle = (TextView) itemView.findViewById(R.id.titlebar_midtitle);
+        titlebarMidtitle.setOnClickListener(this);
+        titlebarMidimage = (ImageView) itemView.findViewById(R.id.titlebar_midimage);
+        titlebarMidimage.setOnClickListener(this);
+        titlebarToolbar = (Toolbar) itemView.findViewById(R.id.titlebar_toolbar);
+        viewLine = (View) itemView.findViewById(R.id.view_line);
+        questionDoexercisecount = (RoundTextView) itemView.findViewById(R.id.question_doexercisecount);
+        questionAccuracyPercent = (CirclePercentBar) itemView.findViewById(R.id.question_accuracy_percent);
+        questionAveragePercent = (CirclePercentBar) itemView.findViewById(R.id.question_average_percent);
+        questionRankingPercent = (CirclePercentBar) itemView.findViewById(R.id.question_ranking_percent);
+        questionAssessment = (TextView) itemView.findViewById(R.id.question_assessment);
+        questionAssessment.setOnClickListener(this);
+        questionErrorscenter = (TextView) itemView.findViewById(R.id.question_errorscenter);
+        questionErrorscenter.setOnClickListener(this);
+        questionRecord = (TextView) itemView.findViewById(R.id.question_record);
+        questionRecord.setOnClickListener(this);
+        questionAtonceExp = (RoundTextView) itemView.findViewById(R.id.question_atonceExp);
+        questionAtonceExp.setOnClickListener(this);
+        questionbankUnloginhome = (LinearLayout) itemView.findViewById(R.id.questionbank_unloginhome);
+        questionKnowledgeExercise = (LinearLayout) itemView.findViewById(R.id.question_Knowledge_exercise);
+        questionKnowledgeExercise.setOnClickListener(this);
+        questionStageTest = (LinearLayout) itemView.findViewById(R.id.question_stage_test);
+        questionStageTest.setOnClickListener(this);
+        questionElaborationTest = (LinearLayout) itemView.findViewById(R.id.question_elaboration_test);
+        questionElaborationTest.setOnClickListener(this);
+        questionHightErrors = (RoundTextView) itemView.findViewById(R.id.question_hight_errors);
+        questionHightErrors.setOnClickListener(this);
+        questionGroupExam = (LinearLayout) itemView.findViewById(R.id.question_group_exam);
+        questionGroupExam.setOnClickListener(this);
+        questionWritesReally = (LinearLayout) itemView.findViewById(R.id.question_writes_really);
+        questionWritesReally.setOnClickListener(this);
+        questionbankLoginhome = (LinearLayout) itemView.findViewById(R.id.questionbank_loginhome);
+        loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
+
+
         FragmentActivity activity = getActivity();
         if (activity instanceof MainActivity) {
             context = (MainActivity) activity;
@@ -349,10 +343,8 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
         }
     }
 
-    @OnClick({R.id.question_assessment, R.id.question_errorscenter, R.id.question_record, R.id.question_atonceExp,
-            R.id.question_Knowledge_exercise, R.id.question_stage_test, R.id.question_elaboration_test,
-            R.id.question_hight_errors, R.id.question_group_exam, R.id.question_writes_really, R.id.titlebar_midimage, R.id.titlebar_midtitle})
-    public void onViewClicked(View view) {
+    @Override
+    public void onClick(View view) {
         long currentTime = Calendar.getInstance().getTimeInMillis();
         if (currentTime - lastClickTime > 1000) {
             lastClickTime = currentTime;

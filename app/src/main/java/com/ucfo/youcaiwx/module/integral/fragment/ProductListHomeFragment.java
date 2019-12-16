@@ -6,9 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -32,9 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * Author: AND
@@ -43,7 +38,7 @@ import butterknife.Unbinder;
  * FileName: ProductListHomeFragment
  * Description:TODO 积分-商品列表-首页
  */
-public class ProductListHomeFragment extends BaseFragment implements IIntegralHomeView {
+public class ProductListHomeFragment extends BaseFragment implements IIntegralHomeView, View.OnClickListener {
 
     @BindView(R.id.btn_coupon_checkall)
     TextView btnCouponCheckall;
@@ -57,7 +52,8 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
     LoadingLayout loadinglayout;
     @BindView(R.id.refreshlayout)
     SmartRefreshLayout refreshlayout;
-    Unbinder unbinder;
+
+
     private IntegralPresenter integralPresenter;
     private List<IntegralShopHomeBean.DataBean.CouponBean> couponBeanList;
     private List<IntegralShopHomeBean.DataBean.ShopBean> shopBeanList;
@@ -66,28 +62,26 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
     private MineIntegralActivity mineIntegralActivity;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView != null) {
-            unbinder = ButterKnife.bind(this, rootView);
-        }
-        return rootView;
+    protected int setContentView() {
+        return R.layout.fragment_integral_productlist;
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
+    protected void initView(View itemView) {
+        btnCouponCheckall = (TextView) itemView.findViewById(R.id.btn_coupon_checkall);
+        btnCouponCheckall.setOnClickListener(this);
+        recyclerviewCoupon = (RecyclerView) itemView.findViewById(R.id.recyclerview_coupon);
+        btnGoodsCheckall = (TextView) itemView.findViewById(R.id.btn_goods_checkall);
+        btnGoodsCheckall.setOnClickListener(this);
+        recyclerviewGoods = (RecyclerView) itemView.findViewById(R.id.recyclerview_goods);
+        loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
+        refreshlayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
 
-    @Override
-    protected void initView(View view) {
+
         FragmentActivity activity = getActivity();
         if (activity instanceof MineIntegralActivity) {
             mineIntegralActivity = (MineIntegralActivity) getActivity();
         }
-
         initLyaoutManager();
     }
 
@@ -121,11 +115,6 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
                 integralPresenter.inquireIntegralProductHome();
             }
         });
-    }
-
-    @Override
-    protected int setContentView() {
-        return R.layout.fragment_integral_productlist;
     }
 
     @Override
@@ -215,8 +204,8 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
         }
     }
 
-    @OnClick({R.id.btn_coupon_checkall, R.id.btn_goods_checkall})
-    public void onViewClicked(View view) {
+    @Override
+    public void onClick(View view) {
         Bundle bundle = new Bundle();
         bundle.putString(Constant.INTEGRAL, mineIntegralActivity.getIntegral());
         switch (view.getId()) {

@@ -2571,6 +2571,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                         }
                         changeScreenMode(targetMode2);
                     }
+                    long currentPosition = aliyunVodPlayer.getCurrentPosition();
+                    int finalPosition = Math.round(aliyunVodPlayer.getCurrentPosition() / 1000);
+
                     Intent intent = new Intent(videoPlayPageActivity, QuestionAskQuestionActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString(Constant.TYPE, Constant.TYPE_COURSE_ASK);//TODO 提问类型
@@ -2578,7 +2581,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     bundle.putInt(Constant.COURSE_ID, currentCourseID);//TODO 课程ID
                     bundle.putInt(Constant.VIDEO_ID, currentVideoID);//TODO 视频videoid
                     bundle.putInt(Constant.SECTION_ID, currentSectionID);//TODO 章节ID
-                    bundle.putInt(Constant.VIDEO_TIME, Math.round(aliyunVodPlayer.getCurrentPosition()));//TODO 视频节点
+                    bundle.putInt(Constant.VIDEO_TIME, finalPosition);//TODO 视频节点
                     bundle.putString(Constant.VIDEO_TITLE, playVideoName);//TODO 视频标题
                     intent.putExtras(bundle);
                     startActivity(intent);

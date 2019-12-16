@@ -3,8 +3,6 @@ package com.ucfo.youcaiwx.module.course.player.fragment;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -50,9 +48,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -63,41 +58,22 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Description:TODO 课程简介
  */
 public class CourseIntroductionFragment extends BaseFragment {
-    @BindView(R.id.webview)
-    NoScrollWebView webView;
-    Unbinder unbinder;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.course_name)
-    TextView courseName;
-    @BindView(R.id.course_price)
-    RoundTextView coursePrice;
-    @BindView(R.id.course_count)
-    TextView courseCount;
-    @BindView(R.id.course_teacher)
-    TextView courseTeacher;
-    @BindView(R.id.course_time)
-    TextView courseTime;
-    @BindView(R.id.course_detail)
-    TextView courseDetail;
-    @BindView(R.id.recyclerview_teacher)
-    ShimmerRecyclerView recyclerviewTeacher;
+    private NoScrollWebView webView;
+    private LoadingLayout loadinglayout;
+    private TextView courseName;
+    private RoundTextView coursePrice;
+    private TextView courseCount;
+    private TextView courseTeacher;
+    private TextView courseTime;
+    private TextView courseDetail;
+    private ShimmerRecyclerView recyclerviewTeacher;
+
     private int course_packageId;
     private List<CourseIntroductionBean.DataBean.TeacehrListBean> teacehrListBeanList;
     private CourseTeacherAdapter courseTeacherAdapter;
     private Dialog teacherDialog;
     private int user_id;
     private VideoPlayPageActivity videoPlayPageActivity;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView != null) {
-            unbinder = ButterKnife.bind(this, rootView);
-        }
-        return rootView;
-    }
 
     @Override
     public void onResume() {
@@ -116,12 +92,6 @@ public class CourseIntroductionFragment extends BaseFragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
     public void onDestroy() {
         if (webView != null) {
             webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
@@ -135,7 +105,23 @@ public class CourseIntroductionFragment extends BaseFragment {
     }
 
     @Override
-    protected void initView(View view) {
+    protected int setContentView() {
+        return R.layout.fragment_courseintroduction;
+    }
+
+    @Override
+    protected void initView(View itemView) {
+        courseName = (TextView) itemView.findViewById(R.id.course_name);
+        coursePrice = (RoundTextView) itemView.findViewById(R.id.course_price);
+        courseTeacher = (TextView) itemView.findViewById(R.id.course_teacher);
+        courseTime = (TextView) itemView.findViewById(R.id.course_time);
+        courseCount = (TextView) itemView.findViewById(R.id.course_count);
+        courseDetail = (TextView) itemView.findViewById(R.id.course_detail);
+        recyclerviewTeacher = (ShimmerRecyclerView) itemView.findViewById(R.id.recyclerview_teacher);
+        webView = (NoScrollWebView) itemView.findViewById(R.id.webview);
+        loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
+
+
         FragmentActivity activity = getActivity();
         if (activity instanceof VideoPlayPageActivity) {
             videoPlayPageActivity = (VideoPlayPageActivity) getActivity();
@@ -316,11 +302,6 @@ public class CourseIntroductionFragment extends BaseFragment {
         }
     }
 
-    @Override
-    protected int setContentView() {
-        return R.layout.fragment_courseintroduction;
-    }
-
     /**
      * Description:WebActivity
      * Time:2019-3-22   下午 2:56
@@ -409,7 +390,7 @@ public class CourseIntroductionFragment extends BaseFragment {
                 .centerCrop()
                 .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror);
-        GlideUtils.load(context, pictrue, mIconTeacher, requestOptions);
+        GlideUtils.load(getActivity(), pictrue, mIconTeacher, requestOptions);
         mtitleTeacher.setText(teacher_title);
         mDetailTeacher.setText(longevity);
         mNameTeacher.setText(teacher_name);

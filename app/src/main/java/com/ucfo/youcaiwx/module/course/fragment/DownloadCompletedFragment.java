@@ -2,15 +2,12 @@ package com.ucfo.youcaiwx.module.course.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,35 +37,21 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
-
 /**
  * Author: AND
  * Time: 2019-7-10.  上午 9:08
  * FileName: DownloadCompletedFragment
  * Description:TODO 正式版下载完成页
  */
-public class DownloadCompletedFragment extends BaseFragment {
-    @BindView(R.id.listView)
-    RecyclerView listView;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.sdcard_totalSpace)
-    TextView sdcardTotalSpace;
-    @BindView(R.id.sdcard_residueSpace)
-    TextView sdcardResidueSpace;
-    @BindView(R.id.linear_sdcardSpace)
-    LinearLayout linearSdcardSpace;
-    @BindView(R.id.btn_checkAll)
-    Button btnCheckAll;
-    @BindView(R.id.btn_delete)
-    Button btnDelete;
-    @BindView(R.id.linear_edittor)
-    LinearLayout linearEdittor;
-    Unbinder unbinder;
+public class DownloadCompletedFragment extends BaseFragment implements View.OnClickListener {
+    private RecyclerView listView;
+    private LoadingLayout loadinglayout;
+    private TextView sdcardTotalSpace;
+    private TextView sdcardResidueSpace;
+    private LinearLayout linearSdcardSpace;
+    private Button btnCheckAll;
+    private Button btnDelete;
+    private LinearLayout linearEdittor;
 
     private OfflineCourseActivity offlineCourseActivity;
     private DownloadCompletedCourseListAdapter courseListAdapter;
@@ -80,27 +63,23 @@ public class DownloadCompletedFragment extends BaseFragment {
     private String downloadSaveDir;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView != null) {
-            unbinder = ButterKnife.bind(this, rootView);
-        }
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.fragment_downloadcompleted2;
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView(View itemView) {
+        listView = (RecyclerView) itemView.findViewById(R.id.listView);
+        loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
+        sdcardTotalSpace = (TextView) itemView.findViewById(R.id.sdcard_totalSpace);
+        sdcardResidueSpace = (TextView) itemView.findViewById(R.id.sdcard_residueSpace);
+        linearSdcardSpace = (LinearLayout) itemView.findViewById(R.id.linear_sdcardSpace);
+        btnCheckAll = (Button) itemView.findViewById(R.id.btn_checkAll);
+        btnCheckAll.setOnClickListener(this);
+        btnDelete = (Button) itemView.findViewById(R.id.btn_delete);
+        btnDelete.setOnClickListener(this);
+        linearEdittor = (LinearLayout) itemView.findViewById(R.id.linear_edittor);
+
         FragmentActivity activity = getActivity();
         if (activity instanceof OfflineCourseActivity) {
             offlineCourseActivity = (OfflineCourseActivity) activity;
@@ -291,8 +270,8 @@ public class DownloadCompletedFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.btn_checkAll, R.id.btn_delete})
-    public void onViewClicked(View view) {
+    @Override
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_checkAll://全选
                 if (courseListAdapter != null) {
@@ -382,4 +361,5 @@ public class DownloadCompletedFragment extends BaseFragment {
                 .setCanceledOnTouchOutside(false)
                 .show();
     }
+
 }

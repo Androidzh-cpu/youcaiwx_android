@@ -6,9 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -31,10 +29,6 @@ import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Author: AND
  * Time: 2019-5-30.  下午 2:00
@@ -42,13 +36,10 @@ import butterknife.Unbinder;
  * Description:TODO 全部答疑
  */
 public class AllAnswerQuestionFragment extends BaseFragment implements IQuestionAnswerView {
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.refreshlayout)
-    SmartRefreshLayout refreshlayout;
-    Unbinder unbinder;
+    private RecyclerView recyclerview;
+    private LoadingLayout loadinglayout;
+    private SmartRefreshLayout refreshlayout;
+
     private QuestionAnswerActivity questionAnswerActivity;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private int user_id, question_id;
@@ -57,28 +48,17 @@ public class AllAnswerQuestionFragment extends BaseFragment implements IQuestion
     private QuestionAnswerListAdapter questionAnswerListAdapter;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView != null) {
-            unbinder = ButterKnife.bind(this, rootView);
-        }
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.fragment_allanswerquestion;
     }
 
     @Override
     protected void initView(View view) {
+        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
+        refreshlayout = (SmartRefreshLayout) view.findViewById(R.id.refreshlayout);
+        loadinglayout = (LoadingLayout) view.findViewById(R.id.loadinglayout);
+
+
         FragmentActivity fragmentActivity = getActivity();
         if (fragmentActivity instanceof QuestionAnswerActivity) {
             questionAnswerActivity = (QuestionAnswerActivity) fragmentActivity;
@@ -95,12 +75,7 @@ public class AllAnswerQuestionFragment extends BaseFragment implements IQuestion
                 questionAnswerPresenter.getQuestionAnswerList(user_id, question_id, 1);
             }
         });
-        refreshlayout.setDisableContentWhenRefresh(true);//是否在刷新的时候禁止列表的操作
-        refreshlayout.setDisableContentWhenLoading(true);//是否在加载的时候禁止列表的操作
-        refreshlayout.setEnableAutoLoadMore(false);//是否启用列表惯性滑动到底部时自动加载更多
-        refreshlayout.setEnableNestedScroll(true);//是否启用嵌套滚动
-        refreshlayout.setEnableOverScrollBounce(true);//是否启用越界回弹
-        refreshlayout.setEnableLoadMore(false);
+
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -122,13 +97,6 @@ public class AllAnswerQuestionFragment extends BaseFragment implements IQuestion
         list = new ArrayList<>();
     }
 
-    /*@Override
-    protected void onLazyLoadOnce() {
-        super.onLazyLoadOnce();
-        //TODO  获取问答列表
-        questionAnswerPresenter.getQuestionAnswerList(user_id, question_id, 1);
-    }*/
-
     @Override
     protected void onVisibleToUser() {
         super.onVisibleToUser();
@@ -142,6 +110,7 @@ public class AllAnswerQuestionFragment extends BaseFragment implements IQuestion
         if (data != null) {
             if (data.getData() != null && data.getData().size() > 0) {
                 List<QuestionAnswerListBean.DataBean> dataBeanList = data.getData();
+
                 list.clear();
                 list.addAll(dataBeanList);
 
@@ -171,12 +140,12 @@ public class AllAnswerQuestionFragment extends BaseFragment implements IQuestion
 
     //TODO 设置适配器
     private void initAdapter() {
-        if (null == questionAnswerListAdapter) {
+        if (questionAnswerListAdapter == null) {
             questionAnswerListAdapter = new QuestionAnswerListAdapter(list, getActivity());
+            recyclerview.setAdapter(questionAnswerListAdapter);
         } else {
-            questionAnswerListAdapter.notifyDataSetChanged();
+            questionAnswerListAdapter.notifyChange(list);
         }
-        recyclerview.setAdapter(questionAnswerListAdapter);
         //查看详情点击事件
         questionAnswerListAdapter.setItemClick(new QuestionAnswerListAdapter.OnItemViewClickListener() {
             @Override
@@ -207,4 +176,5 @@ public class AllAnswerQuestionFragment extends BaseFragment implements IQuestion
             loadinglayout.showError();
         }
     }
+
 }

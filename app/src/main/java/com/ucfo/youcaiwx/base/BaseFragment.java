@@ -154,7 +154,7 @@ public abstract class BaseFragment extends Fragment {
     protected void onInvisibleToUser() {
     }
 
-    protected abstract void initView(View view);
+    protected abstract void initView(View itemView);
 
     protected abstract void initData();
 

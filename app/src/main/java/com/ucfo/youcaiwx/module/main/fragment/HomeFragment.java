@@ -71,11 +71,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
-
 /**
  * Author:AND
  * Time: 2019-3-12.  上午 10:17
@@ -83,45 +78,29 @@ import butterknife.Unbinder;
  * ClassName: HomeFragment
  * Description:TODO 主页- 首页
  */
-public class HomeFragment extends BaseFragment implements OnBannerListener, IHomeView {
+public class HomeFragment extends BaseFragment implements OnBannerListener, IHomeView, View.OnClickListener {
     public static final String TAG = "Homefragment";
-    @BindView(R.id.titlebar_title)
-    TextView titlebarTitle;
-    @BindView(R.id.titlebar_scan)
-    ImageView titlebarScan;
-    @BindView(R.id.titlebar_message)
-    ImageView titlebarMessage;
-    @BindView(R.id.banner_index)
-    Banner banner;
-    @BindView(R.id.refreshlayout)
-    SmartRefreshLayout refreshLayout;
-    @BindView(R.id.scrollView)
-    NestedScrollView scrollView;
-    @BindView(R.id.hot_filpper)
-    ViewFlipper hotFilpper;
-    @BindView(R.id.icon_live)
-    TextView iconLive;
-    @BindView(R.id.icon_course)
-    TextView iconCourse;
-    @BindView(R.id.icon_face)
-    TextView iconFace;
-    @BindView(R.id.icon_active)
-    TextView iconActive;
-    @BindView(R.id.icon_news)
-    TextView iconNews;
-    @BindView(R.id.recyclerview_live)
-    ShimmerRecyclerView recyclerviewLive;
-    @BindView(R.id.recyclerview_course)
-    ShimmerRecyclerView recyclerviewCourse;
-    @BindView(R.id.recyclerview_news)
-    ShimmerRecyclerView recyclerviewNews;
-    @BindView(R.id.check_more_course)
-    TextView checkMoreCourse;
-    @BindView(R.id.check_more_news)
-    TextView checkMoreNews;
-    @BindView(R.id.statusbar_view)
-    View statusbarView;
-    Unbinder unbinder;
+
+    private TextView titlebarTitle;
+    private ImageView titlebarScan;
+    private ImageView titlebarMessage;
+    private Banner banner;
+    private SmartRefreshLayout refreshLayout;
+    private NestedScrollView scrollView;
+    private ViewFlipper hotFilpper;
+    private TextView iconLive;
+    private TextView iconCourse;
+    private TextView iconFace;
+    private TextView iconActive;
+    private TextView iconNews;
+    private ShimmerRecyclerView recyclerviewLive;
+    private ShimmerRecyclerView recyclerviewCourse;
+    private ShimmerRecyclerView recyclerviewNews;
+    private TextView checkMoreCourse;
+    private TextView checkMoreNews;
+    private View statusbarView;
+
+
     private List<HomeBean.DataBean.ListpicBean> bannerList;
     private List<HomeBean.DataBean.HotspotBean> hotspotBeanList;
     private List<HomeBean.DataBean.BroadcastBean> liveList;
@@ -136,16 +115,6 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     private int mScrollY = 0;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView != null) {
-            unbinder = ButterKnife.bind(this, rootView);
-        }
-        return rootView;
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
         //结束轮播
@@ -153,13 +122,41 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    protected int setContentView() {
+        return R.layout.fragment_home;
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView(View itemView) {
+        statusbarView = (View) itemView.findViewById(R.id.statusbar_view);
+        titlebarTitle = (TextView) itemView.findViewById(R.id.titlebar_title);
+        titlebarScan = (ImageView) itemView.findViewById(R.id.titlebar_scan);
+        titlebarScan.setOnClickListener(this);
+        titlebarMessage = (ImageView) itemView.findViewById(R.id.titlebar_message);
+        titlebarMessage.setOnClickListener(this);
+        banner = (Banner) itemView.findViewById(R.id.banner_index);
+        hotFilpper = (ViewFlipper) itemView.findViewById(R.id.hot_filpper);
+        iconLive = (TextView) itemView.findViewById(R.id.icon_live);
+        iconLive.setOnClickListener(this);
+        iconCourse = (TextView) itemView.findViewById(R.id.icon_course);
+        iconCourse.setOnClickListener(this);
+        iconFace = (TextView) itemView.findViewById(R.id.icon_face);
+        iconFace.setOnClickListener(this);
+        iconActive = (TextView) itemView.findViewById(R.id.icon_active);
+        iconActive.setOnClickListener(this);
+        iconNews = (TextView) itemView.findViewById(R.id.icon_news);
+        iconNews.setOnClickListener(this);
+        recyclerviewLive = (ShimmerRecyclerView) itemView.findViewById(R.id.recyclerview_live);
+        recyclerviewCourse = (ShimmerRecyclerView) itemView.findViewById(R.id.recyclerview_course);
+        checkMoreCourse = (TextView) itemView.findViewById(R.id.check_more_course);
+        checkMoreCourse.setOnClickListener(this);
+        recyclerviewNews = (ShimmerRecyclerView) itemView.findViewById(R.id.recyclerview_news);
+        checkMoreNews = (TextView) itemView.findViewById(R.id.check_more_news);
+        checkMoreNews.setOnClickListener(this);
+        scrollView = (NestedScrollView) itemView.findViewById(R.id.scrollView);
+        refreshLayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
+
+
         context = (MainActivity) getActivity();
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
         recyclerviewLive.setNestedScrollingEnabled(false);
@@ -239,21 +236,16 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         refreshLayout.setEnableOverScrollBounce(true);
     }
 
-    @Override
-    protected int setContentView() {
-        return R.layout.fragment_home;
-    }
-
     private long mLastClickTime = 0;
-    public static final long TIME_INTERVAL = 2000L;
+    public static final long TIME_INTERVAL = 1000L;
 
-    @OnClick({R.id.titlebar_scan, R.id.titlebar_message, R.id.icon_live, R.id.icon_course, R.id.icon_face, R.id.icon_active, R.id.icon_news
-            , R.id.check_more_course, R.id.check_more_news})
-    public void onViewClicked(View view) {
+    @Override
+    public void onClick(View view) {
         boolean loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         long nowTime = System.currentTimeMillis();
         if (nowTime - mLastClickTime > TIME_INTERVAL) {
             mLastClickTime = nowTime;
+
             Bundle bundle = new Bundle();
             switch (view.getId()) {
                 case R.id.titlebar_scan://TODO 二维码

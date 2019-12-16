@@ -1,15 +1,10 @@
 package com.ucfo.youcaiwx.module.course.fragment;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -62,11 +57,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
-
 /**
  * Author: AND
  * Time: 2019-7-2.  下午 1:51
@@ -74,25 +64,18 @@ import butterknife.Unbinder;
  * Description:TODO 正在下载中的视频
  * detail:TODO 准备下载和开始下载为相互独立的功能，在用户获取到需要下载的Datasource便可开始下载
  */
-public class DownloadingFragment extends BaseFragment {
+public class DownloadingFragment extends BaseFragment implements View.OnClickListener {
     public OfflineCourseActivity offlineCourseActivity;
-    @BindView(R.id.listView)
-    ListView listView;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.sdcard_totalSpace)
-    TextView sdcardTotalSpace;
-    @BindView(R.id.sdcard_residueSpace)
-    TextView sdcardResidueSpace;
-    @BindView(R.id.linear_sdcardSpace)
-    LinearLayout linearSdcardSpace;
-    @BindView(R.id.btn_checkAll)
-    Button btnCheckAll;
-    @BindView(R.id.btn_delete)
-    Button btnDelete;
-    @BindView(R.id.linear_edittor)
-    LinearLayout linearEdittor;
-    Unbinder unbinder;
+
+    private ListView listView;
+    private LoadingLayout loadinglayout;
+    private TextView sdcardTotalSpace;
+    private TextView sdcardResidueSpace;
+    private LinearLayout linearSdcardSpace;
+    private Button btnCheckAll;
+    private Button btnDelete;
+    private LinearLayout linearEdittor;
+
     private ArrayList<AlivcDownloadMediaInfo> alivcDownloadingMediaInfos;
     private List<AliyunDownloadMediaInfo> allDownloadMediaInfo;
 
@@ -108,15 +91,6 @@ public class DownloadingFragment extends BaseFragment {
     private boolean downloadWifi;
     private ErrorInfo currentError = ErrorInfo.Normal;
     private Gson gson;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView != null) {
-            unbinder = ButterKnife.bind(this, rootView);
-        }
-        return rootView;
-    }
 
     @Override
     public void onResume() {
@@ -135,12 +109,6 @@ public class DownloadingFragment extends BaseFragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         if (mNetWatchdog != null) {
@@ -155,7 +123,19 @@ public class DownloadingFragment extends BaseFragment {
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView(View itemView) {
+        listView = (ListView) itemView.findViewById(R.id.listView);
+        loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
+        sdcardTotalSpace = (TextView) itemView.findViewById(R.id.sdcard_totalSpace);
+        sdcardResidueSpace = (TextView) itemView.findViewById(R.id.sdcard_residueSpace);
+        linearSdcardSpace = (LinearLayout) itemView.findViewById(R.id.linear_sdcardSpace);
+        btnCheckAll = (Button) itemView.findViewById(R.id.btn_checkAll);
+        btnCheckAll.setOnClickListener(this);
+        btnDelete = (Button) itemView.findViewById(R.id.btn_delete);
+        btnDelete.setOnClickListener(this);
+        linearEdittor = (LinearLayout) itemView.findViewById(R.id.linear_edittor);
+
+
         FragmentActivity activity = getActivity();
         if (activity instanceof OfflineCourseActivity) {
             offlineCourseActivity = (OfflineCourseActivity) activity;
@@ -705,9 +685,8 @@ public class DownloadingFragment extends BaseFragment {
         }
     }
 
-    @SuppressLint({"StringFormatInvalid", "StringFormatMatches"})
-    @OnClick({R.id.btn_checkAll, R.id.btn_delete})
-    public void onViewClicked(View view) {
+    @Override
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_checkAll://全选
                 isCheckAll = !isCheckAll;
@@ -734,8 +713,9 @@ public class DownloadingFragment extends BaseFragment {
                         }
                     }
                 }
+                int size = alivcDownloadMediaInfos.size();
                 new AlertDialog(getActivity()).builder()
-                        .setMsg(getResources().getString(R.string.download_deleteComfirm, alivcDownloadMediaInfos.size()))
+                        .setMsg(getResources().getString(R.string.download_deleteComfirm, String.valueOf(size)))
                         .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

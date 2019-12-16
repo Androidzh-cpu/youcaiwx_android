@@ -445,36 +445,38 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
      */
     private void initTopicData() {
         List<String> topicList = questionList.get(index).getTopic();
-        int size = topicList.size();
-        switch (size) {
-            case 1:
-                topic1(topicList, 0);
-                break;
-            case 2:
-                topic1(topicList, 0);
-                topic2(topicList, 1);
-                break;
-            case 3:
-                topic1(topicList, 0);
-                topic2(topicList, 1);
-                topic3(topicList, 2);
-                break;
-            case 4:
-                topic1(topicList, 0);
-                topic2(topicList, 1);
-                topic3(topicList, 2);
-                topic4(topicList, 3);
-                break;
-            case 5:
-                topic1(topicList, 0);
-                topic2(topicList, 1);
-                topic3(topicList, 2);
-                topic4(topicList, 3);
-                topic5(topicList, 4);
-                break;
-            default:
-                mContent1Question.setText(getResources().getString(R.string.holder_nodata));
-                break;
+        if (topicList != null && topicList.size() > 0) {
+            int size = topicList.size();
+            switch (size) {
+                case 1:
+                    topic1(topicList, 0);
+                    break;
+                case 2:
+                    topic1(topicList, 0);
+                    topic2(topicList, 1);
+                    break;
+                case 3:
+                    topic1(topicList, 0);
+                    topic2(topicList, 1);
+                    topic3(topicList, 2);
+                    break;
+                case 4:
+                    topic1(topicList, 0);
+                    topic2(topicList, 1);
+                    topic3(topicList, 2);
+                    topic4(topicList, 3);
+                    break;
+                case 5:
+                    topic1(topicList, 0);
+                    topic2(topicList, 1);
+                    topic3(topicList, 2);
+                    topic4(topicList, 3);
+                    topic5(topicList, 4);
+                    break;
+                default:
+                    mContent1Question.setText(getResources().getString(R.string.holder_nodata));
+                    break;
+            }
         }
     }
 

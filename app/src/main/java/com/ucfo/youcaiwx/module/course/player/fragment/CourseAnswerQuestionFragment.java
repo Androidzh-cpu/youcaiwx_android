@@ -6,9 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -32,10 +30,6 @@ import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Author:29117
  * Time: 2019-4-3.  上午 9:58
@@ -44,12 +38,9 @@ import butterknife.Unbinder;
  * Description:TODO 课程答疑列表
  */
 public class CourseAnswerQuestionFragment extends BaseFragment implements ICourseAnswerListView {
-    RecyclerView recyclerview;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.refreshlayout)
-    SmartRefreshLayout refreshlayout;
-    Unbinder unbinder;
+    private RecyclerView recyclerview;
+    private LoadingLayout loadinglayout;
+    private SmartRefreshLayout refreshlayout;
 
     private SharedPreferencesUtils sharedPreferencesUtils;
     private int user_id;
@@ -60,16 +51,6 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     private CourseAnswerListAdapter courseAnswerListAdapter;
     private boolean loginstatus;
     private int courseBuyState;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView != null) {
-            unbinder = ButterKnife.bind(this, rootView);
-        }
-        return rootView;
-    }
 
     @Override
     public void onResume() {
@@ -90,14 +71,10 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
     protected void initView(View view) {
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
+        refreshlayout = (SmartRefreshLayout) view.findViewById(R.id.refreshlayout);
+        loadinglayout = (LoadingLayout) view.findViewById(R.id.loadinglayout);
 
         FragmentActivity fragmentActivity = getActivity();
         if (fragmentActivity instanceof VideoPlayPageActivity) {
@@ -107,9 +84,9 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
         loginstatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
 
-        LinearLayoutManager layoutManager3 = new LinearLayoutManager(getActivity());
-        layoutManager3.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerview.setLayoutManager(layoutManager3);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerview.setLayoutManager(layoutManager);
         recyclerview.setNestedScrollingEnabled(false);
     }
 

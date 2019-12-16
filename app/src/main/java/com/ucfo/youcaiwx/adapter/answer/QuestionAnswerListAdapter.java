@@ -54,6 +54,12 @@ public class QuestionAnswerListAdapter extends BaseAdapter<QuestionAnswerListBea
         transferee = Transferee.getDefault(context);//预览图配置
     }
 
+    public void notifyChange(ArrayList<QuestionAnswerListBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     public int getItemCount() {
         return list.size();
     }

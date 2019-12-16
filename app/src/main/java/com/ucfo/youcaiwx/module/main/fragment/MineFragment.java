@@ -3,11 +3,9 @@ package com.ucfo.youcaiwx.module.main.fragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -40,7 +38,6 @@ import com.ucfo.youcaiwx.module.user.activity.WatchTheRecordActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.integral.EarnIntegralPresenter;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.UserInfoPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IUserInfoView;
-import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.ShareUtils;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
@@ -51,10 +48,6 @@ import com.ucfo.youcaiwx.widget.dialog.ShareDialog;
 
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -64,83 +57,41 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * ClassName: MineFragment
  * Description:TODO 首页 -  个人中心
  */
-public class MineFragment extends BaseFragment implements IUserInfoView {
+public class MineFragment extends BaseFragment implements IUserInfoView, View.OnClickListener {
     public static final String TAG = "MineFragment";
-    @BindView(R.id.titlebar_title)
-    TextView titlebarTitle;
-    @BindView(R.id.titlebar_setting)
-    ImageView titlebarSetting;
-    @BindView(R.id.user_icon)
-    CircleImageView userIcon;
-    @BindView(R.id.user_nickname)
-    TextView userNickname;
-    @BindView(R.id.user_sex)
-    ImageView userSex;
-    @BindView(R.id.btn_userInfo)
-    LinearLayout btnUserInfo;
-    @BindView(R.id.user_integral)
-    TextView userIntegral;
-    @BindView(R.id.btn_user_integral)
-    LinearLayout btnUserIntegral;
-    @BindView(R.id.user_balance)
-    TextView userBalance;
-    @BindView(R.id.btn_user_balance)
-    LinearLayout btnUserBalance;
-    @BindView(R.id.user_coupons)
-    TextView userCoupons;
-    @BindView(R.id.user_couponsMsg)
-    ImageView userCouponsMsg;
-    @BindView(R.id.btn_user_coupons)
-    LinearLayout btnUserCoupons;
-    @BindView(R.id.user_course)
-    TextView userCourse;
-    @BindView(R.id.user_collection)
-    TextView userCollection;
-    @BindView(R.id.user_offline)
-    TextView userOffline;
-    @BindView(R.id.user_order)
-    TextView userOrder;
-    @BindView(R.id.user_answer)
-    TextView userAnswer;
-    @BindView(R.id.user_record)
-    TextView userRecord;
-    @BindView(R.id.btn_wxRemind)
-    LinearLayout btnWxRemind;
-    @BindView(R.id.btn_recommendfriend)
-    LinearLayout btnRecommendfriend;
-    @BindView(R.id.btn_call)
-    LinearLayout btnCall;
-    @BindView(R.id.btn_feedback)
-    LinearLayout btnFeedback;
-    @BindView(R.id.btn_about)
-    LinearLayout btnAbout;
-    @BindView(R.id.statusbar_view)
-    View statusbarView;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    Unbinder unbinder;
+
+    private TextView titlebarTitle;
+    private ImageView titlebarSetting;
+    private CircleImageView userIcon;
+    private TextView userNickname;
+    private ImageView userSex;
+    private LinearLayout btnUserInfo;
+    private TextView userIntegral;
+    private LinearLayout btnUserIntegral;
+    private TextView userBalance;
+    private LinearLayout btnUserBalance;
+    private TextView userCoupons;
+    private ImageView userCouponsMsg;
+    private LinearLayout btnUserCoupons;
+    private TextView userCourse;
+    private TextView userCollection;
+    private TextView userOffline;
+    private TextView userOrder;
+    private TextView userAnswer;
+    private TextView userRecord;
+    private LinearLayout btnWxRemind;
+    private LinearLayout btnRecommendfriend;
+    private LinearLayout btnCall;
+    private LinearLayout btnFeedback;
+    private LinearLayout btnAbout;
+    private View statusbarView;
+    private LoadingLayout loadinglayout;
 
     private int mOffset = 0, mScrollY = 0, user_id;
     private MainActivity activity;
     private UserInfoPresenter userInfoPresenter;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private boolean loginstatus;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView != null) {
-            unbinder = ButterKnife.bind(this, rootView);
-        }
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     public static MineFragment newInstance(String content, String tab) {
         MineFragment newFragment = new MineFragment();
@@ -152,7 +103,55 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
     }
 
     @Override
-    protected void initView(View view) {
+    protected int setContentView() {
+        return R.layout.fragment_mine;
+    }
+
+    @Override
+    protected void initView(View itemView) {
+        statusbarView = (View) itemView.findViewById(R.id.statusbar_view);
+        titlebarTitle = (TextView) itemView.findViewById(R.id.titlebar_title);
+        titlebarSetting = (ImageView) itemView.findViewById(R.id.titlebar_setting);
+        userIcon = (CircleImageView) itemView.findViewById(R.id.user_icon);
+        userNickname = (TextView) itemView.findViewById(R.id.user_nickname);
+        userSex = (ImageView) itemView.findViewById(R.id.user_sex);
+        btnUserInfo = (LinearLayout) itemView.findViewById(R.id.btn_userInfo);
+        btnUserInfo.setOnClickListener(this);
+        userIntegral = (TextView) itemView.findViewById(R.id.user_integral);
+        btnUserIntegral = (LinearLayout) itemView.findViewById(R.id.btn_user_integral);
+        btnUserIntegral.setOnClickListener(this);
+        userBalance = (TextView) itemView.findViewById(R.id.user_balance);
+        btnUserBalance = (LinearLayout) itemView.findViewById(R.id.btn_user_balance);
+        btnUserBalance.setOnClickListener(this);
+        userCoupons = (TextView) itemView.findViewById(R.id.user_coupons);
+        userCouponsMsg = (ImageView) itemView.findViewById(R.id.user_couponsMsg);
+        btnUserCoupons = (LinearLayout) itemView.findViewById(R.id.btn_user_coupons);
+        btnUserCoupons.setOnClickListener(this);
+        userCourse = (TextView) itemView.findViewById(R.id.user_course);
+        userCourse.setOnClickListener(this);
+        userCollection = (TextView) itemView.findViewById(R.id.user_collection);
+        userCollection.setOnClickListener(this);
+        userOffline = (TextView) itemView.findViewById(R.id.user_offline);
+        userOffline.setOnClickListener(this);
+        userOrder = (TextView) itemView.findViewById(R.id.user_order);
+        userOrder.setOnClickListener(this);
+        userAnswer = (TextView) itemView.findViewById(R.id.user_answer);
+        userAnswer.setOnClickListener(this);
+        userRecord = (TextView) itemView.findViewById(R.id.user_record);
+        userRecord.setOnClickListener(this);
+        btnWxRemind = (LinearLayout) itemView.findViewById(R.id.btn_wxRemind);
+        btnWxRemind.setOnClickListener(this);
+        btnRecommendfriend = (LinearLayout) itemView.findViewById(R.id.btn_recommendfriend);
+        btnRecommendfriend.setOnClickListener(this);
+        btnCall = (LinearLayout) itemView.findViewById(R.id.btn_call);
+        btnCall.setOnClickListener(this);
+        btnFeedback = (LinearLayout) itemView.findViewById(R.id.btn_feedback);
+        btnFeedback.setOnClickListener(this);
+        btnAbout = (LinearLayout) itemView.findViewById(R.id.btn_about);
+        btnAbout.setOnClickListener(this);
+        loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
+
+
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) statusbarView.getLayoutParams();
         layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
         layoutParams.height = StatusBarUtil.getStatusBarHeight(getActivity());
@@ -165,6 +164,13 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         if (fragmentActivity instanceof MainActivity) {
             activity = (MainActivity) fragmentActivity;
         }
+        titlebarSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(SettingActivity.class, null);
+            }
+        });
+
         userInfoPresenter = new UserInfoPresenter(this);
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this.activity);
 
@@ -201,36 +207,19 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
     }
 
     @Override
-    protected int setContentView() {
-        return R.layout.fragment_mine;
-    }
-
-    @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        LogUtils.e("MineFragment", "hidden: " + hidden);
         if (!hidden) {
             loadUserData();
         }
     }
 
-    @OnClick(R.id.titlebar_setting)
-    public void onViewClicked() {
-        startActivity(SettingActivity.class, null);
-    }
-
-    @OnClick({R.id.btn_userInfo, R.id.btn_user_integral, R.id.btn_user_balance,
-            R.id.btn_user_coupons, R.id.user_course, R.id.user_collection, R.id.user_offline,
-            R.id.user_order, R.id.user_answer, R.id.user_record, R.id.btn_wxRemind,
-            R.id.btn_recommendfriend, R.id.btn_call, R.id.btn_feedback, R.id.btn_about})
-    public void onViewClicked(View view) {
-        if (sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false)) {
+    @Override
+    public void onClick(View view) {
+        boolean loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
+        if (loginStatus) {
             Bundle bundle = new Bundle();
             switch (view.getId()) {
-                /*case R.id.titlebar_setting:
-                    //TODO 设置
-                    startActivity(SettingActivity.class, null);
-                    break;*/
                 case R.id.btn_userInfo:
                     //TODO 个人设置中心
                     startActivity(PersonnelSettingActivity.class, null);
@@ -327,10 +316,8 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
                     break;
 
             }
-        } else
-
-        {//未登录,去登录页
-            startActivity(new Intent(activity, LoginActivity.class));
+        } else {//未登录,去登录页
+            startActivity(new Intent(getActivity(), LoginActivity.class));
         }
 
     }
@@ -375,7 +362,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         userNickname.setCompoundDrawables(null, null, null, null);
         userSex.setVisibility(userSex.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
         userCouponsMsg.setVisibility(userCouponsMsg.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
-        userIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.mipmap.icon_headdefault));
+        userIcon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.mipmap.icon_headdefault));
     }
 
     //TODO 设置登录个人信息
@@ -388,14 +375,14 @@ public class MineFragment extends BaseFragment implements IUserInfoView {
         int isRead = dataBean.getIs_read();
         int integral = dataBean.getIntegral();
         if (TextUtils.isEmpty(head)) {
-            userIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.mipmap.icon_default));
+            userIcon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.mipmap.icon_default));
         } else {
             RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.ALL);
-            GlideUtils.load(activity, head, userIcon, requestOptions);
+            GlideUtils.load(getActivity(), head, userIcon, requestOptions);
         }
         if (!TextUtils.isEmpty(username)) {//todo 昵称
             userNickname.setText(username);
