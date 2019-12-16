@@ -52,9 +52,6 @@ import com.xuexiang.xupdate.XUpdate;
 
 import java.lang.reflect.Field;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Author: AND
  * Time: 2019-9-3 下午 1:35
@@ -64,8 +61,8 @@ import butterknife.ButterKnife;
  * Description:主页
  */
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    @BindView(R.id.bottom_navigation)
-    BottomNavigationView bottomNavigation;
+    private BottomNavigationView bottomNavigation;
+
     private int indexTab = 0;
     private FragmentTransaction fragmentTransaction;
     private FragmentManager supportFragmentManager;
@@ -84,7 +81,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         StatusbarUI.setStatusBarUIMode(this, Color.TRANSPARENT, true);
 
         context = MainActivity.this;
-        ButterKnife.bind(this);
+
+        bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
         ActivityUtil.getInstance().addActivity(this);
         //统计应用启动数据在所有的Activity 的onCreate 方法或在应用的BaseActivity的onCreate方法中添加
         PushAgent.getInstance(this).onAppStart();

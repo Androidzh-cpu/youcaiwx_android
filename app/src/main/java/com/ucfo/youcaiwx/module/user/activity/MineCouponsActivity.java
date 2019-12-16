@@ -31,8 +31,6 @@ import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -44,24 +42,16 @@ import butterknife.OnClick;
  */
 public class MineCouponsActivity extends BaseActivity implements IMineCourponsView {
 
-    @BindView(R.id.titlebar_midtitle)
-    TextView titlebarMidtitle;
-    @BindView(R.id.titlebar_righttitle)
-    TextView titlebarRighttitle;
-    @BindView(R.id.titlebar_toolbar)
-    Toolbar titlebarToolbar;
-    @BindView(R.id.showline)
-    View showline;
-    @BindView(R.id.coupon_count)
-    TextView couponCount;
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
-    @BindView(R.id.btn_disabled)
-    TextView btnDisabled;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout refreshLayout;
+    private TextView titlebarMidtitle;
+    private TextView titlebarRighttitle;
+    private Toolbar titlebarToolbar;
+    private View showline;
+    private TextView couponCount;
+    private RecyclerView recyclerview;
+    private TextView btnDisabled;
+    private LoadingLayout loadinglayout;
+    private SmartRefreshLayout refreshLayout;
+
     private MineCouponsPresenter mineCouponsPresenter;
     private MineCouponsActivity context;
     private int user_id;
@@ -102,15 +92,25 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
+        titlebarMidtitle = (TextView) findViewById(R.id.titlebar_midtitle);
+        titlebarRighttitle = (TextView) findViewById(R.id.titlebar_righttitle);
+        titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
+        showline = (View) findViewById(R.id.showline);
+        couponCount = (TextView) findViewById(R.id.coupon_count);
+        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+        btnDisabled = (TextView) findViewById(R.id.btn_disabled);
+        loadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
+        refreshLayout = (SmartRefreshLayout) findViewById(R.id.refreshLayout);
+
+
         context = this;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(linearLayoutManager);
         recyclerview.setItemAnimator(new DefaultItemAnimator());
-        int topBottom = DensityUtil.dip2px(context, 26);
-        int leftRight = DensityUtil.dip2px(context, 19);
-        recyclerview.addItemDecoration(new SpacesItemDecoration(leftRight, topBottom, ContextCompat.getColor(context, R.color.transparency)));
+        int topBottom = DensityUtil.dip2px(this, 26);
+        int leftRight = DensityUtil.dip2px(this, 19);
+        recyclerview.addItemDecoration(new SpacesItemDecoration(leftRight, topBottom, ContextCompat.getColor(this, R.color.transparency)));
     }
 
     @Override

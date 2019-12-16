@@ -31,9 +31,6 @@ import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Author: AND
  * Time: 2019-6-24 下午 3:21
@@ -43,19 +40,13 @@ import butterknife.ButterKnife;
  */
 
 public class CourseCollectionChildActivity extends BaseActivity implements IMineCollectionView {
+    private TextView titlebarMidtitle;
+    private TextView titlebarRighttitle;
+    private Toolbar titlebarToolbar;
+    private RecyclerView recyclerview;
+    private LoadingLayout loadinglayout;
+    private SmartRefreshLayout refreshlayout;
 
-    @BindView(R.id.titlebar_midtitle)
-    TextView titlebarMidtitle;
-    @BindView(R.id.titlebar_righttitle)
-    TextView titlebarRighttitle;
-    @BindView(R.id.titlebar_toolbar)
-    Toolbar titlebarToolbar;
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.refreshlayout)
-    SmartRefreshLayout refreshlayout;
     private CourseCollectionChildActivity context;
     private int user_id;
     private MineCollectionPresenter mineCollectionPresenter;
@@ -68,6 +59,9 @@ public class CourseCollectionChildActivity extends BaseActivity implements IMine
     protected void onResume() {
         super.onResume();
         if (bundle != null) {
+            if (mineCollectionPresenter == null) {
+                mineCollectionPresenter = new MineCollectionPresenter(this);
+            }
             mineCollectionPresenter.getMineCourseCollectionList(user_id, packege_id);
         } else {
             if (loadinglayout != null) {
@@ -107,8 +101,12 @@ public class CourseCollectionChildActivity extends BaseActivity implements IMine
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
-
+        titlebarMidtitle = (TextView) findViewById(R.id.titlebar_midtitle);
+        titlebarRighttitle = (TextView) findViewById(R.id.titlebar_righttitle);
+        titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
+        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+        loadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
+        refreshlayout = (SmartRefreshLayout) findViewById(R.id.refreshlayout);
     }
 
     @Override
@@ -141,11 +139,6 @@ public class CourseCollectionChildActivity extends BaseActivity implements IMine
                 mineCollectionPresenter.getMineCourseCollectionList(user_id, packege_id);
             }
         });
-        refreshlayout.setDisableContentWhenRefresh(true);
-        refreshlayout.setDisableContentWhenLoading(true);
-        refreshlayout.setEnableAutoLoadMore(false);
-        refreshlayout.setEnableNestedScroll(true);
-        refreshlayout.setEnableOverScrollBounce(true);
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {

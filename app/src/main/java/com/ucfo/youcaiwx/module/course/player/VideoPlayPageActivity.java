@@ -208,7 +208,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     TextView danmuTextcontent;
     @BindView(R.id.corse_placeholder)
     LinearLayout corsePlaceholder;
-    //TODO 测试版 @BindView(R.id.gestureview)
     @BindView(R.id.gestureview)
     GestureView mGestureView;
 
@@ -393,6 +392,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         setContentView(R.layout.activity_video_play_page);
         StatusBarUtil.immersive(this);
         ButterKnife.bind(this);
+
         SoulPermission.getInstance().checkAndRequestPermissions(Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), new CheckRequestPermissionsListener() {
             @Override
             public void onAllPermissionOk(Permission[] allPermissions) {
@@ -2571,7 +2571,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                         }
                         changeScreenMode(targetMode2);
                     }
-                    long currentPosition = aliyunVodPlayer.getCurrentPosition();
                     int finalPosition = Math.round(aliyunVodPlayer.getCurrentPosition() / 1000);
 
                     Intent intent = new Intent(videoPlayPageActivity, QuestionAskQuestionActivity.class);

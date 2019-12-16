@@ -8,10 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
+import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 
 import java.util.List;
 
@@ -47,9 +50,9 @@ public class PictureAdapter extends BaseAdapter<String, PictureAdapter.ViewHolde
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         String imageUrl = list.get(position);
         RequestOptions requestOptions = new RequestOptions()
-                .centerCrop()
                 .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
+                .transform(new CenterCrop(), new RoundedCorners(DensityUtil.dp2px(2)))
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         GlideUtils.load(context, imageUrl, holder.iv_image, requestOptions);
     }

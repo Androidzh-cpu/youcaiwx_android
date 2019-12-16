@@ -128,7 +128,7 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
      */
     @Override
     public void getCourseDataList(CourseDataListBean result) {
-        if (result != null && result.getData().size() != 0) {
+        if (result.getData() != null && result.getData().size() != 0) {
             List<CourseDataListBean.DataBean> data = result.getData();
             if (courseList == null) {
                 courseList = new ArrayList<>();
@@ -172,8 +172,6 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
      * Detail:跳转至课程播放页
      */
     private void starPlayActivity(List<CourseDataListBean.DataBean> list, int position) {
-        setProcessLoading(null, true);
-
         Bundle bundle = new Bundle();
         CourseDataListBean.DataBean bean = list.get(position);
 
@@ -185,9 +183,6 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
         bundle.putInt(Constant.COURSE_PACKAGE_ID, coursePackageId);//课程包ID
         bundle.putInt(Constant.COURSE_BUY_STATE, isPurchase);//购买状态
         bundle.putString(Constant.COURSE_PRICE, bean.getPrice());//课程包价格
-
-        dismissPorcess();
-
         startActivity(VideoPlayPageActivity.class, bundle);
     }
 

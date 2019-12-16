@@ -140,13 +140,16 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
         if (activity instanceof OfflineCourseActivity) {
             offlineCourseActivity = (OfflineCourseActivity) activity;
         }
+        //剩余空间
         initSdcardSpace();
+        //网络监听
         initNetWatchdog();
-        offlineCourseActivityParcelableArrayList = offlineCourseActivity.getParcelableArrayList();
     }
 
     @Override
     protected void initData() {
+        //获取待下载视频
+        offlineCourseActivityParcelableArrayList = offlineCourseActivity.getParcelableArrayList();
         downloadWifi = SharedPreferencesUtils.getInstance(getActivity()).getBoolean(Constant.DOWNLOAD_WIFI, false);
         gson = new Gson();
     }
@@ -178,13 +181,14 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
                     }
                 });
 
-
+        //初始化下载配置
         initDownloadConfig();
-
+        //获取下载信息
         if (offlineCourseActivityParcelableArrayList != null && offlineCourseActivityParcelableArrayList.size() > 0) {
             String vid = offlineCourseActivityParcelableArrayList.get(0).getVid();
             loadSTSData(vid, 0);
         }
+        //设置下载列表
         initDownloadingAdapter();
     }
 
@@ -193,6 +197,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
      */
     private void initDownloadConfig() {
         LitePal.getDatabase();
+
         alivcDownloadingMediaInfos = new ArrayList<>();
         allDownloadMediaInfo = new ArrayList<>();
         alivcDownloadingMediaInfos.clear();
@@ -200,9 +205,10 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
 
         downloadManager = UcfoApplication.downloadManager;
         downloadDataProvider = DownloadDataProvider.getSingleton(UcfoApplication.getInstance());
-
-        downloadManager.setRefreshStsCallback(new MyRefreshStsCallback());// 更新sts回调
-        downloadManager.setDownloadInfoListener(new MyDownloadInfoListener());// 视频下载的回调  注意在不需要的时候，调用remove，移除监听。
+        if (downloadManager != null) {
+            downloadManager.setRefreshStsCallback(new MyRefreshStsCallback());// 更新sts回调
+            downloadManager.setDownloadInfoListener(new MyDownloadInfoListener());// 视频下载的回调  注意在不需要的时候，调用remove，移除监听。
+        }
 
         allDownloadMediaInfo.addAll(downloadDataProvider.getAllDownloadMediaInfo());
 
@@ -221,9 +227,10 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
                     alivcDownloadingMediaInfos.add(alivcDownloadMediaInfo);
                 }
             }
-
         }
-        AliyunDownloadManager.enableNativeLog();
+        if (Constant.ISTEST_ENVIRONMENT) {
+            AliyunDownloadManager.enableNativeLog();
+        }
     }
 
     /**
@@ -291,7 +298,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
                 if (editStatus) {//TODO Editting
                     AlivcDownloadMediaInfo mediaInfo = alivcDownloadingMediaInfos.get(position);//check this item
                     mediaInfo.setCheckedState(!mediaInfo.isCheckedState());
-                    downloadingAdapter.notifyDataSetChanged();
+                    notifyDataSetChanged();
                     checkAndUnCheck(alivcDownloadingMediaInfos);
                 } else {//TODO nothing to do
                     AliyunDownloadMediaInfo info = alivcDownloadingMediaInfos.get(position).getAliyunDownloadMediaInfo();
@@ -681,7 +688,8 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
      */
     public void notifyDataSetChanged() {
         if (downloadingAdapter != null) {
-            downloadingAdapter.notifyDataSetChanged();
+            //downloadingAdapter.notifyDataSetChanged();
+            downloadingAdapter.setData(alivcDownloadingMediaInfos);
         }
     }
 

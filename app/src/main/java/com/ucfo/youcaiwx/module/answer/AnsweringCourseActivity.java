@@ -30,10 +30,6 @@ import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Author: AND
  * Time: 2019-11-12 上午 10:09
@@ -43,22 +39,16 @@ import butterknife.OnClick;
  * Description:TODO 课程答疑(追问版)
  */
 public class AnsweringCourseActivity extends BaseActivity implements IAnsweringCloselyDetailView, View.OnClickListener {
-    @BindView(R.id.titlebar_midtitle)
-    TextView titlebarMidtitle;
-    @BindView(R.id.titlebar_righttitle)
-    TextView titlebarRighttitle;
-    @BindView(R.id.titlebar_toolbar)
-    Toolbar titlebarToolbar;
-    @BindView(R.id.showline)
-    View showline;
-    @BindView(R.id.txt_title)
-    TextView txtTitle;
-    @BindView(R.id.top_Title)
-    LinearLayout topTitle;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.btn_next)
-    Button btnNext;
+    private TextView titlebarMidtitle;
+    private TextView titlebarRighttitle;
+    private Toolbar titlebarToolbar;
+    private View showline;
+    private TextView txtTitle;
+    private LinearLayout topTitle;
+    private LoadingLayout loadinglayout;
+    private Button btnNext;
+    private RecyclerView recyclerview;
+
     private int user_id;
     private AnsweringCloselyDetailPresenter answeringCloselyDetailPresenter;
     private Bundle bundle;
@@ -67,14 +57,12 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
     private List<AnsweringCourseDetailsBean.DataBean.ReplyBean> list;
     private AnsweringCourseDetailsBean.DataBean.TitleBean titleBean;
     private AnsweringCourseDetailAdapter courseDetailAdapter;
-    private RecyclerView recyclerview;
     private SharedPreferencesUtils sharedPreferencesUtils;
 
     @Override
     protected void onResume() {
         super.onResume();
         loadNet();
-
     }
 
     private void loadNet() {
@@ -115,9 +103,18 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
-
+        titlebarMidtitle = (TextView) findViewById(R.id.titlebar_midtitle);
+        titlebarRighttitle = (TextView) findViewById(R.id.titlebar_righttitle);
+        titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
+        showline = (View) findViewById(R.id.showline);
+        txtTitle = (TextView) findViewById(R.id.txt_title);
+        topTitle = (LinearLayout) findViewById(R.id.top_Title);
+        topTitle.setOnClickListener(this);
+        btnNext = (Button) findViewById(R.id.btn_next);
+        btnNext.setOnClickListener(this);
+        loadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
         recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(linearLayoutManager);
@@ -217,18 +214,15 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
         if (courseDetailAdapter == null) {
             courseDetailAdapter = new AnsweringCourseDetailAdapter(list, this);
             recyclerview.setAdapter(courseDetailAdapter);
-        }
-        if (courseDetailAdapter != null) {
+        } else {
             courseDetailAdapter.notifyChange(list);
         }
-
         //投诉
         courseDetailAdapter.setComplainClick(new AnsweringCourseDetailAdapter.OnItemViewClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
                 AnsweringCourseDetailsBean.DataBean.ReplyBean bean = list.get(position);
-                String userSelf = bean.getUser_self();
-                if (TextUtils.equals(userSelf, String.valueOf("1"))) {
+                if (TextUtils.equals(bean.getUser_self(), String.valueOf("1"))) {
                     Bundle bundle = new Bundle();
                     bundle.putString(Constant.ANSWER_ID, String.valueOf(answer_id));
                     bundle.putString(Constant.ANSWER_TYPE, Constant.ANSWER_TYPE_COURSE);
@@ -238,8 +232,7 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
         });
         if (!list.isEmpty()) {
             AnsweringCourseDetailsBean.DataBean.ReplyBean bean = list.get(0);
-            String userSelf = bean.getUser_self();
-            if (TextUtils.equals(userSelf, String.valueOf("1"))) {
+            if (TextUtils.equals(bean.getUser_self(), String.valueOf("1"))) {
                 //用户的答疑
                 String isClose = bean.getIs_close();
                 if (TextUtils.equals(isClose, String.valueOf("1"))) {
@@ -271,8 +264,8 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
         }
     }
 
-    @OnClick({R.id.top_Title, R.id.btn_next})
-    public void onViewClicked(View view) {
+    @Override
+    public void onClick(View view) {
         Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.top_Title:
@@ -302,19 +295,8 @@ public class AnsweringCourseActivity extends BaseActivity implements IAnsweringC
                 bundle.putString(Constant.ANSWER_TYPE, Constant.ANSWER_TYPE_COURSE);
                 startActivity(QuestionAskQuestionActivity.class, bundle);
                 break;
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.top_Title:
-                // TODO 19/12/11
-                break;
-            case R.id.btn_next:
-                // TODO 19/12/11
-                break;
             default:
+                //TODO nothing
                 break;
         }
     }

@@ -5,9 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -22,21 +20,17 @@ import com.ucfo.youcaiwx.entity.user.MineCourseChildListBean;
 import com.ucfo.youcaiwx.entity.user.MineCourseCollectionDirBean;
 import com.ucfo.youcaiwx.entity.user.MineQuestionCollectionListBean;
 import com.ucfo.youcaiwx.entity.user.ProjectListBean;
+import com.ucfo.youcaiwx.module.user.activity.CourseCollectionChildActivity;
+import com.ucfo.youcaiwx.module.user.activity.MineCollectionActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineCollectionPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineCollectionView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.module.user.activity.CourseCollectionChildActivity;
-import com.ucfo.youcaiwx.module.user.activity.MineCollectionActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Author: AND
@@ -45,13 +39,10 @@ import butterknife.Unbinder;
  * Description:TODO 课程收藏-课程包列表
  */
 public class FragmentCourseCollection extends BaseFragment implements IMineCollectionView {
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.refreshlayout)
-    SmartRefreshLayout refreshlayout;
-    Unbinder unbinder;
+    private RecyclerView recyclerview;
+    private LoadingLayout loadinglayout;
+    private SmartRefreshLayout refreshlayout;
+
     private int pageIndex = 1, user_id;
     private MineCollectionActivity mineCollectionActivity;
     private SharedPreferencesUtils sharedPreferencesUtils;
@@ -60,28 +51,16 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
     private MineCourseAdapter mineCourseAdapter;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView != null) {
-            unbinder = ButterKnife.bind(this, rootView);
-        }
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
     protected int setContentView() {
         return R.layout.fragment_coursecollection;
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView(View itemView) {
+        recyclerview = (RecyclerView) itemView.findViewById(R.id.recyclerview);
+        loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
+        refreshlayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
+
         loadinglayout.setEmptyImage(R.mipmap.icon_nodata);
         loadinglayout.setEmptyText(getResources().getString(R.string.mine_collection_coursenodata));
 
@@ -95,7 +74,6 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(mineCollectionActivity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        layoutManager.setReverseLayout(false);
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setNestedScrollingEnabled(false);
     }
@@ -114,11 +92,6 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
             }
         });
         refreshlayout.autoRefresh();
-        refreshlayout.setDisableContentWhenRefresh(true);//是否在刷新的时候禁止列表的操作
-        refreshlayout.setDisableContentWhenLoading(true);//是否在加载的时候禁止列表的操作
-        refreshlayout.setEnableAutoLoadMore(false);//是否启用列表惯性滑动到底部时自动加载更多
-        refreshlayout.setEnableNestedScroll(true);//是否启用嵌套滚动
-        refreshlayout.setEnableOverScrollBounce(true);//是否启用越界回弹
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {

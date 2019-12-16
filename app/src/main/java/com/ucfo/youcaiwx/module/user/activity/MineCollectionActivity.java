@@ -17,25 +17,17 @@ import com.ucfo.youcaiwx.module.user.fragment.FragmentQuestionCollection;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Author: AND
  * Time: 2019-6-18 下午 4:22
  * FileName: MineCollectionActivity
  * ORG: www.youcaiwx.com
- * Description:TODO 我饿收藏
+ * Description:TODO 我de收藏
  */
-
 public class MineCollectionActivity extends BaseActivity {
-    @BindView(R.id.xTablayout)
-    XTabLayout xTablayout;
-    @BindView(R.id.titlebar_toolbar)
-    Toolbar titlebarToolbar;
-    @BindView(R.id.viewpager)
-    ViewPager viewpager;
-
+    private XTabLayout xTablayout;
+    private Toolbar titlebarToolbar;
+    private ViewPager viewpager;
 
     @Override
     protected int setContentView() {
@@ -66,7 +58,9 @@ public class MineCollectionActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
+        xTablayout = (XTabLayout) findViewById(R.id.xTablayout);
+        titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
+        viewpager = (ViewPager) findViewById(R.id.viewpager);
     }
 
     @Override

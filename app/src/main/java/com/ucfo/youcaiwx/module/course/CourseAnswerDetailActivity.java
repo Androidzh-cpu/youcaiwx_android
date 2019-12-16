@@ -45,7 +45,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Description:CourseAnswerDetailActivity
  * Time:2019-4-17   下午 3:00
- * Detail: TODO 答疑详情
+ * Detail: TODO 答疑详情(已弃用)
  */
 public class CourseAnswerDetailActivity extends BaseActivity implements ICourseAnswerListView {
     @BindView(R.id.titlebar_midtitle)

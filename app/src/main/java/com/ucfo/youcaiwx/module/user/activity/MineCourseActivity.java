@@ -19,20 +19,16 @@ import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.user.MineCourseBean;
 import com.ucfo.youcaiwx.entity.user.MineWatchRecordBean;
+import com.ucfo.youcaiwx.module.course.CourseListActivity;
+import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineCoursePresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineCourseView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.module.course.CourseListActivity;
-import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Author: AND
@@ -41,21 +37,15 @@ import butterknife.OnClick;
  * ORG: www.youcaiwx.com
  * Description:TODO 我的课程
  */
-public class MineCourseActivity extends BaseActivity implements IMineCourseView {
-    @BindView(R.id.titlebar_midtitle)
-    TextView titlebarMidtitle;
-    @BindView(R.id.titlebar_righttitle)
-    TextView titlebarRighttitle;
-    @BindView(R.id.titlebar_toolbar)
-    Toolbar titlebarToolbar;
-    @BindView(R.id.btn_lookCourse)
-    Button btnLookCourse;
-    @BindView(R.id.linear_holder)
-    LinearLayout linearHolder;
-    @BindView(R.id.recyclerview)
-    ShimmerRecyclerView recyclerview;
-    @BindView(R.id.refreshlayout)
-    SmartRefreshLayout refreshlayout;
+public class MineCourseActivity extends BaseActivity implements IMineCourseView, View.OnClickListener {
+    private TextView titlebarMidtitle;
+    private TextView titlebarRighttitle;
+    private Toolbar titlebarToolbar;
+    private Button btnLookCourse;
+    private LinearLayout linearHolder;
+    private ShimmerRecyclerView recyclerview;
+    private SmartRefreshLayout refreshlayout;
+
     private MineCourseActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private int user_id;
@@ -95,12 +85,20 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
+        titlebarMidtitle = (TextView) findViewById(R.id.titlebar_midtitle);
+        titlebarRighttitle = (TextView) findViewById(R.id.titlebar_righttitle);
+        titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
+        btnLookCourse = (Button) findViewById(R.id.btn_lookCourse);
+        btnLookCourse.setOnClickListener(this);
+        linearHolder = (LinearLayout) findViewById(R.id.linear_holder);
+        recyclerview = (ShimmerRecyclerView) findViewById(R.id.recyclerview);
+        refreshlayout = (SmartRefreshLayout) findViewById(R.id.refreshlayout);
     }
 
     @Override
     protected void initData() {
         super.initData();
+
         context = this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
@@ -114,12 +112,7 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
 
         mineCoursePresenter = new MineCoursePresenter(this);
         mineCoursePresenter.getMineCourseList(user_id);
-        refreshlayout.setDisableContentWhenRefresh(true);//是否在刷新的时候禁止列表的操作
-        refreshlayout.setDisableContentWhenLoading(true);//是否在加载的时候禁止列表的操作
-        refreshlayout.setEnableAutoLoadMore(false);//是否启用列表惯性滑动到底部时自动加载更多
-        refreshlayout.setEnableNestedScroll(true);//是否启用嵌套滚动
-        refreshlayout.setEnableOverScrollBounce(true);//是否启用越界回弹
-        refreshlayout.setEnableLoadMore(false);
+
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -127,11 +120,6 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
             }
         });
 
-    }
-
-    @OnClick(R.id.btn_lookCourse)
-    public void onViewClicked() {
-        startActivity(CourseListActivity.class, null);
     }
 
     @Override
@@ -218,6 +206,18 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView 
         }
         if (linearHolder != null) {
             linearHolder.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_lookCourse:
+                // TODO 19/12/16
+                startActivity(CourseListActivity.class, null);
+                break;
+            default:
+                break;
         }
     }
 }

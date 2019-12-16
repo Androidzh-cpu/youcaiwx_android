@@ -1,35 +1,28 @@
 package com.ucfo.youcaiwx.module.user.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.adapter.user.MineQuestionCollectionListAdapter;
 import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.Constant;
-import com.ucfo.youcaiwx.entity.user.MineCourseCollectionDirBean;
-import com.ucfo.youcaiwx.entity.user.MineQuestionCollectionListBean;
 import com.ucfo.youcaiwx.entity.user.MineCourseBean;
 import com.ucfo.youcaiwx.entity.user.MineCourseChildListBean;
+import com.ucfo.youcaiwx.entity.user.MineCourseCollectionDirBean;
+import com.ucfo.youcaiwx.entity.user.MineQuestionCollectionListBean;
 import com.ucfo.youcaiwx.entity.user.ProjectListBean;
+import com.ucfo.youcaiwx.module.questionbank.activity.KnowledgeChildListActivity;
+import com.ucfo.youcaiwx.module.user.activity.MineCollectionActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineCollectionPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineCollectionView;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.module.questionbank.activity.KnowledgeChildListActivity;
-import com.ucfo.youcaiwx.module.user.activity.MineCollectionActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Author: AND
@@ -38,11 +31,9 @@ import butterknife.Unbinder;
  * Description:TODO 题库收藏列表页
  */
 public class FragmentQuestionChildCollection extends BaseFragment implements IMineCollectionView {
-    @BindView(R.id.listView)
-    ExpandableListView listView;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    Unbinder unbinder;
+    private ExpandableListView listView;
+    private LoadingLayout loadinglayout;
+
     private int course_id;
     private MineCollectionActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
@@ -50,22 +41,6 @@ public class FragmentQuestionChildCollection extends BaseFragment implements IMi
     private MineCollectionPresenter mineCollectionPresenter;
     private ArrayList<MineQuestionCollectionListBean.DataBean> list;
     private MineQuestionCollectionListAdapter listAdapter;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        if (rootView != null) {
-            unbinder = ButterKnife.bind(this, rootView);
-        }
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     public void setId(int course_id) {
         this.course_id = course_id;
@@ -77,7 +52,11 @@ public class FragmentQuestionChildCollection extends BaseFragment implements IMi
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView(View itemView) {
+        listView = (ExpandableListView) itemView.findViewById(R.id.listView);
+        loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
+
+
         FragmentActivity activity = getActivity();
         if (activity instanceof MineCollectionActivity) {
             context = (MineCollectionActivity) activity;

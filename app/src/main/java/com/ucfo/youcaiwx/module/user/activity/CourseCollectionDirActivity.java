@@ -52,6 +52,7 @@ public class CourseCollectionDirActivity extends BaseActivity implements IMineCo
     ExpandableListView listView;
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
+
     private CourseCollectionDirActivity context;
     private int user_id, package_id, course_id, course_un_con;
     private MineCollectionPresenter mineCollectionPresenter;
@@ -63,7 +64,9 @@ public class CourseCollectionDirActivity extends BaseActivity implements IMineCo
     @Override
     protected void onResume() {
         super.onResume();
-        mineCollectionPresenter.getCollectionDirList(user_id, package_id, course_id);
+        if (mineCollectionPresenter != null) {
+            mineCollectionPresenter.getCollectionDirList(user_id, package_id, course_id);
+        }
     }
 
     @Override

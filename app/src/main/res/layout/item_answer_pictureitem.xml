@@ -13,5 +13,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <!--
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="@dimen/dp_86"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginEnd="@dimen/dp_4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    -->
 
 </android.support.constraint.ConstraintLayout>

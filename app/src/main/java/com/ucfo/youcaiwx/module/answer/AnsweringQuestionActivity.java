@@ -32,8 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Author: AND
@@ -43,7 +41,7 @@ import butterknife.OnClick;
  * ORG: www.youcaiwx.com
  * Description:TODO 题库答疑详情(追问)
  */
-public class AnsweringQuestionActivity extends BaseActivity implements IAnsweringCloselyDetailView {
+public class AnsweringQuestionActivity extends BaseActivity implements IAnsweringCloselyDetailView, View.OnClickListener {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
     @BindView(R.id.titlebar_righttitle)
@@ -62,6 +60,7 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
     LoadingLayout loadinglayout;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
+
     private int user_id;
     private AnsweringCloselyDetailPresenter answeringCloselyDetailPresenter;
     private List<AnsweringQuestionDetailsBean.DataBean.ReplyBean> list;
@@ -106,7 +105,18 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
+        titlebarMidtitle = (TextView) findViewById(R.id.titlebar_midtitle);
+        titlebarRighttitle = (TextView) findViewById(R.id.titlebar_righttitle);
+        titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
+        showline = (View) findViewById(R.id.showline);
+        txtTitle = (TextView) findViewById(R.id.txt_title);
+        topTitle = (LinearLayout) findViewById(R.id.top_Title);
+        topTitle.setOnClickListener(this);
+        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+        btnNext = (Button) findViewById(R.id.btn_Next);
+        btnNext.setOnClickListener(this);
+        loadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
+
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -151,8 +161,8 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
         }
     }
 
-    @OnClick({R.id.top_Title, R.id.btn_Next})
-    public void onViewClicked(View view) {
+    @Override
+    public void onClick(View view) {
         Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.top_Title:
@@ -168,7 +178,6 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
                         ToastUtil.showBottomShortText(this, getResources().getString(R.string.miss_params));
                         return;
                     }
-
                     bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_A);
                     bundle.putInt(Constant.PLATE_ID, Constant.PLATE_16);
                     bundle.putString(Constant.QUESTION_ID, questionId);
@@ -181,6 +190,9 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
                 bundle.putString(Constant.ANSWER_ID, String.valueOf(answer_id));
                 bundle.putString(Constant.ANSWER_TYPE, Constant.ANSWER_TYPE_QUESTION);
                 startActivity(QuestionAskQuestionActivity.class, bundle);
+                break;
+            default:
+                //TODO nothing
                 break;
         }
     }

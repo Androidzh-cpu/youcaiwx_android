@@ -56,10 +56,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Author: AND
  * Time: 2019-5-6 下午 4:08
@@ -68,37 +64,22 @@ import butterknife.OnClick;
  * Description:TODO 工程模式,做题主界面
  * Detail:=_=都已经乱套了,就酱紫吧
  */
-public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExerciseView {
-    @BindView(R.id.titlebar_midtitle)
-    TextView titlebarMidtitle;
-    @BindView(R.id.titlebar_righttitle)
-    TextView titlebarRighttitle;
-    @BindView(R.id.titlebar_toolbar)
-    Toolbar titlebarToolbar;
-    @BindView(R.id.tv_headerTitle)
-    TextView tvHeaderTitle;
-    @BindView(R.id.tv_Time)
-    TextView tvTime;
-    @BindView(R.id.viewpager)
-    ViewPager viewPager;
-    @BindView(R.id.btn_collection)
-    TextView btnCollection;
-    @BindView(R.id.btn_answersheet)
-    TextView btnAnswersheet;
-    @BindView(R.id.btn_pause)
-    TextView btnPause;
-    @BindView(R.id.btn_query)
-    TextView btnQuery;
-    @BindView(R.id.btn_submit)
-    RoundTextView btnSubmit;
-    @BindView(R.id.linear_submit)
-    LinearLayout btnSubmitLinear;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.linear_bottom_function)
-    LinearLayout linearBottomFunction;
-    @BindView(R.id.showline)
-    View showline;
+public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExerciseView, View.OnClickListener {
+    private TextView titlebarMidtitle;
+    private TextView titlebarRighttitle;
+    private Toolbar titlebarToolbar;
+    private TextView tvHeaderTitle;
+    private TextView tvTime;
+    private ViewPager viewPager;
+    private TextView btnCollection;
+    private TextView btnAnswersheet;
+    private TextView btnPause;
+    private TextView btnQuery;
+    private RoundTextView btnSubmit;
+    private LinearLayout btnSubmitLinear;
+    private LoadingLayout loadinglayout;
+    private LinearLayout linearBottomFunction;
+    private View showline;
 
     public ArrayList<DoProblemsBean.DataBean.TopicsBean> questionList;//TODO 所有题目数据集(从接口获取)
     public ArrayList<DoProblemsAnswerBean> optionsAnswerList;//TODO 所有题目数据集,主要用于答题卡和用户答题操作
@@ -138,6 +119,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     private String loadingTips = null;
     private QuestionItemAdapter questionItemAdapter;
     private String know_id, question_id;
+    private String videoName;
     /**
      * 做题翻页(别问,问就是广播大法)
      */
@@ -154,7 +136,6 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             }
         }
     };
-    private String videoName;
 
     @Override
     protected void onRestart() {
@@ -185,13 +166,36 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
+        titlebarMidtitle = (TextView) findViewById(R.id.titlebar_midtitle);
+        titlebarRighttitle = (TextView) findViewById(R.id.titlebar_righttitle);
+        titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
+        showline = (View) findViewById(R.id.showline);
+        tvHeaderTitle = (TextView) findViewById(R.id.tv_headerTitle);
+        tvTime = (TextView) findViewById(R.id.tv_Time);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        btnCollection = (TextView) findViewById(R.id.btn_collection);
+        btnCollection.setOnClickListener(this);
+        btnAnswersheet = (TextView) findViewById(R.id.btn_answersheet);
+        btnAnswersheet.setOnClickListener(this);
+        btnPause = (TextView) findViewById(R.id.btn_pause);
+        btnPause.setOnClickListener(this);
+        btnQuery = (TextView) findViewById(R.id.btn_query);
+        btnQuery.setOnClickListener(this);
+        btnSubmit = (RoundTextView) findViewById(R.id.btn_submit);
+        btnSubmit.setOnClickListener(this);
+        btnSubmitLinear = (LinearLayout) findViewById(R.id.linear_submit);
+        linearBottomFunction = (LinearLayout) findViewById(R.id.linear_bottom_function);
+        loadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
 
         ActivityUtil.getInstance().addActivity(this);
 
+
         testModeActivity = TESTMODEActivity.this;
+
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(testModeActivity);
-        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);//用户id
+
+        //用户id
+        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
 
         collectionImage = ContextCompat.getDrawable(this, R.mipmap.icon_qb_collection);
         if (collectionImage != null) {
@@ -1210,8 +1214,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     }
 
 
-    @OnClick({R.id.btn_collection, R.id.btn_answersheet, R.id.btn_pause, R.id.btn_query, R.id.btn_submit})
-    public void onViewClicked(View view) {
+    @Override
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_collection:
                 //TODO 收藏
@@ -1249,6 +1253,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 submitPaper();
                 break;
             default:
+                //TODO nothing
                 break;
         }
     }
@@ -1378,5 +1383,4 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     public boolean getDiscussAnalysis() {
         return discuss_analysis;
     }
-
 }

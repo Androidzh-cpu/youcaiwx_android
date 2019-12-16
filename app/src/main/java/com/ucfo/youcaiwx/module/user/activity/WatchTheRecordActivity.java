@@ -18,18 +18,15 @@ import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.user.MineCourseBean;
 import com.ucfo.youcaiwx.entity.user.MineWatchRecordBean;
+import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineCoursePresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineCourseView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Author: AND
@@ -40,20 +37,14 @@ import butterknife.ButterKnife;
  */
 
 public class WatchTheRecordActivity extends BaseActivity implements IMineCourseView {
-    @BindView(R.id.titlebar_midtitle)
-    TextView titlebarMidtitle;
-    @BindView(R.id.titlebar_righttitle)
-    TextView titlebarRighttitle;
-    @BindView(R.id.titlebar_toolbar)
-    Toolbar titlebarToolbar;
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.refreshlayout)
-    SmartRefreshLayout refreshlayout;
+    private TextView titlebarMidtitle;
+    private TextView titlebarRighttitle;
+    private Toolbar titlebarToolbar;
+    private RecyclerView recyclerview;
+    private LoadingLayout loadinglayout;
+    private SmartRefreshLayout refreshlayout;
+
     private List<MineWatchRecordBean.DataBean> list;
-    private WatchTheRecordActivity context;
     private int user_id;
     private MineCoursePresenter mineCoursePresenter;
     private MineWatchRecordAdapter mineWatchRecordAdapter;
@@ -93,10 +84,12 @@ public class WatchTheRecordActivity extends BaseActivity implements IMineCourseV
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
-
-        context = this;
-        user_id = SharedPreferencesUtils.getInstance(context).getInt(Constant.USER_ID, 0);
+        titlebarMidtitle = (TextView) findViewById(R.id.titlebar_midtitle);
+        titlebarRighttitle = (TextView) findViewById(R.id.titlebar_righttitle);
+        titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
+        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+        loadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
+        refreshlayout = (SmartRefreshLayout) findViewById(R.id.refreshlayout);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -107,16 +100,12 @@ public class WatchTheRecordActivity extends BaseActivity implements IMineCourseV
     @Override
     protected void initData() {
         super.initData();
+        user_id = SharedPreferencesUtils.getInstance(this).getInt(Constant.USER_ID, 0);
+
         list = new ArrayList<>();
 
         mineCoursePresenter = new MineCoursePresenter(this);
 
-        refreshlayout.setDisableContentWhenRefresh(true);//是否在刷新的时候禁止列表的操作
-        refreshlayout.setDisableContentWhenLoading(true);//是否在加载的时候禁止列表的操作
-        refreshlayout.setEnableAutoLoadMore(false);//是否启用列表惯性滑动到底部时自动加载更多
-        refreshlayout.setEnableNestedScroll(true);//是否启用嵌套滚动
-        refreshlayout.setEnableOverScrollBounce(true);//是否启用越界回弹
-        refreshlayout.setEnableLoadMore(false);
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -137,6 +126,7 @@ public class WatchTheRecordActivity extends BaseActivity implements IMineCourseV
                 List<MineWatchRecordBean.DataBean> beanList = data.getData();
                 list.clear();
                 list.addAll(beanList);
+
                 initadapter();
 
                 if (loadinglayout != null) {
@@ -158,7 +148,7 @@ public class WatchTheRecordActivity extends BaseActivity implements IMineCourseV
 
     private void initadapter() {
         if (mineWatchRecordAdapter == null) {
-            mineWatchRecordAdapter = new MineWatchRecordAdapter(list, this);
+            mineWatchRecordAdapter = new MineWatchRecordAdapter(list, WatchTheRecordActivity.this);
             recyclerview.setAdapter(mineWatchRecordAdapter);
         } else {
             mineWatchRecordAdapter.notifyChange(list);

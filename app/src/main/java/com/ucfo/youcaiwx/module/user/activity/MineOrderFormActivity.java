@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Author: AND
@@ -55,7 +54,7 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
 
-    private MineOrderFormActivity context;
+    private MineOrderFormActivity activity;
     private int user_id;
     private MineOrderFormPresenter mineOrderFormPresenter;
     private ArrayList<MineOrderListBean.DataBean> list;
@@ -102,17 +101,22 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
+        titlebarMidtitle = (TextView) findViewById(R.id.titlebar_midtitle);
+        titlebarRighttitle = (TextView) findViewById(R.id.titlebar_righttitle);
+        titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
+        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+        loadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
+        refreshlayout = (SmartRefreshLayout) findViewById(R.id.refreshlayout);
     }
 
     @Override
     protected void initData() {
         super.initData();
-        context = this;
-        user_id = SharedPreferencesUtils.getInstance(context).getInt(Constant.USER_ID, 0);
+        activity = this;
+        user_id = SharedPreferencesUtils.getInstance(activity).getInt(Constant.USER_ID, 0);
         list = new ArrayList<>();
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setNestedScrollingEnabled(false);
@@ -166,8 +170,7 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
         if (mineOrderFormListAdapter == null) {
             mineOrderFormListAdapter = new MineOrderFormListAdapter(MineOrderFormActivity.this, list);
             recyclerview.setAdapter(mineOrderFormListAdapter);
-        }
-        if (mineOrderFormListAdapter != null) {
+        } else {
             mineOrderFormListAdapter.notifyChange(list);
         }
         //TODO 支付,取消,联系客服操作
@@ -194,7 +197,7 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
 
             @Override
             public void clickConnect() {
-                CallUtils.makeCallWithPermission(context);
+                CallUtils.makeCallWithPermission(activity);
             }
         });
         mineOrderFormListAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
@@ -220,15 +223,15 @@ public class MineOrderFormActivity extends BaseActivity implements IMineOrderFro
                 if (state == 1) {
                     mineOrderFormPresenter.getMineOrderFromList(user_id);
 
-                    ToastUtil.showBottomShortText(context, getResources().getString(R.string.operation_Success));
+                    ToastUtil.showBottomShortText(activity, getResources().getString(R.string.operation_Success));
                 } else {
-                    ToastUtil.showBottomShortText(context, getResources().getString(R.string.operation_Error));
+                    ToastUtil.showBottomShortText(activity, getResources().getString(R.string.operation_Error));
                 }
             } else {
-                ToastUtil.showBottomShortText(context, getResources().getString(R.string.operation_Error));
+                ToastUtil.showBottomShortText(activity, getResources().getString(R.string.operation_Error));
             }
         } else {
-            ToastUtil.showBottomShortText(context, getResources().getString(R.string.operation_Error));
+            ToastUtil.showBottomShortText(activity, getResources().getString(R.string.operation_Error));
         }
     }
 
