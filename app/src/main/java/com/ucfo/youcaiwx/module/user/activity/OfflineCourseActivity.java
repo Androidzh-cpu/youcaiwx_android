@@ -31,10 +31,6 @@ import com.ucfo.youcaiwx.module.course.player.adapter.CommonTabAdapter;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Author: AND
  * Time: 2019-7-2 下午 1:46
@@ -42,28 +38,28 @@ import butterknife.OnClick;
  * ORG: www.youcaiwx.com
  * Description:TODO 课程离线缓存
  */
-public class OfflineCourseActivity extends BaseActivity {
+public class OfflineCourseActivity extends BaseActivity implements View.OnClickListener {
     private static String preparedVid;
-    @BindView(R.id.xTablayout)
-    XTabLayout xTablayout;
-    @BindView(R.id.titlebar_toolbar)
-    Toolbar titlebarToolbar;
-    @BindView(R.id.viewpager)
-    ViewPager viewpager;
-    @BindView(R.id.titlebar_righttitle)
-    TextView titlebarRighttitle;
+    private XTabLayout xTablayout;
+    private Toolbar titlebarToolbar;
+    private ViewPager viewpager;
+    private TextView titlebarRighttitle;
+
     private int page;
     private OfflineCourseActivity context;
     //private DownloadCompletesFragment downloadCompletesFragment;
-    private DownloadingFragment downloadingFragment;
     private boolean editStatus = false;
     private ArrayList<PreparedDownloadInfoBean> parcelableArrayList;
     private DownloadCompletedFragment downloadCompletedFragment;
+    private DownloadingFragment downloadingFragment;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
-
+        xTablayout = (XTabLayout) findViewById(R.id.xTablayout);
+        titlebarRighttitle = (TextView) findViewById(R.id.titlebar_righttitle);
+        titlebarRighttitle.setOnClickListener(this);
+        titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
+        viewpager = (ViewPager) findViewById(R.id.viewpager);
     }
 
     @Override
@@ -159,24 +155,31 @@ public class OfflineCourseActivity extends BaseActivity {
         xTablayout.setupWithViewPager(viewpager);//tablayout关联viewpager
     }
 
-    @OnClick(R.id.titlebar_righttitle)
-    public void onViewClicked() {
-        if (downloadingFragment != null && downloadCompletedFragment != null) {
-            if (downloadingFragment.getUserVisibleHint()) {
-                editStatus = !editStatus;
-                downloadingFragment.editVideoList(editStatus);
-            } else if (downloadCompletedFragment.getUserVisibleHint()) {
-                editStatus = !editStatus;
-                downloadCompletedFragment.editVideoList(editStatus);
-            }
-        }
-    }
-
     //供fragment获取下载信息
     public ArrayList<PreparedDownloadInfoBean> getParcelableArrayList() {
         if (parcelableArrayList == null) {
             return new ArrayList<>();
         }
         return parcelableArrayList;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.titlebar_righttitle:
+                if (downloadingFragment != null && downloadCompletedFragment != null) {
+                    if (downloadingFragment.getUserVisibleHint()) {
+                        editStatus = !editStatus;
+                        downloadingFragment.editVideoList(editStatus);
+                    } else if (downloadCompletedFragment.getUserVisibleHint()) {
+                        editStatus = !editStatus;
+                        downloadCompletedFragment.editVideoList(editStatus);
+                    }
+                }
+                break;
+            default:
+                //TODO nothing
+                break;
+        }
     }
 }

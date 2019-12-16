@@ -16,9 +16,6 @@ import com.ucfo.youcaiwx.module.user.fragment.FragmentMineAnswer;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Author: AND
  * Time: 2019-6-18 下午 7:10
@@ -28,12 +25,9 @@ import butterknife.ButterKnife;
  */
 
 public class MineAnswerQuestionActivity extends BaseActivity {
-    @BindView(R.id.xTablayout)
-    XTabLayout xTablayout;
-    @BindView(R.id.titlebar_toolbar)
-    Toolbar titlebarToolbar;
-    @BindView(R.id.viewpager)
-    ViewPager viewpager;
+    private XTabLayout xTablayout;
+    private Toolbar titlebarToolbar;
+    private ViewPager viewpager;
 
     @Override
     protected void initToolbar() {
@@ -64,7 +58,9 @@ public class MineAnswerQuestionActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
+        xTablayout = (XTabLayout) findViewById(R.id.xTablayout);
+        titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
+        viewpager = (ViewPager) findViewById(R.id.viewpager);
     }
 
     @Override

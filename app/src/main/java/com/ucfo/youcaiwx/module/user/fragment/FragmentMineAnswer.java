@@ -6,9 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -33,10 +31,6 @@ import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-
 /**
  * Author: AND
  * Time: 2019-6-18.  下午 7:18
@@ -44,13 +38,10 @@ import butterknife.Unbinder;
  * Description:TODO 课程答疑
  */
 public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView {
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.refreshlayout)
-    SmartRefreshLayout refreshlayout;
-    Unbinder unbinder;
+    private RecyclerView recyclerview;
+    private LoadingLayout loadinglayout;
+    private SmartRefreshLayout refreshlayout;
+
     private MineAnswerQuestionActivity mineAnswerQuestionActivity;
     private int user_id;
     private ArrayList<AnswerListDataBean.DataBean> list;
@@ -59,20 +50,6 @@ public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView 
     private int type = 1;
 
     private CourseAnswerListAdapter courseAnswerListAdapter;
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     public void setType(int type) {
         this.type = type;
@@ -84,14 +61,18 @@ public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView 
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView(View itemView) {
+        recyclerview = (RecyclerView) itemView.findViewById(R.id.recyclerview);
+        loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
+        refreshlayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
+
+
         FragmentActivity activity = getActivity();
         if (activity instanceof MineAnswerQuestionActivity) {
             mineAnswerQuestionActivity = (MineAnswerQuestionActivity) getActivity();
         }
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        layoutManager.setReverseLayout(false);
         recyclerview.setLayoutManager(layoutManager);
         int topBottom = DensityUtil.dip2px(getActivity(), 6);
         recyclerview.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
