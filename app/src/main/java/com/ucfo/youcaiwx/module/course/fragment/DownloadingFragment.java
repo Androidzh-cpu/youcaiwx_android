@@ -185,13 +185,22 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
 
         //初始化下载配置
         initDownloadConfig();
-        //从离线中心获取下载信息
+
+        /**
+         * 从离线中心获取下载信息
+         * 如果没有获取到离线中心的数据,就直接显示适配器
+         */
         if (offlineCourseActivityParcelableArrayList != null && offlineCourseActivityParcelableArrayList.size() > 0) {
             String vid = offlineCourseActivityParcelableArrayList.get(0).getVid();
             loadSTSData(vid, 0);
         } else {
             //设置下载列表
             initDownloadingAdapter();
+
+            /**
+             * 刷新数据和页面
+             */
+            showDownloadContentView();
         }
     }
 
@@ -279,15 +288,6 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
      * 设置下载中适配器
      */
     private void initDownloadingAdapter() {
-        if (alivcDownloadingMediaInfos != null && alivcDownloadingMediaInfos.size() > 0) {
-            if (loadinglayout != null) {
-                loadinglayout.showContent();
-            }
-        } else {
-            if (loadinglayout != null) {
-                loadinglayout.showEmpty();
-            }
-        }
         if (downloadingAdapter == null) {
             downloadingAdapter = new DownloadingAdapter(alivcDownloadingMediaInfos, getActivity());
             listView.setAdapter(downloadingAdapter);
@@ -421,10 +421,16 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
         alivcDownloadMediaInfo.setAliyunDownloadMediaInfo(info);
         alivcDownloadingMediaInfos.add(alivcDownloadMediaInfo);
 
-        notifyDataSetChanged();
+        /**
+         * 刷新数据和页面
+         */
         showDownloadContentView();
+        notifyDataSetChanged();
 
-        saveInfoToDB(info);//保存到数据库
+        //保存到数据库
+        if (info != null) {
+            saveInfoToDB(info);
+        }
     }
 
     /**
@@ -706,11 +712,13 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
      */
     public void notifyDataSetChanged() {
         if (downloadingAdapter != null) {
-            //downloadingAdapter.notifyDataSetChanged();
             downloadingAdapter.setData(alivcDownloadingMediaInfos);
         }
     }
 
+    /**
+     * 点击事件
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
