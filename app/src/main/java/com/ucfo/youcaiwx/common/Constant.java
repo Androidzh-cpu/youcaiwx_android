@@ -17,7 +17,6 @@ public class Constant {
     //---------------------------------------------TODO common  start-----------------------------------------------//
     //App测试模式控制字段
     public static final boolean ISTEST_ENVIRONMENT = BuildConfig.DEBUG;
-    public static final boolean LOG_DEBUG = BuildConfig.LOG_DEBUG;
 
     //客服电话
     public static final String SERVICE_NUM = "4006665318";

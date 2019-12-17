@@ -30,10 +30,6 @@ import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Author: AND
  * Time: 2019-6-13 下午 1:59
@@ -41,20 +37,15 @@ import butterknife.OnClick;
  * ORG: www.youcaiwx.com
  * Description:TODO 我的地址
  */
-public class MineAddressActivity extends BaseActivity implements IUserAddressView {
-    @BindView(R.id.titlebar_midtitle)
-    TextView titlebarMidtitle;
-    @BindView(R.id.titlebar_righttitle)
-    TextView titlebarRighttitle;
-    @BindView(R.id.titlebar_toolbar)
-    Toolbar titlebarToolbar;
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.refreshlayout)
-    SmartRefreshLayout refreshlayout;
-    private MineAddressActivity context;
+public class MineAddressActivity extends BaseActivity implements IUserAddressView, View.OnClickListener {
+    private TextView titlebarMidtitle;
+    private TextView titlebarRighttitle;
+    private Toolbar titlebarToolbar;
+    private RecyclerView recyclerview;
+    private LoadingLayout loadinglayout;
+    private SmartRefreshLayout refreshlayout;
+
+
     private SharedPreferencesUtils sharedPreferencesUtils;
     private int user_id;
     private boolean loginstatus;
@@ -66,7 +57,9 @@ public class MineAddressActivity extends BaseActivity implements IUserAddressVie
     @Override
     protected void onResume() {
         super.onResume();
-        userAddressPresenter.getUserAddressList(user_id);
+        if (userAddressPresenter != null) {
+            userAddressPresenter.getUserAddressList(user_id);
+        }
     }
 
     @Override
@@ -100,10 +93,16 @@ public class MineAddressActivity extends BaseActivity implements IUserAddressVie
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
-        context = this;
+        titlebarMidtitle = (TextView) findViewById(R.id.titlebar_midtitle);
+        titlebarRighttitle = (TextView) findViewById(R.id.titlebar_righttitle);
+        titlebarRighttitle.setOnClickListener(this);
+        titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
+        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+        loadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
+        refreshlayout = (SmartRefreshLayout) findViewById(R.id.refreshlayout);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setNestedScrollingEnabled(false);
@@ -112,7 +111,7 @@ public class MineAddressActivity extends BaseActivity implements IUserAddressVie
     @Override
     protected void initData() {
         super.initData();
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         loginstatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         Bundle bundle = getIntent().getExtras();
@@ -136,26 +135,12 @@ public class MineAddressActivity extends BaseActivity implements IUserAddressVie
                 userAddressPresenter.getUserAddressList(user_id);
             }
         });
-        refreshlayout.setDisableContentWhenRefresh(true);//是否在刷新的时候禁止列表的操作
-        refreshlayout.setDisableContentWhenLoading(true);//是否在加载的时候禁止列表的操作
-        refreshlayout.setEnableAutoLoadMore(false);//是否启用列表惯性滑动到底部时自动加载更多
-        refreshlayout.setEnableNestedScroll(true);//是否启用嵌套滚动
-        refreshlayout.setEnableOverScrollBounce(true);//是否启用越界回弹
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 userAddressPresenter.getUserAddressList(user_id);
             }
         });
-    }
-
-
-    @OnClick(R.id.titlebar_righttitle)
-    public void onViewClicked() {
-        //TODO 添加地址
-        Bundle bundle = new Bundle();
-        bundle.putInt(Constant.TYPE, 1);
-        startActivity(EditAddressActivity.class, bundle);
     }
 
     @Override
@@ -189,11 +174,9 @@ public class MineAddressActivity extends BaseActivity implements IUserAddressVie
         if (listAdapter == null) {
             listAdapter = new UserAddressListAdapter(list, this);
             recyclerview.setAdapter(listAdapter);
-        }
-        if (listAdapter != null) {
+        } else {
             listAdapter.notifyChange(list);
         }
-
         //跳转编辑页
         listAdapter.setItemClick(new OnItemClickListener() {
             @Override
@@ -251,6 +234,21 @@ public class MineAddressActivity extends BaseActivity implements IUserAddressVie
     public void showError() {
         if (loadinglayout != null) {
             loadinglayout.showError();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.titlebar_righttitle:
+                // TODO 19/12/17
+                //TODO 添加地址
+                Bundle bundle = new Bundle();
+                bundle.putInt(Constant.TYPE, 1);
+                startActivity(EditAddressActivity.class, bundle);
+                break;
+            default:
+                break;
         }
     }
 }

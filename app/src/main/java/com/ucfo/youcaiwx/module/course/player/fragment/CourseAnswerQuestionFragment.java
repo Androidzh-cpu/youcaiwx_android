@@ -96,11 +96,6 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
         courseAnswerListPresenter = new CourseCourseAnswerListPresenter(this);
         coursePackageId = videoPlayPageActivity.getCoursePackageId();//课程包ID
 
-        refreshlayout.setDisableContentWhenRefresh(true);//是否在刷新的时候禁止列表的操作
-        refreshlayout.setDisableContentWhenLoading(true);//是否在加载的时候禁止列表的操作
-        refreshlayout.setEnableAutoLoadMore(false);//是否启用列表惯性滑动到底部时自动加载更多
-        refreshlayout.setEnableNestedScroll(true);//是否启用嵌套滚动
-        refreshlayout.setEnableOverScrollBounce(true);//是否启用越界回弹
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {

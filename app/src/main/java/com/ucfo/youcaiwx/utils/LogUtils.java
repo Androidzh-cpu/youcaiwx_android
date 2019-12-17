@@ -21,7 +21,6 @@ import java.util.Date;
  */
 public class LogUtils {
     private static boolean sIsDebug = Constant.ISTEST_ENVIRONMENT;
-    private static boolean logOutPut = Constant.LOG_DEBUG;
     private static String sPath; // SDCard路径
     private static FileOutputStream sOutputStream;
 

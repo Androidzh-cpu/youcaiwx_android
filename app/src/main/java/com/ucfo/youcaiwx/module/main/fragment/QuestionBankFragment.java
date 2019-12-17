@@ -469,9 +469,11 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     @Override
     public void showLoading() {
         if (isShowLoading) {
-            /*if (loadinglayout != null) {
+/*
+            if (loadinglayout != null) {
                 loadinglayout.showLoading();
-            }*/
+            }
+*/
             setProcessLoading(null, true);
         }
 

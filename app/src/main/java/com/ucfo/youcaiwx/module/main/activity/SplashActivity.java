@@ -20,9 +20,6 @@ import com.ucfo.youcaiwx.widget.dialog.AgreementDialog;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Author: AND
  * Time: 2019-9-9 下午 5:41
@@ -33,10 +30,9 @@ import butterknife.ButterKnife;
  */
 public class SplashActivity extends BaseActivity {
     private static final int MESSAGE_INTENT = 1001;
-    @BindView(R.id.welcome)
-    LinearLayout welcome;
-    @BindView(R.id.image_view)
-    AppCompatImageView imageView;
+    private LinearLayout welcome;
+    private AppCompatImageView imageView;
+
     private Handler handler = null;
     private Timer timer = null;
     private AgreementDialog dialog;
@@ -117,7 +113,8 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
+        imageView = (AppCompatImageView) findViewById(R.id.image_view);
+        welcome = (LinearLayout) findViewById(R.id.welcome);
     }
 
     @Override

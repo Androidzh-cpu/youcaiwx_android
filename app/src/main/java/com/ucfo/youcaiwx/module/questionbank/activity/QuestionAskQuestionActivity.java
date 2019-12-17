@@ -57,9 +57,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import top.zibin.luban.CompressionPredicate;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
@@ -71,27 +68,18 @@ import top.zibin.luban.OnCompressListener;
  * ORG: www.youcaiwx.com
  * Description:TODO 题库答疑,提问问题
  */
-public class QuestionAskQuestionActivity extends BaseActivity implements IAnswerAskQuestionView, IUploadFileView {
-    @BindView(R.id.titlebar_midtitle)
-    TextView titlebarMidtitle;
-    @BindView(R.id.titlebar_righttitle)
-    TextView titlebarRighttitle;
-    @BindView(R.id.titlebar_toolbar)
-    Toolbar titlebarToolbar;
-    @BindView(R.id.ask_edittext_content)
-    EditText askEdittextContent;
-    @BindView(R.id.ask_checkphoto)
-    Button askCheckphoto;
-    @BindView(R.id.ask_imagelist)
-    RecyclerView askImagelist;
-    @BindView(R.id.ask_content_number)
-    TextView askContentNumber;
-    @BindView(R.id.ask_videotime)
-    TextView askVideotime;
-    @BindView(R.id.flowlayout)
-    TagFlowLayout flowlayout;
-    @BindView(R.id.ask_submit)
-    Button askSubmit;
+public class QuestionAskQuestionActivity extends BaseActivity implements IAnswerAskQuestionView, IUploadFileView, View.OnClickListener {
+    private TextView titlebarMidtitle;
+    private TextView titlebarRighttitle;
+    private Toolbar titlebarToolbar;
+    private EditText askEdittextContent;
+    private Button askCheckphoto;
+    private RecyclerView askImagelist;
+    private TextView askContentNumber;
+    private TextView askVideotime;
+    private TagFlowLayout flowlayout;
+    private Button askSubmit;
+
     private SharedPreferencesUtils sharedPreferencesUtils;
     private QuestionAskQuestionActivity context;
     private ArrayList<String> imageList, resultImageList;
@@ -137,7 +125,18 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
     @SuppressLint("CheckResult")
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
+        titlebarMidtitle = (TextView) findViewById(R.id.titlebar_midtitle);
+        titlebarRighttitle = (TextView) findViewById(R.id.titlebar_righttitle);
+        titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
+        askEdittextContent = (EditText) findViewById(R.id.ask_edittext_content);
+        askImagelist = (RecyclerView) findViewById(R.id.ask_imagelist);
+        askVideotime = (TextView) findViewById(R.id.ask_videotime);
+        askContentNumber = (TextView) findViewById(R.id.ask_content_number);
+        flowlayout = (TagFlowLayout) findViewById(R.id.flowlayout);
+        askSubmit = (Button) findViewById(R.id.ask_submit);
+        askSubmit.setOnClickListener(this);
+        askCheckphoto = (Button) findViewById(R.id.ask_checkphoto);
+        askCheckphoto.setOnClickListener(this);
 
         context = QuestionAskQuestionActivity.this;
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
@@ -258,8 +257,8 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
         }
     }
 
-    @OnClick({R.id.ask_checkphoto, R.id.ask_submit})
-    public void onViewClicked(View view) {
+    @Override
+    public void onClick(View view) {
         if (!fastClick(1000)) {
             switch (view.getId()) {
                 case R.id.ask_checkphoto:
@@ -540,5 +539,4 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
 
         }
     };
-
 }

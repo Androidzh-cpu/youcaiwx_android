@@ -665,7 +665,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             changePlayVidSource(vid, videoId, courseId, sectionId);//切换视频播放源
 
             AliyunScreenMode targetMode;
-            if (mCurrentScreenMode == AliyunScreenMode.Small) {
+            if (getScreenMode() == AliyunScreenMode.Small) {
                 targetMode = AliyunScreenMode.Full;
             } else {
                 targetMode = AliyunScreenMode.Small;
@@ -683,7 +683,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             aliyunVodPlayer.prepareAsync(localSource);
 
             AliyunScreenMode targetMode;
-            if (mCurrentScreenMode == AliyunScreenMode.Small) {
+            if (getScreenMode() == AliyunScreenMode.Small) {
                 targetMode = AliyunScreenMode.Full;
             } else {
                 targetMode = AliyunScreenMode.Small;
@@ -702,7 +702,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             changePlayVidSource(vid, video_id, course_id, section_id);//切换视频播放源
 
             AliyunScreenMode targetMode;
-            if (mCurrentScreenMode == AliyunScreenMode.Small) {
+            if (getScreenMode() == AliyunScreenMode.Small) {
                 targetMode = AliyunScreenMode.Full;
             } else {
                 targetMode = AliyunScreenMode.Small;
@@ -719,7 +719,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
 
             AliyunScreenMode targetMode;
-            if (mCurrentScreenMode == AliyunScreenMode.Small) {
+            if (getScreenMode() == AliyunScreenMode.Small) {
                 targetMode = AliyunScreenMode.Full;
             } else {
                 targetMode = AliyunScreenMode.Small;
@@ -752,7 +752,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //提问
             playerAskQuestion.setVisibility(View.GONE);
             //收藏
-            playerCollect.setVisibility(View.GONE);
+            setCollectionBtn();
             //pdf讲义插件
             pdfView.setVisibility(View.GONE);
             //pdf讲义切换按钮
@@ -788,9 +788,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             if (courseDirectoryListFragment.coursWindowisShow()) {
                 courseDirectoryListFragment.dismissWindow();
             } else {
-                if (AliyunScreenMode.Small == mCurrentScreenMode) {
+                if (getScreenMode() == AliyunScreenMode.Small) {
                     super.onBackPressed();
-                } else if (AliyunScreenMode.Full == mCurrentScreenMode) {
+                } else if (getScreenMode() == AliyunScreenMode.Full) {
                     mCurrentScreenMode = AliyunScreenMode.Small;
                     changeScreenMode(mCurrentScreenMode);
                 }
@@ -799,9 +799,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             /**
              * 小屏模式下交由系统处理,横屏模式下切换小屏
              */
-            if (AliyunScreenMode.Small == mCurrentScreenMode) {
+            if (AliyunScreenMode.Small == getScreenMode()) {
                 super.onBackPressed();
-            } else if (AliyunScreenMode.Full == mCurrentScreenMode) {
+            } else if (AliyunScreenMode.Full == getScreenMode()) {
                 mCurrentScreenMode = AliyunScreenMode.Small;
                 changeScreenMode(mCurrentScreenMode);
             }
@@ -829,7 +829,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        //
+        //检测到横竖屏切换,更新菜单
         updatePlayerViewMode();
         //重新设置surfaceview尺寸
         setSurfaceViewLayout(currentScreenSize);
@@ -1323,7 +1323,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 playerTopliner.setBackgroundColor(Color.parseColor("#99000000"));
             }
             //全屏模式下才能可见
-            if (mCurrentScreenMode == AliyunScreenMode.Full) {
+            if (getScreenMode() == AliyunScreenMode.Full) {
                 playerLockedscreen.setVisibility(View.VISIBLE);
             }
         } else {
@@ -1567,7 +1567,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
 
         //这里可能会对模式做一些修改
-        if (targetMode != mCurrentScreenMode) {
+        if (targetMode != getScreenMode()) {
             mCurrentScreenMode = finalScreenMode;
         }
         if (finalScreenMode == AliyunScreenMode.Full) {
@@ -1593,6 +1593,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      * 根据当前屏幕状态控制播放器的操作
      */
     private void playerControllerView(AliyunScreenMode targetMode) {
+
+        setCollectionBtn();
+
         if (AliyunScreenMode.Small == targetMode) {
             //TODO 切换为小屏
             playerQuality.setVisibility(playerQuality.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);//TODO 清晰度按钮控制
@@ -1618,7 +1621,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
             playerShare.setVisibility(playerShare.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);//TODO 分享按钮控制
 
-            playerToprightlinear.setVisibility(playerToprightlinear.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//TODO 横屏时的提问按钮
+            //TODO 横屏时显示讲义,倍速,设置
+            playerToprightlinear.setVisibility(playerToprightlinear.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
             if (getCourseUnCon() == Constant.HAVED_BUY) {//TODO 正课
                 playerAskQuestion.setVisibility(playerAskQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
             } else {
@@ -1783,6 +1787,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                  *
                  */
                 sendSocketMessageByPort();
+
+                /**
+                 * SB说竖屏也要加收藏,加NM呢,智障反人类
+                 */
+                setCollectionBtn();
             }
         });
         //TODO 播放器播放错误处理
@@ -1912,6 +1921,30 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     }
 
     /**
+     * 设置SB收藏,莫名其妙的背锅,GJBBU
+     */
+    private void setCollectionBtn() {
+        if (TextUtils.equals(Constant.LOCAL_CACHE, course_Source)) {
+            //离线视频真的不骗你,意见统一,那就干掉这个收藏
+            playerCollect.setVisibility(View.GONE);
+        } else {
+            //线上视频
+            if (AliyunScreenMode.Small == getScreenMode()) {
+                //小屏模式
+                if (Constant.ISTEST_ENVIRONMENT) {
+                    //true
+                    playerCollect.setVisibility(View.GONE);
+                } else {
+                    playerCollect.setVisibility(View.VISIBLE);
+                }
+            } else {
+                //大屏模式
+                playerCollect.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    /**
      * 设置边播边存
      *
      * @param enable      是否开启。开启之后会根据maxDuration和maxSize决定有无缓存。
@@ -2004,7 +2037,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     return;
                 }
 
-                if (mCurrentScreenMode != AliyunScreenMode.Small) {
+                if (getScreenMode() != AliyunScreenMode.Small) {
                     //水平滑动调节seek。
                     // seek需要在手势结束时操作。
                     long duration = aliyunVodPlayer.getDuration();
@@ -2036,7 +2069,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     return;
                 }
 
-                if (mCurrentScreenMode != AliyunScreenMode.Small) {
+                if (getScreenMode() != AliyunScreenMode.Small) {
                     Display disp = getWindowManager().getDefaultDisplay();
                     int height = disp.getHeight();
 
@@ -2058,7 +2091,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     return;
                 }
 
-                if (mCurrentScreenMode != AliyunScreenMode.Small) {
+                if (getScreenMode() != AliyunScreenMode.Small) {
                     //右侧上下滑动调节音量
                     int changePercent = (int) ((nowY - downY) * 100 / playerRelativelayout.getHeight());
                     int volume = aliyunVodPlayer.getVolume();
@@ -2569,7 +2602,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 if (getCourseUnCon() == Constant.COURSE_UNCON) {//todo 正课
                     if (getScreenMode() == AliyunScreenMode.Full) {
                         AliyunScreenMode targetMode2;
-                        if (mCurrentScreenMode == AliyunScreenMode.Small) {
+                        if (getScreenMode() == AliyunScreenMode.Small) {
                             targetMode2 = AliyunScreenMode.Full;
                         } else {
                             targetMode2 = AliyunScreenMode.Small;
@@ -2637,7 +2670,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             if (exitDirectly()) {
             } else {
                 AliyunScreenMode targetMode;
-                if (mCurrentScreenMode == AliyunScreenMode.Small) {
+                if (getScreenMode() == AliyunScreenMode.Small) {
                     targetMode = AliyunScreenMode.Full;
                 } else {
                     targetMode = AliyunScreenMode.Small;
@@ -2679,13 +2712,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
         int finalWidth = 600;
         int finalHeight = 400;
-        if (mCurrentScreenMode == AliyunScreenMode.Small) {
+        if (getScreenMode() == AliyunScreenMode.Small) {
             int relativeLayoutHeight = playerRelativelayout.getLayoutParams().height;
 
             finalWidth = (int) (deviceWidth * screenSize);
             finalHeight = (int) (relativeLayoutHeight * screenSize);
             return new RelativeLayout.LayoutParams(finalWidth, finalHeight);
-        } else if (mCurrentScreenMode == AliyunScreenMode.Full) {
+        } else if (getScreenMode() == AliyunScreenMode.Full) {
             finalWidth = (int) (deviceWidth * screenSize);
             finalHeight = (int) (deviceHeight * screenSize);
             return new RelativeLayout.LayoutParams(finalWidth, finalHeight);
@@ -2968,7 +3001,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             case R.id.player_fullscreen:
                 //TODO 横竖屏切换
                 AliyunScreenMode targetMode;
-                if (mCurrentScreenMode == AliyunScreenMode.Small) {
+                if (getScreenMode() == AliyunScreenMode.Small) {
                     targetMode = AliyunScreenMode.Full;
                 } else {
                     targetMode = AliyunScreenMode.Small;

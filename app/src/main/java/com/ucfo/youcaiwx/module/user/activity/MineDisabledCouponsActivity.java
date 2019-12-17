@@ -24,9 +24,6 @@ import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Author: AND
  * Time: 2019-7-30 上午 11:26
@@ -37,21 +34,15 @@ import butterknife.ButterKnife;
 
 public class MineDisabledCouponsActivity extends BaseActivity implements IMineCourponsView {
 
-    @BindView(R.id.titlebar_midtitle)
-    TextView titlebarMidtitle;
-    @BindView(R.id.titlebar_righttitle)
-    TextView titlebarRighttitle;
-    @BindView(R.id.titlebar_toolbar)
-    Toolbar titlebarToolbar;
-    @BindView(R.id.showline)
-    View showline;
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
+    private TextView titlebarMidtitle;
+    private TextView titlebarRighttitle;
+    private Toolbar titlebarToolbar;
+    private View showline;
+    private RecyclerView recyclerview;
+    private LoadingLayout loadinglayout;
+
     private ArrayList<MineCouponsBean.DataBean> list;
     private MineCouponsAdapter mineCouponsAdapter;
-    private MineDisabledCouponsActivity context;
     private MineCouponsPresenter mineCouponsPresenter;
     private int user_id;
 
@@ -81,14 +72,20 @@ public class MineDisabledCouponsActivity extends BaseActivity implements IMineCo
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
-        context = this;
+        titlebarMidtitle = (TextView) findViewById(R.id.titlebar_midtitle);
+        titlebarRighttitle = (TextView) findViewById(R.id.titlebar_righttitle);
+        titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
+        showline = (View) findViewById(R.id.showline);
+        recyclerview = (RecyclerView) findViewById(R.id.recyclerview);
+        loadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
+
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(linearLayoutManager);
         recyclerview.setItemAnimator(new DefaultItemAnimator());
-        int topBottom = DensityUtil.dip2px(context, 26);
-        int leftRight = DensityUtil.dip2px(context, 19);
+        int topBottom = DensityUtil.dip2px(this, 26);
+        int leftRight = DensityUtil.dip2px(this, 19);
         recyclerview.addItemDecoration(new SpacesItemDecoration(leftRight, topBottom, getResources().getColor(R.color.transparency)));
         recyclerview.setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
@@ -97,7 +94,7 @@ public class MineDisabledCouponsActivity extends BaseActivity implements IMineCo
     protected void initData() {
         super.initData();
         mineCouponsPresenter = new MineCouponsPresenter(this);
-        user_id = SharedPreferencesUtils.getInstance(context).getInt(Constant.USER_ID, 0);
+        user_id = SharedPreferencesUtils.getInstance(this).getInt(Constant.USER_ID, 0);
         list = new ArrayList<>();
 
         mineCouponsPresenter.getMineCouponsData(user_id, 2);
@@ -141,15 +138,17 @@ public class MineDisabledCouponsActivity extends BaseActivity implements IMineCo
     private void initAdapter() {
         if (mineCouponsAdapter == null) {
             mineCouponsAdapter = new MineCouponsAdapter(this, list, 2);
+            recyclerview.setAdapter(mineCouponsAdapter);
         } else {
-            mineCouponsAdapter.notifyDataSetChanged();
+            mineCouponsAdapter.notifyChange(list);
         }
-        recyclerview.setAdapter(mineCouponsAdapter);
     }
 
     @Override
     public void showLoading() {
-        loadinglayout.showLoading();
+        if (loadinglayout != null) {
+            loadinglayout.showLoading();
+        }
     }
 
     @Override

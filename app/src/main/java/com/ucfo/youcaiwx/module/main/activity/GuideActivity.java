@@ -13,9 +13,6 @@ import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.widget.banner.BGABanner;
 import com.ucfo.youcaiwx.widget.banner.BGALocalImageSize;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Author: AND
  * Time: 2019-9-9 下午 5:42
@@ -25,14 +22,10 @@ import butterknife.ButterKnife;
  * Description:TODO 引导页
  */
 public class GuideActivity extends BaseActivity {
-    @BindView(R.id.banner_guide_background)
-    BGABanner bannerGuideBackground;
-    @BindView(R.id.banner_guide_foreground)
-    BGABanner bannerGuideForeground;
-    @BindView(R.id.tv_guide_skip)
-    TextView tvGuideSkip;
-    @BindView(R.id.btn_guide_enter)
-    Button btnGuideEnter;
+    private BGABanner bannerGuideBackground;
+    private BGABanner bannerGuideForeground;
+    private TextView tvGuideSkip;
+    private Button btnGuideEnter;
 
     @Override
     protected void onResume() {
@@ -48,13 +41,15 @@ public class GuideActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
+        bannerGuideBackground = (BGABanner) findViewById(R.id.banner_guide_background);
+        bannerGuideForeground = (BGABanner) findViewById(R.id.banner_guide_foreground);
+        tvGuideSkip = (TextView) findViewById(R.id.tv_guide_skip);
+        btnGuideEnter = (Button) findViewById(R.id.btn_guide_enter);
     }
 
     @Override
     protected void setListener() {
         super.setListener();
-
         /**
          * 设置进入按钮和跳过按钮控件资源 id 及其点击事件
          * 如果进入按钮和跳过按钮有一个不存在的话就传 0

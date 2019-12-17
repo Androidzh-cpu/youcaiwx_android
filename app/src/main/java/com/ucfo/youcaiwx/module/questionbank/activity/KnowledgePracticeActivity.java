@@ -26,9 +26,6 @@ import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Author: AND
  * Time: 2019-5-5 下午 5:38
@@ -38,25 +35,16 @@ import butterknife.ButterKnife;
  * detail:TODO 选择相应章节后跳转至知识点页面,然后开始做题
  */
 public class KnowledgePracticeActivity extends BaseActivity implements IQuestionBankKonwledgeView {
-    @BindView(R.id.titlebar_midtitle)
-    TextView titlebarMidtitle;
-    @BindView(R.id.titlebar_righttitle)
-    TextView titlebarRighttitle;
-    @BindView(R.id.titlebar_toolbar)
-    Toolbar titlebarToolbar;
-    @BindView(R.id.radiobtn_15)
-    RadioButton radiobtn15;
-    @BindView(R.id.radiobtn_30)
-    RadioButton radiobtn30;
-    @BindView(R.id.radiogroup)
-    RadioGroup radiogroup;
-    @BindView(R.id.listView)
-    ExpandableListView listView;
-    @BindView(R.id.loadinglayout)
-    LoadingLayout loadinglayout;
-    @BindView(R.id.showline)
-    View showline;
-    private KnowledgePracticeActivity context;
+    private TextView titlebarMidtitle;
+    private TextView titlebarRighttitle;
+    private Toolbar titlebarToolbar;
+    private RadioButton radiobtn15;
+    private RadioButton radiobtn30;
+    private RadioGroup radiogroup;
+    private ExpandableListView listView;
+    private LoadingLayout loadinglayout;
+    private View showline;
+
     private SharedPreferencesUtils sharedPreferencesUtils;
     private boolean loginStaus;
     private int user_id, course_id, plate_id, num;//用户ID,题库ID,板块ID, 题目数量
@@ -83,17 +71,15 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
-
-        context = this;
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
-        loginStaus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
-        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-        if (!loginStaus) {
-            if (loadinglayout != null) {
-                loadinglayout.showEmpty();
-            }
-        }
+        titlebarMidtitle = (TextView) findViewById(R.id.titlebar_midtitle);
+        titlebarRighttitle = (TextView) findViewById(R.id.titlebar_righttitle);
+        titlebarToolbar = (Toolbar) findViewById(R.id.titlebar_toolbar);
+        showline = (View) findViewById(R.id.showline);
+        radiobtn15 = (RadioButton) findViewById(R.id.radiobtn_15);
+        radiobtn30 = (RadioButton) findViewById(R.id.radiobtn_30);
+        radiogroup = (RadioGroup) findViewById(R.id.radiogroup);
+        listView = (ExpandableListView) findViewById(R.id.listView);
+        loadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
     }
 
     @Override
@@ -102,11 +88,18 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
         list = new ArrayList<>();
         questionBankKnowledgePresenter = new QuestionBankKnowledgePresenter(this);
 
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
+        loginStaus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
+        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        if (!loginStaus) {
+            loadinglayout.showEmpty();
+        }
+
+
         bundle = getIntent().getExtras();
         if (bundle != null) {
             course_id = bundle.getInt(Constant.COURSE_ID, 0);
             plate_id = bundle.getInt(Constant.PLATE_ID, 0);
-
             //loadNetData();
         } else {
             if (loadinglayout != null) {
@@ -230,7 +223,7 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 if (!radiobtn15.isChecked() && !radiobtn30.isChecked()) {
-                    ToastUtil.showBottomShortText(context, getResources().getString(R.string.question_tips_checkNum));
+                    ToastUtil.showBottomShortText(KnowledgePracticeActivity.this, getResources().getString(R.string.question_tips_checkNum));
                     return false;
                 } else {
                     if (radiobtn15.isChecked()) {

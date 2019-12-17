@@ -52,6 +52,7 @@ public class PictureAdapter extends BaseAdapter<String, PictureAdapter.ViewHolde
         String imageUrl = list.get(position);
 
         if (Constant.ISTEST_ENVIRONMENT) {
+            //实在是TNM丑了,线上的爱咋咋地吧
             RequestOptions requestOptions = new RequestOptions()
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
