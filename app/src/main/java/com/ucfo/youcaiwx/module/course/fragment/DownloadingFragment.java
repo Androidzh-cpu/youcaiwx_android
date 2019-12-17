@@ -183,7 +183,9 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
                     }
                 });
 
-        //初始化下载配置
+        /**
+         * 初始化下载配置
+         */
         initDownloadConfig();
 
         /**
@@ -194,14 +196,24 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
             String vid = offlineCourseActivityParcelableArrayList.get(0).getVid();
             loadSTSData(vid, 0);
         } else {
-            //设置下载列表
-            initDownloadingAdapter();
-
-            /**
-             * 刷新数据和页面
-             */
+            //刷新数据和页面
             showDownloadContentView();
         }
+        /**
+         * 设置适配器
+         */
+        initDownloadingAdapter();
+
+        /**
+         * 开启未下载完的视频
+         */
+        startUnCompetionVideo();
+    }
+
+    /**
+     * 未下载视频开启下载
+     */
+    private void startUnCompetionVideo() {
     }
 
     /**
@@ -221,8 +233,9 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
             downloadManager.setRefreshStsCallback(new MyRefreshStsCallback());// 更新sts回调
             downloadManager.setDownloadInfoListener(new MyDownloadInfoListener());// 视频下载的回调  注意在不需要的时候，调用remove，移除监听。
         }
-
-        allDownloadMediaInfo.addAll(downloadDataProvider.getAllDownloadMediaInfo());
+        if (downloadDataProvider != null) {
+            allDownloadMediaInfo.addAll(downloadDataProvider.getAllDownloadMediaInfo());
+        }
 
         if (allDownloadMediaInfo != null && allDownloadMediaInfo.size() > 0) {
             int size = allDownloadMediaInfo.size();
@@ -394,13 +407,6 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
             String vid = offlineCourseActivityParcelableArrayList.get(position).getVid();
             loadSTSData(vid, position);
         }
-        //最后一个视频了在刷新页面显示列
-        if (offlineCourseActivityParcelableArrayList != null) {
-            if (position == offlineCourseActivityParcelableArrayList.size()) {
-                //设置下载列表
-                initDownloadingAdapter();
-            }
-        }
     }
 
     /**
@@ -425,6 +431,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
          * 刷新数据和页面
          */
         showDownloadContentView();
+
         notifyDataSetChanged();
 
         //保存到数据库
@@ -689,7 +696,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
         Date date = new Date();
         String format = simpleDateFormat.format(date);
 
-        LogUtils.e("SafeDownload--" + log + "       " + format);
+        LogUtils.e("SafeDownload", log + "  time: " + format);
     }
 
     /**

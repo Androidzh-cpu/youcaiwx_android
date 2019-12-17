@@ -7,6 +7,7 @@ package com.ucfo.youcaiwx.common;
  * ClassName: ApiStores
  * Detail:TODO 公共类的url，网络地址
  * 瓦力打包命令 发布前一定要切换到正式版本  gradlew clean assembleReleaseChannels
+ * 同样的经历,我才刚经历不久
  */
 public class ApiStores {
 
@@ -14,9 +15,9 @@ public class ApiStores {
     }
 
     //线上正式环境
-    public static final String ROOT_URL = "https://api.youcaiwx.cn/";
+    //public static final String ROOT_URL = "https://api.youcaiwx.cn/";
     //线下测试环境
-    //public static final String ROOT_URL = "https://dest.youcaiwx.cn/";
+    public static final String ROOT_URL = "https://dest.youcaiwx.cn/";
 
     public static final String BASE_URL = ROOT_URL + "apps/";
 
