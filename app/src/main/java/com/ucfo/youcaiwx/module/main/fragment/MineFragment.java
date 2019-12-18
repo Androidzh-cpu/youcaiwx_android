@@ -92,6 +92,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
     private UserInfoPresenter userInfoPresenter;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private boolean loginstatus;
+    private Drawable iconDefaultImage;
 
     public static MineFragment newInstance(String content, String tab) {
         MineFragment newFragment = new MineFragment();
@@ -151,19 +152,22 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         btnAbout.setOnClickListener(this);
         loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
 
-
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) statusbarView.getLayoutParams();
-        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        layoutParams.height = StatusBarUtil.getStatusBarHeight(getActivity());
-        statusbarView.setLayoutParams(layoutParams);
-    }
-
-    @Override
-    protected void initData() {
         FragmentActivity fragmentActivity = getActivity();
         if (fragmentActivity instanceof MainActivity) {
             activity = (MainActivity) fragmentActivity;
         }
+
+
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) statusbarView.getLayoutParams();
+        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        layoutParams.height = StatusBarUtil.getStatusBarHeight(activity);
+        statusbarView.setLayoutParams(layoutParams);
+
+        iconDefaultImage = ContextCompat.getDrawable(activity, R.mipmap.icon_default);
+    }
+
+    @Override
+    protected void initData() {
         titlebarSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,7 +176,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         });
 
         userInfoPresenter = new UserInfoPresenter(this);
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this.activity);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(activity);
 
         loadUserData();
 
@@ -268,7 +272,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                     break;
                 case R.id.btn_recommendfriend:
                     //TODO 推荐给好友
-                    new ShareDialog(getActivity()).builder()
+                    new ShareDialog(activity).builder()
                             .setFriendButton(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -297,7 +301,6 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                     break;
                 case R.id.btn_call:
                     //TODO 电话
-                    MainActivity activity = (MainActivity) getActivity();
                     if (activity != null) {
                         activity.makeCall();
                     }
@@ -317,9 +320,10 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
 
             }
         } else {//未登录,去登录页
-            startActivity(new Intent(getActivity(), LoginActivity.class));
+            if (getActivity() != null) {
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+            }
         }
-
     }
 
     @Override
@@ -336,7 +340,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
     }
 
     private void noDev() {
-        new AlertDialog(getActivity()).builder().setCancelable(false).setCanceledOnTouchOutside(false)
+        new AlertDialog(Objects.requireNonNull(getActivity())).builder().setCancelable(false).setCanceledOnTouchOutside(false)
                 .setMsg("暂未开发")
                 .setNegativeButton(null, new View.OnClickListener() {
                     @Override
@@ -362,7 +366,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         userNickname.setCompoundDrawables(null, null, null, null);
         userSex.setVisibility(userSex.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
         userCouponsMsg.setVisibility(userCouponsMsg.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
-        userIcon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.mipmap.icon_headdefault));
+        userIcon.setImageDrawable(ContextCompat.getDrawable(Objects.requireNonNull(activity), R.mipmap.icon_headdefault));
     }
 
     //TODO 设置登录个人信息
@@ -375,14 +379,18 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         int isRead = dataBean.getIs_read();
         int integral = dataBean.getIntegral();
         if (TextUtils.isEmpty(head)) {
-            userIcon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.mipmap.icon_default));
+            if (iconDefaultImage != null) {
+                userIcon.setImageDrawable(iconDefaultImage);
+            }
         } else {
             RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.ALL);
-            GlideUtils.load(getActivity(), head, userIcon, requestOptions);
+            if (activity != null) {
+                GlideUtils.load(activity, head, userIcon, requestOptions);
+            }
         }
         if (!TextUtils.isEmpty(username)) {//todo 昵称
             userNickname.setText(username);
@@ -399,12 +407,12 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
 
         switch (sex) {
             case 1://man
-                Drawable drawableMan = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.mipmap.icon_sex_man);
+                Drawable drawableMan = ContextCompat.getDrawable(Objects.requireNonNull(activity), R.mipmap.icon_sex_man);
                 drawableMan.setBounds(0, 0, Objects.requireNonNull(drawableMan).getMinimumWidth(), drawableMan.getMinimumHeight());
                 userNickname.setCompoundDrawables(null, null, drawableMan, null);
                 break;
             case 2://woman
-                Drawable drawableWoman = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.mipmap.icon_sex_woman);
+                Drawable drawableWoman = ContextCompat.getDrawable(Objects.requireNonNull(activity), R.mipmap.icon_sex_woman);
                 drawableWoman.setBounds(0, 0, Objects.requireNonNull(drawableWoman).getMinimumWidth(), drawableWoman.getMinimumHeight());
                 userNickname.setCompoundDrawables(null, null, drawableWoman, null);
                 break;

@@ -330,8 +330,14 @@ public class RegisterActivity extends BaseActivity implements IRegisterView {
                 etRegisterPhone.clearFocus();
                 etRegisterPhone.setText("");
 
-                sharedPreferencesUtils.putInt(Constant.USER_ID, Integer.parseInt(data.getData().getId()));//用户ID
-                sharedPreferencesUtils.putInt(Constant.USER_STATUS, Integer.parseInt(data.getData().getStatus()));//用户类别信息
+                String user_id = data.getData().getId();
+                if (!TextUtils.isEmpty(user_id)) {
+                    sharedPreferencesUtils.putInt(Constant.USER_ID, Integer.parseInt(user_id));
+                }
+                String status = data.getData().getStatus();
+                if (!TextUtils.isEmpty(status)) {
+                    sharedPreferencesUtils.putInt(Constant.USER_STATUS, Integer.parseInt(status));
+                }
                 sharedPreferencesUtils.putBoolean(Constant.LOGIN_STATUS, true);//用户登录状态
 
                 //TODO 注册成功,前往欢迎页

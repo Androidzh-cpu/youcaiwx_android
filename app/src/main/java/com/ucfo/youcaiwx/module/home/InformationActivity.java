@@ -19,11 +19,10 @@ import com.ucfo.youcaiwx.adapter.home.InformationAdapter;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.home.InformationListBean;
+import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.home.InformationPresenter;
 import com.ucfo.youcaiwx.presenter.view.home.IInformationView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
-import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -158,7 +157,8 @@ public class InformationActivity extends BaseActivity implements IInformationVie
                 } else {//架子啊更多
                     if (list != null && list.size() > 0) {
                         informationAdapter.notifyDataSetChanged();
-                        ToastUtil.showBottomShortText(this, getResources().getString(R.string.noMoreData));
+                        //ToastUtil.showBottomShortText(this, getResources().getString(R.string.noMoreData));
+                        refreshlayout.finishLoadMoreWithNoMoreData();
                     } else {
                         if (loadinglayout != null) {
                             loadinglayout.showEmpty();

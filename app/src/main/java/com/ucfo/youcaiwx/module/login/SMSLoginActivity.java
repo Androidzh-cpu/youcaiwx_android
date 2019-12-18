@@ -198,10 +198,15 @@ public class SMSLoginActivity extends BaseActivity implements ILoginView {
             if (code == 200) {
                 //TODO 登录成功
                 LoginBean.DataBean dataData = data.getData();
-                String id = dataData.getId();
-                String user_status = dataData.getUser_status();
-                sharedPreferencesUtils.putInt(Constant.USER_STATUS, Integer.parseInt(user_status));
-                sharedPreferencesUtils.putInt(Constant.USER_ID, Integer.parseInt(id));
+                String user_id = dataData.getId();
+                String status = dataData.getUser_status();
+
+                if (!TextUtils.isEmpty(user_id)) {
+                    sharedPreferencesUtils.putInt(Constant.USER_ID, Integer.parseInt(user_id));
+                }
+                if (!TextUtils.isEmpty(status)) {
+                    sharedPreferencesUtils.putInt(Constant.USER_STATUS, Integer.parseInt(status));
+                }
                 sharedPreferencesUtils.putBoolean(Constant.LOGIN_STATUS, true);
 
                 toastInfo(getResources().getString(R.string.login_success));

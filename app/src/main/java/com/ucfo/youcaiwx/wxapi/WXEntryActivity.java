@@ -296,9 +296,14 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                     LogUtils.e("wecheat setUserInfo:2登录成功");
                     String userId = data.getId();
                     String status = data.getStatus();
+                    if (!TextUtils.isEmpty(userId)) {
+                        SharedPreferencesUtils.getInstance(getApplicationContext()).putInt(Constant.USER_ID, Integer.parseInt(userId));
+                    }
+                    if (!TextUtils.isEmpty(status)) {
+                        SharedPreferencesUtils.getInstance(getApplicationContext()).putInt(Constant.USER_STATUS, Integer.parseInt(status));
+                    }
                     SharedPreferencesUtils.getInstance(getApplicationContext()).putBoolean(Constant.LOGIN_STATUS, true);
-                    SharedPreferencesUtils.getInstance(getApplicationContext()).putInt(Constant.USER_ID, Integer.parseInt(userId));
-                    SharedPreferencesUtils.getInstance(getApplicationContext()).putInt(Constant.USER_STATUS, Integer.parseInt(status));
+
                     ToastUtil.showBottomShortText(getApplicationContext(), getResources().getString(R.string.login_success));
                     Intent intent = new Intent(WXEntryActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

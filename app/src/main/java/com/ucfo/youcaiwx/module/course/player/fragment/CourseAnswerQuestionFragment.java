@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Author:29117
@@ -71,10 +73,10 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     }
 
     @Override
-    protected void initView(View view) {
-        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
-        refreshlayout = (SmartRefreshLayout) view.findViewById(R.id.refreshlayout);
-        loadinglayout = (LoadingLayout) view.findViewById(R.id.loadinglayout);
+    protected void initView(View itemView) {
+        recyclerview = (RecyclerView) itemView.findViewById(R.id.recyclerview);
+        refreshlayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
+        loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
 
         FragmentActivity fragmentActivity = getActivity();
         if (fragmentActivity instanceof VideoPlayPageActivity) {
@@ -84,10 +86,11 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
         loginstatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(Objects.requireNonNull(videoPlayPageActivity));
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setNestedScrollingEnabled(false);
+        recyclerview.setItemAnimator(new DefaultItemAnimator());
     }
 
     @Override
@@ -163,9 +166,6 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     public void getAnswerListData(AnswerListDataBean result) {
         if (result != null && result.getData().size() > 0) {
             List<AnswerListDataBean.DataBean> data = result.getData();
-            if (answerList == null) {
-                answerList = new ArrayList<>();
-            }
             answerList.clear();
             answerList.addAll(data);
             initAdapter();
@@ -177,8 +177,10 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
                 loadinglayout.showEmpty();
             }
         }
-        refreshlayout.finishRefresh();
-        refreshlayout.finishLoadMore();
+        if (refreshlayout != null) {
+            refreshlayout.finishRefresh();
+            refreshlayout.finishLoadMore();
+        }
     }
 
 

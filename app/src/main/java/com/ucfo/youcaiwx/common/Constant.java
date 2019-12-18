@@ -112,6 +112,8 @@ public class Constant {
     public static final String ROOT_DIR = "/youcai/";
     //压缩图片存储地址
     public static final String LUBAN_PATH = ROOT_DIR + "image/";
+    //图片保存地址
+    public static final String SAVE_PATH = ROOT_DIR + "saveImage/";
     //离线缓存地址
     public static final String CACHE_PATH = ROOT_DIR + "Download/";
     //pdf文件存放地址(API19以下存储位置)

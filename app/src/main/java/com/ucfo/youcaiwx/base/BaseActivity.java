@@ -235,7 +235,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
         return true;
     }
 
-    public  boolean isFastClick(int time) {
+    public boolean isFastClick(int time) {
         boolean flag = true;
         long currentClickTime = System.currentTimeMillis();
         if ((currentClickTime - lastClick) >= time) {

@@ -216,8 +216,12 @@ public class LoginActivity extends BaseActivity implements ILoginView {
                 String id = dataData.getId();
                 String userStatus = dataData.getUser_status();
 
-                sharedPreferencesUtils.putInt(Constant.USER_ID, Integer.parseInt(id));
-                sharedPreferencesUtils.putInt(Constant.USER_STATUS, Integer.parseInt(userStatus));
+                if (!TextUtils.isEmpty(id)) {
+                    sharedPreferencesUtils.putInt(Constant.USER_ID, Integer.parseInt(id));
+                }
+                if (!TextUtils.isEmpty(userStatus)) {
+                    sharedPreferencesUtils.putInt(Constant.USER_STATUS, Integer.parseInt(userStatus));
+                }
                 sharedPreferencesUtils.putBoolean(Constant.LOGIN_STATUS, true);
 
                 toastInfo(getResources().getString(R.string.login_success));

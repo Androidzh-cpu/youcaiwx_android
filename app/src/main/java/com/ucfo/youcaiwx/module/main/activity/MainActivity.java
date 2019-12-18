@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             CrashReport.setUserId(String.valueOf(anInt));
         }
         //有希望情况下可能不会显示指定的标签
-        initSelectTab(indexTab);
+        setTabSelection(indexTab);
     }
 
     @Override
@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         disableShiftMode(bottomNavigation);
         bottomNavigation.setItemIconTintList(null);
 
-        initSelectTab(indexTab);
+        setTabSelection(indexTab);
 
         bottomNavigation.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
     }
@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         //TODO  接收其他页面传入的索引,进入指定的页面
         if (intent != null) {
             int intExtrai = intent.getIntExtra(Constant.INDEX, 0);
-            initSelectTab(intExtrai);
+            setTabSelection(intExtrai);
         }
         /*      跳转至指定页面代码
                 Intent intent = new Intent(this, MainActivity.class);
@@ -357,39 +357,43 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_home:
-                initSelectTab(0);
+                setTabSelection(0);
                 return true;
             case R.id.action_learncenter:
-                initSelectTab(1);
+                setTabSelection(1);
                 return true;
             case R.id.action_questionbank:
-                initSelectTab(2);
+                setTabSelection(2);
                 return true;
             case R.id.action_mine:
-                initSelectTab(3);
+                setTabSelection(3);
                 return true;
             default:
+                setTabSelection(0);
                 break;
         }
         return false;
     }
 
     /**
-     * 选中指定页面
+     * 根据传入的index参数来设置选中的tab页。
+     * 每个tab页对应的下标。0:首页，1学习中心:，2:题库，3:个人中心。
      */
-    private void initSelectTab(int index) {
+    private void setTabSelection(int index) {
         if (index < 0 || index > 3) {
             index = 0;
         }
-
+        // 开启一个Fragment事务
         if (supportFragmentManager != null) {
             fragmentTransaction = supportFragmentManager.beginTransaction();
             if (index != indexTab) {
+                //点击不同页面才添加切换动画
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             }
         }
-
+        // 先隐藏掉所有的Fragment，以防止有多个Fragment显示在界面上的情况
         hideAllFragment(fragmentTransaction);
+        //根据下标设置选中的item
         bottomNavigation.getMenu().getItem(index).setChecked(true);
 
         indexTab = index;
@@ -401,7 +405,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else {
                     fragmentTransaction.show(homeFragment);
                 }
-                fragmentTransaction.commit();
                 break;
             case 1:
                 if (learnCenterFragment == null) {
@@ -410,7 +413,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else {
                     fragmentTransaction.show(learnCenterFragment);
                 }
-                fragmentTransaction.commit();
                 break;
             case 2:
                 if (questionBankFragment == null) {
@@ -419,7 +421,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else {
                     fragmentTransaction.show(questionBankFragment);
                 }
-                fragmentTransaction.commit();
                 break;
             case 3:
                 if (mineFragment == null) {
@@ -428,10 +429,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else {
                     fragmentTransaction.show(mineFragment);
                 }
-                fragmentTransaction.commit();
                 break;
             default:
+                if (homeFragment == null) {
+                    homeFragment = new HomeFragment();
+                    fragmentTransaction.add(R.id.frame_layout, homeFragment, HomeFragment.TAG);
+                } else {
+                    fragmentTransaction.show(homeFragment);
+                }
                 break;
         }
+        fragmentTransaction.commit();
     }
 }

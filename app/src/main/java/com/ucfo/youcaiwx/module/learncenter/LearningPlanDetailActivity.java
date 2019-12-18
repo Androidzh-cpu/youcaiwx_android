@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.adapter.learncenter.LearnPlanDetailCourseAdapter;
@@ -71,12 +70,6 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
     private LearnPlanDetailCourseAdapter learnPlanDetailCourseAdapter;
     private CenterLayoutManager gridLayoutManager;
     private int currentDay = 0;
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Glide.with(getApplicationContext()).pauseRequests();
-    }
 
     @Override
     protected int setContentView() {
@@ -228,7 +221,7 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                             .centerCrop()
                             .placeholder(R.mipmap.icon_default)
                             .error(R.mipmap.image_loaderror);
-                    GlideUtils.load(context, advert, cover, requestOptions);
+                    GlideUtils.load(this, advert, cover, requestOptions);
                 }
                 if (result.getData().getDate() != null && result.getData().getDate().size() > 0) {
                     List<LearnPlanDetailBean.DataBean.DateBean> dateBeanList = result.getData().getDate();

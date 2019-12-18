@@ -1825,17 +1825,21 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 inSeek = false;
                 //关闭定时器
                 stopProgressUpdateTimer();
-                /**
-                 * 宵禁手势操作,隐藏其他的动作,防止点击界面去进行其他操作
-                 */
-                mGestureView.hide(ViewAction.HideType.End);
-                //状态栏可操作
-                setLayoutVisibility(true, false);
+                //本地视频禁止手持式做操作
+                if (TextUtils.equals(Constant.LOCAL_CACHE, course_Source)) {
+                    /**
+                     * 宵禁手势操作,隐藏其他的动作,防止点击界面去进行其他操作
+                     */
+                    mGestureView.hide(ViewAction.HideType.End);
+                    //状态栏可操作
+                    setLayoutVisibility(true, false);
+                }
 
                 //本地视频,学习中心,观看记录,课程答疑查看视频视频播放完毕后需退出本页面
                 if (exitDirectly()) {
                     return;
                 }
+
                 if (continuousPlay) {
                     /**
                      * 播放下一个视频, 调用课程播放目录页面切换视频

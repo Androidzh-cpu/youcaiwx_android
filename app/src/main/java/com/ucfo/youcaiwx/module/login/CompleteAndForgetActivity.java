@@ -360,10 +360,14 @@ public class CompleteAndForgetActivity extends BaseActivity implements IForgetPw
     public void wxLoginCompleted(WXCompletedBean result) {
         if (result != null) {
             WXCompletedBean.DataBean data = result.getData();
-            int user_id = data.getId();
-            int status = data.getStatus();
-            sharedPreferencesUtils.putInt(Constant.USER_ID, user_id);
-            sharedPreferencesUtils.putInt(Constant.USER_STATUS, status);
+            String user_id = data.getId();
+            String status = data.getStatus();
+            if (!TextUtils.isEmpty(user_id)) {
+                sharedPreferencesUtils.putInt(Constant.USER_ID, Integer.parseInt(user_id));
+            }
+            if (!TextUtils.isEmpty(status)) {
+                sharedPreferencesUtils.putInt(Constant.USER_STATUS, Integer.parseInt(status));
+            }
             sharedPreferencesUtils.putBoolean(Constant.LOGIN_STATUS, true);//用户登录状态
             Intent intent = new Intent(context, RegisterSuccessActivity.class);
             startActivity(intent);

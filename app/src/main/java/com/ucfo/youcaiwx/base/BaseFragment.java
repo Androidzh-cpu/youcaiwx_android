@@ -37,11 +37,6 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //防止Fragment重叠
@@ -103,6 +98,11 @@ public abstract class BaseFragment extends Fragment {
         if (getUserVisibleHint()) {
             handleOnVisibilityChangedToUser(false);
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -171,11 +171,13 @@ public abstract class BaseFragment extends Fragment {
      * 跳转activity
      */
     protected void startActivity(Class<?> cls, Bundle bundle) {
-        Intent intent = new Intent(getActivity(), cls);
-        if (bundle != null) {
-            intent.putExtras(bundle);
+        if (getActivity() != null) {
+            Intent intent = new Intent(getActivity(), cls);
+            if (bundle != null) {
+                intent.putExtras(bundle);
+            }
+            startActivity(intent);
         }
-        startActivity(intent);
         //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 

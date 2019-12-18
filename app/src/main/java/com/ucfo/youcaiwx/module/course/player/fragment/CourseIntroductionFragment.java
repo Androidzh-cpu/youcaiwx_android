@@ -47,6 +47,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -126,26 +127,24 @@ public class CourseIntroductionFragment extends BaseFragment {
         if (activity instanceof VideoPlayPageActivity) {
             videoPlayPageActivity = (VideoPlayPageActivity) getActivity();
         }
-        videoPlayPageActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        if (videoPlayPageActivity != null) {
+            videoPlayPageActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        }
         setDefaultWebSettings(webView);
     }
 
     @Override
     protected void initData() {
-        FragmentActivity fragmentActivity = getActivity();
-        if (fragmentActivity instanceof VideoPlayPageActivity) {
-            videoPlayPageActivity = (VideoPlayPageActivity) fragmentActivity;
-        }
-
         teacehrListBeanList = new ArrayList<>();
 
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(videoPlayPageActivity);
         layoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerviewTeacher.setLayoutManager(layoutManager2);
         recyclerviewTeacher.setItemAnimator(new DefaultItemAnimator());
-        int topBottom = DensityUtil.dip2px(videoPlayPageActivity, 1);
-        int leftright = DensityUtil.dip2px(videoPlayPageActivity, 12);
-        recyclerviewTeacher.addItemDecoration(new SpacesItemDecoration(leftright, topBottom, ContextCompat.getColor(context, R.color.color_E6E6E6)));
+        int topBottom = DensityUtil.dp2px(1);
+        int leftright = DensityUtil.dp2px(12);
+        int color = ContextCompat.getColor(Objects.requireNonNull(videoPlayPageActivity), R.color.color_E6E6E6);
+        recyclerviewTeacher.addItemDecoration(new SpacesItemDecoration(leftright, topBottom, color));
         recyclerviewTeacher.setNestedScrollingEnabled(false);
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override

@@ -57,6 +57,7 @@ import java.util.List;
  * Description:TODO 首页 - 题库
  * Detail:TODO plate_id代表板块 1知识点练习,2阶段测试,3论述题自测,4错题智能练习,5自主练习,6组卷模考
  */
+
 public class QuestionBankFragment extends BaseFragment implements IQuestionBankHomeView, View.OnClickListener {
     public static final String TAG = "QuestionBankFragment";
 
@@ -84,7 +85,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     private LoadingLayout loadinglayout;
 
 
-    private MainActivity context;
+    private MainActivity activity;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private QuestionBankHomePresenter questionBankHomePresenter;
     //用户ID,当前选中的题库
@@ -125,21 +126,20 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
         loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);//用户登录状态
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
-        if (loginStatus) {//TODO 用户已登录
+        if (loginStatus) {
+            //TODO 用户已登录
             questionBankHomePresenter.getMyProejctList(userId);
-        } else {//TODO 未登录
+        } else {
+            //TODO 未登录
             questionbankUnloginhome.setVisibility(View.VISIBLE);//零元体验题库
             questionbankLoginhome.setVisibility(View.GONE);//真正题库隐藏
             titlebarMidtitle.setText(getResources().getString(R.string.question_default));//设置零元体验标题
             titlebarMidimage.setVisibility(View.GONE);//下拉箭头隐藏
             sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
 
-            if (loadinglayout != null) {
-                loadinglayout.showContent();
-            }
+            showContent();
         }
     }
-
 
     @Override
     protected int setContentView() {
@@ -184,15 +184,15 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
         loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
 
 
-        FragmentActivity activity = getActivity();
-        if (activity instanceof MainActivity) {
-            context = (MainActivity) activity;
+        FragmentActivity fragmentActivity = getActivity();
+        if (fragmentActivity instanceof MainActivity) {
+            activity = (MainActivity) fragmentActivity;
         }
 
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(activity);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) statusbarView.getLayoutParams();
         layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        layoutParams.height = StatusBarUtil.getStatusBarHeight(context);
+        layoutParams.height = StatusBarUtil.getStatusBarHeight(activity);
         statusbarView.setLayoutParams(layoutParams);
     }
 
@@ -234,10 +234,10 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 }
                 startActivity(intent);
             } else {
-                ToastUtil.showBottomShortText(context, getResources().getString(R.string.course_bugBank));
+                ToastUtil.showBottomShortText(activity, getResources().getString(R.string.course_bugBank));
             }
         } else {
-            startActivity(new Intent(context, LoginActivity.class));
+            startActivity(new Intent(activity, LoginActivity.class));
         }
 
     }
@@ -296,6 +296,8 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
 
                 projectList.clear();
                 sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
+
+                showContent();
             }
         } else {
             //TODO  未购买科目
@@ -308,9 +310,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
 
 
-            if (loadinglayout != null) {
-                loadinglayout.showContent();
-            }
+            showContent();
         }
     }
 
@@ -338,6 +338,13 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             questionDoexercisecount.setText(String.valueOf(0));
         }
 
+        showContent();
+    }
+
+    /**
+     * 显示主页面
+     */
+    public void showContent() {
         if (loadinglayout != null) {
             loadinglayout.showContent();
         }
@@ -413,7 +420,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
      */
     @SuppressLint("InflateParams")
     private void subjectWindow() {
-        if (projectList.size() > 1) {
+        if (projectList != null && projectList.size() > 1) {
             View mContentView = null;
             mContentView = LayoutInflater.from(getActivity()).inflate(R.layout.popuwindow_subject, null, false);
             if (popupWindow == null) {
@@ -421,7 +428,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
                 popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
                 popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.icon_pulldown));
+                popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(activity, R.drawable.icon_pulldown));
                 popupWindow.setOutsideTouchable(false);
                 popupWindow.setFocusable(true);
             }
@@ -440,6 +447,9 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     currentSubjectId = projectList.get(position).getId();//当前选中的科目ID
+                    if (sharedPreferencesUtils == null) {
+                        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getActivity());
+                    }
                     sharedPreferencesUtils.putInt(Constant.SUBJECT_ID, currentSubjectId);//存放当前的科目ID
 
                     isShowLoading = true;
@@ -454,12 +464,12 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             });
             if (popupWindow != null) {
                 if (popupWindow.isShowing()) {
-                    titlebarMidimage.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_qb_indicatortop));
+                    titlebarMidimage.setImageDrawable(ContextCompat.getDrawable(activity, R.mipmap.icon_qb_indicatortop));
                 }
                 popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
                     public void onDismiss() {
-                        titlebarMidimage.setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.icon_qb_indicatorbot));
+                        titlebarMidimage.setImageDrawable(ContextCompat.getDrawable(activity, R.mipmap.icon_qb_indicatorbot));
                     }
                 });
             }
@@ -476,7 +486,6 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
 */
             setProcessLoading(null, true);
         }
-
     }
 
     @Override

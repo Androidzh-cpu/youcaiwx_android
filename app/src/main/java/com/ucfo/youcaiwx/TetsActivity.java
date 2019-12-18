@@ -1,10 +1,17 @@
 package com.ucfo.youcaiwx;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 
 import com.ucfo.youcaiwx.base.BaseActivity;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -39,6 +46,22 @@ public class TetsActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void processLogic(Bundle savedInstanceState) {
 
+        Bitmap bitmap = null;
+        MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "title", "description");
+
+        // 其次把文件插入到系统图库
+        File file = new File("");
+        String path = file.getAbsolutePath();
+        try {
+            MediaStore.Images.Media.insertImage(getContentResolver(), path, file.getName(), file.getName());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 最后通知图库更新
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(file);
+        intent.setData(uri);
+        sendBroadcast(intent);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.ucfo.youcaiwx.utils.glideutils;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.ImageView;
 
@@ -28,11 +29,29 @@ import com.bumptech.glide.request.RequestOptions;
 
 public class GlideUtils {
 
+    /**
+     * 别看了,这就是加载图片的方法
+     */
     public static void load(Context context, String url, ImageView imageView, RequestOptions options) {
+        if (context == null) {
+            //LogUtils.e("GlieUtils", "context == null");
+            return;
+        }
+
+        if (context instanceof Activity) {
+            final Activity activity = (Activity) context;
+            if (activity.isDestroyed() || activity.isFinishing()) {
+                //LogUtils.e("GlieUtils", "activity.isDestroyed() || activity.isFinishing()");
+                return;
+            }
+        }
+        //LogUtils.e("GlieUtils", "修成正果");
+
         Glide.with(context)
                 .load(url)
                 .apply(options)
                 .into(imageView);
     }
+
 
 }
