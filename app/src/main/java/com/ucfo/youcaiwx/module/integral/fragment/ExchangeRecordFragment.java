@@ -123,7 +123,9 @@ public class ExchangeRecordFragment extends BaseFragment implements IIntegralExc
             }
         }
 
-        refreshlayout.finishRefresh();
+        if (refreshlayout != null) {
+            refreshlayout.finishRefresh();
+        }
     }
 
     private void initAdapter() {

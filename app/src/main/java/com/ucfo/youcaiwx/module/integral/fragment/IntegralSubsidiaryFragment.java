@@ -114,7 +114,9 @@ public class IntegralSubsidiaryFragment extends BaseFragment implements IIntegra
                 loadinglayout.showEmpty();
             }
         }
-        refreshlayout.finishRefresh();
+        if (refreshlayout != null) {
+            refreshlayout.finishRefresh();
+        }
     }
 
     private void initAdapter() {

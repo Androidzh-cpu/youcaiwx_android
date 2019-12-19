@@ -33,6 +33,7 @@ public class UserInfoPresenter implements IUserInfoPresenter {
     @Override
     public void getUserInfo(int user_id) {
         OkGo.<String>post(ApiStores.USER_GETUSERINFO)
+                .tag(this)
                 .params(Constant.USER_ID, user_id)
                 .retryCount(1)
                 .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)

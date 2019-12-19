@@ -144,8 +144,10 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
             }
         }
 
-        refreshlayout.finishLoadMore();
-        refreshlayout.finishRefresh();
+        if (refreshlayout != null) {
+            refreshlayout.finishRefresh();
+            refreshlayout.finishLoadMore();
+        }
     }
 
     private void initAdapter(List<CourseDataListBean.DataBean> courseList) {

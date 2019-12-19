@@ -185,7 +185,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
         switch (view.getId()) {
             case R.id.ask_checkphoto:
                 SoulPermission.getInstance().checkAndRequestPermissions(
-                        Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA),
+                        Permissions.build(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
                         new CheckRequestPermissionsListener() {
                             @Override
                             public void onAllPermissionOk(Permission[] allPermissions) {

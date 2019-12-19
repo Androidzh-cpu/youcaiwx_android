@@ -127,8 +127,10 @@ public class MineAskQuestionsFragment extends BaseFragment implements IQuestionA
                 loadinglayout.showEmpty();
             }
         }
-        refreshlayout.finishRefresh();
-        refreshlayout.finishLoadMore();
+        if (refreshlayout != null) {
+            refreshlayout.finishRefresh();
+            refreshlayout.finishLoadMore();
+        }
     }
 
     @Override

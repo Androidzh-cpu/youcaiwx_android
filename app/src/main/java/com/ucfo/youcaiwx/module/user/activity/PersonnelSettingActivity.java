@@ -103,7 +103,6 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
     LinearLayout btnUserAddress;
     @BindView(R.id.btn_phone)
     LinearLayout btnPhone;
-    private PersonnelSettingActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private UserInfoPresenter userInfoPresenter;
     private String username;
@@ -157,11 +156,10 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
     @Override
     protected void initData() {
         super.initData();
-        context = PersonnelSettingActivity.this;
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
         userInfoPresenter = new UserInfoPresenter(this);
         uploadFilePresenter = new UploadFilePresenter(this);
-        transferee = Transferee.getDefault(context);
+        transferee = Transferee.getDefault(this);
     }
 
     @OnClick({R.id.btn_userIcon, R.id.btn_userNickname, R.id.btn_userAddress, R.id.radiobtn_man, R.id.radiobtn_woman, R.id.btn_phone})
@@ -178,7 +176,7 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
                     public void onPermissionDenied(Permission permission) {
                         //用户第一次拒绝了权限且没有勾选"不再提示"的情况下这个值为true，此时告诉用户为什么需要这个权限。
                         if (permission.shouldRationale()) {
-                            new AlertDialog.Builder(context)
+                            new AlertDialog.Builder(PersonnelSettingActivity.this)
                                     .setTitle(getResources().getString(R.string.explication))
                                     .setMessage(getResources().getString(R.string.permission_camera))
                                     .setPositiveButton(getResources().getString(R.string.donner), new DialogInterface.OnClickListener() {
@@ -189,7 +187,7 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
                                         }
                                     }).create().show();
                         } else {
-                            ToastUtil.showBottomShortText(context, getResources().getString(R.string.permission_explication));
+                            ToastUtil.showBottomShortText(PersonnelSettingActivity.this, getResources().getString(R.string.permission_explication));
                         }
                     }
                 });
@@ -223,7 +221,7 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
 
     //TODO 调试
     private void takePhoto() {
-        new TakePhotoDialog(context).builder()
+        new TakePhotoDialog(PersonnelSettingActivity.this).builder()
                 .setCanceledOnTouchOutside(true)
                 .setCancelable(true)
                 .setCaremaButtonClick(new View.OnClickListener() {
@@ -241,11 +239,11 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
                 .setPhotoButtonClick(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Matisse.from(context)
+                        Matisse.from(PersonnelSettingActivity.this)
                                 .choose(MimeType.of(MimeType.JPEG, MimeType.PNG), false)
                                 .countable(true)
                                 .maxSelectable(1)
-                                .gridExpectedSize(DensityUtil.dip2px(context, 120))
+                                .gridExpectedSize(DensityUtil.dp2px(120))
                                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                                 .thumbnailScale(0.85f)
                                 .theme(R.style.Matisse_Dracula)
@@ -420,21 +418,21 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
                 int state = result.getData().getState();
                 switch (state) {
                     case 1:
-                        ToastUtil.showBottomShortText(context, getResources().getString(R.string.operation_Success));
+                        ToastUtil.showBottomShortText(PersonnelSettingActivity.this, getResources().getString(R.string.operation_Success));
                         if (type == 1) {
                             userInfoPresenter.getUserInfo(user_id);
                         }
                         break;
                     case 0:
                     default:
-                        ToastUtil.showBottomShortText(context, getResources().getString(R.string.operation_Error));
+                        ToastUtil.showBottomShortText(PersonnelSettingActivity.this, getResources().getString(R.string.operation_Error));
                         break;
                 }
             } else {
-                ToastUtil.showBottomShortText(context, getResources().getString(R.string.operation_Error));
+                ToastUtil.showBottomShortText(PersonnelSettingActivity.this, getResources().getString(R.string.operation_Error));
             }
         } else {
-            ToastUtil.showBottomShortText(context, getResources().getString(R.string.operation_Error));
+            ToastUtil.showBottomShortText(PersonnelSettingActivity.this, getResources().getString(R.string.operation_Error));
         }
     }
 
@@ -471,10 +469,10 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
                 type = 1;
                 userInfoPresenter.retoucheInfo(user_id, type, newHeadUrl);
             } else {
-                ToastUtil.showCenterLongText(context, data.getMsg());//提示上传错误信息
+                ToastUtil.showCenterLongText(PersonnelSettingActivity.this, data.getMsg());//提示上传错误信息
             }
         } else {
-            ToastUtil.showCenterLongText(context, getResources().getString(R.string.file_uploaderror));//提示上传错误信息
+            ToastUtil.showCenterLongText(PersonnelSettingActivity.this, getResources().getString(R.string.file_uploaderror));//提示上传错误信息
         }
 
     }

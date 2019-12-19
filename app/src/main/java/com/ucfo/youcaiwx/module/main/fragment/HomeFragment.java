@@ -86,6 +86,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     private ImageView titlebarMessage;
     private Banner banner;
     private SmartRefreshLayout refreshLayout;
+    private LinearLayout linearlayout;
     private NestedScrollView scrollView;
     private ViewFlipper hotFilpper;
     private TextView iconLive;
@@ -155,6 +156,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         checkMoreNews.setOnClickListener(this);
         scrollView = (NestedScrollView) itemView.findViewById(R.id.scrollView);
         refreshLayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
+        linearlayout = (LinearLayout) itemView.findViewById(R.id.linearlayout);
 
 
         context = (MainActivity) getActivity();
@@ -374,8 +376,10 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
             checkMoreCourse.setVisibility(View.GONE);
             checkMoreNews.setVisibility(View.GONE);
         }
-        refreshLayout.finishLoadMore();
-        refreshLayout.finishRefresh();
+        if (refreshLayout != null) {
+            refreshLayout.finishRefresh();
+            refreshLayout.finishLoadMore();
+        }
     }
 
     /**

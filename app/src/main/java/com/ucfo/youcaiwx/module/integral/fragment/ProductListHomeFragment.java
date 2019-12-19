@@ -148,7 +148,9 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
                 loadinglayout.showEmpty();
             }
         }
-        refreshlayout.finishRefresh();
+        if (refreshlayout != null) {
+            refreshlayout.finishRefresh();
+        }
     }
 
     private void initAdapter() {

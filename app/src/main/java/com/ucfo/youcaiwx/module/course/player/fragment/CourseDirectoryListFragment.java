@@ -205,8 +205,10 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
             }
         }
 
-        refreshlayout.finishLoadMore();
-        refreshlayout.finishRefresh();
+        if (refreshlayout != null) {
+            refreshlayout.finishRefresh();
+            refreshlayout.finishLoadMore();
+        }
     }
 
     /**

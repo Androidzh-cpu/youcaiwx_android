@@ -156,9 +156,11 @@ public class SignInActive extends DialogFragment {
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
-                Bitmap zoomImage = AppUtils.zoomImage(bitmap, 720, 1280);
-                ShareUtils.getInstance().shareImageToWx2(zoomImage, getResources().getString(R.string.default_title), "学习打卡", SendMessageToWX.Req.WXSceneTimeline);
-                dismiss();
+                if (bitmap != null) {
+                    Bitmap zoomImage = AppUtils.zoomImage(bitmap, 720, 1280);
+                    ShareUtils.getInstance().shareImageToWx2(zoomImage, getResources().getString(R.string.default_title), "学习打卡", SendMessageToWX.Req.WXSceneTimeline);
+                    dismiss();
+                }
             }
         });
         mToweixinShare.setOnClickListener(new View.OnClickListener() {//TODO 分享至微信好友
@@ -173,9 +175,11 @@ public class SignInActive extends DialogFragment {
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                 }
-                Bitmap zoomImage = AppUtils.zoomImage(bitmap, 720, 1280);
-                ShareUtils.getInstance().shareImageToWx2(zoomImage, getResources().getString(R.string.default_title), "学习打卡", SendMessageToWX.Req.WXSceneSession);
-                dismiss();
+                if (bitmap != null) {
+                    Bitmap zoomImage = AppUtils.zoomImage(bitmap, 720, 1280);
+                    ShareUtils.getInstance().shareImageToWx2(zoomImage, getResources().getString(R.string.default_title), "学习打卡", SendMessageToWX.Req.WXSceneSession);
+                    dismiss();
+                }
             }
         });
     }

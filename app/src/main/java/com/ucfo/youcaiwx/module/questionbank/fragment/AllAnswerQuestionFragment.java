@@ -129,8 +129,10 @@ public class AllAnswerQuestionFragment extends BaseFragment implements IQuestion
                 loadinglayout.showEmpty();
             }
         }
-        refreshlayout.finishRefresh();
-        refreshlayout.finishLoadMore();
+        if (refreshlayout != null) {
+            refreshlayout.finishRefresh();
+            refreshlayout.finishLoadMore();
+        }
     }
 
     @Override

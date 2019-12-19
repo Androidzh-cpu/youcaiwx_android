@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.lzy.okgo.OkGo;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.service.NetworkReceiver;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
@@ -117,6 +118,8 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
         super.onDestroy();
         // Activity管理器中移除当前页面
         ActivityUtil.getInstance().removeActivity(this);
+
+        OkGo.getInstance().cancelTag(this);
     }
 
     /**

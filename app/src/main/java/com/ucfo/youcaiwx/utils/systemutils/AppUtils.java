@@ -176,6 +176,10 @@ public class AppUtils {
      * 截取指定View为图片
      */
     public static Bitmap captureView(View view) throws Throwable {
+        if (view == null) {
+            return null;
+        }
+
         Bitmap bm = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         view.draw(new Canvas(bm));
         return bm;
@@ -190,12 +194,16 @@ public class AppUtils {
         float height = bgimage.getHeight();
         // 创建操作图片用的matrix对象
         Matrix matrix = new Matrix();
-        // 计算宽高缩放率
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-        // 缩放图片动作
-        //matrix.postScale(scaleWidth, scaleHeight);//TODO 因为宽高不确定的因素,所以不缩放
-        Bitmap bitmap = Bitmap.createBitmap(bgimage, 0, 0, (int) width, (int) height, matrix, true);
-        return bitmap;
+        return Bitmap.createBitmap(bgimage, 0, 0, (int) width, (int) height, matrix, true);
+    }
+
+    /**
+     * 截取除了导航栏之外的整个屏幕
+     */
+    private Bitmap screenShotWholeScreen(Activity context) {
+        View dView = context.getWindow().getDecorView();
+        dView.setDrawingCacheEnabled(true);
+        dView.buildDrawingCache();
+        return Bitmap.createBitmap(dView.getDrawingCache());
     }
 }

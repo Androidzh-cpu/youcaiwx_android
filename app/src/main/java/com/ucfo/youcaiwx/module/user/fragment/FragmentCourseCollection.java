@@ -159,8 +159,10 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
                 loadinglayout.showEmpty();
             }
         }
-        refreshlayout.finishRefresh();
-        refreshlayout.finishLoadMore();
+        if (refreshlayout != null) {
+            refreshlayout.finishRefresh();
+            refreshlayout.finishLoadMore();
+        }
     }
 
     @Override

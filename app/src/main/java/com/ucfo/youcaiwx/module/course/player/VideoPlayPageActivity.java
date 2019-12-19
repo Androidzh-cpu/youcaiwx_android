@@ -1372,7 +1372,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             playerLockedscreen.setImageDrawable(drawable);
 
             setLayoutVisibility(false, false);
-            ToastUtil.showBottomShortText(this, getResources().getString(R.string.course_lockedScreen));
+            //ToastUtil.showBottomShortText(this, getResources().getString(R.string.course_lockedScreen));
         } else {
             Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_icon_unlocked2);
             playerLockedscreen.setImageDrawable(drawable);

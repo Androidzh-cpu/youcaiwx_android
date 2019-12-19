@@ -165,8 +165,10 @@ public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView 
                 loadinglayout.showEmpty();
             }
         }
-        refreshlayout.finishRefresh();
-        refreshlayout.finishLoadMore();
+        if (refreshlayout != null) {
+            refreshlayout.finishRefresh();
+            refreshlayout.finishLoadMore();
+        }
     }
 
     private void initAdapter() {
