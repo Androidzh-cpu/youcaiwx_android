@@ -48,6 +48,7 @@ import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Author:AND
@@ -118,7 +119,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
      */
     private void loadNetData() {
         if (sharedPreferencesUtils == null) {
-            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getActivity());
+            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(Objects.requireNonNull(getActivity()));
         }
         if (questionBankHomePresenter == null) {
             questionBankHomePresenter = new QuestionBankHomePresenter(this);
@@ -130,15 +131,35 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             //TODO 用户已登录
             questionBankHomePresenter.getMyProejctList(userId);
         } else {
-            //TODO 未登录
-            questionbankUnloginhome.setVisibility(View.VISIBLE);//零元体验题库
-            questionbankLoginhome.setVisibility(View.GONE);//真正题库隐藏
-            titlebarMidtitle.setText(getResources().getString(R.string.question_default));//设置零元体验标题
-            titlebarMidimage.setVisibility(View.GONE);//下拉箭头隐藏
-            sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
-
+            //TODO 未登录==未开通题库
+            //清除题库信息
+            clearUserInfo();
+            //显示主页面
             showContent();
         }
+    }
+
+    /**
+     * 清除题库信息
+     */
+    private void clearUserInfo() {
+        questionbankUnloginhome.setVisibility(View.VISIBLE);//零元体验题库
+        questionbankLoginhome.setVisibility(View.GONE);//真正题库隐藏
+        titlebarMidtitle.setText(getResources().getString(R.string.question_default));//设置零元体验标题
+        titlebarMidimage.setVisibility(View.GONE);//下拉箭头隐藏
+        if (projectList != null) {
+            projectList.clear();
+        }
+        if (sharedPreferencesUtils == null) {
+            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(Objects.requireNonNull(getActivity()));
+        }
+        sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
+
+        //清除排名信息,避免出现关闭题库后信息已久留存的问题
+        questionAccuracyPercent.setPercentData(0, "%", false, new DecelerateInterpolator());
+        questionAveragePercent.setPercentData(0, "", false, new DecelerateInterpolator());
+        questionRankingPercent.setPercentData(0, "", false, new DecelerateInterpolator());
+        questionDoexercisecount.setText(String.valueOf(0));
     }
 
     @Override
@@ -289,27 +310,18 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 questionbankLoginhome.setVisibility(View.VISIBLE);//真正题库隐藏
             } else {
                 //TODO  未购买科目
-                questionbankUnloginhome.setVisibility(View.VISIBLE);//零元体验题库
-                questionbankLoginhome.setVisibility(View.GONE);//真正题库隐藏
-                titlebarMidtitle.setText(getResources().getString(R.string.question_default));
-                titlebarMidimage.setVisibility(View.GONE);//下拉箭头隐藏
 
-                projectList.clear();
-                sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
-
+                //清除题库信息
+                clearUserInfo();
+                //显示主页面
                 showContent();
             }
         } else {
             //TODO  未购买科目
-            questionbankUnloginhome.setVisibility(View.VISIBLE);//零元体验题库
-            questionbankLoginhome.setVisibility(View.GONE);//真正题库隐藏
-            titlebarMidimage.setVisibility(View.GONE);//下拉箭头隐藏
-            titlebarMidtitle.setText(getResources().getString(R.string.question_default));
 
-            projectList.clear();
-            sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
-
-
+            //清除题库信息
+            clearUserInfo();
+            //显示主页面
             showContent();
         }
     }
