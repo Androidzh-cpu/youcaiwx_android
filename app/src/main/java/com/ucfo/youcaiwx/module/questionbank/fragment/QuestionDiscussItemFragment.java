@@ -282,8 +282,9 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
      */
     private void initTopicData() {
         if (questionList != null && questionList.size() > 0) {
-            List<String> topicList = questionList.get(index).getTopic();
-            if (topicList != null && topicList.size() > 0) {
+            DoProblemsBean.DataBean.TopicsBean topicsBean = questionList.get(index);
+            if (topicsBean.getTopic() != null && topicsBean.getTopic().size() > 0) {
+                List<String> topicList = questionList.get(index).getTopic();
                 int size = topicList.size();
                 switch (size) {
                     case 1:

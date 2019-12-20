@@ -753,9 +753,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             if (bean.getData() != null) {
                 DoProblemsBean.DataBean beanData = bean.getData();
                 if (beanData.getTopics() != null && beanData.getTopics().size() > 0) {
-                    DoProblemsBean.DataBean data = bean.getData();
-
-                    doExerciseFunction(data);//TODO 做题逻辑处理
+                    doExerciseFunction(beanData);//TODO 做题逻辑处理
 
                     if (loadinglayout != null) {
                         loadinglayout.showContent();

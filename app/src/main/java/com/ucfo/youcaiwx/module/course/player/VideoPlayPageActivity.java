@@ -1068,7 +1068,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      */
     private void prepareAuth(AliyunPlayAuth aliyunPlayAuth) {
         mAliyunPlayAuth = aliyunPlayAuth;
-        aliyunVodPlayer.prepareAsync(mAliyunPlayAuth);//播放器开始准备播放
+        if (aliyunVodPlayer != null) {
+            aliyunVodPlayer.prepareAsync(mAliyunPlayAuth);//播放器开始准备播放
+        }
     }
 
     /**

@@ -31,9 +31,8 @@ public abstract class BaseFragment extends Fragment {
     private long lastClick = 0;
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.context = activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -78,9 +77,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         initView(view);
-
         initData();
     }
 
@@ -101,8 +98,9 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.context = activity;
     }
 
     @Override
