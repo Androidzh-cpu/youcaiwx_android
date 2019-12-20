@@ -137,13 +137,13 @@ public class CourseIntroductionFragment extends BaseFragment {
     protected void initData() {
         teacehrListBeanList = new ArrayList<>();
 
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(videoPlayPageActivity);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(Objects.requireNonNull(getActivity()));
         layoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerviewTeacher.setLayoutManager(layoutManager2);
         recyclerviewTeacher.setItemAnimator(new DefaultItemAnimator());
         int topBottom = DensityUtil.dp2px(1);
         int leftright = DensityUtil.dp2px(12);
-        int color = ContextCompat.getColor(Objects.requireNonNull(videoPlayPageActivity), R.color.color_E6E6E6);
+        int color = ContextCompat.getColor(Objects.requireNonNull(getActivity()), R.color.color_E6E6E6);
         recyclerviewTeacher.addItemDecoration(new SpacesItemDecoration(leftright, topBottom, color));
         recyclerviewTeacher.setNestedScrollingEnabled(false);
         loadinglayout.setRetryListener(new View.OnClickListener() {
@@ -162,10 +162,12 @@ public class CourseIntroductionFragment extends BaseFragment {
     @Override
     protected void onLazyLoadOnce() {
         super.onLazyLoadOnce();
-        course_packageId = videoPlayPageActivity.getCoursePackageId();
-        user_id = SharedPreferencesUtils.getInstance(videoPlayPageActivity).getInt(Constant.USER_ID, 0);
+        if (videoPlayPageActivity != null) {
+            course_packageId = videoPlayPageActivity.getCoursePackageId();
+            user_id = SharedPreferencesUtils.getInstance(Objects.requireNonNull(getActivity())).getInt(Constant.USER_ID, 0);
 
-        loadCourseInfo(course_packageId, user_id);
+            loadCourseInfo(course_packageId, user_id);
+        }
     }
 
     /**
@@ -240,7 +242,7 @@ public class CourseIntroductionFragment extends BaseFragment {
             teacehrListBeanList.clear();
             teacehrListBeanList.addAll(teacehrList);
             if (courseTeacherAdapter == null) {
-                courseTeacherAdapter = new CourseTeacherAdapter(teacehrListBeanList, videoPlayPageActivity);
+                courseTeacherAdapter = new CourseTeacherAdapter(teacehrListBeanList, Objects.requireNonNull(getActivity()));
             } else {
                 courseTeacherAdapter.notifyDataSetChanged();
             }
@@ -265,6 +267,12 @@ public class CourseIntroductionFragment extends BaseFragment {
             String teacherName = data.getTeacher_name();//讲师名字
             String isPurchase = data.getIs_purchase();//课程是否购买
             String appImg = data.getApp_img();
+            if (videoPlayPageActivity == null) {
+                FragmentActivity activity = getActivity();
+                if (activity instanceof VideoPlayPageActivity) {
+                    videoPlayPageActivity = (VideoPlayPageActivity) activity;
+                }
+            }
             //TODO 课程购买状态
             if (TextUtils.isEmpty(isPurchase)) {
                 videoPlayPageActivity.setCourseBuyState(2);
@@ -336,22 +344,22 @@ public class CourseIntroductionFragment extends BaseFragment {
         webSetting.setAppCacheEnabled(true);
         // 设置缓存模式
         webSetting.setCacheMode(WebSettings.LOAD_NORMAL);
-        webSetting.setAppCachePath(videoPlayPageActivity.getDir("appcache", 0).getPath());
-        webSetting.setDatabasePath(getActivity().getDir("databases", 0).getPath());
+        webSetting.setAppCachePath(Objects.requireNonNull(getActivity()).getDir("appcache", 0).getPath());
+        webSetting.setDatabasePath(Objects.requireNonNull(getActivity()).getDir("databases", 0).getPath());
         webSetting.setGeolocationDatabasePath(getActivity().getDir("geolocation", 0).getPath());
         //允许WebView使用File协议
         webSetting.setAllowFileAccess(true);
         //不保存密码
         webSetting.setSavePassword(false);
         //设置UA
-        webSetting.setUserAgentString(webSetting.getUserAgentString() + " youcaiApp/" + AppUtils.getAppVersionName(videoPlayPageActivity));
+        webSetting.setUserAgentString(webSetting.getUserAgentString() + " youcaiApp/" + AppUtils.getAppVersionName(Objects.requireNonNull(getActivity())));
         //自动加载图片
         webSetting.setLoadsImagesAutomatically(true);
     }
 
     private void teacherDialog(CourseIntroductionBean.DataBean.TeacehrListBean teacehrListBean) {
-        teacherDialog = new Dialog(videoPlayPageActivity, R.style.TeacherDialog);
-        View contentView = LayoutInflater.from(videoPlayPageActivity).inflate(R.layout.dialog_teacher_detail, null);
+        teacherDialog = new Dialog(Objects.requireNonNull(getActivity()), R.style.TeacherDialog);
+        View contentView = LayoutInflater.from(Objects.requireNonNull(getActivity())).inflate(R.layout.dialog_teacher_detail, null);
         teacherDialog.setContentView(contentView);
         ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
         layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
