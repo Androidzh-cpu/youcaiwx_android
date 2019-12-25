@@ -544,52 +544,53 @@ public class CPECourseActivity extends BaseActivity implements IEducationView {
             EducationCourseListBean.DataBeanX data = bean.getData();
             if (data.getData() != null && data.getData().size() > 0) {
                 List<EducationCourseListBean.DataBeanX.DataBean> beans = data.getData();
-                if (pageIndex == 1) {//初次加载或刷新操作
+                if (pageIndex == 1) {
+                    //初次加载或刷新操作
                     list.clear();
                     list.addAll(beans);
                 } else {
+                    //加载更多
                     if (beans.size() > 0) {
                         list.addAll(beans);
                     }
                 }
                 initAdapter();
-                if (loadinglayout != null) {
-                    loadinglayout.showContent();
-                }
+                showContent();
             } else {
+                //获取数据为空
                 if (pageIndex == 1) {
-                    if (list != null && list.size() > 0) {
-                        if (cpeCourseListAdapter != null) {
-                            cpeCourseListAdapter.notifyChange(list);
-                        }
-                        if (loadinglayout != null) {
-                            loadinglayout.showContent();
-                        }
-                    } else {
-                        loadinglayout.showEmpty();
-                    }
-                } else {//架子啊更多
+                    //刷新,加载
+                    loadinglayout.showEmpty();
+                } else {//加载更多
                     if (list != null && list.size() > 0) {
                         if (cpeCourseListAdapter != null) {
                             cpeCourseListAdapter.notifyChange(list);
                         }
                         refreshlayout.finishRefreshWithNoMoreData();
-                        if (loadinglayout != null) {
-                            loadinglayout.showContent();
-                        }
+                        showContent();
                     } else {
-                        if (loadinglayout != null) {
-                            loadinglayout.showEmpty();
-                        }
+                        showEmpty();
                     }
                 }
             }
         } else {
-            loadinglayout.showEmpty();
+            showEmpty();
         }
 
         refreshlayout.finishRefresh();
         refreshlayout.finishLoadMore();
+    }
+
+    private void showContent() {
+        if (loadinglayout != null) {
+            loadinglayout.showContent();
+        }
+    }
+
+    private void showEmpty() {
+        if (loadinglayout != null) {
+            loadinglayout.showEmpty();
+        }
     }
 
     /**

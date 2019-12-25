@@ -2395,25 +2395,27 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                         case 1:
                             //TODO 课程目录
                             if (TextUtils.equals(course_Source, Constant.WATCH_EDUCATION_CPE)) {
-                                new com.ucfo.youcaiwx.widget.dialog.AlertDialog(VideoPlayPageActivity.this).builder()
-                                        .setTitle(getResources().getString(R.string.study_know))
-                                        .setMsg(getResources().getString(R.string.study_know_detail))
-                                        .setMsgGravity(Gravity.START)
-                                        .setCancelable(false)
-                                        .setCanceledOnTouchOutside(false)
-                                        .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
+                                if (courseBuyState == Constant.HAVED_BUY) {
+                                    new com.ucfo.youcaiwx.widget.dialog.AlertDialog(VideoPlayPageActivity.this).builder()
+                                            .setTitle(getResources().getString(R.string.study_know))
+                                            .setMsg(getResources().getString(R.string.study_know_detail))
+                                            .setMsgGravity(Gravity.START)
+                                            .setCancelable(false)
+                                            .setCanceledOnTouchOutside(false)
+                                            .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
 
-                                            }
-                                        })
-                                        .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
+                                                }
+                                            })
+                                            .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
 
-                                            }
-                                        })
-                                        .show();
+                                                }
+                                            })
+                                            .show();
+                                }
                             }
                             if (linearPayCourse.getVisibility() == View.VISIBLE) {
                                 linearPayCourse.setVisibility(View.GONE);

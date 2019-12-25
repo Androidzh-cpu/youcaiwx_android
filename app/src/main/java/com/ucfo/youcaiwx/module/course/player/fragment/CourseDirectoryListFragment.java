@@ -380,8 +380,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                     startActivity(LoginActivity.class, null);
                 } else {
                     if (TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
-                        String record = sectionList.get(groupPosition).getVideo().get(childPosition).getRecord();
-                        if (TextUtils.equals(record, String.valueOf(2))) {
+                        if (courseBuyState != Constant.HAVED_BUY) {
                             showToast(getResources().getString(R.string.not_apply));
                             return false;
                         }
