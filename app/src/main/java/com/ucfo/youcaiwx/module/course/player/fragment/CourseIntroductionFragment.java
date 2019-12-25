@@ -182,8 +182,20 @@ public class CourseIntroductionFragment extends BaseFragment {
         } else {
             id = String.valueOf(user_id);
         }
-        OkGo.<String>post(ApiStores.COURSE_INTORDUCTION)
-                .params(Constant.ID, course_packageId)
+        String courseSource = videoPlayPageActivity.getCourse_Source();
+        String url = "";
+        String idName = "";
+        if (TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
+            //TODO 后续教育课程简介
+            url = ApiStores.EDUCATION_COURSE_INTORDUCTION;
+            idName = Constant.PACKAGE_ID;
+        } else {
+            url = ApiStores.COURSE_INTORDUCTION;
+
+            idName = Constant.ID;
+        }
+        OkGo.<String>post(url)
+                .params(idName, course_packageId)
                 .params(Constant.USER_ID, id)
                 .execute(new StringCallback() {
                     @Override
@@ -242,7 +254,8 @@ public class CourseIntroductionFragment extends BaseFragment {
             teacehrListBeanList.clear();
             teacehrListBeanList.addAll(teacehrList);
             if (courseTeacherAdapter == null) {
-                courseTeacherAdapter = new CourseTeacherAdapter(teacehrListBeanList, Objects.requireNonNull(getActivity()));
+                //此处报了个错,我也不知道为啥
+                courseTeacherAdapter = new CourseTeacherAdapter(teacehrListBeanList, getContext());
             } else {
                 courseTeacherAdapter.notifyDataSetChanged();
             }
@@ -266,7 +279,8 @@ public class CourseIntroductionFragment extends BaseFragment {
             String studyDays = data.getStudy_days();//课时
             String teacherName = data.getTeacher_name();//讲师名字
             String isPurchase = data.getIs_purchase();//课程是否购买
-            String appImg = data.getApp_img();
+            String appImg = data.getApp_img();//封面图
+            String userstatus = data.getUserstatus();//后续教育是否购买
             if (videoPlayPageActivity == null) {
                 FragmentActivity activity = getActivity();
                 if (activity instanceof VideoPlayPageActivity) {
@@ -274,10 +288,21 @@ public class CourseIntroductionFragment extends BaseFragment {
                 }
             }
             //TODO 课程购买状态
-            if (TextUtils.isEmpty(isPurchase)) {
-                videoPlayPageActivity.setCourseBuyState(2);
+            String courseSource = videoPlayPageActivity.getCourse_Source();
+            if (TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
+                //TODO 后续教育
+                if (TextUtils.isEmpty(userstatus)){
+                    videoPlayPageActivity.setCourseBuyState(2);
+                }else {
+                    videoPlayPageActivity.setCourseBuyState(Integer.parseInt(userstatus));
+                }
             } else {
-                videoPlayPageActivity.setCourseBuyState(Integer.parseInt(isPurchase));
+                //TODO 一般般啦
+                if (TextUtils.isEmpty(isPurchase)) {
+                    videoPlayPageActivity.setCourseBuyState(2);
+                } else {
+                    videoPlayPageActivity.setCourseBuyState(Integer.parseInt(isPurchase));
+                }
             }
             //TODO 课程购买价格
             videoPlayPageActivity.setCourse_PackagePrice(price);

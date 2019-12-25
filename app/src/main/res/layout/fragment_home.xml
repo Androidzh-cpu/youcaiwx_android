@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linearlayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -109,16 +109,16 @@
                         android:text="@string/home_course" />
 
                     <TextView
-                        android:id="@+id/icon_face"
-                        style="@style/home_function"
-                        android:drawableTop="@mipmap/icon_face"
-                        android:text="@string/home_face" />
-
-                    <TextView
                         android:id="@+id/icon_active"
                         style="@style/home_function"
                         android:drawableTop="@mipmap/icon_active"
                         android:text="@string/home_active" />
+
+                    <TextView
+                        android:id="@+id/icon_face"
+                        style="@style/home_function"
+                        android:drawableTop="@mipmap/icon_active2"
+                        android:text="@string/home_active2" />
 
                     <TextView
                         android:id="@+id/icon_news"

@@ -1,4 +1,5 @@
 <resources>
+    <!--TODO "\u3000":全角空格   "\u0020": 半角空格-->
     <string name="app_nameWX">优财CMA网校</string>
     <string name="youcaiWXdescribe">优财网校CMA为在职财务人员提供专业与时俱进的CMA智能学习平台</string>
     <string name="youcaiWXShareDescribe">优财是引领CMA浪潮的先驱者</string>
@@ -16,6 +17,7 @@
     <string name="home_course">课程</string>
     <string name="home_face">面授</string>
     <string name="home_active">活动</string>
+    <string name="home_active2">后续教育</string>
     <string name="home_news">资讯</string>
     <string name="home_scan">扫一扫</string>
     <string name="home_live_recommend">直播推荐</string>
@@ -24,6 +26,27 @@
     <string name="home_more">查看更多</string>
     <string name="scan_tiptext">将二维码/条码放入框内,即可自动扫描</string>
     <!-- Strings related to 首页 end-->
+
+    <!-- Strings related to 活动 start-->
+    <string name="event_countNum">报名人数:\u3000%s人</string>
+    <string name="event_point">CPE积分:\u3000%s分</string>
+    <string name="event_havedJoin">已报名%s人</string>
+    <string name="event_timeLimit">/限%s人报名</string>
+    <string name="event_btn_join">我要报名</string>
+    <string name="event_btn_pastdue">已过期</string>
+    <string name="event_btn_apply">已报名</string>
+    <!-- Strings related to 活动 end-->
+
+
+    <!-- Strings related to 后续教育 end-->
+    <string name="fue_CPE">CPE课程</string>
+    <string name="classify">分类</string>
+    <string name="sort">排序</string>
+    <string name="screen">筛选</string>
+    <string name="not_apply">您还未报名,报名后进行学习！</string>
+    <string name="study_know">学习须知</string>
+    <string name="study_know_detail">\u3000\u3000如何获得本课程学分: 每个视频学习过程中均会随机弹出签到提示，全部视频都成功签到后才能获得本课程CPE积分。</string>
+    <!-- Strings related to 后续教育 end-->
 
     <!-- Strings related to 登录注册业务 start-->
     <string name="login_wechat">微信</string>
@@ -83,6 +106,8 @@
     <string name="course_joincount">参加人数:\u0020</string>
     <string name="course_call">咨询客服</string>
     <string name="course_pay">立即报名</string>
+    <string name="course_teacherintroduction">讲师介绍</string>
+    <string name="course_classintroduction">课程介绍</string>
     <string name="course_introduce">课程介绍</string>
     <string name="course_directory">课程目录</string>
     <string name="course_ask">课程答疑</string>
@@ -635,6 +660,7 @@
     <string name="edit">编辑</string>
     <string name="default_text">默认</string>
     <string name="save">保存</string>
+    <string name="put_away">收起</string>
     <string name="askQuestions">提问</string>
     <string name="setting">设置</string>
     <string name="exit_tips">再按一次退出程序</string>

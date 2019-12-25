@@ -215,6 +215,7 @@ public class Constant {
     public static final String WATCH_RECORD = "watch_record";//观看记录
     public static final String WATCH_LEARNPLAN = "watch_learnPlan";//学习计划
     public static final String WATCH_ANSWERDETAILED = "watch_answerDetailed";//课程答疑查看视频
+    public static final String WATCH_EDUCATION_CPE = "education_CPE";//后续教育
     //WIFI观看处理
     public static final String DOWNLOAD_WIFI = "download_wifi";
     public static final String LOOK_WIFI = "download_look";

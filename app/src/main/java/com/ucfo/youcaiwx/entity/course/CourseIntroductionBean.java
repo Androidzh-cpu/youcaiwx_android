@@ -63,6 +63,7 @@ public class CourseIntroductionBean {
 
         private int package_id;
         private String is_purchase;
+        private String userstatus;
         private String name;
         private String teacher_id;
         private String app_img;
@@ -74,6 +75,14 @@ public class CourseIntroductionBean {
         private String join_num;
         private String study_days;
         private List<TeacehrListBean> teacehr_list;
+
+        public String getUserstatus() {
+            return userstatus == null ? "" : userstatus;
+        }
+
+        public void setUserstatus(String userstatus) {
+            this.userstatus = userstatus;
+        }
 
         public String getBilling_status() {
             return billing_status == null ? "" : billing_status;

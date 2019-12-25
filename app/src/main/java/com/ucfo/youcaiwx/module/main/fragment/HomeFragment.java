@@ -47,6 +47,8 @@ import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.module.home.InformationActivity;
 import com.ucfo.youcaiwx.module.home.MessageCenterActivity;
 import com.ucfo.youcaiwx.module.home.ScanActivity;
+import com.ucfo.youcaiwx.module.home.cpe.CPECourseActivity;
+import com.ucfo.youcaiwx.module.home.event.EventActivity;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.module.main.activity.MainActivity;
 import com.ucfo.youcaiwx.module.main.activity.WebActivity;
@@ -283,14 +285,17 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                     startActivity(CourseListActivity.class, null);
                     break;
                 case R.id.icon_face://TODO 面授
-                    bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARFACE);
+                    /*bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARFACE);
                     bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_face));
-                    startActivity(WebActivity.class, bundle);
+                    startActivity(WebActivity.class, bundle);*/
+                    //TODO 改为后续教育
+                    startActivity(CPECourseActivity.class, null);
                     break;
                 case R.id.icon_active://TODO 活动
-                    bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARACTIVE);
+                    /*bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARACTIVE);
                     bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_active));
-                    startActivity(WebActivity.class, bundle);
+                    startActivity(WebActivity.class, bundle);*/
+                    startActivity(EventActivity.class, null);
                     break;
                 case R.id.check_more_course://TODO 查看更多课程
                     startActivity(new Intent(getActivity(), CourseListActivity.class));

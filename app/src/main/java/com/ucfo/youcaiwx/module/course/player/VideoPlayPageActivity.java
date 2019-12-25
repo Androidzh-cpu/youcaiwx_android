@@ -28,6 +28,7 @@ import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -563,8 +564,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private void initSocket() {
         if (login_status) {
             //登录后择机开启socket
-            boolean equals = TextUtils.equals(course_Source, Constant.LOCAL_CACHE);
-            if (!equals) {
+            boolean localVideo = TextUtils.equals(course_Source, Constant.LOCAL_CACHE);
+            boolean cpeVideo = TextUtils.equals(course_Source, Constant.WATCH_EDUCATION_CPE);
+            if (!localVideo || !cpeVideo) {
                 //线上视频开启socket
                 initWsClient(ApiStores.SOCKET);
                 //看课30分钟自动加积分
@@ -653,7 +655,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
             setCourseUnCon(courseUnCon);//正课标识
 
-            changePlayVidSource(vid, videoId, courseId, sectionId);//切换视频播放源
+            changePlayVidSource(vid, videoId, courseId, sectionId, "");//切换视频播放源
         } else if (TextUtils.equals(course_Source, Constant.WATCH_RECORD)) {
             //TODO 观看记录(直接横屏播放,可提问问题)
             int sectionId = bundle.getInt(Constant.SECTION_ID, 0);//章
@@ -662,7 +664,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             int courseId = bundle.getInt(Constant.COURSE_ID, 0);//课ID
 
             setCourseUnCon(courseUnCon);//正课标识
-            changePlayVidSource(vid, videoId, courseId, sectionId);//切换视频播放源
+            changePlayVidSource(vid, videoId, courseId, sectionId, "");//切换视频播放源
 
             AliyunScreenMode targetMode;
             if (getScreenMode() == AliyunScreenMode.Small) {
@@ -699,7 +701,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             learnDays = bundle.getInt(Constant.DAYS, 0);//计划天数
 
             setCourseUnCon(courseUnCon);//正课标识
-            changePlayVidSource(vid, video_id, course_id, section_id);//切换视频播放源
+            changePlayVidSource(vid, video_id, course_id, section_id, "");//切换视频播放源
 
             AliyunScreenMode targetMode;
             if (getScreenMode() == AliyunScreenMode.Small) {
@@ -715,7 +717,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             int videoId = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
             int courseId = bundle.getInt(Constant.COURSE_ID, 0);//课ID
 
-            changePlayVidSource(vid, videoId, courseId, sectionId);//切换视频播放源
+            changePlayVidSource(vid, videoId, courseId, sectionId, "");//切换视频播放源
 
 
             AliyunScreenMode targetMode;
@@ -1638,13 +1640,41 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      * 点击视频列表, 切换播放的视频
      * TODO 5.3 准备播放 NOTE:注意过期时间。特别是重播的时候，可能已经过期。所以重播的时候最好重新请求一次服务器。
      */
-    public void changePlayVidSource(String vid, int video_id, int course_id, int section_id) {
+    public void changePlayVidSource(String vid, int videoId, int course_id, int section_id, String video_id) {
+        if (TextUtils.equals(course_Source, Constant.WATCH_EDUCATION_CPE)) {
+            if (TextUtils.isEmpty(video_id)) {
+                toastInfo(getResources().getString(R.string.miss_params));
+                return;
+            }
+            changePlayVidSource(vid, Integer.parseInt(video_id));
+        } else {
+            clearAllSource();//清除资源
+            reset();//重置
+
+            currentVid = vid;//当前播放的阿里视频VID
+            currentCourseID = course_id;//当前播放的课程ID
+            currentSectionID = section_id;//当前播放的课程章ID
+            currentVideoID = videoId;//当前播放的后台库视频ID
+
+            //获取对应视频答疑列表
+            if (courseAnswerQuestionFragment != null) {
+                courseAnswerQuestionFragment.getAnswerListData(coursePackageId, currentCourseID, currentSectionID, currentVideoID);
+            }
+            //获取播放凭证
+            coursePlayPresenter.getVideoPlayAuthor(currentVid, currentVideoID, currentCourseID, currentSectionID, userId, coursePackageId);
+        }
+    }
+
+    /**
+     * 切换视频播放资源
+     * 点击视频列表, 切换播放的视频
+     * TODO 5.3 准备播放 NOTE:注意过期时间。特别是重播的时候，可能已经过期。所以重播的时候最好重新请求一次服务器。
+     */
+    public void changePlayVidSource(String vid, int video_id) {
         clearAllSource();//清除资源
         reset();//重置
 
         currentVid = vid;//当前播放的阿里视频VID
-        currentCourseID = course_id;//当前播放的课程ID
-        currentSectionID = section_id;//当前播放的课程章ID
         currentVideoID = video_id;//当前播放的后台库视频ID
 
         //获取对应视频答疑列表
@@ -1652,7 +1682,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             courseAnswerQuestionFragment.getAnswerListData(coursePackageId, currentCourseID, currentSectionID, currentVideoID);
         }
         //获取播放凭证
-        coursePlayPresenter.getVideoPlayAuthor(currentVid, currentVideoID, currentCourseID, currentSectionID, userId, coursePackageId);
+        coursePlayPresenter.getVideoPlayAuthor(currentVid, currentVideoID);
     }
 
     /**
@@ -2318,13 +2348,21 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         titlesList = new ArrayList<String>();
         fragmentArrayList = new ArrayList<Fragment>();
         if (TextUtils.equals(course_Source, Constant.COLLECTION)) {
-            //课程收藏
+            //TODO 课程收藏(只显示课程答疑)
             courseAnswerQuestionFragment = new CourseAnswerQuestionFragment();
             fragmentArrayList.add(courseAnswerQuestionFragment);
             titlesList.add(getResources().getString(R.string.course_ask));
         } else if (TextUtils.equals(course_Source, Constant.WATCH_RECORD) || TextUtils.equals(course_Source, Constant.WATCH_LEARNPLAN) ||
                 TextUtils.equals(course_Source, Constant.LOCAL_CACHE) || TextUtils.equals(course_Source, Constant.WATCH_ANSWERDETAILED)) {
-            //TODO 观看记录,学习计划,本地视频,课程答疑
+            //TODO 观看记录,学习计划,本地视频,课程答疑 (啥都没有)
+        } else if (TextUtils.equals(course_Source, Constant.WATCH_EDUCATION_CPE)) {
+            //TODO 后续教育课程(只显示课程简介和课程目录)
+            courseIntroductionFragment = new CourseIntroductionFragment();
+            courseDirectoryListFragment = new CourseDirectoryListFragment();
+            fragmentArrayList.add(courseIntroductionFragment);
+            fragmentArrayList.add(courseDirectoryListFragment);
+            titlesList.add(getResources().getString(R.string.course_introduce));
+            titlesList.add(getResources().getString(R.string.course_directory));
         } else {
             //common视频播放
             courseIntroductionFragment = new CourseIntroductionFragment();
@@ -2338,6 +2376,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             titlesList.add(getResources().getString(R.string.course_directory));
             titlesList.add(getResources().getString(R.string.course_ask));
         }
+        //判断显示的TAB
         if (fragmentArrayList != null && fragmentArrayList.size() > 0) {
             FragmentManager supportFragmentManager = getSupportFragmentManager();
             CommonTabAdapter commonTabAdapter = new CommonTabAdapter(supportFragmentManager, fragmentArrayList, titlesList);
@@ -2350,10 +2389,38 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     int position = tab.getPosition();
                     switch (position) {
                         case 0:
+                            //TODO 课程简介
                             updateBuyUI();
                             break;
                         case 1:
+                            //TODO 课程目录
+                            if (TextUtils.equals(course_Source, Constant.WATCH_EDUCATION_CPE)) {
+                                new com.ucfo.youcaiwx.widget.dialog.AlertDialog(VideoPlayPageActivity.this).builder()
+                                        .setTitle(getResources().getString(R.string.study_know))
+                                        .setMsg(getResources().getString(R.string.study_know_detail))
+                                        .setMsgGravity(Gravity.START)
+                                        .setCancelable(false)
+                                        .setCanceledOnTouchOutside(false)
+                                        .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+
+                                            }
+                                        })
+                                        .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+
+                                            }
+                                        })
+                                        .show();
+                            }
+                            if (linearPayCourse.getVisibility() == View.VISIBLE) {
+                                linearPayCourse.setVisibility(View.GONE);
+                            }
+                            break;
                         case 2:
+                            //TODO 课程答疑
                             if (linearPayCourse.getVisibility() == View.VISIBLE) {
                                 linearPayCourse.setVisibility(View.GONE);
                             }
@@ -3103,8 +3170,17 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     public void setCourse_PackagePrice(String course_PackagePrice) {
         this.course_PackagePrice = course_PackagePrice;
         //截取.之前的字符串
-        String substring = course_PackagePrice.substring(0, course_PackagePrice.indexOf("."));
+        String substring = course_PackagePrice;
+        //String substring = course_PackagePrice.substring(0, course_PackagePrice.indexOf("."));
         btnPay.setText(String.valueOf(getResources().getString(R.string.RMB) + substring + getResources().getString(R.string.course_baoming)));
+    }
+
+    public String getCourse_Source() {
+        return course_Source == null ? "" : course_Source;
+    }
+
+    public void setCourse_Source(String course_Source) {
+        this.course_Source = course_Source;
     }
 
     public void makeCall() {

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -118,7 +119,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
         super.onDestroy();
         // Activity管理器中移除当前页面
         ActivityUtil.getInstance().removeActivity(this);
-
+        //取消请求
         OkGo.getInstance().cancelTag(this);
     }
 
@@ -246,6 +247,17 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
         }
         lastClick = currentClickTime;
         return flag;
+    }
+
+    /**
+     * 吐个丝啊
+     *
+     * @param message
+     */
+    public void showToast(String message) {
+        if (!TextUtils.isEmpty(message)) {
+            ToastUtil.showBottomLongText(this, message);
+        }
     }
 
     /**

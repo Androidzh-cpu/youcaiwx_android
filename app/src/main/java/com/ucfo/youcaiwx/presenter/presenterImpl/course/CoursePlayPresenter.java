@@ -91,7 +91,7 @@ public class CoursePlayPresenter {
                 .params(Constant.COURSE_ID, course_id)//课程id
                 .params(Constant.SECTION_ID, section_id)//章节ID
                 .params(Constant.VIDEO_ID, video_id)//小节视频ID
-                .retryCount(1)
+                .tag(this)
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
@@ -110,6 +110,49 @@ public class CoursePlayPresenter {
                         try {
                             JSONObject jsonObject = new JSONObject(response.body());
                             int code = jsonObject.optInt("code");//获取接口返回状态
+                            if (code == 200) {
+                                Gson gson = new Gson();
+                                GetVideoPlayAuthBean videoPlayAuthBean = gson.fromJson(body, GetVideoPlayAuthBean.class);
+                                view.getVideoPlayAuthor(videoPlayAuthBean);
+                            } else {
+                                view.getVideoPlayAuthor(null);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 重载获取视频凭证
+     *
+     * @param vid
+     * @param video_id
+     */
+    public void getVideoPlayAuthor(String vid, int video_id) {
+        OkGo.<String>post(ApiStores.EDUCATION_COURSE_GETVIDEO_CREDENTIALS)
+                .tag(this)
+                .params(Constant.COURSE_VIDEOID, vid)//阿里库里的vid
+                .params(Constant.VIDEO_ID, video_id)//小节视频ID
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        view.getVideoPlayAuthor(null);
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String body = response.body();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.body());
+                            int code = jsonObject.optInt(Constant.CODE);//获取接口返回状态
                             if (code == 200) {
                                 Gson gson = new Gson();
                                 GetVideoPlayAuthBean videoPlayAuthBean = gson.fromJson(body, GetVideoPlayAuthBean.class);

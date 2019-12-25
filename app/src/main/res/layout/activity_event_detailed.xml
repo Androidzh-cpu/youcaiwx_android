@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    tools:context=".module.home.event.EventDetailedActivity">
+
+    <com.ucfo.youcaiwx.widget.customview.LoadingLayout
+        android:id="@+id/loadinglayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_192">
+
+                    <ImageView
+                        android:id="@+id/imageview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:scaleType="fitXY" />
+
+                    <ImageView
+                        android:id="@+id/btn_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="@dimen/dp_14"
+                        android:layout_marginTop="@dimen/dp_30"
+                        android:clickable="true"
+                        android:src="@mipmap/icon_back_white" />
+
+                    <ImageView
+                        android:id="@+id/btn_share"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginEnd="@dimen/dp_14"
+                        android:layout_marginTop="@dimen/dp_30"
+                        android:clickable="true"
+                        android:src="@mipmap/icon_share" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:paddingEnd="@dimen/dp_12"
+                    android:paddingStart="@dimen/dp_12"
+                    android:paddingTop="@dimen/dp_12">
+
+                    <TextView
+                        android:id="@+id/txt_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_16"
+                        android:textStyle="bold"
+                        tools:text="2018（深圳）管理会计实践论坛邀请函" />
+
+                    <TextView
+                        android:id="@+id/txt_point"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/color_0267FF"
+                        android:textSize="@dimen/sp_12"
+                        tools:text="CPE积分：6分" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_10"
+                    android:background="@color/color_F5F5F5" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp_10"
+                    android:paddingEnd="@dimen/dp_12"
+                    android:paddingStart="@dimen/dp_12"
+                    android:paddingTop="@dimen/dp_10">
+
+                    <TextView
+                        android:id="@+id/txt_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="@dimen/dp_5"
+                        android:drawableStart="@mipmap/icon_citime"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_13"
+                        tools:text="2018.01.01 13:00-2018.01.03 18:00" />
+
+                    <TextView
+                        android:id="@+id/txt_position"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_2"
+                        android:layout_marginTop="@dimen/dp_2"
+                        android:drawablePadding="@dimen/dp_5"
+                        android:drawableStart="@mipmap/icon_citposition"
+                        android:textColor="@color/color_333333"
+                        android:textSize="@dimen/sp_13"
+                        tools:text="深圳什么什么区什么什么街金蝶软件园A901会议室（高薪技术产业园）" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dp_5"
+                            android:src="@mipmap/icon_citeacher" />
+
+                        <TextView
+                            android:id="@+id/txt_havedJoin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/color_0267FF"
+                            android:textSize="@dimen/sp_13" />
+
+                        <TextView
+                            android:id="@+id/txt_timeLimit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/color_666666"
+                            android:textSize="@dimen/sp_13" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_10"
+                    android:background="@color/color_F5F5F5" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_1"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/colorWhite"
+                    android:paddingBottom="@dimen/dp_9"
+                    android:paddingStart="@dimen/dp_12"
+                    android:paddingTop="@dimen/dp_9"
+                    android:text="@string/course_teacherintroduction"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_15"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:minHeight="@dimen/dp_51"
+                    android:overScrollMode="never" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_10"
+                    android:background="@color/color_F5F5F5" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_1"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/colorWhite"
+                    android:paddingBottom="@dimen/dp_9"
+                    android:paddingStart="@dimen/dp_12"
+                    android:paddingTop="@dimen/dp_9"
+                    android:text="@string/course_classintroduction"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_15"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/contentImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
+
+    <Button
+        android:id="@+id/btn_next"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_43"
+        android:gravity="center"
+        android:stateListAnimator="@drawable/shape_selector_elevation"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_14" />
+</LinearLayout>

@@ -125,7 +125,7 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
             courseTeacherName.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + "  " + course_teachername));
 
             //获取对应课程视频列表
-            courseDirPresenter.getCourseDirData(package_id, user_id);
+            courseDirPresenter.getCourseDirData(package_id, user_id,"");
         } else {
             if (loadinglayout != null) {
                 loadinglayout.showEmpty();
@@ -134,7 +134,7 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                courseDirPresenter.getCourseDirData(package_id, user_id);
+                courseDirPresenter.getCourseDirData(package_id, user_id,"");
             }
         });
         downloadManager = UcfoApplication.downloadManager;

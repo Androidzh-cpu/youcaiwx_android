@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.base;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,10 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.NetLoadingProgress;
 
 /**
@@ -30,9 +31,17 @@ public abstract class BaseFragment extends Fragment {
     private NetLoadingProgress netLoadingProgress;
     private long lastClick = 0;
 
+   /* @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.context = activity;
+    }*/
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        this.context = context;
     }
 
     @Override
@@ -95,12 +104,6 @@ public abstract class BaseFragment extends Fragment {
         if (getUserVisibleHint()) {
             handleOnVisibilityChangedToUser(false);
         }
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.context = activity;
     }
 
     @Override
@@ -180,12 +183,28 @@ public abstract class BaseFragment extends Fragment {
     }
 
     /**
+     * 友情提示,吐个丝
+     */
+    public void showToast(String msg) {
+        if (TextUtils.isEmpty(msg)) {
+            return;
+        }
+        if (context != null) {
+            ToastUtil.showBottomShortText(context, msg);
+        } else {
+            ToastUtil.showBottomShortText(getContext(), msg);
+        }
+    }
+
+    /**
      * 公共base类中弹出进度条
      */
     public void setProcessLoading(String text, boolean showText) {
-        NetLoadingProgress.Builder builder = new NetLoadingProgress.Builder(context).setMessage(text).setShowMessage(showText);
-        netLoadingProgress = builder.create();
-        netLoadingProgress.show();
+        if (context != null) {
+            NetLoadingProgress.Builder builder = new NetLoadingProgress.Builder(context).setMessage(text).setShowMessage(showText);
+            netLoadingProgress = builder.create();
+            netLoadingProgress.show();
+        }
     }
 
     /**

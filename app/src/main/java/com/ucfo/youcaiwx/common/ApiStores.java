@@ -15,9 +15,9 @@ public class ApiStores {
     }
 
     //线上正式环境
-    public static final String ROOT_URL = "https://api.youcaiwx.cn/";
+    //public static final String ROOT_URL = "https://api.youcaiwx.cn/";
     //线下测试环境
-    //public static final String ROOT_URL = "https://dest.youcaiwx.cn/";
+    public static final String ROOT_URL = "https://dest.youcaiwx.cn/";
 
     public static final String BASE_URL = ROOT_URL + "apps/";
 
@@ -70,9 +70,25 @@ public class ApiStores {
     public static final String MESSAGE_CENTER_HAVEDREAD = BASE_URL + "Message/read";
     //资讯列表
     public static final String MESSAGE_INFORMATIONLIST = BASE_URL + "news/newsList";
-    //App活动地址
+    //App学习中心 获取图片活动
     public static final String ACTIVEEVENT = ROOT_URL + "web/Register/thickness";
+    //首页活动列表
+    public static final String HOME_EVENTLIST = BASE_URL + "Education/previewCourse";
+    //首页活动详情
+    public static final String HOME_EVENTDETAILED = BASE_URL + "Education/previewDetails";
+    //提交活动报名信息
+    public static final String HOME_EVENT_COMMIT = BASE_URL + "Education/activityUser";
 
+    //-----------------------------------------TODO 后续教育 start------------------------------------------------------------------------------//
+    public static final String EDUCATION_CLASSIFICATION = BASE_URL + "Education/deuType";
+    public static final String EDUCATION_COURSE_LIST = BASE_URL + "Education/listPackage ";
+    //课程简介
+    public static final String EDUCATION_COURSE_INTORDUCTION = BASE_URL + "Education/courseIntroduction";
+    //课程目录
+    public static final String EDUCATION_COURSEDIRECTORY = BASE_URL + "Education/courseoutline ";
+    //获取视频凭证
+    public static final String EDUCATION_COURSE_GETVIDEO_CREDENTIALS = BASE_URL + "Education/videoCredentials";
+    //-----------------------------------------TODO 后续教育 end------------------------------------------------------------------------------//
 
     //-----------------------------------------TODO 登录注册 start------------------------------------------------------------------------------//
     //账号登录

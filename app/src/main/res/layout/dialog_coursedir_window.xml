@@ -10,13 +10,11 @@
     <com.flyco.roundview.RoundLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/dp_20"
-        android:layout_marginEnd="@dimen/dp_10"
-        android:layout_marginStart="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_20"
         android:orientation="vertical"
         app:rv_backgroundColor="@android:color/white"
-        app:rv_cornerRadius="@dimen/dp_5">
+        app:rv_cornerRadius_TL="@dimen/dp_8"
+        app:rv_cornerRadius_TR="@dimen/dp_8">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -96,9 +94,9 @@
             android:paddingEnd="@dimen/dp_10"
             android:paddingStart="@dimen/dp_10"
             android:paddingTop="@dimen/dp_10"
-            android:text="收起"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/sp_13"
+            android:text="@string/put_away"
+            android:textColor="@color/color_0267FF"
+            android:textSize="@dimen/sp_14"
             app:rv_backgroundColor="@android:color/white"
             app:rv_cornerRadius_BL="@dimen/dp_5"
             app:rv_cornerRadius_BR="@dimen/dp_5" />

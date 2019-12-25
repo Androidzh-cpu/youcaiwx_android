@@ -1,0 +1,11 @@
+<ToggleButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_toggle_button"
+    android:layout_width="@dimen/dp_100"
+    android:layout_height="@dimen/dp_44"
+    android:background="@color/transparency"
+    android:gravity="center"
+    android:singleLine="true"
+    android:textColor="@color/color_999999"
+    android:textOff="@null"
+    android:textOn="@null"
+    android:textSize="@dimen/sp_14" />

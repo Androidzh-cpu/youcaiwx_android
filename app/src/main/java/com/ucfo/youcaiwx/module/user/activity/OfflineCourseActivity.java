@@ -99,42 +99,51 @@ public class OfflineCourseActivity extends BaseActivity implements View.OnClickL
             page = bundle.getInt(Constant.PAGE, 0);
             parcelableArrayList = bundle.getParcelableArrayList(Constant.DOWNLOADINFO_LIST);
         }
-        SoulPermission.getInstance().checkAndRequestPermissions(
-                Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                new CheckRequestPermissionsListener() {
-                    @Override
-                    public void onAllPermissionOk(Permission[] allPermissions) {
-                        checkPermission();
-                    }
 
-                    @Override
-                    public void onPermissionDenied(Permission[] refusedPermissions) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(OfflineCourseActivity.this, R.style.WhiteDialogStyle);
-                        builder.setTitle(OfflineCourseActivity.this.getResources().getString(R.string.explication));
-                        builder.setMessage(OfflineCourseActivity.this.getResources().getString(R.string.permission_sdcard));
-                        builder.setCancelable(false);
-                        builder.setPositiveButton(OfflineCourseActivity.this.getResources().getString(R.string.donner),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        SoulPermission.getInstance().goApplicationSettings();
-                                    }
-                                });
-                        builder.create();
-                        builder.show();
-                    }
-                });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //TODO 6.0以上
+            checkPermission();
+        } else {
+            //TODO 6.0以下
+            initTablayout();
+        }
         // 上报后的Crash会显示该标签
         CrashReport.setUserSceneTag(this, Constant.BUGLY_TAG_CACHE);
     }
 
     private void checkPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int storagePermissionRet = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
-            int storagePermissionRet2 = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            if (storagePermissionRet == PackageManager.PERMISSION_GRANTED && storagePermissionRet2 == PackageManager.PERMISSION_GRANTED) {
-                initTablayout();
-            }
+        int storagePermissionRet = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE);
+        int storagePermissionRet2 = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (storagePermissionRet == PackageManager.PERMISSION_GRANTED && storagePermissionRet2 == PackageManager.PERMISSION_GRANTED) {
+            //文件读写权限已打开
+            initTablayout();
+        } else {
+            //未打开就申请
+            SoulPermission.getInstance().checkAndRequestPermissions(
+                    Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    new CheckRequestPermissionsListener() {
+                        @Override
+                        public void onAllPermissionOk(Permission[] allPermissions) {
+                            initTablayout();
+                        }
+
+                        @Override
+                        public void onPermissionDenied(Permission[] refusedPermissions) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(OfflineCourseActivity.this, R.style.WhiteDialogStyle);
+                            builder.setTitle(OfflineCourseActivity.this.getResources().getString(R.string.explication));
+                            builder.setMessage(OfflineCourseActivity.this.getResources().getString(R.string.permission_sdcard));
+                            builder.setCancelable(false);
+                            builder.setPositiveButton(OfflineCourseActivity.this.getResources().getString(R.string.donner),
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            SoulPermission.getInstance().goApplicationSettings();
+                                        }
+                                    });
+                            builder.create();
+                            builder.show();
+                        }
+                    });
         }
     }
 

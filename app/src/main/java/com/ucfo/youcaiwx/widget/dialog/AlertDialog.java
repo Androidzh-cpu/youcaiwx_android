@@ -78,6 +78,11 @@ public class AlertDialog {
         return this;
     }
 
+    public AlertDialog setMsgGravity(int gravity) {
+        txt_msg.setGravity(gravity);
+        return this;
+    }
+
     //路西法
     public AlertDialog setTitle(String title) {
         if (TextUtils.isEmpty(title)) {

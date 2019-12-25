@@ -1,5 +1,7 @@
 package com.ucfo.youcaiwx.presenter.presenterImpl.course;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
@@ -30,8 +32,21 @@ public class CourseDirPresenter {
      * Time:2019-4-16   上午 10:00
      * Detail: 获取课程目录
      */
-    public void getCourseDirData(int package_id, int user_id) {
-        OkGo.<String>post(ApiStores.COURSE_GETCOURSEDIR)
+    public void getCourseDirData(int package_id, int user_id, String course_Source) {
+        String url = "";
+        if (TextUtils.isEmpty(course_Source)) {
+            //我的课程可能为空,下载列表也可能为空
+            url = ApiStores.COURSE_GETCOURSEDIR;
+        } else {
+            //后续教育系列
+            if (TextUtils.equals(course_Source, Constant.WATCH_EDUCATION_CPE)) {
+                url = ApiStores.EDUCATION_COURSEDIRECTORY;
+            } else {
+                //非后续教育
+                url = ApiStores.COURSE_GETCOURSEDIR;
+            }
+        }
+        OkGo.<String>post(url)
                 .tag(this)
                 .params(Constant.PACKAGE_ID, package_id)
                 .params(Constant.USER_ID, user_id)

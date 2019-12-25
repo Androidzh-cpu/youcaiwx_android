@@ -177,11 +177,29 @@ public class CourseDirBean {
                 private int id;
                 private String video_name;
                 private String video_time;
+                private String record;
                 private String VideoId;
+                private String video_id;
                 private int section_id;
                 private int course_id;
                 private int is_shoucang;
                 private boolean checked;
+
+                public String getRecord() {
+                    return record == null ? "" : record;
+                }
+
+                public void setRecord(String record) {
+                    this.record = record;
+                }
+
+                public String getVideo_id() {
+                    return video_id == null ? "" : video_id;
+                }
+
+                public void setVideo_id(String video_id) {
+                    this.video_id = video_id;
+                }
 
                 public boolean getChecked() {
                     return checked;

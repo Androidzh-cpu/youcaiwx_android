@@ -113,6 +113,7 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView,
         mineCoursePresenter = new MineCoursePresenter(this);
         mineCoursePresenter.getMineCourseList(user_id);
 
+        refreshlayout.setEnableLoadMore(false);
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -157,8 +158,10 @@ public class MineCourseActivity extends BaseActivity implements IMineCourseView,
                 linearHolder.setVisibility(View.INVISIBLE);
             }
         }
-        refreshlayout.finishRefresh();
-        refreshlayout.finishLoadMore();
+        if (refreshlayout != null) {
+            refreshlayout.finishRefresh();
+            refreshlayout.finishLoadMore();
+        }
     }
 
     @Override

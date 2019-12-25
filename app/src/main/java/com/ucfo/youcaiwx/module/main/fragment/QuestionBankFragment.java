@@ -443,6 +443,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(activity, R.drawable.icon_pulldown));
                 popupWindow.setOutsideTouchable(false);
                 popupWindow.setFocusable(true);
+                popupWindow.setAnimationStyle(R.style.Widget_AppCompat_PopupWindow);
             }
             int[] a = new int[2];
             titlebarToolbar.getLocationInWindow(a);

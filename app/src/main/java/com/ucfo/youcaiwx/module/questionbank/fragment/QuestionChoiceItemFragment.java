@@ -166,7 +166,11 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
 
         //TODO 选项列表
         adapter = new OptionsAdapter(questionList, index, testmodeActivity, EXERCISE_TYPE);
-        adapter.notifyDataChanged(optionsAnswerList.get(index).getUser_answer());
+        if (optionsAnswerList != null && optionsAnswerList.size() > 0) {
+            //此处报了个错,又是下标越界
+            String userAnswer = optionsAnswerList.get(index).getUser_answer();
+            adapter.notifyDataChanged(userAnswer);
+        }
         mOptionsListviewQuestion.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         mOptionsListviewQuestion.setAdapter(adapter);
 
