@@ -42,7 +42,6 @@ import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import org.json.JSONException;
@@ -250,7 +249,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
                     .imageEngine(new GlideEngine())
                     .autoHideToolbarOnSingleTap(true)
                     .maxOriginalSize(10)
-                    .addFilter(new MiniSizeFilter(320, 320, (int) (3 * Filter.K * Filter.K)))
+                    .addFilter(new MiniSizeFilter(320, 320, Constant.PICTURE_SIZE))
                     .forResult(REQUEST_CODE_CHOOSE);//请求码
         } else {
             ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_title_maxChoice3));

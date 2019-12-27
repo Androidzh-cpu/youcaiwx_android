@@ -1,5 +1,7 @@
 package com.ucfo.youcaiwx.presenter.presenterImpl.course;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
@@ -190,6 +192,117 @@ public class CoursePlayPresenter {
                     public void onSuccess(Response<String> response) {
                     }
                 });
+    }
 
+    /**
+     * 所谓的专业网校的服务器要是能升级一下,还会弄出这骚操作吗,真特莫服了
+     */
+    public void sendFirstSocketByEducation(CourseSocketBean bean) {
+        if (bean == null) {
+            return;
+        }
+        OkGo.<String>post(ApiStores.EDUCATION_COURSE_RECORD)
+                .params(Constant.USER_ID, bean.getUser_id())//用户ID
+                .params(Constant.PACKAGE_ID, bean.getPackage_id())//课程包ID
+                .params(Constant.COURSE_ID, bean.getCourse_id())//课程id
+                .params(Constant.SECTION_ID, bean.getSection_id())//章节ID
+                .params(Constant.VIDEO_ID, bean.getVideo_id())//小节视频ID
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                    }
+                });
+    }
+
+    /**
+     * 检查是否签到
+     *
+     * @param user_id
+     * @param course_id
+     * @param video_id
+     */
+    public void checkWetherSignin(String user_id, String course_id, String video_id) {
+        OkGo.<String>post(ApiStores.EDUCATION_COURSE_WETHERSIGNIN)
+                .params(Constant.USER_ID, user_id)//用户ID
+                .params(Constant.COURSE_ID, course_id)//课程id
+                .params(Constant.VIDEO_ID, video_id)//视频ID
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        view.checkWitherSigninResult(0);
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.body());
+                            int code = jsonObject.optInt(Constant.CODE);
+                            if (code == 200) {
+                                if (jsonObject.has(Constant.DATA)) {
+                                    JSONObject data = jsonObject.optJSONObject(Constant.DATA);
+                                    String string = data.optString(Constant.STATUS);
+                                    if (TextUtils.isEmpty(string)) {
+                                        view.checkWitherSigninResult(0);
+                                    } else {
+                                        view.checkWitherSigninResult(Integer.parseInt(string));
+                                    }
+                                } else {
+                                    view.checkWitherSigninResult(0);
+                                }
+                            } else {
+                                view.checkWitherSigninResult(0);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 签到
+     *
+     * @param user_id
+     * @param course_id
+     * @param video_id
+     */
+    public void educationSignin(String user_id, String course_id, String video_id) {
+        OkGo.<String>post(ApiStores.EDUCATION_COURSE_SIGNIN)
+                .params(Constant.USER_ID, user_id)//用户ID
+                .params(Constant.COURSE_ID, course_id)//课程id
+                .params(Constant.VIDEO_ID, video_id)//视频ID
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        view.checkWitherSigninResult(0);
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.body());
+                            int code = jsonObject.optInt(Constant.CODE);
+                            if (code == 200) {
+                                if (jsonObject.has(Constant.DATA)) {
+                                    JSONObject data = jsonObject.optJSONObject(Constant.DATA);
+                                    String string = data.optString(Constant.STATUS);
+                                    if (TextUtils.isEmpty(string)) {
+                                        view.checkWitherSigninResult(0);
+                                    } else {
+                                        view.checkWitherSigninResult(Integer.parseInt(string));
+                                    }
+                                } else {
+                                    view.checkWitherSigninResult(0);
+                                }
+                            } else {
+                                view.checkWitherSigninResult(0);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 }

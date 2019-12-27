@@ -1,7 +1,6 @@
 package com.ucfo.youcaiwx.module.course.player;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -108,6 +107,7 @@ import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingView;
 import com.ucfo.youcaiwx.widget.customview.SwitchView;
+import com.ucfo.youcaiwx.widget.dialog.EducationSignDialog;
 import com.ucfo.youcaiwx.widget.dialog.ShareDialog;
 import com.umeng.analytics.MobclickAgent;
 
@@ -293,11 +293,21 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private String freeWatchTips;
 
     //开始计时消息标志
-    private static final int START = 0;
+    private static final int START = 1;
+    private static final int STOP = 2;
+
+    //是否签到状态
+    private int signinStatus = 0;
+    //后续教育弹窗签到时间
+    private int signinTimeFinish = Constant.EDUCATION_TIME_FINISHED;
+    //是否手动点击签到
+    private boolean signinFlag = false;
+    //签到弹窗
+    private EducationSignDialog educationSignDialog;
     //进度更新计时器
-    private ProgressUpdateTimer mProgressUpdateTimer = new ProgressUpdateTimer();
+    private ProgressUpdateTimer mProgressUpdateTimer = new ProgressUpdateTimer(VideoPlayPageActivity.this);
     //控制菜单计时器
-    private HideHandler mHideHandler = new HideHandler();
+    private HideHandler mHideHandler = new HideHandler(VideoPlayPageActivity.this);
     //TODO 解决bug,进入播放界面快速切换到其他界面,播放器仍然播放视频问题
     private VodPlayerLoadEndHandler vodPlayerLoadEndHandler = new VodPlayerLoadEndHandler(this);
 
@@ -336,11 +346,19 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     /**
      * 播放进度更新计时器
      */
-    @SuppressLint("HandlerLeak")
-    private class ProgressUpdateTimer extends Handler {
+    private static class ProgressUpdateTimer extends Handler {
+        private final WeakReference<VideoPlayPageActivity> mWeakReference;
+
+        ProgressUpdateTimer(VideoPlayPageActivity activity) {
+            mWeakReference = new WeakReference<VideoPlayPageActivity>(activity);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            handleProgressUpdateMessage(msg);
+            VideoPlayPageActivity videoPlayPageActivity = mWeakReference.get();
+            if (videoPlayPageActivity != null) {
+                videoPlayPageActivity.handleProgressUpdateMessage(msg);
+            }
             super.handleMessage(msg);
         }
     }
@@ -348,11 +366,19 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     /**
      * 隐藏菜单计时器
      */
-    @SuppressLint("HandlerLeak")
-    private class HideHandler extends Handler {
+    private static class HideHandler extends Handler {
+        private final WeakReference<VideoPlayPageActivity> mWeakReference;
+
+        HideHandler(VideoPlayPageActivity activity) {
+            mWeakReference = new WeakReference<VideoPlayPageActivity>(activity);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            setLayoutVisibility(false, true);
+            VideoPlayPageActivity videoPlayPageActivity = mWeakReference.get();
+            if (videoPlayPageActivity != null) {
+                videoPlayPageActivity.setLayoutVisibility(false, true);
+            }
             super.handleMessage(msg);
         }
     }
@@ -363,7 +389,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      */
     private static class VodPlayerLoadEndHandler extends Handler {
 
-        private WeakReference<VideoPlayPageActivity> weakReference;
+        private final WeakReference<VideoPlayPageActivity> weakReference;
 
         private boolean intentPause;
 
@@ -394,7 +420,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         setContentView(R.layout.activity_video_play_page);
         StatusBarUtil.immersive(this);
         ButterKnife.bind(this);
-
+        //权限申请
         SoulPermission.getInstance().checkAndRequestPermissions(Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE), new CheckRequestPermissionsListener() {
             @Override
             public void onAllPermissionOk(Permission[] allPermissions) {
@@ -497,8 +523,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             aliyunVodPlayer.release();
         }
         stopProgressUpdateTimer();
+        //这里token传null,会移除消息队列中所有当前Handler发送且未被执行的消息
         mProgressUpdateTimer.removeCallbacksAndMessages(null);
         mProgressUpdateTimer = null;
+        //这里token传null,会移除消息队列中所有当前Handler发送且未被执行的消息
         vodPlayerLoadEndHandler.removeCallbacksAndMessages(null);
         vodPlayerLoadEndHandler = null;
 
@@ -516,6 +544,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
         super.onDestroy();
 
+        //删除本地文件
         deletePdfFile();
 
         if (hasLoadEnd != null) {
@@ -559,13 +588,572 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     }
 
     /**
+     * Description:VideoPlayPageActivity
+     * Time:2019-4-10   上午 10:16
+     * Detail:TODO 初始化View
+     */
+    private void initView() {
+        videoPlayPageActivity = VideoPlayPageActivity.this;
+        context = this;
+        freeWatchTips = getResources().getString(R.string.course_freeWatchCompleted);
+
+        windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        //重新设置菜单栏的高度
+        int statusBarHeight = StatusBarUtil.getStatusBarHeight(this);
+        playerTopliner.setPadding(DensityUtil.dp2px(15), statusBarHeight, DensityUtil.dp2px(15), DensityUtil.dp2px(2));
+
+        //当前倍速设置文字
+        playerSpeed.setText(getResources().getString(R.string.course_speed, String.valueOf(currentSpeed)));
+
+        //TODO 保持屏幕常亮
+        surfaceview.setKeepScreenOn(true);
+        surfaceHolder = surfaceview.getHolder();
+        surfaceHolder.addCallback(this);
+
+        //seekbar的滑动监听
+        SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+            int progress = 0;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    freeWatch();
+                    this.progress = (int) (progress * aliyunVodPlayer.getDuration() / seekBar.getMax());
+                    //这里是用户拖动，直接设置文字进度就行，
+                    playerCurrentduration.setText(TimeFormater.formatMs(aliyunVodPlayer.getCurrentPosition()));
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                mHideHandler.removeMessages(WHAT_HIDE);
+                isSeekbarTouching = true;
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                isSeekbarTouching = false;
+                seekTo(progress);
+
+                mHideHandler.removeMessages(WHAT_HIDE);
+                mHideHandler.sendEmptyMessageDelayed(WHAT_HIDE, DELAY_TIME);
+            }
+        };
+        playerSeekprogress.setOnSeekBarChangeListener(seekBarChangeListener);
+    }
+
+    /**
+     * Description:VideoPlayPageActivity
+     * Time:2019-4-3   上午 11:27
+     * Detail:初使数据(接收嗟来之食,然后慢慢消化)
+     */
+    private void initData() {
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
+        userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        login_status = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
+        download_wifi = sharedPreferencesUtils.getBoolean(Constant.DOWNLOAD_WIFI, false);
+        look_wifi = sharedPreferencesUtils.getBoolean(Constant.LOOK_WIFI, false);
+
+        random = new Random();
+        /**
+         * 用于获取视频播放凭证
+         */
+        coursePlayPresenter = new CoursePlayPresenter(this);
+
+        bundle = getIntent().getExtras();
+        if (bundle != null) {
+            courseCoverimageUrl = bundle.getString(Constant.COURSE_COVER_IMAGE, "");//TODO 封面
+            coursePackageId = bundle.getInt(Constant.COURSE_PACKAGE_ID, 0);//TODO 课程包ID
+            courseUnCon = bundle.getInt(Constant.COURSE_UN_CON, 2);//TODO 是否是正课1正课2非正课
+            courseBuyState = bundle.getInt(Constant.COURSE_BUY_STATE, 2);//TODO 购买状态:1购买2未购买
+            course_PackagePrice = bundle.getString(Constant.COURSE_PRICE, "");//TODO 购买价格
+            course_Source = bundle.getString(Constant.COURSE_SOURCE, "");//TODO 来源
+
+            //购买状态
+            setCourseBuyState(courseBuyState);
+            //设置封面
+            setCourse_Cover(courseCoverimageUrl);
+        }
+
+        // 上报后的Crash会显示视频标签
+        CrashReport.setUserSceneTag(context, Constant.BUGLY_TAG_VIDEO);
+    }
+
+    /**
+     * Description:VideoPlayPageActivity
+     * Time:2019-4-3   上午 11:59
+     * Detail:TODO  根据课程购买状态和正课费正科创建tablayout
+     */
+    private void initTablayout() {
+        titlesList = new ArrayList<String>();
+        fragmentArrayList = new ArrayList<Fragment>();
+
+        if (typeJudge(Constant.COLLECTION)) {
+            //TODO 课程收藏(只显示课程答疑)
+            courseAnswerQuestionFragment = new CourseAnswerQuestionFragment();
+            fragmentArrayList.add(courseAnswerQuestionFragment);
+            titlesList.add(getResources().getString(R.string.course_ask));
+        } else if (typeJudge(Constant.WATCH_RECORD) || typeJudge(Constant.WATCH_LEARNPLAN) ||
+                typeJudge(Constant.LOCAL_CACHE) || typeJudge(Constant.WATCH_ANSWERDETAILED)) {
+            //TODO 观看记录,学习计划,本地视频,课程答疑 (啥都没有)
+        } else if (typeJudge(Constant.WATCH_EDUCATION_CPE)) {
+            //TODO 后续教育课程(只显示课程简介和课程目录)
+            courseIntroductionFragment = new CourseIntroductionFragment();
+            courseDirectoryListFragment = new CourseDirectoryListFragment();
+            fragmentArrayList.add(courseIntroductionFragment);
+            fragmentArrayList.add(courseDirectoryListFragment);
+            titlesList.add(getResources().getString(R.string.course_introduce));
+            titlesList.add(getResources().getString(R.string.course_directory));
+        } else {
+            //common视频播放
+            courseIntroductionFragment = new CourseIntroductionFragment();
+            courseDirectoryListFragment = new CourseDirectoryListFragment();
+            courseAnswerQuestionFragment = new CourseAnswerQuestionFragment();
+
+            fragmentArrayList.add(courseIntroductionFragment);
+            fragmentArrayList.add(courseDirectoryListFragment);
+            fragmentArrayList.add(courseAnswerQuestionFragment);
+            titlesList.add(getResources().getString(R.string.course_introduce));
+            titlesList.add(getResources().getString(R.string.course_directory));
+            titlesList.add(getResources().getString(R.string.course_ask));
+        }
+        //判断显示的TAB
+        if (fragmentArrayList != null && fragmentArrayList.size() > 0) {
+            FragmentManager supportFragmentManager = getSupportFragmentManager();
+            CommonTabAdapter commonTabAdapter = new CommonTabAdapter(supportFragmentManager, fragmentArrayList, titlesList);
+            viewpager.setAdapter(commonTabAdapter);
+            viewpager.setOffscreenPageLimit(fragmentArrayList.size());
+            tablayout.setupWithViewPager(viewpager);
+            tablayout.setOnTabSelectedListener(new XTabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(XTabLayout.Tab tab) {
+                    int position = tab.getPosition();
+                    switch (position) {
+                        case 0:
+                            //TODO 课程简介
+                            updateBuyUI();
+                            break;
+                        case 1:
+                            //TODO 课程目录
+                            if (isEducation()) {
+                                if (courseBuyState == Constant.HAVED_BUY) {
+                                    new com.ucfo.youcaiwx.widget.dialog.AlertDialog(VideoPlayPageActivity.this).builder()
+                                            .setTitle(getResources().getString(R.string.study_know))
+                                            .setMsg(getResources().getString(R.string.study_know_detail))
+                                            .setMsgGravity(Gravity.START)
+                                            .setCancelable(false)
+                                            .setCanceledOnTouchOutside(false)
+                                            .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+
+                                                }
+                                            })
+                                            .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+
+                                                }
+                                            })
+                                            .show();
+                                }
+                            }
+                            if (linearPayCourse.getVisibility() == View.VISIBLE) {
+                                linearPayCourse.setVisibility(View.GONE);
+                            }
+                            break;
+                        case 2:
+                            //TODO 课程答疑
+                            if (linearPayCourse.getVisibility() == View.VISIBLE) {
+                                linearPayCourse.setVisibility(View.GONE);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    tab.select();
+                    viewpager.setCurrentItem(position);
+                }
+
+                @Override
+                public void onTabUnselected(XTabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(XTabLayout.Tab tab) {
+
+                }
+            });
+        }
+    }
+
+    /**
+     * Description:VideoPlayPageActivity
+     * Time:2019-4-11   上午 9:03
+     * Detail:TODO  初始化阿里云播放器
+     */
+    private void initAliyunVideoPlayer() {
+        //TODO 播放器初始化  在需要使用播放器SDK的activity里面引入添加如下初始化方法：
+        aliyunVodPlayer = new AliyunVodPlayer(this);
+        aliyunVodPlayer.setVideoScalingMode(IAliyunVodPlayer.VideoScalingMode.VIDEO_SCALING_MODE_SCALE_TO_FIT);
+        setCirclePlay(false);//设置循环播放 default false
+        if (Constant.ISTEST_ENVIRONMENT) {
+            //打印底层日日志
+            enableNativeLog();
+        } else {
+            //正式模式干掉日志
+            disableNativeLog();
+        }
+
+        //设置播放缓存
+        String sdDir = Environment.getExternalStorageDirectory().getAbsolutePath() + Constant.PLAYER_CACHE_PATH;
+        setPlayingCache(true, sdDir, 60 * 60 /*时长, s */, 300 /*大小，MB*/);
+
+        //TODO 播放器加载进度监听
+        aliyunVodPlayer.setOnLoadingListener(new IAliyunVodPlayer.OnLoadingListener() {
+            @Override
+            public void onLoadStart() {
+                /**
+                 * 诱导性加载菊花 _(:3」∠❀)_菊花碎了一地
+                 */
+                playerLoadingview.setVisibility(View.VISIBLE);
+                playerTipsview.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onLoadEnd() {
+                /**
+                 * 诱导性加载菊花 _(:3」∠❀)_菊花都碎了一地
+                 */
+                playerLoadingview.setVisibility(View.GONE);
+                playerTipsview.setVisibility(View.GONE);
+
+                hasLoadEnd.put(mAliyunMediaInfo, true);
+                vodPlayerLoadEndHandler.sendEmptyMessage(1);
+            }
+
+            @Override
+            public void onLoadProgress(int i) {
+                /**
+                 * 加载进度
+                 */
+                playerTipsview.setText(String.valueOf(getResources().getString(R.string.course_videoLoading) + i + "%"));
+            }
+        });
+        //TODO 播放器播放准备监听
+        aliyunVodPlayer.setOnPreparedListener(new IAliyunVodPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared() {
+                if (aliyunVodPlayer == null) {
+                    return;
+                }
+                mAliyunMediaInfo = aliyunVodPlayer.getMediaInfo();
+                if (mAliyunMediaInfo == null) {
+                    return;
+                }
+                //防止服务器信息和实际不一致
+                long duration = aliyunVodPlayer.getDuration();
+                int round = Math.round(duration);
+                mAliyunMediaInfo.setDuration(round);
+                //使用用户设置的标题(时隔个几个月,居然忘了)
+                mAliyunMediaInfo.setTitle(mAliyunMediaInfo.getTitle());
+                mAliyunMediaInfo.setPostUrl(mAliyunMediaInfo.getPostUrl());
+
+                mCurrentQuality = aliyunVodPlayer.getCurrentQuality();//获取当前的清晰度
+                setCurrentQuality(mCurrentQuality);//设置默认倍速播放
+
+                /**
+                 * 解放手势操作
+                 */
+                mGestureView.setHideType(ViewAction.HideType.Normal);
+                mGestureView.show();
+
+                isPrepared = true;
+
+                logger("准备完成触发");
+
+                /**
+                 * 切换到后台监听的上次退出时的播放位置
+                 */
+                preparedStart(watch_time);
+            }
+        });
+        //TODO 播放器第一帧监听
+        aliyunVodPlayer.setOnFirstFrameStartListener(new IAliyunVodPlayer.OnFirstFrameStartListener() {
+            @Override
+            public void onFirstFrameStart() {
+                logger("首帧显示触发");
+
+                //获取所有日志信息
+                getAllDebugInfo();
+
+                /**
+                 * 开始启动更新进度的定时器
+                 */
+                startProgressUpdateTimer();
+
+                /**
+                 * 首帧显示,控制栏消失
+                 */
+                setLayoutVisibility(true, true);
+
+                /**
+                 * 防止"NB"的服务器记不住信息,主动发送一条数据记录一下
+                 *
+                 */
+                sendSocketMessageByPort();
+
+                /**
+                 * SB说竖屏也要加收藏,加NM呢,智障反人类
+                 */
+                setCollectionButton();
+
+                /**
+                 * 检查是否签到
+                 */
+                checkWitherSigninResult();
+            }
+        });
+        //TODO 播放器播放错误处理
+        aliyunVodPlayer.setOnErrorListener(new IAliyunVodPlayer.OnErrorListener() {
+            @Override
+            public void onError(int errorCode, int arg1, String errorMsg) {
+                logger("出错时处理:  " + errorMsg + "      errorCode: " + errorCode + "    arg1: " + arg1);
+                playerTipsview.setVisibility(View.VISIBLE);
+                playerTipsview.setText(String.valueOf(errorMsg + ":" + errorCode));
+                if (errorCode == AliyunErrorCode.ALIVC_ERR_INVALID_INPUTFILE.getCode()) {
+                    //当播放本地报错4003的时候，可能是文件地址不对，也有可能是没有权限。
+                    //如果是没有权限导致的，就做一个权限的错误提示。其他还是正常提示：
+                    int storagePermissionRet = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    if (storagePermissionRet != PackageManager.PERMISSION_GRANTED) {
+                        errorMsg = AliyunErrorCode.ALIVC_ERR_NO_STORAGE_PERMISSION.getDescription(getApplicationContext());
+                    }
+                    logger("errorMsg:  " + errorMsg);
+                }
+                //关闭定时器
+                stopProgressUpdateTimer();
+
+                //出错之后解锁屏幕，防止不能做其他操作，比如返回。
+                lockScreen(false);
+            }
+        });
+        //TODO 播放完成监听
+        aliyunVodPlayer.setOnCompletionListener(new IAliyunVodPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion() {
+                //播放正常,完成时触发
+                inSeek = false;
+                //关闭定时器
+                stopProgressUpdateTimer();
+                //本地视频禁止手持式做操作
+                if (typeJudge(Constant.LOCAL_CACHE)) {
+                    /**
+                     * 宵禁手势操作,隐藏其他的动作,防止点击界面去进行其他操作
+                     */
+                    mGestureView.hide(ViewAction.HideType.End);
+                    //状态栏可操作
+                    setLayoutVisibility(true, false);
+                }
+
+                //本地视频,学习中心,观看记录,课程答疑查看视频视频播放完毕后需退出本页面
+                if (exitDirectly()) {
+                    return;
+                }
+
+                if (continuousPlay) {
+                    /**
+                     * 播放下一个视频, 调用课程播放目录页面切换视频
+                     */
+                    onNext();
+                } else {
+                    playerTipsview.setVisibility(View.VISIBLE);
+                    playerTipsview.setText(getResources().getString(R.string.course_completed));
+                    toastInfo(getResources().getString(R.string.course_completed));
+                }
+            }
+        });
+        //TODO seek结束事件
+        aliyunVodPlayer.setOnSeekCompleteListener(new IAliyunVodPlayer.OnSeekCompleteListener() {
+            @Override
+            public void onSeekComplete() {
+                //seek完成时触发
+                inSeek = false;
+            }
+        });
+        //TODO 播放器停止监听
+        aliyunVodPlayer.setOnStoppedListner(new IAliyunVodPlayer.OnStoppedListener() {
+            @Override
+            public void onStopped() {
+                //使用stop功能时触发
+            }
+        });
+        //TODO 播放器清晰度变换监听
+        aliyunVodPlayer.setOnChangeQualityListener(new IAliyunVodPlayer.OnChangeQualityListener() {
+            @Override
+            public void onChangeQualitySuccess(String finalQuality) {
+                //视频清晰度切换成功后触发
+                toastInfo(getResources().getString(R.string.course_qualityLoadingCompleted));
+
+                start();//开始播放
+
+                setCurrentQuality(finalQuality);//设置当前视频清晰度
+
+                startProgressUpdateTimer();//开启计时器
+            }
+
+            @Override
+            public void onChangeQualityFail(int code, String msg) {
+                //视频清晰度切换失败时触发
+                toastInfo("错误码:" + code + ",错误信息" + msg);
+            }
+        });
+        //TODO 重播监听
+        aliyunVodPlayer.setOnRePlayListener(new IAliyunVodPlayer.OnRePlayListener() {
+            @Override
+            public void onReplaySuccess() {
+                //开始启动更新进度的定时器
+                startProgressUpdateTimer();
+                /**
+                 * 重播不需要解禁手势操作,只需重新显示就可以(一脸懵逼)
+                 */
+                mGestureView.show();
+            }
+        });
+        //TODO 自动播放监听
+        aliyunVodPlayer.setOnAutoPlayListener(new IAliyunVodPlayer.OnAutoPlayListener() {
+            @Override
+            public void onAutoPlayStarted() {
+            }
+        });
+        //TODO 视频尺寸变化
+        aliyunVodPlayer.setOnVideoSizeChangedListener(new IAliyunVodPlayer.OnVideoSizeChangedListener() {
+            @Override
+            public void onVideoSizeChanged(int i, int i1) {
+                setSurfaceViewLayout(currentScreenSize);
+            }
+        });
+
+        aliyunVodPlayer.setDisplay(surfaceview.getHolder());
+
+
+        initQuality();//TODO 初始化 画质选择
+
+        initSpeedView();//TODO 初始化 倍速选择
+
+        initGestureView();//TODO 初始化手势控制
+
+    }
+
+    /**
+     * 初始化网络监听
+     */
+    private void initNetWatchdog() {
+        if (!typeJudge(Constant.LOCAL_CACHE)) {
+            Context context = VideoPlayPageActivity.this;
+            mNetWatchdog = new NetWatchdog(context);
+            mNetWatchdog.setNetChangeListener(new MyNetChangeListener(this));
+            mNetWatchdog.setNetConnectedListener(new MyNetConnectedListener());
+        }
+    }
+
+    //TODO 视频来源设置
+    private void initSourseType() {
+        if (typeJudge(Constant.COLLECTION)) {
+            //TODO 我的收藏(只有课程答疑tab,可以提问)
+            int sectionId = bundle.getInt(Constant.SECTION_ID, 0);//章
+            String vid = bundle.getString(Constant.COURSE_VIDEOID, "");//阿里VID
+            int videoId = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
+            int courseId = bundle.getInt(Constant.COURSE_ID, 0);//课ID
+
+            setCourseUnCon(courseUnCon);//正课标识
+
+            changePlayVidSource(vid, videoId, courseId, sectionId, "");//切换视频播放源
+        } else if (typeJudge(Constant.WATCH_RECORD)) {
+            //TODO 观看记录(直接横屏播放,可提问问题)
+            int sectionId = bundle.getInt(Constant.SECTION_ID, 0);//章
+            String vid = bundle.getString(Constant.COURSE_VIDEOID, "");//阿里VID
+            int videoId = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
+            int courseId = bundle.getInt(Constant.COURSE_ID, 0);//课ID
+
+            setCourseUnCon(courseUnCon);//正课标识
+            changePlayVidSource(vid, videoId, courseId, sectionId, "");//切换视频播放源
+
+            AliyunScreenMode targetMode;
+            if (getScreenMode() == AliyunScreenMode.Small) {
+                targetMode = AliyunScreenMode.Full;
+            } else {
+                targetMode = AliyunScreenMode.Small;
+            }
+            changeScreenMode(targetMode);
+        } else if (typeJudge(Constant.LOCAL_CACHE)) {
+            //TODO 本地缓存视频(横屏播放,不能收藏,不能提问,不能切换清晰度)
+            String string = bundle.getString(Constant.LOCAL_PLAYURL, "");
+            String title = bundle.getString(Constant.TITLE, getResources().getString(R.string.default_title));//视频标题
+            setPlayVideoName(title);//切换提问标题
+
+            AliyunLocalSource.AliyunLocalSourceBuilder asb = new AliyunLocalSource.AliyunLocalSourceBuilder();
+            asb.setSource(string);
+            AliyunLocalSource localSource = asb.build();
+            aliyunVodPlayer.prepareAsync(localSource);
+
+            AliyunScreenMode targetMode;
+            if (getScreenMode() == AliyunScreenMode.Small) {
+                targetMode = AliyunScreenMode.Full;
+            } else {
+                targetMode = AliyunScreenMode.Small;
+            }
+            changeScreenMode(targetMode);
+        } else if (typeJudge(Constant.WATCH_LEARNPLAN)) {
+            //TODO 学习中心计划观课(横屏播放,可以提问)
+            int section_id = bundle.getInt(Constant.SECTION_ID, 0);//章
+            String vid = bundle.getString(Constant.COURSE_VIDEOID, "");//阿里VID
+            int video_id = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
+            int course_id = bundle.getInt(Constant.COURSE_ID, 0);//课ID
+            learnPlanid = bundle.getInt(Constant.PLAN_ID, 0);//计划
+            learnDays = bundle.getInt(Constant.DAYS, 0);//计划天数
+
+            setCourseUnCon(courseUnCon);//正课标识
+            changePlayVidSource(vid, video_id, course_id, section_id, "");//切换视频播放源
+
+            AliyunScreenMode targetMode;
+            if (getScreenMode() == AliyunScreenMode.Small) {
+                targetMode = AliyunScreenMode.Full;
+            } else {
+                targetMode = AliyunScreenMode.Small;
+            }
+            changeScreenMode(targetMode);
+        } else if (typeJudge(Constant.WATCH_ANSWERDETAILED)) {
+            //TODO 课程答疑查看视频(横屏播放,可以提问)
+            int sectionId = bundle.getInt(Constant.SECTION_ID, 0);//章
+            String vid = bundle.getString(Constant.COURSE_VIDEOID, "");//阿里VID
+            int videoId = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
+            int courseId = bundle.getInt(Constant.COURSE_ID, 0);//课ID
+
+            changePlayVidSource(vid, videoId, courseId, sectionId, "");//切换视频播放源
+
+
+            AliyunScreenMode targetMode;
+            if (getScreenMode() == AliyunScreenMode.Small) {
+                targetMode = AliyunScreenMode.Full;
+            } else {
+                targetMode = AliyunScreenMode.Small;
+            }
+            changeScreenMode(targetMode);
+        }
+
+        //播放器菜单设置
+        controlMenuUI();
+    }
+
+    /**
      * socket开启时机
      */
     private void initSocket() {
         if (login_status) {
             //登录后择机开启socket
-            boolean localVideo = TextUtils.equals(course_Source, Constant.LOCAL_CACHE);
-            boolean cpeVideo = TextUtils.equals(course_Source, Constant.WATCH_EDUCATION_CPE);
+            boolean localVideo = typeJudge(Constant.LOCAL_CACHE);
+            boolean cpeVideo = isEducation();
             if (!localVideo || !cpeVideo) {
                 //线上视频开启socket
                 initWsClient(ApiStores.SOCKET);
@@ -644,117 +1232,28 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         });
     }
 
-    //TODO 视频来源设置
-    private void initSourseType() {
-        if (TextUtils.equals(course_Source, Constant.COLLECTION)) {
-            //TODO 我的收藏(只有课程答疑tab,可以提问)
-            int sectionId = bundle.getInt(Constant.SECTION_ID, 0);//章
-            String vid = bundle.getString(Constant.COURSE_VIDEOID, "");//阿里VID
-            int videoId = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
-            int courseId = bundle.getInt(Constant.COURSE_ID, 0);//课ID
-
-            setCourseUnCon(courseUnCon);//正课标识
-
-            changePlayVidSource(vid, videoId, courseId, sectionId, "");//切换视频播放源
-        } else if (TextUtils.equals(course_Source, Constant.WATCH_RECORD)) {
-            //TODO 观看记录(直接横屏播放,可提问问题)
-            int sectionId = bundle.getInt(Constant.SECTION_ID, 0);//章
-            String vid = bundle.getString(Constant.COURSE_VIDEOID, "");//阿里VID
-            int videoId = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
-            int courseId = bundle.getInt(Constant.COURSE_ID, 0);//课ID
-
-            setCourseUnCon(courseUnCon);//正课标识
-            changePlayVidSource(vid, videoId, courseId, sectionId, "");//切换视频播放源
-
-            AliyunScreenMode targetMode;
-            if (getScreenMode() == AliyunScreenMode.Small) {
-                targetMode = AliyunScreenMode.Full;
-            } else {
-                targetMode = AliyunScreenMode.Small;
-            }
-            changeScreenMode(targetMode);
-        } else if (TextUtils.equals(course_Source, Constant.LOCAL_CACHE)) {
-            //TODO 本地缓存视频(横屏播放,不能收藏,不能提问,不能切换清晰度)
-            String string = bundle.getString(Constant.LOCAL_PLAYURL, "");
-            String title = bundle.getString(Constant.TITLE, getResources().getString(R.string.default_title));//视频标题
-            setPlayVideoName(title);//切换提问标题
-
-            AliyunLocalSource.AliyunLocalSourceBuilder asb = new AliyunLocalSource.AliyunLocalSourceBuilder();
-            asb.setSource(string);
-            AliyunLocalSource localSource = asb.build();
-            aliyunVodPlayer.prepareAsync(localSource);
-
-            AliyunScreenMode targetMode;
-            if (getScreenMode() == AliyunScreenMode.Small) {
-                targetMode = AliyunScreenMode.Full;
-            } else {
-                targetMode = AliyunScreenMode.Small;
-            }
-            changeScreenMode(targetMode);
-        } else if (TextUtils.equals(course_Source, Constant.WATCH_LEARNPLAN)) {
-            //TODO 学习中心计划观课(横屏播放,可以提问)
-            int section_id = bundle.getInt(Constant.SECTION_ID, 0);//章
-            String vid = bundle.getString(Constant.COURSE_VIDEOID, "");//阿里VID
-            int video_id = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
-            int course_id = bundle.getInt(Constant.COURSE_ID, 0);//课ID
-            learnPlanid = bundle.getInt(Constant.PLAN_ID, 0);//计划
-            learnDays = bundle.getInt(Constant.DAYS, 0);//计划天数
-
-            setCourseUnCon(courseUnCon);//正课标识
-            changePlayVidSource(vid, video_id, course_id, section_id, "");//切换视频播放源
-
-            AliyunScreenMode targetMode;
-            if (getScreenMode() == AliyunScreenMode.Small) {
-                targetMode = AliyunScreenMode.Full;
-            } else {
-                targetMode = AliyunScreenMode.Small;
-            }
-            changeScreenMode(targetMode);//TODO 横竖屏切换
-        } else if (TextUtils.equals(course_Source, Constant.WATCH_ANSWERDETAILED)) {
-            //TODO 课程答疑查看视频(横屏播放,可以提问)
-            int sectionId = bundle.getInt(Constant.SECTION_ID, 0);//章
-            String vid = bundle.getString(Constant.COURSE_VIDEOID, "");//阿里VID
-            int videoId = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
-            int courseId = bundle.getInt(Constant.COURSE_ID, 0);//课ID
-
-            changePlayVidSource(vid, videoId, courseId, sectionId, "");//切换视频播放源
-
-
-            AliyunScreenMode targetMode;
-            if (getScreenMode() == AliyunScreenMode.Small) {
-                targetMode = AliyunScreenMode.Full;
-            } else {
-                targetMode = AliyunScreenMode.Small;
-            }
-            changeScreenMode(targetMode);//TODO 横竖屏切换
-        }
-
-        //播放器菜单设置
-        controlMenuUI();
-    }
-
     /**
      * 控制器菜单设置
      */
     private void controlMenuUI() {
-        if (TextUtils.equals(course_Source, Constant.COLLECTION)) {
+        if (typeJudge(Constant.COLLECTION)) {
             //TODO 我的收藏(只有课程答疑tab,可以提问)
-        } else if (TextUtils.equals(course_Source, Constant.WATCH_RECORD)) {
+        } else if (typeJudge(Constant.WATCH_RECORD)) {
             //TODO 观看记录(直接横屏播放,可提问问题)
             //全屏
             playerFullscreen.setVisibility(View.GONE);
             //设置
             playerSetting.setVisibility(View.GONE);
-        } else if (TextUtils.equals(course_Source, Constant.LOCAL_CACHE)) {
+        } else if (typeJudge(Constant.LOCAL_CACHE)) {
             //TODO 本地缓存视频(横屏播放,不能收藏,不能提问,不能切换清晰度)
             //全屏
             playerFullscreen.setVisibility(View.GONE);
             //设置
             playerSetting.setVisibility(View.GONE);
             //提问
-            playerAskQuestion.setVisibility(View.GONE);
+            setAskQuestionButton();
             //收藏
-            setCollectionBtn();
+            setCollectionButton();
             //pdf讲义插件
             pdfView.setVisibility(View.GONE);
             //pdf讲义切换按钮
@@ -763,10 +1262,20 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             playerQuality.setVisibility(View.GONE);
             //课程封面  100+79+18
             courseCoverimage.setVisibility(View.GONE);
-        } else if (TextUtils.equals(course_Source, Constant.WATCH_LEARNPLAN)) {
+        } else if (typeJudge(Constant.WATCH_LEARNPLAN)) {
             //TODO 学习中心计划观课(横屏播放,可以提问)
-        } else if (TextUtils.equals(course_Source, Constant.WATCH_ANSWERDETAILED)) {
+        } else if (typeJudge(Constant.WATCH_ANSWERDETAILED)) {
             //TODO 课程答疑查看视频(横屏播放,可以提问)
+        } else if (isEducation()) {
+            //SB后续教育
+            //没有倍速
+            playerSpeed.setVisibility(View.GONE);
+            playerFullscreen.setVisibility(View.GONE);
+            //禁止拖动
+            if (!Constant.ISTEST_ENVIRONMENT) {
+                playerSeekprogress.setEnabled(false);
+            }
+
         }
     }
 
@@ -781,6 +1290,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
          * 观看记录,本地播放,学习计划,课程答疑  直接切换小屏幕退出播放页
          */
         if (exitDirectly()) {
+            return;
+        }
+        if (isEducation()) {
+            //后续教育的傻×
+            educationBackOperation();
             return;
         }
         /**
@@ -811,13 +1325,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     }
 
     /**
-     * 观看记录,本地播放,学习计划,课程答疑  下直接退出
+     * 观看记录,本地播放,学习计划,课程答疑  模式下直接退出
      */
     private boolean exitDirectly() {
-        if (TextUtils.equals(course_Source, Constant.WATCH_RECORD) ||
-                TextUtils.equals(course_Source, Constant.LOCAL_CACHE) ||
-                TextUtils.equals(course_Source, Constant.WATCH_LEARNPLAN) ||
-                TextUtils.equals(course_Source, Constant.WATCH_ANSWERDETAILED)) {
+        if (typeJudge(Constant.WATCH_RECORD) ||
+                typeJudge(Constant.LOCAL_CACHE) ||
+                typeJudge(Constant.WATCH_LEARNPLAN) ||
+                typeJudge(Constant.WATCH_ANSWERDETAILED)) {
             changeScreenMode(AliyunScreenMode.Small);
             finish();
             return true;
@@ -835,21 +1349,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         updatePlayerViewMode();
         //重新设置surfaceview尺寸
         setSurfaceViewLayout(currentScreenSize);
-    }
-
-    /**
-     * 初始化网络监听
-     */
-    private void initNetWatchdog() {
-        if (!TextUtils.equals(course_Source, Constant.LOCAL_CACHE)) {
-            //ToastUtil.showBottomShortText(this,"非本地视频" );
-            Context context = VideoPlayPageActivity.this;
-            mNetWatchdog = new NetWatchdog(context);
-            mNetWatchdog.setNetChangeListener(new MyNetChangeListener(this));
-            mNetWatchdog.setNetConnectedListener(new MyNetConnectedListener());
-        } else {
-            //ToastUtil.showBottomShortText(this,"本地视频" );
-        }
     }
 
     /**
@@ -922,7 +1421,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (mPlayerState == IAliyunVodPlayer.PlayerState.Paused) {
             pause();
         } else if (mPlayerState == IAliyunVodPlayer.PlayerState.Started) {
-            if (course_Source.equals(Constant.LOCAL_CACHE)) {
+            if (typeJudge(Constant.LOCAL_CACHE)) {
                 reTry();
             } else {
                 start();
@@ -999,7 +1498,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 isLocalSource()判断不够,有可能是sts播放,也有可能是url播放,还有可能是sd卡的视频播放,
                 如果是后两者,需要走if,否则走else
              */
-            if (TextUtils.equals(course_Source, Constant.LOCAL_CACHE)) {
+            if (typeJudge(Constant.LOCAL_CACHE)) {
                 //prepareAuth(currentaAliyunPlayAuth);
             } else {
                 prepareAuth(currentaAliyunPlayAuth);
@@ -1114,15 +1613,206 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     playerSeekprogress.setSecondaryProgress(aliyunVodPlayer.getBufferingPosition());//进度条设置缓存吗进度
                     playerSeekprogress.setProgress(Integer.parseInt(String.valueOf(aliyunVodPlayer.getCurrentPosition())));//进度条设置当前进度
                 }
+                //后续教育签到
+                signinEducation();
+                SBZHXQ();
                 //免费试看
                 freeWatch();
-
-                //请跟我念,傻逼年年有,今年贼你妈多
-                SBZHXQ();
             }
             //解决bug：在Prepare中开始更新的时候，不会发送更新消息。
             startProgressUpdateTimer();
         }
+    }
+
+    /**
+     * 后续教育签到
+     */
+    private void signinEducation() {
+        //后续教育
+        if (isEducation()) {
+            //未签到(劳资只认二)
+            if (signinStatus == 2) {
+                //sb没点过签到
+                if (!signinFlag) {
+                    //当前时间
+                    int x = Math.round(aliyunVodPlayer.getCurrentPosition()) / 1000;
+                    //总时长
+                    int y = Math.round(aliyunVodPlayer.getDuration()) / 1000;
+                    int z1 = (int) (y * 0.7F);
+                    int z2 = (int) (y * 0.8F);
+                    int z3 = (int) (y * 0.9F);
+                    if (x == z1 || x == z2 || x == z3) {
+                        if (educationSignDialog == null) {
+                            educationSignDialog = new EducationSignDialog(this)
+                                    .builder()
+                                    .setNegativeButton(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            signinFlag = true;
+                                            //点击了签到按钮
+                                            if (coursePlayPresenter != null) {
+                                                coursePlayPresenter.educationSignin(String.valueOf(userId), String.valueOf(currentCourseID), String.valueOf(currentVideoID));
+                                            }
+                                        }
+                                    })
+                                    .setDissmissListener(new DialogInterface.OnDismissListener() {
+                                        @Override
+                                        public void onDismiss(DialogInterface dialog) {
+                                            //隐藏状态栏
+                                            hideNavigationBar();
+                                            //弹窗置空
+                                            educationSignDialog = null;
+                                        }
+                                    });
+                            educationSignDialog.show();
+                            signinTimeFinish = Constant.EDUCATION_TIME_FINISHED;
+                        }
+                    } else {
+                        if (educationSignDialog != null && educationSignDialog.isShowing()) {
+                            signinTimeFinish--;
+                            if (signinTimeFinish == 0) {
+                                educationSignDialog.dismiss();
+                            } else {
+                                educationSignDialog.setTimeFinished(signinTimeFinish);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 试听时间设置
+     */
+    private void freeWatch() {
+        if (getCourseBuyState() == Constant.HAVED_BUY || typeJudge(Constant.LOCAL_CACHE)
+                || typeJudge(Constant.WATCH_LEARNPLAN) || typeJudge(Constant.WATCH_ANSWERDETAILED)) {
+        } else {
+            //未购买,试看指定时间
+            long currentPosition = aliyunVodPlayer.getCurrentPosition();
+            if (currentPosition >= freeTime) {
+                playerTipsview.setVisibility(playerTipsview.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+                playerTipsview.setText(freeWatchTips);
+                stop();
+                stopProgressUpdateTimer();
+                //背景设置为黑色的
+                courseCoverimage.setColorFilter(Color.BLACK);
+                //背景图可见
+                courseCoverimage.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    /**
+     * 开始进度条更新计时器
+     */
+    private void startProgressUpdateTimer() {
+        if (mProgressUpdateTimer != null) {
+            mProgressUpdateTimer.removeMessages(START);
+            mProgressUpdateTimer.sendEmptyMessageDelayed(START, 1000);
+        }
+    }
+
+    /**
+     * 停止进度条更新计时器
+     */
+    private void stopProgressUpdateTimer() {
+        if (mProgressUpdateTimer != null) {
+            mProgressUpdateTimer.removeMessages(START);
+        }
+    }
+
+    /**
+     * 延时隐藏控制栏
+     */
+    private void hideDelayed() {
+        if (mHideHandler != null) {
+            mHideHandler.removeMessages(WHAT_HIDE);
+            mHideHandler.sendEmptyMessageDelayed(WHAT_HIDE, DELAY_TIME);
+        }
+    }
+
+    /**
+     * @param flag      显示状态
+     * @param isDisplay 是否延迟消失
+     */
+    private void setLayoutVisibility(boolean flag, boolean isDisplay) {
+        if (mIsFullScreenLocked) {
+            if (isDisplay) {
+                hideDelayed();
+            }
+            if (flag) {
+                playerLockedscreen.setVisibility(View.VISIBLE);
+            } else {
+                playerLockedscreen.setVisibility(View.GONE);
+            }
+            return;
+        }
+
+        if (aliyunVodPlayer == null) {
+            return;
+        }
+        if (aliyunVodPlayer.getDuration() <= 0) {
+            return;
+        }
+        mHideHandler.removeMessages(WHAT_HIDE);
+
+        if (isDisplay) {
+            //延迟消失
+            hideDelayed();
+        }
+
+        if (flag) {
+            //显示控制栏
+            if (playerBottomliner.getVisibility() != View.VISIBLE) {
+                playerBottomliner.setVisibility(View.VISIBLE);
+                playerBottomliner.startAnimation(getTranslateAnimation(0.0f, 0.0f, playerBottomliner.getHeight(), 0.0f, true));
+            }
+            if (playerTopliner.getVisibility() != View.VISIBLE) {
+                playerTopliner.setBackgroundColor(Color.parseColor("#99000000"));
+                playerTopliner.setVisibility(View.VISIBLE);
+                playerTopliner.startAnimation(getTranslateAnimation(0.0f, 0.0f, -1 * playerTopliner.getHeight(), 0.0f, true));
+            } else {
+                playerTopliner.setBackgroundColor(Color.parseColor("#99000000"));
+            }
+            //全屏模式下才能可见
+            if (getScreenMode() == AliyunScreenMode.Full) {
+                playerLockedscreen.setVisibility(View.VISIBLE);
+            }
+        } else {
+            //隐藏控制栏
+            if (playerTopliner.getVisibility() != View.GONE) {
+                //可见状态
+                playerTopliner.startAnimation(getTranslateAnimation(0.0f, 0.0f, 0.0f, -1 * playerTopliner.getHeight(), false));
+                playerTopliner.setVisibility(View.GONE);
+            }
+            if (playerBottomliner.getVisibility() != View.GONE) {
+                //可见状态
+                playerBottomliner.startAnimation(getTranslateAnimation(0.0f, 0.0f, 0.0f, playerBottomliner.getHeight(), false));
+                playerBottomliner.setVisibility(View.GONE);
+            }
+
+            playerLockedscreen.setVisibility(View.GONE);
+
+            //弹出的播放器倍速,画质菜单隐藏
+            if (qualityListviewWindow != null) {
+                qualityListviewWindow.dismiss();
+            }
+            if (speedListviewWindow != null) {
+                speedListviewWindow.dismiss();
+            }
+        }
+    }
+
+    /**
+     * 创建顶部菜单和底部菜单的隐藏与消失动画
+     */
+    private TranslateAnimation getTranslateAnimation(float fromX, float toX, float fromY, float toY, boolean isFillAfter) {
+        TranslateAnimation animation = new TranslateAnimation(fromX, toX, fromY, toY);
+        animation.setFillAfter(isFillAfter);
+        animation.setDuration(200);
+        return animation;
     }
 
     /**
@@ -1135,7 +1825,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private Animation.AnimationListener onAnimEndListener;
 
     private void SBZHXQ() {
-        if (!TextUtils.equals(course_Source, Constant.LOCAL_CACHE)) {
+        if (!typeJudge(Constant.LOCAL_CACHE)) {
             if (getCourseBuyState() == Constant.HAVED_BUY) {
                 //随机弹幕
                 if (aliyunVodPlayer != null) {
@@ -1223,146 +1913,20 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     }
 
     /**
-     * 试听时间设置
+     * 后续教育视频开始播放初始化操作
      */
-    private void freeWatch() {
-        if (getCourseBuyState() == Constant.HAVED_BUY || TextUtils.equals(course_Source, Constant.LOCAL_CACHE)
-                || TextUtils.equals(course_Source, Constant.WATCH_LEARNPLAN) || TextUtils.equals(course_Source, Constant.WATCH_ANSWERDETAILED)) {
-            //已购买
-        } else {
-            //未购买,试看指定时间
-
-            //总的剩余时间
-            int millis = Integer.parseInt(String.valueOf(aliyunVodPlayer.getCurrentPosition() / 1000));
-            if (millis >= freeTime) {
-                playerTipsview.setVisibility(playerTipsview.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-                playerTipsview.setText(freeWatchTips);
-                stop();
-                stopProgressUpdateTimer();
-                //背景设置为黑色的
-                courseCoverimage.setColorFilter(Color.BLACK);
-                //背景图可见
-                courseCoverimage.setVisibility(View.VISIBLE);
+    private void checkWitherSigninResult() {
+        if (isEducation()) {
+            signinFlag = false;
+            signinStatus = 0;
+            signinTimeFinish = Constant.EDUCATION_TIME_FINISHED;
+            if (coursePlayPresenter != null) {
+                coursePlayPresenter.checkWetherSignin(String.valueOf(userId), String.valueOf(currentCourseID), String.valueOf(currentVideoID));
+            }
+            if (getScreenMode() != AliyunScreenMode.Full) {
+                changeScreenMode(AliyunScreenMode.Full);
             }
         }
-    }
-
-    /**
-     * 开始进度条更新计时器
-     */
-    private void startProgressUpdateTimer() {
-        if (mProgressUpdateTimer != null) {
-            mProgressUpdateTimer.removeMessages(START);
-            mProgressUpdateTimer.sendEmptyMessageDelayed(START, 1000);
-        } else {
-            mProgressUpdateTimer = new ProgressUpdateTimer();
-            mProgressUpdateTimer.removeMessages(START);
-            mProgressUpdateTimer.sendEmptyMessageDelayed(START, 1000);
-        }
-    }
-
-    /**
-     * 停止进度条更新计时器
-     */
-    private void stopProgressUpdateTimer() {
-        if (mProgressUpdateTimer != null) {
-            mProgressUpdateTimer.removeMessages(START);
-        } else {
-            mProgressUpdateTimer = new ProgressUpdateTimer();
-            mProgressUpdateTimer.removeMessages(START);
-        }
-    }
-
-    /**
-     * 延时隐藏控制栏
-     */
-    private void hideDelayed() {
-        if (mHideHandler != null) {
-            mHideHandler.removeMessages(WHAT_HIDE);
-            mHideHandler.sendEmptyMessageDelayed(WHAT_HIDE, DELAY_TIME);
-        }
-    }
-
-    /**
-     * @param flag      显示状态
-     * @param isDisplay 是否延迟消失
-     */
-    public void setLayoutVisibility(boolean flag, boolean isDisplay) {
-        if (mIsFullScreenLocked) {
-            if (isDisplay) {
-                hideDelayed();
-            }
-            if (flag) {
-                playerLockedscreen.setVisibility(View.VISIBLE);
-            } else {
-                playerLockedscreen.setVisibility(View.GONE);
-            }
-            return;
-        }
-
-        if (aliyunVodPlayer == null) {
-            return;
-        }
-        if (aliyunVodPlayer.getDuration() <= 0) {
-            return;
-        }
-        mHideHandler.removeMessages(WHAT_HIDE);
-
-        if (isDisplay) {
-            //延迟消失
-            hideDelayed();
-        }
-
-        if (flag) {
-            //显示控制栏
-            if (playerBottomliner.getVisibility() != View.VISIBLE) {
-                playerBottomliner.setVisibility(View.VISIBLE);
-                playerBottomliner.startAnimation(getTranslateAnimation(0.0f, 0.0f, playerBottomliner.getHeight(), 0.0f, true));
-            }
-            if (playerTopliner.getVisibility() != View.VISIBLE) {
-                playerTopliner.setBackgroundColor(Color.parseColor("#99000000"));
-                playerTopliner.setVisibility(View.VISIBLE);
-                playerTopliner.startAnimation(getTranslateAnimation(0.0f, 0.0f, -1 * playerTopliner.getHeight(), 0.0f, true));
-            } else {
-                playerTopliner.setBackgroundColor(Color.parseColor("#99000000"));
-            }
-            //全屏模式下才能可见
-            if (getScreenMode() == AliyunScreenMode.Full) {
-                playerLockedscreen.setVisibility(View.VISIBLE);
-            }
-        } else {
-            //隐藏控制栏
-            if (playerTopliner.getVisibility() != View.GONE) {
-                //可见状态
-                playerTopliner.startAnimation(getTranslateAnimation(0.0f, 0.0f, 0.0f, -1 * playerTopliner.getHeight(), false));
-                playerTopliner.setVisibility(View.GONE);
-            }
-            if (playerBottomliner.getVisibility() != View.GONE) {
-                //可见状态
-                playerBottomliner.startAnimation(getTranslateAnimation(0.0f, 0.0f, 0.0f, playerBottomliner.getHeight(), false));
-                playerBottomliner.setVisibility(View.GONE);
-            }
-
-            playerLockedscreen.setVisibility(View.GONE);
-
-            //弹出的播放器倍速,画质菜单隐藏
-            if (qualityListviewWindow != null) {
-                qualityListviewWindow.dismiss();
-            }
-            if (speedListviewWindow != null) {
-                speedListviewWindow.dismiss();
-            }
-        }
-    }
-
-    /**
-     * 创建顶部菜单和底部菜单的隐藏与消失动画
-     */
-    private TranslateAnimation getTranslateAnimation(float fromX, float toX, float fromY, float toY, boolean isFillAfter) {
-        TranslateAnimation animation = new TranslateAnimation(fromX, toX, fromY, toY);
-        animation.setFillAfter(isFillAfter);
-        animation.setDuration(200);
-        return animation;
     }
 
     /**
@@ -1517,14 +2081,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 //TODO 转到横屏了
                 //隐藏状态栏
                 if (!isStrangePhone()) {
-                    this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                            WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    playerRelativelayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_FULLSCREEN
-                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+                    hideNavigationBar();
                 }
                 //设置view的布局，宽高
                 LinearLayout.LayoutParams aliVcVideoViewLayoutParams = (LinearLayout.LayoutParams) playerRelativelayout.getLayoutParams();
@@ -1597,17 +2154,17 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      * 根据当前屏幕状态控制播放器的操作
      */
     private void playerControllerView(AliyunScreenMode targetMode) {
-
-        setCollectionBtn();
+        //收藏按钮
+        setCollectionButton();
 
         if (AliyunScreenMode.Small == targetMode) {
             //TODO 切换为小屏
             playerQuality.setVisibility(playerQuality.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);//TODO 清晰度按钮控制
-            playerSpeed.setVisibility(playerSpeed.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);//TODO 倍速按钮控制
+            setPlayerSpeedButton();//TODO 倍速按钮控制
             playerShare.setVisibility(playerShare.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//TODO 分享按钮控制
 
             playerToprightlinear.setVisibility(playerToprightlinear.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);//TODO 竖屏时的控制菜单
-            playerAskQuestion.setVisibility(playerAskQuestion.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//TODO 竖屏时隐藏提问按钮
+            setAskQuestionButton();//TODO 竖屏时隐藏提问按钮
             playerPDFPage.setVisibility(playerPDFPage.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//TODO PDF页数显示器
             pdfView.setVisibility(pdfView.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//PDF文件隐藏
             playerExitPdf.setVisibility(playerExitPdf.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//PDF退出按钮隐藏
@@ -1620,33 +2177,36 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         } else if (AliyunScreenMode.Full == targetMode) {
             //TODO 切换为横屏
             playerQuality.setVisibility(playerQuality.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-            playerSpeed.setVisibility(playerSpeed.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+            setPlayerSpeedButton();//设置倍速按钮
             playerLockedscreen.setVisibility(View.VISIBLE);//锁屏按钮可见
 
             playerShare.setVisibility(playerShare.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);//TODO 分享按钮控制
 
             //TODO 横屏时显示讲义,倍速,设置
             playerToprightlinear.setVisibility(playerToprightlinear.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-            if (getCourseUnCon() == Constant.HAVED_BUY) {//TODO 正课
-                playerAskQuestion.setVisibility(playerAskQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-            } else {
-                playerAskQuestion.setVisibility(playerAskQuestion.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
-            }
+            setAskQuestionButton();//横屏时酌情显示
         }
     }
+
 
     /**
      * 切换视频播放资源
      * 点击视频列表, 切换播放的视频
      * TODO 5.3 准备播放 NOTE:注意过期时间。特别是重播的时候，可能已经过期。所以重播的时候最好重新请求一次服务器。
+     * 最后一个参数是后续教育用的video_id
      */
-    public void changePlayVidSource(String vid, int videoId, int course_id, int section_id, String video_id) {
-        if (TextUtils.equals(course_Source, Constant.WATCH_EDUCATION_CPE)) {
-            if (TextUtils.isEmpty(video_id)) {
+    public void changePlayVidSource(String vid, int videoId, int course_id, int section_id, String education_videoId) {
+        if (isEducation()) {
+            if (TextUtils.isEmpty(education_videoId)) {
                 toastInfo(getResources().getString(R.string.miss_params));
                 return;
             }
-            changePlayVidSource(vid, Integer.parseInt(video_id));
+            currentVid = vid;//当前播放的阿里视频VID
+            currentCourseID = course_id;//当前播放的课程ID
+            currentSectionID = section_id;//当前播放的课程章ID
+            currentVideoID = Integer.parseInt(education_videoId);//当前播放的后台库视频ID
+
+            changePlayVidSource();
         } else {
             clearAllSource();//清除资源
             reset();//重置
@@ -1670,13 +2230,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      * 点击视频列表, 切换播放的视频
      * TODO 5.3 准备播放 NOTE:注意过期时间。特别是重播的时候，可能已经过期。所以重播的时候最好重新请求一次服务器。
      */
-    public void changePlayVidSource(String vid, int video_id) {
+    public void changePlayVidSource() {
         clearAllSource();//清除资源
         reset();//重置
-
-        currentVid = vid;//当前播放的阿里视频VID
-        currentVideoID = video_id;//当前播放的后台库视频ID
-
         //获取对应视频答疑列表
         if (courseAnswerQuestionFragment != null) {
             courseAnswerQuestionFragment.getAnswerListData(coursePackageId, currentCourseID, currentSectionID, currentVideoID);
@@ -1701,282 +2257,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
         if (courseDirectoryListFragment != null) {
             courseDirectoryListFragment.onNextVideoPlay();
-        }
-    }
-
-    /**
-     * Description:VideoPlayPageActivity
-     * Time:2019-4-11   上午 9:03
-     * Detail:TODO  初始化阿里云播放器
-     */
-    private void initAliyunVideoPlayer() {
-        //TODO 播放器初始化  在需要使用播放器SDK的activity里面引入添加如下初始化方法：
-        aliyunVodPlayer = new AliyunVodPlayer(this);
-        aliyunVodPlayer.setVideoScalingMode(IAliyunVodPlayer.VideoScalingMode.VIDEO_SCALING_MODE_SCALE_TO_FIT);
-        setCirclePlay(false);//设置循环播放 default false
-        if (Constant.ISTEST_ENVIRONMENT) {
-            //打印底层日日志
-            enableNativeLog();
-        } else {
-            //正式模式干掉日志
-            disableNativeLog();
-        }
-
-        //设置播放缓存
-        String sdDir = Environment.getExternalStorageDirectory().getAbsolutePath() + Constant.PLAYER_CACHE_PATH;
-        setPlayingCache(true, sdDir, 60 * 60 /*时长, s */, 300 /*大小，MB*/);
-
-        //TODO 播放器加载进度监听
-        aliyunVodPlayer.setOnLoadingListener(new IAliyunVodPlayer.OnLoadingListener() {
-            @Override
-            public void onLoadStart() {
-                /**
-                 * 诱导性加载菊花 _(:3」∠❀)_菊花碎了一地
-                 */
-                playerLoadingview.setVisibility(View.VISIBLE);
-                playerTipsview.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onLoadEnd() {
-                /**
-                 * 诱导性加载菊花 _(:3」∠❀)_菊花都碎了一地
-                 */
-                playerLoadingview.setVisibility(View.GONE);
-                playerTipsview.setVisibility(View.GONE);
-
-                hasLoadEnd.put(mAliyunMediaInfo, true);
-                vodPlayerLoadEndHandler.sendEmptyMessage(1);
-            }
-
-            @Override
-            public void onLoadProgress(int i) {
-                /**
-                 * 加载进度
-                 */
-                playerTipsview.setText(String.valueOf(getResources().getString(R.string.course_videoLoading) + i + "%"));
-            }
-        });
-        //TODO 播放器播放准备监听
-        aliyunVodPlayer.setOnPreparedListener(new IAliyunVodPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared() {
-                if (aliyunVodPlayer == null) {
-                    return;
-                }
-                mAliyunMediaInfo = aliyunVodPlayer.getMediaInfo();
-                if (mAliyunMediaInfo == null) {
-                    return;
-                }
-                //防止服务器信息和实际不一致
-                long duration = aliyunVodPlayer.getDuration();
-                int round = Math.round(duration);
-                mAliyunMediaInfo.setDuration(round);
-                //使用用户设置的标题(时隔个几个月,居然忘了)
-                mAliyunMediaInfo.setTitle(mAliyunMediaInfo.getTitle());
-                mAliyunMediaInfo.setPostUrl(mAliyunMediaInfo.getPostUrl());
-
-                mCurrentQuality = aliyunVodPlayer.getCurrentQuality();//获取当前的清晰度
-                setCurrentQuality(mCurrentQuality);//设置默认倍速播放
-
-                /**
-                 * 解放手势操作
-                 */
-                mGestureView.setHideType(ViewAction.HideType.Normal);
-                mGestureView.show();
-
-                isPrepared = true;
-
-                logger("准备完成触发");
-
-                /**
-                 * 切换到后台监听的上次退出时的播放位置
-                 */
-                preparedStart(watch_time);
-            }
-        });
-        //TODO 播放器第一帧监听
-        aliyunVodPlayer.setOnFirstFrameStartListener(new IAliyunVodPlayer.OnFirstFrameStartListener() {
-            @Override
-            public void onFirstFrameStart() {
-                logger("首帧显示触发");
-
-                //获取所有日志信息
-                getAllDebugInfo();
-
-                /**
-                 * 开始启动更新进度的定时器
-                 */
-                startProgressUpdateTimer();
-
-                /**
-                 * 首帧显示,控制栏消失
-                 */
-                setLayoutVisibility(true, true);
-
-                /**
-                 * 防止NB的服务器记不住信息,主动发送一条数据记录一下
-                 *
-                 */
-                sendSocketMessageByPort();
-
-                /**
-                 * SB说竖屏也要加收藏,加NM呢,智障反人类
-                 */
-                setCollectionBtn();
-            }
-        });
-        //TODO 播放器播放错误处理
-        aliyunVodPlayer.setOnErrorListener(new IAliyunVodPlayer.OnErrorListener() {
-            @Override
-            public void onError(int errorCode, int arg1, String errorMsg) {
-                logger("出错时处理:  " + errorMsg + "      errorCode: " + errorCode + "    arg1: " + arg1);
-                playerTipsview.setVisibility(View.VISIBLE);
-                playerTipsview.setText(String.valueOf(errorMsg + ":" + errorCode));
-                if (errorCode == AliyunErrorCode.ALIVC_ERR_INVALID_INPUTFILE.getCode()) {
-                    //当播放本地报错4003的时候，可能是文件地址不对，也有可能是没有权限。
-                    //如果是没有权限导致的，就做一个权限的错误提示。其他还是正常提示：
-                    int storagePermissionRet = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                    if (storagePermissionRet != PackageManager.PERMISSION_GRANTED) {
-                        errorMsg = AliyunErrorCode.ALIVC_ERR_NO_STORAGE_PERMISSION.getDescription(getApplicationContext());
-                    }
-                    logger("errorMsg:  " + errorMsg);
-                }
-                //关闭定时器
-                stopProgressUpdateTimer();
-
-                //出错之后解锁屏幕，防止不能做其他操作，比如返回。
-                lockScreen(false);
-            }
-        });
-        //TODO 播放完成监听
-        aliyunVodPlayer.setOnCompletionListener(new IAliyunVodPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion() {
-                //播放正常,完成时触发
-                inSeek = false;
-                //关闭定时器
-                stopProgressUpdateTimer();
-                //本地视频禁止手持式做操作
-                if (TextUtils.equals(Constant.LOCAL_CACHE, course_Source)) {
-                    /**
-                     * 宵禁手势操作,隐藏其他的动作,防止点击界面去进行其他操作
-                     */
-                    mGestureView.hide(ViewAction.HideType.End);
-                    //状态栏可操作
-                    setLayoutVisibility(true, false);
-                }
-
-                //本地视频,学习中心,观看记录,课程答疑查看视频视频播放完毕后需退出本页面
-                if (exitDirectly()) {
-                    return;
-                }
-
-                if (continuousPlay) {
-                    /**
-                     * 播放下一个视频, 调用课程播放目录页面切换视频
-                     */
-                    onNext();
-                } else {
-                    playerTipsview.setVisibility(View.VISIBLE);
-                    playerTipsview.setText(getResources().getString(R.string.course_completed));
-                    toastInfo(getResources().getString(R.string.course_completed));
-                }
-            }
-        });
-        //TODO seek结束事件
-        aliyunVodPlayer.setOnSeekCompleteListener(new IAliyunVodPlayer.OnSeekCompleteListener() {
-            @Override
-            public void onSeekComplete() {
-                //seek完成时触发
-                inSeek = false;
-            }
-        });
-        //TODO 播放器停止监听
-        aliyunVodPlayer.setOnStoppedListner(new IAliyunVodPlayer.OnStoppedListener() {
-            @Override
-            public void onStopped() {
-                //使用stop功能时触发
-            }
-        });
-        //TODO 播放器清晰度变换监听
-        aliyunVodPlayer.setOnChangeQualityListener(new IAliyunVodPlayer.OnChangeQualityListener() {
-            @Override
-            public void onChangeQualitySuccess(String finalQuality) {
-                //视频清晰度切换成功后触发
-                toastInfo(getResources().getString(R.string.course_qualityLoadingCompleted));
-
-                start();//开始播放
-
-                setCurrentQuality(finalQuality);//设置当前视频清晰度
-
-                startProgressUpdateTimer();//开启计时器
-            }
-
-            @Override
-            public void onChangeQualityFail(int code, String msg) {
-                //视频清晰度切换失败时触发
-                toastInfo("错误码:" + code + ",错误信息" + msg);
-            }
-        });
-        //TODO 重播监听
-        aliyunVodPlayer.setOnRePlayListener(new IAliyunVodPlayer.OnRePlayListener() {
-            @Override
-            public void onReplaySuccess() {
-                //开始启动更新进度的定时器
-                startProgressUpdateTimer();
-                /**
-                 * 重播不需要解禁手势操作,只需重新显示就可以(一脸懵逼)
-                 */
-                mGestureView.show();
-            }
-        });
-        //TODO 自动播放监听
-        aliyunVodPlayer.setOnAutoPlayListener(new IAliyunVodPlayer.OnAutoPlayListener() {
-            @Override
-            public void onAutoPlayStarted() {
-            }
-        });
-        //TODO 视频尺寸变化
-        aliyunVodPlayer.setOnVideoSizeChangedListener(new IAliyunVodPlayer.OnVideoSizeChangedListener() {
-            @Override
-            public void onVideoSizeChanged(int i, int i1) {
-                setSurfaceViewLayout(currentScreenSize);
-            }
-        });
-
-        aliyunVodPlayer.setDisplay(surfaceview.getHolder());
-
-
-        initQuality();//TODO 初始化 画质选择
-
-        initSpeedView();//TODO 初始化 倍速选择
-
-        initGestureView();//TODO 初始化手势控制
-
-    }
-
-    /**
-     * 设置SB收藏,莫名其妙的背锅,GJBBU
-     */
-    private void setCollectionBtn() {
-        if (TextUtils.equals(Constant.LOCAL_CACHE, course_Source)) {
-            //离线视频真的不骗你,意见统一,那就干掉这个收藏
-            playerCollect.setVisibility(View.GONE);
-        } else {
-            //线上视频
-            if (AliyunScreenMode.Small == getScreenMode()) {
-                //小屏模式
-                if (Constant.ISTEST_ENVIRONMENT) {
-                    //true
-                    playerCollect.setVisibility(View.GONE);
-                } else {
-                    playerCollect.setVisibility(View.VISIBLE);
-                }
-            } else {
-                //大屏模式
-                playerCollect.setVisibility(View.VISIBLE);
-            }
         }
     }
 
@@ -2069,7 +2349,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             @Override
             public void onHorizontalDistance(float downX, float nowX) {
                 //其他手势如果锁住了就不回调了。
-                if (mIsFullScreenLocked) {
+                if (mIsFullScreenLocked || isEducation()) {
                     return;
                 }
 
@@ -2202,42 +2482,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         hideGestureAndControlViews();
     }
 
-    /**
-     * Description:VideoPlayPageActivity
-     * Time:2019-4-3   上午 11:27
-     * Detail:初使数据(接收嗟来之食,然后慢慢消化)
-     */
-    private void initData() {
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
-        userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-        login_status = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
-        download_wifi = sharedPreferencesUtils.getBoolean(Constant.DOWNLOAD_WIFI, false);
-        look_wifi = sharedPreferencesUtils.getBoolean(Constant.LOOK_WIFI, false);
-
-        random = new Random();
-        /**
-         * 用于获取视频播放凭证
-         */
-        coursePlayPresenter = new CoursePlayPresenter(this);
-
-        bundle = getIntent().getExtras();
-        if (bundle != null) {
-            courseCoverimageUrl = bundle.getString(Constant.COURSE_COVER_IMAGE, "");//TODO 封面
-            coursePackageId = bundle.getInt(Constant.COURSE_PACKAGE_ID, 0);//TODO 课程包ID
-            courseUnCon = bundle.getInt(Constant.COURSE_UN_CON, 2);//TODO 是否是正课1正课2非正课
-            courseBuyState = bundle.getInt(Constant.COURSE_BUY_STATE, 2);//TODO 购买状态:1购买2未购买
-            course_PackagePrice = bundle.getString(Constant.COURSE_PRICE, "");//TODO 购买价格
-            course_Source = bundle.getString(Constant.COURSE_SOURCE, "");//TODO 来源
-
-            //购买状态
-            setCourseBuyState(courseBuyState);
-            //设置封面
-            setCourse_Cover(courseCoverimageUrl);
-        }
-
-        // 上报后的Crash会显示视频标签
-        CrashReport.setUserSceneTag(context, Constant.BUGLY_TAG_VIDEO);
-    }
 
     /**
      * 累计学习积分(开始计时) 客户想要一个加积分的功能,虽然积分少的可怜
@@ -2272,6 +2516,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      * 设置课程播放器封面
      */
     public void setCourse_Cover(String courseCoverUrl) {
+        this.courseCoverimageUrl = courseCoverUrl;
+        courseCoverimage.setVisibility(View.VISIBLE);
         if (TextUtils.isEmpty(courseCoverUrl)) {
             courseCoverimage.setImageDrawable(ContextCompat.getDrawable(this, R.color.color_F2F7FF));
         } else {
@@ -2279,171 +2525,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     .centerCrop()
                     .placeholder(R.color.color_F2F7FF)
                     .error(R.mipmap.image_loaderror)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL);
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
             GlideUtils.load(this, courseCoverUrl, courseCoverimage, requestOptions);
-        }
-    }
-
-    /**
-     * Description:VideoPlayPageActivity
-     * Time:2019-4-10   上午 10:16
-     * Detail:TODO 初始化View
-     */
-    private void initView() {
-        videoPlayPageActivity = VideoPlayPageActivity.this;
-        context = this;
-        freeWatchTips = getResources().getString(R.string.course_freeWatchCompleted);
-
-        windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        //重新设置菜单栏的高度
-        int statusBarHeight = StatusBarUtil.getStatusBarHeight(this);
-        playerTopliner.setPadding(DensityUtil.dp2px(15), statusBarHeight, DensityUtil.dp2px(15), DensityUtil.dp2px(2));
-
-        //当前倍速设置文字
-        playerSpeed.setText(getResources().getString(R.string.course_speed, String.valueOf(currentSpeed)));
-
-        //TODO 保持屏幕常亮
-        surfaceview.setKeepScreenOn(true);
-        surfaceHolder = surfaceview.getHolder();
-        surfaceHolder.addCallback(this);
-
-        //seekbar的滑动监听
-        SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
-            int progress = 0;
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser) {
-                    freeWatch();
-                    this.progress = (int) (progress * aliyunVodPlayer.getDuration() / seekBar.getMax());
-                    //这里是用户拖动，直接设置文字进度就行，
-                    playerCurrentduration.setText(TimeFormater.formatMs(aliyunVodPlayer.getCurrentPosition()));
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                mHideHandler.removeMessages(WHAT_HIDE);
-                isSeekbarTouching = true;
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                isSeekbarTouching = false;
-                seekTo(progress);
-
-                mHideHandler.removeMessages(WHAT_HIDE);
-                mHideHandler.sendEmptyMessageDelayed(WHAT_HIDE, DELAY_TIME);
-            }
-        };
-        playerSeekprogress.setOnSeekBarChangeListener(seekBarChangeListener);
-    }
-
-    /**
-     * Description:VideoPlayPageActivity
-     * Time:2019-4-3   上午 11:59
-     * Detail:TODO  根据课程购买状态和正课费正科创建tablayout
-     */
-    private void initTablayout() {
-        titlesList = new ArrayList<String>();
-        fragmentArrayList = new ArrayList<Fragment>();
-        if (TextUtils.equals(course_Source, Constant.COLLECTION)) {
-            //TODO 课程收藏(只显示课程答疑)
-            courseAnswerQuestionFragment = new CourseAnswerQuestionFragment();
-            fragmentArrayList.add(courseAnswerQuestionFragment);
-            titlesList.add(getResources().getString(R.string.course_ask));
-        } else if (TextUtils.equals(course_Source, Constant.WATCH_RECORD) || TextUtils.equals(course_Source, Constant.WATCH_LEARNPLAN) ||
-                TextUtils.equals(course_Source, Constant.LOCAL_CACHE) || TextUtils.equals(course_Source, Constant.WATCH_ANSWERDETAILED)) {
-            //TODO 观看记录,学习计划,本地视频,课程答疑 (啥都没有)
-        } else if (TextUtils.equals(course_Source, Constant.WATCH_EDUCATION_CPE)) {
-            //TODO 后续教育课程(只显示课程简介和课程目录)
-            courseIntroductionFragment = new CourseIntroductionFragment();
-            courseDirectoryListFragment = new CourseDirectoryListFragment();
-            fragmentArrayList.add(courseIntroductionFragment);
-            fragmentArrayList.add(courseDirectoryListFragment);
-            titlesList.add(getResources().getString(R.string.course_introduce));
-            titlesList.add(getResources().getString(R.string.course_directory));
-        } else {
-            //common视频播放
-            courseIntroductionFragment = new CourseIntroductionFragment();
-            courseDirectoryListFragment = new CourseDirectoryListFragment();
-            courseAnswerQuestionFragment = new CourseAnswerQuestionFragment();
-
-            fragmentArrayList.add(courseIntroductionFragment);
-            fragmentArrayList.add(courseDirectoryListFragment);
-            fragmentArrayList.add(courseAnswerQuestionFragment);
-            titlesList.add(getResources().getString(R.string.course_introduce));
-            titlesList.add(getResources().getString(R.string.course_directory));
-            titlesList.add(getResources().getString(R.string.course_ask));
-        }
-        //判断显示的TAB
-        if (fragmentArrayList != null && fragmentArrayList.size() > 0) {
-            FragmentManager supportFragmentManager = getSupportFragmentManager();
-            CommonTabAdapter commonTabAdapter = new CommonTabAdapter(supportFragmentManager, fragmentArrayList, titlesList);
-            viewpager.setAdapter(commonTabAdapter);
-            viewpager.setOffscreenPageLimit(fragmentArrayList.size());
-            tablayout.setupWithViewPager(viewpager);
-            tablayout.setOnTabSelectedListener(new XTabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(XTabLayout.Tab tab) {
-                    int position = tab.getPosition();
-                    switch (position) {
-                        case 0:
-                            //TODO 课程简介
-                            updateBuyUI();
-                            break;
-                        case 1:
-                            //TODO 课程目录
-                            if (TextUtils.equals(course_Source, Constant.WATCH_EDUCATION_CPE)) {
-                                if (courseBuyState == Constant.HAVED_BUY) {
-                                    new com.ucfo.youcaiwx.widget.dialog.AlertDialog(VideoPlayPageActivity.this).builder()
-                                            .setTitle(getResources().getString(R.string.study_know))
-                                            .setMsg(getResources().getString(R.string.study_know_detail))
-                                            .setMsgGravity(Gravity.START)
-                                            .setCancelable(false)
-                                            .setCanceledOnTouchOutside(false)
-                                            .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-
-                                                }
-                                            })
-                                            .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-
-                                                }
-                                            })
-                                            .show();
-                                }
-                            }
-                            if (linearPayCourse.getVisibility() == View.VISIBLE) {
-                                linearPayCourse.setVisibility(View.GONE);
-                            }
-                            break;
-                        case 2:
-                            //TODO 课程答疑
-                            if (linearPayCourse.getVisibility() == View.VISIBLE) {
-                                linearPayCourse.setVisibility(View.GONE);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                    tab.select();
-                    viewpager.setCurrentItem(position);
-                }
-
-                @Override
-                public void onTabUnselected(XTabLayout.Tab tab) {
-
-                }
-
-                @Override
-                public void onTabReselected(XTabLayout.Tab tab) {
-
-                }
-            });
         }
     }
 
@@ -2475,7 +2558,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             courseSocketBean.setVideo_id(currentVideoID);//视频id
             courseSocketBean.setWatch_time(seconds);//	观看截止时间点
             courseSocketBean.setVideo_type(1);//	播放类型1课程视频播放
-            if (TextUtils.equals(Constant.WATCH_LEARNPLAN, course_Source)) {//学习中心socket信息
+            if (typeJudge(Constant.WATCH_LEARNPLAN)) {//学习中心socket信息
                 courseSocketBean.setStatus(2);
                 courseSocketBean.setPlan_id(learnPlanid);
                 courseSocketBean.setDays(learnDays);
@@ -2504,31 +2587,47 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     }
 
     private void sendSocketMessageByPort() {
-        int seconds = 0;
-        if (aliyunVodPlayer != null) {
-            seconds = Integer.parseInt(String.valueOf(aliyunVodPlayer.getCurrentPosition() / 1000));
-        }
-        if (currentCourseID != 0 && currentSectionID != 0 && currentVideoID != 0) {
-            CourseSocketBean courseSocketBean = new CourseSocketBean();
-            courseSocketBean.setUser_id(userId);//用户id
-            courseSocketBean.setPackage_id(coursePackageId);//	课程包id
-            courseSocketBean.setCourse_id(currentCourseID);//	专业课id
-            courseSocketBean.setSection_id(currentSectionID);//章节id
-            courseSocketBean.setVideo_id(currentVideoID);//视频id
-            courseSocketBean.setWatch_time(seconds);//	观看截止时间点
-            courseSocketBean.setVideo_type(1);//	播放类型1课程视频播放
-            if (TextUtils.equals(Constant.WATCH_LEARNPLAN, course_Source)) {
-                //学习中心socket信息
-                courseSocketBean.setStatus(2);
-                courseSocketBean.setPlan_id(learnPlanid);
-                courseSocketBean.setDays(learnDays);
-            } else {
-                //	视频类型1课程视频播放
-                courseSocketBean.setStatus(1);
+        if (isEducation()) {
+            //后续教育
+            if (currentCourseID != 0 && currentSectionID != 0 && currentVideoID != 0) {
+                CourseSocketBean courseSocketBean = new CourseSocketBean();
+                courseSocketBean.setUser_id(userId);//用户id
+                courseSocketBean.setPackage_id(coursePackageId);//	课程包id
+                courseSocketBean.setCourse_id(currentCourseID);//	专业课id
+                courseSocketBean.setSection_id(currentSectionID);//章节id
+                courseSocketBean.setVideo_id(currentVideoID);//视频id
+                if (coursePlayPresenter != null) {
+                    coursePlayPresenter.sendFirstSocketByEducation(courseSocketBean);
+                }
             }
+        } else {
+            //日常骚操作
+            int seconds = 0;
+            if (aliyunVodPlayer != null) {
+                seconds = Integer.parseInt(String.valueOf(aliyunVodPlayer.getCurrentPosition() / 1000));
+            }
+            if (currentCourseID != 0 && currentSectionID != 0 && currentVideoID != 0) {
+                CourseSocketBean courseSocketBean = new CourseSocketBean();
+                courseSocketBean.setUser_id(userId);//用户id
+                courseSocketBean.setPackage_id(coursePackageId);//	课程包id
+                courseSocketBean.setCourse_id(currentCourseID);//	专业课id
+                courseSocketBean.setSection_id(currentSectionID);//章节id
+                courseSocketBean.setVideo_id(currentVideoID);//视频id
+                courseSocketBean.setWatch_time(seconds);//	观看截止时间点
+                courseSocketBean.setVideo_type(1);//	播放类型1课程视频播放
+                if (typeJudge(Constant.WATCH_LEARNPLAN)) {
+                    //学习中心socket信息
+                    courseSocketBean.setStatus(2);
+                    courseSocketBean.setPlan_id(learnPlanid);
+                    courseSocketBean.setDays(learnDays);
+                } else {
+                    //	视频类型1课程视频播放
+                    courseSocketBean.setStatus(1);
+                }
 
-            if (coursePlayPresenter != null) {
-                coursePlayPresenter.sendFirstSocket(courseSocketBean);
+                if (coursePlayPresenter != null) {
+                    coursePlayPresenter.sendFirstSocket(courseSocketBean);
+                }
             }
         }
     }
@@ -2624,8 +2723,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                          */
                         mGestureView.hide(ViewAction.HideType.End);
 
-                        //提问按钮隐藏
-                        playerAskQuestion.setVisibility(View.GONE);
+                        //设置提问按钮
+                        setAskQuestionButton();
                         //PDF退出按钮显示
                         playerExitPdf.setVisibility(View.VISIBLE);
 
@@ -2642,7 +2741,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                         mGestureView.setHideType(ViewAction.HideType.Normal);
                         mGestureView.show();
 
-                        playerAskQuestion.setVisibility(View.VISIBLE);//提问按钮
+                        //设置提问按钮
+                        setAskQuestionButton();
                         playerExitPdf.setVisibility(View.GONE);//PDF退出按钮显示
 
                         setLayoutVisibility(true, true);
@@ -2651,6 +2751,115 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 }
             } else {//TODO 讲义不存在
                 toastInfo(getResources().getString(R.string.course_PDFnotExits));
+            }
+        }
+    }
+
+    /**
+     * 后续教育返回键操作
+     */
+    private void educationBackOperation() {
+        if (getScreenMode() == AliyunScreenMode.Small) {
+            finish();
+            return;
+        }
+        //横屏
+        changeScreenMode(AliyunScreenMode.Small);
+        //隐藏菜单
+        setLayoutVisibility(false, false);
+        //停止计时
+        stopProgressUpdateTimer();
+        //停止播放
+        stop();
+        //禁用手势,加载封面
+        hideGestureAndControlViews();
+        //设置封面
+        setCourse_Cover(courseCoverimageUrl);
+        //顶部菜单可见
+        playerTopliner.setVisibility(View.VISIBLE);
+        //设置背景
+        playerTopliner.setBackgroundColor(ContextCompat.getColor(this, R.color.transparency));
+        //清空标题
+        setPlayVideoName("");
+    }
+
+    /**
+     * 设置SB收藏,莫名其妙的背锅,GJBBU
+     */
+    private void setCollectionButton() {
+        if (typeJudge(Constant.LOCAL_CACHE) || isEducation()) {
+            //离线视频真的不骗你,意见统一,那就干掉这个收藏
+            playerCollect.setVisibility(View.GONE);
+        } else {
+            //线上视频
+            if (AliyunScreenMode.Small == getScreenMode()) {
+                //小屏模式
+                if (Constant.ISTEST_ENVIRONMENT) {
+                    //true
+                    playerCollect.setVisibility(View.GONE);
+                } else {
+                    playerCollect.setVisibility(View.VISIBLE);
+                }
+            } else {
+                //大屏模式
+                playerCollect.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    /**
+     * 设置倍速按钮
+     */
+    private void setPlayerSpeedButton() {
+        if (getScreenMode() == AliyunScreenMode.Small) {
+            //小屏挂掉
+            if (playerSpeed.getVisibility() != View.GONE) {
+                playerSpeed.setVisibility(View.GONE);
+            }
+        } else {
+            //横屏模式
+            if (isEducation()) {
+                //后续教育干掉
+                playerSpeed.setVisibility(View.GONE);
+            } else {
+                //普通课程打开
+                playerSpeed.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    /**
+     * 设置提问问题按钮
+     */
+    private void setAskQuestionButton() {
+        if (typeJudge(Constant.LOCAL_CACHE)) {
+            playerAskQuestion.setVisibility(View.GONE);
+        } else {
+            //TODO 小屏肯定木有
+            if (AliyunScreenMode.Small == getScreenMode()) {
+                playerAskQuestion.setVisibility(View.GONE);
+            } else {
+                //TODO 横屏播放
+                if (isEducation()) {
+                    //todo 后续教育
+                    playerAskQuestion.setVisibility(View.GONE);
+                } else {
+                    //todo 普通课程
+
+                    //判断该课程是否可以提问
+                    if (getCourseUnCon() == Constant.HAVED_BUY) {
+                        //正课
+                        if (pdfStatus) {
+                            //正在查看讲义
+                            playerAskQuestion.setVisibility(View.GONE);
+                        } else {
+                            //已经不再查看视频了
+                            playerAskQuestion.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        playerAskQuestion.setVisibility(View.GONE);
+                    }
+                }
             }
         }
     }
@@ -2711,7 +2920,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     }
 
     /**
-     * ganjin入坑
+     * ganjin入坑,
      */
     public void goToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
@@ -2742,15 +2951,20 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     //TODO 顶部返回按键
     private void topButtonBack() {
         if (getScreenMode() == AliyunScreenMode.Full) {
-            if (exitDirectly()) {
-            } else {
-                AliyunScreenMode targetMode;
-                if (getScreenMode() == AliyunScreenMode.Small) {
-                    targetMode = AliyunScreenMode.Full;
+            if (!exitDirectly()) {
+                //除去观看记录,学习中心,本地视频,课程答疑  以外都是竖屏
+                if (isEducation()) {
+                    //后续教育的傻×
+                    educationBackOperation();
                 } else {
-                    targetMode = AliyunScreenMode.Small;
+                    AliyunScreenMode targetMode;
+                    if (getScreenMode() == AliyunScreenMode.Small) {
+                        targetMode = AliyunScreenMode.Full;
+                    } else {
+                        targetMode = AliyunScreenMode.Small;
+                    }
+                    changeScreenMode(targetMode);
                 }
-                changeScreenMode(targetMode);
             }
         } else {
             finish();//退出本页面
@@ -2897,6 +3111,31 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * 是否签到查询
+     */
+    @Override
+    public void checkWitherSigninResult(int resultStatus) {
+        signinStatus = resultStatus;
+    }
+
+    /**
+     * 签到是否成功
+     */
+    @Override
+    public void signinResult(int resultStatus) {
+        if (resultStatus == 1) {
+            //签到成功
+            signinStatus = 1;
+            toastInfo(getResources().getString(R.string.signin_tips_success));
+        } else {
+            //签到失败
+            signinStatus = 2;
+            signinFlag = false;
+            toastInfo(getResources().getString(R.string.signin_tips_error));
         }
     }
 
@@ -3052,6 +3291,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                             }
                         })
                         .setCircleToFriendButton(new View.OnClickListener() {
+
                             @Override
                             public void onClick(View v) {
                                 //String url = ApiStores.APP_DOWNLOAD_URL;
@@ -3127,14 +3367,63 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 break;
             case R.id.btn_pay:
                 //TODO 直接购买课程
-                Intent intent = new Intent(this, CommitOrderActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putInt(Constant.COURSE_PACKAGE_ID, getCoursePackageId());
-                intent.putExtras(bundle);
-                startActivity(intent);
+                gotoCommitOrder();
                 break;
             default:
                 break;
+        }
+    }
+
+    private void hideNavigationBar() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        playerRelativelayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    /**
+     * 去下单
+     */
+    private void gotoCommitOrder() {
+        int order_type = 0;
+        if (isEducation()) {
+            //后续教育类型订单
+            order_type = Constant.PAY_ORDERTYPE_EDUCATION;
+        } else {
+            //课程订单
+            order_type = Constant.PAY_ORDERTYPE_COURSE;
+        }
+
+        Intent intent = new Intent(this, CommitOrderActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constant.COURSE_PACKAGE_ID, getCoursePackageId());
+        bundle.putInt(Constant.PAY_ORDERTYPE, order_type);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    /**
+     * 检测是否是后续教育
+     */
+    public boolean isEducation() {
+        if (TextUtils.isEmpty(course_Source)) {
+            return false;
+        } else {
+            return TextUtils.equals(course_Source, Constant.WATCH_EDUCATION_CPE);
+        }
+    }
+
+    /**
+     * 类型判断
+     */
+    public boolean typeJudge(String type) {
+        if (TextUtils.isEmpty(course_Source)) {
+            return false;
+        } else {
+            return TextUtils.equals(course_Source, type);
         }
     }
 

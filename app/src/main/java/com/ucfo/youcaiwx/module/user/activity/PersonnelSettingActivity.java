@@ -53,7 +53,6 @@ import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.dialog.TakePhotoDialog;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.filter.Filter;
 
 import java.io.File;
 import java.net.URI;
@@ -248,7 +247,7 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
                                 .thumbnailScale(0.85f)
                                 .theme(R.style.Matisse_Dracula)
                                 .imageEngine(new GlideEngine())
-                                .addFilter(new MiniSizeFilter(320, 320, (int) (3 * Filter.K * Filter.K)))
+                                .addFilter(new MiniSizeFilter(320, 320, Constant.PICTURE_SIZE))
                                 .forResult(REQUEST_CODE_CHOOSE102);
                     }
                 })

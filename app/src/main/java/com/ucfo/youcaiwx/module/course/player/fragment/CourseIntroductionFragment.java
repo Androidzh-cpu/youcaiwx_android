@@ -290,14 +290,14 @@ public class CourseIntroductionFragment extends BaseFragment {
             //TODO 课程购买状态
             String courseSource = videoPlayPageActivity.getCourse_Source();
             if (TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
-                //TODO 后续教育
-                if (TextUtils.isEmpty(userstatus)){
+                // 后续教育
+                if (TextUtils.isEmpty(userstatus)) {
                     videoPlayPageActivity.setCourseBuyState(2);
-                }else {
+                } else {
                     videoPlayPageActivity.setCourseBuyState(Integer.parseInt(userstatus));
                 }
             } else {
-                //TODO 一般般啦
+                //一般般啦
                 if (TextUtils.isEmpty(isPurchase)) {
                     videoPlayPageActivity.setCourseBuyState(2);
                 } else {
@@ -308,7 +308,7 @@ public class CourseIntroductionFragment extends BaseFragment {
             videoPlayPageActivity.setCourse_PackagePrice(price);
             //TODO 设置课程封面
             videoPlayPageActivity.setCourse_Cover(appImg);
-
+            //TODO 课程简介主要内容(本来是一个H5,人家就换成一张图了,,,,,,)
             webView.loadUrl(briefImg);
             if (!TextUtils.isEmpty(name)) {
                 courseName.setText(name);

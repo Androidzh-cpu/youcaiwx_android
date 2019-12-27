@@ -1,6 +1,7 @@
 package com.ucfo.youcaiwx.common;
 
 import com.ucfo.youcaiwx.BuildConfig;
+import com.zhihu.matisse.filter.Filter;
 
 /**
  * Author:AND
@@ -108,7 +109,7 @@ public class Constant {
     //---------------------------------------------TODO common  end-----------------------------------------------//
 
 
-    /*******************************************************TODO 再丑也要注意的分割线*******************************************************/
+    //----------------------------------------------- TODO 再丑也要注意的分割线 -----------------------------------------------//
     public static final String ROOT_DIR = "/youcai/";
     //压缩图片存储地址
     public static final String LUBAN_PATH = ROOT_DIR + "image/";
@@ -124,7 +125,9 @@ public class Constant {
     public static final String PLAYER_CACHE_PATH = ROOT_DIR + "aliyunVodPlayer_cache";
     //fileprovider
     public static final String AUTHORITY = "PhotoProvider";
-    /*******************************************************TODO 再丑也要注意的分割线*******************************************************/
+    //图片大小限制
+    public static final int PICTURE_SIZE = 3 * Filter.K * Filter.K;
+    //---------------------------------------------TODO 再丑也要注意的分割线 -----------------------------------------------//
 
     //---------------------------------------------TODO 登录注册  start-----------------------------------------------//
     //第一次登陆
@@ -160,13 +163,15 @@ public class Constant {
 
     //---------------------------------------------TODO 课程  start-----------------------------------------------//
     //免费试看时间(单位: 秒)
-    public static final int FREE_TIME = 3 * 60;
+    public static final int FREE_TIME = 3 * 60 * 1000;
     //socket消息发送间隔时间(单位: 毫秒)
     public static final int SOCKET_TIME = 30 * 1000;
     //播放器菜单隐藏时间(单位 : 毫秒)
     public static final int DELAY_TIME = 5 * 1000;
     //累计学习指定时间领取积分(单位: 秒)
     public static final int INTEGRAL_TIME = 30 * 60;
+    //后续教育签到倒计时时间  (假装30秒=_=)
+    public static final int EDUCATION_TIME_FINISHED = 30;
 
 
     //课程已购买状态码  1: 已购买 2: 未购买
@@ -246,7 +251,7 @@ public class Constant {
     //--------------------------------------------------------TODO 题库  end----------------------------------------------------------//
 
 
-    //---------------------------------------------TODO int related to questionbank start----------------------------------------//
+    //---------------------------------------------TODO int related to 题库 start----------------------------------------//
     //TODO 题库类型,1单选2论述题
     public static final String PAPER_TYPE = "paper_type";
     //TODO 做题模式
@@ -301,7 +306,7 @@ public class Constant {
     public static final int PLATE_15 = 15;
     //TODO 16:试题详情
     public static final int PLATE_16 = 16;
-    //---------------------------------------------TODO int related to questionbank  end----------------------------------------//
+    //---------------------------------------------TODO int related to 题库  end----------------------------------------//
 
 
     //---------------------------------------------TODO 个人中心 start-----------------------------------------------//
@@ -331,6 +336,20 @@ public class Constant {
     public static final int REQUEST_ADDRESS = 10000;
     //优惠券选择请求码
     public static final int REQUEST_COUPON = 10001;
+
+
+    //支付类型
+    public static final String PAY_ORDERTYPE = "order_type";
+    //支付类型 直播订单
+    public static final int PAY_ORDERTYPE_LIVE = 1;
+    //支付类型 课程订单
+    public static final int PAY_ORDERTYPE_COURSE = 2;
+    //支付类型 积分订单
+    public static final int PAY_ORDERTYPE_INTEGRAL = 3;
+    //支付类型 图书订单
+    public static final int PAY_ORDERTYPE_BOOK = 4;
+    //支付类型 后续教育订单
+    public static final int PAY_ORDERTYPE_EDUCATION = 5;
     //---------------------------------------------TODO 支付 end-----------------------------------------------//
 
 

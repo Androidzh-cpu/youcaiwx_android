@@ -84,6 +84,17 @@
                 app:rv_isRadiusHalfHeight="true"
                 tools:text="¥28800" />
 
+            <TextView
+                android:id="@+id/item_course_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/dp_5"
+                android:drawableStart="@mipmap/icon_citime"
+                android:textColor="@color/color_999999"
+                android:textSize="@dimen/sp_12"
+                android:visibility="gone"
+                tools:text="360天有效" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

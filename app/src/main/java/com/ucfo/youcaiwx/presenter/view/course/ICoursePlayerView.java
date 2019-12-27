@@ -10,10 +10,24 @@ import com.ucfo.youcaiwx.entity.course.GetVideoPlayAuthBean;
  */
 public interface ICoursePlayerView {
 
-    //获取视频播放凭证
+    /**
+     * 获取视频播放凭证
+     */
     void getVideoPlayAuthor(GetVideoPlayAuthBean data);
 
-    //视频收藏结果
+    /**
+     * 视频收藏结果
+     */
     void getVideoCollectResult(int data, int result);
+
+    /**
+     * 检查是否签到
+     */
+    void checkWitherSigninResult(int resultStatus);
+
+    /**
+     * 签到结果
+     */
+    void signinResult(int resultStatus);
 
 }

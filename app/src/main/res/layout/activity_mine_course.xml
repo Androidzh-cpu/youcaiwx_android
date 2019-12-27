@@ -8,64 +8,11 @@
     android:orientation="vertical"
     tools:context="com.ucfo.youcaiwx.module.user.activity.MineCourseActivity">
 
-    <include layout="@layout/titlebar_toolbar" />
+    <include layout="@layout/titlebar_tablayout" />
 
-    <LinearLayout
-        android:id="@+id/linear_holder"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="invisible">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="@dimen/dp_14"
-            android:drawableTop="@mipmap/icon_nodata"
-            android:gravity="center"
-            android:text="@string/mine_Course_nodata"
-            android:textColor="@color/color_999999"
-            android:textSize="@dimen/sp_13" />
-
-        <Button
-            android:id="@+id/btn_lookCourse"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="@dimen/dp_293"
-            android:layout_height="@dimen/dp_34"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/dp_78"
-            android:background="@mipmap/icon_btnroundback"
-            android:gravity="center"
-            android:stateListAnimator="@drawable/shape_selector_elevation"
-            android:text="@string/mine_Course_Look"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/sp_14" />
-
-    </LinearLayout>
-
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshlayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srlEnableLoadMore="true"
-        app:srlEnableRefresh="true">
-
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:overScrollMode="never">
-
-            <com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView
-                android:id="@+id/recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never" />
-        </android.support.v4.widget.NestedScrollView>
-
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
+        android:layout_height="match_parent" />
 
 </LinearLayout>

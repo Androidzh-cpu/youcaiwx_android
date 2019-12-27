@@ -81,13 +81,21 @@ public class ApiStores {
 
     //-----------------------------------------TODO 后续教育 start------------------------------------------------------------------------------//
     public static final String EDUCATION_CLASSIFICATION = BASE_URL + "Education/deuType";
-    public static final String EDUCATION_COURSE_LIST = BASE_URL + "Education/listPackage ";
+    public static final String EDUCATION_COURSE_LIST = BASE_URL + "Education/listPackage";
     //课程简介
     public static final String EDUCATION_COURSE_INTORDUCTION = BASE_URL + "Education/courseIntroduction";
     //课程目录
-    public static final String EDUCATION_COURSEDIRECTORY = BASE_URL + "Education/courseoutline ";
+    public static final String EDUCATION_COURSEDIRECTORY = BASE_URL + "Education/courseoutline";
     //获取视频凭证
     public static final String EDUCATION_COURSE_GETVIDEO_CREDENTIALS = BASE_URL + "Education/videoCredentials";
+    //检查是否签到
+    public static final String EDUCATION_COURSE_WETHERSIGNIN = BASE_URL + "Education/signQuery";
+    //签到
+    public static final String EDUCATION_COURSE_SIGNIN = BASE_URL + "Education/sign";
+    //后续教育记录
+    public static final String EDUCATION_COURSE_RECORD = BASE_URL + "Education/record";
+    //后续教育课程
+    public static final String EDUCATION_COURSE_MINECOURSE = BASE_URL + "Education/myCPEcourse";
     //-----------------------------------------TODO 后续教育 end------------------------------------------------------------------------------//
 
     //-----------------------------------------TODO 登录注册 start------------------------------------------------------------------------------//

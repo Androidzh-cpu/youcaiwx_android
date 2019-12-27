@@ -117,8 +117,8 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
     LoadingLayout loadinglayout;
     private CommitOrderActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
-    //TODO orderNumType: 订单类型1直播订单、2课程订单
-    private int userId, courserPackageId, finalCouponId = 0, finalAddressId = 0, orderNumType = 2;
+    //TODO orderNumType(实际参数名叫is_live): 订单类型 1.直播订单 2.课程订单 3.积分订单 4.图书订单 5.后续教育
+    private int userId, courserPackageId, finalCouponId = 0, finalAddressId = 0, orderNumType = 0;
     private Bundle bundle;
     private PayPresenter payPresenter;
     private float discountsprice = 0, finalPayPrice = 0, originalPayPace = 0;
@@ -167,17 +167,19 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
     @Override
     protected void initData() {
         super.initData();
+        payPresenter = new PayPresenter(this);
+
         bundle = getIntent().getExtras();
         if (bundle != null) {
             courserPackageId = bundle.getInt(Constant.COURSE_PACKAGE_ID, 0);
+            orderNumType = bundle.getInt(Constant.PAY_ORDERTYPE, 0);
+
+            payPresenter.getOrderFormDetail(userId, courserPackageId);
         } else {
             if (loadinglayout != null) {
                 loadinglayout.showEmpty();
             }
         }
-        payPresenter = new PayPresenter(this);
-
-        payPresenter.getOrderFormDetail(userId, courserPackageId);
         //支付协议
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -251,7 +253,13 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
                     if (finalAddressId == 0) {
                         ToastUtil.showBottomShortText(this, getResources().getString(R.string.pay_addAddress));
                     } else {
-                        payPresenter.commitOrderForm(userId, courserPackageId, orderNumType, finalAddressId, finalCouponId, invoiceInfoBean);
+                        if (orderNumType == 0) {
+                            ToastUtil.showBottomShortText(this, getResources().getString(R.string.miss_params));
+                            return;
+                        }
+                        if (payPresenter != null) {
+                            payPresenter.commitOrderForm(userId, courserPackageId, orderNumType, finalAddressId, finalCouponId, invoiceInfoBean);
+                        }
                     }
                 } else {
                     ToastUtil.showBottomShortText(this, getResources().getString(R.string.pay_readPayNotice));

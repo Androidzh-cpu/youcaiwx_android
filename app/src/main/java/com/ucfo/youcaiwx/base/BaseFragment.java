@@ -155,11 +155,12 @@ public abstract class BaseFragment extends Fragment {
     protected void onInvisibleToUser() {
     }
 
+    protected abstract int setContentView();
+
     protected abstract void initView(View itemView);
 
     protected abstract void initData();
 
-    protected abstract int setContentView();
 
     /**
      * 跳转activity

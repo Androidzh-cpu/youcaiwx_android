@@ -44,6 +44,9 @@
     <string name="sort">排序</string>
     <string name="screen">筛选</string>
     <string name="not_apply">您还未报名,报名后进行学习！</string>
+    <string name="signin_tips">您还在吗？点击屏幕继续学习。</string>
+    <string name="signin_tips_success">签到成功</string>
+    <string name="signin_tips_error">签到失败</string>
     <string name="study_know">学习须知</string>
     <string name="study_know_detail">\u3000\u3000如何获得本课程学分: 每个视频学习过程中均会随机弹出签到提示，全部视频都成功签到后才能获得本课程CPE积分。</string>
     <!-- Strings related to 后续教育 end-->
@@ -150,6 +153,7 @@
     <string name="mine_Coupons">我的优惠券</string>
     <string name="mine_disabledCoupons">失效券</string>
     <string name="mine_Course">我的课程</string>
+    <string name="mine_EducationCourse">CPE课程</string>
     <string name="mine_Collection">我的收藏</string>
     <string name="mine_offline">离线课程</string>
     <string name="mine_order">我的订单</string>

@@ -50,7 +50,6 @@ import com.ucfo.youcaiwx.widget.flowlayout.TagAdapter;
 import com.ucfo.youcaiwx.widget.flowlayout.TagFlowLayout;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import java.io.File;
@@ -344,7 +343,7 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
                     .imageEngine(new GlideEngine())
                     .autoHideToolbarOnSingleTap(true)
                     .maxOriginalSize(10)
-                    .addFilter(new MiniSizeFilter(320, 320, (int) (3 * Filter.K * Filter.K))) // 控制宽高为320*320 以上，大小为 3M 以下
+                    .addFilter(new MiniSizeFilter(320, 320, Constant.PICTURE_SIZE)) // 控制宽高为320*320 以上，大小为 3M 以下
                     .forResult(REQUEST_CODE_CHOOSE);//请求码
         } else {
             ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_title_maxChoice3));

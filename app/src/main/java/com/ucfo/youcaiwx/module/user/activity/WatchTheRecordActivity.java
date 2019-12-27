@@ -16,6 +16,7 @@ import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.adapter.user.MineWatchRecordAdapter;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
+import com.ucfo.youcaiwx.entity.user.MineCPECourseBean;
 import com.ucfo.youcaiwx.entity.user.MineCourseBean;
 import com.ucfo.youcaiwx.entity.user.MineWatchRecordBean;
 import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
@@ -117,6 +118,11 @@ public class WatchTheRecordActivity extends BaseActivity implements IMineCourseV
     @Override
     public void getMineCourse(MineCourseBean data) {
         //TODO nothing
+    }
+
+    @Override
+    public void getMineCPECourse(MineCPECourseBean data) {
+        //TODO NOTHING
     }
 
     @Override

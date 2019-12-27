@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.utils.glideutils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Point;
 
@@ -45,7 +44,6 @@ public class MiniSizeFilter extends Filter {
         }};*/
     }
 
-    @SuppressLint("StringFormatInvalid")
     @Override
     public IncapableCause filter(Context context, Item item) {
         if (!needFiltering(context, item)) {
@@ -54,8 +52,10 @@ public class MiniSizeFilter extends Filter {
         Point size = PhotoMetadataUtils.getBitmapBound(context.getContentResolver(), item.getContentUri());
         if (size.x < mMinWidth || size.y < mMinHeight || item.size > mMaxSize) {
             // IncapableCause.TOAST 表示 Toast 提示，它有三个选择：{TOAST, DIALOG, NONE}
-            return new IncapableCause(IncapableCause.TOAST, context.getString(R.string.error_size_to_small, mMinWidth,
-                    String.valueOf(PhotoMetadataUtils.getSizeInMB(mMaxSize))));
+            String value = String.valueOf(PhotoMetadataUtils.getSizeInMB(mMaxSize));
+            String string = context.getResources().getString(R.string.error_size_to_small, mMinWidth, value);
+            //return new IncapableCause(IncapableCause.TOAST, context.getString(R.string.error_size_to_small, mMinWidth, String.valueOf(PhotoMetadataUtils.getSizeInMB(mMaxSize))));
+            return new IncapableCause(IncapableCause.TOAST, string);
         }
         return null;
     }
