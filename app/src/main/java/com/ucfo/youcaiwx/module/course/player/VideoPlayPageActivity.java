@@ -1272,10 +1272,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             playerSpeed.setVisibility(View.GONE);
             playerFullscreen.setVisibility(View.GONE);
             //禁止拖动
-            if (!Constant.ISTEST_ENVIRONMENT) {
-                playerSeekprogress.setEnabled(false);
-            }
-
+            playerSeekprogress.setEnabled(false);
         }
     }
 
