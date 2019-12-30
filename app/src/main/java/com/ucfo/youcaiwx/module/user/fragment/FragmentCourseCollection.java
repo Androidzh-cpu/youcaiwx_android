@@ -183,7 +183,7 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
     //TODO 设置适配器
     private void initAdapter() {
         if (mineCourseAdapter == null) {
-            mineCourseAdapter = new MineCourseAdapter(getActivity(), list);
+            mineCourseAdapter = new MineCourseAdapter(getContext(), list);
             recyclerview.setAdapter(mineCourseAdapter);
         } else {
             mineCourseAdapter.notifyChange(list);

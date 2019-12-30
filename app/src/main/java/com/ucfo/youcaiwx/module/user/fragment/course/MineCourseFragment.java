@@ -3,6 +3,7 @@ package com.ucfo.youcaiwx.module.user.fragment.course;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -16,13 +17,13 @@ import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.user.MineCPECourseBean;
 import com.ucfo.youcaiwx.entity.user.MineCourseBean;
-import com.ucfo.youcaiwx.entity.user.MineWatchRecordBean;
+import com.ucfo.youcaiwx.module.course.CourseListActivity;
 import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineCoursePresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineCourseView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView;
+import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +36,12 @@ import java.util.List;
  * Description:TODO 我的课程
  */
 public class MineCourseFragment extends BaseFragment implements IMineCourseView, View.OnClickListener {
-
     private Button mLookCourseBtn;
     private LinearLayout linearHolder;
-    private ShimmerRecyclerView recyclerview;
+    private RecyclerView recyclerview;
     private SmartRefreshLayout refreshlayout;
+    private LoadingLayout loadingLayout;
+
     private MineCourseAdapter courseAdapter;
 
     private ArrayList<MineCourseBean.DataBean> list;
@@ -57,8 +59,9 @@ public class MineCourseFragment extends BaseFragment implements IMineCourseView,
         mLookCourseBtn = (Button) itemView.findViewById(R.id.btn_lookCourse);
         mLookCourseBtn.setOnClickListener(this);
         linearHolder = (LinearLayout) itemView.findViewById(R.id.linear_holder);
-        recyclerview = (ShimmerRecyclerView) itemView.findViewById(R.id.recyclerview);
+        recyclerview = (RecyclerView) itemView.findViewById(R.id.recyclerview);
         refreshlayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
+        loadingLayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
     }
 
     @Override
@@ -78,28 +81,33 @@ public class MineCourseFragment extends BaseFragment implements IMineCourseView,
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                mineCoursePresenter.getMineCourseList(user_id);
+                loadMineCourse();
+            }
+        });
+        loadingLayout.setRetryListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadMineCourse();
             }
         });
     }
 
+    private void loadMineCourse() {
+        if (mineCoursePresenter != null) {
+            mineCoursePresenter.getMineCourseList(user_id);
+        }
+    }
+
     @Override
-    protected void onLazyLoadOnce() {
-        super.onLazyLoadOnce();
-        mineCoursePresenter.getMineCourseList(user_id);
+    protected void onVisibleToUser() {
+        super.onVisibleToUser();
+        loadMineCourse();
     }
 
     @Override
     public void getMineCourse(MineCourseBean data) {
         if (data != null) {
             if (data.getData() != null && data.getData().size() > 0) {
-                if (refreshlayout != null) {
-                    refreshlayout.setVisibility(View.VISIBLE);
-                }
-                if (linearHolder != null) {
-                    linearHolder.setVisibility(View.GONE);
-                }
-
                 List<MineCourseBean.DataBean> beanList = data.getData();
                 if (list == null) {
                     list = new ArrayList<>();
@@ -108,35 +116,41 @@ public class MineCourseFragment extends BaseFragment implements IMineCourseView,
                 list.addAll(beanList);
 
                 initAdapter();
+
+                showContent();
             } else {
-                if (refreshlayout != null) {
-                    refreshlayout.setVisibility(View.GONE);
-                }
-                if (linearHolder != null) {
-                    linearHolder.setVisibility(View.VISIBLE);
-                }
+                showEmpty();
             }
         } else {
-            if (refreshlayout != null) {
-                refreshlayout.setVisibility(View.GONE);
-            }
-            if (linearHolder != null) {
-                linearHolder.setVisibility(View.INVISIBLE);
-            }
+            showEmpty();
         }
+        //结束动画
         if (refreshlayout != null) {
             refreshlayout.finishRefresh();
-            refreshlayout.finishLoadMore();
+        }
+    }
+
+    private void showContent() {
+        if (linearHolder != null) {
+            linearHolder.setVisibility(View.GONE);
+        }
+        if (recyclerview != null) {
+            recyclerview.setVisibility(View.VISIBLE);
+        }
+    }
+
+    //没有课程,显示空页面
+    private void showEmpty() {
+        if (linearHolder != null) {
+            linearHolder.setVisibility(View.VISIBLE);
+        }
+        if (recyclerview != null) {
+            recyclerview.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void getMineCPECourse(MineCPECourseBean data) {
-        //TODO nothing
-    }
-
-    @Override
-    public void getMineWatchRecord(MineWatchRecordBean data) {
         //TODO nothing
     }
 
@@ -170,16 +184,15 @@ public class MineCourseFragment extends BaseFragment implements IMineCourseView,
 
     @Override
     public void showLoadingFinish() {
-
+        if (loadingLayout != null) {
+            loadingLayout.showContent();
+        }
     }
 
     @Override
     public void showError() {
-        if (refreshlayout != null) {
-            refreshlayout.setVisibility(View.GONE);
-        }
-        if (linearHolder != null) {
-            linearHolder.setVisibility(View.INVISIBLE);
+        if (loadingLayout != null) {
+            loadingLayout.showError();
         }
     }
 
@@ -188,6 +201,7 @@ public class MineCourseFragment extends BaseFragment implements IMineCourseView,
         switch (v.getId()) {
             case R.id.btn_lookCourse:
                 // TODO 19/12/27
+                startActivity(CourseListActivity.class);
                 break;
             default:
                 break;

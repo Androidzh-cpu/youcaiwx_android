@@ -219,7 +219,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     //是否正课  课程包ID  课程购买状态 用户ID
     private int courseUnCon, coursePackageId, courseBuyState, userId;
     //课程封面  课程价格 阿里视频video,课程来源
-    private String courseCoverimageUrl, course_PackagePrice, currentVid, course_Source;
+    private String courseCoverimageUrl, course_PackagePrice, currentVid, course_Source, course_Source_deputy;
     //TODO 当前播放视频的信息,供收藏,播放使用
     private int currentCourseID, currentSectionID, currentVideoID, currentVideoCollectState;
     private VideoPlayPageActivity videoPlayPageActivity;
@@ -662,12 +662,20 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
         bundle = getIntent().getExtras();
         if (bundle != null) {
-            courseCoverimageUrl = bundle.getString(Constant.COURSE_COVER_IMAGE, "");//TODO 封面
-            coursePackageId = bundle.getInt(Constant.COURSE_PACKAGE_ID, 0);//TODO 课程包ID
-            courseUnCon = bundle.getInt(Constant.COURSE_UN_CON, 2);//TODO 是否是正课1正课2非正课
-            courseBuyState = bundle.getInt(Constant.COURSE_BUY_STATE, 2);//TODO 购买状态:1购买2未购买
-            course_PackagePrice = bundle.getString(Constant.COURSE_PRICE, "");//TODO 购买价格
-            course_Source = bundle.getString(Constant.COURSE_SOURCE, "");//TODO 来源
+            //TODO 封面
+            courseCoverimageUrl = bundle.getString(Constant.COURSE_COVER_IMAGE, "");
+            //TODO 课程包ID
+            coursePackageId = bundle.getInt(Constant.COURSE_PACKAGE_ID, 0);
+            //TODO 是否是正课1正课2非正课
+            courseUnCon = bundle.getInt(Constant.COURSE_UN_CON, 2);
+            //TODO 购买状态:1购买2未购买
+            courseBuyState = bundle.getInt(Constant.COURSE_BUY_STATE, 2);
+            //TODO 购买价格
+            course_PackagePrice = bundle.getString(Constant.COURSE_PRICE, "");
+            //TODO 视频源
+            course_Source = bundle.getString(Constant.COURSE_SOURCE, "");
+            //TODO 视频源副本
+            course_Source_deputy = bundle.getString(Constant.COURSE_SOURCE_DEPUTY, "");
 
             //购买状态
             setCourseBuyState(courseBuyState);
@@ -884,10 +892,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             @Override
             public void onFirstFrameStart() {
                 logger("首帧显示触发");
-
-                //获取所有日志信息
-                getAllDebugInfo();
-
                 /**
                  * 开始启动更新进度的定时器
                  */
@@ -942,6 +946,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         aliyunVodPlayer.setOnCompletionListener(new IAliyunVodPlayer.OnCompletionListener() {
             @Override
             public void onCompletion() {
+                if (isEducation()) {
+                    educationBackOperation();
+                    return;
+                }
                 //播放正常,完成时触发
                 inSeek = false;
                 //关闭定时器
@@ -1239,11 +1247,16 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (typeJudge(Constant.COLLECTION)) {
             //TODO 我的收藏(只有课程答疑tab,可以提问)
         } else if (typeJudge(Constant.WATCH_RECORD)) {
-            //TODO 观看记录(直接横屏播放,可提问问题)
+            //TODO 观看记录(直接横屏播放,一般课程可提问问题,后续教育不允许)
             //全屏
             playerFullscreen.setVisibility(View.GONE);
             //设置
             playerSetting.setVisibility(View.GONE);
+
+            //todo CPE的观看记录
+            if (TextUtils.equals(course_Source_deputy, Constant.WATCH_CPE_RECORD)) {
+                playerSpeed.setVisibility(View.GONE);
+            }
         } else if (typeJudge(Constant.LOCAL_CACHE)) {
             //TODO 本地缓存视频(横屏播放,不能收藏,不能提问,不能切换清晰度)
             //全屏
@@ -1291,6 +1304,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
         if (isEducation()) {
             //后续教育的傻×
+            if (courseDirectoryListFragment != null && courseDirectoryListFragment.coursWindowisShow()) {
+                courseDirectoryListFragment.dismissWindow();
+                return;
+            }
             educationBackOperation();
             return;
         }
@@ -2521,7 +2538,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
                     .placeholder(R.color.color_F2F7FF)
-                    .error(R.mipmap.image_loaderror)
+                    .error(R.color.colorBlack)
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
             GlideUtils.load(this, courseCoverUrl, courseCoverimage, requestOptions);
         }
@@ -2799,7 +2816,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 }
             } else {
                 //大屏模式
-                playerCollect.setVisibility(View.VISIBLE);
+                if (TextUtils.equals(course_Source_deputy, Constant.WATCH_CPE_RECORD)) {
+                    //后续教育的收藏干掉
+                    playerCollect.setVisibility(View.GONE);
+                } else {
+                    //一般课程都可以收藏
+                    playerCollect.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -3259,8 +3282,15 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     /**
      * 播放状态   1.播放中 2.未播放
      */
-    public enum PlayState {
-        Playing, NotPlaying
+    private enum PlayState {
+        /**
+         * 播放中
+         */
+        Playing,
+        /**
+         * 暂停
+         */
+        NotPlaying
     }
 
     @OnClick({R.id.player_back, R.id.player_share, R.id.player_btn, R.id.player_fullscreen,
@@ -3278,7 +3308,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                         .setFriendButton(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                //String url = ApiStores.APP_DOWNLOAD_URL;
                                 String url = ApiStores.COURSER_SHARE + "?package_id=" + coursePackageId + "&VideoId=" + currentVid;
                                 String title = getResources().getString(R.string.app_nameWX);
                                 String desc = getResources().getString(R.string.youcaiWXShareDescribe);
@@ -3291,8 +3320,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
                             @Override
                             public void onClick(View v) {
-                                //String url = ApiStores.APP_DOWNLOAD_URL;
                                 String url = ApiStores.COURSER_SHARE + "?package_id=" + coursePackageId + "&VideoId=" + currentVid;
+
                                 String title = getResources().getString(R.string.app_nameWX);
                                 String desc = getResources().getString(R.string.youcaiWXShareDescribe);
                                 ShareUtils.getInstance().shareUrlToWx(url, title, desc, SendMessageToWX.Req.WXSceneTimeline);

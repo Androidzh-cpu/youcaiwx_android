@@ -2,6 +2,7 @@ package com.ucfo.youcaiwx.adapter.user;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,8 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.ucfo.youcaiwx.R;
-import com.ucfo.youcaiwx.entity.user.MineWatchRecordBean;
-import com.ucfo.youcaiwx.module.course.player.utils.TimeFormater;
+import com.ucfo.youcaiwx.entity.user.MineCPEWatchRecordBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
@@ -25,20 +25,21 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Author: AND
- * Time: 2019-6-27.  下午 4:31
- * FileName: MineWatchRecordAdapter
- * Description:TODO 我的观看记录
+ * Time: 2019-12-30.  上午 11:29
+ * Package: com.ucfo.youcaiwx.adapter.user
+ * FileName: MineCPEWatchRecordAdapter
+ * Description:TODO 我的CPE课程适配器
  */
-public class MineWatchRecordAdapter extends BaseAdapter<MineWatchRecordBean.DataBean, MineWatchRecordAdapter.ViewHolder> {
-    private List<MineWatchRecordBean.DataBean> list;
+public class MineCPEWatchRecordAdapter extends BaseAdapter<MineCPEWatchRecordBean.DataBean, MineCPEWatchRecordAdapter.ViewHolder> {
+    private List<MineCPEWatchRecordBean.DataBean> list;
     private Context context;
 
-    public MineWatchRecordAdapter(List<MineWatchRecordBean.DataBean> list, Context context) {
+    public MineCPEWatchRecordAdapter(List<MineCPEWatchRecordBean.DataBean> list, Context context) {
         this.list = list;
         this.context = context;
     }
 
-    public void notifyChange(List<MineWatchRecordBean.DataBean> dataBeanList) {
+    public void notifyChange(List<MineCPEWatchRecordBean.DataBean> dataBeanList) {
         this.list = dataBeanList;
 
         notifyDataSetChanged();
@@ -51,29 +52,35 @@ public class MineWatchRecordAdapter extends BaseAdapter<MineWatchRecordBean.Data
 
     @Override
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
-        MineWatchRecordBean.DataBean bean = list.get(position);
-        String app_img = bean.getApp_img();
-        String course_name = bean.getCourse_name();
-        String video_name = bean.getVideo_name();
-        int watch_time = bean.getWatch_time();
+        MineCPEWatchRecordBean.DataBean bean = list.get(position);
+        String appImg = bean.getApp_img();
+        String name = bean.getName();
+        String videoName = bean.getVideo_name();
+        String videoTime = bean.getVideo_time();
+        String complete = bean.getComplete();
 
         RequestOptions requestOptions = new RequestOptions()
                 .transform(new RoundedCornersTransformation(DensityUtil.dp2px(5), 0))
                 .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-        GlideUtils.load(context, app_img, holder.mCourseImageItem, requestOptions);
+        GlideUtils.load(context, appImg, holder.mCourseImageItem, requestOptions);
 
-        if (!TextUtils.isEmpty(course_name)) {
-            holder.mCourseTitleItem.setText(course_name);
+        if (!TextUtils.isEmpty(name)) {
+            holder.mCourseTitleItem.setText(name);
         }
-        if (!TextUtils.isEmpty(video_name)) {
-            holder.mCourseSubtitleItem.setText(video_name);
+        if (!TextUtils.isEmpty(videoName)) {
+            holder.mCourseSubtitleItem.setText(videoName);
         }
-        String formatMs = TimeFormater.formatSeconds(watch_time);
-        holder.mCourseTimeItem.setText(String.valueOf(context.getString(R.string.course_courseDuration) + formatMs));
+        holder.mCourseTimeItem.setText(String.valueOf(context.getString(R.string.course_courseDuration) + videoTime));
 
-        holder.mCompletedTxt.setVisibility(View.GONE);
+        if (TextUtils.equals(complete, String.valueOf(1))) {
+            holder.mCompletedTxt.setText(context.getResources().getString(R.string.completed));
+            holder.mCompletedTxt.setTextColor(ContextCompat.getColor(context, R.color.color_0267FF));
+        } else {
+            holder.mCompletedTxt.setText(context.getResources().getString(R.string.no_completed));
+            holder.mCompletedTxt.setTextColor(ContextCompat.getColor(context, R.color.color_666666));
+        }
     }
 
     @Override
@@ -82,6 +89,7 @@ public class MineWatchRecordAdapter extends BaseAdapter<MineWatchRecordBean.Data
         View inflate = layoutInflater.inflate(R.layout.item_watchrecord, viewGroup, false);
         return new ViewHolder(inflate);
     }
+
 
     protected class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView mCourseImageItem;
@@ -103,4 +111,5 @@ public class MineWatchRecordAdapter extends BaseAdapter<MineWatchRecordBean.Data
             mCompletedTxt = (TextView) itemView.findViewById(R.id.txt_completed);
         }
     }
+
 }

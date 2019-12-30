@@ -83,7 +83,7 @@ public class MineAskQuestionsFragment extends BaseFragment implements IQuestionA
             }
         });
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.setReverseLayout(false);
         recyclerview.setLayoutManager(layoutManager);
@@ -141,7 +141,7 @@ public class MineAskQuestionsFragment extends BaseFragment implements IQuestionA
     //TODO 设置适配器
     private void initAdapter() {
         if (questionAnswerListAdapter == null) {
-            questionAnswerListAdapter = new QuestionAnswerListAdapter(list, getActivity());
+            questionAnswerListAdapter = new QuestionAnswerListAdapter(list, getContext());
             recyclerview.setAdapter(questionAnswerListAdapter);
         } else {
             questionAnswerListAdapter.notifyChange(list);

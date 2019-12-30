@@ -253,14 +253,14 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
      * 弹出活动页
      */
     private void activeEvent(String url) {
-        new ActiveEventDialog(getActivity()).builder()
+        new ActiveEventDialog(getContext()).builder()
                 .setCancelable(true)
                 .setImageUrl(url)
                 .setCanceledOnTouchOutside(true)
                 .setNegativeButton(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        startActivity(new Intent(getContext(), LoginActivity.class));
                     }
                 }).show();
     }
@@ -268,7 +268,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     //获取学习中心首页数据
     public void updateDataInfo() {
         if (sharedPreferencesUtils == null) {
-            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getActivity());
+            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
         }
         loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
@@ -329,7 +329,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
      * 清除用户信息
      */
     private void userInfoClear() {
-        userIcon.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.mipmap.icon_headdefault));
+        userIcon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.icon_headdefault));
         userNickname.setText(getResources().getString(R.string.learncenter_login));
         userClockinDay.setText(String.valueOf(0));
     }
@@ -461,10 +461,12 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
             @Override
             public void onItemClick(View view, int position) {
                 if (loginStatus) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constant.COURSE_ID, planBeanList.get(position).getCourse_id());
-                    bundle.putInt(Constant.TYPE, planBeanList.get(position).getIs_exper());
-                    startActivity(AddLearningTimeActivity.class, bundle);
+                    if (planBeanList != null && planBeanList.size() > 0) {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt(Constant.COURSE_ID, planBeanList.get(position).getCourse_id());
+                        bundle.putInt(Constant.TYPE, planBeanList.get(position).getIs_exper());
+                        startActivity(AddLearningTimeActivity.class, bundle);
+                    }
                 } else {
                     startActivity(LoginActivity.class, null);
                 }

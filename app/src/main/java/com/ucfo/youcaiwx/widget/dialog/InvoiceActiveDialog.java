@@ -205,7 +205,7 @@ public class InvoiceActiveDialog extends DialogFragment implements View.OnClickL
         switch (v.getId()) {
             case R.id.btn_invoiceinfomation:
                 // TODO 19/08/02 发票须知
-                new InvoiceInfomationDialog(getActivity()).builder().setCancelable(false).setCanceledOnTouchOutside(false).setNegativeButton(new View.OnClickListener() {
+                new InvoiceInfomationDialog(getContext()).builder().setCancelable(false).setCanceledOnTouchOutside(false).setNegativeButton(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -324,6 +324,6 @@ public class InvoiceActiveDialog extends DialogFragment implements View.OnClickL
     }
 
     public void toastInfo(String info) {
-        ToastUtil.showBottomShortText(getActivity(), info);
+        ToastUtil.showBottomShortText(getContext(), info);
     }
 }

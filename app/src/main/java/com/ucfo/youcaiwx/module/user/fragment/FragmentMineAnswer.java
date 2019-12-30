@@ -71,10 +71,10 @@ public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView 
         if (activity instanceof MineAnswerQuestionActivity) {
             mineAnswerQuestionActivity = (MineAnswerQuestionActivity) getActivity();
         }
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(layoutManager);
-        int topBottom = DensityUtil.dip2px(getActivity(), 6);
+        int topBottom = DensityUtil.dp2px(6);
         recyclerview.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
         recyclerview.setNestedScrollingEnabled(false);
     }
@@ -173,7 +173,7 @@ public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView 
 
     private void initAdapter() {
         if (courseAnswerListAdapter == null) {
-            courseAnswerListAdapter = new CourseAnswerListAdapter(list, getActivity(), type);
+            courseAnswerListAdapter = new CourseAnswerListAdapter(list, getContext(), type);
             recyclerview.setAdapter(courseAnswerListAdapter);
         } else {
             courseAnswerListAdapter.notifyChange(list);

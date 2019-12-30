@@ -124,8 +124,8 @@ public class DownloadCompletesFragment extends BaseFragment {
 
     //TODO 手机可用空间大小
     private void initSdcardSpace() {
-        String availSize = StorageQueryUtil.getAvailSize(getActivity());
-        String totalSize = StorageQueryUtil.getTotalSize(getActivity());
+        String availSize = StorageQueryUtil.getAvailSize(getContext());
+        String totalSize = StorageQueryUtil.getTotalSize(getContext());
         sdcardTotalSpace.setText(totalSize);
         sdcardResidueSpace.setText(availSize);
     }
@@ -177,7 +177,7 @@ public class DownloadCompletesFragment extends BaseFragment {
         }
 
         if (downloadingAdapter == null) {
-            downloadingAdapter = new DownloadingAdapter(alivcDownloadMediaInfos, getActivity());
+            downloadingAdapter = new DownloadingAdapter(alivcDownloadMediaInfos, getContext());
         } else {
             downloadingAdapter.notifyDataSetChanged();
         }

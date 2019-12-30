@@ -251,7 +251,7 @@ public class RegisterActivity extends BaseActivity implements IRegisterView {
 
                 break;
             case R.id.tv_forgetpass://TODO 忘记密码
-                startActivity(new Intent(context, CompleteAndForgetActivity.class));
+                startActivity(new Intent(this, CompleteAndForgetActivity.class));
                 break;
             case R.id.verification_btn://TODO 获取短信验证码
                 mobile = etRegisterPhone.getText().toString().trim();

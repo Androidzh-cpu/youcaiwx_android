@@ -119,7 +119,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
      */
     private void loadNetData() {
         if (sharedPreferencesUtils == null) {
-            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(Objects.requireNonNull(getActivity()));
+            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(Objects.requireNonNull(getContext()));
         }
         if (questionBankHomePresenter == null) {
             questionBankHomePresenter = new QuestionBankHomePresenter(this);
@@ -151,7 +151,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             projectList.clear();
         }
         if (sharedPreferencesUtils == null) {
-            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(Objects.requireNonNull(getActivity()));
+            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(Objects.requireNonNull(getContext()));
         }
         sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
 
@@ -249,7 +249,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     public void startToActivity(Bundle bundle, Class<?> cls) {
         if (loginStatus) {
             if (projectList != null && projectList.size() > 0) {
-                Intent intent = new Intent(getActivity(), cls);
+                Intent intent = new Intent(getContext(), cls);
                 if (bundle != null) {
                     intent.putExtras(bundle);
                 }
@@ -434,7 +434,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     private void subjectWindow() {
         if (projectList != null && projectList.size() > 1) {
             View mContentView = null;
-            mContentView = LayoutInflater.from(getActivity()).inflate(R.layout.popuwindow_subject, null, false);
+            mContentView = LayoutInflater.from(getContext()).inflate(R.layout.popuwindow_subject, null, false);
             if (popupWindow == null) {
                 popupWindow = new PopupWindow(mContentView);
                 popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
@@ -451,7 +451,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
 
             ListView recyclerView = mContentView.findViewById(R.id.subject_recyclerview);
             if (subjectAdapter == null) {
-                subjectAdapter = new SubjectAdapter(getActivity(), projectList);
+                subjectAdapter = new SubjectAdapter(getContext(), projectList);
             } else {
                 subjectAdapter.notifyDataSetChanged();
             }
@@ -461,7 +461,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     currentSubjectId = projectList.get(position).getId();//当前选中的科目ID
                     if (sharedPreferencesUtils == null) {
-                        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getActivity());
+                        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
                     }
                     sharedPreferencesUtils.putInt(Constant.SUBJECT_ID, currentSubjectId);//存放当前的科目ID
 

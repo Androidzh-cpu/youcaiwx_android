@@ -52,7 +52,7 @@ public class IntegralSubsidiaryFragment extends BaseFragment implements IIntegra
     }
 
     private void initLayoutManager() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(linearLayoutManager);
         int topBottom = DensityUtil.dp2px(0.5F);
@@ -63,7 +63,7 @@ public class IntegralSubsidiaryFragment extends BaseFragment implements IIntegra
     @Override
     protected void initData() {
         integralPresenter = new IntegralPresenter(this);
-        SharedPreferencesUtils sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getActivity());
+        SharedPreferencesUtils sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
 
         list = new ArrayList<>();
@@ -121,7 +121,7 @@ public class IntegralSubsidiaryFragment extends BaseFragment implements IIntegra
 
     private void initAdapter() {
         if (integralDetailAdapter == null) {
-            integralDetailAdapter = new IntegralDetailAdapter(list, getActivity());
+            integralDetailAdapter = new IntegralDetailAdapter(list, getContext());
             recyclerview.setAdapter(integralDetailAdapter);
         } else {
             integralDetailAdapter.notifyChange(list);

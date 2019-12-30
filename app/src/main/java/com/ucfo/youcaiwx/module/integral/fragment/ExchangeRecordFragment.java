@@ -59,17 +59,17 @@ public class ExchangeRecordFragment extends BaseFragment implements IIntegralExc
         refreshlayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
 
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(linearLayoutManager);
         int left = DensityUtil.dp2px(12);
         int top = DensityUtil.dp2px(0.5F);
-        recyclerview.addItemDecoration(new SpacesItemDecoration(left, top, ContextCompat.getColor(getActivity(), R.color.color_E6E6E6)));
+        recyclerview.addItemDecoration(new SpacesItemDecoration(left, top, ContextCompat.getColor(getContext(), R.color.color_E6E6E6)));
     }
 
     @Override
     protected void initData() {
-        SharedPreferencesUtils sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getActivity());
+        SharedPreferencesUtils sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         integralPresenter = new IntegralPresenter(this);
 
@@ -130,7 +130,7 @@ public class ExchangeRecordFragment extends BaseFragment implements IIntegralExc
 
     private void initAdapter() {
         if (integralExchangeRecordAdapter == null) {
-            integralExchangeRecordAdapter = new IntegralExchangeRecordAdapter(list, getActivity());
+            integralExchangeRecordAdapter = new IntegralExchangeRecordAdapter(list, getContext());
             recyclerview.setAdapter(integralExchangeRecordAdapter);
         } else {
             integralExchangeRecordAdapter.notifyChange(list);

@@ -152,7 +152,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
     protected void initData() {
         //获取待下载视频
         offlineCourseActivityParcelableArrayList = offlineCourseActivity.getParcelableArrayList();
-        downloadWifi = SharedPreferencesUtils.getInstance(getActivity()).getBoolean(Constant.DOWNLOAD_WIFI, false);
+        downloadWifi = SharedPreferencesUtils.getInstance(getContext()).getBoolean(Constant.DOWNLOAD_WIFI, false);
         gson = new Gson();
     }
 
@@ -167,11 +167,11 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
 
                     @Override
                     public void onPermissionDenied(Permission[] refusedPermissions) {
-                        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity(), R.style.WhiteDialogStyle);
+                        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getContext(), R.style.WhiteDialogStyle);
                         builder.setTitle(getActivity().getResources().getString(R.string.explication));
-                        builder.setMessage(getActivity().getResources().getString(R.string.permission_sdcard));
+                        builder.setMessage(getContext().getResources().getString(R.string.permission_sdcard));
                         builder.setCancelable(false);
-                        builder.setPositiveButton(getActivity().getResources().getString(R.string.donner),
+                        builder.setPositiveButton(getContext().getResources().getString(R.string.donner),
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -262,7 +262,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
      * 初始化网络监听
      */
     private void initNetWatchdog() {
-        mNetWatchdog = new NetWatchdog(getActivity());
+        mNetWatchdog = new NetWatchdog(getContext());
         mNetWatchdog.setNetChangeListener(new MyNetChangeListener());
         mNetWatchdog.setNetConnectedListener(new MyNetConnectedListener());
     }
@@ -271,8 +271,8 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
      * 手机可用空间大小
      */
     private void initSdcardSpace() {
-        String availSize = StorageQueryUtil.getAvailSize(getActivity());
-        String totalSize = StorageQueryUtil.getTotalSize(getActivity());
+        String availSize = StorageQueryUtil.getAvailSize(getContext());
+        String totalSize = StorageQueryUtil.getTotalSize(getContext());
         sdcardTotalSpace.setText(totalSize);
         sdcardResidueSpace.setText(availSize);
     }
@@ -302,7 +302,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
      */
     private void initDownloadingAdapter() {
         if (downloadingAdapter == null) {
-            downloadingAdapter = new DownloadingAdapter(alivcDownloadingMediaInfos, getActivity());
+            downloadingAdapter = new DownloadingAdapter(alivcDownloadingMediaInfos, getContext());
             listView.setAdapter(downloadingAdapter);
         } else {
             downloadingAdapter.setData(alivcDownloadingMediaInfos);
@@ -545,7 +545,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
                         info.getQuality().equals(downloadMediaInfo.getAliyunDownloadMediaInfo().getQuality()) &&
                         info.getVid().equals(downloadMediaInfo.getAliyunDownloadMediaInfo().getVid()) &&
                         info.isEncripted() == downloadMediaInfo.getAliyunDownloadMediaInfo().isEncripted()) {
-                    ToastUtil.showBottomShortText(getActivity(), context.getResources().getString(R.string.alivc_video_downloading_tips));
+                    ToastUtil.showBottomShortText(getContext(), context.getResources().getString(R.string.alivc_video_downloading_tips));
                     return true;
                 }
             }
@@ -755,7 +755,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
                     }
                 }
                 int size = alivcDownloadMediaInfos.size();
-                new AlertDialog(getActivity()).builder()
+                new AlertDialog(getContext()).builder()
                         .setMsg(getResources().getString(R.string.download_deleteComfirm, String.valueOf(size)))
                         .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
                             @Override
@@ -812,7 +812,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
                         }
                     }
                     if (unCompleteDownload > 0) {
-                        ToastUtil.showBottomShortText(getActivity(), getResources().getString(R.string.alivc_video_download_startdownwithhand));
+                        ToastUtil.showBottomShortText(getContext(), getResources().getString(R.string.alivc_video_download_startdownwithhand));
                     }
                 }
             }

@@ -65,7 +65,7 @@ public class MineCourseActivity extends BaseActivity {
         mRighttitleTitlebar = (TextView) findViewById(R.id.titlebar_righttitle);
         mToolbarTitlebar = (Toolbar) findViewById(R.id.titlebar_toolbar);
         mViewpager = (ViewPager) findViewById(R.id.viewpager);
-    }
+}
 
     @Override
     protected void initData() {

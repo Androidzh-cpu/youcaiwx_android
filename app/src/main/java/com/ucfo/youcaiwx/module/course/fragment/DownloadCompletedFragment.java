@@ -86,7 +86,7 @@ public class DownloadCompletedFragment extends BaseFragment implements View.OnCl
         }
         initSdcardSpace();
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         listView.setLayoutManager(layoutManager);
     }
@@ -166,7 +166,7 @@ public class DownloadCompletedFragment extends BaseFragment implements View.OnCl
              */
             if (finalList != null && finalList.size() > 0) {
                 if (courseListAdapter == null) {
-                    courseListAdapter = new DownloadCompletedCourseListAdapter(finalList, getActivity());
+                    courseListAdapter = new DownloadCompletedCourseListAdapter(finalList, getContext());
                     listView.setAdapter(courseListAdapter);
                 } else {
                     courseListAdapter.notifyChange(finalList);
@@ -226,8 +226,8 @@ public class DownloadCompletedFragment extends BaseFragment implements View.OnCl
 
     //TODO 手机可用空间大小
     private void initSdcardSpace() {
-        String availSize = StorageQueryUtil.getAvailSize(getActivity());
-        String totalSize = StorageQueryUtil.getTotalSize(getActivity());
+        String availSize = StorageQueryUtil.getAvailSize(getContext());
+        String totalSize = StorageQueryUtil.getTotalSize(getContext());
         sdcardTotalSpace.setText(totalSize);
         sdcardResidueSpace.setText(availSize);
     }
@@ -313,7 +313,7 @@ public class DownloadCompletedFragment extends BaseFragment implements View.OnCl
                 }
             }
         }
-        new AlertDialog(getActivity()).builder()
+        new AlertDialog(getContext()).builder()
                 .setMsg(getResources().getString(R.string.download_deleteComfirm, arrayList.size()))
                 .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
                     @Override

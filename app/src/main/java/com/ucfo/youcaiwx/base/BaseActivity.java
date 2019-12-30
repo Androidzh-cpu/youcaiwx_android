@@ -121,6 +121,8 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
         ActivityUtil.getInstance().removeActivity(this);
         //取消请求
         OkGo.getInstance().cancelTag(this);
+
+        dismissPorcess();
     }
 
     /**

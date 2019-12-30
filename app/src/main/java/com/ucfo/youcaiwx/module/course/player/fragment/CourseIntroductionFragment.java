@@ -137,13 +137,13 @@ public class CourseIntroductionFragment extends BaseFragment {
     protected void initData() {
         teacehrListBeanList = new ArrayList<>();
 
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(Objects.requireNonNull(getActivity()));
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getContext());
         layoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerviewTeacher.setLayoutManager(layoutManager2);
         recyclerviewTeacher.setItemAnimator(new DefaultItemAnimator());
         int topBottom = DensityUtil.dp2px(1);
         int leftright = DensityUtil.dp2px(12);
-        int color = ContextCompat.getColor(Objects.requireNonNull(getActivity()), R.color.color_E6E6E6);
+        int color = ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.color_E6E6E6);
         recyclerviewTeacher.addItemDecoration(new SpacesItemDecoration(leftright, topBottom, color));
         recyclerviewTeacher.setNestedScrollingEnabled(false);
         loadinglayout.setRetryListener(new View.OnClickListener() {
@@ -164,7 +164,7 @@ public class CourseIntroductionFragment extends BaseFragment {
         super.onLazyLoadOnce();
         if (videoPlayPageActivity != null) {
             course_packageId = videoPlayPageActivity.getCoursePackageId();
-            user_id = SharedPreferencesUtils.getInstance(Objects.requireNonNull(getActivity())).getInt(Constant.USER_ID, 0);
+            user_id = SharedPreferencesUtils.getInstance(getContext()).getInt(Constant.USER_ID, 0);
 
             loadCourseInfo(course_packageId, user_id);
         }
@@ -383,8 +383,8 @@ public class CourseIntroductionFragment extends BaseFragment {
     }
 
     private void teacherDialog(CourseIntroductionBean.DataBean.TeacehrListBean teacehrListBean) {
-        teacherDialog = new Dialog(Objects.requireNonNull(getActivity()), R.style.TeacherDialog);
-        View contentView = LayoutInflater.from(Objects.requireNonNull(getActivity())).inflate(R.layout.dialog_teacher_detail, null);
+        teacherDialog = new Dialog(getContext(), R.style.TeacherDialog);
+        View contentView = LayoutInflater.from(Objects.requireNonNull(getContext())).inflate(R.layout.dialog_teacher_detail, null);
         teacherDialog.setContentView(contentView);
         ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
         layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -422,7 +422,7 @@ public class CourseIntroductionFragment extends BaseFragment {
                 .centerCrop()
                 .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror);
-        GlideUtils.load(getActivity(), pictrue, mIconTeacher, requestOptions);
+        GlideUtils.load(getContext(), pictrue, mIconTeacher, requestOptions);
         mtitleTeacher.setText(teacher_title);
         mDetailTeacher.setText(longevity);
         mNameTeacher.setText(teacher_name);

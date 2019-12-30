@@ -57,7 +57,7 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
 
     @Override
     protected void initView(View itemView) {
-        context = getActivity();
+        context = getContext();
         recyclerview = (ShimmerRecyclerView) itemView.findViewById(R.id.recyclerview);
         refreshlayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
         loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
@@ -152,7 +152,7 @@ public class CourseChildListFragment extends BaseFragment implements ICourseList
 
     private void initAdapter(List<CourseDataListBean.DataBean> courseList) {
         if (courseChildListApapter == null) {
-            courseChildListApapter = new CourseChildListApapter(courseList, getActivity());
+            courseChildListApapter = new CourseChildListApapter(courseList, getContext());
             recyclerview.setAdapter(courseChildListApapter);
         } else {
             courseChildListApapter.notifyChange(courseList);

@@ -276,7 +276,7 @@ public class CoursePlayPresenter {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        view.checkWitherSigninResult(0);
+                        view.signinResult(0);
                     }
 
                     @Override
@@ -289,15 +289,15 @@ public class CoursePlayPresenter {
                                     JSONObject data = jsonObject.optJSONObject(Constant.DATA);
                                     String string = data.optString(Constant.STATUS);
                                     if (TextUtils.isEmpty(string)) {
-                                        view.checkWitherSigninResult(0);
+                                        view.signinResult(0);
                                     } else {
-                                        view.checkWitherSigninResult(Integer.parseInt(string));
+                                        view.signinResult(Integer.parseInt(string));
                                     }
                                 } else {
-                                    view.checkWitherSigninResult(0);
+                                    view.signinResult(0);
                                 }
                             } else {
-                                view.checkWitherSigninResult(0);
+                                view.signinResult(0);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

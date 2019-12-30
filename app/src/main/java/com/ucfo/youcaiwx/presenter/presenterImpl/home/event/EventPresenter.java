@@ -91,7 +91,7 @@ public class EventPresenter implements IEventPresenter {
         OkGo.<String>post(ApiStores.HOME_EVENTDETAILED)
                 .tag(this)
                 .params(Constant.USER_ID, user_id)
-                .params("preview_id", id)
+                .params(Constant.PREVIEW_ID, id)
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {

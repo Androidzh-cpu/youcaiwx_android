@@ -56,6 +56,11 @@ public class ApiStores {
     public static final String PAY_AGREEMENT = "https://www.youcaiwx.cn/Agreement/buy.html";
     //关于SB
     public static final String USER_ABOUT_YOUCAI = "https://www.youcaiwx.cn/About/aboutyoucai.html";
+    //用户能力评估
+    public static final String QUESTION_AbilityTOAssess = "https://www.youcaiwx.cn/capacity-assessment-app";
+    //后续教育分享地址
+    public static final String EDUCATION_COURSE_SHARE = "https://www.youcaiwx.cn/education-preview-sign";
+
     //-----------------------------------------TODO 协议 end--------------------------------------------------------------//
 
 
@@ -80,6 +85,7 @@ public class ApiStores {
     public static final String HOME_EVENT_COMMIT = BASE_URL + "Education/activityUser";
 
     //-----------------------------------------TODO 后续教育 start------------------------------------------------------------------------------//
+
     public static final String EDUCATION_CLASSIFICATION = BASE_URL + "Education/deuType";
     public static final String EDUCATION_COURSE_LIST = BASE_URL + "Education/listPackage";
     //课程简介
@@ -96,6 +102,9 @@ public class ApiStores {
     public static final String EDUCATION_COURSE_RECORD = BASE_URL + "Education/record";
     //后续教育课程
     public static final String EDUCATION_COURSE_MINECOURSE = BASE_URL + "Education/myCPEcourse";
+    //观看记录
+    public static final String EDUCATION_COURSE_WATCHRECORD = BASE_URL + "Education/watchRecords";
+
     //-----------------------------------------TODO 后续教育 end------------------------------------------------------------------------------//
 
     //-----------------------------------------TODO 登录注册 start------------------------------------------------------------------------------//
@@ -167,10 +176,6 @@ public class ApiStores {
     public static final String QUESTION_GETPROJECTINFO = BASE_URL + "Question/questionIndex";
     //获取用户答题记录
     public static final String QUESTION_GETQUSTIONONRECORD = BASE_URL + "Question/questionRecord";
-    //用户能力评估
-    //public static final String QUESTION_AbilityTOAssess = "https://www.youcaiwx.cn/capacity-assessment-app?course_id=1&user_id=2";
-    //public static final String QUESTION_AbilityTOAssess = "https://www.youcaiwx.cn/#/capacity-assessment-app";
-    public static final String QUESTION_AbilityTOAssess = "https://www.youcaiwx.cn/capacity-assessment-app";
     //阶段测试列表
     public static final String QUESTION_GETSTAGEOFTESTLIST = BASE_URL + "Question/getCourse";
     //组卷模考列表
@@ -293,8 +298,6 @@ public class ApiStores {
     public static final String MINE_ORDERFORM_CANCEL = BASE_URL + "Personal/cancelOrder";
     //完成,取消订单详情
     public static final String MINE_ORDERFORM_HASBEENDETAIL = BASE_URL + "Personal/alreadyOrderlist";
-    //待支付订单详情
-    public static final String MINE_ORDERFORM_NOTPAYDETAIL = BASE_URL + "Personal/stayOrderlist";
     //我的优惠券
     public static final String MINE_COUPONS = BASE_URL + "Orders/coupons";
     //-----------------------------------------TODO 个人中心 end ----------------------------------------------------------------------//

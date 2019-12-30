@@ -150,7 +150,7 @@ public class ClassFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 String alt = subjects.get(position).getAlt();
-                Intent intent = new Intent(getActivity(), WebActivity.class);
+                Intent intent = new Intent(getContext(), WebActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString(Constant.WEB_URL, alt);
                 intent.putExtras(bundle);

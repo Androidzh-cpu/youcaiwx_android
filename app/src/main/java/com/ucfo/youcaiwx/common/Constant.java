@@ -184,10 +184,13 @@ public class Constant {
     public static final String INTEGRAL_COUNTER = "integral_counter";
 
     public static final String CLASS_ID = "class_id";//课程筛选分类id
+    public static final String PREVIEW_ID = "preview_id";//课程筛选分类id
     public static final String COURSE_PACKAGE_ID = "course_PackageId";//课程包的ID
     public static final String COURSE_COVER_IMAGE = "course_coverimage";//课程包封面
     public static final String COURSE_UN_CON = "course_un_con";//课程包正课区分  是否是正课1正课2非正课
     public static final String COURSE_SOURCE = "course_source";//进入课程播放页的来源
+    //视频源_副本
+    public static final String COURSE_SOURCE_DEPUTY = "course_source_deputy";
     public static final String COURSE_BUY_STATE = "course_buy_state";//课程包用户是否购买
     public static final String COURSE_VIDEOID = "VideoId";//阿里播放视频的vid
     public static final String COURSE_PRICE = "price";//课程包价格
@@ -218,6 +221,7 @@ public class Constant {
     public static final String LOCAL_PLAYURL = "localPlayUrl";//本地视频播放地址
     public static final String COLLECTION = "collection";//收藏
     public static final String WATCH_RECORD = "watch_record";//观看记录
+    public static final String WATCH_CPE_RECORD = "cpe_watch_record";//CPE观看记录
     public static final String WATCH_LEARNPLAN = "watch_learnPlan";//学习计划
     public static final String WATCH_ANSWERDETAILED = "watch_answerDetailed";//课程答疑查看视频
     public static final String WATCH_EDUCATION_CPE = "education_CPE";//后续教育

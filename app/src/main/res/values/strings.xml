@@ -141,8 +141,8 @@
     <string name="course_notAsk">该课程无法提问</string>
     <string name="course_completed">播放完毕</string>
     <string name="course_videoLoading">视频加载中</string>
-    <string name="course_courseDuration">课程时长</string>
-    <string name="course_freeWatchCompleted">试看结束,请购买相关课程</string>
+    <string name="course_courseDuration">课程时长:\u3000</string>
+    <string name="course_freeWatchCompleted">试看结束,请购买相关课程\u3000</string>
     <string name="course_speed">%sX</string>
     <!-- Strings related to 课程 end-->
 
@@ -160,6 +160,7 @@
     <string name="mine_orderDetail">订单详情</string>
     <string name="mine_answer">我的问答</string>
     <string name="mine_record">观看记录</string>
+    <string name="mine_CPErecord">CPE记录</string>
     <string name="mine_wxRemind">微信学习提醒</string>
     <string name="mine_recommendfriend">推荐给好友</string>
     <string name="mine_connectOurs">联系我们</string>
@@ -625,6 +626,8 @@
     <string name="image_size_to_small">大小不超过 %1$sM。</string>
     <string name="error_size_to_small">长宽不小于 %1$dpx，且大小不超过 %2$sM。</string>
     <string name="guide_jump">跳过</string>
+    <string name="completed">已完成</string>
+    <string name="no_completed">未完成</string>
     <string name="guide_tomain">立即体验</string>
     <string name="home_title">优财网校</string>
     <string name="mine_title">个人中心</string>

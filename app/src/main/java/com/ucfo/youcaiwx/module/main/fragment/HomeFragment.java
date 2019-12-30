@@ -172,7 +172,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
 
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) statusbarView.getLayoutParams();
         layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        layoutParams.height = StatusBarUtil.getStatusBarHeight(getActivity());
+        layoutParams.height = StatusBarUtil.getStatusBarHeight(getContext());
         statusbarView.setLayoutParams(layoutParams);
     }
 
@@ -197,7 +197,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                 homePresenter.getHomeData("home");
             }
         });
-        WindowManager wm = (WindowManager) Objects.requireNonNull(getActivity()).getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) Objects.requireNonNull(getContext()).getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         if (wm != null) {
             wm.getDefaultDisplay().getMetrics(dm);
@@ -258,7 +258,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                                 .checkAndRequestPermission(Manifest.permission.CAMERA, new CheckRequestPermissionListener() {
                                     @Override
                                     public void onPermissionOk(Permission permission) {
-                                        startActivity(new Intent(getActivity(), ScanActivity.class));
+                                        startActivity(new Intent(getContext(), ScanActivity.class));
                                     }
 
                                     @Override
@@ -266,14 +266,14 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                                     }
                                 });
                     } else {
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        startActivity(new Intent(getContext(), LoginActivity.class));
                     }
                     break;
                 case R.id.titlebar_message://TODO 消息
                     if (loginStatus) {
-                        startActivity(new Intent(getActivity(), MessageCenterActivity.class));
+                        startActivity(new Intent(getContext(), MessageCenterActivity.class));
                     } else {
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        startActivity(new Intent(getContext(), LoginActivity.class));
                     }
                     break;
                 case R.id.icon_live://TODO 直播
@@ -298,7 +298,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                     startActivity(EventActivity.class, null);
                     break;
                 case R.id.check_more_course://TODO 查看更多课程
-                    startActivity(new Intent(getActivity(), CourseListActivity.class));
+                    startActivity(new Intent(getContext(), CourseListActivity.class));
                     break;
                 case R.id.icon_news://TODO 资讯
                 case R.id.check_more_news://TODO 查看更多资讯
@@ -441,7 +441,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                 View currentView = hotFilpper.getCurrentView();
                 String s = hotspot.get(displayedChild).getTitle();
                 String jumphref = hotspot.get(displayedChild).getJumphref();
-                Intent intent = new Intent(getActivity(), WebActivity.class);
+                Intent intent = new Intent(getContext(), WebActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString(Constant.WEB_URL, jumphref);
                 bundle.putString(Constant.WEB_TITLE, s);
@@ -458,7 +458,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
      */
     private void initLiveAdapter(List<HomeBean.DataBean.BroadcastBean> liveList) {
         if (homeLiveAdapter == null) {
-            homeLiveAdapter = new HomeLiveAdapter(liveList, getActivity());
+            homeLiveAdapter = new HomeLiveAdapter(liveList, getContext());
             recyclerviewLive.setAdapter(homeLiveAdapter);
         } else {
             homeLiveAdapter.notifyChange(liveList);
@@ -483,7 +483,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     private void initCourseAdapter(List<HomeBean.DataBean.CurriculumBean> courseList) {
         //设置适配器
         if (homeCourseRecommendAdapter == null) {
-            homeCourseRecommendAdapter = new HomeCourseRecommendAdapter(courseList, getActivity());
+            homeCourseRecommendAdapter = new HomeCourseRecommendAdapter(courseList, getContext());
             recyclerviewCourse.setAdapter(homeCourseRecommendAdapter);
         } else {
             homeCourseRecommendAdapter.notifyChange(courseList);
@@ -518,7 +518,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         layoutManager3.setReverseLayout(false);
         recyclerviewLive.setLayoutManager(layoutManager3);
 
-        int topBottom = DensityUtil.dip2px(getActivity(), 10);
+        int topBottom = DensityUtil.dp2px(10);
         //recyclerviewNews.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
         recyclerviewCourse.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
 

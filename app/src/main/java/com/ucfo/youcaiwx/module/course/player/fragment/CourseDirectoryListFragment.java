@@ -113,8 +113,8 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         refreshlayout = view.findViewById(R.id.refreshlayout);
         layoutMain = view.findViewById(R.id.layout_main);
 
-        userId = SharedPreferencesUtils.getInstance(getActivity()).getInt(Constant.USER_ID, 0);
-        loginStatus = SharedPreferencesUtils.getInstance(getActivity()).getBoolean(Constant.LOGIN_STATUS, false);
+        userId = SharedPreferencesUtils.getInstance(getContext()).getInt(Constant.USER_ID, 0);
+        loginStatus = SharedPreferencesUtils.getInstance(getContext()).getBoolean(Constant.LOGIN_STATUS, false);
 
         FragmentActivity activity = getActivity();
         if (activity instanceof VideoPlayPageActivity) {
@@ -131,7 +131,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     protected void initData() {
         courseDirPresenter = new CourseDirPresenter(this);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(layoutManager);
 
@@ -229,7 +229,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
      */
     private void initAdapter(List<CourseDirBean.DataBean> coursePackageLists) {
         if (coursePackageListAdapter == null) {
-            coursePackageListAdapter = new CoursePackageListAdapter(coursePackageLists, getActivity());
+            coursePackageListAdapter = new CoursePackageListAdapter(coursePackageLists, getContext());
             recyclerview.setAdapter(coursePackageListAdapter);
         }
         if (coursePackageListAdapter != null) {
@@ -273,8 +273,8 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         if (videoPlayPageActivity != null) {
             courseBuyState = videoPlayPageActivity.getCourseBuyState();
         }
-        if (getActivity() != null) {
-            layoutInflater = LayoutInflater.from(getActivity());
+        if (getContext() != null) {
+            layoutInflater = LayoutInflater.from(getContext());
         } else {
             Context context = getContext();
             if (context != null) {
@@ -287,7 +287,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         courseDirectoryPopupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         int measuredHeight = layoutMain.getMeasuredHeight();
         if (measuredHeight == 0) {
-            measuredHeight = DensityUtil.dip2px(getActivity(), 80);
+            measuredHeight = DensityUtil.dp2px( 80);
         }
         courseDirectoryPopupWindow.setHeight(measuredHeight);
         courseDirectoryPopupWindow.setFocusable(false);//区域外点击不消失
@@ -326,7 +326,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         courseName.setText(dataBean.getName());//课程名称
         courseTeacherName.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + dataBean.getTeacher_name()));//讲师名称
         if (courseDirWindowAdapter == null) {
-            courseDirWindowAdapter = new CourseDirWindowAdapter(getActivity(), sectionList);
+            courseDirWindowAdapter = new CourseDirWindowAdapter(getContext(), sectionList);
         }
         courseDirWindowAdapter.notifyDataSetChanged();
         if (courseDirWindowAdapter != null) {
@@ -447,7 +447,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                 }
             }
             if (section != null && groupIndex <= section.size() - 1) {
-                ToastUtil.showBottomLongText(getActivity(), getResources().getString(R.string.course_changing));
+                ToastUtil.showBottomLongText(getContext(), getResources().getString(R.string.course_changing));
                 //TODO 获取切换视频所需信息
                 CourseDirBean.DataBean.SectionBean.VideoBean videoBean = section.get(groupIndex).getVideo().get(sonIndex);
                 String vid = videoBean.getVideoId();

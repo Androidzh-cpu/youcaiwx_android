@@ -192,11 +192,18 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
     //TODO 设置解析
     private void initAnalysis() {
         //解析图片
-        String analysisPic = questionList.get(index).getAnalysisPic();
-        String analysisPic2 = questionList.get(index).getAnalysiscPic_One();
+        String analysisPic = "";
+        String analysisPic2 = "";
         //解析文字
-        String analysis = questionList.get(index).getAnalysis();
-        String analysis2 = questionList.get(index).getAnalysisc_One();
+        String analysis = "";
+        String analysis2 = "";
+        if (questionList != null && questionList.size() > 0) {
+            analysisPic = questionList.get(index).getAnalysisPic();
+            analysisPic2 = questionList.get(index).getAnalysiscPic_One();
+            analysis = questionList.get(index).getAnalysis();
+            analysis2 = questionList.get(index).getAnalysisc_One();
+        }
+
 
         //TODO 文字描述一
         if (!TextUtils.isEmpty(analysis)) {

@@ -60,4 +60,11 @@
             tools:text="课程时长：00:32:24" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/txt_completed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_12"
+        tools:text="已完成" />
+
 </LinearLayout>

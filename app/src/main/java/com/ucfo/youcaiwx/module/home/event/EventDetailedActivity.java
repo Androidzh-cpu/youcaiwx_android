@@ -162,7 +162,7 @@ public class EventDetailedActivity extends BaseActivity implements IEventView {
                         .setFriendButton(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String url = ApiStores.APP_DOWNLOAD_URL;
+                                String url = ApiStores.EDUCATION_COURSE_SHARE + "?preview_id=" + id + "&user_id=" + user_id;
                                 String title = getResources().getString(R.string.app_nameWX);
                                 String desc = getResources().getString(R.string.youcaiWXShareDescribe);
                                 ShareUtils.getInstance().shareUrlToWx(url, title, desc, SendMessageToWX.Req.WXSceneSession);
@@ -174,7 +174,7 @@ public class EventDetailedActivity extends BaseActivity implements IEventView {
                         .setCircleToFriendButton(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String url = ApiStores.APP_DOWNLOAD_URL;
+                                String url = ApiStores.EDUCATION_COURSE_SHARE + "?preview_id=" + id + "&user_id=" + user_id;
                                 String title = getResources().getString(R.string.app_nameWX);
                                 String desc = getResources().getString(R.string.youcaiWXShareDescribe);
                                 ShareUtils.getInstance().shareUrlToWx(url, title, desc, SendMessageToWX.Req.WXSceneTimeline);
@@ -290,6 +290,7 @@ public class EventDetailedActivity extends BaseActivity implements IEventView {
         String num = data.getNum();
         //总人数
         String peopleNum = data.getPeople_num();
+
 
 
         RequestOptions requestOptions = new RequestOptions()

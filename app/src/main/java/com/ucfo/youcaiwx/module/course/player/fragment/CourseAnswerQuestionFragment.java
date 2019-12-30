@@ -216,7 +216,7 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
                     }
                 } else {
                     //TODO 未登录
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
                     startActivity(intent);
                 }
             }

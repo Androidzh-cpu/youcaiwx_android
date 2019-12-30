@@ -8,32 +8,32 @@ import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
-import com.ucfo.youcaiwx.entity.user.MineCPECourseBean;
-import com.ucfo.youcaiwx.entity.user.MineCourseBean;
-import com.ucfo.youcaiwx.presenter.view.user.IMineCourseView;
+import com.ucfo.youcaiwx.entity.user.MineCPEWatchRecordBean;
+import com.ucfo.youcaiwx.entity.user.MineWatchRecordBean;
+import com.ucfo.youcaiwx.presenter.view.user.IWatchTheRecordView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
  * Author: AND
- * Time: 2019-6-18.  下午 2:20
- * FileName: MineCoursePresenter
- * Description:TODO 我的课程业务
+ * Time: 2019-12-30.  上午 11:07
+ * Package: com.ucfo.youcaiwx.presenter.presenterImpl.user
+ * FileName: WatchTheRecordPresenter
+ * Description:TODO 观看记录
  */
-public class MineCoursePresenter {
-    private IMineCourseView view;
+public class WatchTheRecordPresenter {
+    private IWatchTheRecordView view;
 
-    public MineCoursePresenter(IMineCourseView view) {
+    public WatchTheRecordPresenter(IWatchTheRecordView view) {
         this.view = view;
     }
 
     /**
-     * 获取我的后续教育课程
+     * 一般课程观看记录
      */
-    public void getMineCPECourseList(int user_id) {
-        OkGo.<String>post(ApiStores.EDUCATION_COURSE_MINECOURSE)
+    public void getMineWatcheRecordList(int user_id) {
+        OkGo.<String>post(ApiStores.USER_WATCHRECORD)
                 .params(Constant.USER_ID, user_id)
                 .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
                 .execute(new StringCallback() {
@@ -64,31 +64,28 @@ public class MineCoursePresenter {
                                 jsonObject = new JSONObject(body);
                                 int code = jsonObject.optInt(Constant.CODE);
                                 if (code == 200) {
-                                    Object data = jsonObject.get(Constant.DATA);
-                                    if (data instanceof JSONArray) {
-                                        MineCPECourseBean mineCPECourseBean = new Gson().fromJson(body, MineCPECourseBean.class);
-                                        view.getMineCPECourse(mineCPECourseBean);
-                                    } else {
-                                        view.getMineCPECourse(null);
-                                    }
+                                    Gson gson = new Gson();
+                                    MineWatchRecordBean mineCourseBean = gson.fromJson(body, MineWatchRecordBean.class);
+                                    view.getMineWatchRecord(mineCourseBean);
                                 } else {
-                                    view.getMineCPECourse(null);
+                                    view.getMineWatchRecord(null);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            view.getMineCPECourse(null);
+                            view.getMineWatchRecord(null);
                         }
                     }
                 });
     }
 
     /**
-     * 我的课程列表
+     * 后续教育观看记录
      */
-    public void getMineCourseList(int user_id) {
-        OkGo.<String>post(ApiStores.MINE_COURSE)
+    public void getMineCPEWatcheRecordList(int user_id) {
+        OkGo.<String>post(ApiStores.EDUCATION_COURSE_WATCHRECORD)
+                .tag(this)
                 .params(Constant.USER_ID, user_id)
                 .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
                 .execute(new StringCallback() {
@@ -119,25 +116,19 @@ public class MineCoursePresenter {
                                 jsonObject = new JSONObject(body);
                                 int code = jsonObject.optInt(Constant.CODE);
                                 if (code == 200) {
-                                    Object data = jsonObject.get(Constant.DATA);
-                                    if (data instanceof JSONArray) {
-                                        Gson gson = new Gson();
-                                        MineCourseBean mineCourseBean = gson.fromJson(body, MineCourseBean.class);
-                                        view.getMineCourse(mineCourseBean);
-                                    } else {
-                                        view.getMineCPECourse(null);
-                                    }
+                                    Gson gson = new Gson();
+                                    MineCPEWatchRecordBean mineCPEWatchRecordBean = gson.fromJson(body, MineCPEWatchRecordBean.class);
+                                    view.getMineCPEWatchRecord(mineCPEWatchRecordBean);
                                 } else {
-                                    view.getMineCourse(null);
+                                    view.getMineCPEWatchRecord(null);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            view.getMineCourse(null);
+                            view.getMineCPEWatchRecord(null);
                         }
                     }
                 });
     }
-
 }

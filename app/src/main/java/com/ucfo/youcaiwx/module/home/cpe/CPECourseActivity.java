@@ -623,6 +623,7 @@ public class CPECourseActivity extends BaseActivity implements IEducationView {
                 EducationCourseListBean.DataBeanX.DataBean bean = list.get(position);
                 String courseIamge = bean.getApp_img();//TODO 课程封面
                 String coursePackageId = bean.getPackage_id();//TODO  课程包ID(课程包内含多们课程)
+
                 if (TextUtils.isEmpty(coursePackageId)) {
                     showToast(getResources().getString(R.string.miss_params));
                     return;
@@ -630,6 +631,7 @@ public class CPECourseActivity extends BaseActivity implements IEducationView {
                 bundle.putString(Constant.COURSE_COVER_IMAGE, courseIamge);//封面
                 bundle.putString(Constant.COURSE_SOURCE, Constant.WATCH_EDUCATION_CPE);//播放源
                 bundle.putInt(Constant.COURSE_PACKAGE_ID, Integer.parseInt(coursePackageId));//课程包ID
+                bundle.putInt(Constant.PREVIEW_ID, Integer.parseInt(coursePackageId));//课程包ID
                 startActivity(VideoPlayPageActivity.class, bundle);
             }
         });

@@ -131,7 +131,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
     @Override
     protected void initData() {
         //广播意图 答案正确自动跳转到下一页
-        mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        mLocalBroadcastManager = LocalBroadcastManager.getInstance(getContext());
         intent = new Intent(Constant.BroadcastReceiver_TONEXT);
 
         FragmentActivity fragmentActivity = getActivity();
@@ -313,10 +313,8 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
                                     }
                                 }
                             }).show();
-
                 }
             }
-
         }
     }
 
@@ -327,20 +325,31 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
      */
     private void initAnalysis() {
         //解析图片1
-        String analysisPic = questionList.get(index).getAnalysisPic();
+        String analysisPic = "";
         //解析图片2
-        String analysisPic2 = questionList.get(index).getAnalysiscPic_One();
+        String analysisPic2 = "";
         //解析文字1
-        String analysis = questionList.get(index).getAnalysis();
+        String analysis = "";
         //解析文字2
-        String analysis2 = questionList.get(index).getAnalysisc_One();
-
+        String analysis2 = "";
         //错误率提示
-        String eprone = questionList.get(index).getEprone();
+        String eprone = "";
         //正确答案
-        String rightAnswer = optionsAnswerList.get(index).getTrue_options();
+        String rightAnswer = "";
         //用户答案
-        String userOption = optionsAnswerList.get(index).getUser_answer();
+        String userOption = "";
+        if (questionList != null && questionList.size() > 0) {
+            analysisPic = questionList.get(index).getAnalysisPic();
+            analysisPic2 = questionList.get(index).getAnalysiscPic_One();
+            analysis = questionList.get(index).getAnalysis();
+            analysis2 = questionList.get(index).getAnalysisc_One();
+            eprone = questionList.get(index).getEprone();
+        }
+        if (optionsAnswerList != null && optionsAnswerList.size() > 0) {
+            rightAnswer = optionsAnswerList.get(index).getTrue_options();
+            userOption = optionsAnswerList.get(index).getUser_answer();
+        }
+
 
         //TODO 错误率提示
         if (!TextUtils.isEmpty(eprone)) {

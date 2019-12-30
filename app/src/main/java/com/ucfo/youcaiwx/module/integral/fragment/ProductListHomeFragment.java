@@ -86,11 +86,11 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
     }
 
     private void initLyaoutManager() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerviewCoupon.setLayoutManager(linearLayoutManager);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
         gridLayoutManager.setSpanCount(3);
         recyclerviewGoods.setLayoutManager(gridLayoutManager);
         recyclerviewGoods.setNestedScrollingEnabled(false);
@@ -155,7 +155,7 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
 
     private void initAdapter() {
         if (integralHomeCouponAdapter == null) {
-            integralHomeCouponAdapter = new IntegralHomeCouponAdapter(getActivity(), couponBeanList);
+            integralHomeCouponAdapter = new IntegralHomeCouponAdapter(getContext(), couponBeanList);
         } else {
             integralHomeCouponAdapter.notifyDataSetChanged();
         }
@@ -172,7 +172,7 @@ public class ProductListHomeFragment extends BaseFragment implements IIntegralHo
         });
 
         if (integralHomeGoodsAdapter == null) {
-            integralHomeGoodsAdapter = new IntegralHomeGoodsAdapter(getActivity(), shopBeanList);
+            integralHomeGoodsAdapter = new IntegralHomeGoodsAdapter(getContext(), shopBeanList);
         } else {
             integralHomeGoodsAdapter.notifyDataSetChanged();
         }

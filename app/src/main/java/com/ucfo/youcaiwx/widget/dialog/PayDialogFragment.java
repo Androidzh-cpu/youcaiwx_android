@@ -115,7 +115,7 @@ public class PayDialogFragment extends DialogFragment implements View.OnClickLis
                 break;
             case R.id.btn_paynotice:
                 //TODO 19/11/01
-                Intent intent = new Intent(getActivity(), WebActivity.class);
+                Intent intent = new Intent(getContext(), WebActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.pay_agreement));
                 bundle.putString(Constant.WEB_URL, ApiStores.PAY_AGREEMENT);

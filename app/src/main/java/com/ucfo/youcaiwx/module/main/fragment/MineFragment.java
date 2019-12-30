@@ -320,8 +320,8 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
 
             }
         } else {//未登录,去登录页
-            if (getActivity() != null) {
-                startActivity(new Intent(getActivity(), LoginActivity.class));
+            if (getContext() != null) {
+                startActivity(new Intent(getContext(), LoginActivity.class));
             }
         }
     }
@@ -340,7 +340,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
     }
 
     private void noDev() {
-        new AlertDialog(Objects.requireNonNull(getActivity())).builder().setCancelable(false).setCanceledOnTouchOutside(false)
+        new AlertDialog(Objects.requireNonNull(getContext())).builder().setCancelable(false).setCanceledOnTouchOutside(false)
                 .setMsg("暂未开发")
                 .setNegativeButton(null, new View.OnClickListener() {
                     @Override

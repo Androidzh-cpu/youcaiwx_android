@@ -3,6 +3,7 @@ package com.ucfo.youcaiwx.module.user.fragment.course;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -17,13 +18,13 @@ import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.user.MineCPECourseBean;
 import com.ucfo.youcaiwx.entity.user.MineCourseBean;
-import com.ucfo.youcaiwx.entity.user.MineWatchRecordBean;
 import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
+import com.ucfo.youcaiwx.module.home.cpe.CPECourseActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineCoursePresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineCourseView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.widget.shimmer.ShimmerRecyclerView;
+import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +39,10 @@ import java.util.List;
 public class EducationFragment extends BaseFragment implements IMineCourseView, View.OnClickListener {
     private Button mLookCourseBtn;
     private LinearLayout linearLayout;
-    private ShimmerRecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private SmartRefreshLayout refreshLayout;
+    private LoadingLayout loadingLayout;
+
     private SharedPreferencesUtils sharedPreferencesUtils;
     private int user_id;
 
@@ -57,8 +60,9 @@ public class EducationFragment extends BaseFragment implements IMineCourseView, 
         mLookCourseBtn = (Button) itemView.findViewById(R.id.btn_lookCourse);
         mLookCourseBtn.setOnClickListener(this);
         linearLayout = (LinearLayout) itemView.findViewById(R.id.linear_holder);
-        recyclerView = (ShimmerRecyclerView) itemView.findViewById(R.id.recyclerview);
+        recyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerview);
         refreshLayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
+        loadingLayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
     }
 
     @Override
@@ -82,11 +86,17 @@ public class EducationFragment extends BaseFragment implements IMineCourseView, 
                 loadMineCourse();
             }
         });
+        loadingLayout.setRetryListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadMineCourse();
+            }
+        });
     }
 
     @Override
-    protected void onLazyLoadOnce() {
-        super.onLazyLoadOnce();
+    protected void onVisibleToUser() {
+        super.onVisibleToUser();
         loadMineCourse();
     }
 
@@ -114,31 +124,34 @@ public class EducationFragment extends BaseFragment implements IMineCourseView, 
 
                 initAdapter();
 
-                if (refreshLayout != null) {
-                    refreshLayout.setVisibility(View.VISIBLE);
-                }
-                if (linearLayout != null) {
-                    linearLayout.setVisibility(View.GONE);
-                }
+                showContent();
             } else {
-                if (refreshLayout != null) {
-                    refreshLayout.setVisibility(View.GONE);
-                }
-                if (linearLayout != null) {
-                    linearLayout.setVisibility(View.VISIBLE);
-                }
+                showEmpty();
             }
         } else {
-            if (refreshLayout != null) {
-                refreshLayout.setVisibility(View.GONE);
-            }
-            if (linearLayout != null) {
-                linearLayout.setVisibility(View.INVISIBLE);
-            }
+            showEmpty();
         }
         if (refreshLayout != null) {
             refreshLayout.finishRefresh();
-            refreshLayout.finishLoadMore();
+        }
+    }
+
+    private void showContent() {
+        if (linearLayout != null) {
+            linearLayout.setVisibility(View.GONE);
+        }
+        if (recyclerView != null) {
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    //没有课程,显示空页面
+    private void showEmpty() {
+        if (linearLayout != null) {
+            linearLayout.setVisibility(View.VISIBLE);
+        }
+        if (recyclerView != null) {
+            recyclerView.setVisibility(View.GONE);
         }
     }
 
@@ -170,27 +183,21 @@ public class EducationFragment extends BaseFragment implements IMineCourseView, 
     }
 
     @Override
-    public void getMineWatchRecord(MineWatchRecordBean data) {
-        //TODO nothing
-    }
-
-    @Override
     public void showLoading() {
         //TODO nothing
     }
 
     @Override
     public void showLoadingFinish() {
-        //TODO nothing
+        if (loadingLayout != null) {
+            loadingLayout.showContent();
+        }
     }
 
     @Override
     public void showError() {
-        if (refreshLayout != null) {
-            refreshLayout.setVisibility(View.GONE);
-        }
-        if (linearLayout != null) {
-            linearLayout.setVisibility(View.INVISIBLE);
+        if (loadingLayout != null) {
+            loadingLayout.showError();
         }
     }
 
@@ -199,6 +206,7 @@ public class EducationFragment extends BaseFragment implements IMineCourseView, 
         switch (v.getId()) {
             case R.id.btn_lookCourse:
                 // TODO 19/12/27
+                startActivity(CPECourseActivity.class);
                 break;
             default:
                 break;
