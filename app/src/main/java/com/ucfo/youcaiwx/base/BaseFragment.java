@@ -179,14 +179,22 @@ public abstract class BaseFragment extends Fragment {
      * 跳转activity
      */
     protected void startActivity(Class<?> cls, Bundle bundle) {
+        Intent intent = null;
         if (getActivity() != null) {
-            Intent intent = new Intent(getActivity(), cls);
+            intent = new Intent(getActivity(), cls);
             if (bundle != null) {
                 intent.putExtras(bundle);
             }
-            startActivity(intent);
+        } else {
+            if (getContext() != null) {
+                intent = new Intent(getContext(), cls);
+                if (bundle != null) {
+                    intent.putExtras(bundle);
+                }
+            }
         }
-        //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        startActivity(intent);
+        //getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     /**
