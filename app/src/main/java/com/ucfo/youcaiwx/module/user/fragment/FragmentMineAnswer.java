@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -181,20 +182,33 @@ public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView 
         courseAnswerListAdapter.setItemClick(new CourseAnswerListAdapter.OnItemViewClickListener() {
             @Override
             public void OnItemClick(View view, int position) {
-                if (!fastClick(2000)) {
-                    if (type == 1) {//课程
+                if (fastClick(1000)) {
+                    return;
+                }
+                if (list != null && list.size() > 0) {
+                    String isPurchase = list.get(position).getIs_purchase();
+                    if (!TextUtils.equals(isPurchase, String.valueOf("1"))) {
+                        if (type == 1) {
+                            showToast(getResources().getString(R.string.course_buyCourse));
+                        } else {
+                            showToast(getResources().getString(R.string.course_buyBank));
+                        }
+                        return;
+                    }
+
+                    if (type == 1) {
+                        //课程
                         Bundle bundle = new Bundle();
                         bundle.putInt(Constant.ANSWER_ID, list.get(position).getId());
                         bundle.putInt(Constant.STATUS, list.get(position).getReply_status());
                         bundle.putString(Constant.TYPE, Constant.MINE_ANSWER);
-                        //startActivity(CourseAnswerDetailActivity.class, bundle);
                         startActivity(AnsweringCourseActivity.class, bundle);
-                    } else {//题库
+                    } else {
+                        //题库
                         Bundle bundle = new Bundle();
                         bundle.putInt(Constant.ANSWER_ID, list.get(position).getId());
                         bundle.putInt(Constant.STATUS, list.get(position).getReply_status());
                         bundle.putString(Constant.TYPE, Constant.MINE_ANSWER);
-                        //startActivity(QuestionAnswerDetailActivity.class, bundle);
                         startActivity(AnsweringQuestionActivity.class, bundle);
                     }
                 }

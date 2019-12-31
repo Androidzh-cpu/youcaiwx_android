@@ -49,7 +49,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Time: 2019-5-31 上午 11:16
  * FileName: QuestionAnswerDetailActivity
  * ORG: www.youcaiwx.com
- * Description:TODO 题库答疑详情
+ * Description:TODO 题库答疑详情(已弃用)
  */
 public class QuestionAnswerDetailActivity extends BaseActivity implements IQuestionAnswerView {
     @BindView(R.id.titlebar_midtitle)

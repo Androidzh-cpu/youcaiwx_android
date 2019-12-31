@@ -1070,7 +1070,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (typeJudge(Constant.COLLECTION)) {
             //TODO 我的收藏(只有课程答疑tab,可以提问)
             int sectionId = bundle.getInt(Constant.SECTION_ID, 0);//章
-            String vid = bundle.getString(Constant.COURSE_VIDEOID, "");//阿里VID
+            String vid = bundle.getString(Constant.COURSE_ALIYUNVID, "");//阿里VID
             int videoId = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
             int courseId = bundle.getInt(Constant.COURSE_ID, 0);//课ID
 
@@ -1080,7 +1080,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         } else if (typeJudge(Constant.WATCH_RECORD)) {
             //TODO 观看记录(直接横屏播放,可提问问题)
             int sectionId = bundle.getInt(Constant.SECTION_ID, 0);//章
-            String vid = bundle.getString(Constant.COURSE_VIDEOID, "");//阿里VID
+            String vid = bundle.getString(Constant.COURSE_ALIYUNVID, "");//阿里VID
             int videoId = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
             int courseId = bundle.getInt(Constant.COURSE_ID, 0);//课ID
 
@@ -1115,7 +1115,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         } else if (typeJudge(Constant.WATCH_LEARNPLAN)) {
             //TODO 学习中心计划观课(横屏播放,可以提问)
             int section_id = bundle.getInt(Constant.SECTION_ID, 0);//章
-            String vid = bundle.getString(Constant.COURSE_VIDEOID, "");//阿里VID
+            String vid = bundle.getString(Constant.COURSE_ALIYUNVID, "");//阿里VID
             int video_id = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
             int course_id = bundle.getInt(Constant.COURSE_ID, 0);//课ID
             learnPlanid = bundle.getInt(Constant.PLAN_ID, 0);//计划
@@ -1134,7 +1134,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         } else if (typeJudge(Constant.WATCH_ANSWERDETAILED)) {
             //TODO 课程答疑查看视频(横屏播放,可以提问)
             int sectionId = bundle.getInt(Constant.SECTION_ID, 0);//章
-            String vid = bundle.getString(Constant.COURSE_VIDEOID, "");//阿里VID
+            String vid = bundle.getString(Constant.COURSE_ALIYUNVID, "");//阿里VID
             int videoId = bundle.getInt(Constant.VIDEO_ID, 0);//小节ID
             int courseId = bundle.getInt(Constant.COURSE_ID, 0);//课ID
 

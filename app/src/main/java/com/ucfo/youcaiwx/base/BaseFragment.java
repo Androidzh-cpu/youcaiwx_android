@@ -199,7 +199,9 @@ public abstract class BaseFragment extends Fragment {
         if (context != null) {
             ToastUtil.showBottomShortText(context, msg);
         } else {
-            ToastUtil.showBottomShortText(getContext(), msg);
+            if (getContext() != null) {
+                ToastUtil.showBottomShortText(getContext(), msg);
+            }
         }
     }
 

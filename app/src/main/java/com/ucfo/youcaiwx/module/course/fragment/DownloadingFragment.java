@@ -358,7 +358,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
      */
     private void loadSTSData(String vid, int position) {
         OkGo.<String>post(ApiStores.COURSE_GETVIDEO_STS)
-                .params(Constant.COURSE_VIDEOID, vid)//阿里库里的vid
+                .params(Constant.COURSE_ALIYUNVID, vid)//阿里库里的vid
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Response<String> response) {
@@ -641,7 +641,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
             outputLog("refreshSts---vid:" + vid + "       quality:" + quality + "     defaultTitle:" + title);
             GetVideoStsBean.DataBean dataBean = null;
             try {
-                okhttp3.Response response = OkGo.get(ApiStores.COURSE_GETVIDEO_STS).tag(this).params(Constant.COURSE_VIDEOID, vid).execute();
+                okhttp3.Response response = OkGo.get(ApiStores.COURSE_GETVIDEO_STS).tag(this).params(Constant.COURSE_ALIYUNVID, vid).execute();
                 String string = response.body().string();
                 JSONObject jsonObject = new JSONObject(string);
                 int i = jsonObject.optInt(Constant.CODE);

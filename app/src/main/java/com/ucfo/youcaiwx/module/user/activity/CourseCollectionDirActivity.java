@@ -189,13 +189,13 @@ public class CourseCollectionDirActivity extends BaseActivity implements IMineCo
                 collectionDirAdapter.notifyDataSetChanged();
                 Bundle bundle = new Bundle();
                 bundle.putInt(Constant.COURSE_PACKAGE_ID, package_id);//包
-                bundle.putInt(Constant.COURSE_BUY_STATE, 1);//已购买状态
-                bundle.putString(Constant.COURSE_SOURCE, Constant.COLLECTION);//播放源
-                bundle.putInt(Constant.COURSE_UN_CON, course_un_con);
-                bundle.putInt(Constant.SECTION_ID, list.get(groupPosition).getSection_id());//章
-                bundle.putString(Constant.COURSE_VIDEOID, list.get(groupPosition).getVideo().get(childPosition).getVideoId());//阿里VID
-                bundle.putInt(Constant.VIDEO_ID, list.get(groupPosition).getVideo().get(childPosition).getId());//小节ID
                 bundle.putInt(Constant.COURSE_ID, course_id);//课ID
+                bundle.putInt(Constant.SECTION_ID, list.get(groupPosition).getSection_id());//章
+                bundle.putInt(Constant.VIDEO_ID, list.get(groupPosition).getVideo().get(childPosition).getId());//小节ID
+                bundle.putString(Constant.COURSE_ALIYUNVID, list.get(groupPosition).getVideo().get(childPosition).getVideoId());//阿里VID
+                bundle.putInt(Constant.COURSE_BUY_STATE, 1);//已购买状态
+                bundle.putInt(Constant.COURSE_UN_CON, course_un_con);
+                bundle.putString(Constant.COURSE_SOURCE, Constant.COLLECTION);//播放源
                 startActivity(VideoPlayPageActivity.class, bundle);
                 return true;
             }

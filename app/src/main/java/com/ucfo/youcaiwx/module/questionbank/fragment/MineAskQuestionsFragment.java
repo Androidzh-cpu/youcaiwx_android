@@ -154,7 +154,6 @@ public class MineAskQuestionsFragment extends BaseFragment implements IQuestionA
                 bundle.putInt(Constant.ANSWER_ID, list.get(position).getId());
                 bundle.putInt(Constant.STATUS, list.get(position).getReply_status());
                 bundle.putString(Constant.TYPE, Constant.QUESTION_ANSWER);
-                //startActivity(QuestionAnswerDetailActivity.class, bundle);
                 startActivity(AnsweringQuestionActivity.class, bundle);
             }
         });

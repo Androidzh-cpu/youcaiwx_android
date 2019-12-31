@@ -55,7 +55,7 @@ public class MineWatchRecordAdapter extends BaseAdapter<MineWatchRecordBean.Data
         String app_img = bean.getApp_img();
         String course_name = bean.getCourse_name();
         String video_name = bean.getVideo_name();
-        int watch_time = bean.getWatch_time();
+        String watch_time = bean.getWatch_time();
 
         RequestOptions requestOptions = new RequestOptions()
                 .transform(new RoundedCornersTransformation(DensityUtil.dp2px(5), 0))
@@ -70,8 +70,10 @@ public class MineWatchRecordAdapter extends BaseAdapter<MineWatchRecordBean.Data
         if (!TextUtils.isEmpty(video_name)) {
             holder.mCourseSubtitleItem.setText(video_name);
         }
-        String formatMs = TimeFormater.formatSeconds(watch_time);
-        holder.mCourseTimeItem.setText(String.valueOf(context.getString(R.string.course_courseDuration) + formatMs));
+        if (!TextUtils.isEmpty(watch_time)) {
+            String formatMs = TimeFormater.formatSeconds(Integer.parseInt(watch_time));
+            holder.mCourseTimeItem.setText(String.valueOf(context.getString(R.string.course_courseDuration) + formatMs));
+        }
 
         holder.mCompletedTxt.setVisibility(View.GONE);
     }

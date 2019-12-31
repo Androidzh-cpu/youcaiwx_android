@@ -287,7 +287,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         courseDirectoryPopupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         int measuredHeight = layoutMain.getMeasuredHeight();
         if (measuredHeight == 0) {
-            measuredHeight = DensityUtil.dp2px( 80);
+            measuredHeight = DensityUtil.dp2px(80);
         }
         courseDirectoryPopupWindow.setHeight(measuredHeight);
         courseDirectoryPopupWindow.setFocusable(false);//区域外点击不消失
@@ -355,8 +355,9 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                     startActivity(LoginActivity.class, null);
                 } else {
                     if (courseBuyState == 1) {
-
-                        videoPlayPageActivity.pause();
+                        if (videoPlayPageActivity != null) {
+                            videoPlayPageActivity.pause();
+                        }
 
                         Bundle bundle = new Bundle();
                         String teacherName = dataBean.getTeacher_name();
@@ -367,7 +368,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                         bundle.putInt(Constant.PAGE, currentClickCourseIndex);
                         startActivity(DownloadDirectoryActivity.class, bundle);
                     } else {
-                        ToastUtil.showBottomShortText(videoPlayPageActivity, getResources().getString(R.string.course_buyCourse));
+                        showToast(getResources().getString(R.string.course_buyCourse));
                     }
                 }
             }

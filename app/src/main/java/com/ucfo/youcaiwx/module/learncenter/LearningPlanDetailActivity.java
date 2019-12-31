@@ -398,7 +398,7 @@ public class LearningPlanDetailActivity extends BaseActivity implements ILearnPl
                         bundle.putInt(Constant.COURSE_BUY_STATE, 1);
                         bundle.putString(Constant.COURSE_SOURCE, Constant.WATCH_LEARNPLAN);
                         bundle.putInt(Constant.COURSE_UN_CON, videoBean.getIs_zhengke());
-                        bundle.putString(Constant.COURSE_VIDEOID, videoBean.getVideoId());//阿里VID
+                        bundle.putString(Constant.COURSE_ALIYUNVID, videoBean.getVideoId());//阿里VID
                         bundle.putInt(Constant.COURSE_ID, Integer.parseInt(videoBean.getCourse_id()));//课ID
                         bundle.putInt(Constant.SECTION_ID, videoBean.getSection_id());//章
                         bundle.putInt(Constant.VIDEO_ID, videoBean.getVideo_id());//小节ID

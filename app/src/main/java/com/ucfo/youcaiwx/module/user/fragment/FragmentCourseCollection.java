@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -26,7 +27,6 @@ import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineCollectionPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineCollectionView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -146,7 +146,7 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
                         if (mineCourseAdapter != null) {
                             mineCourseAdapter.notifyDataSetChanged();
                         }
-                        ToastUtil.showBottomShortText(context, getResources().getString(R.string.noMoreData));
+                        refreshlayout.finishRefreshWithNoMoreData();
                     } else {
                         if (loadinglayout != null) {
                             loadinglayout.showEmpty();
@@ -191,23 +191,27 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
         mineCourseAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (!fastClick(2000)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constant.PACKAGE_ID, list.get(position).getPackage_id());
-                    startActivity(CourseCollectionChildActivity.class, bundle);
+                if (fastClick(1000)) {
+                    return;
                 }
+                String isPurchase = list.get(position).getIs_purchase();
+                if (!TextUtils.equals(isPurchase, String.valueOf("1"))) {
+                    showToast(getResources().getString(R.string.course_buyCourse));
+                    return;
+                }
+                Bundle bundle = new Bundle();
+                bundle.putInt(Constant.PACKAGE_ID, list.get(position).getPackage_id());
+                startActivity(CourseCollectionChildActivity.class, bundle);
             }
         });
     }
 
     @Override
     public void showLoading() {
-        //setProcessLoading(null, true);
     }
 
     @Override
     public void showLoadingFinish() {
-        //dismissPorcess();
     }
 
     @Override

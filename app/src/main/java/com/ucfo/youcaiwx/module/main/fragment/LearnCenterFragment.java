@@ -584,7 +584,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                             bundle.putInt(Constant.COURSE_ID, currentSubjectId);
                             startActivity(ErrorCenterActivity.class, bundle);
                         } else {
-                            ToastUtil.showBottomShortText(getActivity(), getResources().getString(R.string.course_bugBank));
+                            ToastUtil.showBottomShortText(getActivity(), getResources().getString(R.string.course_buyBank));
                         }
                     }
                     break;

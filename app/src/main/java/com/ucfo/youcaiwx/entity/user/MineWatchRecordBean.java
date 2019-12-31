@@ -65,16 +65,16 @@ public class MineWatchRecordBean {
 
         private String course_name;
         private String app_img;
-        private int is_zhengke;
-        private int is_purchase;
+        private String is_zhengke;
+        private String is_purchase;
         private String video_name;
-        private int section_id;
+        private String section_id;
         private String VideoId;
-        private int watch_time;
-        private int video_type;
-        private int package_id;
-        private int course_id;
-        private int video_id;
+        private String watch_time;
+        private String video_type;
+        private String package_id;
+        private String course_id;
+        private String video_id;
 
         public String getCourse_name() {
             return course_name == null ? "" : course_name;
@@ -92,12 +92,20 @@ public class MineWatchRecordBean {
             this.app_img = app_img;
         }
 
-        public int getIs_zhengke() {
-            return is_zhengke;
+        public String getIs_zhengke() {
+            return is_zhengke == null ? "" : is_zhengke;
         }
 
-        public void setIs_zhengke(int is_zhengke) {
+        public void setIs_zhengke(String is_zhengke) {
             this.is_zhengke = is_zhengke;
+        }
+
+        public String getIs_purchase() {
+            return is_purchase == null ? "" : is_purchase;
+        }
+
+        public void setIs_purchase(String is_purchase) {
+            this.is_purchase = is_purchase;
         }
 
         public String getVideo_name() {
@@ -108,11 +116,11 @@ public class MineWatchRecordBean {
             this.video_name = video_name;
         }
 
-        public int getSection_id() {
-            return section_id;
+        public String getSection_id() {
+            return section_id == null ? "" : section_id;
         }
 
-        public void setSection_id(int section_id) {
+        public void setSection_id(String section_id) {
             this.section_id = section_id;
         }
 
@@ -124,52 +132,44 @@ public class MineWatchRecordBean {
             VideoId = videoId;
         }
 
-        public int getWatch_time() {
-            return watch_time;
+        public String getWatch_time() {
+            return watch_time == null ? "" : watch_time;
         }
 
-        public void setWatch_time(int watch_time) {
+        public void setWatch_time(String watch_time) {
             this.watch_time = watch_time;
         }
 
-        public int getVideo_type() {
-            return video_type;
+        public String getVideo_type() {
+            return video_type == null ? "" : video_type;
         }
 
-        public void setVideo_type(int video_type) {
+        public void setVideo_type(String video_type) {
             this.video_type = video_type;
         }
 
-        public int getPackage_id() {
-            return package_id;
+        public String getPackage_id() {
+            return package_id == null ? "" : package_id;
         }
 
-        public void setPackage_id(int package_id) {
+        public void setPackage_id(String package_id) {
             this.package_id = package_id;
         }
 
-        public int getCourse_id() {
-            return course_id;
+        public String getCourse_id() {
+            return course_id == null ? "" : course_id;
         }
 
-        public void setCourse_id(int course_id) {
+        public void setCourse_id(String course_id) {
             this.course_id = course_id;
         }
 
-        public int getVideo_id() {
-            return video_id;
+        public String getVideo_id() {
+            return video_id == null ? "" : video_id;
         }
 
-        public void setVideo_id(int video_id) {
+        public void setVideo_id(String video_id) {
             this.video_id = video_id;
-        }
-
-        public int getIs_purchase() {
-            return is_purchase;
-        }
-
-        public void setIs_purchase(int is_purchase) {
-            this.is_purchase = is_purchase;
         }
     }
 }

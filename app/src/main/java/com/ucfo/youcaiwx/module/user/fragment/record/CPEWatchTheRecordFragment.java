@@ -31,7 +31,7 @@ import java.util.List;
  * Time: 2019-12-30.  上午 11:01
  * Package: com.ucfo.youcaiwx.module.user.fragment.record
  * FileName: CPEWatchTheRecordFragment
- * Description:后续教育的观看记录(拓展性一点都没有,也是服了)
+ * Description:后续教育的观看记录(拓展性一点都没有)
  */
 public class CPEWatchTheRecordFragment extends BaseFragment implements IWatchTheRecordView {
 
@@ -139,6 +139,10 @@ public class CPEWatchTheRecordFragment extends BaseFragment implements IWatchThe
                 String videoId = bean.getVideo_id();
                 String courseId = bean.getCourse_id();
                 String isPurchase = bean.getIs_purchase();
+                if (!TextUtils.equals(isPurchase, String.valueOf("1"))) {
+                    showToast(getResources().getString(R.string.course_buyCourse));
+                    return;
+                }
                 if (TextUtils.isEmpty(packageId) || TextUtils.isEmpty(videoId) || TextUtils.isEmpty(courseId) || TextUtils.isEmpty(isPurchase)) {
                     showToast(getResources().getString(R.string.miss_params));
                     return;
@@ -148,12 +152,12 @@ public class CPEWatchTheRecordFragment extends BaseFragment implements IWatchThe
                 bundle.putString(Constant.COURSE_SOURCE, Constant.WATCH_RECORD);
                 bundle.putString(Constant.COURSE_SOURCE_DEPUTY, Constant.WATCH_CPE_RECORD);
                 bundle.putInt(Constant.COURSE_PACKAGE_ID, Integer.parseInt(bean.getPackage_id()));
+                bundle.putInt(Constant.COURSE_ID, Integer.parseInt(courseId));
+                bundle.putInt(Constant.SECTION_ID, Integer.parseInt(sectionId));
+                bundle.putInt(Constant.VIDEO_ID, Integer.parseInt(videoId));
+                bundle.putString(Constant.COURSE_ALIYUNVID, bean.getVideoId());
                 bundle.putInt(Constant.COURSE_BUY_STATE, Integer.parseInt(isPurchase));
                 bundle.putInt(Constant.COURSE_UN_CON, Integer.parseInt("2"));
-                bundle.putInt(Constant.SECTION_ID, Integer.parseInt(sectionId));
-                bundle.putString(Constant.COURSE_VIDEOID, bean.getVideoId());
-                bundle.putInt(Constant.VIDEO_ID, Integer.parseInt(videoId));
-                bundle.putInt(Constant.COURSE_ID, Integer.parseInt(courseId));
                 startActivity(VideoPlayPageActivity.class, bundle);
             }
         });

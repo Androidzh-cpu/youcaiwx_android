@@ -82,6 +82,15 @@ public class MineCourseBean {
         private int collect_id;
         private String app_img;
         private String teacher_name;
+        private String is_purchase;
+
+        public String getIs_purchase() {
+            return is_purchase == null ? "" : is_purchase;
+        }
+
+        public void setIs_purchase(String is_purchase) {
+            this.is_purchase = is_purchase;
+        }
 
         public int getPackage_id() {
             return package_id;

@@ -243,7 +243,6 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
                     bundle.putInt(Constant.ANSWER_ID, bean.getContent_id());
                     bundle.putInt(Constant.STATUS, 1);
                     bundle.putString(Constant.TYPE, Constant.MESSAGE_ANSWER);
-                    //startActivity(CourseAnswerDetailActivity.class, bundle);
                     startActivity(AnsweringCourseActivity.class, bundle);
                 } else if (type == 2) {
                     //TODO 题库答疑
@@ -251,7 +250,6 @@ public class NotificationCenterActivity extends BaseActivity implements IMessage
                     bundle.putInt(Constant.ANSWER_ID, list.get(position).getContent_id());
                     bundle.putInt(Constant.STATUS, 1);
                     bundle.putString(Constant.TYPE, Constant.MESSAGE_ANSWER);
-                    //startActivity(QuestionAnswerDetailActivity.class, bundle);
                     startActivity(AnsweringQuestionActivity.class, bundle);
                 }
             }

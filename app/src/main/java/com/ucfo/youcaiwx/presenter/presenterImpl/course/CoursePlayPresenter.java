@@ -87,7 +87,7 @@ public class CoursePlayPresenter {
      */
     public void getVideoPlayAuthor(String vid, int video_id, int course_id, int section_id, int user_id, int course_packageId) {
         OkGo.<String>post(ApiStores.COURSE_GETVIDEO_CREDENTIALS)
-                .params(Constant.COURSE_VIDEOID, vid)//阿里库里的vid
+                .params(Constant.COURSE_ALIYUNVID, vid)//阿里库里的vid
                 .params(Constant.USER_ID, user_id)//用户ID
                 .params(Constant.PACKAGE_ID, course_packageId)//课程包ID
                 .params(Constant.COURSE_ID, course_id)//课程id
@@ -135,7 +135,7 @@ public class CoursePlayPresenter {
     public void getVideoPlayAuthor(String vid, int video_id) {
         OkGo.<String>post(ApiStores.EDUCATION_COURSE_GETVIDEO_CREDENTIALS)
                 .tag(this)
-                .params(Constant.COURSE_VIDEOID, vid)//阿里库里的vid
+                .params(Constant.COURSE_ALIYUNVID, vid)//阿里库里的vid
                 .params(Constant.VIDEO_ID, video_id)//小节视频ID
                 .execute(new StringCallback() {
                     @Override

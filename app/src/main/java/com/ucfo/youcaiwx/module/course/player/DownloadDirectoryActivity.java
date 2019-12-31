@@ -122,10 +122,10 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
             currentClickCourseIndex = bundle.getInt(Constant.PAGE, 0);
 
             courseName.setText(course_title);
-            courseTeacherName.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + "  " + course_teachername));
+            courseTeacherName.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + course_teachername));
 
             //获取对应课程视频列表
-            courseDirPresenter.getCourseDirData(package_id, user_id,"");
+            courseDirPresenter.getCourseDirData(package_id, user_id, "");
         } else {
             if (loadinglayout != null) {
                 loadinglayout.showEmpty();
@@ -134,13 +134,13 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                courseDirPresenter.getCourseDirData(package_id, user_id,"");
+                courseDirPresenter.getCourseDirData(package_id, user_id, "");
             }
         });
-        downloadManager = UcfoApplication.downloadManager;
-        downloadSaveInfoUtil = new DownloadSaveInfoUtil(downloadManager.getSaveDir());
-        /*List<AliyunDownloadMediaInfo> alivcDownloadeds = downloadSaveInfoUtil.getAlivcDownloadeds();
-        LogUtils.e("下载列表--------------" + new Gson().toJson(alivcDownloadeds));*/
+        if (UcfoApplication.downloadManager != null) {
+            downloadManager = UcfoApplication.downloadManager;
+            downloadSaveInfoUtil = new DownloadSaveInfoUtil(downloadManager.getSaveDir());
+        }
     }
 
     @Override
@@ -170,15 +170,12 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
         courseId = list.get(currentClickCourseIndex).getCourse_id();
         if (downloadDirAdapter == null) {
             downloadDirAdapter = new DownloadDirAdapter(this, sectionBeanList);
-        }
-        if (downloadDirAdapter != null) {
-            downloadDirAdapter.notifyDataSetChanged();
-            if (listView != null) {
-                listView.setAdapter(downloadDirAdapter);
-                for (int i = 0; i < downloadDirAdapter.getGroupCount(); i++) {
-                    listView.expandGroup(i);
-                }
+            listView.setAdapter(downloadDirAdapter);
+            for (int i = 0; i < downloadDirAdapter.getGroupCount(); i++) {
+                listView.expandGroup(i);
             }
+        } else {
+            downloadDirAdapter.notifyDataSetChanged();
         }
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
@@ -204,9 +201,9 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
             DataBaseVideoListBean videoListBean = baseVideoListBeans.get(0);
             int status = videoListBean.getStatus();
             if (status == 1) {
-                ToastUtil.showBottomShortText(this, getResources().getString(R.string.alivc_video_download_finish_tips));
+                showToast(getResources().getString(R.string.alivc_video_download_finish_tips));
             } else {
-                ToastUtil.showBottomShortText(this, getResources().getString(R.string.alivc_video_download_finish_haved));
+                showToast(getResources().getString(R.string.alivc_video_download_finish_haved));
             }
             bean.setChecked(false);
             if (downloadDirAdapter != null) {

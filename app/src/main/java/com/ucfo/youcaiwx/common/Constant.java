@@ -192,7 +192,8 @@ public class Constant {
     //视频源_副本
     public static final String COURSE_SOURCE_DEPUTY = "course_source_deputy";
     public static final String COURSE_BUY_STATE = "course_buy_state";//课程包用户是否购买
-    public static final String COURSE_VIDEOID = "VideoId";//阿里播放视频的vid
+    //阿里播放视频的vid
+    public static final String COURSE_ALIYUNVID = "VideoId";
     public static final String COURSE_PRICE = "price";//课程包价格
 
     public static final String TYPE_COURSE_ASK = "type_courseask";//课程提问

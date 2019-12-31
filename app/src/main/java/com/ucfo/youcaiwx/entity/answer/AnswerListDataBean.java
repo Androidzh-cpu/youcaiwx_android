@@ -75,9 +75,18 @@ public class AnswerListDataBean {
         private int reply_status;
         private String head;
         private String section_name;
+        private String is_purchase;
         private int is_status;
         private List<String> quiz_image;
         private List<String> know_name;
+
+        public String getIs_purchase() {
+            return is_purchase == null ? "" : is_purchase;
+        }
+
+        public void setIs_purchase(String is_purchase) {
+            this.is_purchase = is_purchase;
+        }
 
         public List<String> getKnow_name() {
             if (know_name == null) {

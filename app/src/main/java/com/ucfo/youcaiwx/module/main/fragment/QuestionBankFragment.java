@@ -255,7 +255,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 }
                 startActivity(intent);
             } else {
-                ToastUtil.showBottomShortText(activity, getResources().getString(R.string.course_bugBank));
+                ToastUtil.showBottomShortText(activity, getResources().getString(R.string.course_buyBank));
             }
         } else {
             startActivity(new Intent(activity, LoginActivity.class));

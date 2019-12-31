@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -98,18 +99,37 @@ public class WatchTheRecordFragment extends BaseFragment implements IWatchTheRec
             @Override
             public void onItemClick(View view, int position) {
                 MineWatchRecordBean.DataBean bean = list.get(position);
-                if (!fastClick(1000)) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constant.COURSE_PACKAGE_ID, bean.getPackage_id());//包
-                    bundle.putInt(Constant.COURSE_BUY_STATE, bean.getIs_purchase());//已购买状态
-                    bundle.putString(Constant.COURSE_SOURCE, Constant.WATCH_RECORD);//播放源
-                    bundle.putInt(Constant.COURSE_UN_CON, bean.getIs_zhengke());
-                    bundle.putInt(Constant.SECTION_ID, bean.getSection_id());//章
-                    bundle.putString(Constant.COURSE_VIDEOID, bean.getVideoId());//阿里VID
-                    bundle.putInt(Constant.VIDEO_ID, bean.getVideo_id());//小节ID
-                    bundle.putInt(Constant.COURSE_ID, bean.getCourse_id());//课ID
-                    startActivity(VideoPlayPageActivity.class, bundle);
+                if (fastClick(1000)) {
+                    return;
                 }
+                String isPurchase = bean.getIs_purchase();
+                String packageId = bean.getPackage_id();
+                String isZhengke = bean.getIs_zhengke();
+                String sectionId = bean.getSection_id();
+                String videoId = bean.getVideo_id();
+                String courseId = bean.getCourse_id();
+                String aliVid = bean.getVideoId();
+                if (!TextUtils.equals(isPurchase, String.valueOf("1"))) {
+                    showToast(getResources().getString(R.string.course_buyCourse));
+                    return;
+                }
+                if (TextUtils.isEmpty(packageId) || TextUtils.isEmpty(isZhengke)
+                        || TextUtils.isEmpty(sectionId) || TextUtils.isEmpty(videoId)
+                        || TextUtils.isEmpty(courseId) || TextUtils.isEmpty(aliVid)) {
+                    showToast(getResources().getString(R.string.miss_params));
+                    return;
+                }
+
+                Bundle bundle = new Bundle();
+                bundle.putInt(Constant.COURSE_PACKAGE_ID, Integer.parseInt(packageId));//包
+                bundle.putInt(Constant.COURSE_ID, Integer.parseInt(courseId));//课ID
+                bundle.putInt(Constant.SECTION_ID, Integer.parseInt(sectionId));//章
+                bundle.putInt(Constant.VIDEO_ID, Integer.parseInt(videoId));//视频ID
+                bundle.putString(Constant.COURSE_ALIYUNVID, aliVid);//阿里VID
+                bundle.putInt(Constant.COURSE_BUY_STATE, Integer.parseInt(isPurchase));//购买状态
+                bundle.putInt(Constant.COURSE_UN_CON, Integer.parseInt(isZhengke));//提问状态
+                bundle.putString(Constant.COURSE_SOURCE, Constant.WATCH_RECORD);
+                startActivity(VideoPlayPageActivity.class, bundle);
             }
         });
     }

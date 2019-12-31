@@ -154,15 +154,17 @@ public class DownloadComletedDirActivity extends BaseActivity {
                 listView.expandGroup(i);
             }
         }
-
+        //视频点击事件
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 DownloadCompletedDirBean.DataBean.SonBean bean = list.get(groupPosition).getSon().get(childPosition);
                 if (editStatus) {
+                    //编辑状态
                     bean.setChecked(!bean.isChecked());
                     notifyDataSetChanged();
                 } else {
+                    //正常选中状态
                     if (!fastClick(1000)) {
                         if (bean.getStatus() == 1) {
                             File downloadFile = new File(bean.getSaveDir());

@@ -408,7 +408,7 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
         bundle.putString(Constant.COURSE_SOURCE, Constant.WATCH_ANSWERDETAILED);//播放源
         bundle.putInt(Constant.COURSE_UN_CON, 1);
         bundle.putInt(Constant.SECTION_ID, Integer.parseInt(sectionId));//章
-        bundle.putString(Constant.COURSE_VIDEOID, bean.getVideoId());//阿里VID
+        bundle.putString(Constant.COURSE_ALIYUNVID, bean.getVideoId());//阿里VID
         bundle.putInt(Constant.VIDEO_ID, Integer.parseInt(videoId));//小节ID
         bundle.putInt(Constant.COURSE_ID, Integer.parseInt(courseId));//课ID
         startActivity(VideoPlayPageActivity.class, bundle);
