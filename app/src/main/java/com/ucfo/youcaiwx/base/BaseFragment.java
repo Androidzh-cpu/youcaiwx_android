@@ -193,8 +193,6 @@ public abstract class BaseFragment extends Fragment {
             }
         }
         startActivity(intent);
-        //getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
     }
 
     /**

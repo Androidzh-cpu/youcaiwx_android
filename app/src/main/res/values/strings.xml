@@ -40,6 +40,11 @@
 
     <!-- Strings related to 后续教育 end-->
     <string name="fue_CPE">CPE课程</string>
+    <string name="GenerateReport">生成报告</string>
+    <string name="addProveInfo">添加证明信息</string>
+    <string name="cpe_name">姓名:\u0020%s</string>
+    <string name="cpe_vipNumber">IMA会员号:\u0020%s</string>
+    <string name="cpe_IDNumber">身份证号:\u0020%s</string>
     <string name="classify">分类</string>
     <string name="sort">排序</string>
     <string name="screen">筛选</string>
@@ -624,6 +629,7 @@
 
 
     <!--string related to common start-->
+    <string name="total">合计:\u0020\u0020</string>
     <string name="image_size_to_small">大小不超过 %1$sM。</string>
     <string name="error_size_to_small">长宽不小于 %1$dpx，且大小不超过 %2$sM。</string>
     <string name="guide_jump">跳过</string>

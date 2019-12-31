@@ -25,6 +25,7 @@ import com.ucfo.youcaiwx.module.integral.MineIntegralActivity;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.module.main.activity.MainActivity;
 import com.ucfo.youcaiwx.module.main.activity.WebActivity;
+import com.ucfo.youcaiwx.module.user.activity.CPEApplyForActivity;
 import com.ucfo.youcaiwx.module.user.activity.FeedBackActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineAnswerQuestionActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineCollectionActivity;
@@ -234,7 +235,11 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                     break;
                 case R.id.btn_user_balance:
                     //TODO 余额
-                    noDev();
+                    if (Constant.ISTEST_ENVIRONMENT) {
+                        startActivity(CPEApplyForActivity.class);
+                    } else {
+                        noDev();
+                    }
                     break;
                 case R.id.btn_user_coupons:
                     //TODO 优惠券

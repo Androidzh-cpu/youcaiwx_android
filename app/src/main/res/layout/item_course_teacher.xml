@@ -40,6 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_8"
             android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/color_999999"
             android:textSize="@dimen/sp_13"
             tools:text="优财CMA签约金牌讲师、IMA全球理事优财CMA签约金牌讲师、IMA全球理事优财CMA签约金牌讲师、IMA全球理事优财CMA签约金牌讲师、IMA全球理事优财CMA签约金牌讲师、IMA全球理事" />

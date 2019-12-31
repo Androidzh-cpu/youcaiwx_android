@@ -78,12 +78,12 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * Time: 2019-3-5.  下午 5:40
  * Email:2911743255@qq.com
  * ClassName: UcfoApplication
- * Detail:程序清单
- * 这个傻逼leader,除了正事,基本上没啥用处
- * 喜欢画大饼,还特么画的贼难看,画饼都不会画
- * 空话一堆,还特么听着贼恶心
- * 一个SB说做了10年连个App都做不好,那不废话吗,就这条件做好才出奇迹呢
- * 现在targetSDK是以Android O为平台的,P和Q的,嘿嘿,你懂得
+ * Detail:真相清单
+ * 这个SBLD,除了正事不会,其他啥也不会
+ * 看不顺眼的就给人家T了,典型的TG,运营就是这样没的
+ * 喜欢画大饼,还特么画的贼难看,饼都不会画
+ * 空话一堆,特么听着贼恶心
+ * 一个学员说做了10年连个App都做不好,那不废话吗,就这鸟样做好才出奇迹
  */
 public class UcfoApplication extends Application {
     private static UcfoApplication application;
