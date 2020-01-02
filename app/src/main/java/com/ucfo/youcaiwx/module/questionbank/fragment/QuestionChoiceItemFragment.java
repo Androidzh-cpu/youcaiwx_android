@@ -180,7 +180,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             //TODO 考试模式
 
             mAnalysisAreaQuestion.setVisibility(View.GONE);//关闭解析区域
-            mOptionsListviewQuestion.setOnItemClickListener(this::onItemClick);
+            mOptionsListviewQuestion.setOnItemClickListener(this);
         } else if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A)) {
             //TODO 解析模式
 
@@ -211,9 +211,10 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
                     //TODO 用户已作答
                     if (TextUtils.equals(userAnswer, rightAnswer)) {
                         //牛皮,就这智商还能作对
-                        mAnalysisAreaQuestion.setVisibility(View.GONE);
+                        //mAnalysisAreaQuestion.setVisibility(View.GONE);//原定是做对不再显示解析的,后来LD让改的,那就改
+                        mAnalysisAreaQuestion.setVisibility(View.VISIBLE);
                     } else {
-                        //诶对了,这才是正常水平
+                        //诶,对,这才是正常水平嘛
                         mAnalysisAreaQuestion.setVisibility(View.VISIBLE);
                     }
                 } else {
@@ -224,7 +225,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             }
 
             //设置点击事件
-            mOptionsListviewQuestion.setOnItemClickListener(this::onItemClick);
+            mOptionsListviewQuestion.setOnItemClickListener(this);
         }
     }
 
@@ -247,15 +248,23 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
                 testmodeActivity.setOptionsAnswerList(optionsAnswerList);
 
                 if (TextUtils.equals(userOption, rightAnswer)) {
-                    //TODO 做对
+                    //做对(别问我为啥练习模式做对了也显示解析,问领导去...)
+
+                    /**LD让根据学生需求改成做对显示解析,sb***/
+                    //设置解析内容
+                    initAnalysis();
+                    //打开解析view
+                    mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+                    /**LD让根据学生需求改成做对显示解析,sb***/
+
                     //发送广播,跳转至下一页
                     mLocalBroadcastManager.sendBroadcast(intent);
                 } else {
-                    //TODO 做错了
+                    // 做错
 
-                    //TODO 设置解析内容
+                    //设置解析内容
                     initAnalysis();
-                    //TODO 打开解析view
+                    //打开解析view
                     mAnalysisAreaQuestion.setVisibility(mAnalysisAreaQuestion.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
                 }
             }
@@ -265,15 +274,15 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             String userOption = questionList.get(index).getOptions().get(position).getOption();
             adapter.notifyDataChanged(userOption);
 
-            optionsAnswerList.get(index).setUser_answer(userOption);//重新给答题卡响应题目设置用户答案
-            testmodeActivity.setOptionsAnswerList(optionsAnswerList);//总数据重新复制
-
-            initAnalysis();//重新设置解析答案
-
-            mLocalBroadcastManager.sendBroadcast(intent);//发送广播,跳转至下一页
-
+            //重新给答题卡响应题目设置用户答案
+            optionsAnswerList.get(index).setUser_answer(userOption);
+            //总数据重新复制
+            testmodeActivity.setOptionsAnswerList(optionsAnswerList);
+            //initAnalysis();//重新设置解析答案
             //交卷提示
             hintSubmitPaper();
+
+            mLocalBroadcastManager.sendBroadcast(intent);//发送广播,跳转至下一页
         }
     }
 

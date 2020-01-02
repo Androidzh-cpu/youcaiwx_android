@@ -237,6 +237,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                     //TODO 余额
                     if (Constant.ISTEST_ENVIRONMENT) {
                         startActivity(CPEApplyForActivity.class);
+                        //startActivity(CPEProveInformationActivity.class);
                     } else {
                         noDev();
                     }

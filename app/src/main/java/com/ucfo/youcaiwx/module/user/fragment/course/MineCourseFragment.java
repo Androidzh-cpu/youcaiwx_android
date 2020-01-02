@@ -161,17 +161,24 @@ public class MineCourseFragment extends BaseFragment implements IMineCourseView,
         } else {
             courseAdapter.notifyChange(list);
         }
-
+        /**
+         * 跳转至播放器
+         */
         courseAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Bundle bundle = new Bundle();
+                if (fastClick(1000)) {
+                    return;
+                }
                 MineCourseBean.DataBean bean = list.get(position);
-                String courseIamge = bean.getApp_img();//TODO 课程封面
-                int coursePackageId = bean.getPackage_id();//TODO  课程包ID(课程包内含多们课程)
-                bundle.putString(Constant.COURSE_COVER_IMAGE, courseIamge);//封面
-                bundle.putInt(Constant.COURSE_PACKAGE_ID, coursePackageId);//课程包ID
-                bundle.putInt(Constant.COURSE_BUY_STATE, 1);//课程是否购买
+                //TODO 课程封面
+                String courseIamge = bean.getApp_img();
+                //TODO  课程包ID(课程包内含多们课程)
+                int coursePackageId = bean.getPackage_id();
+
+                Bundle bundle = new Bundle();
+                bundle.putString(Constant.COURSE_COVER_IMAGE, courseIamge);
+                bundle.putInt(Constant.COURSE_PACKAGE_ID, coursePackageId);
                 startActivity(VideoPlayPageActivity.class, bundle);
             }
         });

@@ -379,4 +379,18 @@ public class Constant {
     //积分订单下单完成数据
     public static final String INTEGRAL_ADDORDERDETAIAL = "integral_orderDetail";
     //---------------------------------------------TODO 积分 end -----------------------------------------------//
+
+
+    //---------------------------------------------TODO 后续教育 end -----------------------------------------------//
+    //cpe编辑标识
+    public static final String EDUCATION_EDIT = "cpe_proveinfo";
+    //编辑姓名
+    public static final String EDUCATION_EDIT_NAME = "cpe_edit_name";
+    //编辑身份证
+    public static final String EDUCATION_EDIT_IDNUM = "cpe_edit_idnumber";
+    //编辑会员号
+    public static final String EDUCATION_EDIT_VIP = "cpe_edit_vip";
+    //证明信息编辑码
+    public static final int REQUEST_PROVEINFO = 10002;
+    //---------------------------------------------TODO 后续教育 end -----------------------------------------------//
 }

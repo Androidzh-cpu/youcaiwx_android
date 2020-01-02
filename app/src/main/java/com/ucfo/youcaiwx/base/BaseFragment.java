@@ -191,8 +191,8 @@ public abstract class BaseFragment extends Fragment {
             if (bundle != null) {
                 intent.putExtras(bundle);
             }
+            startActivity(intent);
         }
-        startActivity(intent);
     }
 
     /**
@@ -233,20 +233,10 @@ public abstract class BaseFragment extends Fragment {
 
     public boolean fastClick(int time) {
         long currentTime = System.currentTimeMillis();
-        if (currentTime - lastClick > time) {
+        if (currentTime - lastClick >= time) {
             lastClick = currentTime;
             return false;
         }
         return true;
-    }
-
-    public boolean isFastClick(int time) {
-        boolean flag = true;
-        long currentClickTime = System.currentTimeMillis();
-        if ((currentClickTime - lastClick) >= time) {
-            flag = false;
-        }
-        lastClick = currentClickTime;
-        return flag;
     }
 }

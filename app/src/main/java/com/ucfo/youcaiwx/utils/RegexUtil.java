@@ -47,14 +47,36 @@ public class RegexUtil {
     }
 
     /**
+     * 验证输入的名字是否为“中文”或者是否包含“·”
+     */
+    public static boolean isLegalName(String name) {
+        if (name.contains("·") || name.contains("•")) {
+            if (name.matches("^[\\u4e00-\\u9fa5]+[·•][\\u4e00-\\u9fa5]+$")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (name.matches("^[\\u4e00-\\u9fa5]+$")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    /**
      * 验证身份证号码
      *
      * @param idCard 居民身份证号码15位或18位，最后一位可能是数字或字母
      * @return 验证成功返回true，验证失败返回false
      */
     public static boolean checkIdCard(String idCard) {
+        String s = idCard.toUpperCase();
+        // 去掉所有空格
+        s = s.replace(" ", "");
         String regex = "[1-9]\\d{13,16}[a-zA-Z0-9]{1}";
-        return Pattern.matches(regex, idCard);
+        return Pattern.matches(regex, s);
     }
 
 

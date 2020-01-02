@@ -104,6 +104,8 @@ public class ApiStores {
     public static final String EDUCATION_COURSE_MINECOURSE = BASE_URL + "Education/myCPEcourse";
     //观看记录
     public static final String EDUCATION_COURSE_WATCHRECORD = BASE_URL + "Education/watchRecords";
+    //CPE 证明申请
+    public static final String EDUCATION_APPLYFOR = BASE_URL + "Education/userIntegral ";
 
     //-----------------------------------------TODO 后续教育 end------------------------------------------------------------------------------//
 

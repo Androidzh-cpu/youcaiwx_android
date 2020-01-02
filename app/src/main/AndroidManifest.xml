@@ -465,9 +465,14 @@
             android:name=".module.home.cpe.CPECourseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
-        <!--TODO CPE申请-->
+        <!-- TODO CPE申请 -->
         <activity
             android:name=".module.user.activity.CPEApplyForActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseThemeForActivity" />
+        <!--TODO CPE证明信息-->
+        <activity
+            android:name=".module.user.activity.CPEProveInformationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
     </application>

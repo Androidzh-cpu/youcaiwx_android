@@ -40,11 +40,18 @@
 
     <!-- Strings related to 后续教育 end-->
     <string name="fue_CPE">CPE课程</string>
+    <string name="CPEApplyFor">CPE证明申请</string>
+    <string name="proveinformation">证明信息</string>
     <string name="GenerateReport">生成报告</string>
     <string name="addProveInfo">添加证明信息</string>
-    <string name="cpe_name">姓名:\u0020%s</string>
-    <string name="cpe_vipNumber">IMA会员号:\u0020%s</string>
-    <string name="cpe_IDNumber">身份证号:\u0020%s</string>
+    <string name="cpe_name">姓名:\u0020</string>
+    <string name="cpe_vipNumber">IMA会员号:\u0020</string>
+    <string name="cpe_IDNumber">身份证号:\u0020</string>
+    <string name="cpe_tips_name">请填写您的姓名</string>
+    <string name="cpe_tips_name_error">姓名格式有误</string>
+    <string name="cpe_tips_idnum">请填写您的身份证号</string>
+    <string name="cpe_tips_idnum_error">身份证号格式不正确</string>
+    <string name="cpe_tips_vip">请填写您的会员号</string>
     <string name="classify">分类</string>
     <string name="sort">排序</string>
     <string name="screen">筛选</string>
@@ -54,6 +61,9 @@
     <string name="signin_tips_error">签到失败</string>
     <string name="study_know">学习须知</string>
     <string name="study_know_detail">\u3000\u3000如何获得本课程学分: 每个视频学习过程中均会随机弹出签到提示，全部视频都成功签到后才能获得本课程CPE积分。</string>
+    <string name="cpe_edit_name">您的姓名</string>
+    <string name="cpe_edit_idnumber">您的身份证号码</string>
+    <string name="cpe_edit_vip">您的IMA会员号</string>
     <!-- Strings related to 后续教育 end-->
 
     <!-- Strings related to 登录注册业务 start-->

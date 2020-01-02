@@ -38,34 +38,42 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/icon_add" />
 
-                <android.support.constraint.ConstraintLayout
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_12"
                     android:layout_marginStart="@dimen/dp_12"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
                     android:orientation="vertical">
 
+                    <!--添加证明信息按钮-->
                     <TextView
                         android:id="@+id/text_addProveInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:text="@string/addProveInfo"
                         android:textColor="@color/color_333333"
                         android:textSize="@dimen/sp_13"
-                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <!--姓名和会员号-->
                     <LinearLayout
+                        android:id="@+id/linear_name_vip"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
-                        app:layout_constraintBottom_toTopOf="@id/txt_idNumber"
-                        app:layout_constraintTop_toTopOf="parent">
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cpe_name"
+                            android:textColor="@color/color_333333"
+                            android:textSize="@dimen/sp_13" />
 
                         <TextView
                             android:id="@+id/txt_name"
@@ -73,30 +81,53 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/color_333333"
                             android:textSize="@dimen/sp_13"
-                            tools:text="@string/cpe_name" />
+                            tools:text="小花" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_15"
+                            android:text="@string/cpe_vipNumber"
+                            android:textColor="@color/color_333333"
+                            android:textSize="@dimen/sp_12" />
 
                         <TextView
                             android:id="@+id/txt_vipNumber"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/dp_5"
-                            android:textColor="@color/color_999999"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:textColor="@color/color_333333"
                             android:textSize="@dimen/sp_12"
-                            tools:text="@string/cpe_vipNumber" />
+                            tools:text="001011111" />
+                    </LinearLayout>
+                    <!--身份证号-->
+                    <LinearLayout
+                        android:id="@+id/linear_idnum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cpe_IDNumber"
+                            android:textColor="@color/color_333333"
+                            android:textSize="@dimen/sp_12" />
+
+                        <TextView
+                            android:id="@+id/txt_idNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:textColor="@color/color_333333"
+                            android:textSize="@dimen/sp_12"
+                            tools:text="400100" />
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/txt_idNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_4"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:textColor="@color/color_666666"
-                        android:textSize="@dimen/sp_12"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        tools:text="@string/cpe_IDNumber" />
-                </android.support.constraint.ConstraintLayout>
+                </LinearLayout>
 
                 <ImageView
                     android:layout_width="@dimen/dp_16"
@@ -150,10 +181,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:text="0"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/sp_14"
-                    android:textStyle="bold"
-                    tools:text="0" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -170,10 +201,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:paddingBottom="@dimen/dp_2"
+                    android:paddingBottom="@dimen/dp_3"
                     android:paddingEnd="@dimen/dp_12"
                     android:paddingStart="@dimen/dp_12"
-                    android:paddingTop="@dimen/dp_2"
+                    android:paddingTop="@dimen/dp_3"
                     android:text="@string/GenerateReport"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/sp_13"
