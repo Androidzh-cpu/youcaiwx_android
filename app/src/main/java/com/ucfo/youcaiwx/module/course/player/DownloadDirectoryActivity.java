@@ -287,8 +287,10 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
                     preparedDownloadInfoBean.setCourseName(list.get(currentClickCourseIndex).getName());
                     preparedDownloadInfoBean.setTeacherName(list.get(currentClickCourseIndex).getTeacher_name());
                     preparedDownloadInfoBean.setSectionId(String.valueOf(sectionBean.getSection_id()));
+                    preparedDownloadInfoBean.setSectionSort(sectionBean.getSort());
                     preparedDownloadInfoBean.setSectionName(sectionBean.getSection_name());
                     preparedDownloadInfoBean.setVideoId(String.valueOf(videoBeanList.get(j).getId()));
+                    preparedDownloadInfoBean.setSort(videoBeanList.get(j).getSort());
                     preparedDownloadInfoBean.setVid(videoBeanList.get(j).getVideoId());
                     preparedDownloadInfoBean.setVideoName(videoBeanList.get(j).getVideo_name());
                     preparedDownloadInfoBean.setVideoDuration(videoBeanList.get(j).getVideo_time());

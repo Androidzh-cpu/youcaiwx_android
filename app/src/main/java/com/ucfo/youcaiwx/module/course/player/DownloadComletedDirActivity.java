@@ -30,6 +30,8 @@ import org.litepal.LitePal;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -146,13 +148,12 @@ public class DownloadComletedDirActivity extends BaseActivity {
     private void initAdapter() {
         if (adapter == null) {
             adapter = new DownloadComletedDirAdapter(list, this);
-        }
-        adapter.notifyDataSetChanged();
-        if (adapter != null) {
             listView.setAdapter(adapter);
             for (int i = 0; i < adapter.getGroupCount(); i++) {
                 listView.expandGroup(i);
             }
+        } else {
+            adapter.notifyDataSetChanged();
         }
         //视频点击事件
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -228,6 +229,7 @@ public class DownloadComletedDirActivity extends BaseActivity {
 
                 DataBaseSectioinListBean dataBaseSectioinListBean = sectioinListBeanList.get(i);
                 String sectionId = dataBaseSectioinListBean.getSectionId();
+                String sectionSort = dataBaseSectioinListBean.getSectionSort();
                 String sectionName = dataBaseSectioinListBean.getSectionName();
                 String courseId = dataBaseSectioinListBean.getCourseId();
 
@@ -246,13 +248,14 @@ public class DownloadComletedDirActivity extends BaseActivity {
                         String beanSectionId = bean.getSectionId();
                         String beanVideoId = bean.getVideoId();
                         String beanVid = bean.getVid();
+                        String sort = bean.getSort();
                         String beanVideoDuration = bean.getVideoDuration();
                         String beanVideoName = bean.getVideoName();
                         int beanStatus = bean.getStatus();
                         String beanSaveDir = bean.getSaveDir();
                         if (beanStatus == 1) {
                             //TODO 创建视频
-                            DownloadCompletedDirBean.DataBean.SonBean sonBean = new DownloadCompletedDirBean.DataBean.SonBean(beanCourseId, beanSectionId, beanVideoId, beanVid, beanVideoName, beanVideoDuration, beanStatus, beanSaveDir);
+                            DownloadCompletedDirBean.DataBean.SonBean sonBean = new DownloadCompletedDirBean.DataBean.SonBean(beanCourseId, beanSectionId, beanVideoId, beanVid, sort, beanVideoName, beanVideoDuration, beanStatus, beanSaveDir);
                             //TODO 添加视频至对应章节下
                             sonBeanList.add(sonBean);
                         }
@@ -263,6 +266,7 @@ public class DownloadComletedDirActivity extends BaseActivity {
                     dataBean.setCourseId(courseId);
                     dataBean.setSectionName(sectionName);
                     dataBean.setSectionId(sectionId);
+                    dataBean.setSectionSort(sectionSort);
                     dataBean.setSon(sonBeanList);
 
                     beanList.add(dataBean);
@@ -279,8 +283,34 @@ public class DownloadComletedDirActivity extends BaseActivity {
                     }
                 }
             }
+        }
+        //视频排序
+        if (beanList != null && beanList.size() > 0) {
+            for (int i = 0; i < beanList.size(); i++) {
+                List<DownloadCompletedDirBean.DataBean.SonBean> sonBeanList = beanList.get(i).getSon();
+                Collections.sort(sonBeanList, new Comparator<DownloadCompletedDirBean.DataBean.SonBean>() {
+                    @Override
+                    public int compare(DownloadCompletedDirBean.DataBean.SonBean o1, DownloadCompletedDirBean.DataBean.SonBean o2) {
+                        int a = Integer.parseInt(o1.getSort());
+                        int b = Integer.parseInt(o2.getSort());
+                        int i = a - b;
+                        return i;
+                    }
+                });
+            }
 
         }
+        //排序章节
+        Collections.sort(beanList, new Comparator<DownloadCompletedDirBean.DataBean>() {
+            @Override
+            public int compare(DownloadCompletedDirBean.DataBean o1, DownloadCompletedDirBean.DataBean o2) {
+                int a = Integer.parseInt(o1.getSectionSort());
+                int b = Integer.parseInt(o2.getSectionSort());
+                int i = a - b;
+                return i;
+            }
+        });
+        //更新集合
         list.addAll(beanList);
     }
 

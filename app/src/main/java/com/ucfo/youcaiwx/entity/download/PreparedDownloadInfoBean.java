@@ -14,8 +14,10 @@ public class PreparedDownloadInfoBean implements Parcelable {
     private String courseName;
     private String teacherName;
     private String sectionId;
+    private String sectionSort;
     private String sectionName;
     private String videoId;
+    private String sort;
     private String vid;
     private String videoName;
     private String videoDuration;
@@ -36,8 +38,10 @@ public class PreparedDownloadInfoBean implements Parcelable {
         arg0.writeString(courseName);
         arg0.writeString(teacherName);
         arg0.writeString(sectionId);
+        arg0.writeString(sectionSort);
         arg0.writeString(sectionName);
         arg0.writeString(videoId);
+        arg0.writeString(sort);
         arg0.writeString(vid);
         arg0.writeString(videoName);
         arg0.writeString(videoDuration);
@@ -61,8 +65,10 @@ public class PreparedDownloadInfoBean implements Parcelable {
             info.setCourseName(source.readString());
             info.setTeacherName(source.readString());
             info.setSectionId(source.readString());
+            info.setSectionSort(source.readString());
             info.setSectionName(source.readString());
             info.setVideoId(source.readString());
+            info.setSort(source.readString());
             info.setVid(source.readString());
             info.setVideoName(source.readString());
             info.setVideoDuration(source.readString());
@@ -152,6 +158,22 @@ public class PreparedDownloadInfoBean implements Parcelable {
         return CREATOR;
     }
 
+    public String getSectionSort() {
+        return sectionSort == null ? "" : sectionSort;
+    }
+
+    public void setSectionSort(String sectionSort) {
+        this.sectionSort = sectionSort;
+    }
+
+    public String getSort() {
+        return sort == null ? "" : sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
     @Override
     public String toString() {
         return "PreparedDownloadInfoBean{" +
@@ -159,12 +181,13 @@ public class PreparedDownloadInfoBean implements Parcelable {
                 ", courseName='" + courseName + '\'' +
                 ", teacherName='" + teacherName + '\'' +
                 ", sectionId='" + sectionId + '\'' +
+                ", sectionSort='" + sectionSort + '\'' +
                 ", sectionName='" + sectionName + '\'' +
                 ", videoId='" + videoId + '\'' +
+                ", sort='" + sort + '\'' +
                 ", vid='" + vid + '\'' +
                 ", videoName='" + videoName + '\'' +
                 ", videoDuration='" + videoDuration + '\'' +
                 '}';
     }
-
 }

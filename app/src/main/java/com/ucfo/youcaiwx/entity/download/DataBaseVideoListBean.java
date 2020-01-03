@@ -13,6 +13,7 @@ public class DataBaseVideoListBean extends LitePalSupport {
     private String courseId;
     private String sectionId;
     private String videoId;
+    private String sort;
     private String vid;
     private String videoName;
     private String videoDuration;
@@ -100,6 +101,14 @@ public class DataBaseVideoListBean extends LitePalSupport {
         this.checked = checked;
     }
 
+    public String getSort() {
+        return sort == null ? "" : sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
     @Override
     public String toString() {
         return "DataBaseVideoListBean{" +
@@ -107,6 +116,7 @@ public class DataBaseVideoListBean extends LitePalSupport {
                 ", courseId='" + courseId + '\'' +
                 ", sectionId='" + sectionId + '\'' +
                 ", videoId='" + videoId + '\'' +
+                ", sort='" + sort + '\'' +
                 ", vid='" + vid + '\'' +
                 ", videoName='" + videoName + '\'' +
                 ", videoDuration='" + videoDuration + '\'' +

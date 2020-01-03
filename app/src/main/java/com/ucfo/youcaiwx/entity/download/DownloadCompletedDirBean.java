@@ -27,12 +27,14 @@ public class DownloadCompletedDirBean {
     public static class DataBean {
         private String courseId;
         private String sectionId;
+        private String sectionSort;
         private String sectionName;
         private List<SonBean> son;
 
-        public DataBean(String courseId, String sectionId, String sectionName, List<SonBean> son) {
+        public DataBean(String courseId, String sectionId, String sectionSort, String sectionName, List<SonBean> son) {
             this.courseId = courseId;
             this.sectionId = sectionId;
+            this.sectionSort = sectionSort;
             this.sectionName = sectionName;
             this.son = son;
         }
@@ -64,6 +66,14 @@ public class DownloadCompletedDirBean {
             this.sectionName = sectionName;
         }
 
+        public String getSectionSort() {
+            return sectionSort == null ? "" : sectionSort;
+        }
+
+        public void setSectionSort(String sectionSort) {
+            this.sectionSort = sectionSort;
+        }
+
         public List<SonBean> getSon() {
             if (son == null) {
                 return new ArrayList<>();
@@ -80,6 +90,7 @@ public class DownloadCompletedDirBean {
             return "DataBean{" +
                     "courseId='" + courseId + '\'' +
                     ", sectionId='" + sectionId + '\'' +
+                    ", sectionSort='" + sectionSort + '\'' +
                     ", sectionName='" + sectionName + '\'' +
                     ", son=" + son +
                     '}';
@@ -89,6 +100,7 @@ public class DownloadCompletedDirBean {
             private String courseId;
             private String sectionId;
             private String videoId;
+            private String sort;
             private String vid;
             private String videoName;
             private String videoDuration;
@@ -96,29 +108,16 @@ public class DownloadCompletedDirBean {
             private String saveDir;
             private boolean checked;
 
-            @Override
-            public String toString() {
-                return "SonBean{" +
-                        "courseId='" + courseId + '\'' +
-                        ", sectionId='" + sectionId + '\'' +
-                        ", videoId='" + videoId + '\'' +
-                        ", vid='" + vid + '\'' +
-                        ", videoName='" + videoName + '\'' +
-                        ", videoDuration='" + videoDuration + '\'' +
-                        ", status=" + status +
-                        ", saveDir='" + saveDir + '\'' +
-                        ", checked=" + checked +
-                        '}';
-            }
 
             public SonBean() {
             }
 
-            public SonBean(String courseId, String sectionId, String videoId, String vid, String videoName, String videoDuration, int status, String saveDir) {
+            public SonBean(String courseId, String sectionId, String videoId, String vid, String sort, String videoName, String videoDuration, int status, String saveDir) {
                 this.courseId = courseId;
                 this.sectionId = sectionId;
                 this.videoId = videoId;
                 this.vid = vid;
+                this.sort = sort;
                 this.videoName = videoName;
                 this.videoDuration = videoDuration;
                 this.status = status;
@@ -195,6 +194,30 @@ public class DownloadCompletedDirBean {
 
             public void setChecked(boolean checked) {
                 this.checked = checked;
+            }
+
+            public String getSort() {
+                return sort == null ? "" : sort;
+            }
+
+            public void setSort(String sort) {
+                this.sort = sort;
+            }
+
+            @Override
+            public String toString() {
+                return "SonBean{" +
+                        "courseId='" + courseId + '\'' +
+                        ", sectionId='" + sectionId + '\'' +
+                        ", videoId='" + videoId + '\'' +
+                        ", sort='" + sort + '\'' +
+                        ", vid='" + vid + '\'' +
+                        ", videoName='" + videoName + '\'' +
+                        ", videoDuration='" + videoDuration + '\'' +
+                        ", status=" + status +
+                        ", saveDir='" + saveDir + '\'' +
+                        ", checked=" + checked +
+                        '}';
             }
         }
     }

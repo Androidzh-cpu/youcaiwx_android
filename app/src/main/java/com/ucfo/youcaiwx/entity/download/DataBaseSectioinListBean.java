@@ -12,6 +12,7 @@ public class DataBaseSectioinListBean extends LitePalSupport {
     private int id;
     private String courseId;
     private String sectionId;
+    private String sectionSort;
     private String sectionName;
     private boolean checked;
 
@@ -55,12 +56,21 @@ public class DataBaseSectioinListBean extends LitePalSupport {
         this.checked = checked;
     }
 
+    public String getSectionSort() {
+        return sectionSort == null ? "" : sectionSort;
+    }
+
+    public void setSectionSort(String sectionSort) {
+        this.sectionSort = sectionSort;
+    }
+
     @Override
     public String toString() {
         return "DataBaseSectioinListBean{" +
                 "id=" + id +
                 ", courseId='" + courseId + '\'' +
                 ", sectionId='" + sectionId + '\'' +
+                ", sectionSort='" + sectionSort + '\'' +
                 ", sectionName='" + sectionName + '\'' +
                 ", checked=" + checked +
                 '}';

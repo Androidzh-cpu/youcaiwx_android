@@ -469,6 +469,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
                                 dataBaseVideoListBean.setStatus(0);
                                 dataBaseVideoListBean.setVideoDuration(bean.getVideoDuration());
                                 dataBaseVideoListBean.setVideoId(bean.getVideoId());
+                                dataBaseVideoListBean.setSort(bean.getSort());
                                 dataBaseVideoListBean.setVideoName(bean.getVideoName());
                                 dataBaseVideoListBean.setVid(bean.getVid());
                                 dataBaseVideoListBean.setSectionId(bean.getSectionId());
@@ -479,6 +480,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
                             //在改课程目录下添加新的章节
                             dataBaseSectioinListBean.setCourseId(bean.getCourseId());
                             dataBaseSectioinListBean.setSectionId(bean.getSectionId());
+                            dataBaseSectioinListBean.setSectionSort(bean.getSectionSort());
                             dataBaseSectioinListBean.setSectionName(bean.getSectionName());
                             dataBaseSectioinListBean.save();
                             List<DataBaseVideoListBean> videoListBeans = LitePal.where("vid = ?", bean.getVid()).find(DataBaseVideoListBean.class);
@@ -488,6 +490,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
                                 //添加新视频
                                 dataBaseVideoListBean.setVideoDuration(bean.getVideoDuration());
                                 dataBaseVideoListBean.setVideoId(bean.getVideoId());
+                                dataBaseVideoListBean.setSort(bean.getSort());
                                 dataBaseVideoListBean.setVideoName(bean.getVideoName());
                                 dataBaseVideoListBean.setVid(bean.getVid());
                                 dataBaseVideoListBean.setSectionId(bean.getSectionId());
@@ -505,6 +508,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
 
                         dataBaseSectioinListBean.setCourseId(bean.getCourseId());
                         dataBaseSectioinListBean.setSectionId(bean.getSectionId());
+                        dataBaseSectioinListBean.setSectionSort(bean.getSectionSort());
                         dataBaseSectioinListBean.setSectionName(bean.getSectionName());
                         //添加章节
                         dataBaseSectioinListBean.save();
@@ -513,6 +517,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
                         dataBaseVideoListBean.setVid(bean.getVid());
                         dataBaseVideoListBean.setVideoDuration(bean.getVideoDuration());
                         dataBaseVideoListBean.setVideoId(bean.getVideoId());
+                        dataBaseVideoListBean.setSort(bean.getSort());
                         dataBaseVideoListBean.setVideoName(bean.getVideoName());
                         dataBaseVideoListBean.setSectionId(bean.getSectionId());
                         dataBaseVideoListBean.setCourseId(bean.getCourseId());

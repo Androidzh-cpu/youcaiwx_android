@@ -126,6 +126,7 @@ public class CourseDirBean {
             private int course_id;
             private int section_id;
             private String section_name;
+            private String sort;
             private List<VideoBean> video;
 
             public int getCourse_id() {
@@ -150,6 +151,14 @@ public class CourseDirBean {
 
             public void setSection_name(String section_name) {
                 this.section_name = section_name;
+            }
+
+            public String getSort() {
+                return sort == null ? "" : sort;
+            }
+
+            public void setSort(String sort) {
+                this.sort = sort;
             }
 
             public List<VideoBean> getVideo() {
@@ -179,11 +188,20 @@ public class CourseDirBean {
                 private String video_time;
                 private String record;
                 private String VideoId;
+                private String sort;
                 private String video_id;
                 private int section_id;
                 private int course_id;
                 private int is_shoucang;
                 private boolean checked;
+
+                public String getSort() {
+                    return sort == null ? "" : sort;
+                }
+
+                public void setSort(String sort) {
+                    this.sort = sort;
+                }
 
                 public String getRecord() {
                     return record == null ? "" : record;
