@@ -113,6 +113,8 @@ public class Constant {
     public static final String ROOT_DIR = "/youcai/";
     //压缩图片存储地址
     public static final String LUBAN_PATH = ROOT_DIR + "image/";
+    //学分报告存放目录
+    public static final String REPORT_PATH = "report";
     //图片保存地址
     public static final String SAVE_PATH = ROOT_DIR + "saveImage/";
     //离线缓存地址

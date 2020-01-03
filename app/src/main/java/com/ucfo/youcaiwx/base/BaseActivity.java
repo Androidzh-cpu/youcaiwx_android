@@ -258,7 +258,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
      */
     public void showToast(String message) {
         if (!TextUtils.isEmpty(message)) {
-            ToastUtil.showBottomLongText(this, message);
+            ToastUtil.showBottomShortText(this, message);
         }
     }
 
@@ -276,6 +276,10 @@ public abstract class BaseActivity extends AppCompatActivity implements NetTypeC
             netLoadingProgress = builder.create();
             netLoadingProgress.show();
         }
+    }
+
+    public void setProcessLoading() {
+        setProcessLoading(null, true);
     }
 
     public void dismissPorcess() {

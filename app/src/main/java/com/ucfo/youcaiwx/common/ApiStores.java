@@ -20,6 +20,7 @@ public class ApiStores {
     public static final String ROOT_URL = "https://dest.youcaiwx.cn/";
 
     private static final String BASE_URL = ROOT_URL + "apps/";
+    private static final String BASE_URL_UPLOAD = ROOT_URL + "upload/";
 
     //socket地址
     //public static final String SOCKET = "ws://ycapi.youcaiwx.com:2346";
@@ -105,7 +106,9 @@ public class ApiStores {
     //观看记录
     public static final String EDUCATION_COURSE_WATCHRECORD = BASE_URL + "Education/watchRecords";
     //CPE 证明申请
-    public static final String EDUCATION_APPLYFOR = BASE_URL + "Education/userIntegral ";
+    public static final String EDUCATION_APPLYFOR = BASE_URL + "Education/userIntegral";
+    //生成学分报告
+    public static final String EDUCATION_CREATE_REPORT = BASE_URL_UPLOAD + "Edureport/generateImg";
 
     //-----------------------------------------TODO 后续教育 end------------------------------------------------------------------------------//
 

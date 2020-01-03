@@ -52,6 +52,12 @@
     <string name="cpe_tips_idnum">请填写您的身份证号</string>
     <string name="cpe_tips_idnum_error">身份证号格式不正确</string>
     <string name="cpe_tips_vip">请填写您的会员号</string>
+    <string name="cpe_tips_proveinfo">请填写证明信息</string>
+    <string name="cpe_tips_prove_course">请选择申请课程</string>
+    <string name="cpe_tips_havesaved">文件已保存至相册,请前往查看</string>
+    <string name="cpe_tips_havesaved_error">图片保存失败</string>
+    <string name="cpe_tips_saving">图片保存中</string>
+    <string name="cpe_tips_notfoundurl">无法获取图片路径</string>
     <string name="classify">分类</string>
     <string name="sort">排序</string>
     <string name="screen">筛选</string>
@@ -64,6 +70,7 @@
     <string name="cpe_edit_name">您的姓名</string>
     <string name="cpe_edit_idnumber">您的身份证号码</string>
     <string name="cpe_edit_vip">您的IMA会员号</string>
+    <string name="complted_time">完成时间:\u0020%s</string>
     <!-- Strings related to 后续教育 end-->
 
     <!-- Strings related to 登录注册业务 start-->
@@ -664,6 +671,7 @@
     <string name="ISee">我知道了</string>
     <string name="day">天</string>
     <string name="month">月</string>
+    <string name="year">%s年</string>
     <string name="people">%s人</string>
     <string name="source">来源</string>
     <string name="loading">内容即将呈现</string>

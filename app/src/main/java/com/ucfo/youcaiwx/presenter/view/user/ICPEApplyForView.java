@@ -1,6 +1,7 @@
 package com.ucfo.youcaiwx.presenter.view.user;
 
 import com.ucfo.youcaiwx.base.BaseView;
+import com.ucfo.youcaiwx.entity.user.CPEApplyInfoBean;
 
 /**
  * Author: AND
@@ -11,6 +12,8 @@ import com.ucfo.youcaiwx.base.BaseView;
  */
 public interface ICPEApplyForView extends BaseView {
 
-    void initMineCPEList();
+    void initMineCPEList(CPEApplyInfoBean bean);
+
+    void createReport(int code, String message, String imageUrl);
 
 }
