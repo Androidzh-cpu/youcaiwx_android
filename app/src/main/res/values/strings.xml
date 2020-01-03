@@ -178,6 +178,8 @@
     <string name="mine_Course">我的课程</string>
     <string name="mine_EducationCourse">CPE课程</string>
     <string name="mine_Collection">我的收藏</string>
+    <string name="mine_event">我的活动</string>
+    <string name="mine_cpe">CPE学分报告</string>
     <string name="mine_offline">离线课程</string>
     <string name="mine_order">我的订单</string>
     <string name="mine_orderDetail">订单详情</string>

@@ -255,6 +255,22 @@
                             android:textSize="@dimen/sp_12" />
 
                         <TextView
+                            android:id="@+id/user_event"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:drawablePadding="@dimen/dp_3"
+                            android:drawableTop="@mipmap/icon_mine_event"
+                            android:gravity="center"
+                            android:paddingBottom="@dimen/dp_11"
+                            android:paddingTop="@dimen/dp_15"
+                            android:text="@string/mine_event"
+                            android:textColor="@color/color_666666"
+                            android:textSize="@dimen/sp_12" />
+
+                        <TextView
                             android:id="@+id/user_offline"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -305,6 +321,22 @@
                             android:paddingBottom="@dimen/dp_9"
                             android:paddingTop="@dimen/dp_11"
                             android:text="@string/mine_answer"
+                            android:textColor="@color/color_666666"
+                            android:textSize="@dimen/sp_12" />
+
+                        <TextView
+                            android:id="@+id/user_cpeapplyfor"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:drawablePadding="@dimen/dp_3"
+                            android:drawableTop="@mipmap/icon_mine_cpe"
+                            android:gravity="center"
+                            android:paddingBottom="@dimen/dp_11"
+                            android:paddingTop="@dimen/dp_15"
+                            android:text="@string/mine_cpe"
                             android:textColor="@color/color_666666"
                             android:textSize="@dimen/sp_12" />
 

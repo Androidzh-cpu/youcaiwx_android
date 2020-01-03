@@ -76,9 +76,11 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
     private LinearLayout btnUserCoupons;
     private TextView userCourse;
     private TextView userCollection;
+    private TextView userCPE;
     private TextView userOffline;
     private TextView userOrder;
     private TextView userAnswer;
+    private TextView userEvent;
     private TextView userRecord;
     private LinearLayout btnWxRemind;
     private LinearLayout btnRecommendfriend;
@@ -132,12 +134,16 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         userCourse = (TextView) itemView.findViewById(R.id.user_course);
         userCourse.setOnClickListener(this);
         userCollection = (TextView) itemView.findViewById(R.id.user_collection);
+        userCPE = (TextView) itemView.findViewById(R.id.user_cpeapplyfor);
+        userCPE.setOnClickListener(this);
         userCollection.setOnClickListener(this);
         userOffline = (TextView) itemView.findViewById(R.id.user_offline);
         userOffline.setOnClickListener(this);
         userOrder = (TextView) itemView.findViewById(R.id.user_order);
         userOrder.setOnClickListener(this);
         userAnswer = (TextView) itemView.findViewById(R.id.user_answer);
+        userEvent = (TextView) itemView.findViewById(R.id.user_event);
+        userEvent.setOnClickListener(this);
         userAnswer.setOnClickListener(this);
         userRecord = (TextView) itemView.findViewById(R.id.user_record);
         userRecord.setOnClickListener(this);
@@ -235,12 +241,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                     break;
                 case R.id.btn_user_balance:
                     //TODO 余额
-                    if (Constant.ISTEST_ENVIRONMENT) {
-                        startActivity(CPEApplyForActivity.class);
-                        //startActivity(CPEProveInformationActivity.class);
-                    } else {
-                        noDev();
-                    }
+                    noDev();
                     break;
                 case R.id.btn_user_coupons:
                     //TODO 优惠券
@@ -253,6 +254,13 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                 case R.id.user_collection:
                     //TODO 我的收藏
                     startActivity(MineCollectionActivity.class, null);
+                    break;
+                case R.id.user_cpeapplyfor:
+                    //TODO cpe学分报告
+                    startActivity(CPEApplyForActivity.class);
+                    break;
+                case R.id.user_event:
+                    //TODO 我的活动
                     break;
                 case R.id.user_offline:
                     //TODO 离线课程
