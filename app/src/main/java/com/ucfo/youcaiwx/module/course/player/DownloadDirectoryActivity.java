@@ -1,5 +1,6 @@
 package com.ucfo.youcaiwx.module.course.player;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,7 @@ import com.ucfo.youcaiwx.entity.course.CourseDirBean;
 import com.ucfo.youcaiwx.entity.download.DataBaseVideoListBean;
 import com.ucfo.youcaiwx.entity.download.PreparedDownloadInfoBean;
 import com.ucfo.youcaiwx.module.course.player.download.DownloadSaveInfoUtil;
+import com.ucfo.youcaiwx.module.course.player.utils.NetWatchdog;
 import com.ucfo.youcaiwx.module.user.activity.OfflineCourseActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.course.CourseDirPresenter;
 import com.ucfo.youcaiwx.presenter.view.course.ICourseDirView;
@@ -63,7 +65,6 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
     Button btnExit;
     private Bundle bundle;
     private String course_title, course_teachername;
-    private DownloadDirectoryActivity context;
     private CourseDirPresenter courseDirPresenter;
     private int package_id, user_id, currentClickCourseIndex;
     private ArrayList<CourseDirBean.DataBean> list;
@@ -72,6 +73,33 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
     private String courseId;
     private DownloadSaveInfoUtil downloadSaveInfoUtil;
     private AliyunDownloadManager downloadManager;
+    private boolean downloadWifi;
+    private NetWatchdog mNetWatchdog;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mNetWatchdog != null) {
+            mNetWatchdog.startWatch();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mNetWatchdog != null) {
+            mNetWatchdog.stopWatch();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mNetWatchdog != null) {
+            mNetWatchdog.stopWatch();
+        }
+        mNetWatchdog = null;
+    }
 
     @Override
     protected int setContentView() {
@@ -105,10 +133,13 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
 
-        context = this;
-        user_id = SharedPreferencesUtils.getInstance(context).getInt(Constant.USER_ID, 0);
+        user_id = SharedPreferencesUtils.getInstance(this).getInt(Constant.USER_ID, 0);
+        downloadWifi = SharedPreferencesUtils.getInstance(this).getBoolean(Constant.DOWNLOAD_WIFI, false);
         list = new ArrayList<>();
         courseDirPresenter = new CourseDirPresenter(this);
+
+        mNetWatchdog = new NetWatchdog(this);
+        mNetWatchdog.setNetChangeListener(new MyNetChangeListener());
     }
 
     @Override
@@ -311,4 +342,39 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
         btnExit.setEnabled(true);
     }
 
+
+    private class MyNetChangeListener implements NetWatchdog.NetChangeListener {
+        @Override
+        public void onWifiTo4G() {//数据网络
+            if (downloadWifi) {
+                //表示他已经选择了仅在WiFi下下载,现在是4G,给他个提示
+                new android.support.v7.app.AlertDialog.Builder(DownloadDirectoryActivity.this, R.style.WhiteDialogStyle)
+                        .setTitle(getResources().getString(R.string.explication))
+                        .setMessage(getResources().getString(R.string.alivc_video_download_downwithwifi))
+                        .setPositiveButton(getResources().getString(R.string.continue_download), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                        .setCancelable(false)
+                        .create()
+                        .show();
+            }
+        }
+
+        @Override
+        public void on4GToWifi() {//WIFI状态
+        }
+
+        @Override
+        public void onNetDisconnected() {//网络断开。由于安卓这块网络切换的时候，有时候也会先报断开。所以这个回调是不准确的。
+        }
+    }
 }

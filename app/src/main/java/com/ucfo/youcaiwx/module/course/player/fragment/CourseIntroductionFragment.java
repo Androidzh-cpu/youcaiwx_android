@@ -2,8 +2,8 @@ package com.ucfo.youcaiwx.module.course.player.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Build;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,7 +31,6 @@ import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.course.CourseIntroductionBean;
-import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
@@ -74,7 +73,32 @@ public class CourseIntroductionFragment extends BaseFragment {
     private CourseTeacherAdapter courseTeacherAdapter;
     private Dialog teacherDialog;
     private int user_id;
-    private VideoPlayPageActivity videoPlayPageActivity;
+
+    private CourseIntroductionListener CourseIntroductionListener;
+
+    public interface CourseIntroductionListener {
+
+        int introducationGetCoursePackageId();
+
+        String introducationGetCourse_Source();
+
+        void introducationSetCourseBuyState(int courseBuyState);
+
+        void introducationSetCourse_PackagePrice(String price);
+
+        void introducationSetCourse_Cover(String courseCover);
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof CourseIntroductionListener) {
+            CourseIntroductionListener = (CourseIntroductionListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement CourseIntroductionListener");
+        }
+    }
 
     @Override
     public void onResume() {
@@ -106,6 +130,12 @@ public class CourseIntroductionFragment extends BaseFragment {
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        CourseIntroductionListener = null;
+    }
+
+    @Override
     protected int setContentView() {
         return R.layout.fragment_courseintroduction;
     }
@@ -123,12 +153,12 @@ public class CourseIntroductionFragment extends BaseFragment {
         loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
 
 
-        FragmentActivity activity = getActivity();
+        /*FragmentActivity activity = getActivity();
         if (activity instanceof VideoPlayPageActivity) {
             videoPlayPageActivity = (VideoPlayPageActivity) getActivity();
-        }
-        if (videoPlayPageActivity != null) {
-            videoPlayPageActivity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        }*/
+        if (getActivity() != null) {
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         }
         setDefaultWebSettings(webView);
     }
@@ -162,10 +192,17 @@ public class CourseIntroductionFragment extends BaseFragment {
     @Override
     protected void onLazyLoadOnce() {
         super.onLazyLoadOnce();
+/*
         if (videoPlayPageActivity != null) {
             course_packageId = videoPlayPageActivity.getCoursePackageId();
             user_id = SharedPreferencesUtils.getInstance(getContext()).getInt(Constant.USER_ID, 0);
 
+            loadCourseInfo(course_packageId, user_id);
+        }
+*/
+        user_id = SharedPreferencesUtils.getInstance(getContext()).getInt(Constant.USER_ID, 0);
+        if (CourseIntroductionListener != null) {
+            course_packageId = CourseIntroductionListener.introducationGetCoursePackageId();
             loadCourseInfo(course_packageId, user_id);
         }
     }
@@ -182,7 +219,8 @@ public class CourseIntroductionFragment extends BaseFragment {
         } else {
             id = String.valueOf(user_id);
         }
-        String courseSource = videoPlayPageActivity.getCourse_Source();
+        //String courseSource = videoPlayPageActivity.getCourse_Source();
+        String courseSource = CourseIntroductionListener.introducationGetCourse_Source();
         String url = "";
         String idName = "";
         if (TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
@@ -281,33 +319,42 @@ public class CourseIntroductionFragment extends BaseFragment {
             String isPurchase = data.getIs_purchase();//课程是否购买
             String appImg = data.getApp_img();//封面图
             String userstatus = data.getUserstatus();//后续教育是否购买
+/*
             if (videoPlayPageActivity == null) {
                 FragmentActivity activity = getActivity();
                 if (activity instanceof VideoPlayPageActivity) {
                     videoPlayPageActivity = (VideoPlayPageActivity) activity;
                 }
             }
+*/
             //TODO 课程购买状态
-            String courseSource = videoPlayPageActivity.getCourse_Source();
+            //String courseSource = videoPlayPageActivity.getCourse_Source();
+            String courseSource = CourseIntroductionListener.introducationGetCourse_Source();
             if (TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
                 // 后续教育
                 if (TextUtils.isEmpty(userstatus)) {
-                    videoPlayPageActivity.setCourseBuyState(2);
+                    //videoPlayPageActivity.setCourseBuyState(2);
+                    CourseIntroductionListener.introducationSetCourseBuyState(2);
                 } else {
-                    videoPlayPageActivity.setCourseBuyState(Integer.parseInt(userstatus));
+                    //videoPlayPageActivity.setCourseBuyState(Integer.parseInt(userstatus));
+                    CourseIntroductionListener.introducationSetCourseBuyState(Integer.parseInt(userstatus));
                 }
             } else {
                 //一般般啦
                 if (TextUtils.isEmpty(isPurchase)) {
-                    videoPlayPageActivity.setCourseBuyState(2);
+                    //videoPlayPageActivity.setCourseBuyState(2);
+                    CourseIntroductionListener.introducationSetCourseBuyState(2);
                 } else {
-                    videoPlayPageActivity.setCourseBuyState(Integer.parseInt(isPurchase));
+                    //videoPlayPageActivity.setCourseBuyState(Integer.parseInt(isPurchase));
+                    CourseIntroductionListener.introducationSetCourseBuyState(Integer.parseInt(isPurchase));
                 }
             }
             //TODO 课程购买价格
-            videoPlayPageActivity.setCourse_PackagePrice(price);
+            //videoPlayPageActivity.setCourse_PackagePrice(price);
+            CourseIntroductionListener.introducationSetCourse_PackagePrice(price);
             //TODO 设置课程封面
-            videoPlayPageActivity.setCourse_Cover(appImg);
+            //videoPlayPageActivity.setCourse_Cover(appImg);
+            CourseIntroductionListener.introducationSetCourse_Cover(appImg);
             //TODO 课程简介主要内容(本来是一个H5,人家就换成一张图了,,,,,,)
             webView.loadUrl(briefImg);
             if (!TextUtils.isEmpty(name)) {

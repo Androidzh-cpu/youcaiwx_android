@@ -38,7 +38,7 @@ import java.util.ArrayList;
  * ORG: www.youcaiwx.com
  * Description:TODO 课程离线缓存
  */
-public class OfflineCourseActivity extends BaseActivity implements View.OnClickListener {
+public class OfflineCourseActivity extends BaseActivity implements View.OnClickListener, DownloadingFragment.DownloadingListener {
     private static String preparedVid;
     private XTabLayout xTablayout;
     private Toolbar titlebarToolbar;

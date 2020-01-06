@@ -31,6 +31,7 @@ import com.ucfo.youcaiwx.module.user.activity.MineAnswerQuestionActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineCollectionActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineCouponsActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineCourseActivity;
+import com.ucfo.youcaiwx.module.user.activity.MineEventActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineOrderFormActivity;
 import com.ucfo.youcaiwx.module.user.activity.OfflineCourseActivity;
 import com.ucfo.youcaiwx.module.user.activity.PersonnelSettingActivity;
@@ -167,18 +168,26 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
 
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) statusbarView.getLayoutParams();
         layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        layoutParams.height = StatusBarUtil.getStatusBarHeight(activity);
+        layoutParams.height = StatusBarUtil.getStatusBarHeight(getContext());
         statusbarView.setLayoutParams(layoutParams);
 
-        iconDefaultImage = ContextCompat.getDrawable(activity, R.mipmap.icon_default);
+        iconDefaultImage = ContextCompat.getDrawable(getContext(), R.mipmap.icon_default);
     }
 
     @Override
     protected void initData() {
+        //设置中心
         titlebarSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(SettingActivity.class, null);
+            }
+        });
+        //意见反馈
+        btnFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(FeedBackActivity.class);
             }
         });
 
@@ -210,10 +219,10 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                 userInfoPresenter.getUserInfo(user_id);
             }
         } else {
-            updateUnLoginUi();
-            if (loadinglayout != null) {
-                loadinglayout.showContent();
+            if (isAdded()) {
+                updateUnLoginUi();
             }
+            showContent();
         }
     }
 
@@ -261,6 +270,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                     break;
                 case R.id.user_event:
                     //TODO 我的活动
+                    startActivity(MineEventActivity.class);
                     break;
                 case R.id.user_offline:
                     //TODO 离线课程
@@ -319,10 +329,6 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                         activity.makeCall();
                     }
                     break;
-                case R.id.btn_feedback:
-                    //TODO 意见反馈
-                    startActivity(FeedBackActivity.class, bundle);
-                    break;
                 case R.id.btn_about:
                     //TODO 关于
                     bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.mine_about));
@@ -345,11 +351,17 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         if (bean != null) {
             UserInfoBean.DataBean data = bean.getData();
             if (data != null) {
-                updateLoginUi(data);
-                if (loadinglayout != null) {
-                    loadinglayout.showContent();
+                if (isAdded()) {
+                    updateLoginUi(data);
                 }
+                showContent();
             }
+        }
+    }
+
+    private void showContent() {
+        if (loadinglayout != null) {
+            loadinglayout.showContent();
         }
     }
 
@@ -373,14 +385,14 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
 
     //TODO 设置未登录个人信息
     public void updateUnLoginUi() {
-        userBalance.setText(String.valueOf(0 + getResources().getString(R.string.mine_yuan)));
-        userCoupons.setText(String.valueOf(0 + getResources().getString(R.string.mine_zhang)));
+        userBalance.setText(String.valueOf(String.format("%s%s", "0", getResources().getString(R.string.mine_yuan))));
+        userCoupons.setText(String.valueOf(String.format("%s%s", "0", getResources().getString(R.string.mine_zhang))));
         userIntegral.setText(String.valueOf(0));
         userNickname.setText(getResources().getString(R.string.mine_tologin));
         userNickname.setCompoundDrawables(null, null, null, null);
         userSex.setVisibility(userSex.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
         userCouponsMsg.setVisibility(userCouponsMsg.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
-        userIcon.setImageDrawable(ContextCompat.getDrawable(Objects.requireNonNull(activity), R.mipmap.icon_headdefault));
+        userIcon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.icon_headdefault));
     }
 
     //TODO 设置登录个人信息
@@ -389,9 +401,9 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         String balance = dataBean.getBalance();
         String username = dataBean.getUsername();
         int sex = dataBean.getSex();
-        int coupon = dataBean.getCoupon();
-        int isRead = dataBean.getIs_read();
-        int integral = dataBean.getIntegral();
+        String coupon = dataBean.getCoupon();
+        String isRead = dataBean.getIs_read();
+        String integral = dataBean.getIntegral();
         if (TextUtils.isEmpty(head)) {
             if (iconDefaultImage != null) {
                 userIcon.setImageDrawable(iconDefaultImage);
@@ -402,8 +414,8 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.ALL);
-            if (activity != null) {
-                GlideUtils.load(activity, head, userIcon, requestOptions);
+            if (getContext() != null) {
+                GlideUtils.load(getContext(), head, userIcon, requestOptions);
             }
         }
         if (!TextUtils.isEmpty(username)) {//todo 昵称
@@ -412,21 +424,21 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
             userNickname.setText("");
         }
         if (!TextUtils.isEmpty(balance)) {//todo 余额
-            userBalance.setText(String.valueOf(balance + getResources().getString(R.string.mine_yuan)));
+            userBalance.setText(String.format("%s%s", balance, getResources().getString(R.string.mine_yuan)));
         } else {
-            userBalance.setText(String.valueOf(0 + getResources().getString(R.string.mine_yuan)));
+            userBalance.setText(String.format("%s%s", "0", getResources().getString(R.string.mine_yuan)));
         }
-        userIntegral.setText(String.valueOf(integral));//todo 积分
-        userCoupons.setText(String.valueOf(coupon + getResources().getString(R.string.mine_zhang)));//todo 优惠券
+        userIntegral.setText(integral);//todo 积分
+        userCoupons.setText(String.format("%s%s", coupon, getResources().getString(R.string.mine_zhang)));//todo 优惠券
 
         switch (sex) {
             case 1://man
-                Drawable drawableMan = ContextCompat.getDrawable(Objects.requireNonNull(activity), R.mipmap.icon_sex_man);
+                Drawable drawableMan = ContextCompat.getDrawable(getContext(), R.mipmap.icon_sex_man);
                 drawableMan.setBounds(0, 0, Objects.requireNonNull(drawableMan).getMinimumWidth(), drawableMan.getMinimumHeight());
                 userNickname.setCompoundDrawables(null, null, drawableMan, null);
                 break;
             case 2://woman
-                Drawable drawableWoman = ContextCompat.getDrawable(Objects.requireNonNull(activity), R.mipmap.icon_sex_woman);
+                Drawable drawableWoman = ContextCompat.getDrawable(getContext(), R.mipmap.icon_sex_woman);
                 drawableWoman.setBounds(0, 0, Objects.requireNonNull(drawableWoman).getMinimumWidth(), drawableWoman.getMinimumHeight());
                 userNickname.setCompoundDrawables(null, null, drawableWoman, null);
                 break;
@@ -434,16 +446,19 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                 userNickname.setCompoundDrawables(null, null, null, null);
                 break;
         }
-        switch (isRead) {
-            case 2:
-                //未查看
-                userCouponsMsg.setVisibility(userCouponsMsg.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
-                break;
-            case 1:
-                //查看
-            default:
-                userCouponsMsg.setVisibility(userCouponsMsg.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
-                break;
+        if (!TextUtils.isEmpty(isRead)) {
+            int i = Integer.parseInt(isRead);
+            switch (i) {
+                case 2:
+                    //未查看
+                    userCouponsMsg.setVisibility(userCouponsMsg.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
+                    break;
+                case 1:
+                    //查看
+                default:
+                    userCouponsMsg.setVisibility(userCouponsMsg.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+                    break;
+            }
         }
     }
 
@@ -464,8 +479,9 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
 
     @Override
     public void showError() {
-        if (loadinglayout != null) {
-            loadinglayout.showError();
+        if (isAdded()) {
+            showToast(getResources().getString(R.string.miss_request));
         }
+        showContent();
     }
 }

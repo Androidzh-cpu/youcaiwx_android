@@ -1,6 +1,7 @@
 package com.ucfo.youcaiwx.module.course.fragment;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -93,6 +94,23 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
     private boolean downloadWifi;
     private ErrorInfo currentError = ErrorInfo.Normal;
     private Gson gson;
+    private boolean flowFlag;
+
+    private DownloadingListener downloadingListener;
+
+    public interface DownloadingListener {
+        ArrayList<PreparedDownloadInfoBean> getParcelableArrayList();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof DownloadingListener) {
+            downloadingListener = (DownloadingListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement DownloadingListener");
+        }
+    }
 
     @Override
     public void onResume() {
@@ -117,6 +135,12 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
             mNetWatchdog.stopWatch();
         }
         mNetWatchdog = null;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        downloadingListener = null;
     }
 
     @Override
@@ -151,7 +175,9 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
     @Override
     protected void initData() {
         //获取待下载视频
-        offlineCourseActivityParcelableArrayList = offlineCourseActivity.getParcelableArrayList();
+        //offlineCourseActivityParcelableArrayList = offlineCourseActivity.getParcelableArrayList();
+        offlineCourseActivityParcelableArrayList = downloadingListener.getParcelableArrayList();
+        //仅在WIFI下下载
         downloadWifi = SharedPreferencesUtils.getInstance(getContext()).getBoolean(Constant.DOWNLOAD_WIFI, false);
         gson = new Gson();
     }
@@ -196,7 +222,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
             String vid = offlineCourseActivityParcelableArrayList.get(0).getVid();
             loadSTSData(vid, 0);
         } else {
-            //刷新数据和页面
+            //刷新数据和页面(直接从离线中心进入,所以获取到的待下载视频肯定为空,直接判断下载列表里是否还有任务)
             showDownloadContentView();
         }
         /**
@@ -395,12 +421,16 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
             mVidSts = new AliyunVidSts();
             //TODO 替换成真实的要下载的视频VID
             mVidSts.setVid(offlineCourseActivityParcelableArrayList.get(position).getVid());
-            mVidSts.setAcId(data.getData().getAccessKeyId());
-            mVidSts.setAkSceret(data.getData().getKeySecret());
-            mVidSts.setSecurityToken(data.getData().getSecurityToken());
+            GetVideoStsBean.DataBean bean = data.getData();
+            mVidSts.setAcId(bean.getAccessKeyId());
+            mVidSts.setAkSceret(bean.getKeySecret());
+            mVidSts.setSecurityToken(bean.getSecurityToken());
             if (downloadManager != null) {
                 downloadManager.prepareDownloadMedia(mVidSts);
             }
+        } else {
+            showDownloadContentView();
+            notifyDataSetChanged();
         }
         position++;//0 and 1  size=2
         if (position < offlineCourseActivityParcelableArrayList.size()) {
@@ -571,14 +601,14 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
                     break;
                 }
             }
-            outputLog("onPrepared----" + gson.toJson(info));
+            logger("onPrepared----" + gson.toJson(info));
             //添加至下载队列
             addNewInfo(info);
         }
 
         @Override
         public void onStart(AliyunDownloadMediaInfo info) {//TODO 开始下载
-            outputLog("onStart--------" + info.getTitle());
+            logger("onStart--------" + info.getTitle());
             if (!downloadDataProvider.hasAdded(info)) {
                 downloadDataProvider.addDownloadMediaInfo(info);
             }
@@ -588,19 +618,19 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
 
         @Override
         public void onProgress(AliyunDownloadMediaInfo info, int percent) {//TODO 下载进度更新回调
-            outputLog("onProgress---percent:" + percent);
+            logger("onProgress---percent:" + percent);
             updateInfo(info);
         }
 
         @Override
         public void onStop(AliyunDownloadMediaInfo info) {//TODO 下载停止时回调
-            outputLog("onStop---" + info.getStatus());
+            logger("onStop---" + info.getStatus());
             updateInfo(info);
         }
 
         @Override
         public void onCompletion(AliyunDownloadMediaInfo info) {//TODO 下载完成时回调
-            outputLog("onCompletion---info:" + gson.toJson(info));
+            logger("onCompletion---info:" + gson.toJson(info));
             //修改数据库保存信息
             updateInfoToDB(info);
             if (info.getStatus() == AliyunDownloadMediaInfo.Status.Complete) {
@@ -619,19 +649,19 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
 
         @Override
         public void onError(AliyunDownloadMediaInfo info, int code, String msg, String requestId) {//TODO 下载错误时回调
-            outputLog("onError---code:" + code + "      msg:" + msg + "     requestId:" + requestId);
+            logger("onError---code:" + code + "      msg:" + msg + "     requestId:" + requestId);
             notifyDataSetChanged();
         }
 
         @Override
         public void onWait(AliyunDownloadMediaInfo outMediaInfo) {//TODO 下载等待时回调
-            outputLog("onWait--------" + outMediaInfo.getStatus());
+            logger("onWait--------" + outMediaInfo.getStatus());
             notifyDataSetChanged();
         }
 
         @Override
         public void onM3u8IndexUpdate(AliyunDownloadMediaInfo outMediaInfo, int index) {
-            outputLog("onM3u8IndexUpdate---" + index);
+            logger("onM3u8IndexUpdate---" + index);
             notifyDataSetChanged();
         }
     }
@@ -643,7 +673,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
         @Override
         public AliyunVidSts refreshSts(String vid, String quality, String format, String title, boolean encript) {
             //NOTE: 注意：这个不能启动线程去请求。因为这个方法已经在线程中调用了。
-            outputLog("refreshSts---vid:" + vid + "       quality:" + quality + "     defaultTitle:" + title);
+            logger("refreshSts---vid:" + vid + "       quality:" + quality + "     defaultTitle:" + title);
             GetVideoStsBean.DataBean dataBean = null;
             try {
                 okhttp3.Response response = OkGo.get(ApiStores.COURSE_GETVIDEO_STS).tag(this).params(Constant.COURSE_ALIYUNVID, vid).execute();
@@ -695,7 +725,7 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
     }
 
     //log日志
-    public void outputLog(String log) {
+    public void logger(String log) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS", Locale.CHINA);
         //获取当前时间
         Date date = new Date();
@@ -803,9 +833,9 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
      * 断网/连网监听
      */
     private class MyNetConnectedListener implements NetWatchdog.NetConnectedListener {
-        //网络已连接
         @Override
-        public void onReNetConnected(boolean isReconnect) {//重新连接
+        public void onReNetConnected(boolean isReconnect) {
+            //重新连接
             LogUtils.e("网络状态---------------isReconnect: " + isReconnect);
             currentError = ErrorInfo.Normal;
             if (isReconnect) {
@@ -823,20 +853,22 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
             }
         }
 
-        //网络连接中断
         @Override
         public void onNetUnConnected() {
+            //网络连接中断
             currentError = ErrorInfo.UnConnectInternet;
             LogUtils.e("网络状态---------------onNetUnConnected");
+            //该步骤是将下载中的视频状态改为停止状态,便于回复时使用
             if (alivcDownloadingMediaInfos != null && alivcDownloadingMediaInfos.size() > 0) {
-                downloadManager.stopDownloadMedias(downloadDataProvider.getAllDownloadMediaInfo());
-
-                //遍历下载中的视频,修改状态为停止
-                for (AlivcDownloadMediaInfo mediaInfo : alivcDownloadingMediaInfos) {
-                    AliyunDownloadMediaInfo info = mediaInfo.getAliyunDownloadMediaInfo();
-                    info.setStatus(AliyunDownloadMediaInfo.Status.Stop);
+                if (downloadManager != null) {
+                    downloadManager.stopDownloadMedias(downloadDataProvider.getAllDownloadMediaInfo());
+                    //遍历下载中的视频,修改状态为停止
+                    for (AlivcDownloadMediaInfo mediaInfo : alivcDownloadingMediaInfos) {
+                        AliyunDownloadMediaInfo info = mediaInfo.getAliyunDownloadMediaInfo();
+                        info.setStatus(AliyunDownloadMediaInfo.Status.Stop);
+                    }
+                    notifyDataSetChanged();
                 }
-                notifyDataSetChanged();
             }
         }
     }

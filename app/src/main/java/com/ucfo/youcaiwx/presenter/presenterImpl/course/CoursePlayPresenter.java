@@ -111,7 +111,7 @@ public class CoursePlayPresenter {
                         String body = response.body();
                         try {
                             JSONObject jsonObject = new JSONObject(response.body());
-                            int code = jsonObject.optInt("code");//获取接口返回状态
+                            int code = jsonObject.optInt(Constant.CODE);//获取接口返回状态
                             if (code == 200) {
                                 Gson gson = new Gson();
                                 GetVideoPlayAuthBean videoPlayAuthBean = gson.fromJson(body, GetVideoPlayAuthBean.class);

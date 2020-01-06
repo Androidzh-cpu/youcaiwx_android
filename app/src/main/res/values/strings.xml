@@ -126,7 +126,8 @@
     <!-- Strings related to 登录注册业务 end-->
 
     <!-- Strings related to 课程 start-->
-    <string name="course_consumeFlow">播放将消耗流量,是否继续?</string>
+    <!--<string name="course_consumeFlow">播放将消耗流量,是否继续?</string>-->
+    <string name="course_consumeFlow">正在使用非WiFi网络,播放将产生流量费用</string>
     <string name="course_free">免费试听</string>
     <string name="course_joincount">参加人数:\u0020</string>
     <string name="course_call">咨询客服</string>
@@ -481,7 +482,8 @@
     <string name="alivc_video_download_finish_haved">该视频已在下载列表</string>
     <string name="alivc_video_download_notfile">文件不存在或已被删除</string>
     <string name="alivc_video_download_startdownwithhand">网络恢复, 请手动开启下载任务</string>
-    <string name="alivc_video_download_downwithwifi">下载将消耗流量,是否继续?</string>
+    <string name="alivc_video_download_downwithwifi">正在使用非WiFi网络,下载将产生流量费用</string>
+    <string name="continue_download">继续下载</string>
     <string name="download_haveDownload">已下载课程</string>
     <string name="download_downloading">正在下载</string>
     <string name="download_downloadCompleted">下载完成</string>
@@ -499,7 +501,7 @@
     <string name="no_delete">没有删除的视频选项</string>
 
     <string name="download_maxDownload">最多选择3个视频</string>
-    <string name="download_pleaseCheck">请选择下载的视频</string>
+    <string name="download_pleaseCheck">请选择需要下载的视频</string>
     <!-- Strings related to 离线中心 end-->
 
 
@@ -663,6 +665,8 @@
     <string name="net_canceltext">取消中</string>
     <string name="file_loadingtext">正在上传</string>
     <string name="net_loading_no">当前网络不可用</string>
+    <string name="net_loading_wifi">已连接至WIFI网络</string>
+    <string name="net_loading_4G">已连接至运营商网络</string>
     <string name="difficulty">困难</string>
     <string name="medium">中等</string>
     <string name="easy">简单</string>
@@ -684,6 +688,7 @@
     <string name="operation_Success">操作成功</string>
     <string name="data_error">数据错误</string>
     <string name="miss_params">参数错误</string>
+    <string name="miss_request">请求失败</string>
     <string name="cancel">取消</string>
     <string name="confirm">确定</string>
     <string name="explication">提示</string>

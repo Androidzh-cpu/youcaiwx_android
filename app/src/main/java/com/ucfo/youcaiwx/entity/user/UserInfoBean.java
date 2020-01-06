@@ -60,10 +60,10 @@ public class UserInfoBean {
         private String head;
         private int sex;
         private String balance;
-        private int integral;
+        private String integral;
         private String mobile;
-        private int is_read;
-        private int coupon;
+        private String is_read;
+        private String coupon;
 
         public String getUsername() {
             return username == null ? "" : username;
@@ -97,14 +97,6 @@ public class UserInfoBean {
             this.balance = balance;
         }
 
-        public int getIntegral() {
-            return integral;
-        }
-
-        public void setIntegral(int integral) {
-            this.integral = integral;
-        }
-
         public String getMobile() {
             return mobile == null ? "" : mobile;
         }
@@ -113,19 +105,27 @@ public class UserInfoBean {
             this.mobile = mobile;
         }
 
-        public int getIs_read() {
-            return is_read;
+        public String getIntegral() {
+            return integral == null ? "" : integral;
         }
 
-        public void setIs_read(int is_read) {
+        public void setIntegral(String integral) {
+            this.integral = integral;
+        }
+
+        public String getIs_read() {
+            return is_read == null ? "" : is_read;
+        }
+
+        public void setIs_read(String is_read) {
             this.is_read = is_read;
         }
 
-        public int getCoupon() {
-            return coupon;
+        public String getCoupon() {
+            return coupon == null ? "" : coupon;
         }
 
-        public void setCoupon(int coupon) {
+        public void setCoupon(String coupon) {
             this.coupon = coupon;
         }
     }

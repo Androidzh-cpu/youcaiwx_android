@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -31,7 +30,6 @@ import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.course.CourseDirBean;
 import com.ucfo.youcaiwx.module.course.player.DownloadDirectoryActivity;
-import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.course.CourseDirPresenter;
 import com.ucfo.youcaiwx.presenter.view.course.ICourseDirView;
@@ -60,7 +58,6 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     private ConstraintLayout layoutMain;
     private LoadingLayout loadinglayout;
 
-    private VideoPlayPageActivity videoPlayPageActivity;
     private int coursePackageId;
     private int userId;
     private CourseDirPresenter courseDirPresenter;
@@ -75,6 +72,41 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     private boolean loginStatus;
     private LayoutInflater layoutInflater;
     private String courseSource;
+
+    private CourseDirectoryListener courseDirectoryListener;
+
+    /**
+     * 调用宿主的方法
+     */
+    public interface CourseDirectoryListener {
+        void onPausePlay();
+
+        void directorySetCourseUnCon(int courseUnCon);
+
+        void directoryChangePlayVidSource(String vid, int videoId, int course_id, int section_id, String education_videoId);
+
+        int directoryGetCoursePackageId();
+
+        int directoryGetCourseBuyState();
+
+        String directoryGetCourse_Source();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof CourseDirectoryListener) {
+            courseDirectoryListener = (CourseDirectoryListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement CourseDirectoryListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        courseDirectoryListener = null;
+    }
 
     /**
      * Description:CourseDirectoryListFragment
@@ -116,12 +148,8 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         userId = SharedPreferencesUtils.getInstance(getContext()).getInt(Constant.USER_ID, 0);
         loginStatus = SharedPreferencesUtils.getInstance(getContext()).getBoolean(Constant.LOGIN_STATUS, false);
 
-        FragmentActivity activity = getActivity();
-        if (activity instanceof VideoPlayPageActivity) {
-            videoPlayPageActivity = (VideoPlayPageActivity) getActivity();
-        }
-
-        coursePackageId = videoPlayPageActivity.getCoursePackageId();
+        //coursePackageId = videoPlayPageActivity.getCoursePackageId();
+        coursePackageId = courseDirectoryListener.directoryGetCoursePackageId();
 
         coursePackageList = new ArrayList<>();
         sectionBeanList = new ArrayList<>();
@@ -167,9 +195,13 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         if (courseDirPresenter == null) {
             courseDirPresenter = new CourseDirPresenter(this);
         }
+/*
         if (videoPlayPageActivity != null) {
             courseSource = videoPlayPageActivity.getCourse_Source();
         }
+*/
+        courseSource = courseDirectoryListener.directoryGetCourse_Source();
+
         courseDirPresenter.getCourseDirData(coursePackageId, userId, courseSource);
     }
 
@@ -231,11 +263,10 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         if (coursePackageListAdapter == null) {
             coursePackageListAdapter = new CoursePackageListAdapter(coursePackageLists, getContext());
             recyclerview.setAdapter(coursePackageListAdapter);
-        }
-        if (coursePackageListAdapter != null) {
+        } else {
             coursePackageListAdapter.notifyChange(coursePackageLists);
         }
-
+        //展开播放目录
         coursePackageListAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -252,7 +283,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                 CourseDirBean.DataBean dataBean = coursePackageLists.get(position);
                 //当前课程点击位置
                 currentClickCourseIndex = position;
-
+                //弹出对应播放目录
                 showCourseDirWindow(dataBean, section);
             }
         });
@@ -270,17 +301,13 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         sectionBeanList.clear();
         sectionBeanList.addAll(beanList);
 
+/*
         if (videoPlayPageActivity != null) {
             courseBuyState = videoPlayPageActivity.getCourseBuyState();
         }
-        if (getContext() != null) {
-            layoutInflater = LayoutInflater.from(getContext());
-        } else {
-            Context context = getContext();
-            if (context != null) {
-                layoutInflater = LayoutInflater.from(context);
-            }
-        }
+*/
+        courseBuyState = courseDirectoryListener.directoryGetCourseBuyState();
+        layoutInflater = LayoutInflater.from(getContext());
         View contentView = layoutInflater.inflate(R.layout.dialog_coursedir_window, null);
         courseDirectoryPopupWindow = new PopupWindow(contentView);
         //TODO 设置宽高
@@ -318,7 +345,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         courseDownload.setClickable(true);
         RoundTextView courseCloseBtn = (RoundTextView) contentView.findViewById(R.id.course_closebtn);
         ExpandableListView courseTree = (ExpandableListView) contentView.findViewById(R.id.course_dirlist);
-
+        //CPE不允许下载
         if (TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
             courseDownload.setVisibility(View.GONE);
         }
@@ -354,10 +381,9 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                 if (!loginStatus) {
                     startActivity(LoginActivity.class, null);
                 } else {
-                    if (courseBuyState == 1) {
-                        if (videoPlayPageActivity != null) {
-                            videoPlayPageActivity.pause();
-                        }
+                    if (courseBuyState == Constant.HAVED_BUY) {
+                        //暂停播放
+                        courseDirectoryListener.onPausePlay();
 
                         Bundle bundle = new Bundle();
                         String teacherName = dataBean.getTeacher_name();
@@ -393,12 +419,16 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                     int sectionId = sectionList.get(groupPosition).getVideo().get(childPosition).getSection_id();
 
                     //TODO 调用播放器,切换视频
+/*
                     if (videoPlayPageActivity != null) {
                         //切换视频
                         videoPlayPageActivity.changePlayVidSource(vid, videoId, courseId, sectionId, video_id);
                         //是否是正课标识
                         videoPlayPageActivity.setCourseUnCon(courseUnCon);
                     }
+*/
+                    courseDirectoryListener.directoryChangePlayVidSource(vid, videoId, courseId, sectionId, video_id);
+                    courseDirectoryListener.directorySetCourseUnCon(courseUnCon);
 
                     groupIndex = groupPosition;
                     sonIndex = childPosition;
@@ -457,11 +487,13 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                 int courseId = videoBean.getCourse_id();
                 int sectionId = videoBean.getSection_id();
 
+/*
                 if (videoPlayPageActivity != null) {
                     //TODO 调用播放器,切换视频
                     videoPlayPageActivity.changePlayVidSource(vid, videoId, courseId, sectionId, video_id);
                 }
-
+*/
+                courseDirectoryListener.directoryChangePlayVidSource(vid, videoId, courseId, sectionId, video_id);
                 if (courseDirWindowAdapter != null) {
                     //设置选中的位置
                     courseDirWindowAdapter.setSelectPosition(groupIndex, sonIndex, currentPlayCourseIndex, currentClickCourseIndex);

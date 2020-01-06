@@ -334,8 +334,8 @@
                             android:drawablePadding="@dimen/dp_3"
                             android:drawableTop="@mipmap/icon_mine_cpe"
                             android:gravity="center"
-                            android:paddingBottom="@dimen/dp_11"
-                            android:paddingTop="@dimen/dp_15"
+                            android:paddingBottom="@dimen/dp_9"
+                            android:paddingTop="@dimen/dp_11"
                             android:text="@string/mine_cpe"
                             android:textColor="@color/color_666666"
                             android:textSize="@dimen/sp_12" />

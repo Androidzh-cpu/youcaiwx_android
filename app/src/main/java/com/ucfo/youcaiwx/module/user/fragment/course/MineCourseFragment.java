@@ -167,7 +167,7 @@ public class MineCourseFragment extends BaseFragment implements IMineCourseView,
         courseAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (fastClick(1000)) {
+                if (fastClick(2000)) {
                     return;
                 }
                 MineCourseBean.DataBean bean = list.get(position);

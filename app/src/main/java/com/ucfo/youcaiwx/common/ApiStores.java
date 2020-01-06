@@ -17,7 +17,7 @@ public class ApiStores {
     //线上正式环境
     //private static final String ROOT_URL = "https://api.youcaiwx.cn/";
     //线下测试环境
-    public static final String ROOT_URL = "https://dest.youcaiwx.cn/";
+    private static final String ROOT_URL = "https://dest.youcaiwx.cn/";
 
     private static final String BASE_URL = ROOT_URL + "apps/";
     private static final String BASE_URL_UPLOAD = ROOT_URL + "upload/";
@@ -109,6 +109,8 @@ public class ApiStores {
     public static final String EDUCATION_APPLYFOR = BASE_URL + "Education/userIntegral";
     //生成学分报告
     public static final String EDUCATION_CREATE_REPORT = BASE_URL_UPLOAD + "Edureport/generateImg";
+    //我的活动
+    public static final String EDUCATION_MINE_EVENT = BASE_URL + "Personal/myPreview";
 
     //-----------------------------------------TODO 后续教育 end------------------------------------------------------------------------------//
 

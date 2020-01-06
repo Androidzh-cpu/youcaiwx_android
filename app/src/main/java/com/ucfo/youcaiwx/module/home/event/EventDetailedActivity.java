@@ -1,5 +1,7 @@
 package com.ucfo.youcaiwx.module.home.event;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -7,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,8 +35,10 @@ import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
+import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
+import com.ucfo.youcaiwx.widget.customview.NoScrollWebView;
 import com.ucfo.youcaiwx.widget.dialog.InputInformationDialog;
 import com.ucfo.youcaiwx.widget.dialog.ShareDialog;
 import com.ucfo.youcaiwx.widget.dialog.TeacherPreviewDialog;
@@ -73,8 +79,8 @@ public class EventDetailedActivity extends BaseActivity implements IEventView {
     TextView txtTimeLimit;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
-    @BindView(R.id.contentImage)
-    ImageView contentImage;
+    @BindView(R.id.webview)
+    NoScrollWebView webView;
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
     @BindView(R.id.btn_next)
@@ -88,6 +94,35 @@ public class EventDetailedActivity extends BaseActivity implements IEventView {
     private CourseTeacherAdapter courseTeacherAdapter;
     private String editPhoneConent;
     private String editNameConent;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        webView.onResume();
+        webView.resumeTimers();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //暂停WebView在后台的所有活动
+        webView.onPause();
+        //暂停WebView在后台的JS活动
+        webView.pauseTimers();
+    }
+
+    @Override
+    public void onDestroy() {
+        if (webView != null) {
+            webView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+            webView.clearHistory();
+
+            webView.removeAllViews();
+            webView.destroy();
+            webView = null;
+        }
+        super.onDestroy();
+    }
 
     @Override
     protected void initToolbar() {
@@ -111,6 +146,8 @@ public class EventDetailedActivity extends BaseActivity implements IEventView {
         int leftright = DensityUtil.dp2px(12);
         int color = ContextCompat.getColor(this, R.color.color_E6E6E6);
         recyclerview.addItemDecoration(new SpacesItemDecoration(leftright, topBottom, color));
+
+        setDefaultWebSettings(webView);
     }
 
     @Override
@@ -134,6 +171,49 @@ public class EventDetailedActivity extends BaseActivity implements IEventView {
                 loadNetData();
             }
         });
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    public void setDefaultWebSettings(WebView webView) {
+        WebSettings webSetting = webView.getSettings();
+        //5.0以上开启混合模式加载
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webSetting.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+        webSetting.setSupportMultipleWindows(false);
+        webSetting.setGeolocationEnabled(true);
+        webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        webSetting.setJavaScriptCanOpenWindowsAutomatically(true);//支持通过JS打开新窗口
+        webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
+        //设置自适应屏幕，两者合用
+        webSetting.setLoadWithOverviewMode(true);// 缩放至屏幕的大小
+        webSetting.setUseWideViewPort(true);//将图片调整到适合webview的大小
+        //允许js代码
+        webSetting.setJavaScriptEnabled(true);
+        //允许SessionStorage/LocalStorage存储
+        webSetting.setDomStorageEnabled(true);
+        //禁用放缩
+        webSetting.setDisplayZoomControls(false); //隐藏原生的缩放控件
+        webSetting.setBuiltInZoomControls(false); //设置内置的缩放控件。若为false，则该WebView不可缩放
+        //禁用文字缩放
+        webSetting.setTextZoom(100);
+        //10M缓存，api 18后，系统自动管理。
+        webSetting.setAppCacheMaxSize(10 * 1024 * 1024);
+        //允许缓存，设置缓存位置
+        webSetting.setAppCacheEnabled(true);
+        // 设置缓存模式
+        webSetting.setCacheMode(WebSettings.LOAD_NORMAL);
+        webSetting.setAppCachePath(getDir("appcache", 0).getPath());
+        webSetting.setDatabasePath(getDir("databases", 0).getPath());
+        webSetting.setGeolocationDatabasePath(getDir("geolocation", 0).getPath());
+        //允许WebView使用File协议
+        webSetting.setAllowFileAccess(true);
+        //不保存密码
+        webSetting.setSavePassword(false);
+        //设置UA
+        webSetting.setUserAgentString(webSetting.getUserAgentString() + " youcaiApp/" + AppUtils.getAppVersionName(this));
+        //自动加载图片
+        webSetting.setLoadsImagesAutomatically(true);
     }
 
     /**
@@ -292,13 +372,14 @@ public class EventDetailedActivity extends BaseActivity implements IEventView {
         String peopleNum = data.getPeople_num();
 
 
-
         RequestOptions requestOptions = new RequestOptions()
                 .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         GlideUtils.load(this, appImg, imageview, requestOptions);
-        GlideUtils.load(this, content, contentImage, requestOptions);
+        //content
+        webView.loadUrl(content);
+
 
         if (!TextUtils.isEmpty(name)) {
             txtTitle.setText(name);

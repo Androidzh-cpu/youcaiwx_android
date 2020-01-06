@@ -196,11 +196,12 @@
                     android:textSize="@dimen/sp_15"
                     android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/contentImage"
+                <com.ucfo.youcaiwx.widget.customview.NoScrollWebView
+                    android:id="@+id/webview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY" />
+                    android:fadingEdge="none"
+                    android:overScrollMode="never" />
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </com.ucfo.youcaiwx.widget.customview.LoadingLayout>

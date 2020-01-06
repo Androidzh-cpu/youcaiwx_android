@@ -470,9 +470,14 @@
             android:name=".module.user.activity.CPEApplyForActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
-        <!--TODO CPE证明信息-->
+        <!-- TODO CPE证明信息 -->
         <activity
             android:name=".module.user.activity.CPEProveInformationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BaseThemeForActivity" />
+        <!--TODO 我的活动-->
+        <activity
+            android:name=".module.user.activity.MineEventActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BaseThemeForActivity" />
     </application>

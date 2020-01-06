@@ -38,6 +38,7 @@ import com.ucfo.youcaiwx.presenter.presenterImpl.upload.IUploadFileView;
 import com.ucfo.youcaiwx.presenter.presenterImpl.upload.UploadFilePresenter;
 import com.ucfo.youcaiwx.utils.glideutils.GlideEngine;
 import com.ucfo.youcaiwx.utils.glideutils.MiniSizeFilter;
+import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.zhihu.matisse.Matisse;
@@ -84,13 +85,13 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
     EditText editConnect;
     @BindView(R.id.ask_submit)
     Button askSubmit;
-    private FeedBackActivity context;
     private ArrayList<String> imageList, resultImageList;
     public static final int REQUEST_CODE_CHOOSE = 100;
     private int MAX_IMAGECOUNT = Constant.MAX_IMAGECOUNT, fileUploadFlag = 0;
     private ImagePickerAdapter imagePickerAdapter;
     private UploadFilePresenter uploadFilePresenter;
     private String askContent, askConnect, tipsText;
+    private String user_id;
 
     @Override
     protected void initToolbar() {
@@ -125,7 +126,6 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
     @Override
     protected void initData() {
         super.initData();
-        context = FeedBackActivity.this;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         askImagelist.setLayoutManager(linearLayoutManager);
@@ -135,6 +135,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
         resultImageList = new ArrayList<>();
 
         uploadFilePresenter = new UploadFilePresenter(this);//上传文件
+        user_id = SharedPreferencesUtils.getInstance(this).getString(Constant.USER_ID, "");
     }
 
     @Override
@@ -154,7 +155,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
                     MAX_IMAGECOUNT = MAX_IMAGECOUNT - list.size();
                 }
                 if (imagePickerAdapter == null) {
-                    imagePickerAdapter = new ImagePickerAdapter(context, imageList);
+                    imagePickerAdapter = new ImagePickerAdapter(this, imageList);
                 } else {
                     imagePickerAdapter.notifyDataSetChanged();
                 }
@@ -193,7 +194,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
 
                             @Override
                             public void onPermissionDenied(Permission[] refusedPermissions) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.WhiteDialogStyle);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(FeedBackActivity.this, R.style.WhiteDialogStyle);
                                 builder.setTitle(getResources().getString(R.string.explication));
                                 builder.setMessage(getResources().getString(R.string.permission_sdcard2));
                                 builder.setPositiveButton(getResources().getString(R.string.donner), new DialogInterface.OnClickListener() {
@@ -211,11 +212,11 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
                 askContent = askEdittextContent.getText().toString().trim();
                 askConnect = editConnect.getText().toString().trim();
                 if (TextUtils.isEmpty(askContent)) {
-                    ToastUtil.showBottomShortText(context, getResources().getString(R.string.mine_feedbackToast1));
+                    ToastUtil.showBottomShortText(this, getResources().getString(R.string.mine_feedbackToast1));
                     return;
                 }
                 if (TextUtils.isEmpty(askConnect)) {
-                    ToastUtil.showBottomShortText(context, getResources().getString(R.string.mine_feedbackToast2));
+                    ToastUtil.showBottomShortText(this, getResources().getString(R.string.mine_feedbackToast2));
                     return;
                 }
 
@@ -252,7 +253,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
                     .addFilter(new MiniSizeFilter(320, 320, Constant.PICTURE_SIZE))
                     .forResult(REQUEST_CODE_CHOOSE);//请求码
         } else {
-            ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_title_maxChoice3));
+            ToastUtil.showBottomShortText(this, getResources().getString(R.string.answer_title_maxChoice3));
         }
     }
 
@@ -310,10 +311,10 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
             if (data.getCode() == 200) {
                 resultImageList.add(data.getData().getImage_url().trim());
             } else {
-                ToastUtil.showCenterLongText(context, data.getMsg());//提示上传错误信息
+                ToastUtil.showCenterLongText(this, data.getMsg());//提示上传错误信息
             }
         } else {
-            ToastUtil.showCenterLongText(context, getResources().getString(R.string.file_uploaderror));//提示上传错误信息
+            ToastUtil.showCenterLongText(this, getResources().getString(R.string.file_uploaderror));//提示上传错误信息
         }
 
         index++;// 0-1 1-2 2-3 3-4
@@ -343,6 +344,7 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
             questionImage = questionImage.substring(0, questionImage.length() - 1);
         }
         OkGo.<String>post(ApiStores.USER_FEEDBACK)
+                .params(Constant.USER_ID, user_id)
                 .params(Constant.CONTENT, content)
                 .params("image", questionImage)
                 .params("information", connect)
@@ -391,10 +393,10 @@ public class FeedBackActivity extends BaseActivity implements IUploadFileView {
 
     public void askQuestionResult(int code) {
         if (code == 200) {
-            ToastUtil.showBottomShortText(context, getResources().getString(R.string.operation_Success));
+            showToast(getResources().getString(R.string.operation_Success));
             finish();
         } else {
-            ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_request_error));
+            showToast(getResources().getString(R.string.answer_request_error));
         }
     }
 }

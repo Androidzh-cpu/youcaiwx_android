@@ -15,6 +15,11 @@ public interface IEventPresenter {
     void initEventList();
 
     /**
+     * 我的活动
+     */
+    void initMineEvent(String user_id);
+
+    /**
      * 活动详情
      */
     void initEventDetailed(String user_id, String id);

@@ -84,6 +84,65 @@ public class EventPresenter implements IEventPresenter {
     }
 
     /**
+     * 我的活动
+     *
+     * @param user_id
+     */
+    @Override
+    public void initMineEvent(String user_id) {
+        OkGo.<String>post(ApiStores.EDUCATION_MINE_EVENT)
+                .tag(this)
+                .params(Constant.USER_ID, user_id)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        view.showLoading();
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        view.showError();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        view.showLoadingFinish();
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String body = response.body();
+                        if (body != null) {
+                            JSONObject jsonObject = null;
+                            try {
+                                jsonObject = new JSONObject(body);
+                                int code = jsonObject.optInt(Constant.CODE);
+                                if (code == 200) {
+                                    Object data = jsonObject.get(Constant.DATA);
+                                    if (data instanceof JSONArray) {
+                                        Gson gson = new Gson();
+                                        EventListBean eventListBean = gson.fromJson(body, EventListBean.class);
+                                        view.initEventList(eventListBean);
+                                    } else {
+                                        view.initEventList(null);
+                                    }
+                                } else {
+                                    view.initEventList(null);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            view.initEventList(null);
+                        }
+                    }
+                });
+    }
+
+    /**
      * 活动详情
      */
     @Override
