@@ -92,7 +92,6 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
     private LoadingLayout loadinglayout;
 
     private int mOffset = 0, mScrollY = 0, user_id;
-    private MainActivity activity;
     private UserInfoPresenter userInfoPresenter;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private boolean loginstatus;
@@ -160,12 +159,6 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         btnAbout.setOnClickListener(this);
         loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
 
-        FragmentActivity fragmentActivity = getActivity();
-        if (fragmentActivity instanceof MainActivity) {
-            activity = (MainActivity) fragmentActivity;
-        }
-
-
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) statusbarView.getLayoutParams();
         layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
         layoutParams.height = StatusBarUtil.getStatusBarHeight(getContext());
@@ -192,7 +185,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         });
 
         userInfoPresenter = new UserInfoPresenter(this);
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(activity);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
 
         loadUserData();
 
@@ -210,10 +203,12 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
      * 个人信息
      */
     private void loadUserData() {
-        if (sharedPreferencesUtils != null) {
-            user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-            loginstatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
+        if (sharedPreferencesUtils == null) {
+            SharedPreferencesUtils.getInstance(getContext());
         }
+        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        loginstatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
+
         if (loginstatus) {
             if (userInfoPresenter != null) {
                 userInfoPresenter.getUserInfo(user_id);
@@ -296,7 +291,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                     break;
                 case R.id.btn_recommendfriend:
                     //TODO 推荐给好友
-                    new ShareDialog(activity).builder()
+                    new ShareDialog(getContext()).builder()
                             .setFriendButton(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -325,8 +320,12 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                     break;
                 case R.id.btn_call:
                     //TODO 电话
-                    if (activity != null) {
-                        activity.makeCall();
+                    if (getActivity() != null) {
+                        FragmentActivity activity = getActivity();
+                        if (activity instanceof MainActivity) {
+                            MainActivity mainActivity = (MainActivity) activity;
+                            mainActivity.makeCall();
+                        }
                     }
                     break;
                 case R.id.btn_about:

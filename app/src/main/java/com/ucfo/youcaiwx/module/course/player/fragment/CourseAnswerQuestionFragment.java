@@ -1,7 +1,6 @@
 package com.ucfo.youcaiwx.module.course.player.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -106,9 +105,9 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
 
         answerList = new ArrayList<>();
         courseAnswerListPresenter = new CourseCourseAnswerListPresenter(this);
-        //coursePackageId = videoPlayPageActivity.getCoursePackageId();//课程包ID
-        coursePackageId = courseAnswerQuestionListener.AnswerQuestionGetCoursePackageId();//课程包ID
-
+        //课程包ID
+        coursePackageId = courseAnswerQuestionListener.AnswerQuestionGetCoursePackageId();
+        //刷新,加载,重试
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -143,6 +142,7 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     @Override
     protected void onVisibleToUser() {
         super.onVisibleToUser();
+        //获取购买状态
         courseBuyState = courseAnswerQuestionListener.AnswerQuestionGetCourseBuyState();
         if (courseAnswerListPresenter != null) {
             courseAnswerListPresenter.getAnswerListData(courseVideoid, courseSectionid, courseCourseid, coursePackageId, user_id);
@@ -152,7 +152,8 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     /**
      * Description:CourseAnswerQuestionFragment
      * Time:2019-4-22   下午 3:19
-     * Detail:TODO 获取对应视频答疑列表  package_id=1&course_id=3&section_id=1&video_id=1
+     * Detail:获取对应视频答疑列表  package_id=1&course_id=3&section_id=1&video_id=1
+     * 对外暴露,供宿主调用
      */
     public void getAnswerListData(int coursepackageId, int coursecourseid, int coursesectionid, int video_id) {
         courseCourseid = coursecourseid;
@@ -177,6 +178,9 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     public void getAnswerListData(AnswerListDataBean result) {
         if (result != null && result.getData().size() > 0) {
             List<AnswerListDataBean.DataBean> data = result.getData();
+            if (answerList == null) {
+                answerList = new ArrayList<AnswerListDataBean.DataBean>();
+            }
             answerList.clear();
             answerList.addAll(data);
             initAdapter();
@@ -212,11 +216,11 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
             @Override
             public void OnItemClick(View view, int position) {
                 if (loginstatus) {
-                    //TODO 已登录 奢靡啊
+                    //获取购买状态
                     courseBuyState = courseAnswerQuestionListener.AnswerQuestionGetCourseBuyState();
                     if (courseBuyState == Constant.HAVED_BUY) {
-                        //TODO 已购买
-                        if (!fastClick(1000)) {
+                        //TODO 已购买 更奢靡
+                        if (!fastClick(2000)) {
                             Bundle bundle = new Bundle();
                             bundle.putInt(Constant.ANSWER_ID, answerList.get(position).getId());
                             bundle.putInt(Constant.STATUS, answerList.get(position).getReply_status());
@@ -228,8 +232,7 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
                     }
                 } else {
                     //TODO 未登录
-                    Intent intent = new Intent(getContext(), LoginActivity.class);
-                    startActivity(intent);
+                    startActivity(LoginActivity.class);
                 }
             }
         });

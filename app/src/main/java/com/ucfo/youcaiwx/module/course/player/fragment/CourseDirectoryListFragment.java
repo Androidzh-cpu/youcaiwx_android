@@ -33,11 +33,11 @@ import com.ucfo.youcaiwx.module.course.player.DownloadDirectoryActivity;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.course.CourseDirPresenter;
 import com.ucfo.youcaiwx.presenter.view.course.ICourseDirView;
+import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -66,17 +66,21 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     private CoursePackageListAdapter coursePackageListAdapter;
     private PopupWindow courseDirectoryPopupWindow;
     private CourseDirWindowAdapter courseDirWindowAdapter;
-    private int currentPlayCourseIndex = -1, currentClickCourseIndex = -1;//当前播放的课程所属套餐索引值;  当前点击的课程所属套餐索引值
-    //父列表索引 , 二级列表索引 , 课程购买状态 , 是否是正课标识
+    //当前播放的课程所属套餐索引值;  当前点击的课程所属套餐索引值
+    private int currentPlayCourseIndex = -1, currentClickCourseIndex = -1;
+    //          父列表索引 ,     二级列表索引 ,    课程购买状态 ,    是否是正课标识
     private int groupIndex = -1, sonIndex = -1, courseBuyState, courseUnCon;
     private boolean loginStatus;
-    private LayoutInflater layoutInflater;
     private String courseSource;
+
+    private View contentView;
+    private String teacherName;
+    private String courseName;
 
     private CourseDirectoryListener courseDirectoryListener;
 
     /**
-     * 调用宿主的方法
+     * 调用宿主
      */
     public interface CourseDirectoryListener {
         void onPausePlay();
@@ -84,6 +88,8 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         void directorySetCourseUnCon(int courseUnCon);
 
         void directoryChangePlayVidSource(String vid, int videoId, int course_id, int section_id, String education_videoId);
+
+        void directoryAllVideoPlayComplted();
 
         int directoryGetCoursePackageId();
 
@@ -113,7 +119,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
      * Time:2019-4-22   下午 1:57
      * Detail: 获取弹框状态
      */
-    public boolean coursWindowisShow() {
+    public boolean courseDirectoryWindowISShow() {
         if (courseDirectoryPopupWindow != null) {
             if (courseDirectoryPopupWindow.isShowing()) {
                 return true;
@@ -130,12 +136,32 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
      * Time:2019-4-22   下午 1:57
      * Detail: 获取弹框取消
      */
-    public void dismissWindow() {
+    public void dismissCourseDirectoryWindow() {
         if (courseDirectoryPopupWindow != null) {
             if (courseDirectoryPopupWindow.isShowing()) {
                 courseDirectoryPopupWindow.dismiss();
             }
         }
+    }
+
+    /**
+     * 显示弹窗
+     */
+    public void showCourseDirectoryWindow() {
+        if (courseDirectoryPopupWindow != null) {
+            if (layoutMain != null) {
+                courseDirectoryPopupWindow.showAtLocation(layoutMain, Gravity.BOTTOM, 0, 0);
+                courseDirectoryPopupWindow.update();
+            } else {
+                courseDirectoryPopupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
+                courseDirectoryPopupWindow.update();
+            }
+        }
+    }
+
+    @Override
+    protected int setContentView() {
+        return R.layout.fragment_coursedirectorylist;
     }
 
     @Override
@@ -145,33 +171,31 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         refreshlayout = view.findViewById(R.id.refreshlayout);
         layoutMain = view.findViewById(R.id.layout_main);
 
-        userId = SharedPreferencesUtils.getInstance(getContext()).getInt(Constant.USER_ID, 0);
-        loginStatus = SharedPreferencesUtils.getInstance(getContext()).getBoolean(Constant.LOGIN_STATUS, false);
-
-        //coursePackageId = videoPlayPageActivity.getCoursePackageId();
-        coursePackageId = courseDirectoryListener.directoryGetCoursePackageId();
-
-        coursePackageList = new ArrayList<>();
-        sectionBeanList = new ArrayList<>();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerview.setLayoutManager(layoutManager);
+        int topBottom = DensityUtil.dp2px(2);
+        recyclerview.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
     }
 
     @Override
     protected void initData() {
+        coursePackageList = new ArrayList<>();
+        sectionBeanList = new ArrayList<>();
+        //登录状态
+        userId = SharedPreferencesUtils.getInstance(getContext()).getInt(Constant.USER_ID, 0);
+        loginStatus = SharedPreferencesUtils.getInstance(getContext()).getBoolean(Constant.LOGIN_STATUS, false);
+        //获取套餐ID
+        coursePackageId = courseDirectoryListener.directoryGetCoursePackageId();
+        //初始化
         courseDirPresenter = new CourseDirPresenter(this);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerview.setLayoutManager(layoutManager);
-
-        int topBottom = DensityUtil.dp2px(2);
-        recyclerview.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
+        //刷新和重试
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 loadCourseDirectoryList();
             }
         });
-
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,37 +212,23 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     }
 
     /**
-     * 获取视频播放目
+     * 获取视频播放目录
      */
     private void loadCourseDirectoryList() {
         //获取课程目录
         if (courseDirPresenter == null) {
             courseDirPresenter = new CourseDirPresenter(this);
         }
-/*
-        if (videoPlayPageActivity != null) {
-            courseSource = videoPlayPageActivity.getCourse_Source();
-        }
-*/
+        //获取视频播放源
         courseSource = courseDirectoryListener.directoryGetCourse_Source();
-
+        //获取该套餐下视频列表
         courseDirPresenter.getCourseDirData(coursePackageId, userId, courseSource);
     }
-
 
     @Override
     protected void onInvisibleToUser() {
         super.onInvisibleToUser();
-        if (courseDirectoryPopupWindow != null) {
-            if (courseDirectoryPopupWindow.isShowing()) {
-                courseDirectoryPopupWindow.dismiss();
-            }
-        }
-    }
-
-    @Override
-    protected int setContentView() {
-        return R.layout.fragment_coursedirectorylist;
+        dismissCourseDirectoryWindow();
     }
 
     /**
@@ -228,8 +238,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
      */
     @Override
     public void getCourseDirData(CourseDirBean courseDirBean) {
-        if (courseDirBean.getData() != null && courseDirBean.getData().size() != 0) {
-
+        if (courseDirBean.getData() != null && courseDirBean.getData().size() > 0) {
             List<CourseDirBean.DataBean> data = courseDirBean.getData();
             if (coursePackageList == null) {
                 coursePackageList = new ArrayList<>();
@@ -237,7 +246,8 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
             coursePackageList.clear();
             coursePackageList.addAll(data);
 
-            initAdapter(coursePackageList);//设置课程套餐适配器
+            //设置课程套餐适配器
+            initAdapter();
 
             if (loadinglayout != null) {
                 loadinglayout.showContent();
@@ -250,7 +260,6 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
 
         if (refreshlayout != null) {
             refreshlayout.finishRefresh();
-            refreshlayout.finishLoadMore();
         }
     }
 
@@ -259,19 +268,29 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
      * Time:2019-4-16   下午 1:40
      * Detail: TODO 课程套餐适配器
      */
-    private void initAdapter(List<CourseDirBean.DataBean> coursePackageLists) {
+    private void initAdapter() {
         if (coursePackageListAdapter == null) {
-            coursePackageListAdapter = new CoursePackageListAdapter(coursePackageLists, getContext());
+            coursePackageListAdapter = new CoursePackageListAdapter(coursePackageList, getContext());
             recyclerview.setAdapter(coursePackageListAdapter);
         } else {
-            coursePackageListAdapter.notifyChange(coursePackageLists);
+            coursePackageListAdapter.notifyChange(coursePackageList);
         }
         //展开播放目录
         coursePackageListAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                List<CourseDirBean.DataBean.SectionBean> section = coursePackageLists.get(position).getSection();
-                String isZhengke = coursePackageLists.get(position).getIs_zhengke();
+                List<CourseDirBean.DataBean.SectionBean> section = coursePackageList.get(position).getSection();
+                if (sectionBeanList == null) {
+                    sectionBeanList = new ArrayList<CourseDirBean.DataBean.SectionBean>();
+                }
+                sectionBeanList.clear();
+                sectionBeanList.addAll(section);
+
+                CourseDirBean.DataBean bean = coursePackageList.get(position);
+                courseName = bean.getName();
+                teacherName = bean.getTeacher_name();
+                String isZhengke = bean.getIs_zhengke();
+                //非CPE课程判断是否是正课
                 if (!TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
                     if (TextUtils.isEmpty(isZhengke)) {
                         showToast(getResources().getString(R.string.miss_params));
@@ -279,12 +298,10 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                     }
                     courseUnCon = Integer.parseInt(isZhengke);
                 }
-                //当前课程信息
-                CourseDirBean.DataBean dataBean = coursePackageLists.get(position);
                 //当前课程点击位置
                 currentClickCourseIndex = position;
                 //弹出对应播放目录
-                showCourseDirWindow(dataBean, section);
+                showCourseDirWindow();
             }
         });
     }
@@ -294,43 +311,51 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
      * Time:2019-4-16   上午 11:49
      * Detail:TODO 点击课程包,弹出对应课程播放列表
      */
-    private void showCourseDirWindow(CourseDirBean.DataBean dataBean, List<CourseDirBean.DataBean.SectionBean> beanList) {
-        if (sectionBeanList == null) {
-            sectionBeanList = new ArrayList<>();
-        }
-        sectionBeanList.clear();
-        sectionBeanList.addAll(beanList);
-
-/*
-        if (videoPlayPageActivity != null) {
-            courseBuyState = videoPlayPageActivity.getCourseBuyState();
-        }
-*/
+    private void showCourseDirWindow() {
+        //获取套餐购买状态
         courseBuyState = courseDirectoryListener.directoryGetCourseBuyState();
-        layoutInflater = LayoutInflater.from(getContext());
-        View contentView = layoutInflater.inflate(R.layout.dialog_coursedir_window, null);
-        courseDirectoryPopupWindow = new PopupWindow(contentView);
+        //绘制目录布局
+        if (contentView == null) {
+            contentView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_coursedir_window, null);
+        }
+        //创建弹窗
+        courseDirectoryPopupWindow = createPopupWindow(contentView);
+
+        if (courseDirectoryWindowISShow()) {
+            dismissCourseDirectoryWindow();
+        } else {
+            showCourseDirectoryWindow(contentView);
+        }
+    }
+
+    //创建popupwindow
+    private PopupWindow createPopupWindow(View contentView) {
+        PopupWindow popupWindow = new PopupWindow(contentView);
         //TODO 设置宽高
-        courseDirectoryPopupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
-        int measuredHeight = layoutMain.getMeasuredHeight();
+        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        int measuredHeight = 0;
+        if (layoutMain != null) {
+            measuredHeight = layoutMain.getMeasuredHeight();
+        }
         if (measuredHeight == 0) {
             measuredHeight = DensityUtil.dp2px(80);
         }
-        courseDirectoryPopupWindow.setHeight(measuredHeight);
-        courseDirectoryPopupWindow.setFocusable(false);//区域外点击不消失
-        courseDirectoryPopupWindow.setOutsideTouchable(false);////区域外点击不消失
-        courseDirectoryPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
-        courseDirectoryPopupWindow.setSplitTouchEnabled(true);//多点触控
-        courseDirectoryPopupWindow.setAnimationStyle(R.style.Widget_AppCompat_PopupWindow);
+        popupWindow.setHeight(measuredHeight);
+        //区域外点击不消失
+        popupWindow.setFocusable(false);
+        //区域外点击不消失
+        popupWindow.setOutsideTouchable(false);
+        //设置可以点击
+        popupWindow.setTouchable(true);
+        //注意  要是点击外部空白处弹框小时 必须给弹框设置一个背景色  不然是不起作用的
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
+        popupWindow.setSplitTouchEnabled(true);//多点触控
+        popupWindow.setAnimationStyle(R.style.Widget_AppCompat_PopupWindow);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            courseDirectoryPopupWindow.setAttachedInDecor(true);//NavigationBar重叠
+            popupWindow.setAttachedInDecor(true);//NavigationBar重叠
         }
-        courseDirectoryPopupWindow.setClippingEnabled(true);
-        if (courseDirectoryPopupWindow.isShowing()) {
-            courseDirectoryPopupWindow.dismiss();
-        } else {
-            initDirView(contentView, dataBean, sectionBeanList);
-        }
+        popupWindow.setClippingEnabled(true);
+        return popupWindow;
     }
 
     /**
@@ -338,57 +363,60 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
      * Time:2019-4-16   下午 1:04
      * Detail: 课程目录数据处理
      */
-    private void initDirView(View contentView, CourseDirBean.DataBean dataBean, List<CourseDirBean.DataBean.SectionBean> sectionList) {
-        TextView courseName = (TextView) contentView.findViewById(R.id.course_name);
+    private void showCourseDirectoryWindow(View contentView) {
+        TextView coursename = (TextView) contentView.findViewById(R.id.course_name);
         TextView courseTeacherName = (TextView) contentView.findViewById(R.id.course_teacher_name);
         ImageView courseDownload = (ImageView) contentView.findViewById(R.id.course_down_btn);
         courseDownload.setClickable(true);
         RoundTextView courseCloseBtn = (RoundTextView) contentView.findViewById(R.id.course_closebtn);
-        ExpandableListView courseTree = (ExpandableListView) contentView.findViewById(R.id.course_dirlist);
-        //CPE不允许下载
+        ExpandableListView expandableListView = (ExpandableListView) contentView.findViewById(R.id.course_dirlist);
+
+        //CPE下载要挂掉
         if (TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
             courseDownload.setVisibility(View.GONE);
         }
+        //设置课程名和姓名
+        if (!TextUtils.isEmpty(courseName)) {
+            coursename.setText(courseName);
+        }
+        if (!TextUtils.isEmpty(teacherName)) {
+            courseTeacherName.setText(String.format("%s%s", getResources().getString(R.string.holder_teacher), teacherName));
+        }
 
-        courseName.setText(dataBean.getName());//课程名称
-        courseTeacherName.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + dataBean.getTeacher_name()));//讲师名称
         if (courseDirWindowAdapter == null) {
-            courseDirWindowAdapter = new CourseDirWindowAdapter(getContext(), sectionList);
+            courseDirWindowAdapter = new CourseDirWindowAdapter(getContext(), sectionBeanList);
         }
-        courseDirWindowAdapter.notifyDataSetChanged();
-        if (courseDirWindowAdapter != null) {
-            courseTree.setAdapter(courseDirWindowAdapter);
-            courseDirWindowAdapter.setSelectPosition(currentPlayCourseIndex, currentClickCourseIndex);
-        }
+        courseDirWindowAdapter.notifyChange(sectionBeanList);
+        expandableListView.setAdapter(courseDirWindowAdapter);
+        courseDirWindowAdapter.setSelectPosition(currentPlayCourseIndex, currentClickCourseIndex);
+
         //如果当前点击的套餐列表的索引值==当前播放的课程套餐的索引,可以展开对应的一级目录和二级目录
         if (currentPlayCourseIndex == currentClickCourseIndex) {
-            courseTree.expandGroup(groupIndex);
-            courseTree.setSelectedGroup(groupIndex);
-            courseTree.setSelectedChild(groupIndex, sonIndex, true);
+            expandableListView.expandGroup(groupIndex);
+            expandableListView.setSelectedGroup(groupIndex);
+            expandableListView.setSelectedChild(groupIndex, sonIndex, true);
         }
-        courseDirectoryPopupWindow.showAtLocation(layoutMain, Gravity.BOTTOM, 0, 0);
-        courseDirectoryPopupWindow.update();
+        //弹出目录窗口
+        showCourseDirectoryWindow();
+        //弹窗消失
         courseCloseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                courseDirectoryPopupWindow.dismiss();
+                dismissCourseDirectoryWindow();
             }
         });
-        //TODO 下载操作
+        //TODO 下载事件
         courseDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!loginStatus) {
-                    startActivity(LoginActivity.class, null);
+                    startActivity(LoginActivity.class);
                 } else {
                     if (courseBuyState == Constant.HAVED_BUY) {
                         //暂停播放
                         courseDirectoryListener.onPausePlay();
-
                         Bundle bundle = new Bundle();
-                        String teacherName = dataBean.getTeacher_name();
-                        String name = dataBean.getName();
-                        bundle.putString(Constant.TITLE, name);
+                        bundle.putString(Constant.TITLE, courseName);
                         bundle.putString(Constant.TEACHER_NAME, teacherName);
                         bundle.putInt(Constant.PACKAGE_ID, coursePackageId);
                         bundle.putInt(Constant.PAGE, currentClickCourseIndex);
@@ -400,11 +428,11 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
             }
         });
         //TODO 小节视频点击事件,点击之后播放视频
-        courseTree.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 if (!loginStatus) {
-                    startActivity(LoginActivity.class, null);
+                    startActivity(LoginActivity.class);
                 } else {
                     if (TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
                         if (courseBuyState != Constant.HAVED_BUY) {
@@ -412,21 +440,13 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                             return false;
                         }
                     }
-                    String vid = sectionList.get(groupPosition).getVideo().get(childPosition).getVideoId();
-                    String video_id = sectionList.get(groupPosition).getVideo().get(childPosition).getVideo_id();
-                    int videoId = sectionList.get(groupPosition).getVideo().get(childPosition).getId();
-                    int courseId = sectionList.get(groupPosition).getVideo().get(childPosition).getCourse_id();
-                    int sectionId = sectionList.get(groupPosition).getVideo().get(childPosition).getSection_id();
+                    String vid = sectionBeanList.get(groupPosition).getVideo().get(childPosition).getVideoId();
+                    String video_id = sectionBeanList.get(groupPosition).getVideo().get(childPosition).getVideo_id();
+                    int videoId = sectionBeanList.get(groupPosition).getVideo().get(childPosition).getId();
+                    int courseId = sectionBeanList.get(groupPosition).getVideo().get(childPosition).getCourse_id();
+                    int sectionId = sectionBeanList.get(groupPosition).getVideo().get(childPosition).getSection_id();
 
                     //TODO 调用播放器,切换视频
-/*
-                    if (videoPlayPageActivity != null) {
-                        //切换视频
-                        videoPlayPageActivity.changePlayVidSource(vid, videoId, courseId, sectionId, video_id);
-                        //是否是正课标识
-                        videoPlayPageActivity.setCourseUnCon(courseUnCon);
-                    }
-*/
                     courseDirectoryListener.directoryChangePlayVidSource(vid, videoId, courseId, sectionId, video_id);
                     courseDirectoryListener.directorySetCourseUnCon(courseUnCon);
 
@@ -452,14 +472,27 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
     public void onNextVideoPlay() {
         if (coursePackageList != null && coursePackageList.size() > 0) {
             //1.0.3.2此版本报空指针
-            List<CourseDirBean.DataBean.SectionBean> section = coursePackageList.get(currentPlayCourseIndex).getSection();//获取套餐中当前播放的课程目录
-            if (section != null && section.size() > 0) {//课程目录不为空
-                for (int i = groupIndex; i < section.size(); i++) {
-                    List<CourseDirBean.DataBean.SectionBean.VideoBean> beanList = section.get(i).getVideo();//目录子播放列表
-                    //如果有子条目，子角标++
+            List<CourseDirBean.DataBean.SectionBean> sectionBeanList = coursePackageList.get(currentPlayCourseIndex).getSection();//获取套餐中当前播放的课程目录
+            if (sectionBeanList != null && sectionBeanList.size() > 0) {
+                //判断一级列表是否越界
+                if (groupIndex == sectionBeanList.size() - 1) {
+                    List<CourseDirBean.DataBean.SectionBean.VideoBean> beanList = sectionBeanList.get(groupIndex).getVideo();
                     if (beanList != null && beanList.size() > 0) {
-                        //子角标
-                        if (sonIndex < beanList.size() - 1) {
+                        if (sonIndex == beanList.size() - 1) {
+                            //所有视频都已播放完毕,不在播放下一个
+                            courseDirectoryListener.directoryAllVideoPlayComplted();
+                            return;
+                        }
+                    }
+                }
+                //课程目录不为空
+                for (int i = groupIndex; i < sectionBeanList.size(); i++) {
+                    //目录二级播放列表
+                    List<CourseDirBean.DataBean.SectionBean.VideoBean> sonVideoList = sectionBeanList.get(i).getVideo();
+                    //如果有二级列表，子角标++
+                    if (sonVideoList != null && sonVideoList.size() > 0) {
+                        //子角标变更
+                        if (sonIndex < sonVideoList.size() - 1) {
                             ++sonIndex;
                             break;
                         } else {
@@ -469,7 +502,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                         }
                     } else {
                         //没有，父角标++
-                        if (groupIndex != section.size() - 1) {
+                        if (groupIndex != sectionBeanList.size() - 1) {
                             ++groupIndex;
                         }
                         sonIndex = 0;
@@ -477,22 +510,16 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                     }
                 }
             }
-            if (section != null && groupIndex <= section.size() - 1) {
-                ToastUtil.showBottomLongText(getContext(), getResources().getString(R.string.course_changing));
+            if (sectionBeanList != null && groupIndex <= sectionBeanList.size() - 1) {
+                showToast(getResources().getString(R.string.course_changing));
                 //TODO 获取切换视频所需信息
-                CourseDirBean.DataBean.SectionBean.VideoBean videoBean = section.get(groupIndex).getVideo().get(sonIndex);
+                CourseDirBean.DataBean.SectionBean.VideoBean videoBean = sectionBeanList.get(groupIndex).getVideo().get(sonIndex);
                 String vid = videoBean.getVideoId();
                 String video_id = videoBean.getVideo_id();
                 int videoId = videoBean.getId();
                 int courseId = videoBean.getCourse_id();
                 int sectionId = videoBean.getSection_id();
-
-/*
-                if (videoPlayPageActivity != null) {
-                    //TODO 调用播放器,切换视频
-                    videoPlayPageActivity.changePlayVidSource(vid, videoId, courseId, sectionId, video_id);
-                }
-*/
+                //切换视频
                 courseDirectoryListener.directoryChangePlayVidSource(vid, videoId, courseId, sectionId, video_id);
                 if (courseDirWindowAdapter != null) {
                     //设置选中的位置
@@ -504,6 +531,11 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                 }
             }
         }
+    }
+
+    private void logger() {
+        LogUtils.e("CourseDirectory:                    groupIndex: " + groupIndex + "  sonIndex: " + sonIndex
+                + "    currentClickCourseIndex: " + currentClickCourseIndex + "   currentPlayCourseIndex: " + currentPlayCourseIndex);
     }
 
     @Override

@@ -902,6 +902,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 startProgressUpdateTimer();
 
                 /**
+                 * 封面好评
+                 */
+                setCourseCover(false);
+
+                /**
                  * 首帧显示,控制栏消失
                  */
                 setLayoutVisibility(true, true);
@@ -979,6 +984,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                      */
                     onNext();
                 } else {
+                    setCourseCover(true);
+                    //提示文字
                     playerTipsview.setVisibility(View.VISIBLE);
                     playerTipsview.setText(getResources().getString(R.string.course_completed));
                     toastInfo(getResources().getString(R.string.course_completed));
@@ -1309,8 +1316,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (isEducation()) {
             //后续教育的傻×
             if (courseDirectoryListFragment.isAdded()) {
-                if (courseDirectoryListFragment != null && courseDirectoryListFragment.coursWindowisShow()) {
-                    courseDirectoryListFragment.dismissWindow();
+                if (courseDirectoryListFragment != null && courseDirectoryListFragment.courseDirectoryWindowISShow()) {
+                    courseDirectoryListFragment.dismissCourseDirectoryWindow();
                     return;
                 }
             }
@@ -1322,8 +1329,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
          */
         if (courseDirectoryListFragment != null) {
             if (courseDirectoryListFragment.isAdded()) {
-                if (courseDirectoryListFragment.coursWindowisShow()) {
-                    courseDirectoryListFragment.dismissWindow();
+                if (courseDirectoryListFragment.courseDirectoryWindowISShow()) {
+                    courseDirectoryListFragment.dismissCourseDirectoryWindow();
                 } else {
                     if (getScreenMode() == AliyunScreenMode.Small) {
                         super.onBackPressed();
@@ -1724,10 +1731,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 playerTipsview.setText(freeWatchTips);
                 stop();
                 stopProgressUpdateTimer();
-                //背景设置为黑色的
-                courseCoverimage.setColorFilter(Color.BLACK);
-                //背景图可见
-                courseCoverimage.setVisibility(View.VISIBLE);
+                setCourseCover(true);
             }
         }
     }
@@ -2125,8 +2129,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
         if (courseDirectoryListFragment != null) {
             if (courseDirectoryListFragment.isAdded()) {
-                if (courseDirectoryListFragment.coursWindowisShow()) {
-                    courseDirectoryListFragment.dismissWindow();
+                if (courseDirectoryListFragment.courseDirectoryWindowISShow()) {
+                    courseDirectoryListFragment.dismissCourseDirectoryWindow();
                 }
             }
         }
@@ -2227,6 +2231,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      */
 
     private void changePlayVidSource(String vid, int videoId, int course_id, int section_id, String education_videoId) {
+        //每次播放显示背景
+        setCourseCover(true);
         if (isEducation()) {
             if (TextUtils.isEmpty(education_videoId)) {
                 toastInfo(getResources().getString(R.string.miss_params));
@@ -3067,13 +3073,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (data == null) {
             playerTipsview.setText(getResources().getString(R.string.course_getInfoError));
             playerTipsview.setVisibility(View.VISIBLE);
-            courseCoverimage.setVisibility(courseCoverimage.getVisibility() == View.VISIBLE ? View.GONE : View.INVISIBLE);
         } else {
             //开始加载,进度
             playerLoadingview.setVisibility(View.VISIBLE);
             playerTipsview.setVisibility(View.GONE);
-            //封面隐藏
-            courseCoverimage.setVisibility(courseCoverimage.getVisibility() == View.VISIBLE ? View.GONE : View.INVISIBLE);
 
             //获取播放凭证
             String playAuth = data.getData().getPlayAuth();
@@ -3116,6 +3119,22 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             currentaAliyunPlayAuth = aliyunPlayAuthBuilder.build();
             prepareAuth(currentaAliyunPlayAuth);
 
+        }
+    }
+
+    /**
+     * 设置封面是否可见
+     */
+    private void setCourseCover(boolean flag) {
+        if (flag) {
+            if (courseCoverimage.getVisibility() != View.VISIBLE) {
+                courseCoverimage.setColorFilter(Color.BLACK);
+                courseCoverimage.setVisibility(View.VISIBLE);
+            } else {
+                courseCoverimage.setColorFilter(Color.BLACK);
+            }
+        } else {
+            courseCoverimage.setVisibility(View.GONE);
         }
     }
 
@@ -3455,22 +3474,14 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      * 检测是否是后续教育
      */
     private boolean isEducation() {
-        if (TextUtils.isEmpty(course_Source)) {
-            return false;
-        } else {
-            return TextUtils.equals(course_Source, Constant.WATCH_EDUCATION_CPE);
-        }
+        return TextUtils.equals(course_Source, Constant.WATCH_EDUCATION_CPE);
     }
 
     /**
      * 类型判断
      */
     private boolean typeJudge(String type) {
-        if (TextUtils.isEmpty(course_Source)) {
-            return false;
-        } else {
-            return TextUtils.equals(course_Source, type);
-        }
+        return TextUtils.equals(course_Source, type);
     }
 
     private int getCoursePackageId() {
@@ -3610,6 +3621,15 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     public void directoryChangePlayVidSource(String vid, int videoId, int course_id, int section_id, String education_videoId) {
         //设置播放源
         changePlayVidSource(vid, videoId, course_id, section_id, education_videoId);
+    }
+
+    @Override
+    public void directoryAllVideoPlayComplted() {
+        //所有视频都已经播放完毕
+        playerTipsview.setVisibility(View.VISIBLE);
+        playerTipsview.setText(getResources().getString(R.string.course_completed));
+        setCourseCover(true);
+        toastInfo(getResources().getString(R.string.course_completed));
     }
 
     @Override
