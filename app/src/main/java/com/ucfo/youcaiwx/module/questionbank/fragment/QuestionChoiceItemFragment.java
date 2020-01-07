@@ -1,6 +1,7 @@
 package com.ucfo.youcaiwx.module.questionbank.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -72,6 +73,38 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
     private TextView mAnalysisContent2Question;
     private ImageView mAnalysisImage2Question;
 
+    private QuestionChoiceListener questionChoiceListener;
+
+    public interface QuestionChoiceListener {
+        ArrayList<DoProblemsBean.DataBean.TopicsBean> choiceGetQuestionList();
+
+        ArrayList<DoProblemsAnswerBean> choiceGetOptionsAnswerList();
+
+        void choiceSetOptionsAnswerList(ArrayList<DoProblemsAnswerBean> optionsAnswerList);
+
+        void choiceSubmitPaper();
+
+        void choiceDeleteCurrentQuestion();
+
+        void choiceCancelCurrentQuestion();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof QuestionChoiceListener) {
+            questionChoiceListener = (QuestionChoiceListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement QuestionChoiceListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        questionChoiceListener = null;
+    }
+
     @Override
     protected int setContentView() {
         return R.layout.fragment_chiocequestionitem;
@@ -137,9 +170,17 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         FragmentActivity fragmentActivity = getActivity();
         if (fragmentActivity instanceof TESTMODEActivity) {
             testmodeActivity = (TESTMODEActivity) fragmentActivity;
-            questionList = testmodeActivity.getQuestionList();
-            optionsAnswerList = testmodeActivity.getOptionsAnswerList();
         }
+        if (questionChoiceListener != null) {
+            questionList = questionChoiceListener.choiceGetQuestionList();
+            optionsAnswerList = questionChoiceListener.choiceGetOptionsAnswerList();
+        } else {
+            if (testmodeActivity != null) {
+                questionList = testmodeActivity.getQuestionList();
+                optionsAnswerList = testmodeActivity.getOptionsAnswerList();
+            }
+        }
+
         //TODO 判断移除错题和收藏
         if (plate_id == Constant.PLATE_7) {
             //错题中心查看解析
@@ -155,7 +196,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         }
 
         //TODO 图片预览初始化
-        transferee = Transferee.getDefault(testmodeActivity);
+        transferee = Transferee.getDefault(getContext());
 
         //索引值和全部页面数量
         mCurrentIndexQuestion.setText(String.valueOf(index + 1));
@@ -165,7 +206,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         initTopicData();
 
         //TODO 选项列表
-        adapter = new OptionsAdapter(questionList, index, testmodeActivity, EXERCISE_TYPE);
+        adapter = new OptionsAdapter(questionList, index, getContext(), EXERCISE_TYPE);
         if (optionsAnswerList != null && optionsAnswerList.size() > 0) {
             //此处报了个错,又是下标越界
             String userAnswer = optionsAnswerList.get(index).getUser_answer();
@@ -200,7 +241,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             initAnalysis();
 
             //一个调皮的吐司
-            //ToastUtil.showBottomShortText(testmodeActivity,"不好意思,就算是继续做题,你还是得走练习模式" );
+            //ToastUtil.showBottomShortText(getContext(),"不好意思,就算是继续做题,你还是得走练习模式" );
 
             //由于viewpager至能缓存三个fragment,所以要判断一下是否填写过答案然后再对解析内容进行显示
             if (optionsAnswerList != null) {
@@ -245,7 +286,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
                 //重新给答题卡响应题目设置用户答案
                 optionsAnswerList.get(index).setUser_answer(userOption);
                 //总数据重新复制
-                testmodeActivity.setOptionsAnswerList(optionsAnswerList);
+                questionChoiceListener.choiceSetOptionsAnswerList(optionsAnswerList);
 
                 if (TextUtils.equals(userOption, rightAnswer)) {
                     //做对(别问我为啥练习模式做对了也显示解析,问领导去...)
@@ -277,7 +318,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             //重新给答题卡响应题目设置用户答案
             optionsAnswerList.get(index).setUser_answer(userOption);
             //总数据重新复制
-            testmodeActivity.setOptionsAnswerList(optionsAnswerList);
+            questionChoiceListener.choiceSetOptionsAnswerList(optionsAnswerList);
             //initAnalysis();//重新设置解析答案
             //交卷提示
             hintSubmitPaper();
@@ -304,7 +345,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
                     }
                 }
                 if (complete) {
-                    new AlertDialog(testmodeActivity).builder()
+                    new AlertDialog(getContext()).builder()
                             .setMsg(getResources().getString(R.string.question_tips_whetherSavePager))
                             .setCancelable(false)
                             .setCanceledOnTouchOutside(false)
@@ -317,9 +358,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
                             .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    if (testmodeActivity != null) {
-                                        testmodeActivity.submitPaper();
-                                    }
+                                    questionChoiceListener.choiceSubmitPaper();
                                 }
                             }).show();
                 }
@@ -380,13 +419,13 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             //用户答案
             mAnalysisFalseQuestion.setText(userOption);
             if (rightAnswer.equals(userOption)) {//做对了
-                mAnalysisFalseQuestion.setTextColor(ContextCompat.getColor(testmodeActivity, R.color.color_F99111));
+                mAnalysisFalseQuestion.setTextColor(ContextCompat.getColor(getContext(), R.color.color_F99111));
             } else {//做错了
-                mAnalysisFalseQuestion.setTextColor(ContextCompat.getColor(testmodeActivity, R.color.color_E84342));
+                mAnalysisFalseQuestion.setTextColor(ContextCompat.getColor(getContext(), R.color.color_E84342));
             }
         } else {
             mAnalysisFalseQuestion.setText(getResources().getString(R.string.holder_notmake));
-            mAnalysisFalseQuestion.setTextColor(ContextCompat.getColor(testmodeActivity, R.color.color_F99111));
+            mAnalysisFalseQuestion.setTextColor(ContextCompat.getColor(getContext(), R.color.color_F99111));
         }
 
         //TODO 解析文字描述一
@@ -411,7 +450,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            GlideUtils.load(testmodeActivity, analysisPic, mAnalysisImageQuestion, requestOptions);
+            GlideUtils.load(getContext(), analysisPic, mAnalysisImageQuestion, requestOptions);
         } else {
             mAnalysisImageQuestion.setVisibility(View.GONE);
         }
@@ -429,7 +468,6 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             }
         });
 
-
         //TODO 解析文字描述二
         if (!TextUtils.isEmpty(analysis2)) {
             //解析题干
@@ -443,7 +481,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            GlideUtils.load(testmodeActivity, analysisPic2, mAnalysisImage2Question, requestOptions);
+            GlideUtils.load(getContext(), analysisPic2, mAnalysisImage2Question, requestOptions);
         } else {
             mAnalysisImage2Question.setVisibility(View.GONE);
         }
@@ -525,7 +563,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            GlideUtils.load(testmodeActivity, topicImage1, mImage1Question, requestOptions);
+            GlideUtils.load(getContext(), topicImage1, mImage1Question, requestOptions);
         }
         TransferConfig config = TransferConfig.build()
                 .setMissPlaceHolder(R.mipmap.icon_default)
@@ -560,7 +598,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            GlideUtils.load(testmodeActivity, topicImage2, mImage2Question, requestOptions);
+            GlideUtils.load(getContext(), topicImage2, mImage2Question, requestOptions);
         }
         TransferConfig config = TransferConfig.build()
                 .setMissPlaceHolder(R.mipmap.icon_default)
@@ -591,11 +629,11 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         switch (v.getId()) {
             case R.id.question_removequestion:
                 //TODO 19/05/28 移除当前错题
-                testmodeActivity.deleteCurrentQuestion();
+                questionChoiceListener.choiceDeleteCurrentQuestion();
                 break;
             case R.id.btn_collection:
                 //TODO 19/05/28 取消收藏==移除当前错题
-                testmodeActivity.cancelCurrentQuestion();
+                questionChoiceListener.choiceCancelCurrentQuestion();
                 break;
             default:
                 break;

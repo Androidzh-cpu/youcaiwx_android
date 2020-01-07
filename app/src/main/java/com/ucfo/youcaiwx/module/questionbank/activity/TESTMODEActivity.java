@@ -38,6 +38,8 @@ import com.ucfo.youcaiwx.entity.questionbank.QuestionDeleteBean;
 import com.ucfo.youcaiwx.entity.questionbank.SubmitStatusResultBean;
 import com.ucfo.youcaiwx.module.course.player.utils.TimeFormater;
 import com.ucfo.youcaiwx.module.main.activity.MainActivity;
+import com.ucfo.youcaiwx.module.questionbank.fragment.QuestionChoiceItemFragment;
+import com.ucfo.youcaiwx.module.questionbank.fragment.QuestionDiscussItemFragment;
 import com.ucfo.youcaiwx.presenter.presenterImpl.questionbank.QuestionBankExercisePresenter;
 import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankDoExerciseView;
 import com.ucfo.youcaiwx.utils.ActivityUtil;
@@ -64,7 +66,9 @@ import java.util.List;
  * Description:TODO 工程模式,做题主界面
  * Detail:=_=都已经乱套了,就酱紫吧
  */
-public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExerciseView, View.OnClickListener {
+public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExerciseView, View.OnClickListener,
+        QuestionChoiceItemFragment.QuestionChoiceListener,
+        QuestionDiscussItemFragment.QuestionDisscussListener {
     private TextView titlebarMidtitle;
     private TextView titlebarRighttitle;
     private Toolbar titlebarToolbar;
@@ -104,7 +108,6 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         }
     };
     /*****************************************************TODO end 正计时  *************************/
-    private TESTMODEActivity testModeActivity;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private Bundle bundle;
     private boolean timeState = false, complete = true, isDone, discuss_analysis = false;//登录状态,是否全部作答,默认全部作答,是否做题用于退出保存判断,论述题解析
@@ -190,9 +193,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         ActivityUtil.getInstance().addActivity(this);
 
 
-        testModeActivity = TESTMODEActivity.this;
-
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(testModeActivity);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
 
         //用户id
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
@@ -418,7 +419,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             public void onFinish() {
                 countDownTimer.reset();
                 tvTime.setText(getResources().getString(R.string.time_format));
-                ToastUtil.showBottomLongText(testModeActivity, getResources().getString(R.string.question_tips_Itstimeto));
+                ToastUtil.showBottomLongText(TESTMODEActivity.this, getResources().getString(R.string.question_tips_Itstimeto));
                 submitPaper();
             }
         });
@@ -427,7 +428,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     /**
      * TODO 初次开始计时
      */
-    public void startCounter(int type, int startTime) {
+    private void startCounter(int type, int startTime) {
         switch (type) {
             case -1://倒计时
                 CountdownTime = startTime * millisecond;
@@ -450,7 +451,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     /**
      * TODO 暂停计时
      */
-    public void stopCounter() {
+    private void stopCounter() {
         switch (timingType) {
             case -1://倒计时
                 if (countDownTimer != null) {
@@ -470,7 +471,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     /**
      * //TODO 重新开始计时
      */
-    public void resumeCounter() {
+    private void resumeCounter() {
         if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A) || discuss_analysis) {
             //todo nothing
         } else {
@@ -499,7 +500,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     /**
      * TODO 获取计时器时间计量
      */
-    public int getTimeMillis() {
+    private int getTimeMillis() {
         if (timingType == -1) {//倒计时返回总计用时时间
             return resultCountDownTime;
         } else {
@@ -510,14 +511,14 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     /**
      * TODO 跳转至下一个题目做题
      */
-    public void jumpToNextPage() {
+    private void jumpToNextPage() {
         int currentItem = viewPager.getCurrentItem();
         currentItem = currentItem + 1;
         jumpToAppointPage(currentItem);
     }
 
     // TODO 跳转至指定页
-    public void jumpToAppointPage(int index) {
+    private void jumpToAppointPage(int index) {
         viewPager.setCurrentItem(index);
     }
 
@@ -526,7 +527,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
      * Time:2019-5-21 上午 10:28
      * Detail:交卷事件(钉~~,交钱成功)
      */
-    public void submitPaper() {
+    private void submitPaper() {
         loadingTips = getResources().getString(R.string.question_tips_submitting);//进度框提示文字
 
         //TODO step1: 状态
@@ -582,7 +583,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 /**
                  * 非组卷模考需提示未做完信息
                  */
-                TestModeIconDialog testModeIconDialog = new TestModeIconDialog(testModeActivity).builder();
+                TestModeIconDialog testModeIconDialog = new TestModeIconDialog(this).builder();
                 testModeIconDialog.setIcon(R.mipmap.icon_qb_submit);
                 testModeIconDialog.setCancelable(false);
                 testModeIconDialog.setCanceledOnTouchOutside(false);
@@ -724,7 +725,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     /**
      * TODO 删除当前错题
      */
-    public void deleteCurrentQuestion() {
+    private void deleteCurrentQuestion() {
         String id = questionList.get(viewPager.getCurrentItem()).getID();
         int parseInt = Integer.parseInt(id);
         questionBankExercisePresenter.deleteProblems(course_id, user_id, parseInt);
@@ -733,7 +734,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     /**
      * TODO 取消收藏当前题目
      */
-    public void cancelCurrentQuestion() {
+    private void cancelCurrentQuestion() {
         int currentItem = viewPager.getCurrentItem();//当前题目所在位置坐标==题目在list的坐标
         int questionId = Integer.parseInt(questionList.get(currentItem).getID());
         int collection = Integer.parseInt(questionList.get(currentItem).getCollection());//当前题目收藏状态
@@ -791,17 +792,17 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                     int collection = Integer.parseInt(questionList.get(currentItem).getCollection());//当前题目收藏状态
                     if (collection == 0) {//未收藏
                         questionList.get(currentItem).setCollection(String.valueOf(1));//设置为收藏
-                        ToastUtil.showBottomShortText(testModeActivity, getResources().getString(R.string.question_tips_collection1));
+                        ToastUtil.showBottomShortText(this, getResources().getString(R.string.question_tips_collection1));
                     } else if (collection == 1) {//已收藏
                         questionList.get(currentItem).setCollection(String.valueOf(0));//设置未取消收藏
-                        ToastUtil.showBottomShortText(testModeActivity, getResources().getString(R.string.question_tips_collection0));
+                        ToastUtil.showBottomShortText(this, getResources().getString(R.string.question_tips_collection0));
                     }
                     collection = Integer.parseInt(questionList.get(currentItem).getCollection());
                     setCollectionIcon(collection);//更改收藏图标
                 }
                 break;
             case 2://状态2 操作失败
-                ToastUtil.showBottomShortText(testModeActivity, getResources().getString(R.string.operation_Error));
+                ToastUtil.showBottomShortText(this, getResources().getString(R.string.operation_Error));
                 break;
             default:
                 break;
@@ -845,7 +846,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                         }
                         break;
                     case 2://退出保存操作
-                        ToastUtil.showBottomShortText(testModeActivity, getResources().getString(R.string.question_tips_hasSaved));
+                        ToastUtil.showBottomShortText(this, getResources().getString(R.string.question_tips_hasSaved));
                         if (plate_id == Constant.PLATE_5) {//TODO 自助练习模式
                             /*ActivityUtil.getInstance().finishActivity(SelfServiceChildListActivity.class);
                             ActivityUtil.getInstance().finishActivity(SelfServiceListActivity.class);
@@ -865,10 +866,10 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                         break;
                 }
             } else {
-                ToastUtil.showBottomShortText(testModeActivity, getResources().getString(R.string.operation_Error));
+                ToastUtil.showBottomShortText(this, getResources().getString(R.string.operation_Error));
             }
         } else {
-            ToastUtil.showBottomShortText(testModeActivity, getResources().getString(R.string.operation_Error));
+            ToastUtil.showBottomShortText(this, getResources().getString(R.string.operation_Error));
         }
     }
 
@@ -877,7 +878,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     public void errorCenterSubmitStatus(int status) {
         switch (status) {
             case 0://交卷失败
-                ToastUtil.showBottomShortText(testModeActivity, getResources().getString(R.string.operation_Error));
+                ToastUtil.showBottomShortText(this, getResources().getString(R.string.operation_Error));
                 break;
             case 1://交卷成功
                 ArrayList<ErrorCenterSubmitAnswerBean> answerList = new ArrayList<>();
@@ -922,7 +923,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 int state = data1.getState();
                 switch (state) {//TODO 删除状态1成功0失败
                     case 0:
-                        ToastUtil.showBottomShortText(testModeActivity, getResources().getString(R.string.operation_Error));
+                        ToastUtil.showBottomShortText(this, getResources().getString(R.string.operation_Error));
                         break;
                     case 1:
                         removeQuestion();
@@ -931,10 +932,10 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                         break;
                 }
             } else {
-                ToastUtil.showBottomShortText(testModeActivity, getResources().getString(R.string.operation_Error));
+                ToastUtil.showBottomShortText(this, getResources().getString(R.string.operation_Error));
             }
         } else {
-            ToastUtil.showBottomShortText(testModeActivity, getResources().getString(R.string.operation_Error));
+            ToastUtil.showBottomShortText(this, getResources().getString(R.string.operation_Error));
         }
     }
 
@@ -1226,7 +1227,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             case R.id.btn_pause:
                 //TODO 暂停
                 stopCounter();
-                new PauseExamDialog(testModeActivity).builder()
+                new PauseExamDialog(this).builder()
                         .setCancelable(false)
                         .setCanceledOnTouchOutside(false)
                         .setPauseButton(new View.OnClickListener() {
@@ -1266,7 +1267,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     private NestedGridView gridView;
     private Button submitBtn;
 
-    public void answerSheetDialog() {
+    private void answerSheetDialog() {
         if (answerSheetDialog != null) {
             answerSheetDialog.show();
         } else {
@@ -1354,7 +1355,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         }
     }
 
-    //TODO********************************************** 供外部调用数据
+    //********************************************** 宿主里可调用的API
 
     public ArrayList<DoProblemsBean.DataBean.TopicsBean> getQuestionList() {
         if (questionList == null) {
@@ -1380,5 +1381,73 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
 
     public boolean getDiscussAnalysis() {
         return discuss_analysis;
+    }
+
+    //TODO 这是单选题的
+    @Override
+    public ArrayList<DoProblemsBean.DataBean.TopicsBean> choiceGetQuestionList() {
+        //获取做题页存储数据
+        return getQuestionList();
+    }
+
+    @Override
+    public ArrayList<DoProblemsAnswerBean> choiceGetOptionsAnswerList() {
+        //获取答题卡数据
+        return getOptionsAnswerList();
+    }
+
+    @Override
+    public void choiceSetOptionsAnswerList(ArrayList<DoProblemsAnswerBean> optionsAnswerList) {
+        //设置答题卡数据
+        setOptionsAnswerList(optionsAnswerList);
+    }
+
+    @Override
+    public void choiceSubmitPaper() {
+        //交卷
+        submitPaper();
+    }
+
+    @Override
+    public void choiceDeleteCurrentQuestion() {
+        //删除当前题目
+        deleteCurrentQuestion();
+    }
+
+    @Override
+    public void choiceCancelCurrentQuestion() {
+        //取消收藏
+        cancelCurrentQuestion();
+    }
+
+    //TODO 这个是论述题的
+    @Override
+    public ArrayList<DoProblemsBean.DataBean.TopicsBean> disscussGetQuestionList() {
+        //获取做题数据
+        return getQuestionList();
+    }
+
+    @Override
+    public ArrayList<DoProblemsAnswerBean> disscussGetOptionsAnswerList() {
+        //获取答题卡数据
+        return getOptionsAnswerList();
+    }
+
+    @Override
+    public void disscussSetOptionsAnswerList(ArrayList<DoProblemsAnswerBean> list) {
+        //设置答题卡数据
+        setOptionsAnswerList(list);
+    }
+
+    @Override
+    public boolean disscussGetDiscussAnalysis() {
+        //获取解析状态
+        return getDiscussAnalysis();
+    }
+
+    @Override
+    public void disscussCancelCurrentQuestion() {
+        //取消收藏
+        cancelCurrentQuestion();
     }
 }

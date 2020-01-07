@@ -1,6 +1,7 @@
 package com.ucfo.youcaiwx.module.questionbank.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
@@ -66,6 +67,37 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
     private TextView mAnalysisContent2Question;
     private ImageView mAnalysisImage2Question;
 
+    private QuestionDisscussListener questionDisscussListener;
+
+    public interface QuestionDisscussListener {
+        ArrayList<DoProblemsBean.DataBean.TopicsBean> disscussGetQuestionList();
+
+        ArrayList<DoProblemsAnswerBean> disscussGetOptionsAnswerList();
+
+        void disscussSetOptionsAnswerList(ArrayList<DoProblemsAnswerBean> list);
+
+        boolean disscussGetDiscussAnalysis();
+
+        void disscussCancelCurrentQuestion();
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof QuestionDisscussListener) {
+            questionDisscussListener = (QuestionDisscussListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement QuestionDisscussListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        questionDisscussListener = null;
+    }
+
     public QuestionDiscussItemFragment() {
     }
 
@@ -121,13 +153,20 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
         mCurrentIndexQuestion.setText(String.valueOf(index + 1));
         mCountIndexQuestion.setText(String.valueOf(allIndex));
 
-
         FragmentActivity fragmentActivity = getActivity();
         if (fragmentActivity instanceof TESTMODEActivity) {
             testmodeActivity = (TESTMODEActivity) fragmentActivity;
-            questionList = testmodeActivity.getQuestionList();
-            optionsAnswerList = testmodeActivity.getOptionsAnswerList();
-            discuss_analysis = testmodeActivity.getDiscussAnalysis();
+        }
+        if (questionDisscussListener != null) {
+            questionList = questionDisscussListener.disscussGetQuestionList();
+            optionsAnswerList = questionDisscussListener.disscussGetOptionsAnswerList();
+            discuss_analysis = questionDisscussListener.disscussGetDiscussAnalysis();
+        } else {
+            if (testmodeActivity != null) {
+                questionList = testmodeActivity.getQuestionList();
+                optionsAnswerList = testmodeActivity.getOptionsAnswerList();
+                discuss_analysis = testmodeActivity.getDiscussAnalysis();
+            }
         }
 
         //TODO 判断移除错题和收藏
@@ -138,7 +177,7 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
         }
 
         //TODO 图片预览初始化
-        transferee = Transferee.getDefault(testmodeActivity);
+        transferee = Transferee.getDefault(getContext());
 
         //TODO 设置题干
         initTopicData();
@@ -184,6 +223,10 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
                     } else {
                         optionsAnswerList.get(index).setUser_answer("");
                     }
+                    //更新数据
+                    if (questionDisscussListener != null) {
+                        questionDisscussListener.disscussSetOptionsAnswerList(optionsAnswerList);
+                    }
                 }
             });
         }
@@ -227,7 +270,7 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            GlideUtils.load(testmodeActivity, analysisPic, mAnalysisImageQuestion, requestOptions);
+            GlideUtils.load(getContext(), analysisPic, mAnalysisImageQuestion, requestOptions);
 
         } else {
             mAnalysisImageQuestion.setVisibility(View.GONE);
@@ -262,7 +305,7 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            GlideUtils.load(testmodeActivity, analysisPic2, mAnalysisImage2Question, requestOptions);
+            GlideUtils.load(getContext(), analysisPic2, mAnalysisImage2Question, requestOptions);
         } else {
             mAnalysisImage2Question.setVisibility(View.GONE);
         }
@@ -346,7 +389,7 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            GlideUtils.load(testmodeActivity, topicImage1, mImage1Question, requestOptions);
+            GlideUtils.load(getContext(), topicImage1, mImage1Question, requestOptions);
         }
         TransferConfig config = TransferConfig.build()
                 .setMissPlaceHolder(R.mipmap.icon_default)
@@ -382,7 +425,7 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            GlideUtils.load(testmodeActivity, topicImage2, mImage2Question, requestOptions);
+            GlideUtils.load(getContext(), topicImage2, mImage2Question, requestOptions);
         }
         TransferConfig config = TransferConfig.build()
                 .setMissPlaceHolder(R.mipmap.icon_default)
@@ -424,7 +467,9 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
                 }
                 break;
             case R.id.btn_collection:// TODO 19/06/20   取消收藏
-                testmodeActivity.cancelCurrentQuestion();
+                if (questionDisscussListener != null) {
+                    questionDisscussListener.disscussCancelCurrentQuestion();
+                }
                 break;
             default:
                 break;
