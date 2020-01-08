@@ -206,11 +206,12 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         initTopicData();
 
         //TODO 选项列表
-        adapter = new OptionsAdapter(questionList, index, getContext(), EXERCISE_TYPE);
+        if (questionList != null && questionList.size() > 0) {
+            adapter = new OptionsAdapter(questionList, index, getContext(), EXERCISE_TYPE);
+        }
         if (optionsAnswerList != null && optionsAnswerList.size() > 0) {
             //此处报了个错,又是下标越界
-            String userAnswer = optionsAnswerList.get(index).getUser_answer();
-            adapter.notifyDataChanged(userAnswer);
+            adapter.notifyDataChanged(optionsAnswerList.get(index).getUser_answer());
         }
         mOptionsListviewQuestion.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         mOptionsListviewQuestion.setAdapter(adapter);

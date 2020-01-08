@@ -1,9 +1,7 @@
 package com.ucfo.youcaiwx.module.main.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -28,7 +26,6 @@ import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.questionbank.QuestionMyProjectBean;
 import com.ucfo.youcaiwx.entity.questionbank.SubjectInfoBean;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
-import com.ucfo.youcaiwx.module.main.activity.MainActivity;
 import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.module.questionbank.activity.ErrorCenterActivity;
 import com.ucfo.youcaiwx.module.questionbank.activity.HighFrequencyWrongTopicActivity;
@@ -41,7 +38,6 @@ import com.ucfo.youcaiwx.presenter.presenterImpl.questionbank.QuestionBankHomePr
 import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankHomeView;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.StatusBarUtil;
-import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.CirclePercentBar;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
@@ -86,7 +82,6 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     private LoadingLayout loadinglayout;
 
 
-    private MainActivity activity;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private QuestionBankHomePresenter questionBankHomePresenter;
     //用户ID,当前选中的题库
@@ -97,6 +92,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     private PopupWindow popupWindow;//题库选择弹框
     private SubjectAdapter subjectAdapter;
     private boolean isShowLoading = false;
+    private View contentView;
 
     @Override
     public void onResume() {
@@ -133,7 +129,9 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
         } else {
             //TODO 未登录==未开通题库
             //清除题库信息
-            clearUserInfo();
+            if (isAdded()) {
+                clearUserInfo();
+            }
             //显示主页面
             showContent();
         }
@@ -204,16 +202,9 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
         questionbankLoginhome = (LinearLayout) itemView.findViewById(R.id.questionbank_loginhome);
         loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
 
-
-        FragmentActivity fragmentActivity = getActivity();
-        if (fragmentActivity instanceof MainActivity) {
-            activity = (MainActivity) fragmentActivity;
-        }
-
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(activity);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) statusbarView.getLayoutParams();
         layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        layoutParams.height = StatusBarUtil.getStatusBarHeight(activity);
+        layoutParams.height = StatusBarUtil.getStatusBarHeight(getContext());
         statusbarView.setLayoutParams(layoutParams);
     }
 
@@ -227,6 +218,8 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
 
     @Override
     protected void initData() {
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
+
         projectList = new ArrayList<>();
         //注册网络
         questionBankHomePresenter = new QuestionBankHomePresenter(this);
@@ -255,10 +248,10 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 }
                 startActivity(intent);
             } else {
-                ToastUtil.showBottomShortText(activity, getResources().getString(R.string.course_buyBank));
+                showToast(getResources().getString(R.string.course_buyBank));
             }
         } else {
-            startActivity(new Intent(activity, LoginActivity.class));
+            startActivity(LoginActivity.class);
         }
 
     }
@@ -310,17 +303,19 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                 questionbankLoginhome.setVisibility(View.VISIBLE);//真正题库隐藏
             } else {
                 //TODO  未购买科目
-
                 //清除题库信息
-                clearUserInfo();
+                if (isAdded()) {
+                    clearUserInfo();
+                }
                 //显示主页面
                 showContent();
             }
         } else {
             //TODO  未购买科目
-
             //清除题库信息
-            clearUserInfo();
+            if (isAdded()) {
+                clearUserInfo();
+            }
             //显示主页面
             showContent();
         }
@@ -349,7 +344,6 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             questionRankingPercent.setPercentData(0, "", false, new DecelerateInterpolator());
             questionDoexercisecount.setText(String.valueOf(0));
         }
-
         showContent();
     }
 
@@ -430,17 +424,17 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
      * Time:2019-4-26   下午 3:15
      * Detail: 学科弹出框
      */
-    @SuppressLint("InflateParams")
     private void subjectWindow() {
         if (projectList != null && projectList.size() > 1) {
-            View mContentView = null;
-            mContentView = LayoutInflater.from(getContext()).inflate(R.layout.popuwindow_subject, null, false);
+            if (contentView == null) {
+                contentView = LayoutInflater.from(getContext()).inflate(R.layout.popuwindow_subject, null, false);
+            }
             if (popupWindow == null) {
-                popupWindow = new PopupWindow(mContentView);
+                popupWindow = new PopupWindow(contentView);
                 popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
                 popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
                 popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(activity, R.drawable.icon_pulldown));
+                popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.icon_pulldown));
                 popupWindow.setOutsideTouchable(false);
                 popupWindow.setFocusable(true);
                 popupWindow.setAnimationStyle(R.style.Widget_AppCompat_PopupWindow);
@@ -449,14 +443,14 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             titlebarToolbar.getLocationInWindow(a);
             popupWindow.showAtLocation(titlebarToolbar, Gravity.TOP | Gravity.CENTER_HORIZONTAL, a[0], titlebarToolbar.getHeight() + a[1] / 3);
 
-            ListView recyclerView = mContentView.findViewById(R.id.subject_recyclerview);
+            ListView listView = contentView.findViewById(R.id.subject_recyclerview);
             if (subjectAdapter == null) {
                 subjectAdapter = new SubjectAdapter(getContext(), projectList);
+                listView.setAdapter(subjectAdapter);
             } else {
                 subjectAdapter.notifyDataSetChanged();
             }
-            recyclerView.setAdapter(subjectAdapter);
-            recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     currentSubjectId = projectList.get(position).getId();//当前选中的科目ID
@@ -477,12 +471,12 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
             });
             if (popupWindow != null) {
                 if (popupWindow.isShowing()) {
-                    titlebarMidimage.setImageDrawable(ContextCompat.getDrawable(activity, R.mipmap.icon_qb_indicatortop));
+                    titlebarMidimage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.icon_qb_indicatortop));
                 }
                 popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
                     @Override
                     public void onDismiss() {
-                        titlebarMidimage.setImageDrawable(ContextCompat.getDrawable(activity, R.mipmap.icon_qb_indicatorbot));
+                        titlebarMidimage.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.icon_qb_indicatorbot));
                     }
                 });
             }
@@ -492,11 +486,6 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     @Override
     public void showLoading() {
         if (isShowLoading) {
-/*
-            if (loadinglayout != null) {
-                loadinglayout.showLoading();
-            }
-*/
             setProcessLoading(null, true);
         }
     }

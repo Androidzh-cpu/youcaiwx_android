@@ -286,12 +286,16 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     @Override
     public void learncenterHome(LearncenterHomeBean result) {
         if (result != null) {
-            initLearnCenter(result);
+            if (isAdded()) {
+                initLearnCenter(result);
+            }
         } else {
             if (loadinglayout != null) {
                 loadinglayout.showError();
             }
-            userInfoClear();
+            if (isAdded()) {
+                userInfoClear();
+            }
         }
     }
 
