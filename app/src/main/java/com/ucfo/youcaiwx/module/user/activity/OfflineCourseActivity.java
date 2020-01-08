@@ -119,8 +119,7 @@ public class OfflineCourseActivity extends BaseActivity implements View.OnClickL
             initTablayout();
         } else {
             //未打开就申请
-            SoulPermission.getInstance().checkAndRequestPermissions(
-                    Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            SoulPermission.getInstance().checkAndRequestPermissions(Permissions.build(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
                     new CheckRequestPermissionsListener() {
                         @Override
                         public void onAllPermissionOk(Permission[] allPermissions) {
@@ -158,10 +157,10 @@ public class OfflineCourseActivity extends BaseActivity implements View.OnClickL
         titlesList.add(getResources().getString(R.string.downloading));
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         CommonTabAdapter commonTabAdapter = new CommonTabAdapter(supportFragmentManager, fragmentArrayList, titlesList);
-        viewpager.setAdapter(commonTabAdapter);//viewpager设置适配器
-        viewpager.setOffscreenPageLimit(fragmentArrayList.size());//设置预加载页面数量
+        viewpager.setAdapter(commonTabAdapter);
+        viewpager.setOffscreenPageLimit(fragmentArrayList.size());
         viewpager.setCurrentItem(page);
-        xTablayout.setupWithViewPager(viewpager);//tablayout关联viewpager
+        xTablayout.setupWithViewPager(viewpager);
     }
 
     //供fragment获取下载信息
@@ -177,12 +176,14 @@ public class OfflineCourseActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.titlebar_righttitle:
                 if (downloadingFragment != null && downloadCompletedFragment != null) {
-                    if (downloadingFragment.getUserVisibleHint()) {
-                        editStatus = !editStatus;
-                        downloadingFragment.editVideoList(editStatus);
-                    } else if (downloadCompletedFragment.getUserVisibleHint()) {
-                        editStatus = !editStatus;
-                        downloadCompletedFragment.editVideoList(editStatus);
+                    if (downloadingFragment.isAdded() && downloadCompletedFragment.isAdded()) {
+                        if (downloadingFragment.getUserVisibleHint()) {
+                            editStatus = !editStatus;
+                            downloadingFragment.editVideoList(editStatus);
+                        } else if (downloadCompletedFragment.getUserVisibleHint()) {
+                            editStatus = !editStatus;
+                            downloadCompletedFragment.editVideoList(editStatus);
+                        }
                     }
                 }
                 break;

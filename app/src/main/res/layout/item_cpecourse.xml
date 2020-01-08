@@ -69,20 +69,20 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <com.flyco.roundview.RoundTextView
+            <TextView
                 android:id="@+id/item_course_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:minWidth="@dimen/dp_58"
-                android:paddingBottom="@dimen/dp_1"
-                android:paddingEnd="@dimen/dp_5"
-                android:paddingStart="@dimen/dp_5"
-                android:paddingTop="@dimen/dp_1"
-                android:textColor="@color/color_F88C00"
-                app:rv_backgroundColor="@color/color_FEEEDB"
-                app:rv_isRadiusHalfHeight="true"
-                tools:text="¥28800" />
+                android:background="@drawable/item_home_purpleback"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:minWidth="@dimen/dp_54"
+                android:paddingBottom="@dimen/dp_2"
+                android:paddingEnd="@dimen/dp_7"
+                android:paddingStart="@dimen/dp_7"
+                android:paddingTop="@dimen/dp_2"
+                android:textSize="@dimen/sp_12" />
+
 
             <TextView
                 android:id="@+id/item_course_time"

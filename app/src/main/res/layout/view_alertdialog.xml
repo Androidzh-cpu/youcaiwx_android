@@ -18,7 +18,6 @@
         android:minHeight="@dimen/dp_70"
         android:orientation="vertical">
 
-
         <TextView
             android:id="@+id/txt_title"
             android:layout_width="match_parent"
@@ -49,7 +48,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="@dimen/dp_0_5"
         android:background="@color/color_E6E6E6" />
 
     <LinearLayout
@@ -64,14 +63,13 @@
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
-            android:stateListAnimator="@drawable/shape_selector_elevation"
             android:text="@string/cancel"
             android:textColor="@color/color_666666"
             android:textSize="16sp"
             app:rv_backgroundColor="@android:color/white"
             app:rv_backgroundPressColor="@color/color_E6E6E6"
             app:rv_cornerRadius_BL="@dimen/dp_8"
-            tools:ignore="KeyboardInaccessibleWidget,UnusedAttribute" />
+            app:rv_cornerRadius_BR="@dimen/dp_8" />
 
         <View
             android:id="@+id/img_line"
@@ -86,14 +84,13 @@
             android:layout_weight="1"
             android:clickable="true"
             android:gravity="center"
-            android:stateListAnimator="@drawable/shape_selector_elevation"
             android:text="@string/confirm"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp"
             app:rv_backgroundColor="@android:color/white"
             app:rv_backgroundPressColor="@color/color_E6E6E6"
-            app:rv_cornerRadius_BR="@dimen/dp_8"
-            tools:ignore="KeyboardInaccessibleWidget,UnusedAttribute" />
+            app:rv_cornerRadius_BL="@dimen/dp_8"
+            app:rv_cornerRadius_BR="@dimen/dp_8" />
     </LinearLayout>
 
 </com.flyco.roundview.RoundLinearLayout>

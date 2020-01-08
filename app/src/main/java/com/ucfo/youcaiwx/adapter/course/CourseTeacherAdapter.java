@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -31,6 +32,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CourseTeacherAdapter extends BaseAdapter<CourseIntroductionBean.DataBean.TeacehrListBean, CourseTeacherAdapter.ViewHolder> {
     private List<CourseIntroductionBean.DataBean.TeacehrListBean> list;
     private Context context;
+    private boolean isShowArrows;
+
+
+    public CourseTeacherAdapter(List<CourseIntroductionBean.DataBean.TeacehrListBean> list, Context context, boolean isShowArrows) {
+        this.list = list;
+        this.context = context;
+        this.isShowArrows = isShowArrows;
+    }
 
     public CourseTeacherAdapter(List<CourseIntroductionBean.DataBean.TeacehrListBean> list, Context context) {
         this.list = list;
@@ -65,6 +74,9 @@ public class CourseTeacherAdapter extends BaseAdapter<CourseIntroductionBean.Dat
                 .transform(new RoundedCorners(DensityUtil.dp2px(5)))
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         GlideUtils.load(context, pictrue, holder.mTeacherImage, requestOptions);
+        if (isShowArrows) {
+            holder.mArrowsImage.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -80,6 +92,7 @@ public class CourseTeacherAdapter extends BaseAdapter<CourseIntroductionBean.Dat
         private CircleImageView mTeacherImage;
         private TextView mTeachernameTv;
         private TextView mTeacherdetailTv;
+        private ImageView mArrowsImage;
 
         public ViewHolder(View view) {
             super(view);
@@ -90,6 +103,7 @@ public class CourseTeacherAdapter extends BaseAdapter<CourseIntroductionBean.Dat
             mTeacherImage = (CircleImageView) itemView.findViewById(R.id.image_teacher);
             mTeachernameTv = (TextView) itemView.findViewById(R.id.tv_teachername);
             mTeacherdetailTv = (TextView) itemView.findViewById(R.id.tv_teacherdetail);
+            mArrowsImage = (ImageView) itemView.findViewById(R.id.image_arrows);
         }
     }
 

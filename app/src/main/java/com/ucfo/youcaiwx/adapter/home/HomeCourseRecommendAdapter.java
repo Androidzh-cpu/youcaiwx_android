@@ -83,7 +83,7 @@ public class HomeCourseRecommendAdapter extends BaseAdapter<HomeBean.DataBean.Cu
                     break;
                 case 2:
                     holder.mCoursePriceItem.setBackgroundResource(R.drawable.item_home_orangeback);
-                    holder.mCoursePriceItem.setText(String.valueOf(context.getResources().getString(R.string.RMB) + price));
+                    holder.mCoursePriceItem.setText(String.format("%s%s", context.getResources().getString(R.string.RMB), price));
                     holder.mCoursePriceItem.setTextColor(ContextCompat.getColor(context, R.color.color_F88C00));
                     break;
                 case 3:
@@ -101,7 +101,6 @@ public class HomeCourseRecommendAdapter extends BaseAdapter<HomeBean.DataBean.Cu
         if (!TextUtils.isEmpty(join_num)) {
             holder.mCourseCountItem.setText(String.valueOf(context.getResources().getString(R.string.course_joincount) + join_num));
         }
-
     }
 
     @Override

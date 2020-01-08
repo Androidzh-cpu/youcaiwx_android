@@ -319,43 +319,28 @@ public class CourseIntroductionFragment extends BaseFragment {
             String isPurchase = data.getIs_purchase();//课程是否购买
             String appImg = data.getApp_img();//封面图
             String userstatus = data.getUserstatus();//后续教育是否购买
-/*
-            if (videoPlayPageActivity == null) {
-                FragmentActivity activity = getActivity();
-                if (activity instanceof VideoPlayPageActivity) {
-                    videoPlayPageActivity = (VideoPlayPageActivity) activity;
-                }
-            }
-*/
             //TODO 课程购买状态
-            //String courseSource = videoPlayPageActivity.getCourse_Source();
             String courseSource = CourseIntroductionListener.introducationGetCourse_Source();
             if (TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
                 // 后续教育
                 if (TextUtils.isEmpty(userstatus)) {
-                    //videoPlayPageActivity.setCourseBuyState(2);
                     CourseIntroductionListener.introducationSetCourseBuyState(2);
                 } else {
-                    //videoPlayPageActivity.setCourseBuyState(Integer.parseInt(userstatus));
                     CourseIntroductionListener.introducationSetCourseBuyState(Integer.parseInt(userstatus));
                 }
             } else {
                 //一般般啦
                 if (TextUtils.isEmpty(isPurchase)) {
-                    //videoPlayPageActivity.setCourseBuyState(2);
                     CourseIntroductionListener.introducationSetCourseBuyState(2);
                 } else {
-                    //videoPlayPageActivity.setCourseBuyState(Integer.parseInt(isPurchase));
                     CourseIntroductionListener.introducationSetCourseBuyState(Integer.parseInt(isPurchase));
                 }
             }
             //TODO 课程购买价格
-            //videoPlayPageActivity.setCourse_PackagePrice(price);
             CourseIntroductionListener.introducationSetCourse_PackagePrice(price);
             //TODO 设置课程封面
-            //videoPlayPageActivity.setCourse_Cover(appImg);
             CourseIntroductionListener.introducationSetCourse_Cover(appImg);
-            //TODO 课程简介主要内容(本来是一个H5,人家就换成一张图了,,,,,,)
+            //TODO 课程简介主要内容(本来是一个H5,人家就换成一张图了
             webView.loadUrl(briefImg);
             if (!TextUtils.isEmpty(name)) {
                 courseName.setText(name);

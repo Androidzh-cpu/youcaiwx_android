@@ -439,7 +439,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 }
                 break;
         }
-        //fragmentTransaction.commit();
         fragmentTransaction.commitAllowingStateLoss();
     }
 }

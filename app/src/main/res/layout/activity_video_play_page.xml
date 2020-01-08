@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:scaleType="fitXY"
-            android:src="@color/colorPrimary" />
+            android:src="@color/color_F2F7FF" />
 
         <!--SBZZ弹幕-->
         <TextView

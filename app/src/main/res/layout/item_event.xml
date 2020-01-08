@@ -17,6 +17,7 @@
         android:id="@+id/imageview"
         android:layout_width="@dimen/dp_96"
         android:layout_height="@dimen/dp_58"
+        android:scaleType="fitXY"
         tools:ignore="ContentDescription" />
 
     <LinearLayout

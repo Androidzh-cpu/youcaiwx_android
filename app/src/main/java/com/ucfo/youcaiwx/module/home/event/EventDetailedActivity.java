@@ -438,7 +438,7 @@ public class EventDetailedActivity extends BaseActivity implements IEventView {
                 teacehrListBeanList.add(teacehrListBean);
             }
             if (courseTeacherAdapter == null) {
-                courseTeacherAdapter = new CourseTeacherAdapter(teacehrListBeanList, this);
+                courseTeacherAdapter = new CourseTeacherAdapter(teacehrListBeanList, this,true);
                 recyclerview.setAdapter(courseTeacherAdapter);
             } else {
                 courseTeacherAdapter.notifyDataSetChanged();

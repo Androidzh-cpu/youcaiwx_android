@@ -161,8 +161,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         linearlayout = (LinearLayout) itemView.findViewById(R.id.linearlayout);
 
 
-        context = (MainActivity) getActivity();
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
         recyclerviewLive.setNestedScrollingEnabled(false);
         recyclerviewCourse.setNestedScrollingEnabled(false);
         recyclerviewNews.setNestedScrollingEnabled(false);
@@ -207,7 +206,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         int titleMeasuredWidth = AppUtils.getViewWidth(titlebarTitle);
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             private int lastscrolly = 0;
-            private int h = width / 2 - titleMeasuredWidth / 2 - DensityUtil.dip2px(context, 21);
+            private int h = width / 2 - titleMeasuredWidth / 2 - DensityUtil.dip2px(getContext(), 21);
 
             @Override
             public void onScrollChange(NestedScrollView v, int scrollx, int scrolly, int oldscrollx, int oldscrolly) {
@@ -258,7 +257,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                                 .checkAndRequestPermission(Manifest.permission.CAMERA, new CheckRequestPermissionListener() {
                                     @Override
                                     public void onPermissionOk(Permission permission) {
-                                        startActivity(new Intent(getContext(), ScanActivity.class));
+                                        startActivity(ScanActivity.class);
                                     }
 
                                     @Override
@@ -266,14 +265,14 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                                     }
                                 });
                     } else {
-                        startActivity(new Intent(getContext(), LoginActivity.class));
+                        startActivity(LoginActivity.class);
                     }
                     break;
                 case R.id.titlebar_message://TODO 消息
                     if (loginStatus) {
-                        startActivity(new Intent(getContext(), MessageCenterActivity.class));
+                        startActivity(MessageCenterActivity.class);
                     } else {
-                        startActivity(new Intent(getContext(), LoginActivity.class));
+                        startActivity(LoginActivity.class);
                     }
                     break;
                 case R.id.icon_live://TODO 直播
@@ -282,27 +281,27 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                     startActivity(WebActivity.class, bundle);
                     break;
                 case R.id.icon_course://TODO 课程
-                    startActivity(CourseListActivity.class, null);
+                    startActivity(CourseListActivity.class);
                     break;
                 case R.id.icon_face://TODO 面授
                     /*bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARFACE);
                     bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_face));
                     startActivity(WebActivity.class, bundle);*/
                     //TODO 改为后续教育
-                    startActivity(CPECourseActivity.class, null);
+                    startActivity(CPECourseActivity.class);
                     break;
                 case R.id.icon_active://TODO 活动
                     /*bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARACTIVE);
                     bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_active));
                     startActivity(WebActivity.class, bundle);*/
-                    startActivity(EventActivity.class, null);
+                    startActivity(EventActivity.class);
                     break;
                 case R.id.check_more_course://TODO 查看更多课程
-                    startActivity(new Intent(getContext(), CourseListActivity.class));
+                    startActivity(CourseListActivity.class);
                     break;
                 case R.id.icon_news://TODO 资讯
                 case R.id.check_more_news://TODO 查看更多资讯
-                    startActivity(InformationActivity.class, null);
+                    startActivity(InformationActivity.class);
                     break;
                 default:
                     break;
@@ -422,7 +421,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     //开启消息轮训
     private void startFilpper(List<HomeBean.DataBean.HotspotBean> hotspot) {
         for (int i = 0; i < hotspot.size(); i++) {
-            View view = LayoutInflater.from(context).inflate(R.layout.view_homt_hotpoint, null);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.view_homt_hotpoint, null);
             TextView textView = view.findViewById(R.id.hot_filpper_text);
             textView.setText(hotspot.get(i).getTitle());
             hotFilpper.addView(view);
@@ -463,7 +462,6 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         } else {
             homeLiveAdapter.notifyChange(liveList);
         }
-        recyclerviewLive.setItemAnimator(new DefaultItemAnimator());
         homeLiveAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -488,7 +486,6 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         } else {
             homeCourseRecommendAdapter.notifyChange(courseList);
         }
-        recyclerviewCourse.setItemAnimator(new DefaultItemAnimator());
         homeCourseRecommendAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -513,24 +510,22 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     }
 
     private void layoutManager() {
-        LinearLayoutManager layoutManager3 = new LinearLayoutManager(context);
+        LinearLayoutManager layoutManager3 = new LinearLayoutManager(getContext());
         layoutManager3.setOrientation(LinearLayoutManager.HORIZONTAL);
-        layoutManager3.setReverseLayout(false);
         recyclerviewLive.setLayoutManager(layoutManager3);
+        recyclerviewLive.setItemAnimator(new DefaultItemAnimator());
 
-        int topBottom = DensityUtil.dp2px(10);
-        //recyclerviewNews.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
-        recyclerviewCourse.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        int topBottom = DensityUtil.dp2px(10);
+        recyclerviewCourse.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
+        recyclerviewCourse.setItemAnimator(new DefaultItemAnimator());
         recyclerviewCourse.setLayoutManager(layoutManager);
 
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(context);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getContext());
         layoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerviewNews.setLayoutManager(layoutManager2);
-
-
+        recyclerviewNews.setItemAnimator(new DefaultItemAnimator());
     }
 
     /**
@@ -541,13 +536,11 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     private void initNewsAdapter(List<HomeBean.DataBean.InformationBean> newLists) {
         //设置适配器
         if (homeNewsAdapter == null) {
-            homeNewsAdapter = new HomeNewsAdapter(newLists, context);
+            homeNewsAdapter = new HomeNewsAdapter(newLists, getContext());
             recyclerviewNews.setAdapter(homeNewsAdapter);
         } else {
             homeNewsAdapter.notifyChange(newLists);
         }
-
-        recyclerviewNews.setItemAnimator(new DefaultItemAnimator());
         homeNewsAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

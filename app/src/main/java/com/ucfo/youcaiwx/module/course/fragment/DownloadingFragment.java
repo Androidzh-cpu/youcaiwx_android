@@ -44,7 +44,6 @@ import com.ucfo.youcaiwx.module.course.player.utils.ErrorInfo;
 import com.ucfo.youcaiwx.module.course.player.utils.NetWatchdog;
 import com.ucfo.youcaiwx.module.user.activity.OfflineCourseActivity;
 import com.ucfo.youcaiwx.utils.LogUtils;
-import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
@@ -68,7 +67,6 @@ import java.util.Locale;
  * detail:TODO 准备下载和开始下载为相互独立的功能，在用户获取到需要下载的Datasource便可开始下载
  */
 public class DownloadingFragment extends BaseFragment implements View.OnClickListener {
-    public OfflineCourseActivity offlineCourseActivity;
 
     private ListView listView;
     private LoadingLayout loadinglayout;
@@ -91,10 +89,8 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
     private MyDownloadInfoListener myDownloadInfoListener;
     private ArrayList<PreparedDownloadInfoBean> offlineCourseActivityParcelableArrayList;
     private NetWatchdog mNetWatchdog;
-    private boolean downloadWifi;
     private ErrorInfo currentError = ErrorInfo.Normal;
     private Gson gson;
-    private boolean flowFlag;
 
     private DownloadingListener downloadingListener;
 
@@ -162,10 +158,6 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
         linearEdittor = (LinearLayout) itemView.findViewById(R.id.linear_edittor);
 
 
-        FragmentActivity activity = getActivity();
-        if (activity instanceof OfflineCourseActivity) {
-            offlineCourseActivity = (OfflineCourseActivity) activity;
-        }
         //剩余空间
         initSdcardSpace();
         //网络监听
@@ -175,10 +167,17 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
     @Override
     protected void initData() {
         //获取待下载视频
-        //offlineCourseActivityParcelableArrayList = offlineCourseActivity.getParcelableArrayList();
-        offlineCourseActivityParcelableArrayList = downloadingListener.getParcelableArrayList();
-        //仅在WIFI下下载
-        downloadWifi = SharedPreferencesUtils.getInstance(getContext()).getBoolean(Constant.DOWNLOAD_WIFI, false);
+        if (downloadingListener != null) {
+            offlineCourseActivityParcelableArrayList = downloadingListener.getParcelableArrayList();
+        } else {
+            if (getActivity() != null) {
+                FragmentActivity activity = getActivity();
+                if (activity instanceof OfflineCourseActivity) {
+                    OfflineCourseActivity offlineCourseActivity = (OfflineCourseActivity) getActivity();
+                    offlineCourseActivityParcelableArrayList = offlineCourseActivity.getParcelableArrayList();
+                }
+            }
+        }
         gson = new Gson();
     }
 
@@ -208,7 +207,6 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
                         builder.show();
                     }
                 });
-
         /**
          * 初始化下载配置
          */
@@ -278,9 +276,6 @@ public class DownloadingFragment extends BaseFragment implements View.OnClickLis
                     alivcDownloadingMediaInfos.add(alivcDownloadMediaInfo);
                 }
             }
-        }
-        if (Constant.ISTEST_ENVIRONMENT) {
-            AliyunDownloadManager.enableNativeLog();
         }
     }
 

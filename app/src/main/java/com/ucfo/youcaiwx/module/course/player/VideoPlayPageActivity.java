@@ -747,29 +747,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                             break;
                         case 1:
                             //TODO 课程目录
-                            if (isEducation()) {
-                                if (courseBuyState == Constant.HAVED_BUY) {
-                                    new com.ucfo.youcaiwx.widget.dialog.AlertDialog(VideoPlayPageActivity.this).builder()
-                                            .setTitle(getResources().getString(R.string.study_know))
-                                            .setMsg(getResources().getString(R.string.study_know_detail))
-                                            .setMsgGravity(Gravity.START)
-                                            .setCancelable(false)
-                                            .setCanceledOnTouchOutside(false)
-                                            .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-
-                                                }
-                                            })
-                                            .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-
-                                                }
-                                            })
-                                            .show();
-                                }
-                            }
                             if (linearPayCourse.getVisibility() == View.VISIBLE) {
                                 linearPayCourse.setVisibility(View.GONE);
                             }
@@ -2559,15 +2536,15 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private void setCourse_Cover(String courseCoverUrl) {
         this.courseCoverimageUrl = courseCoverUrl;
         courseCoverimage.setVisibility(View.VISIBLE);
-        if (TextUtils.isEmpty(courseCoverUrl)) {
+
+        if (TextUtils.isEmpty(courseCoverimageUrl)) {
             courseCoverimage.setImageDrawable(ContextCompat.getDrawable(this, R.color.color_F2F7FF));
         } else {
             RequestOptions requestOptions = new RequestOptions()
-                    .centerCrop()
                     .placeholder(R.color.color_F2F7FF)
                     .error(R.color.colorBlack)
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
-            GlideUtils.load(this, courseCoverUrl, courseCoverimage, requestOptions);
+                    .diskCacheStrategy(DiskCacheStrategy.ALL);
+            GlideUtils.load(this, courseCoverimageUrl, courseCoverimage, requestOptions);
         }
     }
 
@@ -3128,10 +3105,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private void setCourseCover(boolean flag) {
         if (flag) {
             if (courseCoverimage.getVisibility() != View.VISIBLE) {
-                courseCoverimage.setColorFilter(Color.BLACK);
+                courseCoverimage.setImageDrawable(ContextCompat.getDrawable(this, R.color.colorBlack));
                 courseCoverimage.setVisibility(View.VISIBLE);
             } else {
-                courseCoverimage.setColorFilter(Color.BLACK);
+                courseCoverimage.setImageDrawable(ContextCompat.getDrawable(this, R.color.colorBlack));
             }
         } else {
             courseCoverimage.setVisibility(View.GONE);
@@ -3579,6 +3556,24 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     public void introducationSetCourseBuyState(int courseBuyState) {
         //设置购买状态
         setCourseBuyState(courseBuyState);
+        if (isEducation()) {
+            //TODO 后续教育提示须知
+            if (getCourseBuyState() == Constant.HAVED_BUY) {
+                new com.ucfo.youcaiwx.widget.dialog.AlertDialog(VideoPlayPageActivity.this).builder()
+                        .setTitle(getResources().getString(R.string.study_know))
+                        .setMsg(getResources().getString(R.string.study_know_detail))
+                        .setMsgGravity(Gravity.START)
+                        .setCancelable(false)
+                        .setCanceledOnTouchOutside(false)
+                        .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        })
+                        .show();
+            }
+        }
     }
 
     @Override

@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.flyco.roundview.RoundTextView;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.user.MineCPECourseBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
@@ -100,7 +99,7 @@ public class MineCPECourseAdapter extends BaseAdapter<MineCPECourseBean.DataBean
         private TextView mCourseTitleItem;
         private TextView mCourseTeacherItem;
         private TextView mCoursePointItem;
-        private RoundTextView mCoursePriceItem;
+        private TextView mCoursePriceItem;
         private TextView mCourseTimeItem;
         private TextView mCourseCountItem;
 
@@ -115,7 +114,7 @@ public class MineCPECourseAdapter extends BaseAdapter<MineCPECourseBean.DataBean
             mCourseTitleItem = (TextView) itemView.findViewById(R.id.item_course_title);
             mCourseTeacherItem = (TextView) itemView.findViewById(R.id.item_course_teacher);
             mCoursePointItem = (TextView) itemView.findViewById(R.id.item_course_point);
-            mCoursePriceItem = (RoundTextView) itemView.findViewById(R.id.item_course_price);
+            mCoursePriceItem = (TextView) itemView.findViewById(R.id.item_course_price);
             mCourseTimeItem = (TextView) itemView.findViewById(R.id.item_course_time);
             mCourseCountItem = (TextView) itemView.findViewById(R.id.item_course_count);
         }

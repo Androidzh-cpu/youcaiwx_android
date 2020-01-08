@@ -2,6 +2,7 @@ package com.ucfo.youcaiwx.adapter.home;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.flyco.roundview.RoundTextView;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.entity.home.education.EducationCourseListBean;
 import com.ucfo.youcaiwx.utils.baseadapter.BaseAdapter;
@@ -59,6 +59,7 @@ public class CPECourseListAdapter extends BaseAdapter<EducationCourseListBean.Da
         String teacherName = bean.getTeacher_name();
         String cpeIntegral = bean.getCpe_integral();
         String price = bean.getPrice();
+        String billingStatus = bean.getBilling_status();
 
         RequestOptions requestOptions = new RequestOptions()
                 .placeholder(R.mipmap.icon_default)
@@ -67,7 +68,7 @@ public class CPECourseListAdapter extends BaseAdapter<EducationCourseListBean.Da
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         GlideUtils.load(context, appImg, holder.mCourseImageItem, requestOptions);
         if (!TextUtils.isEmpty(teacherName)) {
-            holder.mCourseTeacherItem.setText(String.valueOf(context.getResources().getString(R.string.holder_teacher) + teacherName));
+            holder.mCourseTeacherItem.setText(teacherName);
         }
         if (!TextUtils.isEmpty(name)) {
             holder.mCourseTitleItem.setText(name);
@@ -78,8 +79,25 @@ public class CPECourseListAdapter extends BaseAdapter<EducationCourseListBean.Da
             holder.mCoursePointItem.setText(context.getResources().getString(R.string.event_point, cpeIntegral));
         }
         if (!TextUtils.isEmpty(price)) {
-            holder.mCoursePriceItem.setText(String.valueOf(context.getResources().getString(R.string.RMB) + price));
+            holder.mCoursePriceItem.setText(String.format("%s%s", context.getResources().getString(R.string.RMB), price));
         }
+        if (!TextUtils.isEmpty(billingStatus)) {
+            switch (Integer.parseInt(billingStatus)) {//2免费1收费
+                case 1:
+                    holder.mCoursePriceItem.setBackgroundResource(R.drawable.item_home_orangeback);
+                    holder.mCoursePriceItem.setText(String.format("%s%s", context.getResources().getString(R.string.RMB), price));
+                    holder.mCoursePriceItem.setTextColor(ContextCompat.getColor(context, R.color.color_F88C00));
+                    break;
+                case 2:
+                    holder.mCoursePriceItem.setBackgroundResource(R.drawable.item_home_purpleback);
+                    holder.mCoursePriceItem.setText(context.getResources().getString(R.string.course_free));
+                    holder.mCoursePriceItem.setTextColor(ContextCompat.getColor(context, R.color.color_5B78F6));
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 
     @Override
@@ -95,7 +113,7 @@ public class CPECourseListAdapter extends BaseAdapter<EducationCourseListBean.Da
         private TextView mCourseTitleItem;
         private TextView mCourseTeacherItem;
         private TextView mCoursePointItem;
-        private RoundTextView mCoursePriceItem;
+        private TextView mCoursePriceItem;
         private TextView mCourseCountItem;
 
         public ViewHolder(View view) {
@@ -108,7 +126,7 @@ public class CPECourseListAdapter extends BaseAdapter<EducationCourseListBean.Da
             mCourseTitleItem = (TextView) itemView.findViewById(R.id.item_course_title);
             mCourseTeacherItem = (TextView) itemView.findViewById(R.id.item_course_teacher);
             mCoursePointItem = (TextView) itemView.findViewById(R.id.item_course_point);
-            mCoursePriceItem = (RoundTextView) itemView.findViewById(R.id.item_course_price);
+            mCoursePriceItem = (TextView) itemView.findViewById(R.id.item_course_price);
             mCourseCountItem = (TextView) itemView.findViewById(R.id.item_course_count);
         }
     }
