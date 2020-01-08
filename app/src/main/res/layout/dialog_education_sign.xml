@@ -34,5 +34,4 @@
         android:textColor="@color/color_333333"
         android:textSize="@dimen/sp_13" />
 
-
 </com.flyco.roundview.RoundLinearLayout>

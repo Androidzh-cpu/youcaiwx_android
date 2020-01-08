@@ -51,46 +51,50 @@
         android:layout_height="@dimen/dp_0_5"
         android:background="@color/color_E6E6E6" />
 
-    <LinearLayout
+    <com.ucfo.youcaiwx.widget.customview.CricleFrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_43"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        app:bottomLeftRadius="@dimen/dp_8"
+        app:bottomRightRadius="@dimen/dp_8">
 
-        <com.flyco.roundview.RoundTextView
-            android:id="@+id/btn_neg"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:gravity="center"
-            android:text="@string/cancel"
-            android:textColor="@color/color_666666"
-            android:textSize="16sp"
-            app:rv_backgroundColor="@android:color/white"
-            app:rv_backgroundPressColor="@color/color_E6E6E6"
-            app:rv_cornerRadius_BL="@dimen/dp_8"
-            app:rv_cornerRadius_BR="@dimen/dp_8" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_43"
+            android:orientation="horizontal">
 
-        <View
-            android:id="@+id/img_line"
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            android:background="@color/color_E6E6E6" />
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/btn_neg"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:stateListAnimator="@drawable/shape_selector_elevation"
+                android:text="@string/cancel"
+                android:textColor="@color/color_666666"
+                android:textSize="16sp"
+                app:rv_backgroundColor="@android:color/white"
+                app:rv_backgroundPressColor="@color/color_E6E6E6" />
 
-        <com.flyco.roundview.RoundTextView
-            android:id="@+id/btn_pos"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:gravity="center"
-            android:text="@string/confirm"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
-            app:rv_backgroundColor="@android:color/white"
-            app:rv_backgroundPressColor="@color/color_E6E6E6"
-            app:rv_cornerRadius_BL="@dimen/dp_8"
-            app:rv_cornerRadius_BR="@dimen/dp_8" />
-    </LinearLayout>
+            <View
+                android:id="@+id/img_line"
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/color_E6E6E6" />
 
+            <com.flyco.roundview.RoundTextView
+                android:id="@+id/btn_pos"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:gravity="center"
+                android:stateListAnimator="@drawable/shape_selector_elevation"
+                android:text="@string/confirm"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                app:rv_backgroundColor="@android:color/white"
+                app:rv_backgroundPressColor="@color/color_E6E6E6" />
+        </LinearLayout>
+    </com.ucfo.youcaiwx.widget.customview.CricleFrameLayout>
 </com.flyco.roundview.RoundLinearLayout>

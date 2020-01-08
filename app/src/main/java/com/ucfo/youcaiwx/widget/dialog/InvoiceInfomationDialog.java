@@ -18,7 +18,6 @@ import com.ucfo.youcaiwx.R;
  * detail:todo 发票须知
  */
 public class InvoiceInfomationDialog {
-
     private Context context;
     private Dialog dialog;
     private RoundTextView btn_neg;

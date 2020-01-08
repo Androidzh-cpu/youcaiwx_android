@@ -49,10 +49,8 @@ import java.util.List;
  * Email:2911743255@qq.com
  * ClassName: CourseDirectoryListFragment
  * Description:TODO 课程目录
- * Detail:TODO fragment_coursedirectorylist
  */
 public class CourseDirectoryListFragment extends BaseFragment implements ICourseDirView {
-
     private RecyclerView recyclerview;
     private SmartRefreshLayout refreshlayout;
     private ConstraintLayout layoutMain;
@@ -185,8 +183,6 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         //登录状态
         userId = SharedPreferencesUtils.getInstance(getContext()).getInt(Constant.USER_ID, 0);
         loginStatus = SharedPreferencesUtils.getInstance(getContext()).getBoolean(Constant.LOGIN_STATUS, false);
-        //获取套餐ID
-        coursePackageId = courseDirectoryListener.directoryGetCoursePackageId();
         //初始化
         courseDirPresenter = new CourseDirPresenter(this);
         //刷新和重试
@@ -219,6 +215,8 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         if (courseDirPresenter == null) {
             courseDirPresenter = new CourseDirPresenter(this);
         }
+        //获取套餐ID
+        coursePackageId = courseDirectoryListener.directoryGetCoursePackageId();
         //获取视频播放源
         courseSource = courseDirectoryListener.directoryGetCourse_Source();
         //获取该套餐下视频列表
