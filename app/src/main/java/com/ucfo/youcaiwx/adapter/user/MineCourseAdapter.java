@@ -63,13 +63,13 @@ public class MineCourseAdapter extends BaseAdapter<MineCourseBean.DataBean, Mine
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         GlideUtils.load(context, appImg, holder.mCourseImageItem, requestOptions);
         if (!TextUtils.isEmpty(teacherName)) {
-            holder.mCourseTeacherItem.setText(String.valueOf(context.getResources().getString(R.string.holder_teacher) + teacherName));
+            holder.mCourseTeacherItem.setText(teacherName);
         }
         if (!TextUtils.isEmpty(name)) {
             holder.mCourseTitleItem.setText(name);
         }
         holder.mCourseCountItem.setText(context.getResources().getString(R.string.course_NumOfLearning, String.valueOf(joinNum)));
-        holder.mCourseTimeItem.setText(String.valueOf(context.getResources().getString(R.string.orderForm_endtime2, String.valueOf(studyDays))));
+        holder.mCourseTimeItem.setText(context.getResources().getString(R.string.orderForm_endtime2, String.valueOf(studyDays)));
     }
 
     @Override

@@ -63,17 +63,17 @@ public class EducationFragment extends BaseFragment implements IMineCourseView, 
         recyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerview);
         refreshLayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
         loadingLayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setNestedScrollingEnabled(false);
     }
 
     @Override
     protected void initData() {
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setNestedScrollingEnabled(false);
 
         list = new ArrayList<>();
 

@@ -63,7 +63,7 @@ public class HomeNewsAdapter extends BaseAdapter<HomeBean.DataBean.CurriculumBea
             holder.mCourseTitleItem.setText(title);
         }
         if (!TextUtils.isEmpty(source)) {
-            String s = String.valueOf(context.getResources().getString(R.string.source) + ": " + source);
+            String s = context.getResources().getString(R.string.source, source);
             holder.mCourseAuthorItem.setText(s);
         }
         if (!TextUtils.isEmpty(imageurl)) {

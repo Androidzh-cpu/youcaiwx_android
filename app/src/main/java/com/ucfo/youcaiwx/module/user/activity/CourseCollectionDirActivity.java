@@ -116,7 +116,7 @@ public class CourseCollectionDirActivity extends BaseActivity implements IMineCo
             course_un_con = bundle.getInt(Constant.COURSE_UN_CON, 2);//TODO 是否是正课1正课2非正课
 
             courseName.setText(course_title);
-            courseTeacherName.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + "  " + course_teachername));
+            courseTeacherName.setText(getResources().getString(R.string.teacher, course_teachername));
         } else {
             if (loadinglayout != null) {
                 loadinglayout.showEmpty();

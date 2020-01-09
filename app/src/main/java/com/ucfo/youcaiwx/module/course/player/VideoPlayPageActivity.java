@@ -344,6 +344,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
     };
     private Random random;
+    private Gson gson;
     /*****************************************************TODO end 正计时  *************************/
 
     /**
@@ -659,6 +660,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         look_wifi = sharedPreferencesUtils.getBoolean(Constant.LOOK_WIFI, false);
 
         random = new Random();
+        gson = new Gson();
         /**
          * 用于获取视频播放凭证
          */
@@ -2583,24 +2585,26 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 if (learnDays == 0 || learnPlanid == 0) {
                     //TODO nothing
                 } else {
-                    String message = new Gson().toJson(courseSocketBean);
+                    if (gson == null) {
+                        gson = new Gson();
+                    }
+                    String message = gson.toJson(courseSocketBean);
                     if (mWebSocket != null) {
                         mWebSocket.send(message);
                     }
+                    output(message);
                 }
             } else {
                 courseSocketBean.setStatus(1);//	视频类型1课程视频播放
-
-                String message = new Gson().toJson(courseSocketBean);
+                if (gson == null) {
+                    gson = new Gson();
+                }
+                String message = gson.toJson(courseSocketBean);
                 if (mWebSocket != null) {
                     mWebSocket.send(message);
                 }
+                output(message);
             }
-            /*String message = new Gson().toJson(courseSocketBean);
-            output("onMessage message: " + message);
-            if (mWebSocket != null) {
-                mWebSocket.send(message);
-            }*/
         }
     }
 

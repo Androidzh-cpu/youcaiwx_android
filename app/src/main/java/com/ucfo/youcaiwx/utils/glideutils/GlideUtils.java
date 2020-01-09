@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.ucfo.youcaiwx.utils.LogUtils;
 
 /**
  * Author:AND
@@ -34,23 +35,26 @@ public class GlideUtils {
      */
     public static void load(Context context, String url, ImageView imageView, RequestOptions options) {
         if (context == null) {
-            //LogUtils.e("GlieUtils", "context == null");
+            LogUtils.e("GlieUtils", "context == null");
             return;
         }
 
         if (context instanceof Activity) {
             final Activity activity = (Activity) context;
             if (activity.isDestroyed() || activity.isFinishing()) {
-                //LogUtils.e("GlieUtils", "activity.isDestroyed() || activity.isFinishing()");
+                LogUtils.e("GlieUtils", "activity.isDestroyed() || activity.isFinishing()");
                 return;
             }
         }
-        //LogUtils.e("GlieUtils", "修成正果");
-
+        //DrawableCrossFadeFactory drawableCrossFadeFactory = new DrawableCrossFadeFactory.Builder(300).setCrossFadeEnabled(true).build();
+        //.transition(DrawableTransitionOptions.with(drawableCrossFadeFactory))
+        //.transition(new DrawableTransitionOptions().crossFade(300))
         Glide.with(context)
                 .load(url)
                 .apply(options)
                 .into(imageView);
+
+
     }
 
 

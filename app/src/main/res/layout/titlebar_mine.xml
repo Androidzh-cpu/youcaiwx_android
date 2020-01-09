@@ -23,12 +23,12 @@
 
     <ImageView
         android:id="@+id/titlebar_setting"
-        android:layout_width="@dimen/dp_18"
-        android:layout_height="@dimen/dp_18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dp_19"
         android:clickable="true"
-        android:padding="@dimen/dp_2"
-        android:scaleType="center"
+        android:padding="@dimen/dp_8"
+        android:scaleType="fitCenter"
         android:src="@mipmap/icon_setting"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

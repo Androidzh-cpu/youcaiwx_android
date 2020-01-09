@@ -12,6 +12,7 @@ import com.ucfo.youcaiwx.entity.user.MineCPEWatchRecordBean;
 import com.ucfo.youcaiwx.entity.user.MineWatchRecordBean;
 import com.ucfo.youcaiwx.presenter.view.user.IWatchTheRecordView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -116,9 +117,14 @@ public class WatchTheRecordPresenter {
                                 jsonObject = new JSONObject(body);
                                 int code = jsonObject.optInt(Constant.CODE);
                                 if (code == 200) {
-                                    Gson gson = new Gson();
-                                    MineCPEWatchRecordBean mineCPEWatchRecordBean = gson.fromJson(body, MineCPEWatchRecordBean.class);
-                                    view.getMineCPEWatchRecord(mineCPEWatchRecordBean);
+                                    Object data = jsonObject.get(Constant.DATA);
+                                    if (data instanceof JSONArray) {
+                                        Gson gson = new Gson();
+                                        MineCPEWatchRecordBean mineCPEWatchRecordBean = gson.fromJson(body, MineCPEWatchRecordBean.class);
+                                        view.getMineCPEWatchRecord(mineCPEWatchRecordBean);
+                                    } else {
+                                        view.getMineCPEWatchRecord(null);
+                                    }
                                 } else {
                                     view.getMineCPEWatchRecord(null);
                                 }

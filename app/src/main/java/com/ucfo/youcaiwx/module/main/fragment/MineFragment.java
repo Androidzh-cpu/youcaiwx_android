@@ -1,6 +1,5 @@
 package com.ucfo.youcaiwx.module.main.fragment;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -204,7 +203,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
      */
     private void loadUserData() {
         if (sharedPreferencesUtils == null) {
-            SharedPreferencesUtils.getInstance(getContext());
+            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
         }
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         loginstatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
@@ -216,8 +215,8 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         } else {
             if (isAdded()) {
                 updateUnLoginUi();
+                showContent();
             }
-            showContent();
         }
     }
 
@@ -291,42 +290,11 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                     break;
                 case R.id.btn_recommendfriend:
                     //TODO 推荐给好友
-                    new ShareDialog(getContext()).builder()
-                            .setFriendButton(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    String url = ApiStores.APP_DOWNLOAD_URL;
-                                    String title = getResources().getString(R.string.app_nameWX);
-                                    String desc = getResources().getString(R.string.youcaiWXShareDescribe);
-                                    ShareUtils.getInstance().shareUrlToWx(url, title, desc, SendMessageToWX.Req.WXSceneSession);
-
-                                    //设置签到积分
-                                    EarnIntegralPresenter.getInstance().setIntegralType(Constant.INTEGRAL_SHARE);
-                                }
-                            })
-                            .setCircleToFriendButton(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    String url = ApiStores.APP_DOWNLOAD_URL;
-                                    String title = getResources().getString(R.string.app_nameWX);
-                                    String desc = getResources().getString(R.string.youcaiWXShareDescribe);
-                                    ShareUtils.getInstance().shareUrlToWx(url, title, desc, SendMessageToWX.Req.WXSceneTimeline);
-
-                                    //设置签到积分
-                                    EarnIntegralPresenter.getInstance().setIntegralType(Constant.INTEGRAL_SHARE);
-                                }
-                            })
-                            .show();
+                    shareToFriend();
                     break;
                 case R.id.btn_call:
                     //TODO 电话
-                    if (getActivity() != null) {
-                        FragmentActivity activity = getActivity();
-                        if (activity instanceof MainActivity) {
-                            MainActivity mainActivity = (MainActivity) activity;
-                            mainActivity.makeCall();
-                        }
-                    }
+                    call();
                     break;
                 case R.id.btn_about:
                     //TODO 关于
@@ -340,9 +308,54 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
             }
         } else {//未登录,去登录页
             if (getContext() != null) {
-                startActivity(new Intent(getContext(), LoginActivity.class));
+                startActivity(LoginActivity.class);
             }
         }
+    }
+
+    /**
+     * 打电话
+     */
+    private void call() {
+        if (getActivity() != null) {
+            FragmentActivity activity = getActivity();
+            if (activity instanceof MainActivity) {
+                MainActivity mainActivity = (MainActivity) activity;
+                mainActivity.makeCall();
+            }
+        }
+    }
+
+    /**
+     * 分享给朋友
+     */
+    private void shareToFriend() {
+        new ShareDialog(getContext()).builder()
+                .setFriendButton(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String url = ApiStores.APP_DOWNLOAD_URL;
+                        String title = getResources().getString(R.string.app_nameWX);
+                        String desc = getResources().getString(R.string.youcaiWXShareDescribe);
+                        ShareUtils.getInstance().shareUrlToWx(url, title, desc, SendMessageToWX.Req.WXSceneSession);
+
+                        //设置签到积分
+                        EarnIntegralPresenter.getInstance().setIntegralType(Constant.INTEGRAL_SHARE);
+                    }
+                })
+                .setCircleToFriendButton(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String url = ApiStores.APP_DOWNLOAD_URL;
+                        String title = getResources().getString(R.string.app_nameWX);
+                        String desc = getResources().getString(R.string.youcaiWXShareDescribe);
+                        ShareUtils.getInstance().shareUrlToWx(url, title, desc, SendMessageToWX.Req.WXSceneTimeline);
+
+                        //设置签到积分
+                        EarnIntegralPresenter.getInstance().setIntegralType(Constant.INTEGRAL_SHARE);
+                    }
+                })
+                .show();
     }
 
     @Override
@@ -352,8 +365,8 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
             if (data != null) {
                 if (isAdded()) {
                     updateLoginUi(data);
+                    showContent();
                 }
-                showContent();
             }
         }
     }
@@ -364,6 +377,9 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         }
     }
 
+    /**
+     * 暂未开发
+     */
     private void noDev() {
         new AlertDialog(Objects.requireNonNull(getContext())).builder().setCancelable(false).setCanceledOnTouchOutside(false)
                 .setMsg("暂未开发")
@@ -382,10 +398,12 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                 .show();
     }
 
-    //TODO 设置未登录个人信息
+    /**
+     * 设置未登录个人信息
+     */
     public void updateUnLoginUi() {
-        userBalance.setText(String.valueOf(String.format("%s%s", "0", getResources().getString(R.string.mine_yuan))));
-        userCoupons.setText(String.valueOf(String.format("%s%s", "0", getResources().getString(R.string.mine_zhang))));
+        userBalance.setText(String.format("%s%s", "0", getResources().getString(R.string.mine_yuan)));
+        userCoupons.setText(String.format("%s%s", "0", getResources().getString(R.string.mine_zhang)));
         userIntegral.setText(String.valueOf(0));
         userNickname.setText(getResources().getString(R.string.mine_tologin));
         userNickname.setCompoundDrawables(null, null, null, null);
@@ -394,7 +412,9 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         userIcon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.icon_headdefault));
     }
 
-    //TODO 设置登录个人信息
+    /**
+     * 设置登录个人信息
+     */
     public void updateLoginUi(UserInfoBean.DataBean dataBean) {
         String head = dataBean.getHead();
         String balance = dataBean.getBalance();
@@ -413,9 +433,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
                     .placeholder(R.mipmap.icon_default)
                     .error(R.mipmap.image_loaderror)
                     .diskCacheStrategy(DiskCacheStrategy.ALL);
-            if (getContext() != null) {
-                GlideUtils.load(getContext(), head, userIcon, requestOptions);
-            }
+            GlideUtils.load(getContext(), head, userIcon, requestOptions);
         }
         if (!TextUtils.isEmpty(username)) {//todo 昵称
             userNickname.setText(username);
@@ -480,7 +498,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
     public void showError() {
         if (isAdded()) {
             showToast(getResources().getString(R.string.miss_request));
+            showContent();
         }
-        showContent();
     }
 }

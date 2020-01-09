@@ -352,10 +352,10 @@ public class CourseIntroductionFragment extends BaseFragment {
                 coursePrice.setText(String.valueOf(getResources().getString(R.string.RMB) + price));
             }
             if (!TextUtils.isEmpty(teacherName)) {
-                courseTeacher.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + teacherName));
+                courseTeacher.setText((getResources().getString(R.string.teacher, teacherName)));
             }
             courseCount.setText(getResources().getString(R.string.people, joinNum));
-            courseTime.setText(String.valueOf(String.valueOf(getResources().getString(R.string.orderForm_endtime2, studyDays))));
+            courseTime.setText(getResources().getString(R.string.orderForm_endtime2, studyDays));
             if (loadinglayout != null) {
                 loadinglayout.showContent();
             }

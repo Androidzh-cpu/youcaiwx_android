@@ -13,8 +13,7 @@
     <ImageView
         android:id="@+id/item_course_image"
         android:layout_width="@dimen/dp_100"
-        android:layout_height="@dimen/dp_60"
-        android:src="@mipmap/icon_default" />
+        android:layout_height="@dimen/dp_60" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -32,7 +31,8 @@
             android:gravity="center_vertical"
             android:maxLines="1"
             android:textColor="@color/color_333333"
-            android:textSize="@dimen/sp_13" />
+            android:textSize="@dimen/sp_13"
+            tools:text="CMA中文高清网课全科（新纲）" />
 
         <TextView
             android:id="@+id/item_course_author"
@@ -44,7 +44,8 @@
             android:maxLines="1"
             android:singleLine="true"
             android:textColor="@color/color_666666"
-            android:textSize="@dimen/sp_11" />
+            android:textSize="@dimen/sp_11"
+            tools:text="讲师：杨晔、王谦" />
 
 
         <LinearLayout
@@ -67,18 +68,24 @@
                 android:paddingStart="@dimen/dp_7"
                 android:paddingTop="@dimen/dp_2"
                 android:textSize="@dimen/sp_10"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="¥28800" />
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_1"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/item_course_count"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_11"
+                android:layout_weight="1"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/color_999999"
-                android:textSize="@dimen/sp_10" />
+                android:textSize="@dimen/sp_10"
+                tools:text="参加人数：360" />
 
         </LinearLayout>
 

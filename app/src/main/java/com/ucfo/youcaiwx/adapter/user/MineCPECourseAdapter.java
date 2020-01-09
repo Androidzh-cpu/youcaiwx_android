@@ -67,7 +67,7 @@ public class MineCPECourseAdapter extends BaseAdapter<MineCPECourseBean.DataBean
         GlideUtils.load(context, appImg, holder.mCourseImageItem, requestOptions);
 
         if (!TextUtils.isEmpty(teacherName)) {
-            holder.mCourseTeacherItem.setText(String.valueOf(context.getResources().getString(R.string.holder_teacher) + teacherName));
+            holder.mCourseTeacherItem.setText(context.getResources().getString(R.string.teacher, teacherName));
         }
         if (!TextUtils.isEmpty(name)) {
             holder.mCourseTitleItem.setText(name);

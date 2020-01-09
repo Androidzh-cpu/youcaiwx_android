@@ -69,9 +69,9 @@ public class CourseChildListApapter extends BaseAdapter<CourseDataListBean.DataB
             holder.mCourseTitleItem.setText(name);
         }
         if (!TextUtils.isEmpty(teacherName)) {
-            holder.mCourseAuthorItem.setText(String.valueOf(context.getString(R.string.holder_teacher) + teacherName));
+            holder.mCourseAuthorItem.setText(context.getString(R.string.teacher, teacherName));
         }
-        holder.mCourseCountItem.setText(String.valueOf(context.getString(R.string.orderForm_endtime3, String.valueOf(studyDays))));
+        holder.mCourseCountItem.setText(context.getString(R.string.orderForm_endtime3, String.valueOf(studyDays)));
         switch (billingStatus) {//1免费2收费3按积分越换4按等级进入
             case 1:
                 holder.mCoursePriceItem.setBackgroundResource(R.drawable.item_home_purpleback);

@@ -53,7 +53,7 @@
                         android:id="@+id/user_icon"
                         android:layout_width="@dimen/dp_58"
                         android:layout_height="@dimen/dp_58"
-                        android:src="@mipmap/icon_headdefault" />
+                        android:src="@mipmap/icon_default" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -69,7 +69,6 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="middle"
                             android:maxLines="1"
-                            android:text="@string/learncenter_login"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/sp_20"
                             tools:ignore="EllipsizeMaxLines" />
@@ -93,7 +92,6 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="@dimen/dp_3"
                                 android:layout_marginStart="@dimen/dp_3"
-                                android:text="0"
                                 android:textColor="@android:color/white"
                                 android:textSize="@dimen/sp_17" />
 

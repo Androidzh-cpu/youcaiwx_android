@@ -1,8 +1,6 @@
 package com.ucfo.youcaiwx.module.main.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -39,7 +37,6 @@ import com.ucfo.youcaiwx.module.learncenter.LearningPlanDetailActivity;
 import com.ucfo.youcaiwx.module.learncenter.UnFinishedPlanActivity;
 import com.ucfo.youcaiwx.module.learncenter.dialog.SignInActive;
 import com.ucfo.youcaiwx.module.login.LoginActivity;
-import com.ucfo.youcaiwx.module.main.activity.MainActivity;
 import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.module.questionbank.activity.ErrorCenterActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineCourseActivity;
@@ -96,7 +93,6 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     private LoadingLayout loadinglayout;
     private LinearLayout linearPlan;
 
-    private MainActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private boolean loginStatus;
     private int userId;
@@ -114,14 +110,6 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     private String userBeanHead;
     private int currentSubjectId;
     private List<QuestionMyProjectBean.DataBean> projectList;
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            updateDataInfo();
-        }
-    }
 
     @Override
     protected int setContentView() {
@@ -156,36 +144,32 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
         linearNotice = (LinearLayout) itemView.findViewById(R.id.linear_notice);
         loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
 
-        FragmentActivity activity = getActivity();
-        if (activity instanceof MainActivity) {
-            context = (MainActivity) activity;
-        }
         initListViewLayoutManager();
     }
 
     private void initListViewLayoutManager() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         listviewPlan.setItemAnimator(new DefaultItemAnimator());
-        listviewPlan.addItemDecoration(new SpacesItemDecoration(0, DensityUtil.dp2px(10), ContextCompat.getColor(context, R.color.colorWhite)));
+        listviewPlan.addItemDecoration(new SpacesItemDecoration(0, DensityUtil.dp2px(10), ContextCompat.getColor(getContext(), R.color.colorWhite)));
         listviewPlan.setLayoutManager(layoutManager);
 
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(context);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getContext());
         layoutManager2.setOrientation(LinearLayoutManager.VERTICAL);
         listviewPlandetail.setItemAnimator(new DefaultItemAnimator());
-        listviewPlandetail.addItemDecoration(new SpacesItemDecoration(0, DensityUtil.dp2px(10), ContextCompat.getColor(context, R.color.colorWhite)));
+        listviewPlandetail.addItemDecoration(new SpacesItemDecoration(0, DensityUtil.dp2px(10), ContextCompat.getColor(getContext(), R.color.colorWhite)));
         listviewPlandetail.setLayoutManager(layoutManager2);
 
-        LinearLayoutManager layoutManager3 = new LinearLayoutManager(context);
+        LinearLayoutManager layoutManager3 = new LinearLayoutManager(getContext());
         layoutManager3.setOrientation(LinearLayoutManager.VERTICAL);
         listviewNotice.setItemAnimator(new DefaultItemAnimator());
-        listviewNotice.addItemDecoration(new SpacesItemDecoration(0, DensityUtil.dp2px(10), ContextCompat.getColor(context, R.color.colorWhite)));
+        listviewNotice.addItemDecoration(new SpacesItemDecoration(0, DensityUtil.dp2px(10), ContextCompat.getColor(getContext(), R.color.colorWhite)));
         listviewNotice.setLayoutManager(layoutManager3);
     }
 
     @Override
     protected void initData() {
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
         learncenterHomePresenter = new LearncenterHomePresenter(this);
         questionBankHomePresenter = new QuestionBankHomePresenter(this);
         planBeanList = new ArrayList<>();
@@ -201,7 +185,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
         });
 
         /**
-         * 刷新用户数据
+         * 首页数据
          */
         updateDataInfo();
         /**
@@ -210,12 +194,20 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
         initActive();
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            updateDataInfo();
+        }
+    }
+
     /**
      * 活动弹窗
      */
     private void initActive() {
         if (sharedPreferencesUtils == null) {
-            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
+            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
         }
         boolean loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         if (!loginStatus) {
@@ -260,29 +252,41 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                 .setNegativeButton(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(getContext(), LoginActivity.class));
+                        startActivity(LoginActivity.class);
                     }
                 }).show();
     }
 
-    //获取学习中心首页数据
-    public void updateDataInfo() {
+    /**
+     * 学习中心首页数据(每次碎片创建和重新显示的时候请求)
+     */
+    private void updateDataInfo() {
         if (sharedPreferencesUtils == null) {
             sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
         }
         loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+        currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
+        //未登录--清除数据
+        if (!loginStatus) {
+            userInfoClear();
+        } else {
+            //登录--判断是否购买课程
+            //本地未存贮题库信息,刷新购买课程信息
+            if (currentSubjectId == 0) {
+                questionBankHomePresenter.getMyProejctList(userId);
+            }
+        }
         //刷新学习中心首页数据
         if (learncenterHomePresenter != null) {
             learncenterHomePresenter.learncenterHome(userId);
         }
-        currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
-        //刷新已购买课程数据
-        if (currentSubjectId == 0) {
-            questionBankHomePresenter.getMyProejctList(userId);
-        }
+
     }
 
+    /**
+     * 获取到的首页数据
+     */
     @Override
     public void learncenterHome(LearncenterHomeBean result) {
         if (result != null) {
@@ -290,15 +294,18 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                 initLearnCenter(result);
             }
         } else {
-            if (loadinglayout != null) {
-                loadinglayout.showError();
-            }
             if (isAdded()) {
                 userInfoClear();
+                showerror();
             }
         }
     }
 
+    /**
+     * 签到数据
+     *
+     * @param result
+     */
     @Override
     public void studyClockInResult(StudyClockInBean result) {
         if (result != null) {
@@ -313,14 +320,14 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                     int num = data.getNum();
                     userClockinDay.setText(String.valueOf(num));
                 } else {
-                    ToastUtil.showBottomShortText(context, getResources().getString(R.string.operation_Error));
+                    showToast(getResources().getString(R.string.operation_Error));
                 }
             } else {
                 String msg = result.getMsg();
-                ToastUtil.showBottomShortText(context, msg);
+                showToast(msg);
             }
         } else {
-            ToastUtil.showBottomShortText(context, getResources().getString(R.string.operation_Error));
+            showToast(getResources().getString(R.string.operation_Error));
         }
     }
 
@@ -338,30 +345,25 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
         userClockinDay.setText(String.valueOf(0));
     }
 
-    //TODO 初始化学习中心页面
+    /**
+     * 初始化学习中心页面
+     */
     private void initLearnCenter(LearncenterHomeBean data) {
-        if (loadinglayout != null) {
-            loadinglayout.showContent();
-        }
+        showContent();
         LearncenterHomeBean.DataBean dataData = data.getData();
         if (!loginStatus) {//未登录
             linearContinueStudy.setVisibility(linearContinueStudy.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//继续学习
             linearPlandetail.setVisibility(linearPlandetail.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//学习计划详情
             linearNotice.setVisibility(linearNotice.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);//学习公告
             linearPlan.setVisibility(linearPlan.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);//学习计划列表
-            planBeanList.clear();
-            planBeanList.addAll(dataData.getPlan());
-            if (planBeanList != null && planBeanList.size() > 0) {
+            if (dataData.getPlan() != null && dataData.getPlan().size() > 0) {
+                planBeanList.clear();
+                planBeanList.addAll(dataData.getPlan());
                 initPlanAdapter();
             }
             userInfoClear();
         } else {
-            //已登录
-
-            //TODO 是否有未完成的学习计划    1有未读2已读
-            int state = dataData.getState();
-            //TODO 是否拥有学习计划     1有2没有
-            int addlearn = dataData.getAddlearn();
+            //已登录,设置用户信息
             if (dataData.getUser() != null) {
                 LearncenterHomeBean.DataBean.UserBean userBean = dataData.getUser();
                 int card = userBean.getCard();//打卡天数
@@ -372,15 +374,18 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                 }
                 if (!TextUtils.isEmpty(userBeanHead)) {
                     RequestOptions requestOptions = new RequestOptions()
-                            .placeholder(R.mipmap.icon_headdefault)
+                            .placeholder(R.mipmap.icon_default)
                             .error(R.mipmap.image_loaderror)
                             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-                    GlideUtils.load(context, userBeanHead, userIcon, requestOptions);
+                    GlideUtils.load(getContext(), userBeanHead, userIcon, requestOptions);
                 }
                 userClockinDay.setText(String.valueOf(card));
-            } else {
-                userInfoClear();
             }
+
+            //TODO 是否有未完成的学习计划    1有未读2已读
+            int state = dataData.getState();
+            //TODO 是否拥有学习计划     1有2没有
+            int addlearn = dataData.getAddlearn();
             ///////////////////////////////TODO 再丑也要看的分割线///////////////////////////////////////////////
             switch (addlearn) {
                 //TODO 学习计划
@@ -434,7 +439,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
      */
     private void initNoticeAdapter() {
         if (learnCenterNoticeAdapter == null) {
-            learnCenterNoticeAdapter = new LearnCenterNoticeAdapter(newsBeanList, context);
+            learnCenterNoticeAdapter = new LearnCenterNoticeAdapter(newsBeanList, getContext());
             listviewNotice.setAdapter(learnCenterNoticeAdapter);
         } else {
             learnCenterNoticeAdapter.notifyChange(newsBeanList);
@@ -455,7 +460,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
      */
     private void initPlanAdapter() {
         if (learncenterPlanAdapter == null) {
-            learncenterPlanAdapter = new LearncenterPlanAdapter(planBeanList, context);
+            learncenterPlanAdapter = new LearncenterPlanAdapter(planBeanList, getContext());
             listviewPlan.setAdapter(learncenterPlanAdapter);
         } else {
             learncenterPlanAdapter.notifyChange(planBeanList);
@@ -472,7 +477,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                         startActivity(AddLearningTimeActivity.class, bundle);
                     }
                 } else {
-                    startActivity(LoginActivity.class, null);
+                    startActivity(LoginActivity.class);
                 }
             }
         });
@@ -483,7 +488,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
      */
     private void initPlanDetailAdapter() {
         if (learnCenterPlanDetailAdapter == null) {
-            learnCenterPlanDetailAdapter = new LearnCenterPlanDetailAdapter(learnList, context);
+            learnCenterPlanDetailAdapter = new LearnCenterPlanDetailAdapter(learnList, getContext());
             listviewPlandetail.setAdapter(learnCenterPlanDetailAdapter);
         } else {
             learnCenterPlanDetailAdapter.notifyChange(learnList);
@@ -518,9 +523,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
 
     @Override
     public void showError() {
-        if (loadinglayout != null) {
-            loadinglayout.showError();
-        }
+        showerror();
     }
 
     @Override
@@ -556,7 +559,19 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
 
     @Override
     public void getSubjectInfoBean(SubjectInfoBean data) {
+        //TODO nothing
+    }
 
+    private void showContent() {
+        if (loadinglayout != null) {
+            loadinglayout.showContent();
+        }
+    }
+
+    private void showerror() {
+        if (loadinglayout != null) {
+            loadinglayout.showError();
+        }
     }
 
     @Override
@@ -566,7 +581,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
             switch (view.getId()) {
                 case R.id.user_icon://defaultIcon
                 case R.id.user_nickname://昵称
-                    startActivity(PersonnelSettingActivity.class, null);
+                    startActivity(PersonnelSettingActivity.class);
                     break;
                 case R.id.btn_clockin:
                     //学习打卡
@@ -574,7 +589,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                     break;
                 case R.id.user_course:
                     //我的课程
-                    startActivity(MineCourseActivity.class, null);
+                    startActivity(MineCourseActivity.class);
                     break;
                 case R.id.user_errorcenter:
                     //错题中心
@@ -594,39 +609,21 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                     break;
                 case R.id.user_offline:
                     //离线课程
-                    startActivity(OfflineCourseActivity.class, null);
+                    startActivity(OfflineCourseActivity.class);
                     break;
                 case R.id.btn_continueStudy:
                     //继续学习
-                    startActivity(UnFinishedPlanActivity.class, null);
+                    startActivity(UnFinishedPlanActivity.class);
                     break;
                 case R.id.btn_addlearnplan:
                     //添加学习计划
-                    startActivity(AddLearningPlanActivity.class, null);
+                    startActivity(AddLearningPlanActivity.class);
                     break;
                 default:
                     break;
             }
         } else {
-            startActivity(LoginActivity.class, null);
-        }
-
-        /////////////////
-        switch (view.getId()) {
-            case R.id.user_course:
-                // TODO 19/12/16
-                break;
-            case R.id.user_errorcenter:
-                // TODO 19/12/16
-                break;
-            case R.id.user_offline:
-                // TODO 19/12/16
-                break;
-            case R.id.btn_addlearnplan:
-                // TODO 19/12/16
-                break;
-            default:
-                break;
+            startActivity(LoginActivity.class);
         }
     }
 }

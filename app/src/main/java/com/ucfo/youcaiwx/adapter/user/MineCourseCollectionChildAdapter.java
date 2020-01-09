@@ -46,7 +46,7 @@ public class MineCourseCollectionChildAdapter extends BaseAdapter<MineCourseChil
             holder.mCourseTitleItem.setText(name);
         }
         if (!TextUtils.isEmpty(teacher_name)) {
-            holder.mCourseTeacherItem.setText(String.valueOf(context.getResources().getString(R.string.holder_teacher) + "  " + teacher_name));
+            holder.mCourseTeacherItem.setText(context.getResources().getString(R.string.teacher, teacher_name));
         }
     }
 

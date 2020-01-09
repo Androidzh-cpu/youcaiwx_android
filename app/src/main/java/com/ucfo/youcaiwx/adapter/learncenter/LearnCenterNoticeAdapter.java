@@ -61,13 +61,13 @@ public class LearnCenterNoticeAdapter extends BaseAdapter<LearncenterHomeBean.Da
             holder.mCourseTitleItem.setText(title);
         }
         if (!TextUtils.isEmpty(source)) {
-            String s = String.valueOf(context.getResources().getString(R.string.source) + ": " + source);
+            String s = context.getResources().getString(R.string.source, source);
             holder.mCourseAuthorItem.setText(s);
         }
         if (!TextUtils.isEmpty(imageurl)) {
             RequestOptions requestOptions = new RequestOptions()
                     .placeholder(R.mipmap.icon_default)
-                    .error(R.mipmap.image_loaderror)
+                    .error(R.mipmap.icon_default)
                     .transform(new RoundedCorners(DensityUtil.dp2px(5)))
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
             GlideUtils.load(context, imageurl, holder.mCourseImageItem, requestOptions);

@@ -378,7 +378,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
             coursename.setText(courseName);
         }
         if (!TextUtils.isEmpty(teacherName)) {
-            courseTeacherName.setText(String.format("%s%s", getResources().getString(R.string.holder_teacher), teacherName));
+            courseTeacherName.setText(getResources().getString(R.string.teacher, teacherName));
         }
 
         if (courseDirWindowAdapter == null) {

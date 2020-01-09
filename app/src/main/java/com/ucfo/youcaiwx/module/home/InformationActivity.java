@@ -157,7 +157,6 @@ public class InformationActivity extends BaseActivity implements IInformationVie
                 } else {//架子啊更多
                     if (list != null && list.size() > 0) {
                         informationAdapter.notifyDataSetChanged();
-                        //ToastUtil.showBottomShortText(this, getResources().getString(R.string.noMoreData));
                         refreshlayout.finishLoadMoreWithNoMoreData();
                     } else {
                         if (loadinglayout != null) {

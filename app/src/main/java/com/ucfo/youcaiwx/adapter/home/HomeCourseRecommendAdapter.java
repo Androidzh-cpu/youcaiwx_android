@@ -52,24 +52,23 @@ public class HomeCourseRecommendAdapter extends BaseAdapter<HomeBean.DataBean.Cu
 
     @Override
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
-
         HomeBean.DataBean.CurriculumBean bean = list.get(position);
         String app_img = bean.getApp_img();
         String name = bean.getName();
-        String teacher_name = bean.getTeacher_name();
+        String teacherName = bean.getTeacher_name();
         String price = bean.getPrice();
         String billing_status = bean.getBilling_status();//计费方式: 1免费2收费3按积分越换4按等级进入
-        String join_num = bean.getJoin_num();
+        String joinNum = bean.getJoin_num();
         if (!TextUtils.isEmpty(app_img)) {
             RequestOptions requestOptions = new RequestOptions()
                     .placeholder(R.mipmap.icon_default)
-                    .error(R.mipmap.image_loaderror)
+                    .error(R.mipmap.icon_default)
                     .transform(new CenterCrop(), new RoundedCorners(DensityUtil.dp2px(5)))
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
             GlideUtils.load(context, app_img, holder.mCourseImageItem, requestOptions);
         }
-        if (!TextUtils.isEmpty(teacher_name)) {
-            holder.mCourseAuthorItem.setText(String.valueOf(context.getResources().getString(R.string.holder_teacher) + teacher_name));
+        if (!TextUtils.isEmpty(teacherName)) {
+            holder.mCourseAuthorItem.setText(context.getResources().getString(R.string.teacher, teacherName));
         }
         if (!TextUtils.isEmpty(name)) {
             holder.mCourseTitleItem.setText(name);
@@ -98,8 +97,8 @@ public class HomeCourseRecommendAdapter extends BaseAdapter<HomeBean.DataBean.Cu
             holder.mCoursePriceItem.setText(context.getResources().getString(R.string.course_free));
             holder.mCoursePriceItem.setTextColor(ContextCompat.getColor(context, R.color.color_5B78F6));
         }
-        if (!TextUtils.isEmpty(join_num)) {
-            holder.mCourseCountItem.setText(String.valueOf(context.getResources().getString(R.string.course_joincount) + join_num));
+        if (!TextUtils.isEmpty(joinNum)) {
+            holder.mCourseCountItem.setText(String.format("%s%s", context.getResources().getString(R.string.course_joincount), joinNum));
         }
     }
 

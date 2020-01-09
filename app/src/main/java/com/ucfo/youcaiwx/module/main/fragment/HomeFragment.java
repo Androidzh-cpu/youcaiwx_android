@@ -268,39 +268,40 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                         startActivity(LoginActivity.class);
                     }
                     break;
-                case R.id.titlebar_message://TODO 消息
+                case R.id.titlebar_message:
+                    //TODO 消息
                     if (loginStatus) {
                         startActivity(MessageCenterActivity.class);
                     } else {
                         startActivity(LoginActivity.class);
                     }
                     break;
-                case R.id.icon_live://TODO 直播
+                case R.id.icon_live:
+                    //TODO 直播
                     bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARYLIVE);
                     bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_live));
                     startActivity(WebActivity.class, bundle);
                     break;
-                case R.id.icon_course://TODO 课程
+                case R.id.icon_course:
+                    //TODO 课程
                     startActivity(CourseListActivity.class);
                     break;
-                case R.id.icon_face://TODO 面授
-                    /*bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARFACE);
-                    bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_face));
-                    startActivity(WebActivity.class, bundle);*/
-                    //TODO 改为后续教育
+                case R.id.icon_face:
+                    //TODO 后续教育
                     startActivity(CPECourseActivity.class);
                     break;
-                case R.id.icon_active://TODO 活动
-                    /*bundle.putString(Constant.WEB_URL, ApiStores.TEMPORARACTIVE);
-                    bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.home_active));
-                    startActivity(WebActivity.class, bundle);*/
+                case R.id.icon_active:
+                    //TODO 活动
                     startActivity(EventActivity.class);
                     break;
-                case R.id.check_more_course://TODO 查看更多课程
+                case R.id.check_more_course:
+                    //TODO 查看更多课程
                     startActivity(CourseListActivity.class);
                     break;
-                case R.id.icon_news://TODO 资讯
-                case R.id.check_more_news://TODO 查看更多资讯
+                case R.id.icon_news:
+                    //TODO 资讯
+                case R.id.check_more_news:
+                    //TODO 查看更多资讯
                     startActivity(InformationActivity.class);
                     break;
                 default:

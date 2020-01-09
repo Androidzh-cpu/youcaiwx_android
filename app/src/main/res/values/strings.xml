@@ -129,7 +129,7 @@
     <!--<string name="course_consumeFlow">播放将消耗流量,是否继续?</string>-->
     <string name="course_consumeFlow">正在使用非WiFi网络,播放将产生流量费用</string>
     <string name="course_free">免费试听</string>
-    <string name="course_joincount">参加人数:\u0020</string>
+    <string name="course_joincount">参加人数:\u0020\u0020</string>
     <string name="course_call">咨询客服</string>
     <string name="course_pay">立即报名</string>
     <string name="course_teacherintroduction">讲师介绍</string>
@@ -155,7 +155,6 @@
     <string name="video">视频</string>
     <string name="notes">讲义</string>
     <string name="exercises">习题</string>
-    <string name="holder_teacher">讲师:\u0020</string>
     <string name="holder_courseTime">课时:\u3000</string>
     <string name="first_login">请先登录</string>
     <string name="course_baoming">立即报名</string>
@@ -679,7 +678,8 @@
     <string name="month">月</string>
     <string name="year">%s年</string>
     <string name="people">%s人</string>
-    <string name="source">来源</string>
+    <string name="source">来源:\u0020\u0020%s</string>
+    <string name="teacher">讲师:\u0020\u0020%s</string>
     <string name="loading">内容即将呈现</string>
     <string name="NetworkDisconnected">网络已断开,请检查网络</string>
     <string name="NetworkConnected">网络已连接</string>

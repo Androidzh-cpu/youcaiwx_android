@@ -127,7 +127,8 @@ public class DownloadComletedDirActivity extends BaseActivity {
         List<DataBaseCourseListBean> courseListBeans = LitePal.where("courseId = ?", courseid).find(DataBaseCourseListBean.class);
         if (courseListBeans != null && courseListBeans.size() > 0) {
             courseName.setText(courseListBeans.get(0).getCourseTitle());
-            courseTeacherName.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + "  " + courseListBeans.get(0).getTeacherName()));
+            String string = context.getResources().getString(R.string.teacher, courseListBeans.get(0).getTeacherName());
+            courseTeacherName.setText(string);
         }
 
         if (UcfoApplication.downloadManager != null) {

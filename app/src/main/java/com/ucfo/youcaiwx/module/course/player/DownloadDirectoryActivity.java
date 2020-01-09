@@ -153,7 +153,7 @@ public class DownloadDirectoryActivity extends BaseActivity implements ICourseDi
             currentClickCourseIndex = bundle.getInt(Constant.PAGE, 0);
 
             courseName.setText(course_title);
-            courseTeacherName.setText(String.valueOf(getResources().getString(R.string.holder_teacher) + course_teachername));
+            courseTeacherName.setText(getResources().getString(R.string.teacher, course_teachername));
 
             //获取对应课程视频列表
             courseDirPresenter.getCourseDirData(package_id, user_id, "");

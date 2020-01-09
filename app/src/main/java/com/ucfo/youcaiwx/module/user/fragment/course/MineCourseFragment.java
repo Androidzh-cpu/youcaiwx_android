@@ -62,17 +62,17 @@ public class MineCourseFragment extends BaseFragment implements IMineCourseView,
         recyclerview = (RecyclerView) itemView.findViewById(R.id.recyclerview);
         refreshlayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
         loadingLayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerview.setLayoutManager(layoutManager);
+        recyclerview.setNestedScrollingEnabled(false);
     }
 
     @Override
     protected void initData() {
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerview.setLayoutManager(layoutManager);
-        recyclerview.setNestedScrollingEnabled(false);
 
         list = new ArrayList<>();
 
@@ -92,6 +92,9 @@ public class MineCourseFragment extends BaseFragment implements IMineCourseView,
         });
     }
 
+    /**
+     * 请求我的课程
+     */
     private void loadMineCourse() {
         if (mineCoursePresenter != null) {
             mineCoursePresenter.getMineCourseList(user_id);
@@ -104,6 +107,9 @@ public class MineCourseFragment extends BaseFragment implements IMineCourseView,
         loadMineCourse();
     }
 
+    /**
+     * 我的课程
+     */
     @Override
     public void getMineCourse(MineCourseBean data) {
         if (data != null) {
@@ -124,7 +130,6 @@ public class MineCourseFragment extends BaseFragment implements IMineCourseView,
         } else {
             showEmpty();
         }
-        //结束动画
         if (refreshlayout != null) {
             refreshlayout.finishRefresh();
         }
