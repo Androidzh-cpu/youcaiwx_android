@@ -122,7 +122,7 @@
                     android:max="100"
                     android:maxHeight="@dimen/dp_20"
                     android:minHeight="@dimen/dp_10"
-                    android:progressDrawable="@color/transparency"
+                    android:progressDrawable="@color/transparent"
                     android:thumbOffset="0dp" />
             </FrameLayout>
 

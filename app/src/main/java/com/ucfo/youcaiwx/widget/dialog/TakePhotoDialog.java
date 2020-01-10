@@ -2,7 +2,7 @@ package com.ucfo.youcaiwx.widget.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.view.Display;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -21,7 +21,7 @@ import com.ucfo.youcaiwx.R;
 public class TakePhotoDialog {
     private Context context;
     private Dialog dialog;
-    private Display display;
+    private DisplayMetrics display;
     private boolean showMsg = false;
     private LinearLayout lLayout_bg;
     private TextView btn_takeCarama, btn_takePhoto;
@@ -30,7 +30,8 @@ public class TakePhotoDialog {
         this.context = context;
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         if (windowManager != null) {
-            display = windowManager.getDefaultDisplay();
+            display = new DisplayMetrics();
+            windowManager.getDefaultDisplay().getMetrics(display);
         }
     }
 
@@ -46,7 +47,7 @@ public class TakePhotoDialog {
         dialog = new Dialog(context, R.style.AlertDialogStyle);
         dialog.setContentView(itemView);
         // 调整dialog背景大小
-        lLayout_bg.setLayoutParams(new FrameLayout.LayoutParams((int) (display.getWidth() * 0.83), LinearLayout.LayoutParams.WRAP_CONTENT));
+        lLayout_bg.setLayoutParams(new FrameLayout.LayoutParams((int) (display.widthPixels * 0.85), LinearLayout.LayoutParams.WRAP_CONTENT));
         return this;
     }
 

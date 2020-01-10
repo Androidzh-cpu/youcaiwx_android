@@ -7,11 +7,12 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.flyco.roundview.RoundLinearLayout;
 import com.flyco.roundview.RoundTextView;
 import com.ucfo.youcaiwx.R;
-
 /**
  * Author: AND
  * Time: 2019-12-26.  下午 5:30
@@ -25,6 +26,7 @@ public class EducationSignDialog {
     private DisplayMetrics display;
     private RoundTextView mTitleTxt;
     private RoundLinearLayout mBgLLayout;
+    private RelativeLayout mRelativelayout;
 
     public EducationSignDialog(Context context) {
         this.context = context;
@@ -41,15 +43,24 @@ public class EducationSignDialog {
         initView(view);
         dialog = new Dialog(context, R.style.AlertDialogStyle);
         dialog.setContentView(view);
+        mRelativelayout.setLayoutParams(new FrameLayout.LayoutParams(display.widthPixels, display.heightPixels));
+        return this;
+    }
 
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
+    public EducationSignDialog setCancelable(boolean flag) {
+        dialog.setCancelable(flag);
+        return this;
+    }
+
+    public EducationSignDialog setCanceledOnTouchOutside(boolean flag) {
+        dialog.setCanceledOnTouchOutside(flag);
         return this;
     }
 
     private void initView(@NonNull final View itemView) {
         mTitleTxt = (RoundTextView) itemView.findViewById(R.id.txt_title);
         mBgLLayout = (RoundLinearLayout) itemView.findViewById(R.id.lLayout_bg);
+        mRelativelayout = (RelativeLayout) itemView.findViewById(R.id.relativelayout);
     }
 
     /**
@@ -63,7 +74,7 @@ public class EducationSignDialog {
      * 点击事件
      */
     public EducationSignDialog setNegativeButton(final View.OnClickListener listener) {
-        mBgLLayout.setOnClickListener(new View.OnClickListener() {
+        mRelativelayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onClick(v);

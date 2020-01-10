@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -345,6 +346,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     };
     private Random random;
     private Gson gson;
+    private CountDownTimer signinCountDownTimer;
     /*****************************************************TODO end 正计时  *************************/
 
     /**
@@ -568,6 +570,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (timerTask != null) {
             timerTask.cancel();
             timerTask = null;
+        }
+        if (signinCountDownTimer != null) {
+            signinCountDownTimer.cancel();
+            signinCountDownTimer = null;
         }
 
         //傻逼一样的东西,智障,脑残,狗东西,脑袋让自己给踢了
@@ -1270,12 +1276,16 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         } else if (typeJudge(Constant.WATCH_ANSWERDETAILED)) {
             //TODO 课程答疑查看视频(横屏播放,可以提问)
         } else if (isEducation()) {
-            //SB后续教育
+            //后续教育
+
             //没有倍速
             playerSpeed.setVisibility(View.GONE);
+            //没有全屏
             playerFullscreen.setVisibility(View.GONE);
             //禁止拖动
             playerSeekprogress.setEnabled(false);
+            //没有滑块
+            playerSeekprogress.setThumb(ContextCompat.getDrawable(this, R.color.transparent));
         }
     }
 
@@ -1641,59 +1651,158 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     /**
      * 后续教育签到
      */
+    private boolean signFlag7 = false;
+    private boolean signFlag8 = false;
+    private boolean signFlag9 = false;
+
     private void signinEducation() {
         //后续教育
         if (isEducation()) {
-            //未签到(劳资只认二)
+            //未签到(劳资只认二,二,你懂了吗)
             if (signinStatus == 2) {
-                //sb没点过签到
+                //该视频为签到过
                 if (!signinFlag) {
                     //当前时间
-                    int x = Math.round(aliyunVodPlayer.getCurrentPosition()) / 1000;
+                    int currentNode = Math.round(aliyunVodPlayer.getCurrentPosition()) / 1000;
                     //总时长
-                    int y = Math.round(aliyunVodPlayer.getDuration()) / 1000;
-                    int z1 = (int) (y * 0.7F);
-                    int z2 = (int) (y * 0.8F);
-                    int z3 = (int) (y * 0.9F);
-                    if (x == z1 || x == z2 || x == z3) {
-                        if (educationSignDialog == null) {
-                            educationSignDialog = new EducationSignDialog(this)
-                                    .builder()
-                                    .setNegativeButton(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            signinFlag = true;
-                                            //点击了签到按钮
-                                            if (coursePlayPresenter != null) {
-                                                coursePlayPresenter.educationSignin(String.valueOf(userId), String.valueOf(currentCourseID), String.valueOf(currentVideoID));
-                                            }
-                                        }
-                                    })
-                                    .setDissmissListener(new DialogInterface.OnDismissListener() {
-                                        @Override
-                                        public void onDismiss(DialogInterface dialog) {
-                                            //隐藏状态栏
-                                            hideNavigationBar();
-                                            //弹窗置空
-                                            educationSignDialog = null;
-                                        }
-                                    });
-                            educationSignDialog.show();
-                            signinTimeFinish = Constant.EDUCATION_TIME_FINISHED;
+                    int totalDuration = Math.round(aliyunVodPlayer.getDuration()) / 1000;
+                    int nodepercent7 = (int) (totalDuration * 0.7F);
+                    int nodepercent8 = (int) (totalDuration * 0.8F);
+                    int nodepercent9 = (int) (totalDuration * 0.9F);
+                    //是否符合时间点要求
+                    if (currentNode == nodepercent7) {
+                        //70%节点
+                        if (!signFlag7) {
+                            if (educationSignDialog == null) {
+                                educationSignDialog = createSignDialog();
+                                educationSignDialog.setDissmissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialog) {
+                                        //隐藏状态栏
+                                        hideNavigationBar();
+                                        //弹窗置空
+                                        educationSignDialog = null;
+                                        //开始播放
+                                        start();
+                                        //记录70%节点已点击过签到
+                                        signFlag7 = true;
+                                    }
+                                });
+                                educationSignDialog.show();
+                                //暂停播放
+                                pause();
+                                //设置倒计时时间
+                                signinTimeFinish = Constant.EDUCATION_TIME_FINISHED;
+                                //倒计时
+                                signinCountDownTimer = createCountDownTimer(educationSignDialog);
+                                signinCountDownTimer.start();
+                            }
                         }
-                    } else {
-                        if (educationSignDialog != null && educationSignDialog.isShowing()) {
-                            signinTimeFinish--;
-                            if (signinTimeFinish == 0) {
-                                educationSignDialog.dismiss();
-                            } else {
-                                educationSignDialog.setTimeFinished(signinTimeFinish);
+                    } else if (currentNode == nodepercent8) {
+                        //80%节点
+                        if (!signFlag8) {
+                            if (educationSignDialog == null) {
+                                educationSignDialog = createSignDialog();
+                                educationSignDialog.setDissmissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialog) {
+                                        //隐藏状态栏
+                                        hideNavigationBar();
+                                        //弹窗置空
+                                        educationSignDialog = null;
+                                        //开始播放
+                                        start();
+                                        //记录80%节点已点击过签到
+                                        signFlag8 = true;
+                                    }
+                                });
+                                educationSignDialog.show();
+                                //暂停播放
+                                pause();
+                                //设置倒计时时间
+                                signinTimeFinish = Constant.EDUCATION_TIME_FINISHED;
+                                //倒计时
+                                signinCountDownTimer = createCountDownTimer(educationSignDialog);
+                                signinCountDownTimer.start();
+                            }
+                        }
+                    } else if (currentNode == nodepercent9) {
+                        //90%节点
+                        if (!signFlag9) {
+                            if (educationSignDialog == null) {
+                                educationSignDialog = createSignDialog();
+                                educationSignDialog.setDissmissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialog) {
+                                        //隐藏状态栏
+                                        hideNavigationBar();
+                                        //弹窗置空
+                                        educationSignDialog = null;
+                                        //开始播放
+                                        start();
+                                        //记录90%节点已点击过签到
+                                        signFlag9 = true;
+                                    }
+                                });
+                                educationSignDialog.show();
+                                //暂停播放
+                                pause();
+                                //设置倒计时时间
+                                signinTimeFinish = Constant.EDUCATION_TIME_FINISHED;
+                                //倒计时
+                                signinCountDownTimer = createCountDownTimer(educationSignDialog);
+                                signinCountDownTimer.start();
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    /**
+     * 创建一个弹窗
+     */
+    private EducationSignDialog createSignDialog() {
+        EducationSignDialog dialog = new EducationSignDialog(this).builder();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setNegativeButton(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signinFlag = true;
+                //点击了签到按钮
+                if (coursePlayPresenter != null) {
+                    coursePlayPresenter.educationSignin(String.valueOf(userId), String.valueOf(currentCourseID), String.valueOf(currentVideoID));
+                }
+            }
+        });
+        return dialog;
+    }
+
+    /**
+     * 创建一个计时器
+     */
+    private CountDownTimer createCountDownTimer(EducationSignDialog dialog) {
+        CountDownTimer countDownTimer = new CountDownTimer(signinTimeFinish * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (!VideoPlayPageActivity.this.isFinishing()) {
+                    int millis = Integer.parseInt(String.valueOf(millisUntilFinished / 1000));//总的剩余时间
+                    dialog.setTimeFinished(millis);
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                if (!VideoPlayPageActivity.this.isFinishing()) {
+                    if (dialog != null && dialog.isShowing()) {
+                        dialog.dismiss();
+                    }
+                }
+            }
+        };
+        return countDownTimer;
     }
 
     /**
@@ -1929,6 +2038,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private void checkWitherSigninResult() {
         if (isEducation()) {
             signinFlag = false;
+            signFlag7 = false;
+            signFlag8 = false;
+            signFlag9 = false;
             signinStatus = 0;
             signinTimeFinish = Constant.EDUCATION_TIME_FINISHED;
             if (coursePlayPresenter != null) {
@@ -2800,7 +2912,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         //顶部菜单可见
         playerTopliner.setVisibility(View.VISIBLE);
         //设置背景
-        playerTopliner.setBackgroundColor(ContextCompat.getColor(this, R.color.transparency));
+        playerTopliner.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
         //清空标题
         setPlayVideoName("");
     }
@@ -3382,7 +3494,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             case R.id.player_speed:
                 //TODO 倍速播放切换
                 if (speedListviewWindow != null) {
-                    speedListviewWindow.setCurrentSpeed(currentSpeed);//当前倍速播放
+                    //当前倍速播放
+                    speedListviewWindow.setCurrentSpeed(currentSpeed);
                     speedListviewWindow.showAsDropDown(playerSpeed);
                     setLayoutVisibility(true, false);
                 }
@@ -3393,11 +3506,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 break;
             case R.id.player_setting:
                 //TODO 设置
-                initSettingsDialog();//设置弹框弹框
+                initSettingsDialog();
                 break;
             case R.id.player_askquestion:
                 //TODO 提问问题按钮
-                askCourseQuestion();//提问问题
+                askCourseQuestion();
                 break;
             case R.id.player_exitPdf:
                 //TODO 退出PDF

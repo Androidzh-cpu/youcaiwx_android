@@ -24,6 +24,8 @@ import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
+import java.text.DecimalFormat;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -57,7 +59,6 @@ public class PayActivity extends BaseActivity implements IPayMentView {
     LinearLayout btnJingDong;
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
-    private PayActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private int userId;
     private Bundle bundle;
@@ -112,8 +113,7 @@ public class PayActivity extends BaseActivity implements IPayMentView {
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
 
-        context = this;
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
 
         // 上报后的Crash会显示该标签
@@ -131,7 +131,7 @@ public class PayActivity extends BaseActivity implements IPayMentView {
             //订单编号
             textOrdernum.setText(String.valueOf(orderFormNum));
             //订单价格
-            textPrice.setText(String.valueOf(price));
+            textPrice.setText(calculate(price));
         }
 
         if (TextUtils.isEmpty(orderFormNum)) {
@@ -144,6 +144,13 @@ public class PayActivity extends BaseActivity implements IPayMentView {
                 loadinglayout.showContent();
             }
         }
+    }
+
+    private String calculate(float price) {
+        //构造方法的字符格式这里如果小数不足2位,会以0补足.
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        //format 返回的是字符串
+        return decimalFormat.format(price);
     }
 
     /**

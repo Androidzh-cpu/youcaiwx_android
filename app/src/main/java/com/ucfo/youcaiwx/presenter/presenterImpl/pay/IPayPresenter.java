@@ -13,7 +13,7 @@ public interface IPayPresenter {
     /**
      * 订单详情
      */
-    void getOrderFormDetail(int userId, int packageId);
+    void getOrderFormDetail(int userId, int packageId,int orderNumType);
 
     /**
      * 提交订单

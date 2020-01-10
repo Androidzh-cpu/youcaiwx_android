@@ -127,7 +127,7 @@ public class LearnPlanDetailDateAdapter extends RecyclerView.Adapter<LearnPlanDe
                 holder.mDayItem.setBackground(blue);
                 holder.mDayItem.setTextColor(Color.parseColor("#4A4A4A"));
             } else {
-                holder.mDayItem.setBackground(ContextCompat.getDrawable(context, R.color.transparency));
+                holder.mDayItem.setBackground(ContextCompat.getDrawable(context, R.color.transparent));
             }
         }
 

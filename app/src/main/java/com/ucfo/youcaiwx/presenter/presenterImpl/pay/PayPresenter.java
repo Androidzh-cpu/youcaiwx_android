@@ -35,10 +35,11 @@ public class PayPresenter implements IPayPresenter {
      * 订单详情
      */
     @Override
-    public void getOrderFormDetail(int userId, int packageId) {
+    public void getOrderFormDetail(int userId, int packageId, int orderNumType) {
         OkGo.<String>post(ApiStores.PAY_GET_ORDERFORMDETAIL)
                 .params(Constant.USER_ID, userId)
                 .params(Constant.PACKAGE_ID, packageId)
+                .params(Constant.IS_LIVE, orderNumType)
                 .cacheMode(CacheMode.NO_CACHE)
                 .execute(new StringCallback() {
                     @Override

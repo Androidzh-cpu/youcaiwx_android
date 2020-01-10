@@ -1,37 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.flyco.roundview.RoundLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/lLayout_bg"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/dp_20"
-    android:paddingEnd="@dimen/dp_30"
-    android:paddingStart="@dimen/dp_30"
-    android:paddingTop="@dimen/dp_20"
-    app:rv_backgroundColor="@color/colorWhite"
-    app:rv_cornerRadius="@dimen/dp_8">
+    android:id="@+id/relativelayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
 
-    <com.flyco.roundview.RoundTextView
-        android:id="@+id/txt_title"
-        android:layout_width="@dimen/dp_60"
-        android:layout_height="@dimen/dp_60"
-        android:gravity="center"
-        android:text="30s"
-        android:textColor="@color/color_333333"
-        android:textSize="@dimen/sp_18"
-        app:rv_backgroundColor="@color/color_D8E8FF"
-        app:rv_isRadiusHalfHeight="true" />
-
-    <TextView
+    <com.flyco.roundview.RoundLinearLayout
+        android:id="@+id/lLayout_bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_8"
-        android:text="@string/signin_tips"
-        android:textColor="@color/color_333333"
-        android:textSize="@dimen/sp_13" />
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp_20"
+        android:paddingEnd="@dimen/dp_30"
+        android:paddingStart="@dimen/dp_30"
+        android:paddingTop="@dimen/dp_20"
+        app:rv_backgroundColor="@color/colorWhite"
+        app:rv_cornerRadius="@dimen/dp_8">
 
-</com.flyco.roundview.RoundLinearLayout>
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/txt_title"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60"
+            android:gravity="center"
+            android:text="30s"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_18"
+            app:rv_backgroundColor="@color/color_D8E8FF"
+            app:rv_isRadiusHalfHeight="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="@string/signin_tips"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_13" />
+
+    </com.flyco.roundview.RoundLinearLayout>
+</RelativeLayout>

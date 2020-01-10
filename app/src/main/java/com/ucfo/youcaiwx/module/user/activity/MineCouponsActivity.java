@@ -107,9 +107,10 @@ public class MineCouponsActivity extends BaseActivity implements IMineCourponsVi
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(linearLayoutManager);
         recyclerview.setItemAnimator(new DefaultItemAnimator());
+        recyclerview.setNestedScrollingEnabled(false);
         int topBottom = DensityUtil.dip2px(this, 26);
         int leftRight = DensityUtil.dip2px(this, 19);
-        recyclerview.addItemDecoration(new SpacesItemDecoration(leftRight, topBottom, ContextCompat.getColor(this, R.color.transparency)));
+        recyclerview.addItemDecoration(new SpacesItemDecoration(leftRight, topBottom, ContextCompat.getColor(this, R.color.transparent)));
     }
 
     @Override

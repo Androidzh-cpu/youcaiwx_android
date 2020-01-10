@@ -149,7 +149,7 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         }
         int progress2 = Integer.parseInt(schedule) * 100 / planDays;
         holder.mSeekbar.setProgress(progress2);
-        holder.mSeekbar.setThumb(ContextCompat.getDrawable(context, R.color.transparency));
+        holder.mSeekbar.setThumb(ContextCompat.getDrawable(context, R.color.transparent));
         holder.mTextSeekbar.setText(context.getResources().getString(R.string.progressbarIndetior, String.valueOf(schedule)));
         SimpleTarget<Drawable> simpleTarget = new SimpleTarget<Drawable>() {
             @Override

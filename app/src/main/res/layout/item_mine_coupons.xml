@@ -29,6 +29,8 @@
             android:id="@+id/item_coupons_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@android:color/white"
             android:textSize="@dimen/sp_28"
             tools:text="150" />

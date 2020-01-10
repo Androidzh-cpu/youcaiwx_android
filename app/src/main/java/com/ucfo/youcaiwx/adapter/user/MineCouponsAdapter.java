@@ -73,13 +73,11 @@ public class MineCouponsAdapter extends BaseAdapter<MineCouponsBean.DataBean, Mi
 
         if (!TextUtils.isEmpty(couponPrice)) {
             if (isType == 1) {//满减
-                float v = Float.parseFloat(couponPrice);
-                int b = Math.round(v);
-                holder.mCouponsMoneyItem.setText(String.valueOf(b));
+                holder.mCouponsMoneyItem.setText(couponPrice);
                 holder.mRmbText.setVisibility(View.VISIBLE);
                 holder.mDiscountText.setVisibility(View.GONE);
             } else {//打折劵
-                holder.mCouponsMoneyItem.setText(String.valueOf(couponPrice));
+                holder.mCouponsMoneyItem.setText(couponPrice);
                 holder.mRmbText.setVisibility(View.GONE);
                 holder.mDiscountText.setVisibility(View.VISIBLE);
             }

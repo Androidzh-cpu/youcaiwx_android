@@ -80,7 +80,7 @@ public class ExpandMenuView extends LinearLayout implements PopupWindow.OnDismis
             ToggleButton toggle = (ToggleButton) inflater.inflate(R.layout.view_toggle_button, this, false);
             addView(toggle);
             View line = new TextView(mContext);
-            line.setBackgroundResource(R.color.transparency);
+            line.setBackgroundResource(R.color.transparent);
             if (i < selectionViews.size() - 1) {
                 LayoutParams lp = new LayoutParams(0, 40);
                 lp.weight = 1;
@@ -98,7 +98,7 @@ public class ExpandMenuView extends LinearLayout implements PopupWindow.OnDismis
                 }
             });
 
-            popRootLayout.setBackgroundColor(mContext.getResources().getColor(R.color.transparency));
+            popRootLayout.setBackgroundColor(mContext.getResources().getColor(R.color.transparent));
             toggle.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -128,7 +128,7 @@ public class ExpandMenuView extends LinearLayout implements PopupWindow.OnDismis
             //popupWindow.setAnimationStyle(R.style.PopupWindowAnimation);
             popupWindow.setFocusable(false);
             popupWindow.setOutsideTouchable(true);
-            popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.transparency)));
+            popupWindow.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.transparent)));
         }
 
         if (selectedButton.isChecked()) {

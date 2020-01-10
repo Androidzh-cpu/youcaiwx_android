@@ -6,7 +6,7 @@
 
     <color name="colorBackgroundDark">#f2f2f2</color>
 
-    <color name="transparency">#00000000</color>
+    <color name="transparent">#00000000</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
     <color name="home_background">#F0F2F5</color>

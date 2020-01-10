@@ -66,7 +66,7 @@
     <string name="signin_tips_success">签到成功</string>
     <string name="signin_tips_error">签到失败</string>
     <string name="study_know">学习须知</string>
-    <string name="study_know_detail">\u3000\u3000如何获得本课程学分: 每个视频学习过程中均会随机弹出签到提示，全部视频都成功签到后才能获得本课程CPE积分。</string>
+    <string name="study_know_detail">如何获得本课程学分: 每个视频学习过程中均会随机弹出签到提示，全部视频都成功签到后才能获得本课程CPE积分。</string>
     <string name="cpe_edit_name">您的姓名</string>
     <string name="cpe_edit_idnumber">您的身份证号码</string>
     <string name="cpe_edit_vip">您的IMA会员号</string>
@@ -207,8 +207,8 @@
     <string name="mine_editAddress">编辑地址</string>
     <string name="mine_Man">男</string>
     <string name="mine_woman">女</string>
-    <string name="mine_takeCamera">拍照</string>
-    <string name="mine_takePhoto">相册</string>
+    <string name="mine_takeCamera">选择拍照</string>
+    <string name="mine_takePhoto">选择照片</string>
     <string name="mine_yuan">元</string>
     <string name="mine_zhang">张</string>
     <string name="mine_nicknameHint">请输入昵称</string>

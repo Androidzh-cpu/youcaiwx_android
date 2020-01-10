@@ -86,7 +86,7 @@ public class MineDisabledCouponsActivity extends BaseActivity implements IMineCo
         recyclerview.setItemAnimator(new DefaultItemAnimator());
         int topBottom = DensityUtil.dip2px(this, 26);
         int leftRight = DensityUtil.dip2px(this, 19);
-        recyclerview.addItemDecoration(new SpacesItemDecoration(leftRight, topBottom, getResources().getColor(R.color.transparency)));
+        recyclerview.addItemDecoration(new SpacesItemDecoration(leftRight, topBottom, getResources().getColor(R.color.transparent)));
         recyclerview.setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 

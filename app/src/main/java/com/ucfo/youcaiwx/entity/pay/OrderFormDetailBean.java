@@ -46,7 +46,6 @@ public class OrderFormDetailBean {
     public static class DataBean {
 
         private AddressBean address;
-        private int coupon_num;
         private PackagesBean packages;
 
         public AddressBean getAddress() {
@@ -55,14 +54,6 @@ public class OrderFormDetailBean {
 
         public void setAddress(AddressBean address) {
             this.address = address;
-        }
-
-        public int getCoupon_num() {
-            return coupon_num;
-        }
-
-        public void setCoupon_num(int coupon_num) {
-            this.coupon_num = coupon_num;
         }
 
         public PackagesBean getPackages() {
@@ -138,11 +129,20 @@ public class OrderFormDetailBean {
             private String name;
             private int view_class;
             private Object study_date;
-            private int study_days;
+            private String study_days;
+            private String coupon_num;
             private String teacher_id;
             private String price;
             private String teacher_name;
-            private int validity;
+            private String validity;
+
+            public String getCoupon_num() {
+                return coupon_num;
+            }
+
+            public void setCoupon_num(String coupon_num) {
+                this.coupon_num = coupon_num;
+            }
 
             public int getPackage_id() {
                 return package_id;
@@ -184,11 +184,11 @@ public class OrderFormDetailBean {
                 this.study_date = study_date;
             }
 
-            public int getStudy_days() {
+            public String getStudy_days() {
                 return study_days;
             }
 
-            public void setStudy_days(int study_days) {
+            public void setStudy_days(String study_days) {
                 this.study_days = study_days;
             }
 
@@ -216,11 +216,11 @@ public class OrderFormDetailBean {
                 this.teacher_name = teacher_name;
             }
 
-            public int getValidity() {
+            public String getValidity() {
                 return validity;
             }
 
-            public void setValidity(int validity) {
+            public void setValidity(String validity) {
                 this.validity = validity;
             }
         }

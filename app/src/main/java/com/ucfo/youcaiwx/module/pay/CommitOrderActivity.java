@@ -38,7 +38,6 @@ import com.ucfo.youcaiwx.module.user.activity.MineAddressActivity;
 import com.ucfo.youcaiwx.module.user.activity.MineCouponsActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.pay.PayPresenter;
 import com.ucfo.youcaiwx.presenter.view.pay.IPayView;
-import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
@@ -115,7 +114,6 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
     Button btnNext;
     @BindView(R.id.loadinglayout)
     LoadingLayout loadinglayout;
-    private CommitOrderActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     //TODO orderNumType(实际参数名叫is_live): 订单类型 1.直播订单 2.课程订单 3.积分订单 4.图书订单 5.后续教育
     private int userId, courserPackageId, finalCouponId = 0, finalAddressId = 0, orderNumType = 0;
@@ -156,8 +154,7 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
 
-        context = this;
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
         userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
 
         // 上报后的Crash会显示该标签
@@ -174,7 +171,7 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
             courserPackageId = bundle.getInt(Constant.COURSE_PACKAGE_ID, 0);
             orderNumType = bundle.getInt(Constant.PAY_ORDERTYPE, 0);
 
-            payPresenter.getOrderFormDetail(userId, courserPackageId);
+            payPresenter.getOrderFormDetail(userId, courserPackageId, orderNumType);
         } else {
             if (loadinglayout != null) {
                 loadinglayout.showEmpty();
@@ -185,9 +182,9 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    btnNext.setBackground(ContextCompat.getDrawable(context, R.mipmap.icon_btnbackprimary));
+                    btnNext.setBackground(ContextCompat.getDrawable(CommitOrderActivity.this, R.mipmap.icon_btnbackprimary));
                 } else {
-                    btnNext.setBackground(ContextCompat.getDrawable(context, R.mipmap.icon_btnbackgray));
+                    btnNext.setBackground(ContextCompat.getDrawable(CommitOrderActivity.this, R.mipmap.icon_btnbackgray));
                 }
             }
         });
@@ -346,8 +343,7 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
                                 jsonObject = new JSONObject(body);
                                 int code = jsonObject.optInt(Constant.CODE);
                                 if (code == 200) {
-                                    Gson gson = new Gson();
-                                    AddressListBean addressListBean = gson.fromJson(body, AddressListBean.class);
+                                    AddressListBean addressListBean = new Gson().fromJson(body, AddressListBean.class);
                                     List<AddressListBean.DataBean> data = addressListBean.getData();
                                     if (data != null && data.size() > 0) {
                                     } else {
@@ -372,41 +368,44 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
         finalCouponId = bundle.getInt(Constant.PAY_COUPONID);
         if (type == 1) {
             //满减优惠券
+
+            //满减力度
             float floatCouponPrice = Float.parseFloat(couponPrice);
-            int intCouponPrice = Math.round(floatCouponPrice);
-            //优惠价格
-            //discountsprice = intCouponPrice;
+            //优惠额度
             discountsprice = floatCouponPrice;
             //最终支付价格
             finalPayPrice = originalPayPace - discountsprice;
-            DecimalFormat decimalFormat = new DecimalFormat("0.00");//构造方法的字符格式这里如果小数不足2位,会以0补足.
-            String distanceString = decimalFormat.format(finalPayPrice);//format 返回的是字符串
-            LogUtils.e("使用优惠券----------最终支付金额=   originalPayPace:" + originalPayPace
-                    + "  discountsprice:" + discountsprice + "   finalPayPrice:" + finalPayPrice + " distanceString:" + distanceString);
+
             //优惠券显示金额
-            //couponCount.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + intCouponPrice));
-            //couponCount.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + floatCouponPrice));
-            couponCount.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + decimalFormat.format(floatCouponPrice)));
+            couponCount.setText(String.format("-%s%s", getResources().getString(R.string.RMB), calculate(floatCouponPrice)));
             couponDes.setVisibility(View.GONE);
             //优惠金额
-            //textDiscountsprice.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + intCouponPrice));
-            //textDiscountsprice.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + floatCouponPrice));
-            textDiscountsprice.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + decimalFormat.format(floatCouponPrice)));
+            textDiscountsprice.setText(String.format("-%s%s", getResources().getString(R.string.RMB), calculate(floatCouponPrice)));
             //最终支付金额
-            //textFinalprice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(Math.round(finalPayPrice))));
-            //textFinalprice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(finalPayPrice)));
-            textFinalprice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(distanceString)));
+            textFinalprice.setText(String.format("%s%s", getResources().getString(R.string.RMB), calculate(finalPayPrice)));
         } else {
             //打折优惠券
-            float floatCouponPrice = Float.parseFloat(couponPrice) / 10;
-            finalPayPrice = Math.round(originalPayPace * floatCouponPrice);
+
+            //折扣力度
+            float floatCoupon = Float.parseFloat(couponPrice) / 10;
+            finalPayPrice = originalPayPace * floatCoupon;
             discountsprice = originalPayPace - finalPayPrice;
 
-            couponCount.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + Math.round(discountsprice)));
+            //优惠卷优惠金额
+            couponCount.setText(String.format("-%s%s", getResources().getString(R.string.RMB), calculate(discountsprice)));
             couponDes.setVisibility(View.GONE);
-            textDiscountsprice.setText(String.valueOf("-" + getResources().getString(R.string.RMB) + Math.round(discountsprice)));
-            textFinalprice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(Math.round(finalPayPrice))));
+            //优惠金额
+            textDiscountsprice.setText((String.format("-%s%s", getResources().getString(R.string.RMB), calculate(discountsprice))));
+            //最终支付价格
+            textFinalprice.setText(String.format("%s%s", getResources().getString(R.string.RMB), calculate(finalPayPrice)));
         }
+    }
+
+    private String calculate(float price) {
+        //构造方法的字符格式这里如果小数不足2位,会以0补足.
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        //format 返回的是字符串
+        return decimalFormat.format(price);
     }
 
     /**
@@ -447,7 +446,7 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
                 float payPrice = dataBean.getPay_price();
 
                 if (TextUtils.isEmpty(orderNum)) {
-                    ToastUtil.showBottomLongText(context, getResources().getString(R.string.pay_miss_orderinfo));
+                    ToastUtil.showBottomLongText(this, getResources().getString(R.string.pay_miss_orderinfo));
                     return;
                 }
                 Bundle bundle = new Bundle();
@@ -456,10 +455,10 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
                 startActivity(PayActivity.class, bundle);
                 finish();
             } else {
-                ToastUtil.showBottomLongText(context, getResources().getString(R.string.operation_Error));
+                ToastUtil.showBottomLongText(this, getResources().getString(R.string.operation_Error));
             }
         } else {
-            ToastUtil.showBottomLongText(context, getResources().getString(R.string.operation_Error));
+            ToastUtil.showBottomLongText(this, getResources().getString(R.string.operation_Error));
         }
     }
 
@@ -489,30 +488,37 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
             }
             finalAddressId = addressId;
         }
-
-        //可用优惠券数量
-        if (dataBean.getCoupon_num() == 0) {
-            couponDes.setText(getResources().getString(R.string.pay_NoCouponsAvailable));
-            couponDes.setTextColor(ContextCompat.getColor(this, R.color.color_999999));
-        } else {
-            couponDes.setText(getResources().getString(R.string.pay_CouponAvailable));
-            couponCount.setText(String.valueOf(dataBean.getCoupon_num() + getResources().getString(R.string.mine_zhang)));
-        }
         //TODO 订单详情信息
         OrderFormDetailBean.DataBean.PackagesBean beanPackages = dataBean.getPackages();
         String name = beanPackages.getName();
         String teacherName = beanPackages.getTeacher_name();
-        int studyDays = beanPackages.getStudy_days();
+        String validity = beanPackages.getValidity();
         String price = beanPackages.getPrice();
+        String couponNum = beanPackages.getCoupon_num();
+        //可用优惠券数量
+        if (!TextUtils.isEmpty(couponNum)) {
+            int parseInt = Integer.parseInt(couponNum);
+            if (parseInt == 0) {
+                //描述文字
+                couponDes.setText(getResources().getString(R.string.pay_NoCouponsAvailable));
+                //可用张数
+                couponDes.setTextColor(ContextCompat.getColor(this, R.color.color_999999));
+            } else {
+                //描述文字
+                couponDes.setText(getResources().getString(R.string.pay_CouponAvailable));
+                //可用张数
+                couponCount.setText(String.format("%s%s", couponNum, getResources().getString(R.string.mine_zhang)));
+            }
+
+        }
         //封面
         String appImg = beanPackages.getApp_img();
         RequestOptions requestOptions = new RequestOptions()
-                .centerCrop()
                 .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror)
                 .transform(new RoundedCornersTransformation(DensityUtil.dp2px(5), 0))
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-        GlideUtils.load(context, appImg, courseImage, requestOptions);
+        GlideUtils.load(this, appImg, courseImage, requestOptions);
         //课程名
         if (!TextUtils.isEmpty(name)) {
             courseTitle.setText(name);
@@ -521,19 +527,25 @@ public class CommitOrderActivity extends BaseActivity implements IPayView {
         if (!TextUtils.isEmpty(teacherName)) {
             courseTeacher.setText(teacherName);
         }
-        //结束时间
-        courseEndtime.setText(getResources().getString(R.string.orderForm_endtime, String.valueOf(studyDays)));
-        //原价
-        float floatPrice = Float.parseFloat(price);
-        originalPayPace = floatPrice;
-        finalPayPrice = floatPrice;
-        //原价
-        textPrice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(Math.round(originalPayPace))));
-        //最终支付价格
-        textFinalprice.setText(String.valueOf(getResources().getString(R.string.RMB) + String.valueOf(Math.round(floatPrice))));
-        //优惠价格
-        discountsprice = 0;
-        textDiscountsprice.setText(String.valueOf(Math.round(discountsprice)));
+        //课程有效期
+        courseEndtime.setText(getResources().getString(R.string.orderForm_endtime, validity));
+
+        if (!TextUtils.isEmpty(price)) {
+            //课程包价格
+            float floatPrice = Float.parseFloat(price);
+            //原价格
+            originalPayPace = floatPrice;
+            //最终支付价格
+            finalPayPrice = floatPrice;
+
+            //原价
+            textPrice.setText(String.format("%s%s", getResources().getString(R.string.RMB), calculate(originalPayPace)));
+            //最终支付价格
+            textFinalprice.setText(String.format("%s%s", getResources().getString(R.string.RMB), calculate(finalPayPrice)));
+            //优惠价格
+            discountsprice = 0;
+            textDiscountsprice.setText(String.valueOf(Math.round(discountsprice)));
+        }
     }
 
     @Override
