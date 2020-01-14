@@ -183,7 +183,7 @@ public class ErrorCenterActivity extends BaseActivity implements IQuestionBankKo
      */
     private void initAdapter() {
         if (questionErrorCenterAdapter == null) {
-            questionErrorCenterAdapter = new QuestionErrorCenterAdapter(list, context, Constant.PLATE_7);
+            questionErrorCenterAdapter = new QuestionErrorCenterAdapter(list, context, Constant.PLATE_17);
         }
         questionErrorCenterAdapter.notifyDataSetChanged();
 
@@ -194,7 +194,7 @@ public class ErrorCenterActivity extends BaseActivity implements IQuestionBankKo
                 int section_id = list.get(groupPosition).getSection_id();
                 int child_id = list.get(groupPosition).getKnob().get(childPosition).getKnob_id();
                 Bundle bundle = new Bundle();
-                bundle.putInt(Constant.PLATE_ID, Constant.PLATE_7);
+                bundle.putInt(Constant.PLATE_ID, Constant.PLATE_17);
                 bundle.putInt(Constant.COURSE_ID, course_id);
                 bundle.putInt(Constant.SECTION_ID, section_id);
                 bundle.putInt(Constant.KNOB_ID, child_id);

@@ -11,6 +11,10 @@ import com.ucfo.youcaiwx.entity.questionbank.QuestionMyProjectBean;
 import com.ucfo.youcaiwx.entity.questionbank.SubjectInfoBean;
 import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankHomeView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Author:29117
  * Time: 2019-4-26.  上午 10:45
@@ -53,16 +57,29 @@ public class QuestionBankHomePresenter {
 
                     @Override
                     public void onSuccess(Response<String> response) {
-                        String body = response.body();
-                        if (!body.equals("")) {
-                            QuestionMyProjectBean questionMyProjectBean = new Gson().fromJson(body, QuestionMyProjectBean.class);
-                            view.getMyProejctList(questionMyProjectBean);
-                        } else {
-                            view.getMyProejctList(null);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.body());
+                            int code = jsonObject.optInt(Constant.CODE);
+                            if (code == 200) {
+                                if (jsonObject.has(Constant.DATA)) {
+                                    Object data = jsonObject.get(Constant.DATA);
+                                    if (data instanceof JSONArray) {
+                                        QuestionMyProjectBean questionMyProjectBean = new Gson().fromJson(response.body(), QuestionMyProjectBean.class);
+                                        view.getMyProejctList(questionMyProjectBean);
+                                    } else {
+                                        view.getMyProejctList(null);
+                                    }
+                                } else {
+                                    view.getMyProejctList(null);
+                                }
+                            } else {
+                                view.getMyProejctList(null);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                     }
                 });
-
     }
 
     /**

@@ -8,7 +8,6 @@ import java.util.List;
  * Email:2911743255@qq.com
  * ClassName: QuestionMyProjectBean
  * Description:TODO  获取我的题库
- * Detail:TODO
  */
 public class QuestionMyProjectBean {
     /**
@@ -52,6 +51,7 @@ public class QuestionMyProjectBean {
 
         private int id;
         private String name;
+        private String status;
 
         public int getId() {
             return id;
@@ -67,6 +67,14 @@ public class QuestionMyProjectBean {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public String getStatus() {
+            return status == null ? "" : status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
         }
     }
 }

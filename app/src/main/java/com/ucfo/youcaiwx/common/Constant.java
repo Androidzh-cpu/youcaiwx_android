@@ -1,3 +1,5 @@
+
+
 package com.ucfo.youcaiwx.common;
 
 import com.ucfo.youcaiwx.BuildConfig;
@@ -235,26 +237,47 @@ public class Constant {
 
 
     //--------------------------------------------------------TODO 题库  start----------------------------------------------------------//
-    public static final String SUBJECT_ID = "subject_id";//选中题库的ID
-    public static final String PAGE = "page";//分页加载
-    public static final String LIMIT = "limit";//分页加载
-    public static final String KNOB_ID = "knob_id";//用于获取三级列表的所谓的节的ID
-    public static final String KNOW_ID = "know_id";//知识点三级列表的ID
-    public static final String MOCK_ID = "mock_id";//组卷模考的试卷ID
-    public static final String PAPER_ID = "paper_id";//阶段测试试卷ID
-    public static final String NUMBER = "number";//做题数
-    public static final String STATUS = "status";//做题状态
-    public static final String NUM = "num";//获取题目数
-    public static final String USED_TIME = "used_time";//用时时间
-    public static final String QUESTION_CONTENT = "question_content";//题目json信息
-    public static final String QUESTION_ID = "question_id";//题目ID
-    public static final String TITLE = "defaultTitle";//标题
-    public static final String URL = "defaultUrl";//链接
+    //选中题库的ID
+    public static final String SUBJECT_ID = "subject_id";
+    //选中题库的状态-是否开启训练营
+    public static final String SUBJECT_STATUS = "subject_status";
+    //训练营是否开启弹框
+    public static final String TRAINING_DIALOG = "training_dialog";
+    //分页加载
+    public static final String PAGE = "page";
+    //分页加载
+    public static final String LIMIT = "limit";
+    //用于获取三级列表的所谓的节的ID
+    public static final String KNOB_ID = "knob_id";
+    //知识点三级列表的ID
+    public static final String KNOW_ID = "know_id";
+    //组卷模考的试卷ID
+    public static final String MOCK_ID = "mock_id";
+    //阶段测试试卷ID
+    public static final String PAPER_ID = "paper_id";
+    //做题数
+    public static final String NUMBER = "number";
+    //做题状态
+    public static final String STATUS = "status";
+    //获取题目数
+    public static final String NUM = "num";
+    //用时时间
+    public static final String USED_TIME = "used_time";
+    //题目json信息
+    public static final String QUESTION_CONTENT = "question_content";
+    //题目ID
+    public static final String QUESTION_ID = "question_id";
+    public static final String TITLE = "defaultTitle";
+    public static final String URL = "defaultUrl";
     public static final String OVER = "over";
-    public static final String ANALYSIS_TYPE = "analysisType";//解析类型
-    public static final String ANSEWR_ID = "answer_id";//题目ID
-    public static final String BroadcastReceiver_TONEXT = "com.leyikao.jumptonext";//广播跳转下一页
-    public static final String BroadcastReceiver_TOPAGE = "com.leyikao.jumptopage";//广播跳转指定页面
+    //解析类型
+    public static final String ANALYSIS_TYPE = "analysisType";
+    //题目ID
+    public static final String ANSEWR_ID = "answer_id";
+    //广播跳转下一页
+    public static final String BroadcastReceiver_TONEXT = "com.leyikao.jumptonext";
+    //广播跳转指定页面
+    public static final String BroadcastReceiver_TOPAGE = "com.leyikao.jumptopage";
     //--------------------------------------------------------TODO 题库  end----------------------------------------------------------//
 
 
@@ -289,12 +312,12 @@ public class Constant {
     public static final int PLATE_5 = 5;
     //TODO 6: 组卷模考
     public static final int PLATE_6 = 6;
+    //TODO 7: 冲刺训练营
+    public static final int PLATE_7 = 7;
 
     //custom
     //TODO 0: 0元体验课
     public static final int PLATE_0 = 0;
-    //TODO 7: 错题中心   或者查看解析
-    public static final int PLATE_7 = 7;
     //TODO 8: 错题中心重新做题
     public static final int PLATE_8 = 8;
     //TODO 9: 6大板块错题解析
@@ -313,6 +336,8 @@ public class Constant {
     public static final int PLATE_15 = 15;
     //TODO 16:试题详情
     public static final int PLATE_16 = 16;
+    //TODO 17: 错题中心   或者查看解析
+    public static final int PLATE_17 = 17;
     //---------------------------------------------TODO int related to 题库  end----------------------------------------//
 
 

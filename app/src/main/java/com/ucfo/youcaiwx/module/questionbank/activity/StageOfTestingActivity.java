@@ -9,6 +9,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.ucfo.youcaiwx.adapter.questionbank.QuestionStageTestAdapter;
 import com.ucfo.youcaiwx.base.BaseActivity;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.questionbank.QuestionStageOfTestBean;
+import com.ucfo.youcaiwx.entity.questionbank.TipsBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.questionbank.QuestionBankStageOfTestPresenter;
 import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankStageView;
 import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
@@ -40,8 +42,10 @@ import butterknife.ButterKnife;
  * Time: 2019-5-6 上午 10:04
  * FileName: StageOfTestingActivity
  * ORG: www.youcaiwx.com
- * Description:TODO 阶段测试,论述题自测使用同一个目录结构和相同数据,组卷模考另起接口,但结构和格式相同
+ * Description:TODO 试卷列表
+ * Details:todo 阶段测试,论述题自测使用同一个目录结构,接口也相同和相同的数据;组卷模考另起接口,但结构和格式相同;冲刺训练营另起接口,数据相同
  */
+
 public class StageOfTestingActivity extends BaseActivity implements IQuestionBankStageView {
     @BindView(R.id.titlebar_midtitle)
     TextView titlebarMidtitle;
@@ -55,15 +59,15 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
     LoadingLayout loadinglayout;
     @BindView(R.id.refreshlayout)
     SmartRefreshLayout refreshlayout;
-    private StageOfTestingActivity context;
+
     private SharedPreferencesUtils sharedPreferencesUtils;
-    private boolean login_status;
-    private int user_id, course_id;
+    private int user_id, course_id, plate_id;
     private Bundle bundle;
     private ArrayList<QuestionStageOfTestBean.DataBean> list;
     private QuestionBankStageOfTestPresenter questionBankStageOfTestPresenter;
     private QuestionStageTestAdapter questionStageTestAdapter;
-    private int plate_id;
+    private String paperTitle, paperContent;
+    private boolean training_dialog;
 
     @Override
     protected int setContentView() {
@@ -74,14 +78,8 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
 
-        context = this;
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
-        login_status = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
-        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        layoutManager.setReverseLayout(false);
         int topBottom = DensityUtil.dip2px(this, 1);
         recyclerview.addItemDecoration(new SpacesItemDecoration(0, topBottom, ContextCompat.getColor(this, R.color.color_E6E6E6)));
         recyclerview.setItemAnimator(new DefaultItemAnimator());
@@ -92,7 +90,9 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
     protected void initData() {
         super.initData();
         list = new ArrayList<QuestionStageOfTestBean.DataBean>();
-        //注册网络
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
+        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+
         questionBankStageOfTestPresenter = new QuestionBankStageOfTestPresenter(this);
 
         bundle = getIntent().getExtras();
@@ -100,14 +100,21 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
             course_id = bundle.getInt(Constant.COURSE_ID, 0);//TODO 其实就是已购买的题库的id
             plate_id = bundle.getInt(Constant.PLATE_ID, 0);//TODO 6大板块对应的值
             switch (plate_id) {
-                case Constant.PLATE_2://阶段测试
+                case Constant.PLATE_2:
+                    //阶段测试
                     titlebarMidtitle.setText(getResources().getString(R.string.question_title_stage_test));
                     break;
-                case Constant.PLATE_3://论述题自测
+                case Constant.PLATE_3:
+                    //论述题自测
                     titlebarMidtitle.setText(getResources().getString(R.string.question_title_elaboration_test));
                     break;
-                case Constant.PLATE_6://组卷模考
+                case Constant.PLATE_6:
+                    //组卷模考
                     titlebarMidtitle.setText(getResources().getString(R.string.question_title_group_exam));
+                    break;
+                case Constant.PLATE_7:
+                    //冲刺训练营
+                    titlebarMidtitle.setText(getResources().getString(R.string.question_title_training_camp));
                     break;
                 default:
                     titlebarMidtitle.setText(getResources().getString(R.string.default_title));
@@ -120,13 +127,14 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
                 loadinglayout.showEmpty();
             }
         }
-        //设置重新加载事件
+        //重新加载
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 questionBankStageOfTestPresenter.getStageOfTestData(course_id, plate_id);
             }
         });
+        //刷新
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -191,13 +199,17 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
     }
 
     private void initAdapter() {
+        if (plate_id == Constant.PLATE_7) {
+            //冲刺训练营才会有提示框
+            questionBankStageOfTestPresenter.getDialogTips(plate_id);
+        }
+
         if (questionStageTestAdapter == null) {
             questionStageTestAdapter = new QuestionStageTestAdapter(this, list, plate_id);
             recyclerview.setAdapter(questionStageTestAdapter);
         } else {
             questionStageTestAdapter.notifyChange(list);
         }
-
         questionStageTestAdapter.setItemClick(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -205,18 +217,33 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
                 bundle.putInt(Constant.COURSE_ID, course_id);
                 switch (plate_id) {
                     case Constant.PLATE_2://TODO 阶段测试
+                        String paperId = list.get(position).getPaper_id();
+                        if (TextUtils.isEmpty(paperId)) {
+                            showToast(getResources().getString(R.string.miss_params));
+                            return;
+                        }
                         bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_E);
                         bundle.putInt(Constant.PLATE_ID, Constant.PLATE_2);
-                        bundle.putInt(Constant.PAPER_ID, list.get(position).getPaper_id());
+                        bundle.putInt(Constant.PAPER_ID, Integer.parseInt(paperId));
                         startToActivity(bundle, TESTMODEActivity.class);
                         break;
                     case Constant.PLATE_3://TODO 论述题自测
+                        String paper_id = list.get(position).getPaper_id();
+                        if (TextUtils.isEmpty(paper_id)) {
+                            showToast(getResources().getString(R.string.miss_params));
+                            return;
+                        }
                         bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_D);
                         bundle.putInt(Constant.PLATE_ID, Constant.PLATE_3);
-                        bundle.putInt(Constant.PAPER_ID, list.get(position).getPaper_id());
+                        bundle.putInt(Constant.PAPER_ID, Integer.parseInt(paper_id));
                         startToActivity(bundle, TESTMODEActivity.class);
                         break;
                     case Constant.PLATE_6://TODO 组卷模考
+                        String mockId = list.get(position).getMock_id();
+                        if (TextUtils.isEmpty(mockId)) {
+                            showToast(getResources().getString(R.string.miss_params));
+                            return;
+                        }
                         new AlertDialog(StageOfTestingActivity.this).builder()
                                 .setTitle(getResources().getString(R.string.explication))
                                 .setMsg(getResources().getString(R.string.question_examtips))
@@ -233,21 +260,100 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
                                     public void onClick(View v) {
                                         bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_E);
                                         bundle.putInt(Constant.PLATE_ID, Constant.PLATE_6);
-                                        bundle.putInt(Constant.MOCK_ID, list.get(position).getMock_id());
+                                        bundle.putInt(Constant.MOCK_ID, Integer.parseInt(mockId));
                                         startToActivity(bundle, TESTMODEActivity.class);
                                     }
                                 }).show();
-
-                        /*bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_E);
-                        bundle.putInt(Constant.PLATE_ID, Constant.PLATE_6);
-                        bundle.putInt(Constant.MOCK_ID, list.get(position).getMock_id());
-                        startToActivity(bundle, TESTMODEActivity.class);*/
+                        break;
+                    case Constant.PLATE_7:
+                        //TODO 冲刺训练营
+                        QuestionStageOfTestBean.DataBean bean = list.get(position);
+                        String paperType = bean.getPaper_type();
+                        String paperStauts = bean.getPaper_stauts();
+                        String trainingCampID = bean.getPaper_id();
+                        if (TextUtils.equals(paperStauts, String.valueOf(2))) {
+                            showToast(getResources().getString(R.string.question_cannotexam));
+                            return;
+                        }
+                        if (TextUtils.isEmpty(paperType)) {
+                            showToast(getResources().getString(R.string.miss_params));
+                            return;
+                        }
+                        if (TextUtils.equals(paperType, String.valueOf(1))) {
+                            //单选题
+                            bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_E);
+                        } else if (TextUtils.equals(paperType, String.valueOf(2))) {
+                            //论述题
+                            bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_D);
+                        }
+                        if (TextUtils.isEmpty(trainingCampID)) {
+                            showToast(getResources().getString(R.string.miss_params));
+                        }
+                        new AlertDialog(StageOfTestingActivity.this).builder()
+                                .setTitle(paperTitle)
+                                .setMsg(paperContent)
+                                .setCancelable(false)
+                                .setCanceledOnTouchOutside(false)
+                                .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        bundle.putInt(Constant.PLATE_ID, Constant.PLATE_7);
+                                        bundle.putInt(Constant.PAPER_TYPE, Integer.parseInt(paperType));
+                                        bundle.putInt(Constant.PAPER_ID, Integer.parseInt(trainingCampID));
+                                        startToActivity(bundle, TESTMODEActivity.class);
+                                    }
+                                }).show();
                         break;
                     default:
                         break;
                 }
             }
         });
+    }
+
+    @Override
+    public void getDialogTips(TipsBean data) {
+        if (data != null) {
+            TipsBean.DataBean bean = data.getData();
+            if (bean != null) {
+                paperContent = bean.getPaper_content();
+                paperTitle = bean.getPaper_title();
+
+                String plateContent = bean.getPlate_content();
+                String plateTitle = bean.getPlate_title();
+                training_dialog = sharedPreferencesUtils.getBoolean(Constant.TRAINING_DIALOG, false);
+                if (!training_dialog) {
+                    //提示信息
+                    setTrainingCampDialog(plateTitle, plateContent);
+                }
+            }
+        }
+    }
+
+    /**
+     * 设置训练营弹框
+     */
+    private void setTrainingCampDialog(String title, String message) {
+        if (plate_id == Constant.PLATE_7) {
+            new AlertDialog(StageOfTestingActivity.this).builder()
+                    .setTitle(title)
+                    .setMsg(message)
+                    .setCancelable(false)
+                    .setCanceledOnTouchOutside(false)
+                    .setNegativeButton(getResources().getString(R.string.nottips), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SharedPreferencesUtils.getInstance(StageOfTestingActivity.this).putBoolean(Constant.TRAINING_DIALOG, true);
+                        }
+                    })
+                    .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    }).show();
+
+        }
     }
 
     /**
@@ -263,12 +369,11 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
 
     @Override
     public void showLoading() {
-        setProcessLoading(null, true);
+        //TODO nothing
     }
 
     @Override
     public void showLoadingFinish() {
-        dismissPorcess();
     }
 
     @Override

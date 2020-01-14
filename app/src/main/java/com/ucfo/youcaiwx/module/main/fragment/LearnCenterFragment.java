@@ -1,6 +1,7 @@
 package com.ucfo.youcaiwx.module.main.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -62,7 +63,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -261,27 +261,28 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
      * 学习中心首页数据(每次碎片创建和重新显示的时候请求)
      */
     private void updateDataInfo() {
-        if (sharedPreferencesUtils == null) {
-            sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
-        }
-        loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
-        userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-        currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
-        //未登录--清除数据
-        if (!loginStatus) {
-            userInfoClear();
-        } else {
-            //登录--判断是否购买课程
-            //本地未存贮题库信息,刷新购买课程信息
-            if (currentSubjectId == 0) {
-                questionBankHomePresenter.getMyProejctList(userId);
+        if (isAdded()) {
+            if (sharedPreferencesUtils == null) {
+                sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
+            }
+            loginStatus = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
+            userId = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+            currentSubjectId = sharedPreferencesUtils.getInt(Constant.SUBJECT_ID, 0);
+            //未登录--清除数据
+            if (!loginStatus) {
+                userInfoClear();
+            } else {
+                //登录--判断是否购买课程
+                //本地未存贮题库信息,刷新购买课程信息
+                if (currentSubjectId == 0) {
+                    questionBankHomePresenter.getMyProejctList(userId);
+                }
+            }
+            //刷新学习中心首页数据
+            if (learncenterHomePresenter != null) {
+                learncenterHomePresenter.learncenterHome(userId);
             }
         }
-        //刷新学习中心首页数据
-        if (learncenterHomePresenter != null) {
-            learncenterHomePresenter.learncenterHome(userId);
-        }
-
     }
 
     /**
@@ -294,10 +295,8 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                 initLearnCenter(result);
             }
         } else {
-            if (isAdded()) {
-                userInfoClear();
-                showerror();
-            }
+            userInfoClear();
+            showerror();
         }
     }
 
@@ -309,21 +308,27 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
     @Override
     public void studyClockInResult(StudyClockInBean result) {
         if (result != null) {
-            if (result.getCode() == 200) {
+            int code = result.getCode();
+            String msg = result.getMsg();
+            if (code == 200) {
                 if (result.getData() != null) {
                     StudyClockInBean.DataBean data = result.getData();
-                    FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    SignInActive signInActive = new SignInActive();
-                    signInActive.setUserBean(data);
-                    signInActive.show(fragmentTransaction, "sign");
-                    int num = data.getNum();
-                    userClockinDay.setText(String.valueOf(num));
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = null;
+                    if (fragmentManager != null) {
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                        SignInActive signInActive = new SignInActive();
+                        signInActive.setUserBean(data);
+                        signInActive.show(fragmentTransaction, "sign");
+                        int num = data.getNum();
+                        userClockinDay.setText(String.valueOf(num));
+                    }
                 } else {
                     showToast(getResources().getString(R.string.operation_Error));
                 }
             } else {
-                String msg = result.getMsg();
                 showToast(msg);
             }
         } else {
@@ -340,9 +345,11 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
      * 清除用户信息
      */
     private void userInfoClear() {
-        userIcon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.icon_headdefault));
-        userNickname.setText(getResources().getString(R.string.learncenter_login));
-        userClockinDay.setText(String.valueOf(0));
+        if (isAdded()) {
+            userIcon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.icon_headdefault));
+            userNickname.setText(getResources().getString(R.string.learncenter_login));
+            userClockinDay.setText(String.valueOf(0));
+        }
     }
 
     /**
@@ -585,7 +592,9 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
                     break;
                 case R.id.btn_clockin:
                     //学习打卡
-                    learncenterHomePresenter.signDayCard(userId);
+                    if (learncenterHomePresenter != null) {
+                        learncenterHomePresenter.signDayCard(userId);
+                    }
                     break;
                 case R.id.user_course:
                     //我的课程

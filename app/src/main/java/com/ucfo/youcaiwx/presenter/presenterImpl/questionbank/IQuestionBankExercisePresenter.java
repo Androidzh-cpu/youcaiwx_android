@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * Time: 2019-5-16.  下午 5:05
  * FileName: IQuestionBankExercisePresenter
  * Detail:TODO 做题业务操作 (拿题,收藏,答疑等等)
+ * 其实有些接口都一样,懒得修改,方便以后某些人又要来回拍脑门修改
  */
 public interface IQuestionBankExercisePresenter {
     //TODO 组卷模考获取试卷
@@ -16,6 +17,9 @@ public interface IQuestionBankExercisePresenter {
 
     //TODO 阶段测试获取试卷
     void getStageOfTesting(int course_id, int user_id, int plate_id, int paper_type, int paper_id);
+
+    //TODO 冲刺训练营获取
+    void getTrainingCamp(int course_id, int user_id, int plate_id, int paper_type, int paper_id);
 
     //TODO 知识点练习获取试卷
     void getKnowledgePractice(int course_id, int user_id, int plate_id, int paper_type, int section_id, int knob_id, String know_id, int num);

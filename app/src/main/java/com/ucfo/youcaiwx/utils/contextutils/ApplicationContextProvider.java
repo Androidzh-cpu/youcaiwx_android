@@ -24,8 +24,7 @@ public class ApplicationContextProvider extends ContentProvider {
     public boolean onCreate() {
         mContext = getContext();
         //初始化全局Context提供者
-        ContextProvider.get().getContext();
-        return false;
+        return true;
     }
 
     @Nullable

@@ -59,7 +59,7 @@ public class QuestionStageTestAdapter extends BaseAdapter<QuestionStageOfTestBea
         String paperName = bean.getPaper_name();
         String difficulty = bean.getDifficulty();
 
-        if (plate_id == Constant.PLATE_2 || plate_id == Constant.PLATE_3) {
+        if (plate_id == Constant.PLATE_2 || plate_id == Constant.PLATE_3 || plate_id == Constant.PLATE_7) {
             if (!TextUtils.isEmpty(paperName)) {
                 holder.mStageKnowledgeTitleItem.setText(paperName);
             } else {

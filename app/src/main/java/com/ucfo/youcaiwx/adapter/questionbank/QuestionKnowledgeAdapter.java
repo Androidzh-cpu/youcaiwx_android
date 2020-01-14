@@ -34,6 +34,12 @@ public class QuestionKnowledgeAdapter extends BaseExpandableListAdapter {
         this.plate = plate_id;
     }
 
+    public void notifyChange(ArrayList<QuestionKnowledgeListBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getGroupCount() {
         return list == null ? 0 : list.size();

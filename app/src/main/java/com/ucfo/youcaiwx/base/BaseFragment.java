@@ -211,6 +211,10 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
+    public void setProcessLoading() {
+        setProcessLoading(null, true);
+    }
+
     /**
      * 公共base类中弹出进度条
      */

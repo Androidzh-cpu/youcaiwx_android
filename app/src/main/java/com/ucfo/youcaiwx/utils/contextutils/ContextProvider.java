@@ -9,8 +9,6 @@ import android.content.Context;
  * Time: 2019-11-29.  上午 10:31
  * Package: com.ucfo.youcaiwx.utils.contextutils
  * FileName: ContextProvider
- * Description:TODO
- * Detail:TODO
  */
 public class ContextProvider {
     @SuppressLint("StaticFieldLeak")
@@ -28,11 +26,11 @@ public class ContextProvider {
         if (instance == null) {
             synchronized (ContextProvider.class) {
                 if (instance == null) {
-                    Context context = ApplicationContextProvider.mContext;
-                    if (context == null) {
+                    //重点在这里，ContextProvider.context获取Context
+                    if (ApplicationContextProvider.mContext == null) {
                         throw new IllegalStateException("context == null");
                     }
-                    instance = new ContextProvider(context);
+                    instance = new ContextProvider(ApplicationContextProvider.mContext);
                 }
             }
         }

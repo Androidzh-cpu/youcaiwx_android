@@ -182,7 +182,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         }
 
         //TODO 判断移除错题和收藏
-        if (plate_id == Constant.PLATE_7) {
+        if (plate_id == Constant.PLATE_17) {
             //错题中心查看解析
             mRemovequestionQuestion.setVisibility(View.VISIBLE);
         } else {
@@ -630,11 +630,15 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         switch (v.getId()) {
             case R.id.question_removequestion:
                 //TODO 19/05/28 移除当前错题
-                questionChoiceListener.choiceDeleteCurrentQuestion();
+                if (questionChoiceListener != null) {
+                    questionChoiceListener.choiceDeleteCurrentQuestion();
+                }
                 break;
             case R.id.btn_collection:
                 //TODO 19/05/28 取消收藏==移除当前错题
-                questionChoiceListener.choiceCancelCurrentQuestion();
+                if (questionChoiceListener != null) {
+                    questionChoiceListener.choiceCancelCurrentQuestion();
+                }
                 break;
             default:
                 break;

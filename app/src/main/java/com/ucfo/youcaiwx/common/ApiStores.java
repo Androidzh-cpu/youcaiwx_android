@@ -185,6 +185,10 @@ public class ApiStores {
     public static final String QUESTION_GETQUSTIONONRECORD = BASE_URL + "Question/questionRecord";
     //阶段测试列表
     public static final String QUESTION_GETSTAGEOFTESTLIST = BASE_URL + "Question/getCourse";
+    //冲刺训练营
+    public static final String QUESTION_GETTRAININGCAMP_LIST = BASE_URL + "Question/sprintCourse";
+    //训练营提示框
+    public static final String QUESTION_GETTRAININGCAMP_TIPS = BASE_URL + "Question/tips";
     //组卷模考列表
     public static final String QUESTION_GETGROUPEXAMLIST = BASE_URL + "Question/volumeList";
     //知识点章节列表

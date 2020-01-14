@@ -32,7 +32,7 @@ import java.util.List;
  * FileName: KnowledgePracticeActivity
  * ORG: www.youcaiwx.com
  * Description:TODO 知识点练习
- * detail:TODO 选择相应章节后跳转至知识点页面,然后开始做题
+ * detail:选择相应章节后跳转至知识点页面,然后开始做题
  */
 public class KnowledgePracticeActivity extends BaseActivity implements IQuestionBankKonwledgeView {
     private TextView titlebarMidtitle;
@@ -216,9 +216,10 @@ public class KnowledgePracticeActivity extends BaseActivity implements IQuestion
     private void initAdapter() {
         if (adapter == null) {
             adapter = new QuestionKnowledgeAdapter(list, this, plate_id);
+            listView.setAdapter(adapter);
+        } else {
+            adapter.notifyChange(list);
         }
-        adapter.notifyDataSetChanged();
-        listView.setAdapter(adapter);
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {

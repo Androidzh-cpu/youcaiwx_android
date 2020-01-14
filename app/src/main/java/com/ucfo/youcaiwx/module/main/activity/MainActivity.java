@@ -333,6 +333,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
      */
     private void exitApplication() {
         new AlertDialog(this).builder()
+                .setTitle(getResources().getString(R.string.explication))
                 .setMsg(getResources().getString(R.string.exit_confirm))
                 .setCancelable(false)
                 .setCanceledOnTouchOutside(false)

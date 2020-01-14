@@ -2,7 +2,6 @@ package com.ucfo.youcaiwx.module.user.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -22,7 +21,6 @@ import com.ucfo.youcaiwx.entity.user.MineCourseCollectionDirBean;
 import com.ucfo.youcaiwx.entity.user.MineQuestionCollectionListBean;
 import com.ucfo.youcaiwx.entity.user.ProjectListBean;
 import com.ucfo.youcaiwx.module.user.activity.CourseCollectionChildActivity;
-import com.ucfo.youcaiwx.module.user.activity.MineCollectionActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineCollectionPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineCollectionView;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
@@ -44,7 +42,6 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
     private SmartRefreshLayout refreshlayout;
 
     private int pageIndex = 1, user_id;
-    private MineCollectionActivity mineCollectionActivity;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private MineCollectionPresenter mineCollectionPresenter;
     private ArrayList<MineCourseBean.DataBean> list;
@@ -64,15 +61,10 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
         loadinglayout.setEmptyImage(R.mipmap.icon_nodata);
         loadinglayout.setEmptyText(getResources().getString(R.string.mine_collection_coursenodata));
 
-        FragmentActivity activity = getActivity();
-        if (activity instanceof MineCollectionActivity) {
-            mineCollectionActivity = (MineCollectionActivity) activity;
-        }
-
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(mineCollectionActivity);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(mineCollectionActivity);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setNestedScrollingEnabled(false);
@@ -83,7 +75,6 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
         list = new ArrayList<>();
         mineCollectionPresenter = new MineCollectionPresenter(this);
 
-        //mineCollectionPresenter.getMineCoursePackageCollectionList(user_id, pageIndex);
         //设置重新加载事件
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
@@ -91,7 +82,6 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
                 mineCollectionPresenter.getMineCoursePackageCollectionList(user_id, pageIndex);
             }
         });
-        refreshlayout.autoRefresh();
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -106,6 +96,14 @@ public class FragmentCourseCollection extends BaseFragment implements IMineColle
                 mineCollectionPresenter.getMineCoursePackageCollectionList(user_id, pageIndex);
             }
         });
+    }
+
+    @Override
+    protected void onLazyLoadOnce() {
+        super.onLazyLoadOnce();
+        if (mineCollectionPresenter != null) {
+            mineCollectionPresenter.getMineCoursePackageCollectionList(user_id, pageIndex);
+        }
     }
 
     @Override

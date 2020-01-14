@@ -1,7 +1,6 @@
 package com.ucfo.youcaiwx.module.user.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ExpandableListView;
 
@@ -15,7 +14,6 @@ import com.ucfo.youcaiwx.entity.user.MineCourseCollectionDirBean;
 import com.ucfo.youcaiwx.entity.user.MineQuestionCollectionListBean;
 import com.ucfo.youcaiwx.entity.user.ProjectListBean;
 import com.ucfo.youcaiwx.module.questionbank.activity.KnowledgeChildListActivity;
-import com.ucfo.youcaiwx.module.user.activity.MineCollectionActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.user.MineCollectionPresenter;
 import com.ucfo.youcaiwx.presenter.view.user.IMineCollectionView;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
@@ -35,7 +33,6 @@ public class FragmentQuestionChildCollection extends BaseFragment implements IMi
     private LoadingLayout loadinglayout;
 
     private int course_id;
-    private MineCollectionActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private int user_id;
     private MineCollectionPresenter mineCollectionPresenter;
@@ -55,25 +52,28 @@ public class FragmentQuestionChildCollection extends BaseFragment implements IMi
     protected void initView(View itemView) {
         listView = (ExpandableListView) itemView.findViewById(R.id.listView);
         loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
-
-
-        FragmentActivity activity = getActivity();
-        if (activity instanceof MineCollectionActivity) {
-            context = (MineCollectionActivity) activity;
-        }
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
-        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
     }
 
     @Override
     protected void onLazyLoadOnce() {
         super.onLazyLoadOnce();
-        mineCollectionPresenter.getMineQuestioinCollectionList(user_id, course_id);
+        //mineCollectionPresenter.getMineQuestioinCollectionList(user_id, course_id);
+    }
+
+    @Override
+    protected void onVisibleToUser() {
+        super.onVisibleToUser();
+        if (mineCollectionPresenter != null) {
+            mineCollectionPresenter.getMineQuestioinCollectionList(user_id, course_id);
+        }
     }
 
     @Override
     protected void initData() {
         list = new ArrayList<>();
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
+        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+
         mineCollectionPresenter = new MineCollectionPresenter(this);
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
@@ -128,7 +128,7 @@ public class FragmentQuestionChildCollection extends BaseFragment implements IMi
 
     private void ininAdapter() {
         if (listAdapter == null) {
-            listAdapter = new MineQuestionCollectionListAdapter(list, context);
+            listAdapter = new MineQuestionCollectionListAdapter(list, getContext());
             listView.setAdapter(listAdapter);
         } else {
             listAdapter.notifyChange(list);
@@ -153,7 +153,7 @@ public class FragmentQuestionChildCollection extends BaseFragment implements IMi
 
     @Override
     public void showLoading() {
-        //setProcessLoading(null, true);
+        //setProcessLoading();
     }
 
     @Override

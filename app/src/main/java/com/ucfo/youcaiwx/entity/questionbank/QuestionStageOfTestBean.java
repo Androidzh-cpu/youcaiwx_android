@@ -6,8 +6,6 @@ import java.util.List;
  * Author: AND
  * Time: 2019-5-6.  上午 10:55
  * FileName: QuestionStageOfTestBean
- * Description:TODO
- * Detail:TODO
  */
 public class QuestionStageOfTestBean {
 
@@ -52,19 +50,13 @@ public class QuestionStageOfTestBean {
          * difficulty : A
          */
 
-        int mock_id;
-        int paper_id;
+        private String mock_id;
+        private String paper_id;
         private String section_name;
         private String paper_name;
         private String difficulty;
-
-        public int getPaper_id() {
-            return paper_id;
-        }
-
-        public void setPaper_id(int paper_id) {
-            this.paper_id = paper_id;
-        }
+        private String paper_type;
+        private String paper_stauts;
 
         public String getPaper_name() {
             return paper_name == null ? "" : paper_name;
@@ -72,14 +64,6 @@ public class QuestionStageOfTestBean {
 
         public void setPaper_name(String paper_name) {
             this.paper_name = paper_name;
-        }
-
-        public int getMock_id() {
-            return mock_id;
-        }
-
-        public void setMock_id(int mock_id) {
-            this.mock_id = mock_id;
         }
 
         public String getSection_name() {
@@ -96,6 +80,38 @@ public class QuestionStageOfTestBean {
 
         public void setDifficulty(String difficulty) {
             this.difficulty = difficulty;
+        }
+
+        public String getMock_id() {
+            return mock_id == null ? "" : mock_id;
+        }
+
+        public void setMock_id(String mock_id) {
+            this.mock_id = mock_id;
+        }
+
+        public String getPaper_id() {
+            return paper_id == null ? "" : paper_id;
+        }
+
+        public void setPaper_id(String paper_id) {
+            this.paper_id = paper_id;
+        }
+
+        public String getPaper_type() {
+            return paper_type == null ? "" : paper_type;
+        }
+
+        public void setPaper_type(String paper_type) {
+            this.paper_type = paper_type;
+        }
+
+        public String getPaper_stauts() {
+            return paper_stauts == null ? "" : paper_stauts;
+        }
+
+        public void setPaper_stauts(String paper_stauts) {
+            this.paper_stauts = paper_stauts;
         }
     }
 }

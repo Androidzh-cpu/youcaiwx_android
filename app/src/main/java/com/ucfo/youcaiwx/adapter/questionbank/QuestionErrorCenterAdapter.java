@@ -104,7 +104,7 @@ public class QuestionErrorCenterAdapter extends BaseExpandableListAdapter {
             groupholder.item_Divider.setVisibility(View.VISIBLE);
         }
 
-        if (plate == Constant.PLATE_7) {//系统高频错题
+        if (plate == Constant.PLATE_17) {//系统高频错题
             groupholder.item_Number.setVisibility(View.VISIBLE);
             groupholder.item_SubTitle.setVisibility(View.GONE);
         }
@@ -152,7 +152,7 @@ public class QuestionErrorCenterAdapter extends BaseExpandableListAdapter {
             view.setTag(childholder);
         }
 
-        if (plate == Constant.PLATE_7) {
+        if (plate == Constant.PLATE_17) {
             childholder.item_Number.setVisibility(View.VISIBLE);
             childholder.item_Pratice.setVisibility(View.VISIBLE);
             childholder.item_SubTitle.setVisibility(View.GONE);

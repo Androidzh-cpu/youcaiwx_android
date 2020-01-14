@@ -121,7 +121,7 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
             case Constant.PLATE_4://高频错题知识点
                 questionBankKnowledgePresenter.getHighFrequencyWrongChildList(course_id, section_id, knob_id);
                 break;
-            case Constant.PLATE_7://错题中心知识点
+            case Constant.PLATE_17://错题中心知识点
                 questionBankKnowledgePresenter.getErrorCenterKnowList(course_id, user_id, section_id, knob_id);
                 break;
             default://知识点联系
@@ -243,7 +243,7 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
                         bundle.putString(Constant.KNOW_ID, dataBean.getId());
                         startActivity(TESTMODEActivity.class, bundle);
                         break;
-                    case Constant.PLATE_7://TODO 错题中心  不代表解析和做题
+                    case Constant.PLATE_17://TODO 错题中心  不代表解析和做题
                         btnExercise.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
                         btnExercise.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
                         btnLookAnalysis.setTextColor(ContextCompat.getColor(context, R.color.colorPrimary));
@@ -261,7 +261,7 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
                 }
             }
         });
-        if (plate_id == Constant.PLATE_7) {
+        if (plate_id == Constant.PLATE_17) {
             //错题中心的知识点列表
             holderLinearlayout.setVisibility(View.VISIBLE);
         }
@@ -297,7 +297,7 @@ public class KnowledgeChildListActivity extends BaseActivity implements IQuestio
                     String id = list.get(selectedPosition).getId();
                     bundle.putString(Constant.KNOW_ID, id);
                     bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_A);
-                    bundle.putInt(Constant.PLATE_ID, Constant.PLATE_7);
+                    bundle.putInt(Constant.PLATE_ID, Constant.PLATE_17);
                     startActivity(TESTMODEActivity.class, bundle);
                 }
                 break;

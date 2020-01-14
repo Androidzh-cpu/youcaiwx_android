@@ -1,3 +1,4 @@
+
 package com.ucfo.youcaiwx.module.questionbank.activity;
 
 import android.content.BroadcastReceiver;
@@ -110,19 +111,25 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     /*****************************************************TODO end 正计时  *************************/
     private SharedPreferencesUtils sharedPreferencesUtils;
     private Bundle bundle;
-    private boolean timeState = false, complete = true, isDone, discuss_analysis = false;//登录状态,是否全部作答,默认全部作答,是否做题用于退出保存判断,论述题解析
+    //登录状态,是否全部作答,默认全部作答,是否做题用于退出保存判断,论述题解析
+    private boolean timeState = false, complete = true, isDone, discuss_analysis = false;
     private Drawable unCollectionImage, collectionImage;//收藏,未收藏图片资源
     private QuestionBankExercisePresenter questionBankExercisePresenter;
     private BottomSheetDialog answerSheetDialog;//答题卡弹窗
-    private String EXERCISE_TYPE, question_title, question_content;//练习模式,试卷名称,交卷的json串:用于错题中心错题解析
-    private int timingType = 1;//TODO 计时类型,1为正计时,-1为倒计时: 默认为正计时
-    private int user_id, plate_id, course_id, mock_id, section_id, paper_type = 1, paper_id, continue_plate;//TODO 用户ID,板块ID,专业ID,组卷ID,章ID,卷子类型,试卷ID,继续做题板块
-    private int knob_id, num, submitStatus = 1, analysisType, id;//TODO 知识点ID ,节,知识点做题数,交卷状态:1正常交卷,2退出保存,解析模式的类型,答题记录的试卷id
+    //练习模式,试卷名称,交卷的json串:用于错题中心错题解析
+    private String EXERCISE_TYPE, question_title, question_content;
+    //TODO 计时类型,1为正计时,-1为倒计时: 默认为正计时
+    private int timingType = 1;
+    //TODO 用户ID,板块ID,专业ID,组卷ID,章ID,卷子类型,试卷ID,继续做题板块
+    private int user_id, plate_id, course_id, mock_id, section_id, paper_type = 1, paper_id, continue_plate;
+    //TODO 知识点ID ,节,知识点做题数,交卷状态:1正常交卷,2退出保存,解析模式的类型,答题记录的试卷id
+    private int knob_id, num, submitStatus = 1, analysisType, id;
     private QuestionAnswerSheetAdapter answerSheetAdapter;
     private String loadingTips = null;
     private QuestionItemAdapter questionItemAdapter;
     private String know_id, question_id;
     private String videoName;
+    private int paperType;
     /**
      * 做题翻页(别问,问就是广播大法)
      */
@@ -225,22 +232,38 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         //获取参数信息
         bundle = getIntent().getExtras();
         if (bundle != null) {
-            EXERCISE_TYPE = bundle.getString(Constant.EXERCISE_TYPE, "");//TODO 做题模式,必传,用于区分考试模式,练习模式,或者斯巴达模式或者其他模式
-            plate_id = bundle.getInt(Constant.PLATE_ID, 101);//TODO 板块ID(区分类别)
-            continue_plate = bundle.getInt(Constant.CONTINUE_PLATE, 101);//TODO 继续做题板块ID
-            mock_id = bundle.getInt(Constant.MOCK_ID, 0);//TODO 组卷模考ID
-            course_id = bundle.getInt(Constant.COURSE_ID, 0);//TODO 专业ID
-            section_id = bundle.getInt(Constant.SECTION_ID, 0);//TODO 章ID
-            paper_id = bundle.getInt(Constant.PAPER_ID, 0);//TODO 试卷ID,交卷完毕之后会生成一个paper_id用于查询成绩和错题解析使用
-            id = bundle.getInt(Constant.ID, 0);//TODO 试卷ID,交卷完毕之后会生成一个paper_id用于查询成绩和错题解析使用
-            know_id = bundle.getString(Constant.KNOW_ID, "0");//TODO 知识点ID,多个知识点ID的字符串数组
-            videoName = bundle.getString(Constant.VIDEO_NAME, getResources().getString(R.string.default_title));//视频名
-            question_id = bundle.getString(Constant.QUESTION_ID, "0");//TODO 题目ID
+            //TODO 做题模式,必传,用于区分考试模式,练习模式,或者斯巴达模式或者其他模式
+            EXERCISE_TYPE = bundle.getString(Constant.EXERCISE_TYPE, "");
+            //TODO 板块ID(区分类别),101空突师
+            plate_id = bundle.getInt(Constant.PLATE_ID, 101);
+            //TODO 继续做题板块ID,101空突师
+            continue_plate = bundle.getInt(Constant.CONTINUE_PLATE, 101);
+            //TODO 组卷模考ID
+            mock_id = bundle.getInt(Constant.MOCK_ID, 0);
+            //TODO 专业ID
+            course_id = bundle.getInt(Constant.COURSE_ID, 0);
+            //TODO 章ID
+            section_id = bundle.getInt(Constant.SECTION_ID, 0);
+            //TODO 试卷ID,交卷完毕之后会生成一个paper_id用于查询成绩和错题解析使用
+            paper_id = bundle.getInt(Constant.PAPER_ID, 0);
+            //TODO 试卷ID,交卷完毕之后会生成一个paper_id用于查询成绩和错题解析使用
+            id = bundle.getInt(Constant.ID, 0);
+            //TODO 知识点ID,多个知识点ID的字符串数组
+            know_id = bundle.getString(Constant.KNOW_ID, "0");
+            videoName = bundle.getString(Constant.VIDEO_NAME, getResources().getString(R.string.default_title));
+            //TODO 题目ID
+            question_id = bundle.getString(Constant.QUESTION_ID, "0");
+            //TODO 训练营题目类型-(论述还是选择)
+            paperType = bundle.getInt(Constant.PAPER_TYPE, 0);
 
-            num = bundle.getInt(Constant.NUM, 0);//TODO 知识点做题数
-            knob_id = bundle.getInt(Constant.KNOB_ID, 0);//TODO 节ID
-            analysisType = bundle.getInt(Constant.ANALYSIS_TYPE, 0);//TODO 错题解析类型:1错题解析2全部解析
-            question_content = bundle.getString(Constant.QUESTION_CONTENT, "");//TODO 错题解析需要的交卷时传输的json串,由于是交完卷子后传递的,所以已经UTF-8编码通过,用于错题中心错题解析时不再需要编码
+            //TODO 知识点做题数
+            num = bundle.getInt(Constant.NUM, 0);
+            //TODO 节ID
+            knob_id = bundle.getInt(Constant.KNOB_ID, 0);
+            //TODO 错题解析类型:1错题解析2全部解析
+            analysisType = bundle.getInt(Constant.ANALYSIS_TYPE, 0);
+            //TODO 错题解析需要的交卷时传输的json串,由于是交完卷子后传递的,所以已经UTF-8编码通过,用于错题中心错题解析时不再需要编码
+            question_content = bundle.getString(Constant.QUESTION_CONTENT, "");
 
 
             LogUtils.e("Bundle------: " + bundle);
@@ -275,7 +298,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         }
         //TODO 获取相应版块的试卷
         switch (plate_id) {
-            case Constant.PLATE_0://TODO 0元体验
+            case Constant.PLATE_0:
+                //TODO 0元体验
                 if (analysisType == 1) {
                     titlebarMidtitle.setText(getResources().getString(R.string.question_title_errorAnalysis));
                     questionBankExercisePresenter.getFreeExperineceAnalysis(user_id, analysisType, question_content);
@@ -287,46 +311,59 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                     titlebarMidtitle.setText(getResources().getString(R.string.question_default));
                 }
                 break;
-            case Constant.PLATE_1://TODO 知识点练习(考试模式和练习模式)
+            case Constant.PLATE_1:
+                //TODO 知识点练习(考试模式和练习模式)
                 paper_type = 1;
                 questionBankExercisePresenter.getKnowledgePractice(course_id, user_id, plate_id, paper_type, section_id, knob_id, know_id, num);
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_Knowledge_exercise));
                 break;
-            case Constant.PLATE_2://TODO 阶段测试
+            case Constant.PLATE_2:
+                //TODO 阶段测试
                 paper_type = 1;
                 questionBankExercisePresenter.getStageOfTesting(course_id, user_id, plate_id, paper_type, paper_id);
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_stage_test));
                 break;
-            case Constant.PLATE_3://TODO 论述题自测
+            case Constant.PLATE_3:
+                //TODO 论述题自测
                 paper_type = 2;
                 questionBankExercisePresenter.getDissCussData(course_id, user_id, plate_id, paper_type, paper_id);
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_elaboration_test));
                 break;
-            case Constant.PLATE_4://TODO 系统高频高频错题
+            case Constant.PLATE_4:
+                //TODO 系统高频高频错题
                 paper_type = 1;
                 questionBankExercisePresenter.getQuestionHightErrors(course_id, user_id, plate_id, paper_type, section_id, know_id, String.valueOf(knob_id));
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_question_hight_errors));
                 break;
-            case Constant.PLATE_5://TODO 自助练习
-                LogUtils.e("know_id------: " + know_id.trim());
+            case Constant.PLATE_5:
+                //TODO 自助练习
                 paper_type = 1;
                 questionBankExercisePresenter.getSelfHelpPractice(course_id, user_id, plate_id, paper_type, section_id, know_id.trim(), String.valueOf(knob_id), num);
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_writes_really));
                 break;
-            case Constant.PLATE_6://TODO 组卷模考
+            case Constant.PLATE_6:
+                //TODO 组卷模考
                 paper_type = 1;
                 questionBankExercisePresenter.getGroupExamProblemsData(course_id, plate_id, paper_type, mock_id, user_id);
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_group_exam));
                 break;
-            case Constant.PLATE_7://TODO 错题中心   直接查看错题
+            case Constant.PLATE_7:
+                //TODO 冲刺训练营
+                titlebarMidtitle.setText(getResources().getString(R.string.question_title_training_camp));
+                questionBankExercisePresenter.getTrainingCamp(course_id, user_id, plate_id, paperType, paper_id);
+                break;
+            case Constant.PLATE_17:
+                //TODO 错题中心   直接查看错题
                 questionBankExercisePresenter.getErrorCenterCheckAnalysis(course_id, user_id, section_id, know_id);
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_question_my_errors));
                 break;
-            case Constant.PLATE_8://TODO 错题中心  重新做题
+            case Constant.PLATE_8:
+                //TODO 错题中心  重新做题
                 questionBankExercisePresenter.getErrorCenterReform(course_id, user_id, section_id, String.valueOf(knob_id), know_id);
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_question_my_errors));
                 break;
-            case Constant.PLATE_9://TODO 6大板块错题解析(错题解析和全部解析)
+            case Constant.PLATE_9:
+                //TODO 6大板块错题解析(错题解析和全部解析)
                 questionBankExercisePresenter.getErrorAnalysis(paper_id, user_id, analysisType);
                 if (analysisType == 1) {//1:错题解析2:全部解析
                     titlebarMidtitle.setText(getResources().getString(R.string.question_title_errorAnalysis));
@@ -334,7 +371,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                     titlebarMidtitle.setText(getResources().getString(R.string.question_title_allAnalysis));
                 }
                 break;
-            case Constant.PLATE_10://TODO 错题中心错题解析(错题解析和全部解析)
+            case Constant.PLATE_10:
+                //TODO 错题中心错题解析(错题解析和全部解析)
                 questionBankExercisePresenter.getErrorCenterAnalysis(user_id, course_id, section_id, know_id, analysisType, question_content);
                 if (analysisType == 1) {//1:错题解析2:全部解析
                     titlebarMidtitle.setText(getResources().getString(R.string.question_title_errorAnalysis));
@@ -342,26 +380,32 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                     titlebarMidtitle.setText(getResources().getString(R.string.question_title_allAnalysis));
                 }
                 break;
-            case Constant.PLATE_11://TODO 答题记录继续做题
+            case Constant.PLATE_11:
+                //TODO 答题记录继续做题
                 questionBankExercisePresenter.getContinueExamData(user_id, id);
                 titlebarMidtitle.setText(getResources().getString(R.string.question_tips_holder6));
                 break;
-            case Constant.PLATE_12://TODO 答题记录论述题查看解析
+            case Constant.PLATE_12:
+                //TODO 答题记录论述题查看解析
                 questionBankExercisePresenter.getContinueDiscussAnalysis(user_id, paper_id);
                 titlebarMidtitle.setText(getResources().getString(R.string.question_tips_holder7));
                 break;
-            case Constant.PLATE_13://TODO 我的收藏查看收藏
+            case Constant.PLATE_13:
+                //TODO 我的收藏查看收藏
                 questionBankExercisePresenter.getMineCollectionList(user_id, course_id, section_id, knob_id, know_id);
                 titlebarMidtitle.setText(getResources().getString(R.string.mine_Collection));
                 break;
-            case Constant.PLATE_14://TODO 学习中心
+            case Constant.PLATE_14:
+                //TODO 学习中心
                 questionBankExercisePresenter.getLearnPlanExerciseList(user_id, know_id, videoName);
                 break;
-            case Constant.PLATE_15://TODO 学习中心试题解析
+            case Constant.PLATE_15:
+                //TODO 学习中心试题解析
                 questionBankExercisePresenter.getLearnPlanExerciseAnalysis(user_id, paper_id);
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_allAnalysis));
                 break;
-            case Constant.PLATE_16://TODO 查看试题
+            case Constant.PLATE_16:
+                //TODO 查看试题
                 questionBankExercisePresenter.getQuestionDetailed(user_id, question_id);
                 titlebarMidtitle.setText(getResources().getString(R.string.question_title_details));
                 break;
@@ -546,36 +590,44 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         int countDownTimemillis = Integer.parseInt(String.valueOf(CountdownTime / millisecond));//倒计时总时长
 
         //TODO  step4: 判断做题完成状态
-        if (complete) {//TODO 已全部做完
+        if (complete) {
+            //TODO 已全部做完
             switch (plate_id) {
-                case Constant.PLATE_0://TODO 0元体验交卷
+                case Constant.PLATE_0:
+                    //TODO 0元体验交卷
                     freeExpercienceSubmit();
                     break;
-                case Constant.PLATE_8://todo 错题中心-重新做题交卷
+                case Constant.PLATE_8:
+                    //todo 错题中心-重新做题交卷
                     questionBankExercisePresenter.errorCenterSubmit(optionsAnswerList, user_id, course_id);
                     break;
-                case Constant.PLATE_11://todo 答题记录-交卷
+                case Constant.PLATE_11:
+                    //todo 答题记录-交卷
                     questionBankExercisePresenter.contimueSubmitPapers(course_id, id, user_id, continue_plate, submitStatus, section_id,
                             knob_id, know_id, paper_id, mock_id, getTimeMillis(), countDownTimemillis, optionsAnswerList);
                     break;
-                case Constant.PLATE_14://TODO 学习中心交卷
+                case Constant.PLATE_14:
+                    //TODO 学习中心交卷
                     questionBankExercisePresenter.learnCenterSubmitPapers(course_id, user_id, submitStatus, getTimeMillis(), optionsAnswerList, videoName, know_id);
                     break;
-                default://todo 6大板块-交卷
+                default:
+                    //todo 7大板块-交卷
                     questionBankExercisePresenter.submitPapers(course_id, user_id, plate_id, submitStatus, section_id,
                             knob_id, know_id, paper_id, mock_id, getTimeMillis(), countDownTimemillis, optionsAnswerList);
                     break;
             }
-        } else {//TODO 题目未全部作答
+        } else {
+            //TODO 题目未全部作答
             /**
              * 组卷模考模式下直接交卷,不显示交卷弹框
              */
             if (plate_id == Constant.PLATE_6 || continue_plate == Constant.PLATE_6) {
                 if (plate_id == Constant.PLATE_11) {
-                    //6大板块继续做题,需要传递继续做题获取的板块
+                    //6大板块继续做题模块,需要传递继续做题获取的板块
                     questionBankExercisePresenter.submitPapers(course_id, user_id, continue_plate, submitStatus, section_id,
                             knob_id, know_id, paper_id, mock_id, getTimeMillis(), countDownTimemillis, optionsAnswerList);
                 } else {
+                    //组卷模考交卷
                     questionBankExercisePresenter.submitPapers(course_id, user_id, plate_id, submitStatus, section_id,
                             knob_id, know_id, paper_id, mock_id, getTimeMillis(), countDownTimemillis, optionsAnswerList);
                 }
@@ -605,14 +657,13 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                                 questionBankExercisePresenter.errorCenterSubmit(optionsAnswerList, user_id, course_id);
                                 break;
                             case Constant.PLATE_11://todo 答题记录-各大板块-交卷
-                                /*questionBankExercisePresenter.submitPapers(course_id, user_id, continue_plate, submitStatus, section_id,knob_id, know_id, paper_id, mock_id, getTimeMillis(), countDownTimemillis, optionsAnswerList);*/
                                 questionBankExercisePresenter.contimueSubmitPapers(course_id, id, user_id, continue_plate, submitStatus, section_id,
                                         knob_id, know_id, paper_id, mock_id, getTimeMillis(), countDownTimemillis, optionsAnswerList);
                                 break;
                             case Constant.PLATE_14://TODO 学习中心交卷
                                 questionBankExercisePresenter.learnCenterSubmitPapers(course_id, user_id, submitStatus, getTimeMillis(), optionsAnswerList, videoName, know_id);
                                 break;
-                            default://todo 6大板块交卷
+                            default://todo 7大板块交卷
                                 questionBankExercisePresenter.submitPapers(course_id, user_id, plate_id, submitStatus, section_id,
                                         knob_id, know_id, paper_id, mock_id, getTimeMillis(), countDownTimemillis, optionsAnswerList);
                                 break;
@@ -1155,7 +1206,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     private void setAnalyesStyle() {
         if (TextUtils.equals(EXERCISE_TYPE, Constant.EXERCISE_A)) {
             //TODO 解析模式
-            if (plate_id == Constant.PLATE_7 || plate_id == Constant.PLATE_0 ||
+            if (plate_id == Constant.PLATE_17 || plate_id == Constant.PLATE_0 ||
                     plate_id == Constant.PLATE_13 || plate_id == Constant.PLATE_16) {
                 //错题中心查看错题,0元体验,查看收藏,试题详情直接隐藏底部功能区
                 linearBottomFunction.setVisibility(btnQuery.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);

@@ -332,6 +332,7 @@ public class SettingActivity extends BaseActivity {
         sharedPreferencesUtils.remove(Constant.USER_ID);
         sharedPreferencesUtils.remove(Constant.LOGIN_STATUS);
         sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
+        sharedPreferencesUtils.remove(Constant.SUBJECT_STATUS);
 
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

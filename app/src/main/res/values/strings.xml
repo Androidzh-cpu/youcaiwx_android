@@ -355,10 +355,12 @@
     <string name="question_title_Knowledge_exercise">知识点练习</string>
     <string name="question_title_stage_test">阶段测试</string>
     <string name="question_title_elaboration_test">论述题自测</string>
-    <string name="question_title_question_hight_errors">系统高频错题</string>
+    <!--<string name="question_title_question_hight_errors">系统高频错题</string>-->
+    <string name="question_title_question_hight_errors">平台高频错题</string>
     <string name="question_title_question_my_errors">我的错题</string>
     <string name="question_title_writes_really">自助练习</string>
     <string name="question_title_group_exam">组卷模考</string>
+    <string name="question_title_training_camp">冲刺训练营</string>
     <string name="question_title_choiceKnowledge">选择知识点</string>
     <string name="question_title_errorAnalysis">错题解析</string>
     <string name="question_title_allAnalysis">全部解析</string>
@@ -378,13 +380,20 @@
     <string name="question_tips_unloginhome3">每天坚持一点，每日进步一点</string>
     <string name="question_tips_unloginhome4">购买课程后相应题库会自动打开</string>
     <string name="question_tips_unloginhomeatonceExp">马上体验</string>
-    <string name="question_tips_Knowledge_exercise2">针对章节，详细考点</string>
-    <string name="question_tips_stage_test2">以章节维度阶段测试</string>
-    <string name="question_tips_elaboration_test2">精准答案对比</string>
-    <string name="question_tips_question_hight_errors2">高频历史错题</string>
+    <!--<string name="question_tips_Knowledge_exercise2">针对章节，详细考点</string>-->
+    <string name="question_tips_Knowledge_exercise2">小节知识点训练</string>
+    <!--<string name="question_tips_stage_test2">以章节维度阶段测试</string>-->
+    <string name="question_tips_stage_test2">章节重点知识测试</string>
+    <!--<string name="question_tips_elaboration_test2">精准答案对比</string>-->
+    <string name="question_tips_elaboration_test2">论述题综合训练</string>
+    <!--<string name="question_tips_question_hight_errors2">高频历史错题</string>-->
+    <string name="question_tips_question_hight_errors2">全网高频错题收集</string>
     <string name="question_tips_question_hight_errors3">去做题</string>
-    <string name="question_tips_group_exam2">适用于考前冲刺</string>
-    <string name="question_tips_writes_really2">学习知识点自定义</string>
+    <!--<string name="question_tips_group_exam2">适用于考前冲刺</string>-->
+    <string name="question_tips_group_exam2">经典试卷随机抽取</string>
+    <!--<string name="question_tips_writes_really2">学习知识点自定义</string>-->
+    <string name="question_tips_writes_really2">薄弱知识点练习</string>
+    <string name="question_title_training_camp_tips">考前系统冲刺训练</string>
     <string name="question_tips_errorCount">道错题</string>
     <string name="question_tips_makequestion">去做题</string>
     <string name="question_tips_Count">道题</string>
@@ -407,6 +416,7 @@
     <string name="question_tips_unfinished">您还有题未做完，确定交卷嘛？</string>
     <string name="question_tips_savepager">是否保存本次练习进度并退出？</string>
     <string name="question_examtips">您已进入模拟考试模式，中途离开请退出保存当前进度，恢复请从“答题记录”点击“继续做题”完成测试。</string>
+    <string name="question_cannotexam">当前试卷不可用</string>
     <string name="question_tips_whetherSavePager">是否交卷？</string>
     <string name="question_tips_Itstimeto">时间到！</string>
     <string name="question_tips_submitting">交卷中</string>
@@ -417,7 +427,7 @@
     <string name="question_tips_collection0">已取消收藏</string>
     <string name="question_tips_hasSaved">试卷已保存</string>
     <string name="question_tips_make15">先做15道</string>
-    <string name="question_tips_make30">先做30道</string>
+    <string name="question_tips_make30">顺序做题</string>
     <!-- Strings related to 题库做题页提示文案 end-->
 
 
@@ -690,6 +700,7 @@
     <string name="miss_params">参数错误</string>
     <string name="miss_request">请求失败</string>
     <string name="cancel">取消</string>
+    <string name="nottips">不再提示</string>
     <string name="confirm">确定</string>
     <string name="explication">提示</string>
     <string name="donner">授予</string>

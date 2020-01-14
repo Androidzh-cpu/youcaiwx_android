@@ -317,6 +317,7 @@ public class UcfoApplication extends Application {
                             sharedPreferencesUtils.remove(Constant.USER_ID);
                             sharedPreferencesUtils.remove(Constant.LOGIN_STATUS);
                             sharedPreferencesUtils.remove(Constant.SUBJECT_ID);
+                            sharedPreferencesUtils.remove(Constant.SUBJECT_STATUS);
 
                             Intent intent = new Intent();
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

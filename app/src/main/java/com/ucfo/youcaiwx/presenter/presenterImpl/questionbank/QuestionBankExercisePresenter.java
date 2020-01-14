@@ -110,6 +110,68 @@ public class QuestionBankExercisePresenter implements IQuestionBankExercisePrese
     }
 
     /**
+     * 冲刺训练营获取试题
+     *
+     * @param course_id
+     * @param user_id
+     * @param plate_id
+     * @param paper_type
+     * @param paper_id
+     */
+    @Override
+    public void getTrainingCamp(int course_id, int user_id, int plate_id, int paper_type, int paper_id) {
+        OkGo.<String>post(ApiStores.QUESTION_GETPROBLEMSLIS)
+                .tag(this)
+                .params(Constant.COURSE_ID, course_id)
+                .params(Constant.PLATE_ID, plate_id)
+                .params(Constant.PAPER_TYPE, paper_type)
+                .params(Constant.PAPER_ID, paper_id)
+                .params(Constant.USER_ID, user_id)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        view.showLoading();
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        view.showError();
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        view.showLoadingFinish();
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        String body = response.body();
+                        if (!body.equals("")) {
+                            JSONObject jsonObject = null;
+                            try {
+                                jsonObject = new JSONObject(body);
+                                int code = jsonObject.optInt(Constant.CODE);
+                                if (code == 200) {
+                                    DoProblemsBean doProblemsBean = new Gson().fromJson(body, DoProblemsBean.class);
+                                    view.getProblemsList(doProblemsBean);
+                                } else {
+                                    view.getProblemsList(null);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            view.getProblemsList(null);
+                        }
+                    }
+                });
+
+    }
+
+    /**
      * Description:QuestionBankExercisePresenter
      * Time:2019-5-22 上午 10:12
      * Detail:TODO 阶段测试获取题目
@@ -164,7 +226,6 @@ public class QuestionBankExercisePresenter implements IQuestionBankExercisePrese
                         }
                     }
                 });
-
     }
 
     /**
