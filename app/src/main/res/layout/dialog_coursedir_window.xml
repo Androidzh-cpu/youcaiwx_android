@@ -16,36 +16,40 @@
         app:rv_cornerRadius_TL="@dimen/dp_8"
         app:rv_cornerRadius_TR="@dimen/dp_8">
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/dp_69"
+            android:layout_height="@dimen/dp_70"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingEnd="@dimen/dp_12"
             android:paddingStart="@dimen/dp_12">
 
-            <TextView
-                android:id="@+id/course_name"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:drawablePadding="@dimen/dp_10"
-                android:gravity="center"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/sp_14"
-                app:layout_constraintBottom_toTopOf="@id/course_teacher_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="CMA中文Part-1高清网课" />
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/course_teacher_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/color_999999"
-                android:textSize="@dimen/sp_13"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/course_name"
-                tools:text="讲师：王谦" />
+                <TextView
+                    android:id="@+id/course_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:drawablePadding="@dimen/dp_10"
+                    android:gravity="center"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_14"
+                    tools:text="CMA中文Part-1高清网课" />
+
+                <TextView
+                    android:id="@+id/course_teacher_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/color_999999"
+                    android:textSize="@dimen/sp_13"
+                    tools:text="讲师：王谦" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/course_down_btn"
@@ -58,21 +62,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
+            android:layout_height="@dimen/dp_0_5"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:layout_marginStart="@dimen/dp_12"
             android:background="@color/color_E6E6E6" />
 
         <ExpandableListView
             android:id="@+id/course_dirlist"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@android:color/white"
-            android:divider="@color/color_E6E6E6"
-            android:dividerHeight="@dimen/dp_0_5"
+            android:divider="@android:color/transparent"
             android:gravity="center"
             android:groupIndicator="@null"
             android:overScrollMode="never"
@@ -82,24 +87,24 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
-            android:background="@color/color_F5F5F5" />
+            android:layout_height="@dimen/dp_0_5"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:layout_marginStart="@dimen/dp_12"
+            android:background="@color/color_E6E6E6" />
 
         <com.flyco.roundview.RoundTextView
             android:id="@+id/course_closebtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dp_44"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
-            android:paddingBottom="@dimen/dp_10"
-            android:paddingEnd="@dimen/dp_10"
-            android:paddingStart="@dimen/dp_10"
-            android:paddingTop="@dimen/dp_10"
             android:text="@string/put_away"
             android:textColor="@color/color_0267FF"
             android:textSize="@dimen/sp_14"
             app:rv_backgroundColor="@android:color/white"
-            app:rv_cornerRadius_BL="@dimen/dp_5"
-            app:rv_cornerRadius_BR="@dimen/dp_5" />
+            app:rv_backgroundPressColor="@color/color_button_material_light"
+            tools:ignore="PrivateResource" />
 
     </com.flyco.roundview.RoundLinearLayout>
 </LinearLayout>

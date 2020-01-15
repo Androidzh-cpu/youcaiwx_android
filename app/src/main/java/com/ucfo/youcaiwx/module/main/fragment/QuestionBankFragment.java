@@ -594,12 +594,14 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
     public void showLoading() {
         if (isShowLoading) {
             setProcessLoading(null, true);
+            //loadinglayout.showLoading();
         }
     }
 
     @Override
     public void showLoadingFinish() {
-        dismissPorcess();
+        //dismissPorcess();
+        dismissPorcessDelayed(500);
     }
 
     @Override

@@ -28,8 +28,8 @@
     <!-- Strings related to 首页 end-->
 
     <!-- Strings related to 活动 start-->
-    <string name="event_countNum">报名人数:\u3000%s人</string>
-    <string name="event_point">CPE积分:\u3000%s分</string>
+    <string name="event_countNum">报名人数:\u0020\u0020%s人</string>
+    <string name="event_point">CPE积分:\u0020\u0020%s分</string>
     <string name="event_havedJoin">已报名%s人</string>
     <string name="event_timeLimit">/限%s人报名</string>
     <string name="event_btn_join">我要报名</string>

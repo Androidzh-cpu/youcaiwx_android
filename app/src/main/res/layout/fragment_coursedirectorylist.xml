@@ -6,13 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/color_F5F5F5">
 
-
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srlEnableLoadMore="false"
         app:srlAccentColor="@android:color/black"
+        app:srlEnableLoadMore="false"
         app:srlPrimaryColor="@color/color_F5F5F5">
 
         <com.ucfo.youcaiwx.widget.customview.LoadingLayout

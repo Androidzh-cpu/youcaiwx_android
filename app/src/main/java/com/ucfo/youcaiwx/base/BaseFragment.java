@@ -16,6 +16,9 @@ import android.view.ViewGroup;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.NetLoadingProgress;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Author:AND
  * Time: 2019/1/7.  19:12
@@ -30,6 +33,8 @@ public abstract class BaseFragment extends Fragment {
     //private Unbinder unbinder;
     private NetLoadingProgress netLoadingProgress;
     private long lastClick = 0;
+    private Timer mTimer;
+    private TimerTask mTimerTask;
 
    /* @Override
     public void onAttach(Activity activity) {
@@ -110,6 +115,18 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         dismissPorcess();
+        cancelTimer();
+    }
+
+    private void cancelTimer() {
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+        }
+        if (mTimerTask != null) {
+            mTimerTask.cancel();
+            mTimerTask = null;
+        }
     }
 
     @Override
@@ -219,10 +236,12 @@ public abstract class BaseFragment extends Fragment {
      * 公共base类中弹出进度条
      */
     public void setProcessLoading(String text, boolean showText) {
-        if (context != null) {
-            NetLoadingProgress.Builder builder = new NetLoadingProgress.Builder(context).setMessage(text).setShowMessage(showText);
-            netLoadingProgress = builder.create();
-            netLoadingProgress.show();
+        if (isAdded()) {
+            if (context != null) {
+                NetLoadingProgress.Builder builder = new NetLoadingProgress.Builder(context).setMessage(text).setShowMessage(showText);
+                netLoadingProgress = builder.create();
+                netLoadingProgress.show();
+            }
         }
     }
 
@@ -230,9 +249,21 @@ public abstract class BaseFragment extends Fragment {
      * 关闭显示中的进度条
      */
     public void dismissPorcess() {
-        if (netLoadingProgress != null && netLoadingProgress.isShowing()) {
-            netLoadingProgress.dismiss();
+        if (isAdded()) {
+            if (netLoadingProgress != null && netLoadingProgress.isShowing()) {
+                netLoadingProgress.dismiss();
+            }
         }
+    }
+
+    public void dismissPorcessDelayed(int delay) {
+        mTimerTask = new TimerTask() {
+            public void run() {
+                dismissPorcess();
+            }
+        };
+        mTimer = new Timer();
+        mTimer.schedule(mTimerTask, delay);
     }
 
     public boolean fastClick(int time) {

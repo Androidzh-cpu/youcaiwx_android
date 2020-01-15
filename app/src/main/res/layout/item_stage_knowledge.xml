@@ -25,11 +25,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_2"
-        android:textColor="@android:color/transparent"
         android:textSize="@dimen/sp_12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/item_stage_knowledge_Title"
-        tools:text="难度：困难" />
+        tools:text="难度: 困难" />
 
 
     <com.flyco.roundview.RoundTextView

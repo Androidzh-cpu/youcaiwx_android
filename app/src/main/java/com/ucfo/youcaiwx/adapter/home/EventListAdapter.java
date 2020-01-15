@@ -81,7 +81,7 @@ public class EventListAdapter extends BaseAdapter<EventListBean.DataBean, EventL
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         GlideUtils.load(context, appImg, holder.mImageview, requestOptions);
 
-        holder.mTimeItem.setText(String.valueOf(startTime + "-" + endTime));
+        holder.mTimeItem.setText(String.valueOf(startTime + "\u0020-\u0020" + endTime));
     }
 
     @Override

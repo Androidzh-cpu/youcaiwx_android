@@ -172,7 +172,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerview.setLayoutManager(layoutManager);
-        int topBottom = DensityUtil.dp2px(2);
+        int topBottom = DensityUtil.dp2px(1);
         recyclerview.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
     }
 
