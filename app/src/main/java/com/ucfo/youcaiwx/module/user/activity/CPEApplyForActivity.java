@@ -126,9 +126,6 @@ public class CPEApplyForActivity extends BaseActivity implements ICPEApplyForVie
 
         SharedPreferencesUtils sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-        if (Constant.ISTEST_ENVIRONMENT) {
-            user_id = 7;
-        }
 
         cpeApplyForPresenter = new CPEApplyForPresenter(this);
 

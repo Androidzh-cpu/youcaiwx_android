@@ -835,7 +835,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 /**
                  * 加载进度
                  */
-                playerTipsview.setText(String.valueOf(getResources().getString(R.string.course_videoLoading) + i + "%"));
+                playerTipsview.setText(String.format("%s%s%%", getResources().getString(R.string.course_videoLoading), String.valueOf(i)));
             }
         });
         //TODO 播放器播放准备监听
@@ -1304,10 +1304,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
         if (isEducation()) {
             //后续教育的傻×
-            if (courseDirectoryListFragment.isAdded()) {
-                if (courseDirectoryListFragment != null && courseDirectoryListFragment.courseDirectoryWindowISShow()) {
-                    courseDirectoryListFragment.dismissCourseDirectoryWindow();
-                    return;
+            if (courseDirectoryListFragment != null) {
+                if (courseDirectoryListFragment.isAdded()) {
+                    if (courseDirectoryListFragment.courseDirectoryWindowISShow()) {
+                        courseDirectoryListFragment.dismissCourseDirectoryWindow();
+                        return;
+                    }
                 }
             }
             educationBackOperation();
@@ -1658,7 +1660,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private void signinEducation() {
         //后续教育
         if (isEducation()) {
-            //未签到(劳资只认二,二,你懂了吗)
+            //未签到(劳资只认二,二,二,你懂了吗)
             if (signinStatus == 2) {
                 //该视频为签到过
                 if (!signinFlag) {

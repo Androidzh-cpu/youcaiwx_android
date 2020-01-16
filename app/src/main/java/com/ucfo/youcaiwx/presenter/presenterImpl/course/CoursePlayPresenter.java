@@ -128,9 +128,6 @@ public class CoursePlayPresenter {
 
     /**
      * 重载获取视频凭证
-     *
-     * @param vid
-     * @param video_id
      */
     public void getVideoPlayAuthor(String vid, int video_id) {
         OkGo.<String>post(ApiStores.EDUCATION_COURSE_GETVIDEO_CREDENTIALS)
@@ -169,9 +166,6 @@ public class CoursePlayPresenter {
                 });
     }
 
-    /**
-     * 所谓的专业网校的服务器要是能升级一下,还会弄出这骚操作吗,真特莫服了
-     */
     public void sendFirstSocket(CourseSocketBean bean) {
         if (bean == null) {
             return;
@@ -194,9 +188,6 @@ public class CoursePlayPresenter {
                 });
     }
 
-    /**
-     * 所谓的专业网校的服务器要是能升级一下,还会弄出这骚操作吗,真特莫服了
-     */
     public void sendFirstSocketByEducation(CourseSocketBean bean) {
         if (bean == null) {
             return;

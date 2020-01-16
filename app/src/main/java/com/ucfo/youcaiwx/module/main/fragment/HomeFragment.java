@@ -81,7 +81,7 @@ import java.util.Objects;
  * Description:TODO 主页- 首页
  */
 public class HomeFragment extends BaseFragment implements OnBannerListener, IHomeView, View.OnClickListener {
-    public static final String TAG = "Homefragment";
+    public static final String TAG = "HomeFragment";
 
     private TextView titlebarTitle;
     private ImageView titlebarScan;
@@ -251,7 +251,8 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
 
             Bundle bundle = new Bundle();
             switch (view.getId()) {
-                case R.id.titlebar_scan://TODO 二维码
+                case R.id.titlebar_scan:
+                    //TODO 二维码
                     if (loginStatus) {
                         SoulPermission.getInstance()
                                 .checkAndRequestPermission(Manifest.permission.CAMERA, new CheckRequestPermissionListener() {
