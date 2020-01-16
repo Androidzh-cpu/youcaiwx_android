@@ -2,7 +2,6 @@ package com.ucfo.youcaiwx.module.questionbank.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,10 +21,7 @@ import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.questionbank.QuestionOnRecordBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.questionbank.QuestionBankRecordPresenter;
 import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionOnRecordView;
-import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
-import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 
 import java.util.ArrayList;
@@ -53,9 +49,7 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
     @BindView(R.id.refreshlayout)
     SmartRefreshLayout refreshlayout;
     private QuestionBankRecordPresenter questionBankRecordPresenter;
-    private QuestionsOnRecordActivity context;
     private SharedPreferencesUtils sharedPreferencesUtils;
-    private boolean login_status;
     private int user_id, course_id;
     private List<QuestionOnRecordBean.DataBean> list;
     private QuestionOnRecordAdapter questionOnRecordAdapter;
@@ -65,7 +59,9 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
     @Override
     protected void onResume() {
         super.onResume();
-        questionBankRecordPresenter.getQestionBankRecordData(user_id, course_id, pageIndex);
+        if (questionBankRecordPresenter != null) {
+            questionBankRecordPresenter.getQestionBankRecordData(user_id, course_id, pageIndex);
+        }
     }
 
     @Override
@@ -90,17 +86,8 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
 
-        context = this;
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
-        login_status = sharedPreferencesUtils.getBoolean(Constant.LOGIN_STATUS, false);
-        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        layoutManager.setReverseLayout(false);
-        int topBottom = DensityUtil.dip2px(context, 1);
-        int leftRight = DensityUtil.dp2px(12);
-        recyclerview.addItemDecoration(new SpacesItemDecoration(leftRight, topBottom, ContextCompat.getColor(context, R.color.color_E6E6E6)));
         recyclerview.setLayoutManager(layoutManager);
         recyclerview.setNestedScrollingEnabled(false);
     }
@@ -108,7 +95,11 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
     @Override
     protected void initData() {
         super.initData();
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
+        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+
         list = new ArrayList<>();
+        questionBankRecordPresenter = new QuestionBankRecordPresenter(this);
         bundle = getIntent().getExtras();
         if (bundle != null) {
             course_id = bundle.getInt(Constant.COURSE_ID, 0);
@@ -117,25 +108,14 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
                 loadinglayout.showEmpty();
             }
         }
-        //注册网络
-        questionBankRecordPresenter = new QuestionBankRecordPresenter(this);
-        if (!login_status) {
-            if (loadinglayout != null) {
-                loadinglayout.showEmpty();
-            }
-        }
-        //设置重新加载事件
+        //重新加载
         loadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 questionBankRecordPresenter.getQestionBankRecordData(user_id, course_id, pageIndex);
             }
         });
-        refreshlayout.setDisableContentWhenRefresh(true);//是否在刷新的时候禁止列表的操作
-        refreshlayout.setDisableContentWhenLoading(true);//是否在加载的时候禁止列表的操作
-        refreshlayout.setEnableAutoLoadMore(false);//是否启用列表惯性滑动到底部时自动加载更多
-        refreshlayout.setEnableNestedScroll(true);//是否启用嵌套滚动
-        refreshlayout.setEnableOverScrollBounce(true);//是否启用越界回弹
+        //刷新加载事件
         refreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
@@ -200,7 +180,7 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
                         if (questionOnRecordAdapter != null) {
                             questionOnRecordAdapter.notifyDataSetChanged();
                         }
-                        ToastUtil.showBottomShortText(context, getResources().getString(R.string.noMoreData));
+                        showToast(getResources().getString(R.string.noMoreData));
                     } else {
                         if (loadinglayout != null) {
                             loadinglayout.showEmpty();
@@ -242,15 +222,16 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
                             bundle.putInt(Constant.COURSE_ID, course_id);
                             startActivity(ResultsStatisticalActivity.class, bundle);
                             break;
-                        case 2://TODO 2继续做题
-                            String paper_type = bean.getPaper_type();//1练习模式,2考试模式
-                            if (TextUtils.equals(paper_type, String.valueOf(1))) {
+                        case 2:
+                            //TODO 2继续做题
+                            String paperType = bean.getPaper_type();//1练习模式,2考试模式
+                            if (TextUtils.equals(paperType, String.valueOf(1))) {
                                 bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_P);//练习模式
                             } else {
                                 bundle.putString(Constant.EXERCISE_TYPE, Constant.EXERCISE_E);//考试模式
                             }
                             if (TextUtils.isEmpty(bean.getPaper_id())) {
-                                ToastUtil.showBottomShortText(context, getResources().getString(R.string.data_error));
+                                showToast(getResources().getString(R.string.data_error));
                                 return;
                             }
                             bundle.putInt(Constant.PLATE_ID, Constant.PLATE_11);
@@ -281,12 +262,10 @@ public class QuestionsOnRecordActivity extends BaseActivity implements IQuestion
 
     @Override
     public void showLoading() {
-        setProcessLoading(null, true);
     }
 
     @Override
     public void showLoadingFinish() {
-        dismissPorcess();
     }
 
     @Override

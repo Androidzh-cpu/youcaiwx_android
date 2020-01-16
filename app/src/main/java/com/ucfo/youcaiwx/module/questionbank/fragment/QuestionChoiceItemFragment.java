@@ -167,15 +167,15 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(getContext());
         intent = new Intent(Constant.BroadcastReceiver_TONEXT);
 
-        FragmentActivity fragmentActivity = getActivity();
-        if (fragmentActivity instanceof TESTMODEActivity) {
-            testmodeActivity = (TESTMODEActivity) fragmentActivity;
-        }
         if (questionChoiceListener != null) {
             questionList = questionChoiceListener.choiceGetQuestionList();
             optionsAnswerList = questionChoiceListener.choiceGetOptionsAnswerList();
         } else {
-            if (testmodeActivity != null) {
+            if (getActivity() != null) {
+                FragmentActivity fragmentActivity = getActivity();
+                if (fragmentActivity instanceof TESTMODEActivity) {
+                    testmodeActivity = (TESTMODEActivity) fragmentActivity;
+                }
                 questionList = testmodeActivity.getQuestionList();
                 optionsAnswerList = testmodeActivity.getOptionsAnswerList();
             }
@@ -199,7 +199,8 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         transferee = Transferee.getDefault(getContext());
 
         //索引值和全部页面数量
-        mCurrentIndexQuestion.setText(String.valueOf(index + 1));
+        int currentIndex = index + 1;
+        mCurrentIndexQuestion.setText(String.valueOf(currentIndex));
         mCountIndexQuestion.setText(String.valueOf(allIndex));
 
         //TODO 设置题干
@@ -263,7 +264,6 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
                     //TODO 用户未作答
                     mAnalysisAreaQuestion.setVisibility(View.GONE);
                 }
-
             }
 
             //设置点击事件

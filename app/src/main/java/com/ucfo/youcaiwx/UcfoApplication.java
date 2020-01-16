@@ -105,6 +105,13 @@ public class UcfoApplication extends Application {
         SmartRefreshLayout.setDefaultRefreshInitializer(new DefaultRefreshInitializer() {
             @Override
             public void initialize(@NonNull Context mContext, @NonNull RefreshLayout layout) {
+/*
+                refreshlayout.setDisableContentWhenRefresh(true);//是否在刷新的时候禁止列表的操作
+                refreshlayout.setDisableContentWhenLoading(true);//是否在加载的时候禁止列表的操作
+                refreshlayout.setEnableAutoLoadMore(false);//是否启用列表惯性滑动到底部时自动加载更多
+                refreshlayout.setEnableNestedScroll(true);//是否启用嵌套滚动
+                refreshlayout.setEnableOverScrollBounce(true);//是否启用越界回弹
+*/
                 layout.setDisableContentWhenRefresh(true);
                 layout.setDisableContentWhenLoading(true);
                 layout.setEnableAutoLoadMore(false);

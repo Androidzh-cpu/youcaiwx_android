@@ -447,7 +447,9 @@ public class AesCbcWithIntegrity {
             result = prime * result + confidentialityKey.hashCode();
             result = prime * result + integrityKey.hashCode();
             return result;
-        }        public SecretKey getConfidentialityKey() {
+        }
+
+        public SecretKey getConfidentialityKey() {
             return confidentialityKey;
         }
 
@@ -475,20 +477,24 @@ public class AesCbcWithIntegrity {
         }
 
 
-
         @Override
         public boolean equals(Object obj) {
-            if (this == obj)
+            if (this == obj) {
                 return true;
-            if (obj == null)
+            }
+            if (obj == null) {
                 return false;
-            if (getClass() != obj.getClass())
+            }
+            if (getClass() != obj.getClass()) {
                 return false;
+            }
             SecretKeys other = (SecretKeys) obj;
-            if (!integrityKey.equals(other.integrityKey))
+            if (!integrityKey.equals(other.integrityKey)) {
                 return false;
-            if (!confidentialityKey.equals(other.confidentialityKey))
+            }
+            if (!confidentialityKey.equals(other.confidentialityKey)) {
                 return false;
+            }
             return true;
         }
     }
@@ -589,19 +595,25 @@ public class AesCbcWithIntegrity {
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj)
+            if (this == obj) {
                 return true;
-            if (obj == null)
+            }
+            if (obj == null) {
                 return false;
-            if (getClass() != obj.getClass())
+            }
+            if (getClass() != obj.getClass()) {
                 return false;
+            }
             CipherTextIvMac other = (CipherTextIvMac) obj;
-            if (!Arrays.equals(cipherText, other.cipherText))
+            if (!Arrays.equals(cipherText, other.cipherText)) {
                 return false;
-            if (!Arrays.equals(iv, other.iv))
+            }
+            if (!Arrays.equals(iv, other.iv)) {
                 return false;
-            if (!Arrays.equals(mac, other.mac))
+            }
+            if (!Arrays.equals(mac, other.mac)) {
                 return false;
+            }
             return true;
         }
     }

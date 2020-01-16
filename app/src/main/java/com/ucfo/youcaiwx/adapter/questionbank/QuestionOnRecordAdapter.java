@@ -42,15 +42,15 @@ public class QuestionOnRecordAdapter extends BaseAdapter<QuestionOnRecordBean.Da
     @Override
     protected void onBindDataViewHolder(ViewHolder holder, int position) {
         QuestionOnRecordBean.DataBean dataBean = list.get(position);
-        String create_times = dataBean.getCreate_times();//创建时间
+        String createTimes = dataBean.getCreate_times();//创建时间
         String state = dataBean.getState();//答题记录操作状态
-        String paper_name = dataBean.getPaper_name();//名称
+        String paperName = dataBean.getPaper_name();//名称
 
-        if (!TextUtils.isEmpty(create_times)) {
-            holder.mQuestionrecordTimeItem.setText(create_times);
+        if (!TextUtils.isEmpty(createTimes)) {
+            holder.mQuestionrecordTimeItem.setText(createTimes);
         }
-        if (!TextUtils.isEmpty(paper_name)) {
-            holder.mQuestionrecordTitleItem.setText(paper_name);
+        if (!TextUtils.isEmpty(paperName)) {
+            holder.mQuestionrecordTitleItem.setText(paperName);
         }
         if (!TextUtils.isEmpty(state)) {
             int parseInt = Integer.parseInt(state);
@@ -99,7 +99,7 @@ public class QuestionOnRecordAdapter extends BaseAdapter<QuestionOnRecordBean.Da
     }
 
     public interface OnItemClickListener {
-        public void onItemClick(View view, int position);
+        void onItemClick(View view, int position);
     }
 
     //定义一个公共方法,当外部类调用时可以通过此方法点击item

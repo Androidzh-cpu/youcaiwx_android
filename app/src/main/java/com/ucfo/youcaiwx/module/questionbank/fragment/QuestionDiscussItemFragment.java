@@ -5,8 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -60,7 +58,6 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
     private ArrayList<DoProblemsBean.DataBean.TopicsBean> questionList;
     private ArrayList<DoProblemsAnswerBean> optionsAnswerList;
     private Transferee transferee;
-    private NestedScrollView nestedScrollView;
     private String userInputString;
     private boolean discuss_analysis;
     private ImageView mCollectionBtn;
@@ -101,10 +98,10 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
     public QuestionDiscussItemFragment() {
     }
 
-    public QuestionDiscussItemFragment(int index, String type, int allIndex, int plate_id) {
+    public QuestionDiscussItemFragment(int index, String type, int allIndex, int plateId) {
         this.index = index;
         this.allIndex = allIndex;
-        this.plateId = plate_id;
+        this.plateId = plateId;
         this.EXERCISE_TYPE = type;//传递的type来识别，此处接口只是选择题模型，A是考试模式，B是练习模式 D解析模式
     }
 
@@ -115,7 +112,6 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
 
     @Override
     protected void initView(View itemView) {
-        nestedScrollView = (NestedScrollView) itemView.findViewById(R.id.nestedscrollview);
         mCurrentIndexQuestion = (TextView) itemView.findViewById(R.id.question_current_index);
         mCountIndexQuestion = (TextView) itemView.findViewById(R.id.question_count_index);
 
@@ -153,16 +149,16 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
         mCurrentIndexQuestion.setText(String.valueOf(index + 1));
         mCountIndexQuestion.setText(String.valueOf(allIndex));
 
-        FragmentActivity fragmentActivity = getActivity();
-        if (fragmentActivity instanceof TESTMODEActivity) {
-            testmodeActivity = (TESTMODEActivity) fragmentActivity;
-        }
         if (questionDisscussListener != null) {
             questionList = questionDisscussListener.disscussGetQuestionList();
             optionsAnswerList = questionDisscussListener.disscussGetOptionsAnswerList();
             discuss_analysis = questionDisscussListener.disscussGetDiscussAnalysis();
         } else {
-            if (testmodeActivity != null) {
+            if (getActivity() != null) {
+                FragmentActivity fragmentActivity = getActivity();
+                if (fragmentActivity instanceof TESTMODEActivity) {
+                    testmodeActivity = (TESTMODEActivity) fragmentActivity;
+                }
                 questionList = testmodeActivity.getQuestionList();
                 optionsAnswerList = testmodeActivity.getOptionsAnswerList();
                 discuss_analysis = testmodeActivity.getDiscussAnalysis();
@@ -280,7 +276,6 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
                 .setErrorPlaceHolder(R.mipmap.icon_default)
                 .setProgressIndicator(new ProgressPieIndicator())
                 .setIndexIndicator(new NumberIndexIndicator())
-                .setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite))
                 .setJustLoadHitImage(true)
                 .bindImageView(mAnalysisImageQuestion, analysisPic);
         mAnalysisImageQuestion.setOnClickListener(new View.OnClickListener() {
@@ -314,7 +309,6 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
                 .setErrorPlaceHolder(R.mipmap.icon_default)
                 .setProgressIndicator(new ProgressPieIndicator())
                 .setIndexIndicator(new NumberIndexIndicator())
-                .setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite))
                 .setJustLoadHitImage(true)
                 .bindImageView(mAnalysisImage2Question, analysisPic2);
         mAnalysisImage2Question.setOnClickListener(new View.OnClickListener() {
@@ -396,7 +390,6 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
                 .setErrorPlaceHolder(R.mipmap.icon_default)
                 .setProgressIndicator(new ProgressPieIndicator())
                 .setIndexIndicator(new NumberIndexIndicator())
-                .setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite))
                 .setJustLoadHitImage(true)
                 .bindImageView(mImage1Question, topicImage1);
         mImage1Question.setOnClickListener(new View.OnClickListener() {
@@ -432,7 +425,6 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
                 .setErrorPlaceHolder(R.mipmap.icon_default)
                 .setProgressIndicator(new ProgressPieIndicator())
                 .setIndexIndicator(new NumberIndexIndicator())
-                .setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite))
                 .setJustLoadHitImage(true)
                 .bindImageView(mImage2Question, topicImage2);
         mImage2Question.setOnClickListener(new View.OnClickListener() {

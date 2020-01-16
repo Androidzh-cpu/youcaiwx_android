@@ -29,12 +29,15 @@ public class QuestionStageTestAdapter extends BaseAdapter<QuestionStageOfTestBea
     private Context context;
     private ArrayList<QuestionStageOfTestBean.DataBean> list;
     private OnItemClickListener onItemClickListener;
-    private int plate_id;
+    private int plateId;
+    private static final String A = "A";
+    private static final String B = "B";
+    private static final String C = "C";
 
-    public QuestionStageTestAdapter(Context context, ArrayList<QuestionStageOfTestBean.DataBean> list, int plate_id) {
+    public QuestionStageTestAdapter(Context context, ArrayList<QuestionStageOfTestBean.DataBean> list, int plateId) {
         this.context = context;
         this.list = list;
-        this.plate_id = plate_id;
+        this.plateId = plateId;
     }
 
     public void notifyChange(ArrayList<QuestionStageOfTestBean.DataBean> dataBeanList) {
@@ -59,7 +62,7 @@ public class QuestionStageTestAdapter extends BaseAdapter<QuestionStageOfTestBea
         String paperName = bean.getPaper_name();
         String difficulty = bean.getDifficulty();
 
-        if (plate_id == Constant.PLATE_2 || plate_id == Constant.PLATE_3 || plate_id == Constant.PLATE_7) {
+        if (plateId == Constant.PLATE_2 || plateId == Constant.PLATE_3 || plateId == Constant.PLATE_7) {
             if (!TextUtils.isEmpty(paperName)) {
                 holder.mStageKnowledgeTitleItem.setText(paperName);
             } else {
@@ -74,18 +77,20 @@ public class QuestionStageTestAdapter extends BaseAdapter<QuestionStageOfTestBea
         }
 
 
-        if (!TextUtils.isEmpty(difficulty)) {//TODO 难易度A级,B级,C级
+        if (!TextUtils.isEmpty(difficulty)) {
+            //TODO 难易度A级,B级,C级
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(context.getResources().getString(R.string.holder_difficulty));
-            if (difficulty.equals("C")) {
+            String toUpperCase = difficulty.toUpperCase();
+            if (TextUtils.equals(toUpperCase, C)) {
                 stringBuilder.append(context.getResources().getString(R.string.difficulty));
                 holder.mStageKnowledgeSubtitleItem.setText(stringBuilder.toString());
                 holder.mStageKnowledgeSubtitleItem.setTextColor(ContextCompat.getColor(context, R.color.color_E84342));
-            } else if (difficulty.equals("B")) {
+            } else if (TextUtils.equals(toUpperCase, B)) {
                 stringBuilder.append(context.getResources().getString(R.string.medium));
                 holder.mStageKnowledgeSubtitleItem.setText(stringBuilder.toString());
                 holder.mStageKnowledgeSubtitleItem.setTextColor(ContextCompat.getColor(context, R.color.color_F99111));
-            } else if (difficulty.equals("A")) {
+            } else if (TextUtils.equals(toUpperCase, A)) {
                 stringBuilder.append(context.getResources().getString(R.string.easy));
                 holder.mStageKnowledgeSubtitleItem.setText(stringBuilder.toString());
                 holder.mStageKnowledgeSubtitleItem.setTextColor(ContextCompat.getColor(context, R.color.color_0AAB55));

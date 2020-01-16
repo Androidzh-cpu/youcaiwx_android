@@ -219,7 +219,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 .update();
     }
 
-    @SuppressLint("CommitTransaction")
     private void initView() {
         sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
 
@@ -230,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         setTabSelection(indexTab);
 
-        bottomNavigation.setOnNavigationItemSelectedListener(this::onNavigationItemSelected);
+        bottomNavigation.setOnNavigationItemSelectedListener(this);
     }
 
 

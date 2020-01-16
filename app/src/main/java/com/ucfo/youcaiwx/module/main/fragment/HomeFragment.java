@@ -71,7 +71,6 @@ import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Author:AND
@@ -121,7 +120,9 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     public void onStop() {
         super.onStop();
         //结束轮播
-        banner.stopAutoPlay();
+        if (banner != null) {
+            banner.stopAutoPlay();
+        }
     }
 
     @Override
@@ -188,7 +189,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
 
         layoutManager();
 
-        banner.setOnBannerListener(this);
+        initBanner();
         refreshLayout.setEnableLoadMore(false);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -196,7 +197,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                 homePresenter.getHomeData("home");
             }
         });
-        WindowManager wm = (WindowManager) Objects.requireNonNull(getContext()).getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         if (wm != null) {
             wm.getDefaultDisplay().getMetrics(dm);
@@ -237,6 +238,31 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         refreshLayout.setEnableAutoLoadMore(false);
         refreshLayout.setEnableNestedScroll(true);
         refreshLayout.setEnableOverScrollBounce(true);
+    }
+
+    /*
+     *初始化banner
+     */
+    private void initBanner() {
+        banner.setOnBannerListener(this);
+        //设置viewpager的自定义动画
+        banner.setPageTransformer(true, new ZoomOutPageTransformer());
+        banner.setImageLoader(new ImageLoader() {
+            @Override
+            public void displayImage(Context context, Object path, ImageView imageView) {
+                imageView.setPadding(DensityUtil.dip2px(context, 2), 0, DensityUtil.dip2px(context, 2), 0);
+                HomeBean.DataBean.ListpicBean data = (HomeBean.DataBean.ListpicBean) path;
+                RequestOptions requestOptions = new RequestOptions()
+                        .placeholder(R.mipmap.icon_default)
+                        .error(R.mipmap.icon_default)
+                        .transform(new CenterCrop(), new RoundedCorners(DensityUtil.dp2px(5)));
+                GlideUtils.load(context, data.getImage_href(), imageView, requestOptions);
+            }
+        });
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        banner.setIndicatorGravity(Gravity.CENTER_HORIZONTAL);
+        banner.setViewPagerIsScroll(true);
+        banner.setDelayTime(3000);
     }
 
     private long mLastClickTime = 0;
@@ -362,7 +388,7 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                 courseList.addAll(data.getCurriculum());
                 newLists.addAll(data.getInformation());
 
-                bannerConfig(bannerList);//开启banner轮播
+                bannerConfig(bannerList);
                 startFilpper(hotspotBeanList);//开启消息轮训
                 initLiveAdapter(liveList);//直播推荐
                 initCourseAdapter(courseList);//课程推荐
@@ -371,10 +397,12 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
                 checkMoreCourse.setVisibility(View.VISIBLE);
                 checkMoreNews.setVisibility(View.VISIBLE);
 
-                FragmentActivity activity = getActivity();
-                if (activity instanceof MainActivity) {
-                    MainActivity mainActivity = (MainActivity) activity;
-                    mainActivity.initNewGuide();
+                if (getActivity() != null) {
+                    FragmentActivity activity = getActivity();
+                    if (activity instanceof MainActivity) {
+                        MainActivity mainActivity = (MainActivity) activity;
+                        mainActivity.initNewGuide();
+                    }
                 }
             }
         } else {
@@ -396,28 +424,10 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
      */
     private void bannerConfig(List<HomeBean.DataBean.ListpicBean> listpic) {
         if (listpic != null && listpic.size() > 0) {
-            banner.setImages(listpic);//图片地址
-            //设置viewpager的自定义动画
-            banner.setPageTransformer(true, new ZoomOutPageTransformer());
+            banner.setImages(listpic);
             banner.setOffscreenPageLimit(listpic.size());
-            banner.setImageLoader(new ImageLoader() {
-                @Override
-                public void displayImage(Context context, Object path, ImageView imageView) {
-                    imageView.setPadding(DensityUtil.dip2px(context, 2), 0, DensityUtil.dip2px(context, 2), 0);
-                    HomeBean.DataBean.ListpicBean data = (HomeBean.DataBean.ListpicBean) path;
-                    RequestOptions requestOptions = new RequestOptions()
-                            .placeholder(R.mipmap.icon_default)
-                            .error(R.mipmap.image_loaderror)
-                            .transform(new CenterCrop(), new RoundedCorners(DensityUtil.dp2px(5)));
-                    GlideUtils.load(context, data.getImage_href(), imageView, requestOptions);
-                }
-            });
-            banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-            banner.setIndicatorGravity(Gravity.CENTER_HORIZONTAL);
-            banner.setViewPagerIsScroll(true);
-            banner.setDelayTime(3000);
-            banner.start();
         }
+        banner.start();
     }
 
     //开启消息轮训

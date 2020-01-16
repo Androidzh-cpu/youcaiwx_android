@@ -3,7 +3,6 @@ package com.ucfo.youcaiwx.module.questionbank.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,9 +24,7 @@ import com.ucfo.youcaiwx.entity.questionbank.TipsBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.questionbank.QuestionBankStageOfTestPresenter;
 import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankStageView;
 import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
-import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
-import com.ucfo.youcaiwx.utils.systemutils.DensityUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
 
@@ -80,8 +77,6 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        int topBottom = DensityUtil.dip2px(this, 1);
-        recyclerview.addItemDecoration(new SpacesItemDecoration(0, topBottom, ContextCompat.getColor(this, R.color.color_E6E6E6)));
         recyclerview.setItemAnimator(new DefaultItemAnimator());
         recyclerview.setLayoutManager(layoutManager);
     }

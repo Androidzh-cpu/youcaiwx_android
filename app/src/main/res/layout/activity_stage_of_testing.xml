@@ -26,9 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:overScrollMode="never"
-                android:paddingEnd="@dimen/dp_12"
-                android:paddingStart="@dimen/dp_12">
+                android:overScrollMode="never">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerview"

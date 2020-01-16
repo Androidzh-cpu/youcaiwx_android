@@ -3,8 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="@dimen/dp_68">
+    android:layout_height="@dimen/dp_68"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:paddingEnd="@dimen/dp_12"
+    android:paddingStart="@dimen/dp_12">
 
     <TextView
         android:id="@+id/item_stage_knowledge_Title"
@@ -49,5 +52,10 @@
         app:rv_strokeColor="@color/colorPrimary"
         app:rv_strokeWidth="@dimen/dp_1" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/color_E6E6E6"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
