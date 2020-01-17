@@ -37,7 +37,7 @@ import com.ucfo.youcaiwx.entity.questionbank.DoProblemsBean;
 import com.ucfo.youcaiwx.module.questionbank.activity.TESTMODEActivity;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
 import com.ucfo.youcaiwx.widget.customview.NestedListView;
-import com.ucfo.youcaiwx.widget.dialog.AlertDialog;
+import com.ucfo.youcaiwx.widget.dialog.TestModeIconDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +79,8 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         ArrayList<DoProblemsBean.DataBean.TopicsBean> choiceGetQuestionList();
 
         ArrayList<DoProblemsAnswerBean> choiceGetOptionsAnswerList();
+
+        int choiceGetContimuePlateID();
 
         void choiceSetOptionsAnswerList(ArrayList<DoProblemsAnswerBean> optionsAnswerList);
 
@@ -329,8 +331,87 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
     }
 
     /**
-     * 是否交卷(自己做到哪自己不知道吗,还TM提示,题目上的索引是TM干啥的,superSB)
+     * 最后一道题提示交卷(shabisile)
      */
+    private void hintSubmitPaper() {
+        if (questionList != null && questionList.size() > 0) {
+            boolean complete = true;
+            int temporary = questionList.size() - 1;
+            if (index == temporary) {
+                if (optionsAnswerList != null && optionsAnswerList.size() > 0) {
+                    int size = optionsAnswerList.size();
+                    for (int i = 0; i < size; i++) {
+                        String userAnswer = optionsAnswerList.get(i).getUser_answer();
+                        //有一道题答案为空,就标记为未完成状态
+                        if (TextUtils.isEmpty(userAnswer)) {
+                            //显示为未作答状态
+                            complete = false;
+                            break;
+                        }
+                    }
+                }
+                if (complete) {
+                    //已全做,现在是不管什么板块,都等于要给个提示,不给提示的话点最后一道就直接交卷太SB
+                    new TestModeIconDialog(getContext()).builder()
+                            .setIcon(R.mipmap.icon_qb_submit)
+                            .setMsg(getResources().getString(R.string.question_tips_whetherSavePager))
+                            .setCancelable(false)
+                            .setCanceledOnTouchOutside(false)
+                            .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                }
+                            })
+                            .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (questionChoiceListener != null) {
+                                        questionChoiceListener.choiceSubmitPaper();
+                                    }
+                                }
+                            }).show();
+                } else {
+                    //部分题目未解答
+                    int continue_plate = 0;
+                    if (questionChoiceListener != null) {
+                        continue_plate = questionChoiceListener.choiceGetContimuePlateID();
+                    }
+                    //组卷模考还是得给个提示,其他模块就直接提交了
+                    if (plate_id == Constant.PLATE_6 || continue_plate == Constant.PLATE_6) {
+                        new TestModeIconDialog(getContext()).builder()
+                                .setIcon(R.mipmap.icon_qb_submit)
+                                .setMsg(getResources().getString(R.string.question_tips_whetherSavePager_noCompleted))
+                                .setCancelable(false)
+                                .setCanceledOnTouchOutside(false)
+                                .setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+
+                                    }
+                                })
+                                .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (questionChoiceListener != null) {
+                                            questionChoiceListener.choiceSubmitPaper();
+                                        }
+                                    }
+                                }).show();
+
+                    } else {
+                        if (questionChoiceListener != null) {
+                            questionChoiceListener.choiceSubmitPaper();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+/*
+    //最初的要求是这样的,啊,不对,原来就没有最后一道题提示交卷这一说
     private void hintSubmitPaper() {
         if (questionList != null && questionList.size() > 0) {
             boolean complete = true;
@@ -366,6 +447,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             }
         }
     }
+*/
 
     /**
      * Description:QuestionChoiceItemFragment

@@ -20,7 +20,7 @@
         android:id="@+id/refreshlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/home_background"
+        android:background="@color/color_F5F5F5"
         app:srlEnableLoadMore="false"
         app:srlEnableOverScrollDrag="true"
         app:srlEnableRefresh="true">

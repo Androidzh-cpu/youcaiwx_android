@@ -112,7 +112,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     private SharedPreferencesUtils sharedPreferencesUtils;
     private Bundle bundle;
     //登录状态,是否全部作答,默认全部作答,是否做题用于退出保存判断,论述题解析
-    private boolean timeState = false, complete = true, isDone, discuss_analysis = false;
+    private boolean timeState = false, isDone, discuss_analysis = false;
     private Drawable unCollectionImage, collectionImage;//收藏,未收藏图片资源
     private QuestionBankExercisePresenter questionBankExercisePresenter;
     private BottomSheetDialog answerSheetDialog;//答题卡弹窗
@@ -572,6 +572,10 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
      * Detail:交卷事件(钉~~,交钱成功)
      */
     private void submitPaper() {
+        if (!(optionsAnswerList != null && optionsAnswerList.size() > 0)) {
+            return;
+        }
+        boolean complete = true;
         loadingTips = getResources().getString(R.string.question_tips_submitting);//进度框提示文字
 
         //TODO step1: 状态
@@ -623,7 +627,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
              */
             if (plate_id == Constant.PLATE_6 || continue_plate == Constant.PLATE_6) {
                 if (plate_id == Constant.PLATE_11) {
-                    //6大板块继续做题模块,需要传递继续做题获取的板块
+                    //7大板块继续做题模块,需要传递继续做题获取的板块
                     questionBankExercisePresenter.submitPapers(course_id, user_id, continue_plate, submitStatus, section_id,
                             knob_id, know_id, paper_id, mock_id, getTimeMillis(), countDownTimemillis, optionsAnswerList);
                 } else {
@@ -643,7 +647,6 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 testModeIconDialog.setNegativeButton(getResources().getString(R.string.cancel), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        testModeIconDialog.dismiss();
                     }
                 });
                 testModeIconDialog.setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
@@ -733,8 +736,10 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         int size = optionsAnswerList.size();
         for (int i = 0; i < size; i++) {
             String userAnswer = optionsAnswerList.get(i).getUser_answer();
-            if (!TextUtils.isEmpty(userAnswer)) {//用户已作答
-                isDone = true;//是否做完题用于退出保存判断
+            if (!TextUtils.isEmpty(userAnswer)) {
+                //用户已作答
+                //是否做完题用于退出保存判断
+                isDone = true;
                 break;
             }
         }
@@ -742,7 +747,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         int countDownTimemillis = Integer.parseInt(String.valueOf(CountdownTime / millisecond));//倒计时总时长
 
         //TODO step4: 判断做题完成状态
-        if (isDone) {//做了一部分题目
+        if (isDone) {
+            //做了一部分题目
             TestModeIconDialog testModeIconDialog = new TestModeIconDialog(this).builder();
             testModeIconDialog.setIcon(R.mipmap.icon_qb_save);
             testModeIconDialog.setCancelable(false);
@@ -758,17 +764,20 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             testModeIconDialog.setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (plate_id == Constant.PLATE_11) {//todo 答题记录机组做题退出保存
+                    if (plate_id == Constant.PLATE_11) {
+                        //todo 答题记录机组做题退出保存
                         questionBankExercisePresenter.contimueSubmitPapers(course_id, id, user_id, continue_plate, submitStatus, section_id,
                                 knob_id, know_id, paper_id, mock_id, getTimeMillis(), countDownTimemillis, optionsAnswerList);
-                    } else {//todo 6大板块退出保存
+                    } else {
+                        //todo 7大板块退出保存
                         questionBankExercisePresenter.submitPapers(course_id, user_id, plate_id, submitStatus, section_id,
                                 knob_id, know_id, paper_id, mock_id, getTimeMillis(), countDownTimemillis, optionsAnswerList);
                     }
                 }
             });
             testModeIconDialog.show();
-        } else {//一道未作,懒到极致
+        } else {
+            //一道未作,懒到极致
             finish();
         }
     }
@@ -836,7 +845,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     public void collectionResult(int status) {
         switch (status) {
             case 1://状态1 操作成功
-                if (plate_id == Constant.PLATE_13) {//
+                if (plate_id == Constant.PLATE_13) {
                     removeQuestion();
                 } else {
                     int currentItem = viewPager.getCurrentItem();
@@ -1445,6 +1454,12 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     public ArrayList<DoProblemsAnswerBean> choiceGetOptionsAnswerList() {
         //获取答题卡数据
         return getOptionsAnswerList();
+    }
+
+    @Override
+    public int choiceGetContimuePlateID() {
+        //获取继续做题返回模块
+        return continue_plate;
     }
 
     @Override

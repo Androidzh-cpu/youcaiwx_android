@@ -266,10 +266,12 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
                         String paperType = bean.getPaper_type();
                         String paperStauts = bean.getPaper_stauts();
                         String trainingCampID = bean.getPaper_id();
+/*
                         if (TextUtils.equals(paperStauts, String.valueOf(2))) {
                             showToast(getResources().getString(R.string.question_cannotexam));
                             return;
                         }
+*/
                         if (TextUtils.isEmpty(paperType)) {
                             showToast(getResources().getString(R.string.miss_params));
                             return;

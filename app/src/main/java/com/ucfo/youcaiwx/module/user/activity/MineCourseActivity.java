@@ -79,7 +79,7 @@ public class MineCourseActivity extends BaseActivity {
         fragmentArrayList.add(educationFragment);
 
         titlesList.add(getResources().getString(R.string.mine_Course));
-        titlesList.add(getResources().getString(R.string.mine_EducationCourse));
+        titlesList.add(getResources().getString(R.string.fue_CPE));
 
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         CommonTabAdapter commonTabAdapter = new CommonTabAdapter(supportFragmentManager, fragmentArrayList, titlesList);

@@ -39,7 +39,7 @@
 
 
     <!-- Strings related to 后续教育 end-->
-    <string name="fue_CPE">CPE课程</string>
+    <string name="fue_CPE">后续教育</string>
     <string name="CPEApplyFor">CPE证明申请</string>
     <string name="proveinformation">证明信息</string>
     <string name="GenerateReport">生成报告</string>
@@ -176,7 +176,6 @@
     <string name="mine_Coupons">我的优惠券</string>
     <string name="mine_disabledCoupons">失效券</string>
     <string name="mine_Course">我的课程</string>
-    <string name="mine_EducationCourse">CPE课程</string>
     <string name="mine_Collection">我的收藏</string>
     <string name="mine_event">我的活动</string>
     <string name="mine_cpe">CPE学分报告</string>
@@ -418,6 +417,7 @@
     <string name="question_examtips">您已进入模拟考试模式，中途离开请退出保存当前进度，恢复请从“答题记录”点击“继续做题”完成测试。</string>
     <string name="question_cannotexam">当前试卷不可用</string>
     <string name="question_tips_whetherSavePager">是否交卷？</string>
+    <string name="question_tips_whetherSavePager_noCompleted">还有未完成的试题,是否交卷</string>
     <string name="question_tips_Itstimeto">时间到！</string>
     <string name="question_tips_submitting">交卷中</string>
     <string name="question_tips_saveing">试卷保存中</string>

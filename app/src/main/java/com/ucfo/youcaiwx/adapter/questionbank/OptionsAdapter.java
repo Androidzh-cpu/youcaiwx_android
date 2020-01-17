@@ -74,8 +74,11 @@ public class OptionsAdapter extends BaseAdapter {
         }
         //获取选项内容
         List<DoProblemsBean.DataBean.TopicsBean.OptionsBean> optionsBeanList = questionList.get(index).getOptions();
-        String option = optionsBeanList.get(position).getOption();//选项ABCD
-        String topic = optionsBeanList.get(position).getTopic();//选项内容
+        //选项ABCD
+        String option = optionsBeanList.get(position).getOption().toUpperCase();
+        //选项内容
+        String topic = optionsBeanList.get(position).getTopic();
+        //正确答案
         String rightAnswer = optionsBeanList.get(position).getRight();
 
         if (!TextUtils.isEmpty(option)) {

@@ -271,8 +271,8 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="@dimen/dp_9"
-                                android:layout_height="@dimen/dp_9"
+                                android:layout_width="@dimen/dp_10"
+                                android:layout_height="@dimen/dp_10"
                                 android:layout_marginEnd="@dimen/dp_4"
                                 android:src="@drawable/shape_cricle_solid_green" />
 
@@ -292,8 +292,8 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="@dimen/dp_9"
-                                android:layout_height="@dimen/dp_9"
+                                android:layout_width="@dimen/dp_10"
+                                android:layout_height="@dimen/dp_10"
                                 android:layout_marginEnd="@dimen/dp_4"
                                 android:src="@drawable/shape_cricle_solid_red" />
 
@@ -313,8 +313,8 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:layout_width="@dimen/dp_9"
-                                android:layout_height="@dimen/dp_9"
+                                android:layout_width="@dimen/dp_10"
+                                android:layout_height="@dimen/dp_10"
                                 android:layout_marginEnd="@dimen/dp_4"
                                 android:src="@drawable/shape_cricle_hollow_gray" />
 
@@ -330,18 +330,18 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dp_2"
+                        android:layout_height="@dimen/dp_0_5"
                         android:layout_marginEnd="@dimen/dp_12"
                         android:layout_marginStart="@dimen/dp_12"
-                        android:background="@color/color_F5F5F5" />
+                        android:background="@color/color_E6E6E6" />
 
                     <com.ucfo.youcaiwx.widget.customview.NestedGridView
                         android:id="@+id/listView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="@dimen/dp_29"
-                        android:layout_marginTop="@dimen/dp_19"
+                        android:layout_marginBottom="@dimen/dp_30"
+                        android:layout_marginTop="@dimen/dp_20"
                         android:cacheColorHint="#00000000"
                         android:gravity="center"
                         android:horizontalSpacing="@dimen/dp_10"
@@ -352,20 +352,18 @@
                         android:transcriptMode="alwaysScroll"
                         android:verticalSpacing="@dimen/dp_20"
                         tools:listitem="@layout/item_questionbank_options" />
-
-
                 </LinearLayout>
             </android.support.v4.widget.NestedScrollView>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_1"
-                android:background="@color/color_F5F5F5" />
+                android:layout_height="@dimen/dp_0_5"
+                android:background="@color/color_E6E6E6" />
 
             <!--底部解析按钮-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_43"
+                android:layout_height="@dimen/dp_44"
                 android:layout_gravity="bottom"
                 android:orientation="horizontal">
 
@@ -380,10 +378,9 @@
                     android:textSize="@dimen/sp_14" />
 
                 <View
-                    android:layout_width="@dimen/dp_1"
+                    android:layout_width="@dimen/dp_0_5"
                     android:layout_height="match_parent"
-                    android:background="@color/color_F5F5F5" />
-
+                    android:background="@color/color_E6E6E6" />
 
                 <Button
                     android:id="@+id/question_allAnalysis"
@@ -394,10 +391,7 @@
                     android:text="@string/question_title_allAnalysis"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/sp_14" />
-
             </LinearLayout>
-
         </LinearLayout>
-
     </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
 </LinearLayout>
