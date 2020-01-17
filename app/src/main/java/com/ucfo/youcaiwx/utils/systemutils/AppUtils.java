@@ -8,19 +8,15 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
-
-import java.util.UUID;
 
 /**
  * Author:AND
  * Time: 2019/1/7.  14:28
  * Email:2911743255@qq.com
  * Description:常用的获取系统信息的方法
- * Detail:
  */
 public class AppUtils {
 
@@ -75,8 +71,7 @@ public class AppUtils {
      * TODO 获取android版本
      */
     public static String getAndroidVersion() {
-        String version = android.os.Build.VERSION.RELEASE;
-        return version;
+        return android.os.Build.VERSION.RELEASE;
     }
 
     /**
@@ -98,8 +93,10 @@ public class AppUtils {
      * TODO 获取应用唯一标识
      */
     public static String getAppID(Context context) {
-        String packageName = context.getApplicationInfo().packageName;
-        return packageName;
+        if (context == null) {
+            return null;
+        }
+        return context.getApplicationInfo().packageName;
     }
 
     /**
@@ -112,34 +109,6 @@ public class AppUtils {
         //String androidID = Settings.Secure.getString(activity.getContentResolver(), Settings.Secure.ANDROID_ID);
         return deviceId;
     }
-
-    @SuppressLint("MissingPermission")
-    public static String getUUID() {
-        String serial = null;
-        String m_szDevIDShort = "35" +
-                Build.BOARD.length() % 10 + Build.BRAND.length() % 10 +
-                Build.CPU_ABI.length() % 10 + Build.DEVICE.length() % 10 +
-                Build.DISPLAY.length() % 10 + Build.HOST.length() % 10 +
-                Build.ID.length() % 10 + Build.MANUFACTURER.length() % 10 +
-                Build.MODEL.length() % 10 + Build.PRODUCT.length() % 10 +
-                Build.TAGS.length() % 10 + Build.TYPE.length() % 10 +
-                Build.USER.length() % 10; //13 位
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                serial = android.os.Build.getSerial();
-            } else {
-                serial = Build.SERIAL;
-            }
-//API>=9 使用serial号
-            return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
-        } catch (Exception exception) {
-//serial需要一个初始化
-            serial = "serial"; // 随便一个初始化
-        }
-//使用硬件信息拼凑出来的15位号码
-        return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
-    }
-
 
     public static void getAndroiodScreenProperty(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);

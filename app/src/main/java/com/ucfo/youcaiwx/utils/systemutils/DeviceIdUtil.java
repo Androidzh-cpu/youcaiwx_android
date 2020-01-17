@@ -169,8 +169,9 @@ public class DeviceIdUtil {
         String stmp;
         for (int n = 0; n < data.length; n++) {
             stmp = (Integer.toHexString(data[n] & 0xFF));
-            if (stmp.length() == 1)
+            if (stmp.length() == 1) {
                 sb.append("0");
+            }
             sb.append(stmp);
         }
         return sb.toString().toUpperCase(Locale.CHINA);
