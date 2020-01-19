@@ -27,8 +27,6 @@ import java.util.ArrayList;
  * Description:TODO 我的错题列表适配器
  */
 public class QuestionErrorCenterAdapter extends BaseExpandableListAdapter {
-
-
     private ArrayList<QuestionErrorCenterBean.DataBean> list;
     private Context context;
     private int plate;
@@ -37,6 +35,11 @@ public class QuestionErrorCenterAdapter extends BaseExpandableListAdapter {
         this.list = list;
         this.context = context;
         this.plate = plate_id;
+    }
+
+    public void notifyChange(ArrayList<QuestionErrorCenterBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -82,7 +85,7 @@ public class QuestionErrorCenterAdapter extends BaseExpandableListAdapter {
             view = convertView;
             groupholder = (GroupHolder) view.getTag();
         } else {
-            view = LayoutInflater.from(context).inflate(R.layout.item_kowledge_group, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_kowledge_group, parent, false);
             groupholder = new GroupHolder();
 
             groupholder.item_Title = view.findViewById(R.id.item_list_title);

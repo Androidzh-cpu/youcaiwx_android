@@ -73,22 +73,22 @@ public class MessageNotificationAdapter extends RecyclerView.Adapter {
         switch (viewType) {
             case TYPE_COURSE:
                 //课程提醒
-                view = LayoutInflater.from(context).inflate(R.layout.item_messagenotification_course, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_messagenotification_course, parent, false);
                 holder = new CourseViewHolder(view);
                 break;
             case TYPE_ANSWER:
                 //答疑类型
-                view = LayoutInflater.from(context).inflate(R.layout.item_messagenotification_answer, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_messagenotification_answer, parent, false);
                 holder = new AnswerViewHolder(view);
                 break;
             case TYPE_ORDERFORM:
                 //订单类型
-                view = LayoutInflater.from(context).inflate(R.layout.item_messagenotification_orderform, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_messagenotification_orderform, parent, false);
                 holder = new OrderFormViewHolder(view);
                 break;
             case TYPE_WEB:
                 //H5类型
-                view = LayoutInflater.from(context).inflate(R.layout.item_messagenotification_web, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_messagenotification_web, parent, false);
                 holder = new WebViewHolder(view);
                 break;
             default:

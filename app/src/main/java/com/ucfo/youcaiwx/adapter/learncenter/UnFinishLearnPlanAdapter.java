@@ -77,7 +77,7 @@ public class UnFinishLearnPlanAdapter extends BaseExpandableListAdapter {
             groupholder = (GroupHolder) view.getTag();
         } else {
             if (view == null) {
-                view = LayoutInflater.from(context).inflate(R.layout.item_lc_unfinish_group, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lc_unfinish_group, parent, false);
             }
             groupholder = new GroupHolder();
             groupholder.mTitleItem = (TextView) view.findViewById(R.id.item_title);
@@ -100,7 +100,7 @@ public class UnFinishLearnPlanAdapter extends BaseExpandableListAdapter {
             childholder = (ChildHolder) view.getTag();
         } else {
             if (view == null) {
-                view = LayoutInflater.from(context).inflate(R.layout.item_lc_unfinish_child, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lc_unfinish_child, parent, false);
             }
             childholder = new ChildHolder();
             childholder.mNestedlistview = (NestedListView) view.findViewById(R.id.nestedlistview);

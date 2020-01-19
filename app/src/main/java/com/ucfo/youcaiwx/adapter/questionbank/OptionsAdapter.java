@@ -64,7 +64,7 @@ public class OptionsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_questionbank_options, parent, false);
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_questionbank_options, parent, false);
             holder = new ViewHolder();
             holder.tvOption = (CheckedTextView) convertView.findViewById(R.id.item_list_options);
             holder.tvOptionContent = (TextView) convertView.findViewById(R.id.item_list_optionscontent);

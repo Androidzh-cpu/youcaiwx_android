@@ -47,7 +47,7 @@ public class SubjectAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_subjectlist, parent, false);
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_subjectlist, parent, false);
             holder = new ViewHolder();
             holder.tv_relation = (TextView) convertView.findViewById(R.id.item_subject);
             convertView.setTag(holder);

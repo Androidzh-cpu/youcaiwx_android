@@ -52,16 +52,16 @@ public class ResultReportSheetAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView textView = new TextView(context);
+        TextView textView = new TextView(parent.getContext());
         textView.setGravity(Gravity.CENTER);
         textView.setLayoutParams(new GridView.LayoutParams(DensityUtil.dip2px(context, 33), DensityUtil.dip2px(context, 33)));
         textView.setText(String.valueOf(position + 1));
 
-        String true_options = list.get(position).getTrue_options();
-        String user_answer = list.get(position).getUser_answer();
+        String trueOptions = list.get(position).getTrue_options();
+        String userAnswer = list.get(position).getUser_answer();
 
-        if (!TextUtils.isEmpty(user_answer)) {//用户已作答
-            if (user_answer.equals(true_options)) {//做对了
+        if (!TextUtils.isEmpty(userAnswer)) {//用户已作答
+            if (userAnswer.equals(trueOptions)) {//做对了
                 textView.setBackgroundResource(green);
                 textView.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
             } else {//做错了

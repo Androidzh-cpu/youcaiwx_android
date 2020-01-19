@@ -533,6 +533,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         mProgressUpdateTimer.removeCallbacksAndMessages(null);
         mProgressUpdateTimer = null;
         //这里token传null,会移除消息队列中所有当前Handler发送且未被执行的消息
+        mHideHandler.removeCallbacksAndMessages(null);
+        mHideHandler = null;
+        //这里token传null,会移除消息队列中所有当前Handler发送且未被执行的消息
         vodPlayerLoadEndHandler.removeCallbacksAndMessages(null);
         vodPlayerLoadEndHandler = null;
 

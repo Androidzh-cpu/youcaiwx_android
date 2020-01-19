@@ -55,7 +55,7 @@ public class CoursePackageListAdapter extends BaseAdapter<CourseDirBean.DataBean
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View inflate = layoutInflater.inflate(R.layout.item_coursepackagelist, viewGroup, false);
         return new ViewHolder(inflate);
     }

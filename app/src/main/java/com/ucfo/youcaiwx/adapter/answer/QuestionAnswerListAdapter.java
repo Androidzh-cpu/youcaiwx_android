@@ -60,6 +60,7 @@ public class QuestionAnswerListAdapter extends BaseAdapter<QuestionAnswerListBea
         notifyDataSetChanged();
     }
 
+    @Override
     public int getItemCount() {
         return list.size();
     }

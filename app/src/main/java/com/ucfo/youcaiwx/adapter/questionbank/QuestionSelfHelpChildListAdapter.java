@@ -21,7 +21,6 @@ import java.util.ArrayList;
  * Time: 2019-5-9.  下午 6:23
  * FileName: QuestionSelfHelpChildListAdapter
  * Description:TODO 自助练习三级列表  知识点最多选择3个
- * Detail:TODO
  */
 public class QuestionSelfHelpChildListAdapter extends BaseAdapter {
 
@@ -53,7 +52,7 @@ public class QuestionSelfHelpChildListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_knowledge_listchild, parent, false);
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_knowledge_listchild, parent, false);
             holder = new ViewHolder();
             holder.tv_RadioBtn = (RadioButton) convertView.findViewById(R.id.item_list_radiobtn);
             holder.tv_Checkbox = (CheckBox) convertView.findViewById(R.id.item_list_checkbox);

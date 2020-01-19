@@ -59,6 +59,7 @@ public class CourseAnswerListAdapter extends BaseAdapter<AnswerListDataBean.Data
         notifyDataSetChanged();
     }
 
+    @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();
     }

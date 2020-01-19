@@ -86,7 +86,7 @@ public class EventListAdapter extends BaseAdapter<EventListBean.DataBean, EventL
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View inflate = layoutInflater.inflate(R.layout.item_event, viewGroup, false);
         return new ViewHolder(inflate);
     }

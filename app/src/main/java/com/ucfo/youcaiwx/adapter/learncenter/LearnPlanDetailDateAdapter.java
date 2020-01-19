@@ -162,7 +162,7 @@ public class LearnPlanDetailDateAdapter extends RecyclerView.Adapter<LearnPlanDe
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View inflate = layoutInflater.inflate(R.layout.item_learnplandetail_date, viewGroup, false);
         return new ViewHolder(inflate);
     }

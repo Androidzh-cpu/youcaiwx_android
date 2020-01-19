@@ -86,10 +86,9 @@ public class UserAddressListAdapter extends BaseAdapter<AddressListBean.DataBean
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View inflate = layoutInflater.inflate(R.layout.item_useraddress_list, viewGroup, false);
-        UserAddressListAdapter.ViewHolder holder = new UserAddressListAdapter.ViewHolder(inflate);
-        return holder;
+        return new UserAddressListAdapter.ViewHolder(inflate);
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {

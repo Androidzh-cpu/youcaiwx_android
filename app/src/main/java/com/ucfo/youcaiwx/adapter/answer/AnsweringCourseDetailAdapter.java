@@ -234,7 +234,7 @@ public class AnsweringCourseDetailAdapter extends BaseAdapter<AnsweringCourseDet
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View inflate = layoutInflater.inflate(R.layout.item_question_trace, viewGroup, false);
         return new ViewHolder(inflate);
     }

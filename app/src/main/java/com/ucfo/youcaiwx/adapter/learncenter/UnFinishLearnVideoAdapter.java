@@ -47,7 +47,7 @@ public class UnFinishLearnVideoAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         UnFinishPlanBean.DataBean.VideoBean bean = list.get(position);
         String videoName = bean.getVideo_name();
-        TextView textView = new TextView(context);
+        TextView textView = new TextView(parent.getContext());
         textView.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
         textView.setLayoutParams(new GridView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(context, 48)));
         textView.setText(videoName);

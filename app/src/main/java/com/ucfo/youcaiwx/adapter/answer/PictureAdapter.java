@@ -43,7 +43,7 @@ public class PictureAdapter extends BaseAdapter<String, PictureAdapter.ViewHolde
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_answer_pictureitem, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_answer_pictureitem, viewGroup, false);
         return new ViewHolder(view);
     }
 

@@ -99,6 +99,6 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_1"
+        android:layout_height="@dimen/dp_0_5"
         android:background="@color/color_E6E6E6" />
 </LinearLayout>

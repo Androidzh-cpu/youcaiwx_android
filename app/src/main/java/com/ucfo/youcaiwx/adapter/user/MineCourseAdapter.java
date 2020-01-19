@@ -74,7 +74,7 @@ public class MineCourseAdapter extends BaseAdapter<MineCourseBean.DataBean, Mine
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View inflate = layoutInflater.inflate(R.layout.item_minecourse, viewGroup, false);
         return new MineCourseAdapter.ViewHolder(inflate);
     }

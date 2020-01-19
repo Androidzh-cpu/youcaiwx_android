@@ -8,6 +8,7 @@ package com.ucfo.youcaiwx.adapter.answer;
  */
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,16 +44,17 @@ public class ImagePickerAdapter extends RecyclerView.Adapter<ImagePickerAdapter.
         this.context = context;
         this.list = data;
     }
+
     public void notifyChange(List<String> dataBeanList) {
         this.list = dataBeanList;
 
         notifyDataSetChanged();
     }
+
     @Override
-    public SelectedPicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(context).inflate(R.layout.item_imageselectr, parent, false);
-        SelectedPicViewHolder selectedPicViewHolder = new SelectedPicViewHolder(inflate);
-        return selectedPicViewHolder;
+    public SelectedPicViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_imageselectr, parent, false);
+        return new SelectedPicViewHolder(inflate);
     }
 
     @Override

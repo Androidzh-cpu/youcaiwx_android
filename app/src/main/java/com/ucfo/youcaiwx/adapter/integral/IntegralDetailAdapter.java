@@ -70,7 +70,7 @@ public class IntegralDetailAdapter extends BaseAdapter<IntegralDetailBean.DataBe
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View view = layoutInflater.inflate(R.layout.item_integral_detail, viewGroup, false);
         return new ViewHolder(view);
     }

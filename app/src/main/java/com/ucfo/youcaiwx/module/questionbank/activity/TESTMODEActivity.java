@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -43,7 +44,6 @@ import com.ucfo.youcaiwx.module.questionbank.fragment.QuestionChoiceItemFragment
 import com.ucfo.youcaiwx.module.questionbank.fragment.QuestionDiscussItemFragment;
 import com.ucfo.youcaiwx.presenter.presenterImpl.questionbank.QuestionBankExercisePresenter;
 import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankDoExerciseView;
-import com.ucfo.youcaiwx.utils.ActivityUtil;
 import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.time.CountDownTimerSupport;
@@ -55,6 +55,7 @@ import com.ucfo.youcaiwx.widget.dialog.PauseExamDialog;
 import com.ucfo.youcaiwx.widget.dialog.TestModeIconDialog;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,26 +87,34 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     private LinearLayout linearBottomFunction;
     private View showline;
 
-    public ArrayList<DoProblemsBean.DataBean.TopicsBean> questionList;//TODO 所有题目数据集(从接口获取)
-    public ArrayList<DoProblemsAnswerBean> optionsAnswerList;//TODO 所有题目数据集,主要用于答题卡和用户答题操作
+    //TODO 所有题目数据集(从接口获取)
+    public ArrayList<DoProblemsBean.DataBean.TopicsBean> questionList;
+    //TODO 所有题目数据集,主要用于答题卡和用户答题操作
+    public ArrayList<DoProblemsAnswerBean> optionsAnswerList;
 
     /*****************************************************TODO start 倒计时  **************************/
-    private int millisecond = 1000;//TODO 一千毫秒,计时器基本单位
-    private int resultCountDownTime = 0;//TODO 最终倒计时用时时间
-    private int CountdownTime = 0;//TODO 总倒计时时间 单位:seconds
-    private long CountDownInterval = 1 * millisecond;//TODO 倒计时时间间隔(默认1秒 单位:seconds )
+    //TODO 一千毫秒,计时器基本单位
+    private int millisecond = 1000;
+    //TODO 最终倒计时用时时间
+    private int resultCountDownTime = 0;
+    //TODO 总倒计时时间 单位:seconds
+    private int CountdownTime = 0;
+    //TODO 倒计时时间间隔(默认1秒 单位:seconds )
+    private long CountDownInterval = 1 * millisecond;
     private CountDownTimerSupport countDownTimer;
     /*****************************************************TODO end 倒计时  **************************/
 
     /*****************************************************TODO start 正计时  **************************/
-    private Handler timer = new Handler();
-    private int timerSeconds = 0;//TODO 正计时时间 单位:seconds
-    Runnable runnable = new Runnable() {
+    //private Handler timerHandler = new Handler();
+    private TimerHandler timerHandler = new TimerHandler(TESTMODEActivity.this);
+    //TODO 正计时时间 单位:seconds
+    private int timerSeconds = 0;
+    private final Runnable runnable = new Runnable() {
         @Override
         public void run() {
             timerSeconds++;
             tvTime.setText(TimeFormater.formatSeconds(timerSeconds));
-            timer.postDelayed(this, CountDownInterval);
+            timerHandler.postDelayed(this, CountDownInterval);
         }
     };
     /*****************************************************TODO end 正计时  *************************/
@@ -147,26 +156,49 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         }
     };
 
+    /**
+     * 别问,问就是handler+runnable大法
+     */
+    private static class TimerHandler extends Handler {
+        private final WeakReference<TESTMODEActivity> activityWeakReference;
+
+        TimerHandler(TESTMODEActivity activity) {
+            activityWeakReference = new WeakReference<TESTMODEActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            TESTMODEActivity activity = activityWeakReference.get();
+            if (activity != null) {
+                // ...
+            } else {
+                LogUtils.e("Activity==null");
+            }
+        }
+    }
+
     @Override
     protected void onRestart() {
         super.onRestart();
-        //TODO 由停止状态变为运行状态之前调用，也就是Activity被重新启动了
+        //由停止状态变为运行状态之前调用，也就是Activity被重新启动了
         resumeCounter();//恢复计时
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //TODO 系统准备去启动或者恢复另一个Activity的时候调用
+        //系统准备去启动或者恢复另一个Activity的时候调用
         stopCounter();//停止计时
     }
 
     @Override
     protected void onDestroy() {
-        //广播注销
+        //注销广播
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
         super.onDestroy();
-        ActivityUtil.getInstance().removeActivity(this);
+        timerHandler.removeCallbacksAndMessages(null);
+        timerHandler = null;
     }
 
     @Override
@@ -197,13 +229,6 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         linearBottomFunction = (LinearLayout) findViewById(R.id.linear_bottom_function);
         loadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
 
-        ActivityUtil.getInstance().addActivity(this);
-
-
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
-
-        //用户id
-        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
 
         collectionImage = ContextCompat.getDrawable(this, R.mipmap.icon_qb_collection);
         if (collectionImage != null) {
@@ -213,22 +238,24 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         if (unCollectionImage != null) {
             unCollectionImage.setBounds(0, 0, unCollectionImage.getMinimumWidth(), unCollectionImage.getMinimumHeight());
         }
-
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);//TODO 禁止屏幕截图
-
-        // 上报后的Crash会显示该标签
-        CrashReport.setUserSceneTag(this, Constant.BUGLY_TAG_EXERCISE);
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);//禁止屏幕截图
     }
 
     @Override
     protected void initData() {
         super.initData();
-        questionList = new ArrayList<DoProblemsBean.DataBean.TopicsBean>();//题目数据,此集合只用于创建item,显示题目信息
-        optionsAnswerList = new ArrayList<DoProblemsAnswerBean>();//答题卡数据,此集合用于创建答题卡,做题处理,交卷处理
+        // 上报后的Crash会显示该标签
+        CrashReport.setUserSceneTag(this, Constant.BUGLY_TAG_EXERCISE);
 
-        //注册网络
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
+        user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
+
+        //题目数据,此集合只用于创建item,显示题目信息
+        questionList = new ArrayList<DoProblemsBean.DataBean.TopicsBean>();
+        //答题卡数据,此集合用于创建答题卡,做题处理,交卷处理
+        optionsAnswerList = new ArrayList<DoProblemsAnswerBean>();
+
         questionBankExercisePresenter = new QuestionBankExercisePresenter(this);
-
         //获取参数信息
         bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -274,9 +301,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             //获取试题开始作答
             loadNetData();
         } else {
-            if (loadinglayout != null) {
-                loadinglayout.showEmpty();
-            }
+            showEmpty();
         }
         //重试事件监听
         loadinglayout.setRetryListener(new View.OnClickListener() {
@@ -483,8 +508,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 break;
             case 1://正计时
                 timerSeconds = startTime;
-                if (timer != null) {
-                    timer.postDelayed(runnable, CountDownInterval);
+                if (timerHandler != null) {
+                    timerHandler.postDelayed(runnable, CountDownInterval);
                 }
                 break;
             default:
@@ -503,8 +528,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                 }
                 break;
             case 1://正计时
-                if (timer != null) {
-                    timer.removeCallbacks(runnable);
+                if (timerHandler != null) {
+                    timerHandler.removeCallbacks(runnable);
                 }
                 break;
             default:
@@ -528,13 +553,13 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
                     break;
                 case 1:
                     //正计时
-                    if (timer != null) {
-                        timer.postDelayed(runnable, CountDownInterval);
+                    if (timerHandler != null) {
+                        timerHandler.postDelayed(runnable, CountDownInterval);
                     }
                     break;
                 default:
-                    if (timer != null) {
-                        timer.postDelayed(runnable, CountDownInterval);
+                    if (timerHandler != null) {
+                        timerHandler.postDelayed(runnable, CountDownInterval);
                     }
                     break;
             }
@@ -814,25 +839,17 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             if (bean.getData() != null) {
                 DoProblemsBean.DataBean beanData = bean.getData();
                 if (beanData.getTopics() != null && beanData.getTopics().size() > 0) {
-                    doExerciseFunction(beanData);//TODO 做题逻辑处理
-
-                    if (loadinglayout != null) {
-                        loadinglayout.showContent();
-                    }
+                    //TODO 做题逻辑处理
+                    doExerciseFunction(beanData);
+                    showContent();
                 } else {
-                    if (loadinglayout != null) {
-                        loadinglayout.showEmpty();
-                    }
+                    showEmpty();
                 }
             } else {
-                if (loadinglayout != null) {
-                    loadinglayout.showEmpty();
-                }
+                showEmpty();
             }
         } else {
-            if (loadinglayout != null) {
-                loadinglayout.showEmpty();
-            }
+            showEmpty();
         }
     }
 
@@ -1415,6 +1432,17 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         }
     }
 
+    private void showEmpty() {
+        if (loadinglayout != null) {
+            loadinglayout.showEmpty();
+        }
+    }
+
+    private void showContent() {
+        if (loadinglayout != null) {
+            loadinglayout.showContent();
+        }
+    }
     //********************************************** 宿主里可调用的API
 
     public ArrayList<DoProblemsBean.DataBean.TopicsBean> getQuestionList() {
@@ -1443,7 +1471,9 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         return discuss_analysis;
     }
 
-    //TODO 这是单选题的
+    /**
+     * 这是单选题的
+     */
     @Override
     public ArrayList<DoProblemsBean.DataBean.TopicsBean> choiceGetQuestionList() {
         //获取做题页存储数据
@@ -1486,7 +1516,9 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         cancelCurrentQuestion();
     }
 
-    //TODO 这个是论述题的
+    /**
+     * 这个是论述题的
+     */
     @Override
     public ArrayList<DoProblemsBean.DataBean.TopicsBean> disscussGetQuestionList() {
         //获取做题数据

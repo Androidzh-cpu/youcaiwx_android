@@ -83,7 +83,7 @@ public class QuestionKnowledgeAdapter extends BaseExpandableListAdapter {
             view = convertView;
             groupholder = (GroupHolder) view.getTag();
         } else {
-            view = LayoutInflater.from(context).inflate(R.layout.item_kowledge_group, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_kowledge_group, parent, false);
             groupholder = new GroupHolder();
 
             groupholder.item_Title = view.findViewById(R.id.item_list_title);
@@ -137,7 +137,7 @@ public class QuestionKnowledgeAdapter extends BaseExpandableListAdapter {
             view = convertView;
             childholder = (ChildHolder) view.getTag();
         } else {
-            view = LayoutInflater.from(context).inflate(R.layout.item_knowledge_child, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_knowledge_child, parent, false);
             childholder = new ChildHolder();
 
             childholder.item_Title = view.findViewById(R.id.item_list_title);

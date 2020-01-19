@@ -125,7 +125,7 @@ public class UnFinishLearnPlan2Adapter extends BaseAdapter<UnFinishPlanBean.Data
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View inflate = layoutInflater.inflate(R.layout.item_lc_unfinishvideo, viewGroup, false);
         return new ViewHolder(inflate);
     }

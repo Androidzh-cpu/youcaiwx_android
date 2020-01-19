@@ -21,7 +21,6 @@ import java.util.ArrayList;
  * Time: 2019-5-9.  下午 5:44
  * FileName: QuestionSelfHelpAdapter
  * Description:TODO 自助练习二级列表适配器
- * Detail:TODO
  */
 public class QuestionSelfHelpAdapter extends BaseExpandableListAdapter {
 
@@ -78,7 +77,7 @@ public class QuestionSelfHelpAdapter extends BaseExpandableListAdapter {
             view = convertView;
             groupholder = (GroupHolder) view.getTag();
         } else {
-            view = LayoutInflater.from(context).inflate(R.layout.item_kowledge_group, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_kowledge_group, parent, false);
             groupholder = new GroupHolder();
 
             groupholder.item_Title = view.findViewById(R.id.item_list_title);
@@ -110,9 +109,9 @@ public class QuestionSelfHelpAdapter extends BaseExpandableListAdapter {
             groupholder.item_BottomImage.setVisibility(View.INVISIBLE);
         }
         QuestionKnowledgeListBean.DataBean dataBean = list.get(groupPosition);
-        String section_name = dataBean.getSection_name();
-        if (!TextUtils.isEmpty(section_name)) {
-            groupholder.item_Title.setText(section_name);
+        String sectionName = dataBean.getSection_name();
+        if (!TextUtils.isEmpty(sectionName)) {
+            groupholder.item_Title.setText(sectionName);
         }
         return view;
     }
@@ -125,7 +124,7 @@ public class QuestionSelfHelpAdapter extends BaseExpandableListAdapter {
             view = convertView;
             childholder = (ChildHolder) view.getTag();
         } else {
-            view = LayoutInflater.from(context).inflate(R.layout.item_knowledge_child, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_knowledge_child, parent, false);
             childholder = new ChildHolder();
 
             childholder.item_Title = view.findViewById(R.id.item_list_title);
@@ -154,9 +153,9 @@ public class QuestionSelfHelpAdapter extends BaseExpandableListAdapter {
         }
 
         QuestionKnowledgeListBean.DataBean.KnobBean bean = list.get(groupPosition).getKnob().get(childPosition);
-        String knob_name = bean.getKnob_name();
-        if (!TextUtils.isEmpty(knob_name)) {
-            childholder.item_Title.setText(knob_name);
+        String knobName = bean.getKnob_name();
+        if (!TextUtils.isEmpty(knobName)) {
+            childholder.item_Title.setText(knobName);
         }
         return view;
     }

@@ -63,7 +63,7 @@ public class AddLearnPlanTimeAdapter extends BaseAdapter<AddLearnPlanCheckTimeBe
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View view = layoutInflater.inflate(R.layout.item_addlearnplan_course, viewGroup, false);
         return new ViewHolder(view);
     }

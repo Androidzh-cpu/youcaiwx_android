@@ -185,7 +185,7 @@ public class SettingActivity extends BaseActivity {
         int appVersion = AppUtils.getAppVersion(this);
         String text = "";
         if (Constant.ISTEST_ENVIRONMENT) {
-            text = String.valueOf(appVersionName + "\u3000" + appVersion);
+            text = String.format("Version:%s　Code:%s", appVersionName, String.valueOf(appVersion));
         } else {
             text = appVersionName;
         }

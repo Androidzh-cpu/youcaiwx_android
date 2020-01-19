@@ -46,6 +46,7 @@ public class HomeCourseRecommendAdapter extends BaseAdapter<HomeBean.DataBean.Cu
         notifyDataSetChanged();
     }
 
+    @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();
     }
@@ -104,7 +105,7 @@ public class HomeCourseRecommendAdapter extends BaseAdapter<HomeBean.DataBean.Cu
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View inflate = layoutInflater.inflate(R.layout.item_home_course, viewGroup, false);
         return new ViewHolder(inflate);
     }

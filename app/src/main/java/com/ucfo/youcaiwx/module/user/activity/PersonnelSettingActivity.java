@@ -149,7 +149,6 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
     @Override
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
-
     }
 
     @Override

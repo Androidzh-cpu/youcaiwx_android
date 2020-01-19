@@ -180,9 +180,10 @@ public class HighFrequencyWrongTopicActivity extends BaseActivity implements IQu
     private void initAdapter() {
         if (questionHightWrongAdapter == null) {
             questionHightWrongAdapter = new QuestionHightWrongAdapter(list, context, plate_id);
+            listView.setAdapter(questionHightWrongAdapter);
+        } else {
+            questionHightWrongAdapter.notifyChange(list);
         }
-        questionHightWrongAdapter.notifyDataSetChanged();
-        listView.setAdapter(questionHightWrongAdapter);
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {

@@ -110,7 +110,7 @@ public class QuestionStageTestAdapter extends BaseAdapter<QuestionStageOfTestBea
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        View inflate = LayoutInflater.from(context).inflate(R.layout.item_stage_knowledge, viewGroup, false);
+        View inflate = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_stage_knowledge, viewGroup, false);
         return new QuestionStageTestAdapter.ViewHolder(inflate);
     }
 

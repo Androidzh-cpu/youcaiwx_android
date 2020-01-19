@@ -59,7 +59,7 @@ public class QuestionAnswerSheetAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView textView = new TextView(context);
+        TextView textView = new TextView(parent.getContext());
         textView.setGravity(Gravity.CENTER);
         textView.setLayoutParams(new GridView.LayoutParams(DensityUtil.dip2px(context, 33), DensityUtil.dip2px(context, 33)));
         textView.setText(String.valueOf(optionsAnswerList.get(position).getPosition() + 1));

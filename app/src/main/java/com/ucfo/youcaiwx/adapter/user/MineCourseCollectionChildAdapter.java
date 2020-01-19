@@ -57,7 +57,7 @@ public class MineCourseCollectionChildAdapter extends BaseAdapter<MineCourseChil
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View inflate = layoutInflater.inflate(R.layout.item_collection_courselist, viewGroup, false);
         MineCourseCollectionChildAdapter.ViewHolder holder = new MineCourseCollectionChildAdapter.ViewHolder(inflate);
         return holder;

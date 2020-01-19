@@ -73,7 +73,7 @@ public class MessageNoticeAdapter extends BaseAdapter<MessageCenterNoticeBean.Da
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View view = layoutInflater.inflate(R.layout.item_message_notice, viewGroup, false);
         return new ViewHolder(view);
     }

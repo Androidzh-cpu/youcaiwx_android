@@ -78,7 +78,7 @@ public class HomeLiveAdapter extends BaseAdapter<HomeBean.DataBean.BroadcastBean
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View inflate = layoutInflater.inflate(R.layout.item_home_live, viewGroup, false);
         ViewHolder holder = new ViewHolder(inflate);
         return holder;

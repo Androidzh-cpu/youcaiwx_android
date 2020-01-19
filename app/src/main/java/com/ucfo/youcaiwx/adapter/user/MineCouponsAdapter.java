@@ -107,7 +107,7 @@ public class MineCouponsAdapter extends BaseAdapter<MineCouponsBean.DataBean, Mi
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View view = layoutInflater.inflate(R.layout.item_mine_coupons, viewGroup, false);
         return new ViewHolder(view);
     }

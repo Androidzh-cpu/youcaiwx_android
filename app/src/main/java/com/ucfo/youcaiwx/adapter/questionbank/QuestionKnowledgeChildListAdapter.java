@@ -48,7 +48,7 @@ public class QuestionKnowledgeChildListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_knowledge_listchild, parent, false);
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_knowledge_listchild, parent, false);
             holder = new ViewHolder();
             holder.tv_RadioBtn = (RadioButton) convertView.findViewById(R.id.item_list_radiobtn);
             holder.tv_Title = (TextView) convertView.findViewById(R.id.item_list_title);

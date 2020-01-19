@@ -99,8 +99,7 @@ public abstract class BaseAdapter<T, V extends ViewHolder> extends RecyclerView.
      * @param itemType
      * @return
      */
-    public abstract V onCreateDataViewHolder(ViewGroup viewGroup, int
-            itemType);
+    public abstract V onCreateDataViewHolder(ViewGroup viewGroup, int itemType);
 
     /**
      * 根据position 获取具体条目

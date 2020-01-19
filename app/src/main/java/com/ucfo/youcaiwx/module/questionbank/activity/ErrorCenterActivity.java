@@ -184,20 +184,20 @@ public class ErrorCenterActivity extends BaseActivity implements IQuestionBankKo
     private void initAdapter() {
         if (questionErrorCenterAdapter == null) {
             questionErrorCenterAdapter = new QuestionErrorCenterAdapter(list, context, Constant.PLATE_17);
+            listView.setAdapter(questionErrorCenterAdapter);
+        } else {
+            questionErrorCenterAdapter.notifyChange(list);
         }
-        questionErrorCenterAdapter.notifyDataSetChanged();
-
-        listView.setAdapter(questionErrorCenterAdapter);
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                int section_id = list.get(groupPosition).getSection_id();
-                int child_id = list.get(groupPosition).getKnob().get(childPosition).getKnob_id();
+                int sectionId = list.get(groupPosition).getSection_id();
+                int knobId = list.get(groupPosition).getKnob().get(childPosition).getKnob_id();
                 Bundle bundle = new Bundle();
                 bundle.putInt(Constant.PLATE_ID, Constant.PLATE_17);
                 bundle.putInt(Constant.COURSE_ID, course_id);
-                bundle.putInt(Constant.SECTION_ID, section_id);
-                bundle.putInt(Constant.KNOB_ID, child_id);
+                bundle.putInt(Constant.SECTION_ID, sectionId);
+                bundle.putInt(Constant.KNOB_ID, knobId);
                 startActivity(KnowledgeChildListActivity.class, bundle);
                 return true;
             }

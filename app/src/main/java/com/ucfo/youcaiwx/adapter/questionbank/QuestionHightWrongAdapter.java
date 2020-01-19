@@ -25,7 +25,6 @@ import java.util.ArrayList;
  * Time: 2019-5-9.  上午 10:12
  * FileName: QuestionHightWrongAdapter
  * Description:TODO 系统高频错题
- * Detail:TODO
  */
 public class QuestionHightWrongAdapter extends BaseExpandableListAdapter {
 
@@ -37,6 +36,12 @@ public class QuestionHightWrongAdapter extends BaseExpandableListAdapter {
         this.list = list;
         this.context = context;
         this.plate = plate_id;
+    }
+
+    public void notifyChange(ArrayList<QuestionBankHightErrorBean.DataBean> dataBeanList) {
+        this.list = dataBeanList;
+
+        notifyDataSetChanged();
     }
 
     @Override
@@ -82,7 +87,7 @@ public class QuestionHightWrongAdapter extends BaseExpandableListAdapter {
             view = convertView;
             groupholder = (GroupHolder) view.getTag();
         } else {
-            view = LayoutInflater.from(context).inflate(R.layout.item_kowledge_group, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_kowledge_group, parent, false);
             groupholder = new GroupHolder();
 
             groupholder.item_Title = view.findViewById(R.id.item_list_title);
@@ -115,11 +120,11 @@ public class QuestionHightWrongAdapter extends BaseExpandableListAdapter {
         }
 
         QuestionBankHightErrorBean.DataBean dataBean = list.get(groupPosition);
-        String section_name = dataBean.getSection_name();
+        String sectionName = dataBean.getSection_name();
         String holder = "道错题";
         int sectionnum = dataBean.getSectionnum();
-        if (!TextUtils.isEmpty(section_name)) {
-            groupholder.item_Title.setText(section_name);
+        if (!TextUtils.isEmpty(sectionName)) {
+            groupholder.item_Title.setText(sectionName);
         }
         String sectionnumber = String.valueOf(sectionnum + holder);
         SpannableString spannableString = new SpannableString(sectionnumber);
@@ -138,7 +143,7 @@ public class QuestionHightWrongAdapter extends BaseExpandableListAdapter {
             view = convertView;
             childholder = (ChildHolder) view.getTag();
         } else {
-            view = LayoutInflater.from(context).inflate(R.layout.item_knowledge_child, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_knowledge_child, parent, false);
             childholder = new ChildHolder();
 
             childholder.item_Title = view.findViewById(R.id.item_list_title);
@@ -167,11 +172,11 @@ public class QuestionHightWrongAdapter extends BaseExpandableListAdapter {
         }
 
         QuestionBankHightErrorBean.DataBean.KnobBean bean = list.get(groupPosition).getKnob().get(childPosition);
-        String knob_name = bean.getKnob_name();
+        String knobName = bean.getKnob_name();
         String holder = "道错题";
         int knownum = bean.getKnownum();
-        if (!TextUtils.isEmpty(knob_name)) {
-            childholder.item_Title.setText(knob_name);
+        if (!TextUtils.isEmpty(knobName)) {
+            childholder.item_Title.setText(knobName);
         }
         String sectionnumber = String.valueOf(knownum + holder);
         SpannableString spannableString = new SpannableString(sectionnumber);
