@@ -26,6 +26,7 @@ import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.course.CourseIntroductionBean;
 import com.ucfo.youcaiwx.entity.home.event.EventDetailedBean;
 import com.ucfo.youcaiwx.entity.home.event.EventListBean;
+import com.ucfo.youcaiwx.module.main.activity.WebActivity;
 import com.ucfo.youcaiwx.presenter.presenterImpl.home.event.EventPresenter;
 import com.ucfo.youcaiwx.presenter.presenterImpl.integral.EarnIntegralPresenter;
 import com.ucfo.youcaiwx.presenter.view.home.event.IEventView;
@@ -94,6 +95,7 @@ public class EventDetailedActivity extends BaseActivity implements IEventView {
     private CourseTeacherAdapter courseTeacherAdapter;
     private String editPhoneConent;
     private String editNameConent;
+    private EventDetailedBean.DataBean data;
 
     @Override
     public void onResume() {
@@ -267,38 +269,50 @@ public class EventDetailedActivity extends BaseActivity implements IEventView {
                 break;
             case R.id.btn_next:
                 //下一坑
-                InputInformationDialog dialog = new InputInformationDialog(this).builder();
-                dialog.setCancelable(false);
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.setNegativeButton(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                if (data != null) {
+                    String hrefType = data.getHref_type();
+                    if (TextUtils.equals(hrefType, String.valueOf(1))) {
+                        InputInformationDialog dialog = new InputInformationDialog(this).builder();
+                        dialog.setCancelable(false);
+                        dialog.setCanceledOnTouchOutside(false);
+                        dialog.setNegativeButton(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
 
-                    }
-                });
-                dialog.setPositiveButton(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        editNameConent = dialog.getEditNameConent();
-                        editPhoneConent = dialog.getEditPhoneConent();
-                        if (TextUtils.isEmpty(editNameConent)) {
-                            dialog.setNameHint();
-                            return;
-                        }
-                        if (TextUtils.isEmpty(editPhoneConent)) {
-                            dialog.setPhoneHint();
-                            return;
-                        }
-                        if (!RegexUtil.checkMobile(editPhoneConent)) {
-                            showToast(getResources().getString(R.string.login_mobile_iserror));
-                            return;
-                        }
-                        dialog.dissmiss();
+                            }
+                        });
+                        dialog.setPositiveButton(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                editNameConent = dialog.getEditNameConent();
+                                editPhoneConent = dialog.getEditPhoneConent();
+                                if (TextUtils.isEmpty(editNameConent)) {
+                                    dialog.setNameHint();
+                                    return;
+                                }
+                                if (TextUtils.isEmpty(editPhoneConent)) {
+                                    dialog.setPhoneHint();
+                                    return;
+                                }
+                                if (!RegexUtil.checkMobile(editPhoneConent)) {
+                                    showToast(getResources().getString(R.string.login_mobile_iserror));
+                                    return;
+                                }
+                                dialog.dissmiss();
 
-                        commitInformation(editNameConent, editPhoneConent);
+                                commitInformation(editNameConent, editPhoneConent);
+                            }
+                        });
+                        dialog.show();
+                    } else if (TextUtils.equals(hrefType, String.valueOf(2))) {
+                        String jump = data.getJump();
+                        String name = data.getName();
+                        Bundle bundle = new Bundle();
+                        bundle.putString(Constant.WEB_URL, jump);
+                        bundle.putString(Constant.WEB_TITLE, name);
+                        startActivity(WebActivity.class, bundle);
                     }
-                });
-                dialog.show();
+                }
                 break;
             default:
                 break;
@@ -352,7 +366,7 @@ public class EventDetailedActivity extends BaseActivity implements IEventView {
      * 初始化页面
      */
     private void initContent(EventDetailedBean bean) {
-        EventDetailedBean.DataBean data = bean.getData();
+        data = bean.getData();
 
         //图片
         String appImg = data.getApp_img();
@@ -438,7 +452,7 @@ public class EventDetailedActivity extends BaseActivity implements IEventView {
                 teacehrListBeanList.add(teacehrListBean);
             }
             if (courseTeacherAdapter == null) {
-                courseTeacherAdapter = new CourseTeacherAdapter(teacehrListBeanList, this,true);
+                courseTeacherAdapter = new CourseTeacherAdapter(teacehrListBeanList, this, true);
                 recyclerview.setAdapter(courseTeacherAdapter);
             } else {
                 courseTeacherAdapter.notifyDataSetChanged();
