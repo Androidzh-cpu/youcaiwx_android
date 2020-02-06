@@ -66,6 +66,7 @@ public class CourseIntroductionFragment extends BaseFragment {
     private TextView courseTeacher;
     private TextView courseTime;
     private TextView courseDetail;
+    private TextView courseIntegral;
     private ShimmerRecyclerView recyclerviewTeacher;
 
     private int course_packageId;
@@ -148,15 +149,11 @@ public class CourseIntroductionFragment extends BaseFragment {
         courseTime = (TextView) itemView.findViewById(R.id.course_time);
         courseCount = (TextView) itemView.findViewById(R.id.course_count);
         courseDetail = (TextView) itemView.findViewById(R.id.course_detail);
+        courseIntegral = (TextView) itemView.findViewById(R.id.course_integral);
         recyclerviewTeacher = (ShimmerRecyclerView) itemView.findViewById(R.id.recyclerview_teacher);
         webView = (NoScrollWebView) itemView.findViewById(R.id.webview);
         loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
 
-
-        /*FragmentActivity activity = getActivity();
-        if (activity instanceof VideoPlayPageActivity) {
-            videoPlayPageActivity = (VideoPlayPageActivity) getActivity();
-        }*/
         if (getActivity() != null) {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         }
@@ -192,14 +189,6 @@ public class CourseIntroductionFragment extends BaseFragment {
     @Override
     protected void onLazyLoadOnce() {
         super.onLazyLoadOnce();
-/*
-        if (videoPlayPageActivity != null) {
-            course_packageId = videoPlayPageActivity.getCoursePackageId();
-            user_id = SharedPreferencesUtils.getInstance(getContext()).getInt(Constant.USER_ID, 0);
-
-            loadCourseInfo(course_packageId, user_id);
-        }
-*/
         user_id = SharedPreferencesUtils.getInstance(getContext()).getInt(Constant.USER_ID, 0);
         if (CourseIntroductionListener != null) {
             course_packageId = CourseIntroductionListener.introducationGetCoursePackageId();
@@ -319,10 +308,13 @@ public class CourseIntroductionFragment extends BaseFragment {
             String isPurchase = data.getIs_purchase();//课程是否购买
             String appImg = data.getApp_img();//封面图
             String userstatus = data.getUserstatus();//后续教育是否购买
+            String cpeIntegral = data.getCpe_integral();//积分
             //TODO 课程购买状态
             String courseSource = CourseIntroductionListener.introducationGetCourse_Source();
             if (TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
                 // 后续教育
+                courseTime.setVisibility(View.GONE);
+                courseIntegral.setVisibility(View.VISIBLE);
                 if (TextUtils.isEmpty(userstatus)) {
                     CourseIntroductionListener.introducationSetCourseBuyState(2);
                 } else {
@@ -330,6 +322,8 @@ public class CourseIntroductionFragment extends BaseFragment {
                 }
             } else {
                 //一般般啦
+                courseTime.setVisibility(View.VISIBLE);
+                courseIntegral.setVisibility(View.GONE);
                 if (TextUtils.isEmpty(isPurchase)) {
                     CourseIntroductionListener.introducationSetCourseBuyState(2);
                 } else {
@@ -348,14 +342,20 @@ public class CourseIntroductionFragment extends BaseFragment {
             if (!TextUtils.isEmpty(description)) {
                 courseDetail.setText(description);
             }
+            //***元钱,块钱
             if (!TextUtils.isEmpty(price)) {
-                coursePrice.setText(String.valueOf(getResources().getString(R.string.RMB) + price));
+                coursePrice.setText(String.format("%s%s", getResources().getString(R.string.RMB), price));
             }
+            //***老师
             if (!TextUtils.isEmpty(teacherName)) {
                 courseTeacher.setText((getResources().getString(R.string.teacher, teacherName)));
             }
+            //***人参加
             courseCount.setText(getResources().getString(R.string.people, joinNum));
+            //***天有效
             courseTime.setText(getResources().getString(R.string.orderForm_endtime2, studyDays));
+            //***积分
+            courseIntegral.setText(getResources().getString(R.string.event_point,cpeIntegral));
             if (loadinglayout != null) {
                 loadinglayout.showContent();
             }
@@ -445,19 +445,19 @@ public class CourseIntroductionFragment extends BaseFragment {
         mIconTeacher.bringToFront();
         contentViewViewById.bringToFront();
 
-        String teacher_title = teacehrListBean.getTeacher_title();
+        String teacherTitle = teacehrListBean.getTeacher_title();
         String pictrue = teacehrListBean.getPictrue();
         String longevity = teacehrListBean.getLongevity();
-        String teacher_name = teacehrListBean.getTeacher_name();
+        String teacherName = teacehrListBean.getTeacher_name();
 
         RequestOptions requestOptions = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.icon_default)
                 .error(R.mipmap.image_loaderror);
         GlideUtils.load(getContext(), pictrue, mIconTeacher, requestOptions);
-        mtitleTeacher.setText(teacher_title);
+        mtitleTeacher.setText(teacherTitle);
         mDetailTeacher.setText(longevity);
-        mNameTeacher.setText(teacher_name);
+        mNameTeacher.setText(teacherName);
     }
 }
 

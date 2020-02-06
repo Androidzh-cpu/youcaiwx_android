@@ -74,7 +74,16 @@ public class CourseIntroductionBean {
         private String teacher_name;
         private String join_num;
         private String study_days;
+        private String cpe_integral;
         private List<TeacehrListBean> teacehr_list;
+
+        public String getCpe_integral() {
+            return cpe_integral == null ? "" : cpe_integral;
+        }
+
+        public void setCpe_integral(String cpe_integral) {
+            this.cpe_integral = cpe_integral;
+        }
 
         public String getUserstatus() {
             return userstatus == null ? "" : userstatus;

@@ -286,11 +286,14 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
                         if (TextUtils.isEmpty(trainingCampID)) {
                             showToast(getResources().getString(R.string.miss_params));
                         }
+                        if (TextUtils.isEmpty(paperTitle) || TextUtils.isEmpty(paperContent)) {
+                            return;
+                        }
                         new AlertDialog(StageOfTestingActivity.this).builder()
                                 .setTitle(paperTitle)
                                 .setMsg(paperContent)
-                                .setCancelable(false)
-                                .setCanceledOnTouchOutside(false)
+                                .setCancelable(true)
+                                .setCanceledOnTouchOutside(true)
                                 .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -332,6 +335,9 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
      */
     private void setTrainingCampDialog(String title, String message) {
         if (plate_id == Constant.PLATE_7) {
+            if (TextUtils.isEmpty(title) || TextUtils.isEmpty(message)) {
+                return;
+            }
             new AlertDialog(StageOfTestingActivity.this).builder()
                     .setTitle(title)
                     .setMsg(message)

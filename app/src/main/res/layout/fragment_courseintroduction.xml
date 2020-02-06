@@ -82,9 +82,9 @@
 
                             <TextView
                                 android:id="@+id/course_teacher"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
+                                android:layout_marginEnd="@dimen/dp_17"
                                 android:drawablePadding="@dimen/dp_5"
                                 android:drawableStart="@mipmap/icon_citeacher"
                                 android:gravity="center_vertical"
@@ -94,9 +94,9 @@
 
                             <TextView
                                 android:id="@+id/course_time"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
+                                android:layout_marginEnd="@dimen/dp_17"
                                 android:drawablePadding="@dimen/dp_5"
                                 android:drawableStart="@mipmap/icon_citime"
                                 android:textColor="@color/color_999999"
@@ -105,14 +105,23 @@
 
                             <TextView
                                 android:id="@+id/course_count"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:drawablePadding="@dimen/dp_5"
                                 android:drawableStart="@mipmap/icon_cicount"
                                 android:textColor="@color/color_7A7979"
                                 android:textSize="@dimen/sp_11"
                                 tools:text="7896人" />
+
+                            <TextView
+                                android:id="@+id/course_integral"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/dp_17"
+                                android:textColor="@color/color_0267FF"
+                                android:textSize="@dimen/sp_11"
+                                android:visibility="gone"
+                                tools:text="CPE积分：60分" />
                         </LinearLayout>
 
                         <TextView

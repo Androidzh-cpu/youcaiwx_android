@@ -82,7 +82,8 @@
         android:layout_height="@dimen/dp_1"
         android:layout_marginEnd="@dimen/dp_12"
         android:layout_marginStart="@dimen/dp_12"
-        android:background="@color/color_E6E6E6" />
+        android:background="@color/color_E6E6E6"
+        android:visibility="gone" />
 
     <!--TODO 微信支付-->
     <LinearLayout
@@ -94,7 +95,8 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/dp_10"
-        android:paddingStart="@dimen/dp_10">
+        android:paddingStart="@dimen/dp_10"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="@dimen/dp_16"

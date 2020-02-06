@@ -3684,7 +3684,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 new com.ucfo.youcaiwx.widget.dialog.AlertDialog(VideoPlayPageActivity.this).builder()
                         .setTitle(getResources().getString(R.string.study_know))
                         .setMsg(getResources().getString(R.string.study_know_detail))
-                        .setMsgGravity(Gravity.START)
+                        .setMsgGravity(Gravity.CENTER)
                         .setCancelable(false)
                         .setCanceledOnTouchOutside(false)
                         .setPositiveButton(getResources().getString(R.string.confirm), new View.OnClickListener() {

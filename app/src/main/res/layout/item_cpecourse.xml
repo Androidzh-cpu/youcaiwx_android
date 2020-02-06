@@ -75,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/item_home_purpleback"
                 android:ellipsize="end"
+                android:gravity="center"
                 android:maxLines="1"
                 android:minWidth="@dimen/dp_54"
                 android:paddingBottom="@dimen/dp_2"
