@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ucfo.youcaiwx.R;
+import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.course.CourseDirBean;
 
 import java.util.List;
@@ -27,10 +28,18 @@ public class CourseDirWindowAdapter extends BaseExpandableListAdapter {
     private List<CourseDirBean.DataBean.SectionBean> list;
     private int groupIndex, sonIndex;
     private int currentPlayCourseIndex, currentClickCourseIndex;
+    private boolean isCPEFlag;
 
     public CourseDirWindowAdapter(Context context, List<CourseDirBean.DataBean.SectionBean> list) {
         this.context = context;
         this.list = list;
+    }
+
+    //是否显示完成状态
+    public void setStatusFlag(String courseSource) {
+        if (TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
+            this.isCPEFlag = true;
+        }
     }
 
     public void notifyChange(List<CourseDirBean.DataBean.SectionBean> dataBeanList) {
@@ -117,19 +126,38 @@ public class CourseDirWindowAdapter extends BaseExpandableListAdapter {
             childholder = new ChildHolder();
             childholder.courseSectionname = (TextView) view.findViewById(R.id.item_course_sectionname);
             childholder.courseTitme = (TextView) view.findViewById(R.id.item_course_sectiontime);
+            childholder.textStatus = (TextView) view.findViewById(R.id.text_status);
             view.setTag(childholder);
         }
+
         if (list.get(groupPosition).getVideo() != null && list.get(groupPosition).getVideo().size() > 0) {
             CourseDirBean.DataBean.SectionBean.VideoBean videoBean = list.get(groupPosition).getVideo().get(childPosition);
 
             if (videoBean != null) {
-                if (!TextUtils.isEmpty(videoBean.getVideo_name())) {
-                    childholder.courseSectionname.setText(videoBean.getVideo_name());
+                String videoName = videoBean.getVideo_name();
+                String videoTime = videoBean.getVideo_time();
+                String videoBeanRecord = videoBean.getRecord();
+                boolean signinStatus = videoBean.isSigninStatus();
+                //视频标题
+                if (!TextUtils.isEmpty(videoName)) {
+                    childholder.courseSectionname.setText(videoName);
                 }
-                if (!TextUtils.isEmpty(videoBean.getVideo_time())) {
-                    childholder.courseTitme.setText(videoBean.getVideo_time());
+                //视频时长
+                if (!TextUtils.isEmpty(videoTime)) {
+                    childholder.courseTitme.setText(videoTime);
                 }
-
+                if (isCPEFlag) {
+                    //已签到
+                    if (TextUtils.equals(videoBeanRecord, String.valueOf(1))) {
+                        childholder.textStatus.setVisibility(View.VISIBLE);
+                    } else {
+                        //返回数据没有签到
+                        if (signinStatus) {
+                            //但是该选中的视频已经签到过但是没有刷新接口的话,暂时用list中的signinStatus来记录一下
+                            childholder.textStatus.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
                 //TODO 添加多个套餐中播放课程的索引
                 if (currentPlayCourseIndex == currentClickCourseIndex) {
                     if (groupPosition == groupIndex && childPosition == sonIndex) {
@@ -175,5 +203,6 @@ public class CourseDirWindowAdapter extends BaseExpandableListAdapter {
     protected static class ChildHolder {
         TextView courseTitme;
         TextView courseSectionname;
+        TextView textStatus;
     }
 }

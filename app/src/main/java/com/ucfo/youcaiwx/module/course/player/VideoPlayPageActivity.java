@@ -3754,6 +3754,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         setCourseUnCon(courseUnCon);
     }
 
+    @Override
+    public int directoryGetVideoSignStatus() {
+        //获取当前视频的签到状态
+        return signinStatus;
+    }
+
     //课程答疑接口
     @Override
     public int AnswerQuestionGetCourseBuyState() {

@@ -194,6 +194,19 @@ public class CourseDirBean {
                 private int course_id;
                 private int is_shoucang;
                 private boolean checked;
+                private boolean signinStatus;
+
+                public boolean isChecked() {
+                    return checked;
+                }
+
+                public boolean isSigninStatus() {
+                    return signinStatus;
+                }
+
+                public void setSigninStatus(boolean signinStatus) {
+                    this.signinStatus = signinStatus;
+                }
 
                 public String getSort() {
                     return sort == null ? "" : sort;

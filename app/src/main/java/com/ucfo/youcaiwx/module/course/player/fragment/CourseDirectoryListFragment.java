@@ -94,6 +94,8 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         int directoryGetCourseBuyState();
 
         String directoryGetCourse_Source();
+
+        int directoryGetVideoSignStatus();
     }
 
     @Override
@@ -379,12 +381,17 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         if (!TextUtils.isEmpty(teacherName)) {
             courseTeacherName.setText(getResources().getString(R.string.teacher, teacherName));
         }
-
+        //弹出目录的同事,获取播放的视频的签到状态
+        int status = courseDirectoryListener.directoryGetVideoSignStatus();
         if (courseDirWindowAdapter == null) {
             courseDirWindowAdapter = new CourseDirWindowAdapter(getContext(), sectionBeanList);
         }
+        //判断播放源
+        courseDirWindowAdapter.setStatusFlag(courseSource);
+        //刷新数据
         courseDirWindowAdapter.notifyChange(sectionBeanList);
         expandableListView.setAdapter(courseDirWindowAdapter);
+        //更新选中位置
         courseDirWindowAdapter.setSelectPosition(currentPlayCourseIndex, currentClickCourseIndex);
 
         //如果当前点击的套餐列表的索引值==当前播放的课程套餐的索引,可以展开对应的一级目录和二级目录
@@ -392,6 +399,14 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
             expandableListView.expandGroup(groupIndex);
             expandableListView.setSelectedGroup(groupIndex);
             expandableListView.setSelectedChild(groupIndex, sonIndex, true);
+            if (TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
+                if (status == 1) {
+                    if (sectionBeanList != null && sectionBeanList.size() > 0) {
+                        CourseDirBean.DataBean.SectionBean.VideoBean videoBean = sectionBeanList.get(groupIndex).getVideo().get(sonIndex);
+                        videoBean.setSigninStatus(true);
+                    }
+                }
+            }
         }
         //弹出目录窗口
         showCourseDirectoryWindow();
