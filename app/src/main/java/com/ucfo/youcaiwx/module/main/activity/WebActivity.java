@@ -45,7 +45,6 @@ import com.ucfo.youcaiwx.widget.customview.TencentWebview;
 public class WebActivity extends BaseActivity implements View.OnClickListener {
 
     private String webUrl;
-    private WebActivity context;
     private TextView mMidtitleTitlebar;
     private TextView mRighttitleTitlebar;
     private Toolbar mToolbarTitlebar;
@@ -106,11 +105,10 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
             }
         });
     }
+
     @Override
     protected void initView(Bundle savedInstanceState) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
-        context = WebActivity.this;
 
         mMidtitleTitlebar = (TextView) findViewById(R.id.titlebar_midtitle);
         mRighttitleTitlebar = (TextView) findViewById(R.id.titlebar_righttitle);
@@ -137,9 +135,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
             webUrl = bundle.getString(Constant.WEB_URL);//defaultUrl
             webTitle = bundle.getString(Constant.WEB_TITLE);//标题
         } else {
-            if(mLoadinglayout != null) {
-                mLoadinglayout.showEmpty();
-            }
+            showEmpty();
         }
         LogUtils.e("X5webview-----------bundle:" + bundle);
         if (TextUtils.isEmpty(webTitle)) {
@@ -148,11 +144,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         mMidtitleTitlebar.setText(webTitle);
 
         if (TextUtils.isEmpty(webUrl)) {
-            if(mLoadinglayout != null) {
-                mLoadinglayout.showEmpty();
-            }
+            showEmpty();
         } else {
-            tencentWebview.loadUrl(webUrl);
+            //tencentWebview.loadUrl(webUrl);
             //校验链接
             boolean matches = Patterns.WEB_URL.matcher(webUrl).matches();
             if (matches) {
@@ -163,9 +157,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
                     tencentWebview.loadUrl(webUrl);
                 } else {
                     ToastUtil.showBottomShortText(this, getResources().getString(R.string.github_qq_browser_urlIllegality));
-                    if(mLoadinglayout != null) {
-                        mLoadinglayout.showEmpty();
-                    }
+                    showEmpty();
                 }
             }
         }
@@ -221,6 +213,12 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
                 tencentWebview.reload();
             }
         });
+    }
+
+    private void showEmpty() {
+        if (mLoadinglayout != null) {
+            mLoadinglayout.showEmpty();
+        }
     }
 
     @Override
@@ -355,7 +353,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         //不保存密码
         webSetting.setSavePassword(false);
         //设置UA
-        webSetting.setUserAgentString(webSetting.getUserAgentString() + " youcaiApp/" + AppUtils.getAppVersionName(context));
+        webSetting.setUserAgentString(webSetting.getUserAgentString() + " youcaiApp/" + AppUtils.getAppVersionName(this));
         //移除部分系统JavaScript接口
         WebActivity.removeJavascriptInterfaces(webView);
         //自动加载图片
@@ -373,8 +371,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         webSetting.setCacheMode(WebSettings.LOAD_NORMAL);
         webSetting.setDatabasePath(this.getDir("databases", 0).getPath());
         webSetting.setGeolocationDatabasePath(this.getDir("geolocation", 0).getPath());
-
-
     }
 
 
