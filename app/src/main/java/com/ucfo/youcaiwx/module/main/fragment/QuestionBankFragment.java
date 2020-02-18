@@ -425,7 +425,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                     case R.id.question_assessment:
                         //TODO 能力评估
                         int anInt = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
-                        bundle.putString(Constant.WEB_URL, ApiStores.QUESTION_AbilityTOAssess + "?user_id=" + anInt + "&course_id=" + currentSubjectId);
+                        bundle.putString(Constant.WEB_URL, ApiStores.QUESTION_ABILITYTO_ASSESS + "?user_id=" + anInt + "&course_id=" + currentSubjectId);
                         bundle.putString(Constant.WEB_TITLE, getResources().getString(R.string.question_title_assessment));
                         startToActivity(bundle, WebActivity.class);
                         break;

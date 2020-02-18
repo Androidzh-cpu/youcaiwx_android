@@ -36,7 +36,7 @@ public class QuestionBankKnowledgePresenter implements IQuestionBankChapterPrese
      */
     @Override
     public void getKnowledgeListData(int course_id, int user_id) {
-        OkGo.<String>post(ApiStores.QUESTION_GETKnowledgePractice)
+        OkGo.<String>post(ApiStores.QUESTION_GET_KNOWLEDGE_PRACTICE)
                 .tag(this)
                 .params(Constant.USER_ID, user_id)
                 .params(Constant.COURSE_ID, course_id)
@@ -91,7 +91,7 @@ public class QuestionBankKnowledgePresenter implements IQuestionBankChapterPrese
      */
     @Override
     public void getKnowledgeChildList(int course_id, int section_id, int knob_id) {
-        OkGo.<String>post(ApiStores.QUESTION_GETKnowledgeChildList)
+        OkGo.<String>post(ApiStores.QUESTION_GET_KNOWLEDGE_CHILD_LIST)
                 .tag(this)
                 .params(Constant.COURSE_ID, course_id)
                 .params(Constant.SECTION_ID, section_id)
@@ -311,7 +311,7 @@ public class QuestionBankKnowledgePresenter implements IQuestionBankChapterPrese
      */
     @Override
     public void getErrorCenterKnowList(int course_id, int user_id, int section_id, int knob_id) {
-        OkGo.<String>post(ApiStores.QUESTION_GETERRORCENTERChildList)
+        OkGo.<String>post(ApiStores.QUESTION_GETERRORCENTER_CHILD_LIST)
                 .params(Constant.COURSE_ID, course_id)
                 .params(Constant.USER_ID, user_id)
                 .params(Constant.SECTION_ID, section_id)

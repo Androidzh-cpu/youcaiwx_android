@@ -45,10 +45,11 @@ import com.ucfo.youcaiwx.widget.customview.TencentWebview;
 public class WebActivity extends BaseActivity implements View.OnClickListener {
 
     private String webUrl;
+    private WebActivity context;
     private TextView mMidtitleTitlebar;
     private TextView mRighttitleTitlebar;
     private Toolbar mToolbarTitlebar;
-    private TencentWebview tencentWebview;
+    private TencentWebview webView;
     private String webTitle;
     private ContentLoadingProgressBar progressBar;
     private boolean isLoading = true;//当前页面是否正在加载
@@ -58,28 +59,28 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        tencentWebview.onResume();
-        tencentWebview.resumeTimers();
+        webView.onResume();
+        webView.resumeTimers();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         //暂停WebView在后台的所有活动
-        tencentWebview.onPause();
+        webView.onPause();
         //暂停WebView在后台的JS活动
-        tencentWebview.pauseTimers();
+        webView.pauseTimers();
     }
 
     @Override
     protected void onDestroy() {
-        if (tencentWebview != null) {
-            tencentWebview.loadDataWithBaseURL(null, "Loading...", "text/html", "utf-8", null);
-            tencentWebview.clearHistory();
+        if (webView != null) {
+            webView.loadDataWithBaseURL(null, "Loading...", "text/html", "utf-8", null);
+            webView.clearHistory();
 
-            tencentWebview.removeAllViews();
-            tencentWebview.destroy();
-            tencentWebview = null;
+            webView.removeAllViews();
+            webView.destroy();
+            webView = null;
         }
         super.onDestroy();
     }
@@ -110,11 +111,13 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     protected void initView(Bundle savedInstanceState) {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        context = WebActivity.this;
+
         mMidtitleTitlebar = (TextView) findViewById(R.id.titlebar_midtitle);
         mRighttitleTitlebar = (TextView) findViewById(R.id.titlebar_righttitle);
         mRighttitleTitlebar.setOnClickListener(this);
         mToolbarTitlebar = (Toolbar) findViewById(R.id.titlebar_toolbar);
-        tencentWebview = (TencentWebview) findViewById(R.id.webview);
+        webView = (TencentWebview) findViewById(R.id.webview);
         findViewById(R.id.showline).setVisibility(View.GONE);
         mLoadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
     }
@@ -122,20 +125,22 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void initData() {
         super.initData();
-        IX5WebViewExtension x5WebViewExtension = tencentWebview.getX5WebViewExtension();
+        IX5WebViewExtension x5WebViewExtension = webView.getX5WebViewExtension();
         //如果成功为null表示X5没集成
         LogUtils.e("X5webview-----------:" + x5WebViewExtension);
         //启用硬件加速
         initHardwareAccelerate();
         //webview默认配置
-        setDefaultWebSettings(tencentWebview);
+        setDefaultWebSettings(webView);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             webUrl = bundle.getString(Constant.WEB_URL);//defaultUrl
             webTitle = bundle.getString(Constant.WEB_TITLE);//标题
         } else {
-            showEmpty();
+            if (mLoadinglayout != null) {
+                mLoadinglayout.showEmpty();
+            }
         }
         LogUtils.e("X5webview-----------bundle:" + bundle);
         if (TextUtils.isEmpty(webTitle)) {
@@ -144,26 +149,30 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         mMidtitleTitlebar.setText(webTitle);
 
         if (TextUtils.isEmpty(webUrl)) {
-            showEmpty();
+            if (mLoadinglayout != null) {
+                mLoadinglayout.showEmpty();
+            }
         } else {
-            //tencentWebview.loadUrl(webUrl);
+            webView.loadUrl(webUrl);
             //校验链接
             boolean matches = Patterns.WEB_URL.matcher(webUrl).matches();
             if (matches) {
-                tencentWebview.loadUrl(webUrl);
+                webView.loadUrl(webUrl);
             } else {
                 //京东支付链接可能验证无法通过
                 if (webUrl.contains(ApiStores.PAY_JINGDONG)) {
-                    tencentWebview.loadUrl(webUrl);
+                    webView.loadUrl(webUrl);
                 } else {
                     ToastUtil.showBottomShortText(this, getResources().getString(R.string.github_qq_browser_urlIllegality));
-                    showEmpty();
+                    if (mLoadinglayout != null) {
+                        mLoadinglayout.showEmpty();
+                    }
                 }
             }
         }
         //TODO 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
-        tencentWebview.setWebViewClient(new MyWebviewClient());
-        tencentWebview.setDownloadListener(new DownloadListener() {
+        webView.setWebViewClient(new MyWebviewClient());
+        webView.setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
                 if (!isDownload) {
@@ -180,28 +189,28 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         CrashReport.WebViewInterface webViewInterface = new CrashReport.WebViewInterface() {
             @Override
             public String getUrl() {
-                return tencentWebview.getUrl();
+                return webView.getUrl();
             }
 
             @Override
             public void setJavaScriptEnabled(boolean b) {
-                WebSettings webSettings = tencentWebview.getSettings();
+                WebSettings webSettings = webView.getSettings();
                 webSettings.setJavaScriptEnabled(b);
             }
 
             @Override
             public void loadUrl(String s) {
-                tencentWebview.loadUrl(s);
+                webView.loadUrl(s);
             }
 
             @Override
             public void addJavascriptInterface(H5JavaScriptInterface h5JavaScriptInterface, String s) {
-                tencentWebview.addJavascriptInterface(h5JavaScriptInterface, s);
+                webView.addJavascriptInterface(h5JavaScriptInterface, s);
             }
 
             @Override
             public CharSequence getContentDescription() {
-                return tencentWebview.getContentDescription();
+                return webView.getContentDescription();
             }
         };
         CrashReport.setJavascriptMonitor(webViewInterface, true);
@@ -210,15 +219,9 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         mLoadinglayout.setRetryListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tencentWebview.reload();
+                webView.reload();
             }
         });
-    }
-
-    private void showEmpty() {
-        if (mLoadinglayout != null) {
-            mLoadinglayout.showEmpty();
-        }
     }
 
     @Override
@@ -247,8 +250,8 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (tencentWebview != null && tencentWebview.canGoBack()) {
-                tencentWebview.goBack();
+            if (webView != null && webView.canGoBack()) {
+                webView.goBack();
                 return true;
             } else {
                 return super.onKeyDown(keyCode, event);
@@ -277,7 +280,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         //webView默认是不处理https请求的，页面显示空白，需要进行如下设置：
         @Override
         public void onReceivedSslError(WebView webView, SslErrorHandler sslErrorHandler, SslError sslError) {
-            super.onReceivedSslError(webView, sslErrorHandler, sslError);
             sslErrorHandler.proceed();    //表示等待证书响应
             // handler.cancel();      //表示挂起连接，为默认方式
             // handler.handleMessage(null);    //可做其他处理
@@ -323,7 +325,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
      * Time:2019-3-22   下午 2:56
      * Detail:TODO 参考考拉的配置
      */
-    @SuppressLint("SetJavaScriptEnabled")
     public void setDefaultWebSettings(WebView webView) {
         WebSettings webSetting = webView.getSettings();
         //5.0以上开启混合模式加载
@@ -353,7 +354,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         //不保存密码
         webSetting.setSavePassword(false);
         //设置UA
-        webSetting.setUserAgentString(webSetting.getUserAgentString() + " youcaiApp/" + AppUtils.getAppVersionName(this));
+        webSetting.setUserAgentString(webSetting.getUserAgentString() + " youcaiApp/" + AppUtils.getAppVersionName(context));
         //移除部分系统JavaScript接口
         WebActivity.removeJavascriptInterfaces(webView);
         //自动加载图片
@@ -371,6 +372,8 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         webSetting.setCacheMode(WebSettings.LOAD_NORMAL);
         webSetting.setDatabasePath(this.getDir("databases", 0).getPath());
         webSetting.setGeolocationDatabasePath(this.getDir("geolocation", 0).getPath());
+
+
     }
 
 
@@ -444,6 +447,4 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         }
 
     }
-
-
 }

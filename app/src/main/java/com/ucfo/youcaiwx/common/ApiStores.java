@@ -15,9 +15,9 @@ public class ApiStores {
     }
 
     //线上正式环境
-    //private static final String ROOT_URL = "https://api.youcaiwx.cn/";
+    private static final String ROOT_URL = "https://api.youcaiwx.cn/";
     //线下测试环境
-    private static final String ROOT_URL = "https://dest.youcaiwx.cn/";
+    //pivate static final String ROOT_URL = "https://dest.youcaiwx.cn/";
 
     private static final String BASE_URL = ROOT_URL + "apps/";
     private static final String BASE_URL_UPLOAD = ROOT_URL + "upload/";
@@ -57,8 +57,9 @@ public class ApiStores {
     public static final String PAY_AGREEMENT = "https://www.youcaiwx.cn/Agreement/buy.html";
     //关于SB
     public static final String USER_ABOUT_YOUCAI = "https://www.youcaiwx.cn/About/aboutyoucai.html";
+    //public static final String USER_ABOUT_YOUCAI = "https://www.youcaiwx.cn/action/index.html";
     //用户能力评估
-    public static final String QUESTION_AbilityTOAssess = "https://www.youcaiwx.cn/capacity-assessment-app";
+    public static final String QUESTION_ABILITYTO_ASSESS = "https://www.youcaiwx.cn/capacity-assessment-app";
     //后续教育分享地址
     public static final String EDUCATION_COURSE_SHARE = "https://www.youcaiwx.cn/education-preview-sign";
 
@@ -192,11 +193,11 @@ public class ApiStores {
     //组卷模考列表
     public static final String QUESTION_GETGROUPEXAMLIST = BASE_URL + "Question/volumeList";
     //知识点章节列表
-    public static final String QUESTION_GETKnowledgePractice = BASE_URL + "Question/getSection";
+    public static final String QUESTION_GET_KNOWLEDGE_PRACTICE = BASE_URL + "Question/getSection";
     //知识点列表
-    public static final String QUESTION_GETKnowledgeChildList = BASE_URL + "Question/getKnow";
+    public static final String QUESTION_GET_KNOWLEDGE_CHILD_LIST = BASE_URL + "Question/getKnow";
     //做题中心知识点列表
-    public static final String QUESTION_GETERRORCENTERChildList = BASE_URL + "Question/errorqueKnow";
+    public static final String QUESTION_GETERRORCENTER_CHILD_LIST = BASE_URL + "Question/errorqueKnow";
     //系统高频错题列表
     public static final String QUESTION_GETHIGHTErrorsection = BASE_URL + "Question/getErrorsection";
     //系统高频错题知识点列表
