@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.hitomi.tilibrary.transfer.Transferee;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -51,6 +52,7 @@ public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView 
     private int type = 1;
 
     private CourseAnswerListAdapter courseAnswerListAdapter;
+    private Transferee transferee;
 
     public void setType(int type) {
         this.type = type;
@@ -66,6 +68,12 @@ public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView 
         recyclerview = (RecyclerView) itemView.findViewById(R.id.recyclerview);
         loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
         refreshlayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
+
+        if (getContext() != null) {
+            transferee = Transferee.getDefault(getContext());
+        } else {
+            transferee = Transferee.getDefault(getActivity());
+        }
 
 
         FragmentActivity activity = getActivity();
@@ -174,7 +182,10 @@ public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView 
 
     private void initAdapter() {
         if (courseAnswerListAdapter == null) {
-            courseAnswerListAdapter = new CourseAnswerListAdapter(list, getContext(), type);
+            if (transferee == null) {
+                transferee = Transferee.getDefault(getContext());
+            }
+            courseAnswerListAdapter = new CourseAnswerListAdapter(list, getContext(), type, transferee);
             recyclerview.setAdapter(courseAnswerListAdapter);
         } else {
             courseAnswerListAdapter.notifyChange(list);
@@ -218,12 +229,12 @@ public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView 
 
     @Override
     public void showLoading() {
-
+        setProcessLoading(null, true);
     }
 
     @Override
     public void showLoadingFinish() {
-
+        dismissPorcessDelayed(300);
     }
 
     @Override

@@ -148,6 +148,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
      * 显示弹窗
      */
     public void showCourseDirectoryWindow() {
+/*
         if (courseDirectoryPopupWindow != null) {
             if (layoutMain != null) {
                 courseDirectoryPopupWindow.showAtLocation(layoutMain, Gravity.BOTTOM, 0, 0);
@@ -156,6 +157,10 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                 courseDirectoryPopupWindow.showAtLocation(contentView, Gravity.BOTTOM, 0, 0);
                 courseDirectoryPopupWindow.update();
             }
+        }
+*/
+        if (courseDirectoryPopupWindow != null) {
+            courseDirectoryPopupWindow.showAtLocation(layoutMain, Gravity.BOTTOM, 0, 0);
         }
     }
 
@@ -278,6 +283,9 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         coursePackageListAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                if (fastClick(850)) {
+                    return;
+                }
                 List<CourseDirBean.DataBean.SectionBean> section = coursePackageList.get(position).getSection();
                 if (sectionBeanList == null) {
                     sectionBeanList = new ArrayList<CourseDirBean.DataBean.SectionBean>();
@@ -299,7 +307,8 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
                 }
                 //当前课程点击位置
                 currentClickCourseIndex = position;
-                //弹出对应播放目录
+
+                //弹出对应课程的播放章节目录
                 showCourseDirWindow();
             }
         });
@@ -320,6 +329,7 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         //创建弹窗
         courseDirectoryPopupWindow = createPopupWindow(contentView);
 
+        //判断是否弹出
         if (courseDirectoryWindowISShow()) {
             dismissCourseDirectoryWindow();
         } else {
@@ -348,7 +358,6 @@ public class CourseDirectoryListFragment extends BaseFragment implements ICourse
         popupWindow.setTouchable(true);
         //注意  要是点击外部空白处弹框小时 必须给弹框设置一个背景色  不然是不起作用的
         popupWindow.setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
-        popupWindow.setSplitTouchEnabled(true);//多点触控
         popupWindow.setAnimationStyle(R.style.Widget_AppCompat_PopupWindow);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
             popupWindow.setAttachedInDecor(true);//NavigationBar重叠

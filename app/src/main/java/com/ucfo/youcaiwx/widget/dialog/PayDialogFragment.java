@@ -53,7 +53,6 @@ public class PayDialogFragment extends DialogFragment implements View.OnClickLis
     @Override
     public void onStart() {
         super.onStart();
-        super.onStart();
         Dialog dialog = getDialog();
         Window window = dialog.getWindow();
         WindowManager.LayoutParams params = window != null ? window.getAttributes() : null;

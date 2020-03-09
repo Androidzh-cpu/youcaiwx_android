@@ -182,8 +182,10 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
         initAnalysis();
 
         //TODO 设置edittext内容
-        if (!TextUtils.isEmpty(optionsAnswerList.get(index).getUser_answer())) {
-            mElaborationEt.setText(optionsAnswerList.get(index).getUser_answer());
+        if (optionsAnswerList != null && optionsAnswerList.size() > 0) {
+            if (!TextUtils.isEmpty(optionsAnswerList.get(index).getUser_answer())) {
+                mElaborationEt.setText(optionsAnswerList.get(index).getUser_answer());
+            }
         }
 
         //TODO 判断是否是论述题解析模式
@@ -192,7 +194,9 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
             //输入框不可编辑
             mElaborationEt.setKeyListener(null);
             //mElaborationEt.setText(questionList.get(index).getDiscuss_useranswer());不要从题干中获取用户答案,因为这时候的用户答案是空的
-            mElaborationEt.setText(optionsAnswerList.get(index).getUser_answer());
+            if (optionsAnswerList != null && optionsAnswerList.size() > 0) {
+                mElaborationEt.setText(optionsAnswerList.get(index).getUser_answer());
+            }
 
             analysisStatus = false;
             mCheckAnalysisQuestion.setText(getResources().getString(R.string.question_tips_uncheckanalysis));

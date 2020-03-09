@@ -257,6 +257,9 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void dismissPorcessDelayed(int delay) {
+        if (delay == 0 || delay < 0) {
+            delay = 300;
+        }
         mTimerTask = new TimerTask() {
             public void run() {
                 dismissPorcess();

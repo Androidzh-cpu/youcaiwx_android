@@ -41,21 +41,23 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Description:TODO 题库答疑详情(追问)
  */
 public class AnsweringQuestionDetailAdapter extends BaseAdapter<AnsweringQuestionDetailsBean.DataBean.ReplyBean, AnsweringQuestionDetailAdapter.ViewHolder> {
-    private final Transferee transferee;
+    private Transferee transferee;
     private List<AnsweringQuestionDetailsBean.DataBean.ReplyBean> list;
     private Context context;
     private OnItemViewClickListener onItemClickListener;
 
-    public AnsweringQuestionDetailAdapter(List<AnsweringQuestionDetailsBean.DataBean.ReplyBean> list, Context context) {
+    public AnsweringQuestionDetailAdapter(List<AnsweringQuestionDetailsBean.DataBean.ReplyBean> list, Context context, Transferee transferee1) {
         this.list = list;
         this.context = context;
-        transferee = Transferee.getDefault(context);
+        this.transferee = transferee1;
     }
+
     public void notifyChange(List<AnsweringQuestionDetailsBean.DataBean.ReplyBean> dataBeanList) {
         this.list = dataBeanList;
 
         notifyDataSetChanged();
     }
+
     @Override
     public int getItemCount() {
         return list.size();

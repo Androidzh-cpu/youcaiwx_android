@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,6 +32,7 @@ import com.ucfo.youcaiwx.base.BaseFragment;
 import com.ucfo.youcaiwx.common.ApiStores;
 import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.entity.course.CourseIntroductionBean;
+import com.ucfo.youcaiwx.module.course.player.VideoPlayPageActivity;
 import com.ucfo.youcaiwx.utils.baseadapter.ItemClickHelper;
 import com.ucfo.youcaiwx.utils.baseadapter.SpacesItemDecoration;
 import com.ucfo.youcaiwx.utils.glideutils.GlideUtils;
@@ -74,6 +76,7 @@ public class CourseIntroductionFragment extends BaseFragment {
     private CourseTeacherAdapter courseTeacherAdapter;
     private Dialog teacherDialog;
     private int user_id;
+    private String courseSource = "";
 
     private CourseIntroductionListener CourseIntroductionListener;
 
@@ -201,15 +204,14 @@ public class CourseIntroductionFragment extends BaseFragment {
      * Time:2019-4-3   下午 3:40
      * Detail:TODO 获取课程简介信息
      */
-    private void loadCourseInfo(int course_packageId, int user_id) {
+    private void loadCourseInfo(int coursePackageId, int userId) {
         String id;
-        if (user_id == 0) {
+        if (userId == 0) {
             id = "";
         } else {
-            id = String.valueOf(user_id);
+            id = String.valueOf(userId);
         }
-        //String courseSource = videoPlayPageActivity.getCourse_Source();
-        String courseSource = CourseIntroductionListener.introducationGetCourse_Source();
+        String courseSource = getCourseSource();
         String url = "";
         String idName = "";
         if (TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
@@ -222,7 +224,7 @@ public class CourseIntroductionFragment extends BaseFragment {
             idName = Constant.ID;
         }
         OkGo.<String>post(url)
-                .params(idName, course_packageId)
+                .params(idName, coursePackageId)
                 .params(Constant.USER_ID, id)
                 .execute(new StringCallback() {
                     @Override
@@ -268,6 +270,27 @@ public class CourseIntroductionFragment extends BaseFragment {
                 });
     }
 
+    /**
+     * yuan
+     */
+    private String getCourseSource() {
+        String string = "";
+        if (CourseIntroductionListener != null) {
+            string = CourseIntroductionListener.introducationGetCourse_Source();
+        } else if (getActivity() != null) {
+            FragmentActivity activity = getActivity();
+            if (activity instanceof VideoPlayPageActivity) {
+                VideoPlayPageActivity videoPlayPageActivity = (VideoPlayPageActivity) getActivity();
+                if (videoPlayPageActivity.isDestroyed() || videoPlayPageActivity.isFinishing()) {
+
+                } else {
+                    string = videoPlayPageActivity.introducationGetCourse_Source();
+                }
+            }
+        }
+        return string;
+    }
+
     /*
     TODO 获取到课程详细信息
     * */
@@ -281,13 +304,10 @@ public class CourseIntroductionFragment extends BaseFragment {
             teacehrListBeanList.clear();
             teacehrListBeanList.addAll(teacehrList);
             if (courseTeacherAdapter == null) {
-                //此处报了个错,我也不知道为啥
                 courseTeacherAdapter = new CourseTeacherAdapter(teacehrListBeanList, getContext());
+                recyclerviewTeacher.setAdapter(courseTeacherAdapter);
             } else {
                 courseTeacherAdapter.notifyDataSetChanged();
-            }
-            if (recyclerviewTeacher != null) {
-                recyclerviewTeacher.setAdapter(courseTeacherAdapter);
             }
             courseTeacherAdapter.setOnItemClick(new ItemClickHelper.OnItemClickListener() {
                 @Override
@@ -310,30 +330,42 @@ public class CourseIntroductionFragment extends BaseFragment {
             String userstatus = data.getUserstatus();//后续教育是否购买
             String cpeIntegral = data.getCpe_integral();//积分
             //TODO 课程购买状态
-            String courseSource = CourseIntroductionListener.introducationGetCourse_Source();
+            String courseSource = getCourseSource();
             if (TextUtils.equals(courseSource, Constant.WATCH_EDUCATION_CPE)) {
                 // 后续教育
                 courseTime.setVisibility(View.GONE);
                 courseIntegral.setVisibility(View.VISIBLE);
                 if (TextUtils.isEmpty(userstatus)) {
-                    CourseIntroductionListener.introducationSetCourseBuyState(2);
+                    if (CourseIntroductionListener != null) {
+                        CourseIntroductionListener.introducationSetCourseBuyState(2);
+                    }
                 } else {
-                    CourseIntroductionListener.introducationSetCourseBuyState(Integer.parseInt(userstatus));
+                    if (CourseIntroductionListener != null) {
+                        CourseIntroductionListener.introducationSetCourseBuyState(Integer.parseInt(userstatus));
+                    }
                 }
             } else {
                 //一般般啦
                 courseTime.setVisibility(View.VISIBLE);
                 courseIntegral.setVisibility(View.GONE);
                 if (TextUtils.isEmpty(isPurchase)) {
-                    CourseIntroductionListener.introducationSetCourseBuyState(2);
+                    if (CourseIntroductionListener != null) {
+                        CourseIntroductionListener.introducationSetCourseBuyState(2);
+                    }
                 } else {
-                    CourseIntroductionListener.introducationSetCourseBuyState(Integer.parseInt(isPurchase));
+                    if (CourseIntroductionListener != null) {
+                        CourseIntroductionListener.introducationSetCourseBuyState(Integer.parseInt(isPurchase));
+                    }
                 }
             }
             //TODO 课程购买价格
-            CourseIntroductionListener.introducationSetCourse_PackagePrice(price);
+            if (CourseIntroductionListener != null) {
+                CourseIntroductionListener.introducationSetCourse_PackagePrice(price);
+            }
             //TODO 设置课程封面
-            CourseIntroductionListener.introducationSetCourse_Cover(appImg);
+            if (CourseIntroductionListener != null) {
+                CourseIntroductionListener.introducationSetCourse_Cover(appImg);
+            }
             //TODO 课程简介主要内容(本来是一个H5,人家就换成一张图了
             webView.loadUrl(briefImg);
             if (!TextUtils.isEmpty(name)) {
@@ -355,7 +387,7 @@ public class CourseIntroductionFragment extends BaseFragment {
             //***天有效
             courseTime.setText(getResources().getString(R.string.orderForm_endtime2, studyDays));
             //***积分
-            courseIntegral.setText(getResources().getString(R.string.event_point,cpeIntegral));
+            courseIntegral.setText(getResources().getString(R.string.event_point, cpeIntegral));
             if (loadinglayout != null) {
                 loadinglayout.showContent();
             }

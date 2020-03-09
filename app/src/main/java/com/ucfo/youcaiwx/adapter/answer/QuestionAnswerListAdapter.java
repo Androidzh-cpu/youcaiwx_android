@@ -40,18 +40,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Description:TODO 题库答疑列表适配器
  */
 public class QuestionAnswerListAdapter extends BaseAdapter<QuestionAnswerListBean.DataBean, QuestionAnswerListAdapter.ViewHolder> {
-    private final Transferee transferee;
+    private Transferee transferee;
     private ArrayList<QuestionAnswerListBean.DataBean> list;
     private Context context;
     private LinearLayoutManager layoutManager;
     private TransferConfig config;
     private OnItemViewClickListener onItemClickListener;
 
-    public QuestionAnswerListAdapter(ArrayList<QuestionAnswerListBean.DataBean> list, Context context) {
+    public QuestionAnswerListAdapter(ArrayList<QuestionAnswerListBean.DataBean> list, Context context, Transferee transferee1) {
         this.list = list;
         this.context = context;
-
-        transferee = Transferee.getDefault(context);//预览图配置
+        this.transferee = transferee1;
     }
 
     public void notifyChange(ArrayList<QuestionAnswerListBean.DataBean> dataBeanList) {
@@ -140,6 +139,9 @@ public class QuestionAnswerListAdapter extends BaseAdapter<QuestionAnswerListBea
             case 2://2未回复
                 holder.mAnswerReplystatusItem.setVisibility(View.GONE);
                 break;
+            default:
+                //nothing
+                break;
         }
         //调用接口,模拟点击
         holder.mAnswerCheckdetailItem.setOnClickListener(new View.OnClickListener() {
@@ -183,7 +185,7 @@ public class QuestionAnswerListAdapter extends BaseAdapter<QuestionAnswerListBea
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View inflate = layoutInflater.inflate(R.layout.item_answerquestion_list, viewGroup, false);
         QuestionAnswerListAdapter.ViewHolder viewHolder = new QuestionAnswerListAdapter.ViewHolder(inflate);
         return viewHolder;

@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.hitomi.tilibrary.transfer.Transferee;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -46,6 +47,7 @@ public class AllAnswerQuestionFragment extends BaseFragment implements IQuestion
     private QuestionAnswerPresenter questionAnswerPresenter;
     private ArrayList<QuestionAnswerListBean.DataBean> list;
     private QuestionAnswerListAdapter questionAnswerListAdapter;
+    private Transferee transferee;
 
     @Override
     protected int setContentView() {
@@ -58,13 +60,18 @@ public class AllAnswerQuestionFragment extends BaseFragment implements IQuestion
         refreshlayout = (SmartRefreshLayout) view.findViewById(R.id.refreshlayout);
         loadinglayout = (LoadingLayout) view.findViewById(R.id.loadinglayout);
 
+        if (getContext() != null) {
+            transferee = Transferee.getDefault(context);
+        } else {
+            transferee = Transferee.getDefault(getActivity());
+        }
 
         FragmentActivity fragmentActivity = getActivity();
         if (fragmentActivity instanceof QuestionAnswerActivity) {
             questionAnswerActivity = (QuestionAnswerActivity) fragmentActivity;
             question_id = questionAnswerActivity.getQuestion_id();
         }
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(questionAnswerActivity);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(getContext());
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);
         //注册业务层
         questionAnswerPresenter = new QuestionAnswerPresenter(this);
@@ -101,7 +108,9 @@ public class AllAnswerQuestionFragment extends BaseFragment implements IQuestion
     protected void onVisibleToUser() {
         super.onVisibleToUser();
         //TODO  获取问答列表
-        questionAnswerPresenter.getQuestionAnswerList(user_id, question_id, 1);
+        if (questionAnswerPresenter != null) {
+            questionAnswerPresenter.getQuestionAnswerList(user_id, question_id, 1);
+        }
     }
 
     //TODO 获取答疑列表
@@ -143,7 +152,10 @@ public class AllAnswerQuestionFragment extends BaseFragment implements IQuestion
     //TODO 设置适配器
     private void initAdapter() {
         if (questionAnswerListAdapter == null) {
-            questionAnswerListAdapter = new QuestionAnswerListAdapter(list, getContext());
+            if (transferee == null) {
+                transferee = Transferee.getDefault(getContext());
+            }
+            questionAnswerListAdapter = new QuestionAnswerListAdapter(list, getContext(), transferee);
             recyclerview.setAdapter(questionAnswerListAdapter);
         } else {
             questionAnswerListAdapter.notifyChange(list);
@@ -163,12 +175,12 @@ public class AllAnswerQuestionFragment extends BaseFragment implements IQuestion
 
     @Override
     public void showLoading() {
-        //setProcessLoading(null, true);
+        setProcessLoading(null, true);
     }
 
     @Override
     public void showLoadingFinish() {
-        //dismissPorcess();
+        dismissPorcessDelayed(300);
     }
 
     @Override

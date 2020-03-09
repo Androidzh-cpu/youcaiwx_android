@@ -248,8 +248,7 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             //ToastUtil.showBottomShortText(getContext(),"不好意思,就算是继续做题,你还是得走练习模式" );
 
             //由于viewpager至能缓存三个fragment,所以要判断一下是否填写过答案然后再对解析内容进行显示
-            if (optionsAnswerList != null) {
-
+            if (optionsAnswerList != null && optionsAnswerList.size() > 0) {
                 String userAnswer = optionsAnswerList.get(index).getUser_answer();//答题卡用户选项
                 String rightAnswer = optionsAnswerList.get(index).getTrue_options();//获取正确答案
                 if (!TextUtils.isEmpty(userAnswer)) {

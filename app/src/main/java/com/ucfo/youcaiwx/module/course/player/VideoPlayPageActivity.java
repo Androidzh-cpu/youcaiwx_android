@@ -1355,7 +1355,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 typeJudge(Constant.LOCAL_CACHE) ||
                 typeJudge(Constant.WATCH_LEARNPLAN) ||
                 typeJudge(Constant.WATCH_ANSWERDETAILED)) {
-            changeScreenMode(AliyunScreenMode.Small);
             finish();
             return true;
         }

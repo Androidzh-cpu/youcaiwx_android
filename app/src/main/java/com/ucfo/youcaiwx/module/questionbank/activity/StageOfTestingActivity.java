@@ -23,6 +23,7 @@ import com.ucfo.youcaiwx.entity.questionbank.QuestionStageOfTestBean;
 import com.ucfo.youcaiwx.entity.questionbank.TipsBean;
 import com.ucfo.youcaiwx.presenter.presenterImpl.questionbank.QuestionBankStageOfTestPresenter;
 import com.ucfo.youcaiwx.presenter.view.questionbank.IQuestionBankStageView;
+import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.baseadapter.OnItemClickListener;
 import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
@@ -336,6 +337,10 @@ public class StageOfTestingActivity extends BaseActivity implements IQuestionBan
     private void setTrainingCampDialog(String title, String message) {
         if (plate_id == Constant.PLATE_7) {
             if (TextUtils.isEmpty(title) || TextUtils.isEmpty(message)) {
+                return;
+            }
+            if (this.isDestroyed() || this.isFinishing()) {
+                LogUtils.e("setTrainingCampDialog activity.isDestroyed() || activity.isFinishing()");
                 return;
             }
             new AlertDialog(StageOfTestingActivity.this).builder()

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -292,6 +293,9 @@ public class DownloadComletedDirActivity extends BaseActivity {
                 Collections.sort(sonBeanList, new Comparator<DownloadCompletedDirBean.DataBean.SonBean>() {
                     @Override
                     public int compare(DownloadCompletedDirBean.DataBean.SonBean o1, DownloadCompletedDirBean.DataBean.SonBean o2) {
+                        if (TextUtils.isEmpty(o1.getSort()) || TextUtils.isEmpty(o2.getSort())) {
+                            return 0;
+                        }
                         int a = Integer.parseInt(o1.getSort());
                         int b = Integer.parseInt(o2.getSort());
                         int i = a - b;
@@ -305,6 +309,9 @@ public class DownloadComletedDirActivity extends BaseActivity {
         Collections.sort(beanList, new Comparator<DownloadCompletedDirBean.DataBean>() {
             @Override
             public int compare(DownloadCompletedDirBean.DataBean o1, DownloadCompletedDirBean.DataBean o2) {
+                if (TextUtils.isEmpty(o1.getSectionSort()) || TextUtils.isEmpty(o2.getSectionSort())) {
+                    return 0;
+                }
                 int a = Integer.parseInt(o1.getSectionSort());
                 int b = Integer.parseInt(o2.getSectionSort());
                 int i = a - b;

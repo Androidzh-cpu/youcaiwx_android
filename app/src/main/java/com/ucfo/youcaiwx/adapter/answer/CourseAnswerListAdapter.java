@@ -46,11 +46,11 @@ public class CourseAnswerListAdapter extends BaseAdapter<AnswerListDataBean.Data
     private OnItemViewClickListener onItemClickListener;
     private int type;//0课程播放答疑,1个人中心答疑,2个人中心题库答疑
 
-    public CourseAnswerListAdapter(List<AnswerListDataBean.DataBean> list, Context context, int type) {
+    public CourseAnswerListAdapter(List<AnswerListDataBean.DataBean> list, Context context, int type, Transferee transferee1) {
         this.list = list;
         this.context = context;
         this.type = type;
-        transferee = Transferee.getDefault(context);
+        this.transferee = transferee1;
     }
 
     public void notifyChange(List<AnswerListDataBean.DataBean> dataBeanList) {
@@ -127,6 +127,8 @@ public class CourseAnswerListAdapter extends BaseAdapter<AnswerListDataBean.Data
             case 2:
                 holder.mAnswerCreatetimeItem.setText(bean.getCreate_times());
                 break;
+            default:
+                break;
         }
         if (!TextUtils.isEmpty(quiz)) {//提问问题
             holder.mAnswerContentItem.setText(quiz);
@@ -138,6 +140,8 @@ public class CourseAnswerListAdapter extends BaseAdapter<AnswerListDataBean.Data
             case 2://2未回复
                 holder.mAnswerReplystatusItem.setVisibility(View.GONE);
                 break;
+            default:
+                break;
         }
         List<String> know_name = bean.getKnow_name();
         switch (type) {//问答创建时间
@@ -146,6 +150,8 @@ public class CourseAnswerListAdapter extends BaseAdapter<AnswerListDataBean.Data
                 know_name.add(section_name);
                 break;
             case 2://题库答疑
+                break;
+            default:
                 break;
         }
         if (know_name.size() > 0) {//TODO 标签处理
@@ -188,7 +194,7 @@ public class CourseAnswerListAdapter extends BaseAdapter<AnswerListDataBean.Data
 
     @Override
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View inflate = layoutInflater.inflate(R.layout.item_answer_list, viewGroup, false);
         return new ViewHolder(inflate);
     }

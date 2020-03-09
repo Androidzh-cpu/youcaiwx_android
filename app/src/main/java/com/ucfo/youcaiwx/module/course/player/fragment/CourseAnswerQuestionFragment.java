@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.hitomi.tilibrary.transfer.Transferee;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -50,6 +51,7 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
     private int courseBuyState;
 
     private CourseAnswerQuestionListener courseAnswerQuestionListener;
+    private Transferee transferee;
 
     public interface CourseAnswerQuestionListener {
         int AnswerQuestionGetCoursePackageId();
@@ -89,6 +91,11 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
         refreshlayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
         loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
 
+        if (getContext() != null) {
+            transferee = Transferee.getDefault(getContext());
+        } else {
+            transferee = Transferee.getDefault(getActivity());
+        }
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -206,7 +213,7 @@ public class CourseAnswerQuestionFragment extends BaseFragment implements ICours
      */
     private void initAdapter() {
         if (courseAnswerListAdapter == null) {
-            courseAnswerListAdapter = new CourseAnswerListAdapter(answerList, getContext(), 0);
+            courseAnswerListAdapter = new CourseAnswerListAdapter(answerList, getContext(), 0,transferee);
             recyclerview.setAdapter(courseAnswerListAdapter);
         } else {
             courseAnswerListAdapter.notifyChange(answerList);

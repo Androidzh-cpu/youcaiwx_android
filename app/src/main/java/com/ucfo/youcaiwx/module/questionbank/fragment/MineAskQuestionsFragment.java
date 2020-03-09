@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.hitomi.tilibrary.transfer.Transferee;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -46,6 +47,7 @@ public class MineAskQuestionsFragment extends BaseFragment implements IQuestionA
     private QuestionAnswerPresenter questionAnswerPresenter;
     private ArrayList<QuestionAnswerListBean.DataBean> list;
     private QuestionAnswerListAdapter questionAnswerListAdapter;
+    private Transferee transferee;
 
 
     @Override
@@ -58,6 +60,12 @@ public class MineAskQuestionsFragment extends BaseFragment implements IQuestionA
         recyclerview = (RecyclerView) itemView.findViewById(R.id.recyclerview);
         loadinglayout = (LoadingLayout) itemView.findViewById(R.id.loadinglayout);
         refreshlayout = (SmartRefreshLayout) itemView.findViewById(R.id.refreshlayout);
+
+        if (getContext() != null) {
+            transferee = Transferee.getDefault(getContext());
+        } else {
+            transferee = Transferee.getDefault(getActivity());
+        }
 
         FragmentActivity fragmentActivity = getActivity();
         if (fragmentActivity instanceof QuestionAnswerActivity) {
@@ -141,7 +149,10 @@ public class MineAskQuestionsFragment extends BaseFragment implements IQuestionA
     //TODO 设置适配器
     private void initAdapter() {
         if (questionAnswerListAdapter == null) {
-            questionAnswerListAdapter = new QuestionAnswerListAdapter(list, getContext());
+            if (transferee == null) {
+                transferee = Transferee.getDefault(getContext());
+            }
+            questionAnswerListAdapter = new QuestionAnswerListAdapter(list, getContext(), transferee);
             recyclerview.setAdapter(questionAnswerListAdapter);
         } else {
             questionAnswerListAdapter.notifyChange(list);
@@ -161,12 +172,12 @@ public class MineAskQuestionsFragment extends BaseFragment implements IQuestionA
 
     @Override
     public void showLoading() {
-        //setProcessLoading(null, true);
+        setProcessLoading(null, true);
     }
 
     @Override
     public void showLoadingFinish() {
-        //dismissPorcess();
+        dismissPorcessDelayed(300);
     }
 
     @Override

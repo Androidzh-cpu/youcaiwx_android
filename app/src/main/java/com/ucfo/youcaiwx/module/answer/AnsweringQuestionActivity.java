@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hitomi.tilibrary.transfer.Transferee;
 import com.ucfo.youcaiwx.R;
 import com.ucfo.youcaiwx.adapter.answer.AnsweringQuestionDetailAdapter;
 import com.ucfo.youcaiwx.base.BaseActivity;
@@ -69,6 +70,7 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
     private int answer_id;
     private int answer_replystatus;
     private AnsweringQuestionDetailAdapter answeringQuestionDetailAdapter;
+    private Transferee transferee;
 
     @Override
     protected void onResume() {
@@ -117,6 +119,7 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
         btnNext.setOnClickListener(this);
         loadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
 
+        transferee = Transferee.getDefault(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -233,7 +236,10 @@ public class AnsweringQuestionActivity extends BaseActivity implements IAnswerin
 
     private void initAdapter() {
         if (answeringQuestionDetailAdapter == null) {
-            answeringQuestionDetailAdapter = new AnsweringQuestionDetailAdapter(list, this);
+            if (transferee == null) {
+                transferee = Transferee.getDefault(this);
+            }
+            answeringQuestionDetailAdapter = new AnsweringQuestionDetailAdapter(list, this, transferee);
             recyclerview.setAdapter(answeringQuestionDetailAdapter);
         } else {
             answeringQuestionDetailAdapter.notifyChange(list);
