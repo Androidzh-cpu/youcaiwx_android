@@ -15,9 +15,9 @@ public class ApiStores {
     }
 
     //线上正式环境
-    //private static final String ROOT_URL = "https://api.youcaiwx.cn/";
+    private static final String ROOT_URL = "https://api.youcaiwx.cn/";
     //线下测试环境
-    private static final String ROOT_URL = "https://dest.youcaiwx.cn/";
+    //private static final String ROOT_URL = "https://dest.youcaiwx.cn/";
 
     private static final String BASE_URL = ROOT_URL + "apps/";
     private static final String BASE_URL_UPLOAD = ROOT_URL + "upload/";
@@ -25,8 +25,8 @@ public class ApiStores {
     //socket地址
     //public static final String SOCKET = "ws://ycapi.youcaiwx.com:2346";
     //public static final String SOCKET = "ws://47.93.190.198:2346";
-    //public static final String SOCKET = "ws://api.youcaiwx.cn:2346";
-    public static final String SOCKET = "ws://59.110.223.165:2346";
+    public static final String SOCKET = "ws://api.youcaiwx.cn:2346";
+    //public static final String SOCKET = "ws://59.110.223.165:2346";
 
 
     //上传文件
