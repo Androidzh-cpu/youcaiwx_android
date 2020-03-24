@@ -191,6 +191,7 @@ public class AnsweringCourseDetailsBean {
             private String creates_time;
             private String username;
             private String user_self;
+            private String is_complain;
             private String video_name;
             private List<String> quiz_image;
 
@@ -283,6 +284,14 @@ public class AnsweringCourseDetailsBean {
 
             public void setSection_name(String section_name) {
                 this.video_name = section_name;
+            }
+
+            public String getIs_complain() {
+                return is_complain == null ? "" : is_complain;
+            }
+
+            public void setIs_complain(String is_complain) {
+                this.is_complain = is_complain;
             }
         }
     }

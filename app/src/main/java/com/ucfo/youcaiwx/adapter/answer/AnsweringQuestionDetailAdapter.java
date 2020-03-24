@@ -83,13 +83,19 @@ public class AnsweringQuestionDetailAdapter extends BaseAdapter<AnsweringQuestio
         List<String> know = bean.getKnow();
         //图片
         List<String> beanQuizImage = bean.getQuiz_image();
+        //是否投诉1投诉2未投诉
+        String isComplain = bean.getIs_complain();
         //TODO 是否可以投诉
         if (TextUtils.equals(String.valueOf("2"), isTeacher)) {
             //老师
             holder.mTeacherTab.setVisibility(View.VISIBLE);
             //其他人的答疑不显示回复按钮
             if (TextUtils.equals(String.valueOf("1"), userSelf)) {
-                holder.mComplainTxt.setVisibility(View.VISIBLE);
+                if (TextUtils.equals(String.valueOf("1"), isComplain)) {
+                    holder.mComplainTxt.setVisibility(View.GONE);
+                } else {
+                    holder.mComplainTxt.setVisibility(View.VISIBLE);
+                }
             } else {
                 holder.mComplainTxt.setVisibility(View.GONE);
             }

@@ -123,8 +123,17 @@ public class AnsweringQuestionDetailsBean {
             private String creates_time;
             private String username;
             private String user_self;
+            private String is_complain;
             private List<String> quiz_image;
             private List<String> know;
+
+            public String getIs_complain() {
+                return is_complain == null ? "" : is_complain;
+            }
+
+            public void setIs_complain(String is_complain) {
+                this.is_complain = is_complain;
+            }
 
             public String getIs_close() {
                 return is_close;
