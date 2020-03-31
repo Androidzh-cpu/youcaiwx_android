@@ -79,18 +79,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * Time: 2019-3-5.  下午 5:40
  * Email:2911743255@qq.com
  * ClassName: UcfoApplication
- * Detail:真相清单(真就真相清单)
- * SBLD,除了正事不会,非正事也不回,哦对了,嘴牛逼
- * 看不顺眼的就给人家T了,典型的TianG,别问运营.运营就是这样没的
- * 喜欢画难看的大饼,还TM画的贼J难看
- * 空话一堆,TM听着贼J恶心,恶心到家的那种
- * 一个学员说做了10年连个App都做不好,那不废话吗,就这鸟样做好才出大力出奇迹
- * 整整一年,能在公司待下来也算人家的能耐,反正gjb都不会
- * 其他部门的人都是亲爹,自己部门的人都是这不行那不行
- * 真正做到了为其他部门插'自己人'无数刀'
- * UI,后台,网校后端和前端,IOS以及我都挨过刀,还有产品大人也挨过刀
- * 带着自己人给人家道歉的事也干过,问问UI和后端那是啥感觉
- * 这特么我也不知道啥时候写的,你要是感兴趣就留着吧,删不删由你
  */
 public class UcfoApplication extends Application {
     private static UcfoApplication application;
