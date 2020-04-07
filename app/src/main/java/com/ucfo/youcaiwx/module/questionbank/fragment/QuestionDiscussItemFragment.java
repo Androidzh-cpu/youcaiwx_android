@@ -46,7 +46,9 @@ import java.util.List;
 @SuppressLint("ValidFragment")
 public class QuestionDiscussItemFragment extends BaseFragment implements View.OnClickListener {
     ////////////////////////////////////////////////////////////////////TODO 又是一个分水岭@_@ ///////////////////////////////////////////////////////////////////////////////////////
-    private int index, allIndex, plateId;//当前索引 , 全部的页面数量 , 板块ID
+    private int index;//当前索引
+    private int allIndex;//全部的页面数量
+    private int plateId;//板块ID
     private String EXERCISE_TYPE;//卷子的模式
     private TextView mCurrentIndexQuestion, mCountIndexQuestion, mContent1Question, mContent2Question, mContent3Question, mAnalysisContentQuestion;
     private ImageView mImage1Question, mImage2Question, mAnalysisImageQuestion;
@@ -76,7 +78,6 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
         boolean disscussGetDiscussAnalysis();
 
         void disscussCancelCurrentQuestion();
-
     }
 
     @Override
@@ -95,6 +96,10 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
         questionDisscussListener = null;
     }
 
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     public QuestionDiscussItemFragment() {
     }
 
@@ -104,6 +109,7 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
         this.plateId = plateId;
         this.EXERCISE_TYPE = type;//传递的type来识别，此处接口只是选择题模型，A是考试模式，B是练习模式 D解析模式
     }
+
 
     @Override
     protected int setContentView() {
@@ -145,10 +151,6 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
 
     @Override
     protected void initData() {
-        //这是当前索引值和全部页面数量
-        mCurrentIndexQuestion.setText(String.valueOf(index + 1));
-        mCountIndexQuestion.setText(String.valueOf(allIndex));
-
         if (questionDisscussListener != null) {
             questionList = questionDisscussListener.disscussGetQuestionList();
             optionsAnswerList = questionDisscussListener.disscussGetOptionsAnswerList();
@@ -164,6 +166,11 @@ public class QuestionDiscussItemFragment extends BaseFragment implements View.On
                 discuss_analysis = testmodeActivity.getDiscussAnalysis();
             }
         }
+
+        //这是当前索引值和全部页面数量
+        int currentIndex = index + 1;
+        mCurrentIndexQuestion.setText(String.valueOf(currentIndex));
+        mCountIndexQuestion.setText(String.valueOf(allIndex));
 
         //TODO 判断移除错题和收藏
         if (plateId == Constant.PLATE_13) {//我的收藏查看试题

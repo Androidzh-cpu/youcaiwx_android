@@ -60,12 +60,10 @@
         tools:replace="android:supportsRtl,allowBackup,label">
 
         <!--全局Context提供者-->
-        <!--
-                <provider
-                    android:name=".utils.contextutils.ApplicationContextProvider"
-                    android:authorities="${applicationId}.contextprovider"
-                    android:exported="false" />
-        -->
+        <provider
+            android:name=".utils.contextutils.ApplicationContextProvider"
+            android:authorities="${applicationId}.contextprovider"
+            android:exported="false" />
         <!-- 相机适配 -->
         <!-- android:authorities="${applicationId}.provider" -->
         <provider

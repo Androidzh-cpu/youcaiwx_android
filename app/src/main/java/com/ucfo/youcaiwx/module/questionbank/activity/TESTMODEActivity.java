@@ -49,6 +49,7 @@ import com.ucfo.youcaiwx.utils.sharedutils.SharedPreferencesUtils;
 import com.ucfo.youcaiwx.utils.time.CountDownTimerSupport;
 import com.ucfo.youcaiwx.utils.time.OnCountDownTimerListener;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
+import com.ucfo.youcaiwx.widget.AlphaTransformer;
 import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.customview.NestedGridView;
 import com.ucfo.youcaiwx.widget.dialog.PauseExamDialog;
@@ -1112,8 +1113,8 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         //我屮艸芔茻,viewpager2这个时候刚出来,修改了好多viewpager的bug,纠结用哪个,但是官方给的远程依赖还处于alpha阶段,BUG是肯定存在的了,替代VP1是早晚的
         questionItemAdapter = new QuestionItemAdapter(getSupportFragmentManager(), EXERCISE_TYPE, questionList, plate_id);
         questionItemAdapter.notifyDataSetChanged();
+        viewPager.setPageTransformer(false, new AlphaTransformer());
         viewPager.setAdapter(questionItemAdapter);
-
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -1123,7 +1124,6 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
             @Override
             public void onPageSelected(int position) {
                 //进入一个新的页面调用这个方法，var1当前位于哪个页面。
-
                 setCollectionIcon(Integer.parseInt(questionList.get(position).getCollection()));//设置收藏状态
             }
 

@@ -52,7 +52,9 @@ import java.util.List;
 @SuppressLint("ValidFragment")
 public class QuestionChoiceItemFragment extends BaseFragment implements AbsListView.OnItemClickListener, View.OnClickListener {
     ////////////////////////////////////////////////////////////////////TODO 又是一个分水岭@_@ ///////////////////////////////////////////////////////////////////////////////////////
-    private int index, allIndex, plate_id;//当前索引,全部的页面数量 , 板块ID
+    private int index;//当前索引
+    private int allIndex;//全部的页面数量
+    private int plate_id;//板块ID
     private String EXERCISE_TYPE;//卷子的模式
     private TextView mCurrentIndexQuestion, mCountIndexQuestion;
     private TextView mContent1Question, mContent2Question, mContent3Question;
@@ -107,6 +109,10 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         questionChoiceListener = null;
     }
 
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     @Override
     protected int setContentView() {
         return R.layout.fragment_chiocequestionitem;
@@ -122,6 +128,10 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
         this.EXERCISE_TYPE = type;//传递的type来识别，此处接口只是选择题模型，A是考试模式，B是练习模式 D解析模式
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+    }
 
     @Override
     protected void initView(View view) {
@@ -183,6 +193,11 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
             }
         }
 
+        //索引值和全部页面数量
+        int currentIndex = index + 1;
+        mCurrentIndexQuestion.setText(String.valueOf(currentIndex));
+        mCountIndexQuestion.setText(String.valueOf(allIndex));
+
         //TODO 判断移除错题和收藏
         if (plate_id == Constant.PLATE_17) {
             //错题中心查看解析
@@ -199,11 +214,6 @@ public class QuestionChoiceItemFragment extends BaseFragment implements AbsListV
 
         //TODO 图片预览初始化
         transferee = Transferee.getDefault(getContext());
-
-        //索引值和全部页面数量
-        int currentIndex = index + 1;
-        mCurrentIndexQuestion.setText(String.valueOf(currentIndex));
-        mCountIndexQuestion.setText(String.valueOf(allIndex));
 
         //TODO 设置题干
         initTopicData();

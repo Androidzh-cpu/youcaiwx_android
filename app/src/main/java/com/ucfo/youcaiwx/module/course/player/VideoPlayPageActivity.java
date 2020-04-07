@@ -83,7 +83,6 @@ import com.ucfo.youcaiwx.module.course.player.fragment.CourseDirectoryListFragme
 import com.ucfo.youcaiwx.module.course.player.fragment.CourseIntroductionFragment;
 import com.ucfo.youcaiwx.module.course.player.utils.ErrorInfo;
 import com.ucfo.youcaiwx.module.course.player.utils.NetWatchdog;
-import com.ucfo.youcaiwx.module.course.player.utils.ScreenUtils;
 import com.ucfo.youcaiwx.module.course.player.utils.TimeFormater;
 import com.ucfo.youcaiwx.module.course.player.widget.AliyunScreenMode;
 import com.ucfo.youcaiwx.module.course.player.widget.GestureDialogManager;
@@ -2190,7 +2189,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
 
     /**
-     * 视频播放横竖屏切换
+     * 视频播放横竖屏切换,此方法onresume周期也会调用,可以修改视频view的宽高比例,这里默认16:9
      */
     private void updatePlayerViewMode() {
         if (playerRelativelayout != null) {
@@ -2201,8 +2200,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 playerRelativelayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                 //设置view的布局，宽高之类
-                LinearLayout.LayoutParams aliVcVideoViewLayoutParams = (LinearLayout.LayoutParams) playerRelativelayout.getLayoutParams();
-                aliVcVideoViewLayoutParams.height = (int) (ScreenUtils.getWidth(this) * 9.0f / 16);
+                ViewGroup.LayoutParams aliVcVideoViewLayoutParams = playerRelativelayout.getLayoutParams();
+                //aliVcVideoViewLayoutParams.height = (int) (ScreenUtils.getWidth(this) * 9.0f / 16);
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+                int deviceWidth = displayMetrics.widthPixels;
+                aliVcVideoViewLayoutParams.height = deviceWidth / 16 * 9;
                 aliVcVideoViewLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
             } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 //TODO 转到横屏了
@@ -2277,6 +2280,84 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             int statusBarHeight = StatusBarUtil.getStatusBarHeight(this);
             playerTopliner.setPadding(DensityUtil.dp2px(15), statusBarHeight, DensityUtil.dp2px(15), DensityUtil.dp2px(2));
         }
+    }
+
+    //TODO 设置surfaceview的布局
+    private void setSurfaceViewLayout(double screenSize) {
+        RelativeLayout.LayoutParams params = getScreenSizeParams(screenSize);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        surfaceview.setLayoutParams(params);
+    }
+
+    /**
+     * 这个函数,讲真的,布吉岛
+     */
+    private RelativeLayout.LayoutParams getScreenSizeParams(double screenSize) {
+/*
+        int videoWidth = aliyunVodPlayer.getVideoWidth();
+        int videoHeight = aliyunVodPlayer.getVideoHeight();
+        BigDecimal videoWidthB = new BigDecimal(Double.toString(videoWidth));
+        BigDecimal videoHeightB = new BigDecimal(Double.toString(videoHeight));
+        //视频的比例
+        double doubleValue = videoWidthB.divide(videoHeightB, 2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        logger("getScreenSizeParams     videoWidth:" + videoWidth + "       videoHeight" + videoHeight + "    proportion:" + doubleValue);
+*/
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //竖屏
+            currentScreenSize = 1;
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+            int deviceWidth = displayMetrics.widthPixels;
+            int finalHeight = deviceWidth / 16 * 9;
+            int finalWidth = ViewGroup.LayoutParams.MATCH_PARENT;
+            return new RelativeLayout.LayoutParams(finalWidth, finalHeight);
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //横屏
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+            int deviceWidth = displayMetrics.widthPixels;
+            int deviceHeight = displayMetrics.heightPixels;
+
+            int transform = deviceWidth / 16 * 9;
+            if (transform < deviceHeight) {
+                //按照16:9的高小于设备的高
+                int height = deviceWidth / 16 * 9;
+                int finalWidth = (int) (deviceWidth * screenSize);
+                int finalHight = (int) (height * screenSize);
+                return new RelativeLayout.LayoutParams(finalWidth, finalHight);
+            } else {
+                //按照16:9计算得出的高大于屏幕的高
+                int width = deviceHeight / 9 * 16;
+                int finalWidth = (int) (width * screenSize);
+                int finalHeight = (int) (deviceHeight * screenSize);
+                return new RelativeLayout.LayoutParams(finalWidth, finalHeight);
+            }
+        }
+        int width = aliyunVodPlayer.getVideoWidth();
+        int height = aliyunVodPlayer.getVideoHeight();
+        return new RelativeLayout.LayoutParams(width, height);
+
+/*
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        int deviceWidth = displayMetrics.widthPixels;
+        int deviceHeight = displayMetrics.heightPixels;
+        int finalWidth = 600;
+        int finalHeight = 400;
+        if (getScreenMode() == AliyunScreenMode.Small) {
+            int relativeLayoutHeight = playerRelativelayout.getLayoutParams().height;
+
+            finalWidth = (int) (deviceWidth * screenSize);
+            finalHeight = (int) (relativeLayoutHeight * screenSize);
+            return new RelativeLayout.LayoutParams(finalWidth, finalHeight);
+        } else if (getScreenMode() == AliyunScreenMode.Full) {
+            finalWidth = (int) (deviceWidth * screenSize);
+            finalHeight = (int) (deviceHeight * screenSize);
+            return new RelativeLayout.LayoutParams(finalWidth, finalHeight);
+        }
+        return null;
+*/
     }
 
     /**
@@ -3113,51 +3194,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         } else {
             finish();//退出本页面
         }
-    }
-
-    //TODO 设置surfaceview的布局
-    private void setSurfaceViewLayout(double screenSize) {
-        RelativeLayout.LayoutParams params = getScreenSizeParams(screenSize);
-        if (params != null) {
-            params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        }
-        surfaceview.setLayoutParams(params);
-    }
-
-    /**
-     * 这个函数,讲真的,布吉岛
-     */
-    private RelativeLayout.LayoutParams getScreenSizeParams(double screenSize) {
-/*
-        int videoWidth = aliyunVodPlayer.getVideoWidth();
-        int videoHeight = aliyunVodPlayer.getVideoHeight();
-        BigDecimal videoWidthB = new BigDecimal(Double.toString(videoWidth));
-        BigDecimal videoHeightB = new BigDecimal(Double.toString(videoHeight));
-        double doubleValue = videoWidthB.divide(videoHeightB, 2, BigDecimal.ROUND_HALF_UP).doubleValue();
-        logger("getScreenSizeParams     videoWidth:" + videoWidth + "       videoHeight" + videoHeight + "    proportion:" + doubleValue);
-*/
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-
-        int deviceWidth = displayMetrics.widthPixels;
-        int deviceHeight = displayMetrics.heightPixels;
-
-        int finalWidth = 600;
-        int finalHeight = 400;
-        if (getScreenMode() == AliyunScreenMode.Small) {
-            int relativeLayoutHeight = playerRelativelayout.getLayoutParams().height;
-
-            finalWidth = (int) (deviceWidth * screenSize);
-            finalHeight = (int) (relativeLayoutHeight * screenSize);
-            return new RelativeLayout.LayoutParams(finalWidth, finalHeight);
-        } else if (getScreenMode() == AliyunScreenMode.Full) {
-            finalWidth = (int) (deviceWidth * screenSize);
-            finalHeight = (int) (deviceHeight * screenSize);
-            return new RelativeLayout.LayoutParams(finalWidth, finalHeight);
-        }
-
-        return null;
     }
 
     /**

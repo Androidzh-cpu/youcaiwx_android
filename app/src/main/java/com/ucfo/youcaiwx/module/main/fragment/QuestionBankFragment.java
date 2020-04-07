@@ -322,6 +322,7 @@ public class QuestionBankFragment extends BaseFragment implements IQuestionBankH
                                     break;
                                 }
                             }
+                            //小箭头
                             titlebarMidimage.setVisibility(View.VISIBLE);
                             //获取对应的科目的信息
                             getSubjectInfo(currentSubjectId);

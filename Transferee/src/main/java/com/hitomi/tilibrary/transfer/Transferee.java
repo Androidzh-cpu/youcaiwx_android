@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.AbsListView;
 import android.widget.ImageView;
@@ -34,7 +35,7 @@ import java.util.List;
 public class Transferee implements DialogInterface.OnShowListener,
         DialogInterface.OnKeyListener,
         TransferLayout.OnLayoutResetListener {
-
+    private final static String TAG = "Transferee";
     private Context context;
     private Dialog transDialog;
 
@@ -51,6 +52,10 @@ public class Transferee implements DialogInterface.OnShowListener,
      * @param context 上下文环境
      */
     private Transferee(Context context) {
+        if (context == null) {
+            Log.e(TAG, "the  structure method can't running , because the context is null");
+            return;
+        }
         this.context = context;
         creatLayout();
         createDialog();
@@ -95,8 +100,9 @@ public class Transferee implements DialogInterface.OnShowListener,
      * 检查参数，如果必须参数缺少，就使用缺省参数或者抛出异常
      */
     private void checkConfig() {
-        if (transConfig.isSourceEmpty())
+        if (transConfig.isSourceEmpty()) {
             throw new IllegalArgumentException("the parameter sourceImageList can't be empty");
+        }
 
         transConfig.setNowThumbnailIndex(transConfig.getNowThumbnailIndex() < 0
                 ? 0 : transConfig.getNowThumbnailIndex());
@@ -169,7 +175,8 @@ public class Transferee implements DialogInterface.OnShowListener,
         fillPlaceHolder(originImageList, totalCount, firstPos, lastPos);
     }
 
-    private void fillPlaceHolder(List<ImageView> originImageList, int totalCount, int firstPos, int lastPos) {
+    private void fillPlaceHolder(List<ImageView> originImageList, int totalCount,
+                                 int firstPos, int lastPos) {
         if (firstPos > 0) {
             for (int pos = firstPos; pos > 0; pos--) {
                 originImageList.add(0, null);
@@ -189,6 +196,10 @@ public class Transferee implements DialogInterface.OnShowListener,
      * @return transferee
      */
     public Transferee apply(TransferConfig config) {
+        if (context == null) {
+            Log.e(TAG, "the apply method can't running , because the context is null");
+            return this;
+        }
         if (!shown) {
             transConfig = config;
             fillOriginImages();
@@ -211,10 +222,17 @@ public class Transferee implements DialogInterface.OnShowListener,
      * 显示 transferee
      */
     public void show() {
-        if (shown) return;
+        if (context == null) {
+            Log.e(TAG, "the show method can't running , because the context is null");
+            return;
+        }
+        if (shown) {
+            return;
+        }
         transDialog.show();
-        if (transListener != null)
+        if (transListener != null) {
             transListener.onShow();
+        }
 
         shown = true;
     }
@@ -225,7 +243,13 @@ public class Transferee implements DialogInterface.OnShowListener,
      * @param listener {@link OnTransfereeStateChangeListener}
      */
     public void show(OnTransfereeStateChangeListener listener) {
-        if (shown) return;
+        if (context == null) {
+            Log.e(TAG, "the show method can't running , because the context is null");
+            return;
+        }
+        if (shown) {
+            return;
+        }
         transDialog.show();
         transListener = listener;
         transListener.onShow();
@@ -237,7 +261,9 @@ public class Transferee implements DialogInterface.OnShowListener,
      * 关闭 transferee
      */
     public void dismiss() {
-        if (!shown) return;
+        if (!shown) {
+            return;
+        }
         transLayout.dismiss(transConfig.getNowThumbnailIndex());
         shown = false;
     }
@@ -257,8 +283,9 @@ public class Transferee implements DialogInterface.OnShowListener,
     @Override
     public void onReset() {
         transDialog.dismiss();
-        if (transListener != null)
+        if (transListener != null) {
             transListener.onDismiss();
+        }
 
         shown = false;
     }
