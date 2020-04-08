@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/dp_15"
-        android:text="比例"
+        android:text="@string/video_percent"
         android:textColor="@android:color/white"
         android:textSize="@dimen/sp_13" />
 
@@ -30,7 +30,7 @@
             android:layout_weight="1"
             android:button="@null"
             android:padding="@dimen/dp_5"
-            android:text="50%"
+            android:text="@string/video_percent_50"
             android:textColor="@drawable/alivc_showmore_size"
             android:textSize="@dimen/sp_14" />
 
@@ -42,7 +42,7 @@
             android:layout_weight="1"
             android:button="@null"
             android:padding="@dimen/dp_5"
-            android:text="75%"
+            android:text="@string/video_percent_75"
             android:textColor="@drawable/alivc_showmore_size"
             android:textSize="@dimen/sp_14" />
 
@@ -54,7 +54,7 @@
             android:button="@null"
             android:checked="true"
             android:padding="@dimen/dp_5"
-            android:text="100%"
+            android:text="@string/video_percent_100"
             android:textColor="@drawable/alivc_showmore_size"
             android:textSize="@dimen/sp_14" />
     </RadioGroup>
@@ -63,7 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/dp_15"
-        android:text="连续播放"
+        android:text="@string/video_continue_play"
         android:textColor="@android:color/white"
         android:textSize="@dimen/sp_13" />
 
@@ -75,6 +75,4 @@
         android:layout_marginEnd="@dimen/dp_10"
         android:layout_marginStart="@dimen/dp_10"
         app:hasShadow="false" />
-
-
 </LinearLayout>

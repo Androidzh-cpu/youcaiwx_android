@@ -264,7 +264,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     //当前亮度和音量
     private int currentScreenBrigtness, currentVolume;
     //当前画面比例
-    private double currentScreenSize = 1;
+    private float currentScreenSize = 1;
     //默认倍速播放
     private float currentSpeed = 1.0f;
     //清晰度选择
@@ -2200,13 +2200,14 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 playerRelativelayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                 //设置view的布局，宽高之类
-                ViewGroup.LayoutParams aliVcVideoViewLayoutParams = playerRelativelayout.getLayoutParams();
+                LinearLayout.LayoutParams aliVcVideoViewLayoutParams = (LinearLayout.LayoutParams) playerRelativelayout.getLayoutParams();
                 //aliVcVideoViewLayoutParams.height = (int) (ScreenUtils.getWidth(this) * 9.0f / 16);
                 DisplayMetrics displayMetrics = new DisplayMetrics();
                 windowManager.getDefaultDisplay().getMetrics(displayMetrics);
                 int deviceWidth = displayMetrics.widthPixels;
+
                 aliVcVideoViewLayoutParams.height = deviceWidth / 16 * 9;
-                aliVcVideoViewLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                aliVcVideoViewLayoutParams.width = deviceWidth;
             } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 //TODO 转到横屏了
                 //隐藏状态栏
@@ -2215,8 +2216,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 }
                 //设置view的布局，宽高
                 LinearLayout.LayoutParams aliVcVideoViewLayoutParams = (LinearLayout.LayoutParams) playerRelativelayout.getLayoutParams();
-                aliVcVideoViewLayoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
                 aliVcVideoViewLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                aliVcVideoViewLayoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
             }
         }
         /**
@@ -2264,18 +2265,18 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             mCurrentScreenMode = finalScreenMode;
         }
         if (finalScreenMode == AliyunScreenMode.Full) {
-            playerFullscreen.setImageResource(R.drawable.icon_verticalscreen);
             //不是固定竖屏播放。
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
             playerControllerView(mCurrentScreenMode);
-
+            playerFullscreen.setImageResource(R.drawable.icon_verticalscreen);
             playerTopliner.setPadding(DensityUtil.dp2px(15), DensityUtil.dp2px(8), DensityUtil.dp2px(15), DensityUtil.dp2px(8));
         } else if (finalScreenMode == AliyunScreenMode.Small) {
-            playerFullscreen.setImageResource(R.drawable.icon_fullscreen);
+            //重置屏幕比例
+            currentScreenSize = Constant.PERCENT_100;
             //不是固定竖屏播放。
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             playerControllerView(mCurrentScreenMode);
-
+            playerFullscreen.setImageResource(R.drawable.icon_fullscreen);
             //重新设置菜单栏的高度和填充距离
             int statusBarHeight = StatusBarUtil.getStatusBarHeight(this);
             playerTopliner.setPadding(DensityUtil.dp2px(15), statusBarHeight, DensityUtil.dp2px(15), DensityUtil.dp2px(2));
@@ -2283,16 +2284,22 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     }
 
     //TODO 设置surfaceview的布局
-    private void setSurfaceViewLayout(double screenSize) {
+    private void setSurfaceViewLayout(float screenSize) {
         RelativeLayout.LayoutParams params = getScreenSizeParams(screenSize);
-        params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        surfaceview.setLayoutParams(params);
+        if (params != null) {
+            params.addRule(RelativeLayout.CENTER_IN_PARENT, playerRelativelayout.getId());
+            surfaceview.setLayoutParams(params);
+        } else {
+            RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+            params1.addRule(RelativeLayout.CENTER_IN_PARENT, playerRelativelayout.getId());
+            surfaceview.setLayoutParams(params1);
+        }
     }
 
     /**
      * 这个函数,讲真的,布吉岛
      */
-    private RelativeLayout.LayoutParams getScreenSizeParams(double screenSize) {
+    private RelativeLayout.LayoutParams getScreenSizeParams(float screenSize) {
 /*
         int videoWidth = aliyunVodPlayer.getVideoWidth();
         int videoHeight = aliyunVodPlayer.getVideoHeight();
@@ -2302,23 +2309,15 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         double doubleValue = videoWidthB.divide(videoHeightB, 2, BigDecimal.ROUND_HALF_UP).doubleValue();
         logger("getScreenSizeParams     videoWidth:" + videoWidth + "       videoHeight" + videoHeight + "    proportion:" + doubleValue);
 */
-
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             //竖屏
-            currentScreenSize = 1;
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-            int deviceWidth = displayMetrics.widthPixels;
-            int finalHeight = deviceWidth / 16 * 9;
-            int finalWidth = ViewGroup.LayoutParams.MATCH_PARENT;
-            return new RelativeLayout.LayoutParams(finalWidth, finalHeight);
+            return new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             //横屏
             DisplayMetrics displayMetrics = new DisplayMetrics();
             windowManager.getDefaultDisplay().getMetrics(displayMetrics);
             int deviceWidth = displayMetrics.widthPixels;
             int deviceHeight = displayMetrics.heightPixels;
-
             int transform = deviceWidth / 16 * 9;
             if (transform < deviceHeight) {
                 //按照16:9的高小于设备的高
@@ -2334,11 +2333,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 return new RelativeLayout.LayoutParams(finalWidth, finalHeight);
             }
         }
-        int width = aliyunVodPlayer.getVideoWidth();
-        int height = aliyunVodPlayer.getVideoHeight();
-        return new RelativeLayout.LayoutParams(width, height);
+        return null;
 
 /*
+        //弃案
         DisplayMetrics displayMetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
         int deviceWidth = displayMetrics.widthPixels;
@@ -2881,8 +2879,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      */
     private void initSettingsDialog() {
         if (playSettingWindow == null) {
-            playSettingWindow = new PlaySettingWindow(this, playerRelativelayout.getHeight(), currentScreenSize, continuousPlay);
+            playSettingWindow = new PlaySettingWindow(this, playerRelativelayout.getHeight(), continuousPlay);
         }
+        playSettingWindow.setCurrentScreenSize(currentScreenSize);
         playSettingWindow.showAsDropDown(playerRelativelayout);
         setLayoutVisibility(false, false);
         playSettingWindow.setScreenSizeCheckLister(new RadioGroup.OnCheckedChangeListener() {
@@ -2890,15 +2889,15 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_screensize_50:
-                        currentScreenSize = 0.5;
+                        currentScreenSize = Constant.PERCENT_50;
                         setSurfaceViewLayout(currentScreenSize);
                         break;
                     case R.id.rb_screensize_75:
-                        currentScreenSize = 0.75;
+                        currentScreenSize = Constant.PERCENT_75;
                         setSurfaceViewLayout(currentScreenSize);
                         break;
                     case R.id.rb_screensize_100:
-                        currentScreenSize = 1;
+                        currentScreenSize = Constant.PERCENT_100;
                         setSurfaceViewLayout(currentScreenSize);
                         break;
                     default:
@@ -2906,7 +2905,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 }
             }
         });
-
         playSettingWindow.setSwitchViewCheckLister(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn(SwitchView view) {
@@ -3352,6 +3350,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         holder.setFixedSize(width, height);
+        holder.setFormat(format);
         if (aliyunVodPlayer != null) {
             aliyunVodPlayer.surfaceChanged();
         }

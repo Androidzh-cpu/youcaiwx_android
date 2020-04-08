@@ -147,6 +147,12 @@
     <string name="course_qualityLoadingCompleted">画质切换完毕</string>
     <string name="course_changing">切换中,请稍后</string>
     <string name="course_PDFloading">讲义加载中,请稍后</string>
+    <string name="video_fullscreen">满屏</string>
+    <string name="video_percent">比例</string>
+    <string name="video_percent_100">100%</string>
+    <string name="video_percent_75">75%</string>
+    <string name="video_percent_50">50%</string>
+    <string name="video_continue_play">连续播放</string>
     <string name="course_PDFnotExits">讲义不存在</string>
     <string name="course_PDF_changeToPDF">已切换为讲义</string>
     <string name="course_PDF_changeToVideo">已切换为视频</string>

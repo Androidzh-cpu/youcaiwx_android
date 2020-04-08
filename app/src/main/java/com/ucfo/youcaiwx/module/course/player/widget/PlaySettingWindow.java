@@ -10,6 +10,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 
 import com.ucfo.youcaiwx.R;
+import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.widget.customview.SwitchView;
 
 /**
@@ -21,34 +22,42 @@ import com.ucfo.youcaiwx.widget.customview.SwitchView;
 public class PlaySettingWindow {
     private boolean continuousPlayState;
     private Context context;
-    private double currentScreenSize;
+    private float currentScreenSize;
     private RadioGroup rgScreenSize;
     private final PopupWindow popupWindow;
     private final SwitchView crirlePlayBtn;
 
-    public PlaySettingWindow(Context context, int height, double currentScreenSize, boolean continuousPlay) {
-        this.context = context;
+    public void setCurrentScreenSize(float currentScreenSize) {
         this.currentScreenSize = currentScreenSize;
+        //设置当前选中的视频的比例
+        if (rgScreenSize != null) {
+            if (currentScreenSize == Constant.PERCENT_50) {
+                //半屏
+                rgScreenSize.check(R.id.rb_screensize_50);
+            } else if (currentScreenSize == Constant.PERCENT_75) {
+                //四分之三屏
+                rgScreenSize.check(R.id.rb_screensize_75);
+            } else if (currentScreenSize == Constant.PERCENT_100) {
+                //原始比例
+                rgScreenSize.check(R.id.rb_screensize_100);
+            } else {
+                rgScreenSize.check(R.id.rb_screensize_100);
+            }
+        }
+    }
+
+    public PlaySettingWindow(Context context, int height, boolean continuousPlay) {
+        this.context = context;
         this.continuousPlayState = continuousPlay;
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_alivc_showmore, null);
         rgScreenSize = view.findViewById(R.id.rg_screensize);
         crirlePlayBtn = view.findViewById(R.id.switch_cricleplay);
 
         popupWindow = new PopupWindow(view, height * 2 / 3, height);
-        //popupWindow.setBackgroundDrawable(new ColorDrawable(Color.argb(178, 0, 0, 0)));
         popupWindow.setBackgroundDrawable(new ColorDrawable(Color.argb(200, 0, 0, 0)));
-        popupWindow.setClippingEnabled(false);//阻止导航栏弹出
+        //阻止导航栏弹出
+        popupWindow.setClippingEnabled(false);
         crirlePlayBtn.setOpened(continuousPlayState);//设置选中状态
-        //设置当前选中的视频的比例
-        if (currentScreenSize == 0.5) {
-            rgScreenSize.check(R.id.rb_screensize_50);
-        } else if (currentScreenSize == 0.75) {
-            rgScreenSize.check(R.id.rb_screensize_75);
-        } else if (currentScreenSize == 1) {
-            rgScreenSize.check(R.id.rb_screensize_100);
-        } else {
-            rgScreenSize.check(R.id.rb_screensize_100);
-        }
     }
 
     /**

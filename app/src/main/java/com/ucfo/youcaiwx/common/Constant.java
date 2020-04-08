@@ -177,6 +177,11 @@ public class Constant {
     //后续教育签到倒计时时间  (假装30秒=_=)
     public static final int EDUCATION_TIME_FINISHED = 30;
 
+    public static final float PERCENT_50 = 0.5F;
+    public static final float PERCENT_75 = 0.75F;
+    public static final float PERCENT_100 = 1F;
+    public static final float PERCENT_FULL = 2F;
+
 
     //课程已购买状态码  1: 已购买 2: 未购买
     public static final int HAVED_BUY = 1;
