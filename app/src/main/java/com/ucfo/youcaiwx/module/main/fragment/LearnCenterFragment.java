@@ -346,7 +346,7 @@ public class LearnCenterFragment extends BaseFragment implements ILearncenterHom
      */
     private void userInfoClear() {
         if (isAdded()) {
-            userIcon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.icon_headdefault));
+            userIcon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.icon_account_btn));
             userNickname.setText(getResources().getString(R.string.learncenter_login));
             userClockinDay.setText(String.valueOf(0));
         }

@@ -54,14 +54,13 @@
                             android:id="@+id/user_icon"
                             android:layout_width="@dimen/dp_58"
                             android:layout_height="@dimen/dp_58"
-                            android:src="@mipmap/icon_headdefault" />
+                            android:src="@mipmap/icon_account_btn" />
 
                         <TextView
                             android:id="@+id/user_nickname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_19"
-                            android:drawablePadding="@dimen/dp_8"
                             android:ellipsize="middle"
                             android:singleLine="true"
                             android:textColor="@color/color_333333"
@@ -74,6 +73,7 @@
                             android:layout_width="@dimen/dp_19"
                             android:layout_height="@dimen/dp_19"
                             android:layout_marginStart="@dimen/dp_8"
+                            android:scaleType="fitCenter"
                             android:visibility="gone" />
                     </LinearLayout>
                     <!--财产信息-->

@@ -21,7 +21,7 @@
             android:id="@+id/img_userIcon"
             android:layout_width="@dimen/dp_38"
             android:layout_height="@dimen/dp_38"
-            android:src="@mipmap/icon_default" />
+            android:src="@mipmap/icon_account_btn" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -99,6 +99,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/dp_12"
+        android:textColor="@color/color_4A4A4A"
+        android:textSize="@dimen/sp_13"
         tools:text="加权平均法把期初转入的成本都计入当期，不会造成成本的重会造成复计算吗？" />
     <!--学员问题图片-->
     <android.support.v7.widget.RecyclerView
@@ -115,7 +117,9 @@
         android:id="@+id/flowlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_12"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_12"
         android:overScrollMode="never"
         android:scrollbars="none"
         app:max_select="1" />
@@ -125,6 +129,5 @@
         android:layout_height="@dimen/dp_0_5"
         android:layout_marginEnd="@dimen/dp_12"
         android:layout_marginStart="@dimen/dp_12"
-        android:layout_marginTop="@dimen/dp_14"
         android:background="@color/color_E6E6E6" />
 </LinearLayout>

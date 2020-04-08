@@ -62,58 +62,141 @@
                 android:id="@+id/linear_bottom_function"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_47"
-                android:background="@android:color/white"
+                android:background="@color/colorWhite"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="@dimen/dp_3">
-
-                <TextView
+                android:orientation="horizontal">
+                <!--收藏-->
+                <LinearLayout
                     android:id="@+id/btn_collection"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:drawablePadding="@dimen/dp_3"
-                    android:drawableTop="@mipmap/icon_qb_uncollection"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
                     android:gravity="center"
-                    android:text="@string/question_tab_collection"
-                    android:textColor="@color/color_666666"
-                    android:textSize="@dimen/sp_12" />
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp_2"
+                    android:paddingTop="@dimen/dp_2">
 
-                <TextView
+                    <ImageView
+                        android:id="@+id/image_collection"
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/icon_qb_uncollection" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/question_tab_collection"
+                        android:textColor="@color/color_666666"
+                        android:textSize="@dimen/sp_12" />
+                </LinearLayout>
+
+                <!--答题卡-->
+                <LinearLayout
                     android:id="@+id/btn_answersheet"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:drawablePadding="@dimen/dp_3"
-                    android:drawableTop="@mipmap/icon_qb_answersheet"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
                     android:gravity="center"
-                    android:text="@string/question_tab_answersheet"
-                    android:textColor="@color/color_666666"
-                    android:textSize="@dimen/sp_12" />
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp_2"
+                    android:paddingTop="@dimen/dp_2">
 
-                <TextView
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/icon_qb_answersheet" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/question_tab_answersheet"
+                        android:textColor="@color/color_666666"
+                        android:textSize="@dimen/sp_12" />
+                </LinearLayout>
+
+                <!--暂停考试-->
+                <LinearLayout
                     android:id="@+id/btn_pause"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:drawablePadding="@dimen/dp_3"
-                    android:drawableTop="@mipmap/icon_qb_pause"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
                     android:gravity="center"
-                    android:text="@string/question_tab_pause"
-                    android:textColor="@color/color_666666"
-                    android:textSize="@dimen/sp_12" />
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp_2"
+                    android:paddingTop="@dimen/dp_2">
 
-                <TextView
+                    <ImageView
+                        android:layout_width="@dimen/dp_22"
+                        android:layout_height="@dimen/dp_22"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/icon_qb_pause" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/question_tab_pause"
+                        android:textColor="@color/color_666666"
+                        android:textSize="@dimen/sp_12" />
+                </LinearLayout>
+
+                <!--答疑-->
+                <LinearLayout
                     android:id="@+id/btn_query"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:drawablePadding="@dimen/dp_3"
-                    android:drawableTop="@mipmap/icon_qb_query"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
                     android:gravity="center"
-                    android:text="@string/question_tab_query"
-                    android:textColor="@color/color_666666"
-                    android:textSize="@dimen/sp_12" />
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp_2"
+                    android:paddingTop="@dimen/dp_2">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_22"
+                        android:layout_height="@dimen/dp_22"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/icon_qb_query" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/question_tab_query"
+                        android:textColor="@color/color_666666"
+                        android:textSize="@dimen/sp_12" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/linear_submit"
@@ -141,7 +224,8 @@
                         app:rv_isRadiusHalfHeight="true" />
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
+
     </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
+
 </LinearLayout>

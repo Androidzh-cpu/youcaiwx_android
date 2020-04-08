@@ -19,7 +19,7 @@
             android:id="@+id/item_answer_usericon"
             android:layout_width="@dimen/dp_38"
             android:layout_height="@dimen/dp_38"
-            android:src="@mipmap/icon_headdefault" />
+            android:src="@mipmap/icon_account_btn" />
 
         <LinearLayout
             android:layout_width="0dp"

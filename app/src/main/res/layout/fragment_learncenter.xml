@@ -53,7 +53,7 @@
                         android:id="@+id/user_icon"
                         android:layout_width="@dimen/dp_58"
                         android:layout_height="@dimen/dp_58"
-                        android:src="@mipmap/icon_default" />
+                        android:src="@mipmap/icon_account_btn" />
 
                     <LinearLayout
                         android:layout_width="0dp"

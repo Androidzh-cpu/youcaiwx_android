@@ -104,7 +104,7 @@ public class SignInActive extends DialogFragment {
                     .into(simpleTarget);
 
             RequestOptions requestOptions2 = new RequestOptions()
-                    .placeholder(R.mipmap.icon_headdefault)
+                    .placeholder(R.mipmap.icon_account_btn)
                     .error(R.mipmap.image_loaderror);
             Glide.with(this)
                     .load(userBean.getHead())

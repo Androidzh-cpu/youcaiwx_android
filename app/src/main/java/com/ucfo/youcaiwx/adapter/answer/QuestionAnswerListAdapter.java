@@ -103,25 +103,32 @@ public class QuestionAnswerListAdapter extends BaseAdapter<QuestionAnswerListBea
             holder.mAnswerImagelistItem.setVisibility(View.GONE);
         }
         //学员头像
-        RequestOptions requestOptions = new RequestOptions()
-                .placeholder(R.mipmap.icon_default)
-                .error(R.mipmap.image_loaderror)
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-        GlideUtils.load(context, head, holder.mAnswerUsericonItem, requestOptions);
-
-        TransferConfig config = TransferConfig.build()
-                .setMissPlaceHolder(R.mipmap.icon_default)
-                .setErrorPlaceHolder(R.mipmap.icon_default)
-                .setProgressIndicator(new ProgressPieIndicator())
-                .setIndexIndicator(new NumberIndexIndicator())
-                .setJustLoadHitImage(true)
-                .bindImageView(holder.mAnswerUsericonItem, head);
-        holder.mAnswerUsericonItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                transferee.apply(config).show();
-            }
-        });
+        if (TextUtils.isEmpty(head)) {
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(R.mipmap.icon_default)
+                    .error(R.mipmap.icon_account_btn)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+            GlideUtils.load(context, head, holder.mAnswerUsericonItem, requestOptions);
+        } else {
+            RequestOptions requestOptions = new RequestOptions()
+                    .placeholder(R.mipmap.icon_default)
+                    .error(R.mipmap.icon_account_btn)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+            GlideUtils.load(context, head, holder.mAnswerUsericonItem, requestOptions);
+            TransferConfig config = TransferConfig.build()
+                    .setMissPlaceHolder(R.mipmap.icon_default)
+                    .setErrorPlaceHolder(R.mipmap.icon_default)
+                    .setProgressIndicator(new ProgressPieIndicator())
+                    .setIndexIndicator(new NumberIndexIndicator())
+                    .setJustLoadHitImage(true)
+                    .bindImageView(holder.mAnswerUsericonItem, head);
+            holder.mAnswerUsericonItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    transferee.apply(config).show();
+                }
+            });
+        }
 
         if (!TextUtils.isEmpty(username)) {//用户昵称
             holder.mAnswerUsernameItem.setText(username);
@@ -187,8 +194,7 @@ public class QuestionAnswerListAdapter extends BaseAdapter<QuestionAnswerListBea
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
         LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View inflate = layoutInflater.inflate(R.layout.item_answerquestion_list, viewGroup, false);
-        QuestionAnswerListAdapter.ViewHolder viewHolder = new QuestionAnswerListAdapter.ViewHolder(inflate);
-        return viewHolder;
+        return new QuestionAnswerListAdapter.ViewHolder(inflate);
     }
 
     public interface OnItemViewClickListener {

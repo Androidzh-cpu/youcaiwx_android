@@ -109,7 +109,7 @@ public class CourseAnswerListAdapter extends BaseAdapter<AnswerListDataBean.Data
         //学员头像
         RequestOptions requestOptions = new RequestOptions()
                 .centerCrop()
-                .placeholder(R.mipmap.icon_headdefault)
+                .placeholder(R.mipmap.icon_account_btn)
                 .error(R.mipmap.image_loaderror)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         GlideUtils.load(context, head, holder.mAnswerUsericonItem, requestOptions);

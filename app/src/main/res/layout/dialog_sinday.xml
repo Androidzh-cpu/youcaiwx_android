@@ -76,7 +76,7 @@
                     android:layout_width="@dimen/dp_40"
                     android:layout_height="@dimen/dp_40"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/icon_headdefault" />
+                    android:src="@mipmap/icon_account_btn" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

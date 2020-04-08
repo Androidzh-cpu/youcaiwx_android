@@ -44,6 +44,9 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/dp_10"
                 android:clickable="true"
+                android:minHeight="@dimen/dp_8"
+                android:minWidth="@dimen/dp_10"
+                android:scaleType="fitCenter"
                 android:src="@mipmap/icon_qb_indicatorbot"
                 android:visibility="gone" />
         </LinearLayout>

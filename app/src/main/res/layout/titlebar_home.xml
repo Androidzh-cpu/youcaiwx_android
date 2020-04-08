@@ -30,7 +30,9 @@
         android:layout_gravity="center_vertical"
         android:background="@color/colorWhite"
         android:clickable="true"
-        android:padding="@dimen/dp_5"
+        android:minHeight="@dimen/dp_14"
+        android:minWidth="@dimen/dp_17"
+        android:scaleType="fitCenter"
         android:src="@mipmap/icon_scan" />
 
     <ImageView
@@ -42,7 +44,8 @@
         android:layout_marginStart="@dimen/dp_10"
         android:background="@color/colorWhite"
         android:clickable="true"
-        android:padding="@dimen/dp_5"
+        android:minHeight="@dimen/dp_16"
+        android:minWidth="@dimen/dp_14"
+        android:scaleType="fitCenter"
         android:src="@mipmap/icon_message" />
-
 </LinearLayout>

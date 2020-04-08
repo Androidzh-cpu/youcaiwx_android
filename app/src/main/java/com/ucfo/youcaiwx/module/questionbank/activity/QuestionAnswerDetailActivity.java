@@ -237,7 +237,7 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
             List<String> know_name = data.getKnow_name();
             if (TextUtils.isEmpty(head)) {
                 //TODO 学员头像
-                answerUsericon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_headdefault));
+                answerUsericon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_account_btn));
             } else {
                 RequestOptions requestOptions = new RequestOptions()
                         .placeholder(R.mipmap.icon_default)
@@ -332,7 +332,7 @@ public class QuestionAnswerDetailActivity extends BaseActivity implements IQuest
                 String replyQuiz = reply.getReply_quiz();
                 List<String> replyImage = reply.getReply_image();
                 if (TextUtils.isEmpty(replyHeadImg)) {
-                    answerTeachericon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_headdefault));
+                    answerTeachericon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_account_btn));
                 } else {
                     RequestOptions requestOptions = new RequestOptions()
                             .placeholder(R.mipmap.icon_default)

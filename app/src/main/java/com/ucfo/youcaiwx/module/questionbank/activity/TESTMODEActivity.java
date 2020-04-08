@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -78,10 +79,11 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     private TextView tvHeaderTitle;
     private TextView tvTime;
     private ViewPager viewPager;
-    private TextView btnCollection;
-    private TextView btnAnswersheet;
-    private TextView btnPause;
-    private TextView btnQuery;
+    private LinearLayout btnCollection;
+    private ImageView imageCollection;
+    private LinearLayout btnAnswersheet;
+    private LinearLayout btnPause;
+    private LinearLayout btnQuery;
     private RoundTextView btnSubmit;
     private LinearLayout btnSubmitLinear;
     private LoadingLayout loadinglayout;
@@ -216,13 +218,14 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
         tvHeaderTitle = (TextView) findViewById(R.id.tv_headerTitle);
         tvTime = (TextView) findViewById(R.id.tv_Time);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        btnCollection = (TextView) findViewById(R.id.btn_collection);
+        btnCollection = (LinearLayout) findViewById(R.id.btn_collection);
+        imageCollection = (ImageView) findViewById(R.id.image_collection);
         btnCollection.setOnClickListener(this);
-        btnAnswersheet = (TextView) findViewById(R.id.btn_answersheet);
+        btnAnswersheet = (LinearLayout) findViewById(R.id.btn_answersheet);
         btnAnswersheet.setOnClickListener(this);
-        btnPause = (TextView) findViewById(R.id.btn_pause);
+        btnPause = (LinearLayout) findViewById(R.id.btn_pause);
         btnPause.setOnClickListener(this);
-        btnQuery = (TextView) findViewById(R.id.btn_query);
+        btnQuery = (LinearLayout) findViewById(R.id.btn_query);
         btnQuery.setOnClickListener(this);
         btnSubmit = (RoundTextView) findViewById(R.id.btn_submit);
         btnSubmit.setOnClickListener(this);
@@ -232,13 +235,7 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
 
 
         collectionImage = ContextCompat.getDrawable(this, R.mipmap.icon_qb_collection);
-        if (collectionImage != null) {
-            collectionImage.setBounds(0, 0, collectionImage.getMinimumWidth(), collectionImage.getMinimumHeight());
-        }
         unCollectionImage = ContextCompat.getDrawable(this, R.mipmap.icon_qb_uncollection);
-        if (unCollectionImage != null) {
-            unCollectionImage.setBounds(0, 0, unCollectionImage.getMinimumWidth(), unCollectionImage.getMinimumHeight());
-        }
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);//禁止屏幕截图
     }
 
@@ -1264,13 +1261,13 @@ public class TESTMODEActivity extends BaseActivity implements IQuestionBankDoExe
     private void setCollectionIcon(int i) {
         switch (i) {
             case 0://未收藏
-                btnCollection.setCompoundDrawables(null, unCollectionImage, null, null);
+                imageCollection.setImageDrawable(unCollectionImage);
                 break;
             case 1://已收藏
-                btnCollection.setCompoundDrawables(null, collectionImage, null, null);
+                imageCollection.setImageDrawable(collectionImage);
                 break;
             default:
-                btnCollection.setCompoundDrawables(null, unCollectionImage, null, null);
+                imageCollection.setImageDrawable(unCollectionImage);
                 break;
         }
     }

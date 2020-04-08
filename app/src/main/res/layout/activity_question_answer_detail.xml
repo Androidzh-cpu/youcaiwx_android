@@ -76,7 +76,7 @@
                         android:layout_width="@dimen/dp_38"
                         android:layout_height="@dimen/dp_38"
                         android:layout_marginEnd="@dimen/dp_6"
-                        android:src="@mipmap/icon_headdefault" />
+                        android:src="@mipmap/icon_account_btn" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -163,7 +163,7 @@
                             android:id="@+id/answer_teachericon"
                             android:layout_width="@dimen/dp_38"
                             android:layout_height="@dimen/dp_38"
-                            android:src="@mipmap/icon_headdefault"
+                            android:src="@mipmap/icon_account_btn"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

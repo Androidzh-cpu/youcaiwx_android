@@ -297,7 +297,7 @@ public class CourseAnswerDetailActivity extends BaseActivity implements ICourseA
 
                 if (TextUtils.isEmpty(dataReply.getHead_img())) {
                     //TODO 老师头像
-                    answerTeachericon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_headdefault));
+                    answerTeachericon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_account_btn));
                 } else {
                     //TODO 老师头像
                     RequestOptions requestOptions = new RequestOptions()

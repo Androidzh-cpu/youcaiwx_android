@@ -178,7 +178,7 @@ public class LearnCenterPlanDetailAdapter extends BaseAdapter<LearncenterHomeBea
         int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, thumbWidth, context.getResources().getDisplayMetrics());
         RequestOptions requestOptions = new RequestOptions()
                 .override(width, height)
-                .placeholder(R.mipmap.icon_headdefault)
+                .placeholder(R.mipmap.icon_account_btn)
                 .error(R.mipmap.image_loaderror)
                 .transform(new CropCircleWithBorderTransformation(DensityUtil.dp2px(3), ContextCompat.getColor(context, R.color.color_FAA827)))
                 .diskCacheStrategy(DiskCacheStrategy.ALL);

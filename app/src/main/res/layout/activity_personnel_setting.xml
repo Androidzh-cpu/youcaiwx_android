@@ -41,7 +41,7 @@
                 android:id="@+id/user_icon"
                 android:layout_width="@dimen/dp_43"
                 android:layout_height="@dimen/dp_43"
-                android:src="@mipmap/ic_launcher2" />
+                android:src="@mipmap/icon_account_btn" />
 
             <ImageView
                 android:layout_width="@dimen/dp_16"

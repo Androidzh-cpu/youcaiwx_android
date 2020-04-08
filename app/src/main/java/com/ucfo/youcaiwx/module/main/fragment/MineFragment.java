@@ -409,7 +409,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         userNickname.setCompoundDrawables(null, null, null, null);
         userSex.setVisibility(userSex.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
         userCouponsMsg.setVisibility(userCouponsMsg.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
-        userIcon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.icon_headdefault));
+        userIcon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.icon_account_btn));
     }
 
     /**
@@ -431,7 +431,7 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
             RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
                     .placeholder(R.mipmap.icon_default)
-                    .error(R.mipmap.image_loaderror)
+                    .error(R.mipmap.icon_account_btn)
                     .diskCacheStrategy(DiskCacheStrategy.ALL);
             GlideUtils.load(getContext(), head, userIcon, requestOptions);
         }
@@ -451,16 +451,15 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         switch (sex) {
             case 1://man
                 Drawable drawableMan = ContextCompat.getDrawable(getContext(), R.mipmap.icon_sex_man);
-                drawableMan.setBounds(0, 0, Objects.requireNonNull(drawableMan).getMinimumWidth(), drawableMan.getMinimumHeight());
-                userNickname.setCompoundDrawables(null, null, drawableMan, null);
+                userSex.setVisibility(View.VISIBLE);
+                userSex.setImageDrawable(drawableMan);
                 break;
             case 2://woman
                 Drawable drawableWoman = ContextCompat.getDrawable(getContext(), R.mipmap.icon_sex_woman);
-                drawableWoman.setBounds(0, 0, Objects.requireNonNull(drawableWoman).getMinimumWidth(), drawableWoman.getMinimumHeight());
-                userNickname.setCompoundDrawables(null, null, drawableWoman, null);
+                userSex.setVisibility(View.VISIBLE);
+                userSex.setImageDrawable(drawableWoman);
                 break;
-            default://default
-                userNickname.setCompoundDrawables(null, null, null, null);
+            default:
                 break;
         }
         if (!TextUtils.isEmpty(isRead)) {

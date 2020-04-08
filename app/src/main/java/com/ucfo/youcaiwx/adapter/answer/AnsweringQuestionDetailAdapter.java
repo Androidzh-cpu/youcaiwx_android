@@ -188,13 +188,13 @@ public class AnsweringQuestionDetailAdapter extends BaseAdapter<AnsweringQuestio
         if (TextUtils.isEmpty(headImage)) {
             RequestOptions requestOptions = new RequestOptions()
                     .placeholder(R.mipmap.icon_default)
-                    .error(R.mipmap.image_loaderror)
+                    .error(R.mipmap.icon_account_btn)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
             GlideUtils.load(context, headImage, holder.mUserIconImg, requestOptions);
         } else {
             RequestOptions requestOptions = new RequestOptions()
                     .placeholder(R.mipmap.icon_default)
-                    .error(R.mipmap.image_loaderror)
+                    .error(R.mipmap.icon_account_btn)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
             GlideUtils.load(context, headImage, holder.mUserIconImg, requestOptions);
             TransferConfig headConfig = TransferConfig.build()

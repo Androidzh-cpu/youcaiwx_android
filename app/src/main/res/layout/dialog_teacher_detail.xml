@@ -26,7 +26,7 @@
         android:id="@+id/teacher_icon"
         android:layout_width="@dimen/dp_55"
         android:layout_height="@dimen/dp_55"
-        android:src="@mipmap/icon_headdefault"
+        android:src="@mipmap/icon_account_btn"
         app:layout_constraintBottom_toTopOf="@+id/teacher_linear"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
