@@ -185,21 +185,15 @@ public class AnsweringQuestionDetailAdapter extends BaseAdapter<AnsweringQuestio
             holder.mNickNameTxt.setText(username);
         }
         //TODO 头像
-        if (TextUtils.isEmpty(headImage)) {
-            RequestOptions requestOptions = new RequestOptions()
-                    .placeholder(R.mipmap.icon_default)
-                    .error(R.mipmap.icon_account_btn)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            GlideUtils.load(context, headImage, holder.mUserIconImg, requestOptions);
-        } else {
-            RequestOptions requestOptions = new RequestOptions()
-                    .placeholder(R.mipmap.icon_default)
-                    .error(R.mipmap.icon_account_btn)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            GlideUtils.load(context, headImage, holder.mUserIconImg, requestOptions);
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.mipmap.icon_account_btn)
+                .error(R.mipmap.icon_account_btn)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        GlideUtils.load(context, headImage, holder.mUserIconImg, requestOptions);
+        if (!TextUtils.isEmpty(headImage)) {
             TransferConfig headConfig = TransferConfig.build()
-                    .setMissPlaceHolder(R.mipmap.icon_default)
-                    .setErrorPlaceHolder(R.mipmap.icon_default)
+                    .setMissPlaceHolder(R.mipmap.icon_account_btn)
+                    .setErrorPlaceHolder(R.mipmap.icon_account_btn)
                     .setProgressIndicator(new ProgressPieIndicator())
                     .setIndexIndicator(new NumberIndexIndicator())
                     .setJustLoadHitImage(true)
@@ -211,7 +205,6 @@ public class AnsweringQuestionDetailAdapter extends BaseAdapter<AnsweringQuestio
                 }
             });
         }
-
         holder.mComplainTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

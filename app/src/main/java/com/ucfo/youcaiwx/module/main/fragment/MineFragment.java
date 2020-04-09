@@ -94,7 +94,6 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
     private UserInfoPresenter userInfoPresenter;
     private SharedPreferencesUtils sharedPreferencesUtils;
     private boolean loginstatus;
-    private Drawable iconDefaultImage;
 
     public static MineFragment newInstance(String content, String tab) {
         MineFragment newFragment = new MineFragment();
@@ -162,8 +161,6 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
         layoutParams.height = StatusBarUtil.getStatusBarHeight(getContext());
         statusbarView.setLayoutParams(layoutParams);
-
-        iconDefaultImage = ContextCompat.getDrawable(getContext(), R.mipmap.icon_default);
     }
 
     @Override
@@ -424,13 +421,11 @@ public class MineFragment extends BaseFragment implements IUserInfoView, View.On
         String isRead = dataBean.getIs_read();
         String integral = dataBean.getIntegral();
         if (TextUtils.isEmpty(head)) {
-            if (iconDefaultImage != null) {
-                userIcon.setImageDrawable(iconDefaultImage);
-            }
+            userIcon.setImageDrawable(ContextCompat.getDrawable(getContext(), R.mipmap.icon_account_btn));
         } else {
             RequestOptions requestOptions = new RequestOptions()
                     .centerCrop()
-                    .placeholder(R.mipmap.icon_default)
+                    .placeholder(R.mipmap.icon_account_btn)
                     .error(R.mipmap.icon_account_btn)
                     .diskCacheStrategy(DiskCacheStrategy.ALL);
             GlideUtils.load(getContext(), head, userIcon, requestOptions);

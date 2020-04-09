@@ -21,8 +21,8 @@
             android:layout_height="match_parent"
             app:srlEnableAutoLoadMore="false"
             app:srlEnableLoadMore="false"
-            app:srlHeaderHeight="@dimen/dp_130"
             app:srlEnableOverScrollDrag="true"
+            app:srlHeaderHeight="@dimen/dp_130"
             app:srlHeaderMaxDragRate="1">
             <!--自定义阻尼提示-->
             <TextView
@@ -51,7 +51,6 @@
                 android:id="@+id/webview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/white"
                 android:clipToPadding="false" />
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

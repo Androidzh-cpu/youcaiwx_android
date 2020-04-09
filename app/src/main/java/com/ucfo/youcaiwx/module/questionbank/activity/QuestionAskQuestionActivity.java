@@ -80,7 +80,6 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
     private Button askSubmit;
 
     private SharedPreferencesUtils sharedPreferencesUtils;
-    private QuestionAskQuestionActivity context;
     private ArrayList<String> imageList, resultImageList;
     public static final int REQUEST_CODE_CHOOSE = 100;
     private int MAX_IMAGECOUNT = Constant.MAX_IMAGECOUNT;
@@ -137,8 +136,7 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
         askCheckphoto = (Button) findViewById(R.id.ask_checkphoto);
         askCheckphoto.setOnClickListener(this);
 
-        context = QuestionAskQuestionActivity.this;
-        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(context);
+        sharedPreferencesUtils = SharedPreferencesUtils.getInstance(this);
         user_id = sharedPreferencesUtils.getInt(Constant.USER_ID, 0);//用户ID
 
         //提问问题
@@ -187,10 +185,10 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
             TagAdapter<String> tagAdapter = new TagAdapter<String>(dataData) {
                 @Override
                 public View getView(FlowLayout parent, int j, String string) {
-                    TextView textView = (TextView) LayoutInflater.from(context).inflate(R.layout.item_tagflowlayout, flowlayout, false);
+                    TextView textView = (TextView) LayoutInflater.from(QuestionAskQuestionActivity.this).inflate(R.layout.item_tagflowlayout, flowlayout, false);
                     textView.setText(string);
-                    textView.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_rectangle_corners_blue));
-                    textView.setTextColor(ContextCompat.getColor(context, R.color.color_0267FF));
+                    textView.setBackground(ContextCompat.getDrawable(QuestionAskQuestionActivity.this, R.drawable.shape_rectangle_corners_blue));
+                    textView.setTextColor(ContextCompat.getColor(QuestionAskQuestionActivity.this, R.color.color_0267FF));
                     return textView;
                 }
             };
@@ -290,11 +288,11 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
                     //TODO 发表问题
                     askContent = askEdittextContent.getText().toString().trim();
                     if (TextUtils.isEmpty(askContent)) {//输入为空
-                        ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_hinttext));
+                        ToastUtil.showBottomShortText(this, getResources().getString(R.string.answer_hinttext));
                         return;
                     }
                     if (askContent.length() < Constant.QUESTION_MINICOUNT) {//长度不够
-                        ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_hinttext2));
+                        ToastUtil.showBottomShortText(this, getResources().getString(R.string.answer_hinttext2));
                         return;
                     }
                     if (!TextUtils.isEmpty(askContent)) {
@@ -303,8 +301,12 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
 
                         if (imageList != null && imageList.size() > 0) {
                             //TODO 有图的情况下先上传图片再提问
-                            File file = new File(imageList.get(0));
-                            luban(file, 0);
+                            if (!TextUtils.isEmpty(imageList.get(0))) {
+                                File file = new File(imageList.get(0));
+                                luban(file, 0);
+                            } else {
+                                ToastUtil.showBottomShortText(this, getResources().getString(R.string.answer_hint_notExists));
+                            }
                         } else {
                             //TODO 没有图片,直接提问
                             if (TextUtils.equals(type, Constant.TYPE_COURSE_ASK)) {
@@ -346,12 +348,16 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
                     .addFilter(new MiniSizeFilter(320, 320, Constant.PICTURE_SIZE)) // 控制宽高为320*320 以上，大小为 3M 以下
                     .forResult(REQUEST_CODE_CHOOSE);//请求码
         } else {
-            ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_title_maxChoice3));
+            ToastUtil.showBottomShortText(this, getResources().getString(R.string.answer_title_maxChoice3));
         }
     }
 
     //TODO 鲁班压缩
     private void luban(File file, int index) {
+        if (!file.exists()) {
+            ToastUtil.showBottomShortText(this, getResources().getString(R.string.answer_hint_notExists));
+            return;
+        }
         Luban.with(this).load(file).ignoreBy(100).setFocusAlpha(true).setTargetDir(getPath())
                 .filter(new CompressionPredicate() {
                     @Override
@@ -394,21 +400,21 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
             TagAdapter<String> tagAdapter = new TagAdapter<String>(dataData) {
                 @Override
                 public View getView(FlowLayout parent, int j, String string) {
-                    TextView textView = (TextView) LayoutInflater.from(context).inflate(R.layout.item_tagflowlayout, flowlayout, false);
+                    TextView textView = (TextView) LayoutInflater.from(QuestionAskQuestionActivity.this).inflate(R.layout.item_tagflowlayout, flowlayout, false);
                     textView.setText(string);
                     int i = j % 3;
                     switch (i) {
                         case 0://余数为0
-                            textView.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_rectangle_corners_blue));
-                            textView.setTextColor(ContextCompat.getColor(context, R.color.color_0267FF));
+                            textView.setBackground(ContextCompat.getDrawable(QuestionAskQuestionActivity.this, R.drawable.shape_rectangle_corners_blue));
+                            textView.setTextColor(ContextCompat.getColor(QuestionAskQuestionActivity.this, R.color.color_0267FF));
                             break;
                         case 1://余数为1
-                            textView.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_rectangle_corners_red));
-                            textView.setTextColor(ContextCompat.getColor(context, R.color.color_E84342));
+                            textView.setBackground(ContextCompat.getDrawable(QuestionAskQuestionActivity.this, R.drawable.shape_rectangle_corners_red));
+                            textView.setTextColor(ContextCompat.getColor(QuestionAskQuestionActivity.this, R.color.color_E84342));
                             break;
                         case 2://余数为2
-                            textView.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_rectangle_corners_orange));
-                            textView.setTextColor(ContextCompat.getColor(context, R.color.color_F99111));
+                            textView.setBackground(ContextCompat.getDrawable(QuestionAskQuestionActivity.this, R.drawable.shape_rectangle_corners_orange));
+                            textView.setTextColor(ContextCompat.getColor(QuestionAskQuestionActivity.this, R.color.color_F99111));
                             break;
                         default:
                             break;
@@ -425,10 +431,10 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
         if (code == 200) {
             askEdittextContent.clearFocus();
             askEdittextContent.setText("");
-            ToastUtil.showBottomShortText(context, getResources().getString(R.string.operation_Success));
+            ToastUtil.showBottomShortText(this, getResources().getString(R.string.operation_Success));
             finish();
         } else {
-            ToastUtil.showBottomShortText(context, getResources().getString(R.string.answer_request_error));
+            ToastUtil.showBottomShortText(this, getResources().getString(R.string.answer_request_error));
         }
 
         dismissPorcess();
@@ -445,11 +451,11 @@ public class QuestionAskQuestionActivity extends BaseActivity implements IAnswer
             if (data.getCode() == 200) {
                 resultImageList.add(data.getData().getImage_url().trim());
             } else {
-                ToastUtil.showCenterLongText(context, data.getMsg());//提示上传错误信息
+                ToastUtil.showCenterLongText(this, data.getMsg());//提示上传错误信息
             }
         } else {
             //提示上传错误信息
-            ToastUtil.showCenterLongText(context, getResources().getString(R.string.file_uploaderror));
+            ToastUtil.showCenterLongText(this, getResources().getString(R.string.file_uploaderror));
         }
         index++;// 0-1 1-2 2-3 3-4
         toNextImage(index);

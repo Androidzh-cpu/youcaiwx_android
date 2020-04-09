@@ -115,7 +115,6 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     private HomeLiveAdapter homeLiveAdapter;
     private int mOffset = 0;
     private int mScrollY = 0;
-    private LayoutInflater layoutInflater;
 
     @Override
     public void onStop() {
@@ -191,7 +190,6 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
         layoutManager();
 
         initBanner();
-        layoutInflater = LayoutInflater.from(getContext());
 
         refreshLayout.setEnableLoadMore(false);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -436,12 +434,10 @@ public class HomeFragment extends BaseFragment implements OnBannerListener, IHom
     //开启消息轮训
     private void startFilpper(List<HomeBean.DataBean.HotspotBean> hotspot) {
         for (int i = 0; i < hotspot.size(); i++) {
-            if (layoutInflater != null) {
-                View view = layoutInflater.inflate(R.layout.view_homt_hotpoint, null);
-                TextView textView = view.findViewById(R.id.hot_filpper_text);
-                textView.setText(hotspot.get(i).getTitle());
-                hotFilpper.addView(view);
-            }
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.view_homt_hotpoint, null);
+            TextView textView = view.findViewById(R.id.hot_filpper_text);
+            textView.setText(hotspot.get(i).getTitle());
+            hotFilpper.addView(view);
         }
         hotFilpper.setFlipInterval(4000);//停留时间
         hotFilpper.setAutoStart(false);//禁止自动轮训

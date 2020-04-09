@@ -332,6 +332,7 @@
     <string name="answer_request_error">提问失败,请重新尝试</string>
     <string name="answer_hinttext">请输入内容</string>
     <string name="answer_hinttext2">内容不得少于5个字</string>
+    <string name="answer_hint_notExists">图片不存在</string>
     <string name="answer_hinttext3">请选择投诉类型</string>
     <string name="answer_addtag">添加标签</string>
     <string name="answer_videotime">视频节点:</string>

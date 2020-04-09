@@ -9,8 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/net_loading_bg"
-        android:minHeight="@dimen/dp_118"
-        android:minWidth="@dimen/dp_118">
+        android:minHeight="@dimen/dp_116"
+        android:minWidth="@dimen/dp_116">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -19,8 +19,8 @@
 
             <com.ucfo.youcaiwx.widget.customview.LoadingView
                 android:id="@+id/loadingview"
-                android:layout_width="@dimen/dp_42"
-                android:layout_height="@dimen/dp_42"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
                 android:layout_centerHorizontal="true" />
 
             <TextView

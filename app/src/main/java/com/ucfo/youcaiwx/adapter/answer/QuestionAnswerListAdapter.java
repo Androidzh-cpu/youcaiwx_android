@@ -103,21 +103,15 @@ public class QuestionAnswerListAdapter extends BaseAdapter<QuestionAnswerListBea
             holder.mAnswerImagelistItem.setVisibility(View.GONE);
         }
         //学员头像
-        if (TextUtils.isEmpty(head)) {
-            RequestOptions requestOptions = new RequestOptions()
-                    .placeholder(R.mipmap.icon_default)
-                    .error(R.mipmap.icon_account_btn)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            GlideUtils.load(context, head, holder.mAnswerUsericonItem, requestOptions);
-        } else {
-            RequestOptions requestOptions = new RequestOptions()
-                    .placeholder(R.mipmap.icon_default)
-                    .error(R.mipmap.icon_account_btn)
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-            GlideUtils.load(context, head, holder.mAnswerUsericonItem, requestOptions);
+        RequestOptions requestOptions = new RequestOptions()
+                .placeholder(R.mipmap.icon_account_btn)
+                .error(R.mipmap.icon_account_btn)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        GlideUtils.load(context, head, holder.mAnswerUsericonItem, requestOptions);
+        if (!TextUtils.isEmpty(head)) {
             TransferConfig config = TransferConfig.build()
-                    .setMissPlaceHolder(R.mipmap.icon_default)
-                    .setErrorPlaceHolder(R.mipmap.icon_default)
+                    .setMissPlaceHolder(R.mipmap.icon_account_btn)
+                    .setErrorPlaceHolder(R.mipmap.icon_account_btn)
                     .setProgressIndicator(new ProgressPieIndicator())
                     .setIndexIndicator(new NumberIndexIndicator())
                     .setJustLoadHitImage(true)
@@ -129,10 +123,8 @@ public class QuestionAnswerListAdapter extends BaseAdapter<QuestionAnswerListBea
                 }
             });
         }
-
-        if (!TextUtils.isEmpty(username)) {//用户昵称
-            holder.mAnswerUsernameItem.setText(username);
-        }
+        //用户昵称
+        holder.mAnswerUsernameItem.setText(username);
         if (!TextUtils.isEmpty(create_time)) {//问答创建时间
             holder.mAnswerCreatetimeItem.setText(create_time);
         }

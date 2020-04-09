@@ -639,7 +639,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                mHideHandler.removeMessages(WHAT_HIDE);
+                if (mHideHandler!=null){
+                    mHideHandler.removeMessages(WHAT_HIDE);
+                }
                 isSeekbarTouching = true;
             }
 
@@ -647,9 +649,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             public void onStopTrackingTouch(SeekBar seekBar) {
                 isSeekbarTouching = false;
                 seekTo(progress);
-
-                mHideHandler.removeMessages(WHAT_HIDE);
-                mHideHandler.sendEmptyMessageDelayed(WHAT_HIDE, DELAY_TIME);
+                if (mHideHandler!=null){
+                    mHideHandler.removeMessages(WHAT_HIDE);
+                    mHideHandler.sendEmptyMessageDelayed(WHAT_HIDE, DELAY_TIME);
+                }
             }
         };
         playerSeekprogress.setOnSeekBarChangeListener(seekBarChangeListener);

@@ -95,7 +95,7 @@ public class MineAskQuestionsFragment extends BaseFragment implements IQuestionA
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.setReverseLayout(false);
         recyclerview.setLayoutManager(layoutManager);
-        int topBottom = DensityUtil.dip2px(questionAnswerActivity, 5);
+        int topBottom = DensityUtil.dip2px(getContext(), 5);
         recyclerview.addItemDecoration(new SpacesItemDecoration(0, topBottom, Color.TRANSPARENT));
         recyclerview.setNestedScrollingEnabled(false);
     }
@@ -108,6 +108,9 @@ public class MineAskQuestionsFragment extends BaseFragment implements IQuestionA
     @Override
     protected void onVisibleToUser() {
         super.onVisibleToUser();
+        if (questionAnswerPresenter == null) {
+            questionAnswerPresenter = new QuestionAnswerPresenter(this);
+        }
         questionAnswerPresenter.getQuestionAnswerList(user_id, question_id, 2);
     }
 

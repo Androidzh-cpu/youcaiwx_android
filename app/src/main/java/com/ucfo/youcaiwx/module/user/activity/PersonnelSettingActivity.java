@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -359,18 +358,15 @@ public class PersonnelSettingActivity extends BaseActivity implements IUserInfoV
                 username = dataBean.getUsername();
                 String mobile = dataBean.getMobile();
                 int sex = dataBean.getSex();
-                if (TextUtils.isEmpty(head)) {
-                    userIcon.setImageDrawable(ContextCompat.getDrawable(this, R.mipmap.icon_default));
-                } else {
-                    RequestOptions requestOptions = new RequestOptions()
-                            .centerCrop()
-                            .placeholder(R.mipmap.icon_default)
-                            .error(R.mipmap.image_loaderror);
-                    GlideUtils.load(this, head, userIcon, requestOptions);
-
+                RequestOptions requestOptions = new RequestOptions()
+                        .centerCrop()
+                        .placeholder(R.mipmap.icon_account_btn)
+                        .error(R.mipmap.icon_account_btn);
+                GlideUtils.load(this, head, userIcon, requestOptions);
+                if (!TextUtils.isEmpty(head)) {
                     TransferConfig headConfig = TransferConfig.build()
-                            .setMissPlaceHolder(R.mipmap.icon_default)
-                            .setErrorPlaceHolder(R.mipmap.icon_default)
+                            .setMissPlaceHolder(R.mipmap.icon_account_btn)
+                            .setErrorPlaceHolder(R.mipmap.icon_account_btn)
                             .setProgressIndicator(new ProgressPieIndicator())
                             .setIndexIndicator(new NumberIndexIndicator())
                             .setJustLoadHitImage(true)

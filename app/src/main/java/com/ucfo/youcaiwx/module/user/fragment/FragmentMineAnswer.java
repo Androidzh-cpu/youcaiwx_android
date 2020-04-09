@@ -37,7 +37,7 @@ import java.util.List;
  * Author: AND
  * Time: 2019-6-18.  下午 7:18
  * FileName: FragmentMineAnswer
- * Description:TODO 课程答疑
+ * Description:TODO 课程,题库答疑
  */
 public class FragmentMineAnswer extends BaseFragment implements IMineAnswerView {
     private RecyclerView recyclerview;

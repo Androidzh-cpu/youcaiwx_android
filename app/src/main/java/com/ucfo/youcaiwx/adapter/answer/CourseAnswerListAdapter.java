@@ -36,7 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Time: 2019-4-16.  下午 6:15
  * Email:2911743255@qq.com
  * ClassName: CourseAnswerListAdapter
- * Description:TODO 课程答疑适配器
+ * Description:TODO 课程,题库答疑适配器
  */
 public class CourseAnswerListAdapter extends BaseAdapter<AnswerListDataBean.DataBean, CourseAnswerListAdapter.ViewHolder> {
     private Transferee transferee;
@@ -110,7 +110,7 @@ public class CourseAnswerListAdapter extends BaseAdapter<AnswerListDataBean.Data
         RequestOptions requestOptions = new RequestOptions()
                 .centerCrop()
                 .placeholder(R.mipmap.icon_account_btn)
-                .error(R.mipmap.image_loaderror)
+                .error(R.mipmap.icon_account_btn)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
         GlideUtils.load(context, head, holder.mAnswerUsericonItem, requestOptions);
         if (!TextUtils.isEmpty(username)) {//用户昵称
@@ -217,10 +217,12 @@ public class CourseAnswerListAdapter extends BaseAdapter<AnswerListDataBean.Data
         private RoundTextView mAnswerCheckdetailItem;
         private TextView mAnswerReplystatusItem;
         private TagFlowLayout mFlowlayout;
+        private Context context;
 
         public ViewHolder(View view) {
             super(view);
             initView(view);
+            context = view.getContext();
         }
 
         private void initView(@NonNull final View itemView) {
