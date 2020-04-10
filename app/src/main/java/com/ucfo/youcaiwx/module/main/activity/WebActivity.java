@@ -3,6 +3,7 @@ package com.ucfo.youcaiwx.module.main.activity;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -34,7 +35,6 @@ import com.ucfo.youcaiwx.common.Constant;
 import com.ucfo.youcaiwx.utils.LogUtils;
 import com.ucfo.youcaiwx.utils.systemutils.AppUtils;
 import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
-import com.ucfo.youcaiwx.widget.customview.LoadingLayout;
 import com.ucfo.youcaiwx.widget.customview.TencentWebview;
 
 /**
@@ -53,7 +53,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     private String webTitle;
     private ContentLoadingProgressBar progressBar;
     private boolean isLoading = true;//当前页面是否正在加载
-    private LoadingLayout mLoadinglayout;
     private boolean isDownload;
 
     @Override
@@ -119,7 +118,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         mToolbarTitlebar = (Toolbar) findViewById(R.id.titlebar_toolbar);
         webView = (TencentWebview) findViewById(R.id.webview);
         findViewById(R.id.showline).setVisibility(View.GONE);
-        mLoadinglayout = (LoadingLayout) findViewById(R.id.loadinglayout);
     }
 
     @Override
@@ -135,39 +133,23 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            webUrl = bundle.getString(Constant.WEB_URL);//defaultUrl
-            webTitle = bundle.getString(Constant.WEB_TITLE);//标题
-        } else {
-            if (mLoadinglayout != null) {
-                mLoadinglayout.showEmpty();
-            }
+            webUrl = bundle.getString(Constant.WEB_URL);
+            webTitle = bundle.getString(Constant.WEB_TITLE);
+            LogUtils.e("X5webview-----------bundle:" + bundle);
         }
-        LogUtils.e("X5webview-----------bundle:" + bundle);
         if (TextUtils.isEmpty(webTitle)) {
             webTitle = getResources().getString(R.string.default_title);
         }
         mMidtitleTitlebar.setText(webTitle);
-
-        if (TextUtils.isEmpty(webUrl)) {
-            if (mLoadinglayout != null) {
-                mLoadinglayout.showEmpty();
-            }
-        } else {
+        //校验链接
+        if (Patterns.WEB_URL.matcher(webUrl).matches()) {
             webView.loadUrl(webUrl);
-            //校验链接
-            boolean matches = Patterns.WEB_URL.matcher(webUrl).matches();
-            if (matches) {
+        } else {
+            //京东支付链接可能无法验证通过
+            if (webUrl.contains(ApiStores.PAY_JINGDONG)) {
                 webView.loadUrl(webUrl);
             } else {
-                //京东支付链接可能验证无法通过
-                if (webUrl.contains(ApiStores.PAY_JINGDONG)) {
-                    webView.loadUrl(webUrl);
-                } else {
-                    ToastUtil.showBottomShortText(this, getResources().getString(R.string.github_qq_browser_urlIllegality));
-                    if (mLoadinglayout != null) {
-                        mLoadinglayout.showEmpty();
-                    }
-                }
+                ToastUtil.showBottomShortText(this, getResources().getString(R.string.github_qq_browser_urlIllegality));
             }
         }
         //TODO 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
@@ -214,14 +196,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
             }
         };
         CrashReport.setJavascriptMonitor(webViewInterface, true);
-
-        //重新加载按钮
-        mLoadinglayout.setRetryListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                webView.reload();
-            }
-        });
     }
 
     @Override
@@ -242,10 +216,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
 
     /**
      * 返回键监听
-     *
-     * @param keyCode
-     * @param event
-     * @return
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -272,9 +242,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         // 那么这个时候我们的app就需要加载一个本地的错误提示页面，即webview如何加载一个本地的页面
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-            if (mLoadinglayout != null) {
-                mLoadinglayout.showError();
-            }
         }
 
         //webView默认是不处理https请求的，页面显示空白，需要进行如下设置：
@@ -295,14 +262,10 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         @Override
         public void onPageFinished(WebView webView, String s) {
             super.onPageFinished(webView, s);
-            if (mLoadinglayout != null) {
-                mLoadinglayout.showContent();
-            }
         }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            LogUtils.d("shouldOverrideUrlLoading--------------defaultUrl:" + url);
             if (!url.startsWith("http")) {
                 try {
                     // 以下固定写法,表示跳转到第三方应用
@@ -326,6 +289,21 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
      * Detail:TODO 参考考拉的配置
      */
     public void setDefaultWebSettings(WebView webView) {
+        Configuration configuration = getResources().getConfiguration();
+        int currentNightMode = configuration.uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        switch (currentNightMode) {
+            case Configuration.UI_MODE_NIGHT_NO:
+                // Night mode is not active, we're using the light theme
+                LogUtils.e("Night mode is not active, we're using the light theme");
+                webView.setDayOrNight(true);
+                break;
+            case Configuration.UI_MODE_NIGHT_YES:
+                // Night mode is active, we're using dark theme
+                LogUtils.e("Night mode is active, we're using dark theme");
+                webView.setDayOrNight(false);
+                break;
+        }
+
         WebSettings webSetting = webView.getSettings();
         //5.0以上开启混合模式加载
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

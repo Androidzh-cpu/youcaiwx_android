@@ -10,49 +10,42 @@
 
     <include layout="@layout/titlebar_toolbar" />
 
-    <com.ucfo.youcaiwx.widget.customview.LoadingLayout
-        android:id="@+id/loadinglayout"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/refreshLayout"
+        android:layout_height="match_parent"
+        app:srlEnableAutoLoadMore="false"
+        app:srlEnableLoadMore="false"
+        app:srlEnableOverScrollDrag="true"
+        app:srlHeaderHeight="@dimen/dp_130"
+        app:srlHeaderMaxDragRate="1">
+        <!--自定义阻尼提示-->
+        <TextView
+            android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srlEnableAutoLoadMore="false"
-            app:srlEnableLoadMore="false"
-            app:srlEnableOverScrollDrag="true"
-            app:srlHeaderHeight="@dimen/dp_130"
-            app:srlHeaderMaxDragRate="1">
-            <!--自定义阻尼提示-->
-            <TextView
-                android:id="@+id/header"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#555"
-                android:gravity="center_horizontal"
-                android:lineSpacingExtra="@dimen/dp_5"
-                android:padding="@dimen/dp_20"
-                android:text="@string/github_qq_browser_kernel"
-                android:textColor="#aaa"
-                android:textSize="@dimen/sp_16"
-                app:layout_srlBackgroundColor="#555"
-                app:layout_srlSpinnerStyle="FixedBehind" />
-            <!--
+            android:background="#555"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="@dimen/dp_5"
+            android:padding="@dimen/dp_20"
+            android:text="@string/github_qq_browser_kernel"
+            android:textColor="#aaa"
+            android:textSize="@dimen/sp_16"
+            app:layout_srlBackgroundColor="#555"
+            app:layout_srlSpinnerStyle="FixedBehind" />
+        <!--
 
-                        <android.support.v4.widget.ContentLoadingProgressBar
-                            android:id="@+id/pb_progress"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/dp_3" />
-            -->
+                    <android.support.v4.widget.ContentLoadingProgressBar
+                        android:id="@+id/pb_progress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_3" />
+        -->
 
-            <com.ucfo.youcaiwx.widget.customview.TencentWebview
-                android:id="@+id/webview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false" />
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-    </com.ucfo.youcaiwx.widget.customview.LoadingLayout>
+        <com.ucfo.youcaiwx.widget.customview.TencentWebview
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>
