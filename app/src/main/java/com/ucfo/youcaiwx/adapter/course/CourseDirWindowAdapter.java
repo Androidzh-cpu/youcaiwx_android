@@ -155,8 +155,12 @@ public class CourseDirWindowAdapter extends BaseExpandableListAdapter {
                         if (signinStatus) {
                             //但是该选中的视频已经签到过但是没有刷新接口的话,暂时用list中的signinStatus来记录一下
                             childholder.textStatus.setVisibility(View.VISIBLE);
+                        }else {
+                            childholder.textStatus.setVisibility(View.GONE);
                         }
                     }
+                }else {
+                    childholder.textStatus.setVisibility(View.GONE);
                 }
                 //TODO 添加多个套餐中播放课程的索引
                 if (currentPlayCourseIndex == currentClickCourseIndex) {

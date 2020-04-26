@@ -15,9 +15,9 @@ public class ApiStores {
     }
 
     //线上正式环境
-    //private static final String ROOT_URL = "https://api.youcaiwx.cn/";
+    private static final String ROOT_URL = "https://api.youcaiwx.cn/";
     //线下测试环境
-    private static final String ROOT_URL = "https://dest.youcaiwx.cn/";
+    //private static final String ROOT_URL = "https://dest.youcaiwx.cn/";
 
     private static final String BASE_URL = ROOT_URL + "apps/";
     private static final String BASE_URL_UPLOAD = ROOT_URL + "upload/";
