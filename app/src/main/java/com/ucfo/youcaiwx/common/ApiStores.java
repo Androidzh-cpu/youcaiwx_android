@@ -15,9 +15,9 @@ public class ApiStores {
     }
 
     //线上正式环境
-    private static final String ROOT_URL = "https://api.youcaiwx.cn/";
+    //private static final String ROOT_URL = "https://api.youcaiwx.cn/";
     //线下测试环境
-    //private static final String ROOT_URL = "https://dest.youcaiwx.cn/";
+    private static final String ROOT_URL = "https://dest.youcaiwx.cn/";
 
     private static final String BASE_URL = ROOT_URL + "apps/";
     private static final String BASE_URL_UPLOAD = ROOT_URL + "upload/";
@@ -147,6 +147,8 @@ public class ApiStores {
     public static final String COURSE_COURSELIST = BASE_URL + "Course/courseList";
     //课程简介
     public static final String COURSE_INTORDUCTION = BASE_URL + "Course/courseIntroduction";
+    //课程购买状态
+    public static final String COURSE_BUYSTATE = BASE_URL + "Personal/getCourseExit";
     //获取视频凭证
     public static final String COURSE_GETVIDEO_CREDENTIALS = BASE_URL + "Course/videoCredentials";
     //获取下载STS

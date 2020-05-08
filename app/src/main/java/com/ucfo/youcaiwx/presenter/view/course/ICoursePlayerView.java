@@ -16,6 +16,11 @@ public interface ICoursePlayerView {
     void getVideoPlayAuthor(GetVideoPlayAuthBean data);
 
     /**
+     * 课程购买状态
+     */
+    void getCoursePackageBuyState(int state);
+
+    /**
      * 视频收藏结果
      */
     void getVideoCollectResult(int data, int result);

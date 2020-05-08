@@ -22,7 +22,7 @@ import org.json.JSONObject;
  * Email:2911743255@qq.com
  * ClassName: CoursePlayPresenter
  */
-public class CoursePlayPresenter {
+public class CoursePlayPresenter implements ICoursePlayPresenter {
     private ICoursePlayerView view;
 
     public CoursePlayPresenter(ICoursePlayerView view) {
@@ -34,6 +34,7 @@ public class CoursePlayPresenter {
      * Time:2019-4-23   上午 10:17
      * Detail: 视频收藏
      */
+    @Override
     public void getVideoCollect(int package_id, int course_id, int section_id, int video_id, int user_id, int collectState) {
         switch (collectState) {
             case 1://已收藏该视频,取消收藏操作
@@ -85,6 +86,7 @@ public class CoursePlayPresenter {
      * Time:2019-4-23   上午 10:21
      * Detail: 获取视频播放凭证
      */
+    @Override
     public void getVideoPlayAuthor(String vid, int video_id, int course_id, int section_id, int user_id, int course_packageId) {
         OkGo.<String>post(ApiStores.COURSE_GETVIDEO_CREDENTIALS)
                 .params(Constant.COURSE_ALIYUNVID, vid)//阿里库里的vid
@@ -127,8 +129,9 @@ public class CoursePlayPresenter {
     }
 
     /**
-     * 重载获取视频凭证
+     * 重载获取视频凭证(过了好几个月后我才想起来这个方法,好像是后续教育用到了,唉)
      */
+    @Override
     public void getVideoPlayAuthor(String vid, int video_id) {
         OkGo.<String>post(ApiStores.EDUCATION_COURSE_GETVIDEO_CREDENTIALS)
                 .tag(this)
@@ -166,6 +169,72 @@ public class CoursePlayPresenter {
                 });
     }
 
+    /**
+     * 课程购买状态
+     */
+    @Override
+    public void getCoursePackageBuyState(String package_id, String user_id, String course_Source) {
+        if (TextUtils.equals(Constant.LOCAL_CACHE, course_Source)) {
+            return;
+        }
+        if (TextUtils.equals(Constant.WATCH_LEARNPLAN, course_Source)) {
+            return;
+        }
+        if (TextUtils.equals(Constant.WATCH_ANSWERDETAILED, course_Source)) {
+            return;
+        }
+
+        int type;
+        if (TextUtils.equals(course_Source, Constant.WATCH_EDUCATION_CPE)) {
+            type = 2;
+        } else {
+            type = 1;
+        }
+        OkGo.<String>post(ApiStores.COURSE_BUYSTATE)
+                .tag(this)
+                .params(Constant.PACKAGE_ID, package_id)
+                .params(Constant.USER_ID, user_id)
+                .params(Constant.TYPE, type)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        view.getCoursePackageBuyState(0);
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.body());
+                            int code = jsonObject.optInt(Constant.CODE);
+                            if (code == 200) {
+                                Object data = jsonObject.get(Constant.DATA);
+                                if (data instanceof JSONObject) {
+                                    JSONObject data2 = (JSONObject) data;
+                                    String buyState = data2.optString("is_purchase");
+                                    if (TextUtils.isEmpty(buyState)) {
+                                        view.getCoursePackageBuyState(0);
+                                    } else {
+                                        int i = Integer.parseInt(buyState);
+                                        view.getCoursePackageBuyState(i);
+                                    }
+                                } else {
+                                    view.getCoursePackageBuyState(0);
+                                }
+                            } else {
+                                view.getCoursePackageBuyState(0);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 每次播放时向服务端发送信息记录(我也不知道)
+     */
+    @Override
     public void sendFirstSocket(CourseSocketBean bean) {
         if (bean == null) {
             return;
@@ -188,6 +257,7 @@ public class CoursePlayPresenter {
                 });
     }
 
+    @Override
     public void sendFirstSocketByEducation(CourseSocketBean bean) {
         if (bean == null) {
             return;
@@ -207,11 +277,8 @@ public class CoursePlayPresenter {
 
     /**
      * 检查是否签到
-     *
-     * @param user_id
-     * @param course_id
-     * @param video_id
      */
+    @Override
     public void checkWetherSignin(String user_id, String course_id, String video_id) {
         OkGo.<String>post(ApiStores.EDUCATION_COURSE_WETHERSIGNIN)
                 .params(Constant.USER_ID, user_id)//用户ID
@@ -253,11 +320,8 @@ public class CoursePlayPresenter {
 
     /**
      * 签到
-     *
-     * @param user_id
-     * @param course_id
-     * @param video_id
      */
+    @Override
     public void educationSignin(String user_id, String course_id, String video_id) {
         OkGo.<String>post(ApiStores.EDUCATION_COURSE_SIGNIN)
                 .params(Constant.USER_ID, user_id)//用户ID

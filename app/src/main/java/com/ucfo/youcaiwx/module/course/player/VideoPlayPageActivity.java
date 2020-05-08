@@ -581,7 +581,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             signinCountDownTimer = null;
         }
 
-        //傻逼一样的东西,智障,脑残,狗东西,脑袋让自己给踢了
+        //傻逼一样的东西
         if (animation != null) {
             animation.cancel();
         }
@@ -697,7 +697,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //TODO 视频源副本
             course_Source_deputy = bundle.getString(Constant.COURSE_SOURCE_DEPUTY, "");
 
-            //购买状态
+            //查询购买状态
+            coursePlayPresenter.getCoursePackageBuyState(String.valueOf(coursePackageId), String.valueOf(userId), course_Source);
+            //购买状态(有些视频播放的入口是不需要查询的,像学习计划啊,课程答疑啊,本地的视频啊等等)
             setCourseBuyState(courseBuyState);
             //设置封面
             setCourse_Cover(courseCoverimageUrl);
@@ -1605,6 +1607,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (aliyunVodPlayer != null) {
             //重播是从头开始播
             aliyunVodPlayer.replay();
+
+            //显示为加载状态,免得以为视频卡了
             playerTipsview.setVisibility(View.GONE);
             playerRePlay.setVisibility(View.GONE);
             playerLoadingview.setVisibility(View.VISIBLE);
@@ -1845,8 +1849,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      * 试听时间设置
      */
     private void freeWatch() {
-        if (getCourseBuyState() == Constant.HAVED_BUY || typeJudge(Constant.LOCAL_CACHE)
-                || typeJudge(Constant.WATCH_LEARNPLAN) || typeJudge(Constant.WATCH_ANSWERDETAILED)) {
+        if (getCourseBuyState() == Constant.HAVED_BUY
+                || typeJudge(Constant.LOCAL_CACHE)
+                || typeJudge(Constant.WATCH_LEARNPLAN)
+                || typeJudge(Constant.WATCH_ANSWERDETAILED)) {
+
         } else {
             //未购买,试看指定时间
             long currentPosition = aliyunVodPlayer.getCurrentPosition();
@@ -2429,14 +2436,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
     }
 
-
     /**
      * 切换视频播放资源
      * 点击视频列表, 切换播放的视频
      * TODO 5.3 准备播放 NOTE:注意过期时间。特别是重播的时候，可能已经过期。所以重播的时候最好重新请求一次服务器。
      * 最后一个参数是后续教育用的video_id
      */
-
     private void changePlayVidSource(String vid, int videoId, int course_id, int section_id, String education_videoId) {
         //每次播放显示背景
         setCourseCover(true);
@@ -3149,7 +3154,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
     }
 
-    //TODO 设置购买按钮
+    /**
+     * 设置购买按钮
+     */
     private void updateBuyUI() {
         if (getCourseBuyState() == Constant.HAVED_BUY) {
             if (linearPayCourse.getVisibility() == View.VISIBLE) {
@@ -3212,7 +3219,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         startActivity(intent);
     }
 
-    //TODO 收藏按钮
+    /**
+     * 收藏按钮
+     */
     private void switchCollectionStatus() {
         if (!login_status) {
             goToLogin();
@@ -3233,7 +3242,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
     }
 
-    //TODO 顶部返回按键
+    /**
+     * 顶部返回按键
+     */
     private void topButtonBack() {
         if (getScreenMode() == AliyunScreenMode.Full) {
             if (!exitDirectly()) {
@@ -3294,6 +3305,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 //讲义不存在
                 pdfExists = false;
             }
+            //设置标题
             if (!TextUtils.isEmpty(data.getData().getTitle())) {
                 String title = data.getData().getTitle();
                 if (title.endsWith(".mp4")) {
@@ -3311,6 +3323,20 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             currentaAliyunPlayAuth = aliyunPlayAuthBuilder.build();
             prepareAuth(currentaAliyunPlayAuth);
 
+            //验证一下是否购买
+            coursePlayPresenter.getCoursePackageBuyState(String.valueOf(coursePackageId), String.valueOf(userId), course_Source);
+        }
+    }
+
+    /**
+     * 课程购买状态
+     */
+    @Override
+    public void getCoursePackageBuyState(int state) {
+        if (state == 0) {
+            toastInfo("课程状态查询失败");
+        } else {
+            setCourseBuyState(state);
         }
     }
 
@@ -3399,7 +3425,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         ToastUtil.showBottomLongText(VideoPlayPageActivity.this, message);
     }
 
-    //TODO surfaceview创建
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         if (aliyunVodPlayer != null) {
@@ -3407,7 +3432,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
     }
 
-    //TODO surfaceview变更
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         holder.setFixedSize(width, height);
@@ -3418,7 +3442,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         logger(" surfaceChanged surfaceHolder = " + surfaceHolder + " ,  width = " + width + " , height = " + height);
     }
 
-    //TODO surfaceview销毁
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         logger(" surfaceDestroyed       " + surfaceHolder);
