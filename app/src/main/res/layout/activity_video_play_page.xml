@@ -56,26 +56,36 @@
             android:layout_centerInParent="true"
             android:visibility="gone" />
 
-        <!--loading小菊花-->
-        <com.ucfo.youcaiwx.widget.customview.LoadingView
-            android:id="@+id/player_loadingview"
-            android:layout_width="@dimen/dp_45"
-            android:layout_height="@dimen/dp_45"
-            android:layout_centerInParent="true"
-            android:visibility="gone" />
-
-        <!--提示信息-->
-        <TextView
-            android:id="@+id/player_tipstextview"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/player_loadingview"
             android:layout_centerInParent="true"
+            android:background="@color/transparent"
             android:gravity="center"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/sp_15"
-            android:visibility="gone"
-            tools:text="视频加载中" />
+            android:orientation="vertical">
+            <!--loading小菊花-->
+            <com.ucfo.youcaiwx.widget.customview.LoadingView
+                android:id="@+id/player_loadingview"
+                android:layout_width="@dimen/dp_45"
+                android:layout_height="@dimen/dp_45"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/player_replay"
+                android:layout_width="@dimen/dp_26"
+                android:layout_height="@dimen/dp_26"
+                android:src="@drawable/ic_play_replay"
+                android:visibility="gone" />
+            <!--提示信息-->
+            <TextView
+                android:id="@+id/player_tipstextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/sp_15"
+                android:visibility="gone"
+                tools:text="视频加载中" />
+        </LinearLayout>
 
         <!--pdf的加载页数-->
         <com.flyco.roundview.RoundTextView

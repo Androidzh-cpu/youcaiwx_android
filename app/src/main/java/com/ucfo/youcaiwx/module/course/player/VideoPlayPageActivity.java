@@ -163,6 +163,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     LoadingView playerLoadingview;//播放器加载进度view
     @BindView(R.id.player_tipstextview)
     TextView playerTipsview;//提示信息
+    @BindView(R.id.player_replay)
+    ImageView playerRePlay;
     @BindView(R.id.linear_pay_course)
     ConstraintLayout linearPayCourse;
     @BindView(R.id.player_back)
@@ -230,6 +232,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private SharedPreferencesUtils sharedPreferencesUtils;
     //是否登录, 是否连续播放   PDF状态
     private boolean login_status, continuousPlay = false, pdfStatus = false;
+    private boolean isReplay = false;
     private AliyunVodPlayer aliyunVodPlayer;
     private SurfaceHolder surfaceHolder;
     //视频详细媒体信息
@@ -639,7 +642,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                if (mHideHandler!=null){
+                if (mHideHandler != null) {
                     mHideHandler.removeMessages(WHAT_HIDE);
                 }
                 isSeekbarTouching = true;
@@ -649,7 +652,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             public void onStopTrackingTouch(SeekBar seekBar) {
                 isSeekbarTouching = false;
                 seekTo(progress);
-                if (mHideHandler!=null){
+                if (mHideHandler != null) {
                     mHideHandler.removeMessages(WHAT_HIDE);
                     mHideHandler.sendEmptyMessageDelayed(WHAT_HIDE, DELAY_TIME);
                 }
@@ -816,20 +819,24 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         aliyunVodPlayer.setOnLoadingListener(new IAliyunVodPlayer.OnLoadingListener() {
             @Override
             public void onLoadStart() {
+                logger("onLoadStart");
                 /**
                  * 诱导性加载菊花 _(:3」∠❀)_菊花碎了一地
                  */
                 playerLoadingview.setVisibility(View.VISIBLE);
-                playerTipsview.setVisibility(View.VISIBLE);
+                playerTipsview.setVisibility(playerTipsview.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+                playerRePlay.setVisibility(playerRePlay.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
             }
 
             @Override
             public void onLoadEnd() {
+                logger("onLoadEnd");
                 /**
                  * 诱导性加载菊花 _(:3」∠❀)_菊花都碎了一地
                  */
                 playerLoadingview.setVisibility(View.GONE);
-                playerTipsview.setVisibility(View.GONE);
+                playerTipsview.setVisibility(playerTipsview.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+                playerRePlay.setVisibility(playerRePlay.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
 
                 hasLoadEnd.put(mAliyunMediaInfo, true);
                 vodPlayerLoadEndHandler.sendEmptyMessage(1);
@@ -837,11 +844,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
 
             @Override
             public void onLoadProgress(int i) {
+                logger("onLoadProgress          加载进度: " + i);
                 /**
                  * 加载进度
                  */
                 playerTipsview.setText(String.format("%s%s%%", getResources().getString(R.string.course_videoLoading), String.valueOf(i)));
             }
+
         });
         //TODO 播放器播放准备监听
         aliyunVodPlayer.setOnPreparedListener(new IAliyunVodPlayer.OnPreparedListener() {
@@ -907,6 +916,10 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                  */
                 sendSocketMessageByPort();
 
+                /**
+                 * chongbo
+                 */
+                sendReplaySocketMessage();
                 /**
                  * SB说竖屏也要加收藏,加NM呢,智障反人类
                  */
@@ -977,8 +990,20 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     setCourseCover(true);
                     //提示文字
                     playerTipsview.setVisibility(View.VISIBLE);
-                    playerTipsview.setText(getResources().getString(R.string.course_completed));
-                    toastInfo(getResources().getString(R.string.course_completed));
+                    playerTipsview.setText(getResources().getString(R.string.course_completed_replay));
+                    playerRePlay.setVisibility(View.VISIBLE);
+                    playerRePlay.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            rePlay();
+                        }
+                    });
+                    playerTipsview.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            rePlay();
+                        }
+                    });
                 }
             }
         });
@@ -1021,6 +1046,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         aliyunVodPlayer.setOnRePlayListener(new IAliyunVodPlayer.OnRePlayListener() {
             @Override
             public void onReplaySuccess() {
+                isReplay = true;
+                logger("onReplaySuccess 重播监听");
                 //开始启动更新进度的定时器
                 startProgressUpdateTimer();
                 /**
@@ -1578,6 +1605,9 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         if (aliyunVodPlayer != null) {
             //重播是从头开始播
             aliyunVodPlayer.replay();
+            playerTipsview.setVisibility(View.GONE);
+            playerRePlay.setVisibility(View.GONE);
+            playerLoadingview.setVisibility(View.VISIBLE);
         }
     }
 
@@ -2806,6 +2836,35 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         }
     }
 
+    /**
+     * 重播,发送socket
+     */
+    private void sendReplaySocketMessage() {
+        if (isReplay) {
+            playerRePlay.setVisibility(playerRePlay.getVisibility() == View.VISIBLE ? View.GONE : View.GONE);
+            if (currentCourseID != 0 && currentSectionID != 0 && currentVideoID != 0) {
+                CourseSocketBean courseSocketBean = new CourseSocketBean();
+                courseSocketBean.setUser_id(userId);//用户id
+                courseSocketBean.setPackage_id(coursePackageId);//	课程包id
+                courseSocketBean.setCourse_id(currentCourseID);//	专业课id
+                courseSocketBean.setSection_id(currentSectionID);//章节id
+                courseSocketBean.setVideo_id(currentVideoID);//视频id
+                courseSocketBean.setWatch_time(0);//	观看截止时间点
+                courseSocketBean.setVideo_type(1);//	播放类型1课程视频播放
+                courseSocketBean.setStatus(1);//	视频类型1课程视频播放
+                if (gson == null) {
+                    gson = new Gson();
+                }
+                String message = gson.toJson(courseSocketBean);
+                if (mWebSocket != null) {
+                    mWebSocket.send(message);
+                }
+                output(message);
+            }
+            isReplay = false;
+        }
+    }
+
     private void sendSocketMessageByPort() {
         if (isEducation()) {
             //后续教育
@@ -3211,7 +3270,6 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //开始加载,进度
             playerLoadingview.setVisibility(View.VISIBLE);
             playerTipsview.setVisibility(View.GONE);
-
             //获取播放凭证
             String playAuth = data.getData().getPlayAuth();
             //获取视频时间

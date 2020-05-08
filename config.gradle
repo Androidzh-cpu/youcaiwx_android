@@ -29,8 +29,8 @@ versions.Luban = "1.1.8"
 versions.matisse = "0.5.2-beta4"
 
 //应用版本号,每次发布加一
-versions.versionCode = 8
-versions.versionName = "1.1.0"
+versions.versionCode = 9
+versions.versionName = "1.1.1"
 ext {
     //==Android Third party,include Application Layer,SDK Layer==
     android = [

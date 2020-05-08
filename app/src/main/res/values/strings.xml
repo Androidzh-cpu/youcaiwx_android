@@ -169,6 +169,7 @@
     <!--<string name="course_buyCourse">您还未购买课程，请购买后进行观看</string>-->
     <string name="course_notAsk">该课程无法提问</string>
     <string name="course_completed">播放完毕</string>
+    <string name="course_completed_replay">播放完毕,点击重播</string>
     <string name="course_videoLoading">视频加载中</string>
     <string name="course_courseDuration">课程时长:\u3000</string>
     <string name="course_freeWatchCompleted">试看结束,请购买相关课程\u3000</string>
