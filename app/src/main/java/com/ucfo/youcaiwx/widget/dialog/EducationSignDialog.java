@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import com.flyco.roundview.RoundLinearLayout;
 import com.flyco.roundview.RoundTextView;
 import com.ucfo.youcaiwx.R;
+
 /**
  * Author: AND
  * Time: 2019-12-26.  下午 5:30
@@ -68,6 +69,10 @@ public class EducationSignDialog {
      */
     public void setTimeFinished(int timeFinished) {
         mTitleTxt.setText(String.valueOf(timeFinished + "s"));
+    }
+
+    public void setTimeFinished(String text) {
+        mTitleTxt.setText(text);
     }
 
     /**

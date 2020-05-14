@@ -129,14 +129,18 @@ public class CoursePlayPresenter implements ICoursePlayPresenter {
     }
 
     /**
-     * 重载获取视频凭证(过了好几个月后我才想起来这个方法,好像是后续教育用到了,唉)
+     * 重载获取视频凭证(过了好几个月后我才想起来这个方法,好像是后续教育用到了)
      */
     @Override
-    public void getVideoPlayAuthor(String vid, int video_id) {
+    public void getCPEVideoPlayAuthor(String vid, int video_id, int course_id, int section_id, int user_id, int course_packageId) {
         OkGo.<String>post(ApiStores.EDUCATION_COURSE_GETVIDEO_CREDENTIALS)
                 .tag(this)
                 .params(Constant.COURSE_ALIYUNVID, vid)//阿里库里的vid
-                .params(Constant.VIDEO_ID, video_id)//小节视频ID
+                .params(Constant.VIDEO_ID, video_id)//对应章节视频ID
+                .params(Constant.USER_ID, user_id)
+                .params(Constant.PACKAGE_ID, course_packageId)
+                .params(Constant.COURSE_ID, course_id)
+                .params(Constant.SECTION_ID, section_id)
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
@@ -331,7 +335,7 @@ public class CoursePlayPresenter implements ICoursePlayPresenter {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        view.signinResult(0);
+                        view.signinResult(0, null);
                     }
 
                     @Override
@@ -343,16 +347,17 @@ public class CoursePlayPresenter implements ICoursePlayPresenter {
                                 if (jsonObject.has(Constant.DATA)) {
                                     JSONObject data = jsonObject.optJSONObject(Constant.DATA);
                                     String string = data.optString(Constant.STATUS);
+                                    String cpeIntegral = data.optString("cpe_integral");
                                     if (TextUtils.isEmpty(string)) {
-                                        view.signinResult(0);
+                                        view.signinResult(0, null);
                                     } else {
-                                        view.signinResult(Integer.parseInt(string));
+                                        view.signinResult(Integer.parseInt(string), cpeIntegral);
                                     }
                                 } else {
-                                    view.signinResult(0);
+                                    view.signinResult(0, null);
                                 }
                             } else {
-                                view.signinResult(0);
+                                view.signinResult(0, null);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

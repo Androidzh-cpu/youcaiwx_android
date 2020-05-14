@@ -28,7 +28,7 @@ public interface ICoursePlayPresenter {
     /**
      * 重载获取视频凭证(过了好几个月后我才想起来这个方法,好像是后续教育用到了,唉)
      */
-    void getVideoPlayAuthor(String vid, int video_id);
+    void getCPEVideoPlayAuthor(String vid, int video_id, int course_id, int section_id, int user_id, int course_packageId);
 
     /**
      * 获取课程包的购买状态

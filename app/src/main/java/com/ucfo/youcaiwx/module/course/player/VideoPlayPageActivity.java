@@ -108,6 +108,7 @@ import com.ucfo.youcaiwx.utils.toastutils.ToastUtil;
 import com.ucfo.youcaiwx.widget.customview.LoadingView;
 import com.ucfo.youcaiwx.widget.customview.SwitchView;
 import com.ucfo.youcaiwx.widget.dialog.EducationSignDialog;
+import com.ucfo.youcaiwx.widget.dialog.EducationSignNewDialog;
 import com.ucfo.youcaiwx.widget.dialog.ShareDialog;
 import com.umeng.analytics.MobclickAgent;
 
@@ -960,10 +961,12 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         aliyunVodPlayer.setOnCompletionListener(new IAliyunVodPlayer.OnCompletionListener() {
             @Override
             public void onCompletion() {
+/*
                 if (isEducation()) {
                     educationBackOperation();
                     return;
                 }
+*/
                 //播放正常,完成时触发
                 inSeek = false;
                 //关闭定时器
@@ -1006,6 +1009,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                             rePlay();
                         }
                     });
+                    //后续教育签到业务
+                    signinEducationNew();
                 }
             }
         });
@@ -1312,6 +1317,11 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
         } else if (isEducation()) {
             //后续教育
 
+            //全屏隐藏
+            playerFullscreen.setVisibility(View.GONE);
+            //设置隐藏
+            playerSetting.setVisibility(View.GONE);
+/* 需求改动前的UI要求
             //没有倍速
             playerSpeed.setVisibility(View.GONE);
             //没有全屏
@@ -1320,6 +1330,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             playerSeekprogress.setEnabled(false);
             //没有滑块
             playerSeekprogress.setThumb(ContextCompat.getDrawable(this, R.color.transparent));
+*/
         }
     }
 
@@ -1656,7 +1667,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     }
 
     /**
-     * TODO 实时处理进度更新消息的线程
+     * TODO 实时处理进度更新消息
      */
     private void handleProgressUpdateMessage(Message msg) {
         if (msg.what == START) {
@@ -1678,7 +1689,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     playerCurrentduration.setText(TimeFormater.formatMs(aliyunVodPlayer.getCurrentPosition()));
                 }
                 //后续教育签到
-                signinEducation();
+                //signinEducation();
+                //傻逼智障
                 SBZHXQ();
                 //免费试看
                 freeWatch();
@@ -1686,6 +1698,41 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //解决bug：在Prepare中开始更新的时候，不会发送更新消息。
             startProgressUpdateTimer();
         }
+    }
+
+    /**
+     * 新改的后续教育
+     */
+    private void signinEducationNew() {
+        if (isEducation()) {
+            //未签到(劳资只认二,二,二,你懂吗)
+            if (signinStatus == 2) {
+                EducationSignDialog dialog = new EducationSignDialog(this).builder();
+                dialog.setTimeFinished(getResources().getString(R.string.signin));
+                dialog.setCancelable(false);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.setNegativeButton(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //点击了签到按钮
+                        if (coursePlayPresenter != null) {
+                            coursePlayPresenter.educationSignin(String.valueOf(userId), String.valueOf(currentCourseID), String.valueOf(currentVideoID));
+                        }
+                    }
+                });
+                dialog.setDissmissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        //隐藏状态栏
+                        hideNavigationBar();
+                        //弹窗置空
+                        dialog = null;
+                    }
+                });
+                dialog.show();
+            }
+        }
+
     }
 
     /**
@@ -1698,7 +1745,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     private void signinEducation() {
         //后续教育
         if (isEducation()) {
-            //未签到(劳资只认二,二,二,你懂了吗)
+            //未签到(劳资只认二,二,二,你懂吗)
             if (signinStatus == 2) {
                 //该视频为签到过
                 if (!signinFlag) {
@@ -2087,6 +2134,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             signinStatus = 0;
             signinTimeFinish = Constant.EDUCATION_TIME_FINISHED;
             if (coursePlayPresenter != null) {
+                //查询该课程是否签到过
                 coursePlayPresenter.checkWetherSignin(String.valueOf(userId), String.valueOf(currentCourseID), String.valueOf(currentVideoID));
             }
             if (getScreenMode() != AliyunScreenMode.Full) {
@@ -2489,7 +2537,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             courseAnswerQuestionFragment.getAnswerListData(coursePackageId, currentCourseID, currentSectionID, currentVideoID);
         }
         //获取播放凭证
-        coursePlayPresenter.getVideoPlayAuthor(currentVid, currentVideoID);
+        coursePlayPresenter.getCPEVideoPlayAuthor(currentVid, currentVideoID, currentCourseID, currentSectionID, userId, coursePackageId);
     }
 
     /**
@@ -2602,7 +2650,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             @Override
             public void onHorizontalDistance(float downX, float nowX) {
                 //其他手势如果锁住了就不回调了。
-                if (mIsFullScreenLocked || isEducation()) {
+                if (mIsFullScreenLocked) {
                     return;
                 }
 
@@ -3110,7 +3158,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             //横屏模式
             if (isEducation()) {
                 //后续教育干掉
-                playerSpeed.setVisibility(View.GONE);
+                playerSpeed.setVisibility(View.VISIBLE);
             } else {
                 //普通课程打开
                 playerSpeed.setVisibility(View.VISIBLE);
@@ -3403,11 +3451,28 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
      * 签到是否成功
      */
     @Override
-    public void signinResult(int resultStatus) {
+    public void signinResult(int resultStatus, String cpeIntegral) {
         if (resultStatus == 1) {
             //签到成功
             signinStatus = 1;
-            toastInfo(getResources().getString(R.string.signin_tips_success));
+            //toastInfo(getResources().getString(R.string.signin_tips_success));
+            EducationSignNewDialog builder = new EducationSignNewDialog(this).builder();
+            builder.setCancelable(true);
+            builder.setCanceledOnTouchOutside(true);
+            builder.setPoint(cpeIntegral);
+            builder.setExitButton(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    builder.dismiss();
+                }
+            });
+            builder.setDissmissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    hideNavigationBar();
+                }
+            });
+            builder.show();
         } else {
             //签到失败
             signinStatus = 2;

@@ -63,6 +63,7 @@
     <string name="screen">筛选</string>
     <string name="not_apply">您还未报名,报名后进行学习！</string>
     <string name="signin_tips">您还在吗？点击屏幕继续学习。</string>
+    <string name="signin">签到</string>
     <string name="signin_tips_success">签到成功</string>
     <string name="signin_tips_error">签到失败</string>
     <string name="study_know">学习须知</string>
@@ -138,7 +139,7 @@
     <string name="course_directory">课程目录</string>
     <string name="course_ask">课程答疑</string>
     <string name="course_download">下载列表</string>
-    <string name="course_getInfoError">视频信息获取失败</string>
+    <string name="course_getInfoError">无法获取视频资源</string>
     <!--<string name="course_collectionSuccess">Get √</string>
     <string name="course_collectionCancel">ヾ(￣▽￣)Bye~Bye~</string>-->
     <string name="course_collectionSuccess">已收藏</string>

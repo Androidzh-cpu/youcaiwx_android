@@ -33,6 +33,6 @@ public interface ICoursePlayerView {
     /**
      * 签到结果
      */
-    void signinResult(int resultStatus);
+    void signinResult(int resultStatus, String cpeIntegral);
 
 }
