@@ -253,7 +253,7 @@ public class UcfoApplication extends Application {
                             //TODO 资讯消息
                             intent.setClass(mContext, WebActivity.class);
                             String webUrl = extra.get(Constant.VALUE);
-                            String title = extra.get(Constant.TITLE);
+                            String title = extra.get(Constant.UMENG_TITLE);
                             bundle.putString(Constant.WEB_URL, webUrl);
                             bundle.putString(Constant.WEB_TITLE, title);
                         } else if (TextUtils.equals(messageType, Constant.UMENG_MESSAGE_LIVE)) {

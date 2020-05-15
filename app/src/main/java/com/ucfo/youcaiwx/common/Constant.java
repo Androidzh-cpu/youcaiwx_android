@@ -94,6 +94,7 @@ public class Constant {
     public static final String TYPE_ID = "type_id";
     public static final String CONTENT = "content";
     public static final String VALUE = "value";
+    public static final String UMENG_TITLE = "title";
     public static final String VERSION_CODE = "VersionCode";
     public static final String versioncode = "versioncode";
     public static final String APP_KEY = "AppKey";
