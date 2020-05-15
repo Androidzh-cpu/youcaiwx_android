@@ -176,6 +176,8 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
     ImageButton playerShare;
     @BindView(R.id.player_topliner)
     LinearLayout playerTopliner;
+    @BindView(R.id.linear_replay)
+    LinearLayout replayLinear;
     @BindView(R.id.player_btn)
     ImageView playerBtn;
     @BindView(R.id.player_currentduration)
@@ -997,6 +999,13 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                     playerTipsview.setVisibility(View.VISIBLE);
                     playerTipsview.setText(getResources().getString(R.string.course_completed_replay));
                     playerRePlay.setVisibility(View.VISIBLE);
+                    replayLinear.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            rePlay();
+                        }
+                    });
+/*
                     playerRePlay.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -1009,6 +1018,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                             rePlay();
                         }
                     });
+*/
                     //后续教育签到业务
                     signinEducationNew();
                 }
