@@ -66,13 +66,22 @@ public class HomeLiveAdapter extends BaseAdapter<HomeBean.DataBean.BroadcastBean
             GlideUtils.load(context, app_image, holder.mLiveImageItem, requestOptions);
         }
         if (!TextUtils.isEmpty(teacher_name)) {
-            holder.mLiveAuthorItem.setText("讲师: " + teacher_name);
+            if (context == null) {
+                holder.mLiveAuthorItem.setText("讲师: " + teacher_name);
+            } else {
+                holder.mLiveAuthorItem.setText(context.getResources().getString(R.string.teacher, teacher_name));
+            }
         }
         if (!TextUtils.isEmpty(title)) {
             holder.mLiveTitleItem.setText(title);
         }
         if (!TextUtils.isEmpty(price)) {
-            holder.mLivePriceItem.setText("￥" + price);
+            if (context == null) {
+                holder.mLivePriceItem.setText("¥" + price);
+            } else {
+                String string = context.getResources().getString(R.string.RMB);
+                holder.mLivePriceItem.setText(string + price);
+            }
         }
     }
 
@@ -80,8 +89,7 @@ public class HomeLiveAdapter extends BaseAdapter<HomeBean.DataBean.BroadcastBean
     public ViewHolder onCreateDataViewHolder(ViewGroup viewGroup, int itemType) {
         LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View inflate = layoutInflater.inflate(R.layout.item_home_live, viewGroup, false);
-        ViewHolder holder = new ViewHolder(inflate);
-        return holder;
+        return new ViewHolder(inflate);
     }
 
     protected class ViewHolder extends RecyclerView.ViewHolder {

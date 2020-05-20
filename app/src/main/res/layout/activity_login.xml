@@ -14,10 +14,11 @@
     <include layout="@layout/titlebar_toolbar" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_160"
+        android:layout_height="@dimen/dp_42"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dp_46"
+        android:scaleType="fitXY"
         android:src="@mipmap/icon_login_logo" />
 
     <EditText
@@ -62,11 +63,11 @@
         android:drawableStart="@mipmap/icon_pass"
         android:gravity="center_vertical"
         android:hint="@string/login_tippass"
-        android:singleLine="true"
         android:inputType="textPassword"
         android:paddingBottom="@dimen/dp_6"
         android:paddingTop="@dimen/dp_6"
         android:password="true"
+        android:singleLine="true"
         android:textColor="@color/color_333333"
         android:textColorHint="@color/color_C2C2C2"
         android:textSize="@dimen/sp_15" />

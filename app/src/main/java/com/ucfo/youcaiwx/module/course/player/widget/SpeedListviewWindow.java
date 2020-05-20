@@ -46,7 +46,7 @@ public class SpeedListviewWindow {
         this.context = context;
         mSpeedItems = new ArrayList<>();
         mSpeedItems.add(0.5f);
-        mSpeedItems.add(0.75f);
+        mSpeedItems.add(0.8f);//逼死个强迫症,居然会有这种0.8倍速的要求,0.75它不香吗
         mSpeedItems.add(1.0f);
         mSpeedItems.add(1.2f);
         mSpeedItems.add(1.5f);

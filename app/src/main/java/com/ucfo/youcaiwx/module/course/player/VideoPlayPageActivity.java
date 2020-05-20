@@ -922,7 +922,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
                 sendSocketMessageByPort();
 
                 /**
-                 * chongbo
+                 * chongbo,搞错了,重播
                  */
                 sendReplaySocketMessage();
                 /**
@@ -3381,7 +3381,7 @@ public class VideoPlayPageActivity extends AppCompatActivity implements SurfaceH
             currentaAliyunPlayAuth = aliyunPlayAuthBuilder.build();
             prepareAuth(currentaAliyunPlayAuth);
 
-            //验证一下是否购买
+            //验证一下课程是否购买
             coursePlayPresenter.getCoursePackageBuyState(String.valueOf(coursePackageId), String.valueOf(userId), course_Source);
         }
     }

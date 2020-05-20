@@ -11,9 +11,10 @@
 
     <ImageView
         android:id="@+id/img_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp_160"
+        android:layout_height="@dimen/dp_42"
         android:layout_marginTop="@dimen/dp_106"
+        android:scaleType="fitXY"
         android:src="@mipmap/icon_login_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
